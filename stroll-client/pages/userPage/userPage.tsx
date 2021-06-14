@@ -29,6 +29,8 @@ export const UserPage: React.FC<UserPageProps> = (props: UserPageProps) => {
   
   const [state, setState] = useState<IUserPageState>(defaultUserPageState());
 
+  console.log(state.status)
+
   useEffect(() => {
     if(state.status === RequestStatus.Success && match.path !== "/u/:id/:username") {      
       history.replace(`/u/${state.profile.id}/${UrlUtility.format(state.profile.username)}`);
@@ -67,12 +69,6 @@ export const UserPage: React.FC<UserPageProps> = (props: UserPageProps) => {
 
     fetch();
   }, []);
-
-  useEffect(() => {
-    if(user && user.profile.id === id) {
-      setState({ ...state, profile: user.profile });
-    }
-  }, [user]);
 
   return(
     <Page id="user-page" status={state.status}>    
