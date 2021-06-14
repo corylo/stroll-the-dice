@@ -2,8 +2,13 @@ import React, { useReducer } from "react";
 import { Route, Switch, useLocation } from "react-router";
 
 import { HomePage } from "../../pages/homePage/homePage";
+import { ProfilePage } from "../../pages/profilePage/profilePage";
+import { UserPage } from "../../pages/userPage/userPage";
 
 import { Navbar } from "../navbar/navbar";
+import { SignInModal } from "../signInModal/signInModal";
+import { UpdateProfileModal } from "../updateProfileModal/updateProfileModal";
+import { UserMenuModal } from "../userMenu/userMenuModal";
 
 import { AppContext } from "./contexts/appContext";
 
@@ -33,9 +38,18 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
     <AppContext.Provider value={{ appState, dispatchToApp }}>
       <div id="stroll-the-dice-app">
         <Navbar />
+        <SignInModal />
+        <UserMenuModal />
+        <UpdateProfileModal />
         <Switch>
           <Route exact path="/">
             <HomePage />
+          </Route>
+          <Route exact path="/profile">
+            <ProfilePage />
+          </Route>
+          <Route exact path={["/u/:id", "/u/:id/:username"]}>
+            <UserPage />
           </Route>
         </Switch>
       </div>

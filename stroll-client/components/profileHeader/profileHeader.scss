@@ -1,0 +1,64 @@
+#profile-header {
+  text-align: center;
+  
+  .profile-icon {
+    font-size: 3em;
+    height: 100px;
+    margin: auto;
+    margin-bottom: 10px;
+    width: 100px;
+  }
+
+  .profile-full-name {
+    color: white;
+    font-size: 2em;
+  }
+
+  .profile-username {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    width: 380px;
+
+    > h1 {
+      color: rgba(white, 0.5);
+      font-size: 1.5em;
+    }
+
+    > .dot {
+      font-size: 2em;
+    }
+  }
+
+  .update-profile-button {
+    margin-top: 10px;
+    padding: 5px 15px;
+
+    i {
+      font-size: 1em;
+    }
+
+    > h1 {
+      font-size: 1.1em;
+    }
+  }
+}
+
+@include phone-or-smaller {
+  #profile-header {
+    .profile-icon {
+      font-size: 2em;
+      height: 80px;
+      width: 80px;
+    }
+
+    .profile-username {
+      width: 100%;
+
+      > h1 {
+        font-size: 1.25em;
+      }
+    }
+  }
+}

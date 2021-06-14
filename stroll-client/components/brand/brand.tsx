@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import { Icon } from "../../../stroll-enums/icon";
+
 interface BrandProps {
   showBrandText?: boolean;
 }
@@ -18,7 +20,7 @@ export const Brand: React.FC<BrandProps> = (props: BrandProps) => {
 
   return(
     <Link className="app-brand" to="/">
-      <i className="fal fa-running" />
+      <i className={Icon.AppBrand} />
       {getBrandText()}
     </Link>
   )

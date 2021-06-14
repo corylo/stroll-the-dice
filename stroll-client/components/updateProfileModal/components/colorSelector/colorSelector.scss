@@ -1,0 +1,17 @@
+.color-selector {
+  display: grid;
+  grid-gap: 1em;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); 
+
+  .color-selector-option {
+    &:hover,
+    &:focus,
+    &.selected {
+      background-color: rgba(white, 0.25);
+    }
+
+    i {
+      font-size: 1.5em;
+    }
+  }
+}

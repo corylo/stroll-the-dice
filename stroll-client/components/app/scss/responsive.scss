@@ -58,37 +58,37 @@
 /* -- or larger -- */
 
 @mixin small-phone-or-larger {
-  @media (min-width: 419px) {
+  @media (min-width: 420px) {
     @content;
   }
 }
 
 @mixin medium-phone-or-larger {
-  @media (min-width: 499px) {
+  @media (min-width: 500px) {
     @content;
   }
 }
 
 @mixin phone-or-larger {
-  @media (min-width: 599px) {
+  @media (min-width: 600px) {
     @content;
   }
 }
 
 @mixin small-tablet-or-larger {
-  @media (min-width: 899px) {
+  @media (min-width: 900px) {
     @content;
   }
 }
 
 @mixin tablet-or-larger {
-  @media (min-width: 1199px) {
+  @media (min-width: 1200px) {
     @content;
   }
 }
 
 @mixin laptop-or-larger {
-  @media (min-width: 1499px) {
+  @media (min-width: 1500px) {
     @content;
   }
 }
@@ -106,7 +106,7 @@
 }
 
 @mixin extra-large-desktop-or-larger {
-  @media (min-width: 2300px) {
+  @media (min-width: 2301px) {
     @content;
   }
 }

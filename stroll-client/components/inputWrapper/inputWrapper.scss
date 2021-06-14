@@ -1,0 +1,62 @@
+.input-wrapper {
+  &.error {
+    .input {
+      input {
+        border-color: $red;
+      }
+    }
+  }
+
+  .input {
+    input,
+    textarea {
+      background-color: gray(60);
+      border: 2px solid transparent;
+      border-radius: 6px;
+      color: gray(220);
+      font-size: 1.25em;
+      height: 26px;
+      outline: none;
+      padding: 10px;
+      width: calc(100% - 24px);
+
+      &::placeholder {
+        color: gray(120);
+      }
+
+      &:focus {
+        border-color: $themeColor;
+      }
+    }
+
+    textarea {
+      line-height: 26px;
+      max-height: 104px;
+      max-width: calc(100% - 24px);
+      min-height: 104px;
+      min-width: calc(100% - 24px);
+    }
+  }
+}
+
+.input-label {
+  h1 {
+    color: white;
+    display: inline-block;
+    font-size: 0.9em;
+    height: 16px;
+    line-height: 16px;
+    margin-left: 10px;
+    margin-top: 4px;
+    text-transform: uppercase;
+
+    &.max-length,
+    &.error-message {
+      margin-left: 5px;
+    }
+
+    &.error-message {
+      color: $red;
+    }
+  }
+}

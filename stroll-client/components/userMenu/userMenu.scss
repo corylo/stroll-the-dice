@@ -1,0 +1,75 @@
+#user-menu {
+  background-color: gray(60);
+  border-radius: 6px;
+  box-shadow: $shadow3;
+  max-height: calc(100vh - 120px);
+  overflow: auto;
+  padding: 20px;
+  position: absolute;
+  right: 0px;
+  top: 60px;
+  z-index: 9997;
+
+  &.signed-out {
+    #user-menu-content {
+      .user-menu-item {
+        &:first-child {
+          margin-top: 0px;
+        }
+      }
+    }
+  }
+
+  .profile-icon {
+    font-size: 2em;
+    height: 80px;
+    margin: auto;
+    width: 80px;
+  }
+
+  #user-menu-content {
+    width: 300px;
+
+    .profile-full-name,
+    .profile-username {
+      text-align: center;
+    }
+
+    .profile-full-name {
+      color: white;
+      font-size: 1.25em;
+      margin-top: 10px;
+    }
+
+    .profile-username {
+      color: rgba(white, 0.5);
+      font-size: 1.1em;
+    }
+
+    .user-menu-item {
+      font-size: 1.25em;
+      margin-top: 10px;
+      text-align: center;
+      width: 100%;
+
+      &.link {
+        width: calc(100% - 20px);
+      }
+    }
+  }
+}
+
+@include medium-phone-or-smaller {
+  #user-menu {
+    left: 0px;
+    margin: 10px;
+    position: fixed;
+    right: auto;
+    top: 60px;
+    width: calc(100% - 60px);
+
+    #user-menu-content {
+      width: 100%;
+    }
+  }
+}

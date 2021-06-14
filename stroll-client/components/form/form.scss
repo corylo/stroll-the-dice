@@ -1,0 +1,112 @@
+.form {
+  margin: auto;
+  min-height: 100px;
+  position: relative;
+  
+  .form-title {   
+    margin-bottom: 40px;
+    position: relative;
+
+    &:after {
+      background-color: $themeMain;
+      bottom: 0px;
+      content: "";
+      height: 4px;
+      left: 0px;
+      position: absolute;
+      width: 100px;
+    }
+
+    h1 {
+      color: gray(200);
+      font-size: 4em;
+      text-align: left;
+    }
+  }
+
+  .form-body {
+    .input-wrapper {
+      &:nth-of-type(n + 2) {
+        margin-top: 10px;
+      }
+    }
+  }
+
+  .form-actions {
+    margin-top: 20px;
+
+    .submit-button {
+      font-size: 2em;
+      width: 100%;
+
+      &:nth-child(n + 2) {
+        margin-top: 10px;
+      }
+    }
+
+    a.submit-button {
+      width: calc(100% - 40px);
+    }
+  }
+
+  .form-error-message,
+  .form-submit-info-message,
+  .form-submit-success-message,
+  .form-submit-error-message {
+    margin-top: 10px;
+
+    h1 {
+      font-size: 1em;
+      text-transform: uppercase;
+    }
+  }
+  
+  .form-submit-info-message,
+  .form-submit-success-message,
+  .form-submit-error-message {
+    border-radius: 6px;
+    padding: 15px 10px;
+
+    h1 {
+      color: white;
+    }
+  }
+
+  .form-error-message {
+    h1 {
+      color: $red;
+    }
+  }
+
+  .form-submit-info-message {    
+    background-color: rgba($blue, 0.8);
+  }  
+
+  .form-submit-error-message {    
+    background-color: rgba($red, 0.8);
+    
+    h1 {
+      margin-left: 10px;
+    }
+  }
+  
+  .form-submit-success-message {
+    background-color: rgba($green, 0.8);
+  }
+}
+
+@include phone-or-smaller {
+  .form {
+    .form-title {         
+      &:after {
+        bottom: -4px;
+        height: 2px;
+        width: 50px;
+      }
+
+      h1 {
+        font-size: 3em;
+      }
+    }
+  }
+}

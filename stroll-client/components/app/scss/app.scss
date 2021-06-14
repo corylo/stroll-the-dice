@@ -5,10 +5,22 @@
 
 @import "../../brand/brand.scss";
 @import "../../buttons/buttons.scss";
+@import "../../copyButton/copyButton.scss";
+@import "../../dot/dot.scss";
+@import "../../form/form.scss";
+@import "../../inputWrapper/inputWrapper.scss";
 @import "../../loadingIcon/loadingIcon.scss";
+@import "../../modal/modal.scss";
 @import "../../navbar/navbar.scss";
 @import "../../page/page.scss";
+@import "../../profileHeader/profileHeader.scss";
+@import "../../profileIcon/profileIcon.scss";
+@import "../../signInModal/signInModal.scss";
 @import "../../tooltip/tooltip.scss";
+@import "../../updateProfileModal/updateProfileModal.scss";
+@import "../../userMenu/userMenu.scss";
+
+@import "../../../pages/homePage/homePage.scss";
 
 html,
 body {

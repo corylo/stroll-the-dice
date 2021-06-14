@@ -5,8 +5,13 @@
   z-index: 1;
 
   .page-content {
-    height: calc(100% - 40px);
+    margin: auto;
+    margin-bottom: 20px;
+    margin-top: 90px;
+    min-height: calc(100vh - 110px);
+    max-width: 1200px;
     overflow: hidden;
+    padding: 0px 40px;
     position: relative;
     z-index: 2;
     
@@ -94,6 +99,9 @@
 @include phone-or-smaller {
   .page {
     .page-content {
+      min-height: calc(100vh - 190px);
+      padding: 0px 20px;
+      
       .page-title {
         h1 {
           font-size: 3em;

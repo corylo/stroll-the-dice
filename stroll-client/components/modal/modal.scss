@@ -1,0 +1,138 @@
+.modal-wrapper {
+  background-color: rgba(gray(40), 0.8);
+  pointer-events: all;
+  height: 100vh;
+  left: 0px;
+  overflow: auto;
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  z-index: 9998;
+
+  &.transparent {
+    background-color: transparent;
+    z-index: 9996;
+  }
+
+  &.priority {
+    z-index: 9999;
+  }
+
+  .modal-content { 
+    padding: 20px;
+
+    .modal-title {   
+      margin-bottom: 30px;
+      position: relative;
+  
+      &:after {
+        background-color: $themeMain;
+        bottom: -4px;
+        content: "";
+        height: 3px;
+        left: 0px;
+        position: absolute;
+        width: 100px;
+      }
+  
+      .close-button {  
+        background-color: transparent;      
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        
+        &:hover,
+        &:focus {
+          background-color: $themeMain;
+          color: white;
+        }
+      }
+
+      h1 {
+        color: gray(200);
+        font-size: 3em;
+        line-height: 50px;
+        text-align: left;
+        width: calc(100% - 60px);
+      }
+    }
+
+    .modal-status-message {
+      border-radius: 6px;
+      margin-top: 10px;
+      padding: 15px 10px;
+
+      &.success {
+        background-color: rgba($green, 0.15);
+
+        h1 {
+          color: $green;
+        }
+      }
+
+      &.error {
+        background-color: rgba($red, 0.15);
+
+        h1 {
+          color: $red;
+        }
+      }
+
+      h1 {
+        font-size: 1.1em;
+        font-weight: 400;
+      }
+    }
+
+    .modal-actions {
+      margin-top: 10px;
+
+      .button {
+        color: white;
+        font-size: 2em;
+        padding: 10px 20px;
+      }
+    }
+  }
+}
+
+@include phone-or-smaller {
+  .modal-wrapper {
+    background-color: rgba(gray(40), 0.98);
+
+    &:not(.priority) {
+      position: absolute;
+    }
+    
+    .modal-title {         
+      &:after {
+        bottom: -4px;
+        height: 2px;
+        width: 50px;
+      }
+    }
+
+    .modal-content { 
+      margin-top: 0px;
+      padding-top: 90px;
+      width: calc(100% - 40px);
+    }
+  }
+}
+
+@include phone-or-larger {
+  .modal-wrapper {  
+    .modal-content { 
+      background-color: gray(30);
+      border-radius: 10px;
+      box-shadow: $shadow3;
+      min-width: 500px;
+    }
+  
+    .modal-content { 
+      @include centered;
+      
+      animation: fadeInCentered 250ms ease-in;
+    }
+  }
+}

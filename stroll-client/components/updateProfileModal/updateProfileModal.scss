@@ -1,0 +1,10 @@
+@import "./components/colorSelector/colorSelector.scss";
+@import "./components/iconSelector/iconSelector.scss";
+
+@include phone-or-larger {
+  #update-profile-modal {
+    .modal-content {
+      width: 540px;
+    }
+  }
+}

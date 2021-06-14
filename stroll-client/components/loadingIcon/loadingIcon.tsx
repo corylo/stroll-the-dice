@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Icon } from "../../../stroll-enums/icon";
+
 interface LoadingIconProps {
   
 }
@@ -10,7 +12,7 @@ export const LoadingIcon: React.FC<LoadingIconProps> = (
   return (
     <div className="loading-icon-wrapper">
       <div className="loading-icon">
-        <i className="fad fa-gavel" />
+        <i className={Icon.AppBrand} />
       </div>
     </div>
   );
