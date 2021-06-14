@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { IconButton } from "../buttons/iconButton";
 import { TooltipSide } from "../tooltip/tooltip";
@@ -14,10 +14,22 @@ export const CopyButton: React.FC<CopyButtonProps> = (props: CopyButtonProps) =>
 
   const [copied, setCopied] = useState<boolean>(false);
 
+  useEffect(() => {
+    if(copied) {
+      const timeout: NodeJS.Timeout = setTimeout(() => setCopied(false), 5000);
+
+      return () => {
+        clearTimeout(timeout);
+      }
+    }
+  }, [copied]);
+
   const handleCopyLink = (): void => {
-    copyRef.current.select();
-    document.execCommand("copy");
-    setCopied(true);
+    if(!copied) {
+      copyRef.current.select();
+      document.execCommand("copy");
+      setCopied(true);
+    }
   }
 
   const handleOnFocus = (): void => {
