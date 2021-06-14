@@ -1,0 +1,26 @@
+@function gray($color) {
+  @return rgb($color, $color, $color);
+}
+
+$red: rgb(198, 40, 40);
+$orange: rgb(255, 160, 0);
+$yellow: rgb(253, 216, 53);
+$green: rgb(42, 252, 152);
+$blue: rgb(45, 225, 252);
+$indigo: rgb(57, 73, 171);
+$violet: rgb(103, 58, 183);
+$offWhite: rgb(246, 246, 248);
+
+$lightGreen: rgb(199, 243, 145);
+
+$shadow1: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+$shadow2: rgba(0, 0, 0, 0.16) 0px 3px 10px, rgba(0, 0, 0, 0.23) 0px 3px 10px;
+$shadow3: rgba(0, 0, 0, 0.12) 0px 10px 30px, rgba(0, 0, 0, 0.16) 0px 6px 10px;
+
+$themeMain: rgb(42, 252, 152); // #2afc98
+$themeSecondary: rgb(22, 193, 114); // #16c172
+$themeAccent: rgb(45, 225, 252); // #2de1fc
+
+$themeColor: $green;
+
+$scrollBarColor: gray(90);

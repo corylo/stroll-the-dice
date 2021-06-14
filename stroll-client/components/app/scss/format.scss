@@ -1,0 +1,48 @@
+@mixin centered {  
+  left: 50%;
+  position: fixed;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+h1,
+p,
+a,
+span,
+button,
+input,
+textarea,
+th,
+td {
+  color: gray(100);
+  font-size: 1em;
+  margin: 0px;
+}
+
+.lobster-font {
+  font-family: "Lobster", cursive;
+}
+
+.passion-one-font {
+  font-family: "Passion One", cursive;
+}
+
+.text-highlight {
+  color: $themeMain;
+}
+
+.scroll-bar {
+  &::-webkit-scrollbar-track {
+    background-color: gray(40);
+  }
+
+  &::-webkit-scrollbar {
+    height: 4px;
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $scrollBarColor;
+    border-radius: 10px;
+  }
+}
