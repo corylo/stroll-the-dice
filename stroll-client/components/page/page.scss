@@ -1,0 +1,108 @@
+.page {
+  min-height: 100vh;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+
+  .page-content {
+    height: calc(100% - 40px);
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+    
+    .page-title {   
+      margin: 20px;
+      margin-top: 0px;
+      position: relative;
+
+      &:after {
+        background-color: $themeMain;
+        bottom: 0px;
+        content: "";
+        height: 4px;
+        left: 0px;
+        position: absolute;
+        width: 100px;
+      }
+
+      .close-button {  
+        background-color: transparent;      
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        
+        &:hover,
+        &:focus {
+          background-color: $themeMain;
+          color: white;
+        }
+      }
+
+      h1 {
+        color: gray(200);
+        font-size: 4em;
+        text-align: left;
+      }
+    }
+  }
+
+  .page-background-graphic-image {
+    @include centered;
+    opacity: 0.1;
+    width: 70vw;
+  }
+
+  .page-message {
+    @include centered;
+    animation: fadeInCentered 250ms ease-in;
+    width: calc(100% - 40px);
+    z-index: 2;
+
+    h1 {
+      color: gray(240);
+      font-size: 2em;
+      font-weight: 400;
+      text-align: center;
+    }
+
+    .page-message-action {
+      display: block;
+      font-size: 2em;
+      margin: auto;
+      margin-top: 10px;
+      text-align: center;
+      width: 200px;
+    }
+  }
+}
+
+@include tablet-or-smaller {
+  .page {
+    .page-background-graphic-image {
+      width: 80vw;
+    }
+  }
+}
+
+@include phone-or-larger {
+  .page {
+    .page-content {      
+      animation: fadeIn 250ms ease-in;
+    }
+  }
+}
+@include phone-or-smaller {
+  .page {
+    .page-content {
+      .page-title {
+        h1 {
+          font-size: 3em;
+        }
+      }
+    }
+
+    .page-background-graphic-image {
+      width: 120vw;
+    }
+  }
+}

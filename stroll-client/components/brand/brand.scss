@@ -1,0 +1,33 @@
+.app-brand {
+  display: block;
+  height: 50px;
+  outline: none;
+  pointer-events: all;
+  white-space: nowrap;
+
+  &:hover,
+  &:focus {
+    i, h1 {
+      text-shadow: 0px 0px 8px rgba($themeMain, 0.5);
+    }
+  }
+
+  i, h1 {
+    color: $themeMain;
+    display: inline-block;
+    height: 50px;
+    line-height: 50px;
+    vertical-align: top;
+  }
+
+  i {
+    font-size: 2em;
+    text-align: center;
+    width: 40px;
+  }
+
+  h1 { 
+    font-size: 1.5em;
+    margin-left: 5px;
+  }
+}

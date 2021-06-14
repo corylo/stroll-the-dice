@@ -1,0 +1,25 @@
+.loading-icon-wrapper {
+  backface-visibility: hidden;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 220px;
+
+  .loading-icon {
+    text-align: center;
+
+    &.white {
+      i {
+        color: white;
+      }
+    }
+
+    i {
+      animation: spin 2s ease-in-out infinite;  
+      color: $themeMain;
+      font-size: 2em;
+      text-shadow: 0px 0px 8px rgba($themeMain, 0.5);
+    }
+  }
+}

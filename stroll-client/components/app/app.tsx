@@ -1,12 +1,16 @@
 import React, { useReducer } from "react";
-import { useLocation } from "react-router";
+import { Route, Switch, useLocation } from "react-router";
+
+import { HomePage } from "../../pages/homePage/homePage";
+
+import { Navbar } from "../navbar/navbar";
 
 import { AppContext } from "./contexts/appContext";
 
 import { appReducer } from "./reducers/appReducer";
 
 import { useScrollToTopEffect } from "../../effects/appEffects";
-// import { useAuthStateChangedEffect } from "../../effects/userEffects";
+import { useAuthStateChangedEffect } from "../../effects/userEffects";
 
 import { defaultAppState } from "./models/appState";
 
@@ -23,12 +27,17 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
 
   useScrollToTopEffect(location);
 
-  // useAuthStateChangedEffect(appState, dispatch);
+  useAuthStateChangedEffect(appState, dispatch);
   
   return (
     <AppContext.Provider value={{ appState, dispatchToApp }}>
       <div id="stroll-the-dice-app">
-        
+        <Navbar />
+        <Switch>
+          <Route exact path="/">
+            <HomePage />
+          </Route>
+        </Switch>
       </div>
     </AppContext.Provider>
   )

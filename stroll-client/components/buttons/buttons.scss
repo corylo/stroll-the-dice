@@ -1,0 +1,92 @@
+.button {
+  background-color: rgba(white, 0.1);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  outline: none;
+  padding: 10px;
+  position: relative;
+
+  &:hover,
+  &:focus {
+    background-color: $themeMain;
+    color: white;
+    cursor: pointer;
+  }
+
+  &:not(:disabled):hover,
+  &:not(:disabled):focus {
+    .tooltip {
+      opacity: 1;
+    }
+  }
+  
+  &.link {
+    display: block;
+    text-decoration: none;
+  }
+}
+
+.icon-button {
+  padding: 0px;
+
+  i {
+    font-size: 2em;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    width: 50px;
+  }
+}
+
+.button.fancy-button {
+  background: linear-gradient(to right, rgba($themeMain, 0.25), rgba($themeMain, 0.05));
+  border: 1px solid rgba($themeMain, 0.5);
+  display: inline-block;
+  font-weight: bolder;
+  padding: 10px 20px;
+  position: relative;
+
+  &:hover,
+  &:focus {
+    background-color: rgba($themeMain, 0.6);
+  }
+
+  &.white {
+    background: rgba(white, 0.1);
+    border: 1px solid rgba(white, 0.5);
+      
+    &:hover,
+    &:focus {
+      background: rgba(white, 0.8);
+      color: gray(60);
+
+      h1 {
+        color: gray(60);
+      }
+    }
+  }
+
+  &.red {    
+    background: linear-gradient(to right, rgba($red, 0.25), rgba($red, 0.05));
+    border: 1px solid rgba($red, 0.5);
+
+    &:hover,
+    &:focus {
+      background-color: rgba($red, 0.6);
+    }
+  }
+
+  i, h1 {
+    color: white;
+    display: inline-block;
+    font-size: 1.25em;
+    height: 30px;
+    line-height: 30px;
+    vertical-align: top;
+  }
+
+  h1 {
+    margin-left: 10px;
+  }
+}

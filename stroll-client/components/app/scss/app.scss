@@ -3,6 +3,13 @@
 @import "format.scss";
 @import "responsive.scss";
 
+@import "../../brand/brand.scss";
+@import "../../buttons/buttons.scss";
+@import "../../loadingIcon/loadingIcon.scss";
+@import "../../navbar/navbar.scss";
+@import "../../page/page.scss";
+@import "../../tooltip/tooltip.scss";
+
 html,
 body {
   background-color: gray(40);
