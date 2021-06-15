@@ -1,0 +1,9 @@
+.label {
+  position: relative;
+  
+  &:hover {
+    .tooltip {
+      opacity: 1;
+    }
+  }
+}

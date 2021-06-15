@@ -9,7 +9,7 @@
 
     &:after {
       background-color: $themeMain;
-      bottom: 0px;
+      bottom: -2px;
       content: "";
       height: 4px;
       left: 0px;
@@ -19,7 +19,7 @@
 
     h1 {
       color: gray(200);
-      font-size: 4em;
+      font-size: 3em;
       text-align: left;
     }
   }
@@ -105,7 +105,7 @@
       }
 
       h1 {
-        font-size: 3em;
+        font-size: 2em;
       }
     }
   }

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Tooltip, TooltipSide } from "../tooltip/tooltip";
 
 interface ButtonProps {
-  children: any;
+  children?: any;
   className?: string;  
   external?: boolean;
   id?: string;

@@ -4,7 +4,6 @@ import { useHistory } from "react-router";
 import { LoadingIcon } from "../../components/loadingIcon/loadingIcon";
 import { PageBackgroundGraphic } from "./pageBackgroundGraphic";
 import { PageMessage } from "./pageMessage";
-import { PageMessageAction } from "./pageMessageAction";
 
 import { AppContext } from "../../components/app/contexts/appContext";
 
@@ -13,7 +12,6 @@ import { RequestStatus } from "../../../stroll-enums/requestStatus";
 
 interface PageProps {
   backgroundGraphic?: string;
-  backToHome?: boolean;
   children: JSX.Element | JSX.Element[];
   errorMessage?: string;
   id?: string;
@@ -32,28 +30,33 @@ export const Page: React.FC<PageProps> = (props: PageProps) => {
     }
   }, [appState.status]);
   
-  const getPageContent = (): JSX.Element => {
-    if(
-      appState.status !== AppStatus.Loading &&
-      props.status !== RequestStatus.Loading &&
-      props.status !== RequestStatus.Error
-    ) {      
+  const getPageMessage = (): JSX.Element => {
+    if(props.status === RequestStatus.Error) {
+      const message: string = props.errorMessage || "Whoops! We ran into an issue loading the page. Please refresh and try again.";
+
       return (
-        <div className="page-content-wrapper">
-          <div className="page-content">
-            {props.children}
-          </div>
-        </div>
+        <PageMessage>
+          <h1 className="passion-one-font">{message}</h1>
+        </PageMessage>        
       )
     }
   }
 
-  const getLoading = (): JSX.Element => {
-    if(appState.status === AppStatus.Loading || props.status === RequestStatus.Loading) {
+  const getPageContent = (): JSX.Element | JSX.Element[] => {
+    if(
+      appState.status === AppStatus.Loading ||
+      props.status === RequestStatus.Loading
+    ) { 
       return (
-        <LoadingIcon />
-      )
+        <div className="page-loading-icon">
+          <LoadingIcon />
+        </div>
+      );
+    } else if(props.status === RequestStatus.Error) {
+      return getPageMessage();
     }
+    
+    return props.children;
   }
 
   const getPageBackgroundGraphic = (): JSX.Element => {
@@ -64,35 +67,14 @@ export const Page: React.FC<PageProps> = (props: PageProps) => {
     }
   }
 
-  const getPageMessage = (): JSX.Element => {
-    if(props.status === RequestStatus.Error) {
-      const message: string = props.errorMessage || "Whoops! We ran into an issue loading the page. Please refresh and try again.";
-
-      const getBackToHome = (): JSX.Element => {
-        if(props.backToHome) {
-          return (            
-            <PageMessageAction handleOnClick={() => history.push("/")}>
-              Back to Home
-            </PageMessageAction>
-          )
-        }
-      }
-
-      return (
-        <PageMessage>
-          <h1 className="passion-one-font">{message}</h1>
-          {getBackToHome()}
-        </PageMessage>        
-      )
-    }
-  }
-
   return (
     <div id={props.id} className="page">
-      {getPageContent()}
-      {getLoading()}
+      <div className="page-content-wrapper">
+        <div className="page-content">
+          {getPageContent()}
+        </div>
+      </div>
       {getPageBackgroundGraphic()}
-      {getPageMessage()}
     </div>
   )
 }

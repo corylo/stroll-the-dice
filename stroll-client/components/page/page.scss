@@ -22,13 +22,13 @@
       padding-right: 20px;
       
       .page-title {   
-        margin: 20px;
+        margin: 20px 0px;
         margin-top: 0px;
         position: relative;
 
         &:after {
           background-color: $themeMain;
-          bottom: 0px;
+          bottom: -2px;
           content: "";
           height: 4px;
           left: 0px;
@@ -50,10 +50,36 @@
         }
 
         h1 {
-          color: gray(200);
-          font-size: 4em;
+          color: gray(230);
+          font-size: 3em;
           text-align: left;
         }
+      }
+
+      .page-message {
+        animation: fadeIn 400ms ease-in;
+        z-index: 2;
+    
+        h1 {
+          color: rgba(white, 0.8);
+          font-size: 1.5em;
+          text-align: center;
+        }
+    
+        .page-message-action {
+          display: block;
+          font-size: 2em;
+          margin: auto;
+          margin-top: 10px;
+          text-align: center;
+          width: 200px;
+        }
+      }
+
+      .page-loading-icon {
+        height: 200px;
+        max-height: 50vh;
+        position: relative;
       }
     }
   }
@@ -62,29 +88,6 @@
     @include centered;
     opacity: 0.1;
     width: 70vw;
-  }
-
-  .page-message {
-    @include centered;
-    animation: fadeInCentered 400ms ease-in;
-    width: calc(100% - 40px);
-    z-index: 2;
-
-    h1 {
-      color: gray(240);
-      font-size: 2em;
-      font-weight: 400;
-      text-align: center;
-    }
-
-    .page-message-action {
-      display: block;
-      font-size: 2em;
-      margin: auto;
-      margin-top: 10px;
-      text-align: center;
-      width: 200px;
-    }
   }
 }
 
@@ -95,8 +98,6 @@
         border-right: none;
         margin-left: 50px;
         margin-right: 0px;
-        padding-left: 10px;
-        padding-right: 10px;
       }
     }
 
@@ -110,11 +111,15 @@
   .page {
     .page-content-wrapper {
       .page-content {
-        
-        
-        .page-title {
+        .page-title {       
+          &:after {
+            bottom: -4px;
+            height: 2px;
+            width: 50px;
+          }
+    
           h1 {
-            font-size: 3em;
+            font-size: 2em;
           }
         }
       }

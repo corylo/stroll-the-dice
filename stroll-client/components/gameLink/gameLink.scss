@@ -1,0 +1,54 @@
+.game-link-wrapper { 
+  padding: 15px 20px;
+  position: relative;
+
+  .game-link-header {
+    align-items: center;
+    display: flex;
+    position: relative;
+    z-index: 2;
+
+    .user-link {
+      .username {
+        font-size: 1em;
+        margin-left: 5px;
+      }
+    }
+
+    .game-duration,
+    .game-mode {
+      color: gray(230);
+    }
+
+    > .dot {
+      font-size: 2em;
+    }
+  }
+
+  .game-link { 
+    background: rgba(gray(30), 0.4);
+    border: 1px solid rgba(gray(60), 0.6);
+    border-radius: 10px;
+    height: calc(100% - 2px);
+    left: 0px;
+    padding: 0px;
+    position: absolute;
+    top: 0px;
+    width: calc(100% - 2px);
+
+    &:hover, 
+    &:focus {
+      background: linear-gradient(to right, rgba($themeMain, 0.05), rgba($themeMain, 0.01));
+      border-color: rgba($themeMain, 0.25);
+    }
+  }
+
+  .game-link-body {
+    margin-top: 5px;
+
+    .game-name {
+      color: gray(230);
+      font-size: 2em;
+    }
+  }
+}
