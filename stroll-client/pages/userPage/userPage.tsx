@@ -15,6 +15,7 @@ import { IProfile } from "../../../stroll-models/profile";
 import { defaultUserPageState, IUserPageState } from "./models/userPageState";
 
 import { RequestStatus } from "../../../stroll-enums/requestStatus";
+import { Graphic } from "../../../stroll-enums/graphic";
 
 interface UserPageProps {
   
@@ -70,7 +71,7 @@ export const UserPage: React.FC<UserPageProps> = (props: UserPageProps) => {
   }, []);
 
   return(
-    <Page id="user-page" status={state.status} backgroundGraphic={ImageUtility.getGraphic("city-walk")}>    
+    <Page id="user-page" status={state.status} backgroundGraphic={ImageUtility.getGraphic(Graphic.CityWalk)}>    
       <ProfileHeader profile={state.profile} /> 
     </Page>
   )

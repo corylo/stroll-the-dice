@@ -8,6 +8,7 @@ import { AppContext } from "../../components/app/contexts/appContext";
 import { ImageUtility } from "../../utilities/imageUtility";
 
 import { AppStatus } from "../../enums/appStatus";
+import { Graphic } from "../../../stroll-enums/graphic";
 
 interface ProfilePageProps {
   
@@ -29,7 +30,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = (props: ProfilePageProps)
   }
 
   return(
-    <Page id="profile-page" backgroundGraphic={ImageUtility.getGraphic("city-walk")} requireAuth>   
+    <Page id="profile-page" backgroundGraphic={ImageUtility.getGraphic(Graphic.CityWalk)} requireAuth>   
       {getContent()}
     </Page>
   )
