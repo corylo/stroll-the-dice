@@ -1,0 +1,41 @@
+.game-details {
+  align-items: center;
+  display: inline-flex;
+  position: relative;
+  z-index: 3;
+
+  .user-link {
+    .username {
+      font-size: 1em;
+      margin-left: 5px;
+    }
+  }
+
+  .game-duration,
+  .game-mode {
+    color: gray(230);
+  }
+
+  .game-mode {
+    text-align: center;
+    width: 20px;
+  }
+
+  > .dot {
+    font-size: 2em;
+  }
+}
+
+@include small-phone-or-smaller {
+  .game-details {
+    width: 100%;
+
+    .user-link {
+      max-width: calc(100% - 90px);
+
+      .username {
+        max-width: calc(100% - 39px);
+      }
+    }
+  }
+}
