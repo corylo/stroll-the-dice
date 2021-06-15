@@ -45,6 +45,8 @@
 
   .game-link-body {
     margin-top: 5px;
+    position: relative;
+    z-index: 2;
 
     .game-name {
       color: gray(230);

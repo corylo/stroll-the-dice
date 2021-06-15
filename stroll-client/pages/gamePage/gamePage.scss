@@ -1,0 +1,33 @@
+#game-page {  
+  .game-page-header {
+    align-items: center;
+    display: inline-flex;
+    position: relative;
+    z-index: 2;
+
+    .user-link {
+      .username {
+        font-size: 1em;
+        margin-left: 5px;
+      }
+    }
+
+    .game-duration,
+    .game-mode {
+      color: gray(230);
+    }
+
+    > .dot {
+      font-size: 2em;
+    }
+  }
+
+  .game-page-body {
+    margin-top: 5px;
+
+    .game-name {
+      color: gray(230);
+      font-size: 2em;
+    }
+  }
+}

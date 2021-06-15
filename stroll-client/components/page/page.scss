@@ -7,7 +7,6 @@
   .page-content-wrapper {
     animation: fadeIn 400ms ease-in;
     margin: auto;
-    margin-bottom: 20px;
     margin-top: 90px;
     max-width: 1200px;
     overflow: hidden;
@@ -18,6 +17,7 @@
       border-right: 1px solid rgba(white, 0.2);
       margin-left: 250px;
       margin-right: 60px;
+      padding-bottom: 20px;
       padding-left: 20px;
       padding-right: 20px;
       
