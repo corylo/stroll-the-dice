@@ -19,7 +19,7 @@ export const NotificationsPage: React.FC<NotificationsPageProps> = (props: Notif
   return(
     <Page 
       id="my-games-page" 
-      backgroundGraphic={ImageUtility.getGraphic(Graphic.DayAtPark)} 
+      backgroundGraphic={ImageUtility.getGraphic(Graphic.Nature)} 
       requireAuth
     >     
       <PageTitle text="Notifications" />
