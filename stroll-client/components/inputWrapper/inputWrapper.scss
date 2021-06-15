@@ -21,7 +21,7 @@
       width: calc(100% - 24px);
 
       &::placeholder {
-        color: gray(120);
+        color: rgba(white, 0.6);
       }
 
       &:focus {
