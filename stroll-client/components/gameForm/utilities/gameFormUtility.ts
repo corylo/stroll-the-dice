@@ -10,7 +10,7 @@ import { IUser } from "../../../models/user";
 
 interface IGameFormUtility {
   mapCreate: (fields: IGameFormStateFields, user: IUser) => IGame;
-  mapInitialState: (rule?: IGame) => IGameFormState;
+  mapInitialState: (game?: IGame) => IGameFormState;
   mapUpdate: (fields: IGameFormStateFields) => IGameUpdate;
 }
 

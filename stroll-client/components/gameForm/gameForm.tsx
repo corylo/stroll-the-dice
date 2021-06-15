@@ -54,16 +54,16 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
 
   const getStatusMessage = (): string => {
     if(status === FormStatus.SubmitSuccess) {
-      return "Rule saved successfully!";
+      return "Game saved successfully!";
     } else if(status === FormStatus.SubmitError) {
-      return "There was an issue saving your rule. Please refresh and try again!";
+      return "There was an issue saving your game. Please refresh and try again!";
     }
   }
 
   return (
     <Form     
       errors={errors}
-      id="rule-form"
+      id="game-form"
       status={status}
       statusMessage={getStatusMessage()}
     >
@@ -88,7 +88,7 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
       </FormBody>
       <FormActions>
         <Button
-          id="save-rule-button" 
+          id="save-game-button" 
           className="submit-button fancy-button passion-one-font" 
           handleOnClick={save}
         >

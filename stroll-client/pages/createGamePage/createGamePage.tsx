@@ -22,9 +22,9 @@ export const CreateGamePage: React.FC<CreateGamePageProps> = (props: CreateGameP
 
     console.log(game)
         
-    // await RuleService.create(rule);
+    // await GameService.create(game);
 
-    // history.push(`/${rule.id}`);
+    // history.push(`/game/${game.id}`);
   }
 
   return(
