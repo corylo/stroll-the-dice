@@ -8,6 +8,7 @@ import { AppContext } from "../../components/app/contexts/appContext";
 
 import { ProfileService } from "../../services/profileService";
 
+import { ImageUtility } from "../../utilities/imageUtility";
 import { UrlUtility } from "../../utilities/urlUtility";
 
 import { IProfile } from "../../../stroll-models/profile";
@@ -69,7 +70,7 @@ export const UserPage: React.FC<UserPageProps> = (props: UserPageProps) => {
   }, []);
 
   return(
-    <Page id="user-page" status={state.status}>    
+    <Page id="user-page" status={state.status} backgroundGraphic={ImageUtility.getGraphic("city-walk")}>    
       <ProfileHeader profile={state.profile} /> 
     </Page>
   )

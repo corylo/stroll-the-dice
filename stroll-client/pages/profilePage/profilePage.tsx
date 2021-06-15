@@ -5,6 +5,8 @@ import { ProfileHeader } from "../../components/profileHeader/profileHeader";
 
 import { AppContext } from "../../components/app/contexts/appContext";
 
+import { ImageUtility } from "../../utilities/imageUtility";
+
 import { AppStatus } from "../../enums/appStatus";
 
 interface ProfilePageProps {
@@ -27,7 +29,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = (props: ProfilePageProps)
   }
 
   return(
-    <Page id="profile-page" requireAuth>   
+    <Page id="profile-page" backgroundGraphic={ImageUtility.getGraphic("city-walk")} requireAuth>   
       {getContent()}
     </Page>
   )

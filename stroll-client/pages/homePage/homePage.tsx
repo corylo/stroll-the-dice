@@ -4,6 +4,8 @@ import { Page } from "../../components/page/page";
 
 import { AppContext } from "../../components/app/contexts/appContext";
 
+import { ImageUtility } from "../../utilities/imageUtility";
+
 import { AppStatus } from "../../enums/appStatus";
 
 interface HomePageProps {
@@ -13,14 +15,8 @@ interface HomePageProps {
 export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
   const { appState } = useContext(AppContext);
 
-  const getBackgroundGraphic = (): string => {
-    if(appState.status === AppStatus.SignedOut) {
-      return "/img/graphics/sign-in.svg";
-    }
-  }
-
   return(
-    <Page id="home-page">     
+    <Page id="home-page" backgroundGraphic={ImageUtility.getGraphic("running-pair")}>     
     
     </Page>
   )
