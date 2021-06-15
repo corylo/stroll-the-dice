@@ -1,5 +1,6 @@
 #nav-menu-wrapper {
   animation: fadeInLeft 400ms ease-in;
+  left: 0px;
   pointer-events: none;
   position: fixed;
   top: 90px;
@@ -77,6 +78,33 @@
           
           h1 {
             display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include phone-or-smaller {
+  #nav-menu-wrapper {
+    bottom: 0px;
+    top: auto;
+
+    #nav-menu {
+      #nav-menu-content {
+        background-color: gray(40);
+        border-radius: 0px;
+        box-shadow: rgba(0, 0, 0, 0.12) 0px -1px 6px, rgba(0, 0, 0, 0.12) 0px -1px 4px;
+        display: grid;
+        grid-gap: 1em;
+        grid-template-columns: repeat(auto-fill, minmax(20%, 1fr)); 
+        width: 100%;
+
+        .nav-menu-button {
+          justify-content: center;
+
+          &:nth-of-type(n + 2) {
+            margin-top: 0px;
           }
         }
       }

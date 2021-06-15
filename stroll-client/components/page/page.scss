@@ -110,7 +110,11 @@
 @include phone-or-smaller {
   .page {
     .page-content-wrapper {
+      margin-bottom: 70px;
+
       .page-content {
+        margin-left: 0px;
+
         .page-title {       
           &:after {
             bottom: -4px;
