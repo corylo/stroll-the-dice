@@ -25,8 +25,8 @@ export const GameLink: React.FC<GameLinkProps> = (props: GameLinkProps) => {
         <Dot />
         <Label 
           className="game-duration passion-one-font" 
-          text={GameDurationUtility.getLabel(game.duration)} 
-          tooltip="Duration"
+          text={GameDurationUtility.getShortLabel(game.duration)} 
+          tooltip={GameDurationUtility.getLabel(game.duration)}
           tooltipSide={TooltipSide.Bottom}
         />
         <Dot />
