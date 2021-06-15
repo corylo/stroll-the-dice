@@ -1,0 +1,28 @@
+.games {  
+  .games-title {
+    margin-bottom: 20px;
+    position: relative;
+
+    &:after {
+      background-color: $themeMain;
+      bottom: -4px;
+      content: "";
+      height: 2px;
+      left: 0px;
+      position: absolute;
+      width: 50px;
+    }
+
+    h1 {
+      color: gray(230);
+      font-size: 2em;
+      text-align: left;
+    }
+  }
+
+  .game-link-wrapper {
+    &:nth-of-type(n + 2) {
+      margin-top: 10px;
+    }
+  }
+}

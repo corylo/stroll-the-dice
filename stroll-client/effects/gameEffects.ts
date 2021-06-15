@@ -13,7 +13,7 @@ interface IUseFetchGamesEffect {
   status: RequestStatus;  
 }
 
-export const useFetchGamesEffect = (appState: IAppState): IUseFetchGamesEffect => {
+export const useFetchGamesEffect = (appState: IAppState, limit?: number): IUseFetchGamesEffect => {
   const { user } = appState;
 
   const [state, setState] = useState<IUseFetchGamesEffect>({ 
@@ -31,7 +31,7 @@ export const useFetchGamesEffect = (appState: IAppState): IUseFetchGamesEffect =
     if(appState.status === AppStatus.SignedIn) {
       const fetch = async (): Promise<void> => {
         try {
-          const results: IGame[] = await GameService.fetchGames(user.profile.uid, 5);
+          const results: IGame[] = await GameService.fetchGames(user.profile.uid, limit);
           
           setState({ games: results, status: RequestStatus.Success });
         } catch (err) {

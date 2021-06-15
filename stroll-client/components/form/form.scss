@@ -9,17 +9,17 @@
 
     &:after {
       background-color: $themeMain;
-      bottom: -2px;
+      bottom: -4px;
       content: "";
-      height: 4px;
+      height: 2px;
       left: 0px;
       position: absolute;
-      width: 100px;
+      width: 50px;
     }
 
     h1 {
-      color: gray(200);
-      font-size: 3em;
+      color: gray(230);
+      font-size: 2em;
       text-align: left;
     }
   }
@@ -97,15 +97,9 @@
 
 @include phone-or-smaller {
   .form {
-    .form-title {         
-      &:after {
-        bottom: -4px;
-        height: 2px;
-        width: 50px;
-      }
-
+    .form-title {    
       h1 {
-        font-size: 2em;
+        font-size: 1.5em;
       }
     }
   }
