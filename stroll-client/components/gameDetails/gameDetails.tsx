@@ -19,7 +19,7 @@ export const GameDetails: React.FC<GameDetailsProps> = (props: GameDetailsProps)
 
   return ( 
     <div className="game-details">
-      <UserLink profile={game.creator} />
+      <UserLink profile={game.creator} tooltip="Creator" />
       <Dot />
       <Label 
         className="game-duration passion-one-font" 

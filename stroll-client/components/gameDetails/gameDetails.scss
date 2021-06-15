@@ -5,9 +5,12 @@
   z-index: 3;
 
   .user-link {
-    .username {
-      font-size: 1em;
+    .username-wrapper {
       margin-left: 5px;
+      
+      .username {
+        font-size: 1em;
+      }
     }
   }
 
@@ -33,7 +36,7 @@
     .user-link {
       max-width: calc(100% - 90px);
 
-      .username {
+      .username-wrapper {
         max-width: calc(100% - 39px);
       }
     }

@@ -1,6 +1,7 @@
 .user-link {
   align-items: center;
   display: flex;
+  position: relative;
 
   .profile-icon {
     height: 34px;
@@ -15,20 +16,35 @@
     }
   }
 
-  .username {
-    color: gray(230);
-    font-size: 1.25em;
-    font-weight: bolder;
+  .username-wrapper {
+    display: flex;
+    height: 100%;
     margin-left: 10px;
-    overflow: hidden;
-    text-decoration: none;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    position: relative;
 
     &:hover,
     &:focus {
-      color: $themeMain;
-      text-decoration: underline;
+      .username {
+        color: $themeMain;
+        text-decoration: underline;
+      }
+
+      .tooltip {
+        opacity: 1;
+      }
+    }
+
+    .username {
+      color: gray(230);
+      display: inline-block;
+      font-size: 1.25em;
+      font-weight: bolder;
+      overflow: hidden;
+      position: relative;
+      text-decoration: none;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
     }
   }
 }
