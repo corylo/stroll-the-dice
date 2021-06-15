@@ -64,7 +64,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (props: ProfileHeader
   }
 
   return(
-    <div id="profile-header">
+    <div className="profile-header">
       <ProfileIcon color={profile.color} icon={profile.icon} />
       {getFullName()}
       {getUsername()}

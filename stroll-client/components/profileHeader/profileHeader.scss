@@ -1,4 +1,4 @@
-#profile-header {
+.profile-header {
   text-align: center;
   
   .profile-icon {
@@ -46,7 +46,7 @@
 }
 
 @include phone-or-smaller {
-  #profile-header {
+  .profile-header {
     .profile-icon {
       font-size: 2em;
       height: 80px;

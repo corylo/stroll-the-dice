@@ -5,13 +5,15 @@
   z-index: 1;
 
   .page-content {
+    animation: fadeIn 400ms ease-in;
     margin: auto;
     margin-bottom: 20px;
     margin-top: 90px;
     min-height: calc(100vh - 110px);
-    max-width: 1200px;
+    max-width: 910px;
     overflow: hidden;
     padding: 0px 40px;
+    padding-left: 250px;
     position: relative;
     z-index: 2;
     
@@ -59,7 +61,7 @@
 
   .page-message {
     @include centered;
-    animation: fadeInCentered 250ms ease-in;
+    animation: fadeInCentered 400ms ease-in;
     width: calc(100% - 40px);
     z-index: 2;
 
@@ -83,24 +85,22 @@
 
 @include tablet-or-smaller {
   .page {
+    .page-content {
+      max-width: 100%;
+      padding-left: 50px;
+    }
+
     .page-background-graphic-image {
       width: 80vw;
     }
   }
 }
 
-@include phone-or-larger {
-  .page {
-    .page-content {      
-      animation: fadeIn 250ms ease-in;
-    }
-  }
-}
 @include phone-or-smaller {
   .page {
     .page-content {
       min-height: calc(100vh - 190px);
-      padding: 0px 20px;
+      padding-right: 20px;
       
       .page-title {
         h1 {

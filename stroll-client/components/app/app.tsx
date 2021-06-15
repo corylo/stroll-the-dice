@@ -5,6 +5,7 @@ import { HomePage } from "../../pages/homePage/homePage";
 import { ProfilePage } from "../../pages/profilePage/profilePage";
 import { UserPage } from "../../pages/userPage/userPage";
 
+import { Nav } from "../nav/nav";
 import { Navbar } from "../navbar/navbar";
 import { SignInModal } from "../signInModal/signInModal";
 import { UpdateProfileModal } from "../updateProfileModal/updateProfileModal";
@@ -38,6 +39,7 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
     <AppContext.Provider value={{ appState, dispatchToApp }}>
       <div id="stroll-the-dice-app">
         <Navbar />
+        <Nav />
         <SignInModal />
         <UserMenuModal />
         <UpdateProfileModal />

@@ -1,24 +1,7 @@
 #profile-page {
   .page-content {
-    margin: auto;
-    margin-bottom: 20px;
-    margin-top: 90px;
-    min-height: calc(100vh - 110px);
-    max-width: 1200px;
-    padding: 0px 40px;
-    
-    .rule-section,
-    .graphic {
-      margin-top: 20px;
-    }
-  }
-}
-
-@include phone-or-smaller {
-  #profile-page {
-    .page-content {
-      min-height: calc(100vh - 190px);
-      padding: 0px 20px;
+    .profile-header {
+      border-left: 1px solid gray(60);
     }
   }
 }

@@ -1,5 +1,5 @@
 #navbar {  
-  animation: fadeInDown 0.4s ease-in;
+  animation: fadeInDown 400ms ease-in;
   background: linear-gradient(to bottom, gray(40), transparent);
   height: 50px;
   left: 0px;
@@ -17,6 +17,7 @@
 
     .app-brand {
       display: inline-block;
+      margin-left: 15px;
     }
 
     #navbar-items {    
@@ -88,11 +89,23 @@
   }
 }
 
+@include tablet-or-smaller {
+  #navbar {  
+    #navbar-content {
+      .app-brand {
+        margin-left: 0px;
+      }
+    }
+  }
+}
+
 @include small-phone-or-smaller {
   #navbar {  
-    .app-brand {
-      h1 {
-        display: none;
+    #navbar-content {
+      .app-brand {
+        h1 {
+          display: none;
+        }
       }
     }
   }
