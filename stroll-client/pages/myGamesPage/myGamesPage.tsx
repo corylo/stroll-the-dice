@@ -42,7 +42,7 @@ export const MyGamesPage: React.FC<MyGamesPageProps> = (props: MyGamesPageProps)
   return(
     <Page 
       id="my-games-page" 
-      backgroundGraphic={ImageUtility.getGraphic(Graphic.FinishLine)} 
+      backgroundGraphic={ImageUtility.getGraphic(Graphic.DayAtPark)} 
       status={status}
     >     
       <PageTitle text="My Games" />

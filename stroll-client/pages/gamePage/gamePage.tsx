@@ -69,7 +69,11 @@ export const GamePage: React.FC<GamePageProps> = (props: GamePageProps) => {
   }
   
   return(
-    <Page id="game-page" backgroundGraphic={ImageUtility.getGraphic(Graphic.FinishLine)} status={status}>   
+    <Page 
+      id="game-page" 
+      backgroundGraphic={ImageUtility.getGraphic(Graphic.DayAtPark)} 
+      status={status}
+    >   
       {getContent()}
     </Page>
   )

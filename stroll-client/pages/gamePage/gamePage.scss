@@ -31,3 +31,19 @@
     }
   }
 }
+
+@include small-phone-or-smaller {
+  #game-page {  
+    .game-page-header {
+      width: 100%;
+
+      .user-link {
+        max-width: calc(100% - 90px);
+
+        .username {
+          max-width: calc(100% - 39px);
+        }
+      }
+    }
+  }
+}
