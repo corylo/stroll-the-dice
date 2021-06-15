@@ -87,6 +87,7 @@
 
 @include phone-or-smaller {
   #nav-menu-wrapper {
+    animation: fadeIn 400ms ease-in;
     bottom: 0px;
     top: auto;
 
