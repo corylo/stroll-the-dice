@@ -4,51 +4,56 @@
   position: relative;
   z-index: 1;
 
-  .page-content {
+  .page-content-wrapper {
     animation: fadeIn 400ms ease-in;
     margin: auto;
     margin-bottom: 20px;
     margin-top: 90px;
-    min-height: calc(100vh - 110px);
-    max-width: 910px;
+    max-width: 1200px;
     overflow: hidden;
-    padding: 0px 40px;
-    padding-left: 250px;
     position: relative;
     z-index: 2;
-    
-    .page-title {   
-      margin: 20px;
-      margin-top: 0px;
-      position: relative;
 
-      &:after {
-        background-color: $themeMain;
-        bottom: 0px;
-        content: "";
-        height: 4px;
-        left: 0px;
-        position: absolute;
-        width: 100px;
-      }
+    .page-content {
+      border-right: 1px solid gray(60);
+      margin-left: 250px;
+      margin-right: 60px;
+      padding-left: 20px;
+      padding-right: 20px;
+      
+      .page-title {   
+        margin: 20px;
+        margin-top: 0px;
+        position: relative;
 
-      .close-button {  
-        background-color: transparent;      
-        position: absolute;
-        right: 0px;
-        top: 0px;
-        
-        &:hover,
-        &:focus {
+        &:after {
           background-color: $themeMain;
-          color: white;
+          bottom: 0px;
+          content: "";
+          height: 4px;
+          left: 0px;
+          position: absolute;
+          width: 100px;
         }
-      }
 
-      h1 {
-        color: gray(200);
-        font-size: 4em;
-        text-align: left;
+        .close-button {  
+          background-color: transparent;      
+          position: absolute;
+          right: 0px;
+          top: 0px;
+          
+          &:hover,
+          &:focus {
+            background-color: $themeMain;
+            color: white;
+          }
+        }
+
+        h1 {
+          color: gray(200);
+          font-size: 4em;
+          text-align: left;
+        }
       }
     }
   }
@@ -85,9 +90,14 @@
 
 @include tablet-or-smaller {
   .page {
-    .page-content {
-      max-width: 100%;
-      padding-left: 50px;
+    .page-content-wrapper {
+      .page-content {
+        border-right: none;
+        margin-left: 50px;
+        margin-right: 0px;
+        padding-left: 10px;
+        padding-right: 10px;
+      }
     }
 
     .page-background-graphic-image {
@@ -98,13 +108,14 @@
 
 @include phone-or-smaller {
   .page {
-    .page-content {
-      min-height: calc(100vh - 190px);
-      padding-right: 20px;
-      
-      .page-title {
-        h1 {
-          font-size: 3em;
+    .page-content-wrapper {
+      .page-content {
+        
+        
+        .page-title {
+          h1 {
+            font-size: 3em;
+          }
         }
       }
     }

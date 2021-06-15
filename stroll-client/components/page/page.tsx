@@ -39,8 +39,10 @@ export const Page: React.FC<PageProps> = (props: PageProps) => {
       props.status !== RequestStatus.Error
     ) {      
       return (
-        <div className="page-content">
-          {props.children}
+        <div className="page-content-wrapper">
+          <div className="page-content">
+            {props.children}
+          </div>
         </div>
       )
     }

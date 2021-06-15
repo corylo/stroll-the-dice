@@ -11,9 +11,10 @@
     max-width: 1200px;
 
     #nav-menu-content {
+      border-right: 1px solid gray(60);
       padding: 0px 5px;
       pointer-events: all;
-      width: 240px;
+      width: 239px;
 
       .nav-menu-button {
         background-color: transparent;
@@ -64,10 +65,16 @@
   #nav-menu-wrapper {
     #nav-menu {
       #nav-menu-content {
+        background-color: rgba(white, 0.03);
+        border-bottom-right-radius: 5px;
+        border-right: none;        
+        border-top-right-radius: 5px;
+        padding: 5px;
         width: 40px;
 
         .nav-menu-button {
           padding: 5px;
+          
           h1 {
             display: none;
           }
