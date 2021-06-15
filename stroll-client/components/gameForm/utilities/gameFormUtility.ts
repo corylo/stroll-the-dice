@@ -9,12 +9,24 @@ import { IGameUpdate } from "../../../../stroll-models/gameUpdate";
 import { IUser } from "../../../models/user";
 
 interface IGameFormUtility {
+  hasChanged: (game: IGame, fields: IGameFormStateFields) => boolean;
   mapCreate: (fields: IGameFormStateFields, user: IUser) => IGame;
   mapInitialState: (game?: IGame) => IGameFormState;
   mapUpdate: (fields: IGameFormStateFields) => IGameUpdate;
 }
 
 export const GameFormUtility: IGameFormUtility = {
+  hasChanged: (game: IGame, fields: IGameFormStateFields): boolean => {
+    if(game) {
+      return (
+        game.duration !== fields.duration ||
+        game.mode !== fields.mode || 
+        game.name !== fields.name
+      )
+    }
+
+    return true;
+  },
   mapCreate: (fields: IGameFormStateFields, user: IUser): IGame => {
     return {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -35,7 +47,12 @@ export const GameFormUtility: IGameFormUtility = {
     const state: IGameFormState = defaultGameFormState();
     
     if(game) {
-      state.fields.name = game.name;
+      state.fields = {
+        ...state.fields,
+        duration: game.duration,
+        mode: game.mode,
+        name: game.name    
+      }
     }
 
     return state;

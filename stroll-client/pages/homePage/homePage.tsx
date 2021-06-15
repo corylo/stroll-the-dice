@@ -26,7 +26,7 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
       backgroundGraphic={ImageUtility.getGraphic(Graphic.WorkingOut)}
       status={status}
     >
-      <Games games={games} title="My Games" />
+      <Games games={games} title="Recent Games" />
     </Page>
   )
 }

@@ -24,7 +24,7 @@ import { ProfileFormAction } from "../../enums/profileFormAction";
 
 interface ProfileFormProps {  
   profile?: IProfile;
-  done: () => void;
+  back: () => void;
   save: (fields: IProfileFormStateFields) => Promise<void>;
 }
 
@@ -84,14 +84,14 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props: ProfileFormProps)
     }
   }
 
-  const getDoneButton = (): JSX.Element => {
+  const getBackButton = (): JSX.Element => {
     if(props.profile && props.profile.username !== "") {
       return (        
         <Button
           className="submit-button fancy-button white passion-one-font" 
-          handleOnClick={props.done}
+          handleOnClick={props.back}
         >
-          Done
+          Back
         </Button>
       )
     }
@@ -146,7 +146,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props: ProfileFormProps)
       </FormBody>   
       <FormActions>
         {getSaveButton()}
-        {getDoneButton()}
+        {getBackButton()}
       </FormActions>
     </Form>
   );

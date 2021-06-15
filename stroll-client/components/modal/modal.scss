@@ -22,17 +22,17 @@
     padding: 20px;
 
     .modal-title {   
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       position: relative;
   
       &:after {
         background-color: $themeMain;
         bottom: -4px;
         content: "";
-        height: 3px;
+        height: 2px;
         left: 0px;
         position: absolute;
-        width: 100px;
+        width: 50px;
       }
   
       .close-button {  
@@ -43,15 +43,19 @@
         
         &:hover,
         &:focus {
-          background-color: $themeMain;
-          color: white;
+          color: $themeMain;
+        }
+
+        i {
+          height: 36px;
+          line-height: 36px;
+          width: 36px;
         }
       }
 
       h1 {
         color: gray(200);
-        font-size: 3em;
-        line-height: 50px;
+        font-size: 2em;
         text-align: left;
         width: calc(100% - 60px);
       }
@@ -103,18 +107,11 @@
     &:not(.priority) {
       position: absolute;
     }
-    
-    .modal-title {         
-      &:after {
-        bottom: -4px;
-        height: 2px;
-        width: 50px;
-      }
-    }
 
     .modal-content { 
+      animation: fadeIn 400ms ease-in;
       margin-top: 0px;
-      padding-top: 90px;
+      padding-top: 70px;
       width: calc(100% - 40px);
     }
   }

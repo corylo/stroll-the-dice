@@ -15,11 +15,15 @@ interface IProfileFormUtility {
 
 export const ProfileFormUtility: IProfileFormUtility = {  
   hasChanged: (profile: IProfile, fields: IProfileFormStateFields): boolean => {
-    return (
-      profile.color !== fields.color ||
-      profile.icon !== fields.icon || 
-      profile.username !== fields.username
-    )
+    if(profile) {
+      return (
+        profile.color !== fields.color ||
+        profile.icon !== fields.icon || 
+        profile.username !== fields.username
+      )
+    }
+
+    return true;
   },
   mapCreate: (fields: IProfileFormStateFields, user: IUser): IProfile => {
     return {

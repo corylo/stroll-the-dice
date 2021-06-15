@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 
 import { Button } from "../buttons/button";
 import { DurationSelector } from "./components/durationSelector/durationSelector";
@@ -25,6 +25,8 @@ import { GameMode } from "../../../stroll-enums/gameMode";
 
 interface GameFormProps {  
   game?: IGame;
+  title?: string;
+  back?: () => void;
   save: (fields: IGameFormStateFields) => Promise<void>;
 }
 
@@ -34,6 +36,12 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
   const { errors, fields, status } = gameFormState;
 
   const dispatch = (type: GameFormAction, payload?: any): void => dispatchToGameForm({ type, payload });
+
+  useEffect(() => {
+    if(status !== FormStatus.InProgress && GameFormUtility.hasChanged(props.game, fields)) {
+      dispatch(GameFormAction.SetStatus, FormStatus.InProgress);
+    }
+  }, [fields]);
 
   const save = async (): Promise<void> => {
     if(status !== FormStatus.Submitting && GameFormValidator.validate(errors, fields, dispatch)) {
@@ -57,11 +65,45 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
     }
   }
 
+  const getTitle = (): JSX.Element => {
+    if(props.title) {
+      return (
+        <FormTitle text={props.title} />
+      )
+    }
+  }
+
   const getStatusMessage = (): string => {
     if(status === FormStatus.SubmitSuccess) {
       return "Game saved successfully!";
     } else if(status === FormStatus.SubmitError) {
       return "There was an issue saving your game. Please refresh and try again!";
+    }
+  }
+
+  const getSaveButton = (): JSX.Element => {
+    if(GameFormUtility.hasChanged(props.game, fields)) {
+      return (      
+        <Button
+          className="submit-button fancy-button passion-one-font" 
+          handleOnClick={save}
+        >
+          Save
+        </Button>
+      )
+    }
+  }
+
+  const getBackButton = (): JSX.Element => {
+    if(props.game && props.back) {
+      return (        
+        <Button
+          className="submit-button fancy-button white passion-one-font" 
+          handleOnClick={props.back}
+        >
+          Back
+        </Button>
+      )
     }
   }
 
@@ -72,7 +114,7 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
       status={status}
       statusMessage={getStatusMessage()}
     >
-      <FormTitle text="Create Game" />
+      {getTitle()}
       <FormBody>
         <InputWrapper
           id="game-name-input" 
@@ -111,13 +153,8 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
         </InputWrapper>
       </FormBody>
       <FormActions>
-        <Button
-          id="save-game-button" 
-          className="submit-button fancy-button passion-one-font" 
-          handleOnClick={save}
-        >
-          Save
-        </Button>
+        {getSaveButton()}
+        {getBackButton()}
       </FormActions>
     </Form>
   );

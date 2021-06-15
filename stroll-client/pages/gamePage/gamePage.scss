@@ -1,10 +1,17 @@
-#game-page {  
+@import "./components/updateGameButton/updateGameButton.scss";
+@import "./components/updateGameModal/updateGameModal.scss";
+
+#game-page {
   .game-page-body {
     margin-top: 5px;
 
-    .game-name {
-      color: gray(230);
-      font-size: 2em;
+    .game-name-wrapper {
+      display: flex;
+
+      .game-name {
+        color: gray(230);
+        font-size: 2em;
+      }
     }
   }
 }

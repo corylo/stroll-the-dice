@@ -1,0 +1,19 @@
+.update-game-button {        
+  background-color: transparent;
+
+  &:hover,
+  &:focus {
+    background-color: transparent;
+    
+    i {
+      color: $themeMain;
+    }
+  }
+  
+  i {
+    font-size: 1em;
+    height: 20px;
+    line-height: 20px;
+    width: 20px;
+  }
+}

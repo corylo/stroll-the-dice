@@ -23,10 +23,6 @@
     text-align: center;
     width: 20px;
   }
-
-  > .dot {
-    font-size: 2em;
-  }
 }
 
 @include small-phone-or-smaller {

@@ -14,8 +14,8 @@ import { UrlUtility } from "../../utilities/urlUtility";
 import { IProfile } from "../../../stroll-models/profile";
 import { defaultUserPageState, IUserPageState } from "./models/userPageState";
 
-import { RequestStatus } from "../../../stroll-enums/requestStatus";
 import { Graphic } from "../../../stroll-enums/graphic";
+import { RequestStatus } from "../../../stroll-enums/requestStatus";
 
 interface UserPageProps {
   
@@ -37,15 +37,7 @@ export const UserPage: React.FC<UserPageProps> = (props: UserPageProps) => {
     }
   }, [state.profile]);
 
-  const getID = (): string => {
-    if(match && match.params && match.params.id) {
-      return match.params.id;
-    } 
-
-    return "";
-  }
-
-  const id: string = getID();
+  const id: string = UrlUtility.getParam(match, "id");
 
   useEffect(() => {
     const fetch = async (): Promise<void> => {

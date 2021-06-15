@@ -77,7 +77,7 @@ export const UpdateProfileModal: React.FC<UpdateProfileModalProps> = (props: Upd
       <Modal id="update-profile-modal" status={statuses.profile.is} priority>
         {getTitle()}
         <ModalBody>   
-          <ProfileForm profile={user.profile} done={cancel} save={save} />
+          <ProfileForm profile={user.profile} back={cancel} save={save} />
         </ModalBody>
       </Modal>
     );
