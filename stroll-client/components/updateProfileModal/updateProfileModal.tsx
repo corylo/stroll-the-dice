@@ -18,6 +18,7 @@ import { IProfileFormStateFields } from "./models/profileFormStateFields";
 import { IProfileUpdate } from "../../../stroll-models/profileUpdate";
 
 import { AppAction } from "../../enums/appAction";
+import { ElementID } from "../../enums/elementId";
 
 interface UpdateProfileModalProps {  
   
@@ -74,7 +75,7 @@ export const UpdateProfileModal: React.FC<UpdateProfileModalProps> = (props: Upd
     }
   
     return (
-      <Modal id="update-profile-modal" status={statuses.profile.is} priority>
+      <Modal id={ElementID.UpdateProfileModal} status={statuses.profile.is} priority>
         {getTitle()}
         <ModalBody>   
           <ProfileForm profile={user.profile} back={cancel} save={save} />

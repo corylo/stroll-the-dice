@@ -13,14 +13,16 @@ import { gameFormReducer } from "./reducers/gameFormReducer";
 
 import { GameFormValidator } from "./validators/gameFormValidator";
 
+import { DomUtility } from "../../utilities/domUtility";
 import { GameFormUtility } from "./utilities/gameFormUtility";
 
 import { IGame } from "../../../stroll-models/game";
 import { IGameFormStateFields } from "./models/gameFormStateFields";
 
+import { ElementID } from "../../enums/elementId";
 import { FormStatus } from "../../enums/formStatus";
-import { GameFormAction } from "./enums/gameFormAction";
 import { GameDuration } from "../../../stroll-enums/gameDuration";
+import { GameFormAction } from "./enums/gameFormAction";
 import { GameMode } from "../../../stroll-enums/gameMode";
 
 interface GameFormProps {  
@@ -56,6 +58,8 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
 
         dispatch(GameFormAction.SetStatus, FormStatus.SubmitError);
       }
+
+      DomUtility.scrollToBottom(ElementID.UpdateGameModal);
     }
   }
 

@@ -10,6 +10,8 @@ import { useOnClickAwayEffect } from "../../../../effects/appEffects";
 import { IGame } from "../../../../../stroll-models/game";
 import { IGamePageState } from "../../models/gamePageState";
 
+import { ElementID } from "../../../../enums/elementId";
+
 interface UpdateGameModalProps {  
   state: IGamePageState;
   cancel: () => void;
@@ -28,7 +30,7 @@ export const UpdateGameModal: React.FC<UpdateGameModalProps> = (props: UpdateGam
 
   if(state.toggles.update) {
     return (
-      <Modal id="update-game-modal" status={state.status} priority>
+      <Modal id={ElementID.UpdateGameModal} status={state.status} priority>
         <ModalTitle text="Update Game" handleOnClose={cancel} />
         <ModalBody>
           <GameForm game={state.game} back={cancel} save={update} />

@@ -12,12 +12,14 @@ import { profileFormReducer } from "../../reducers/profileFormReducer";
 
 import { ProfileValidator } from "../../validators/profileValidator";
 
+import { DomUtility } from "../../../../utilities/domUtility";
 import { ProfileFormUtility } from "../../utilities/profileFormUtility";
 
 import { IProfile } from "../../../../../stroll-models/profile";
 import { IProfileFormStateFields } from "../../models/profileFormStateFields";
 
 import { Color } from "../../../../../stroll-enums/color";
+import { ElementID } from "../../../../enums/elementId";
 import { FormStatus } from "../../../../enums/formStatus";
 import { Icon } from "../../../../../stroll-enums/icon";
 import { ProfileFormAction } from "../../enums/profileFormAction";
@@ -54,6 +56,8 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props: ProfileFormProps)
 
         dispatch(ProfileFormAction.SetStatus, FormStatus.SubmitError);
       }
+
+      DomUtility.scrollToBottom(ElementID.UpdateProfileModal);
     }
   }
 
