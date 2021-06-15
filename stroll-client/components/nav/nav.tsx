@@ -3,17 +3,14 @@ import { NavLink } from "react-router-dom";
 
 import { AppContext } from "../app/contexts/appContext";
 
-import { AppAction } from "../../enums/appAction";
 import { AppStatus } from "../../enums/appStatus";
 
 interface NavProps {}
 
 export const Nav: React.FC<NavProps> = (props: NavProps) => {
-  const { appState, dispatchToApp } = useContext(AppContext);
+  const { appState } = useContext(AppContext);
 
-  const { status, toggles, user } = appState;
-
-  const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
+  const { status } = appState;
 
   if(status === AppStatus.SignedIn) {
     return (
