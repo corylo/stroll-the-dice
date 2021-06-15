@@ -98,7 +98,8 @@
         display: grid;
         grid-gap: 1em;
         grid-template-columns: repeat(auto-fill, minmax(20%, 1fr)); 
-        width: calc(100% - 10px);
+        padding: 5px 10px;
+        width: calc(100% - 20px);
 
         .nav-menu-button {
           justify-content: center;
