@@ -2,6 +2,7 @@ import React, { useReducer } from "react";
 import { Route, Switch, useLocation } from "react-router";
 
 import { CreateGamePage } from "../../pages/createGamePage/createGamePage";
+import { GamePage } from "../../pages/gamePage/gamePage";
 import { HomePage } from "../../pages/homePage/homePage";
 import { ProfilePage } from "../../pages/profilePage/profilePage";
 import { UserPage } from "../../pages/userPage/userPage";
@@ -56,6 +57,9 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
           </Route>
           <Route exact path="/create">
             <CreateGamePage />
+          </Route>
+          <Route exact path="/game/:id">
+            <GamePage />
           </Route>
         </Switch>
       </div>

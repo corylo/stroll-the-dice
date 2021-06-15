@@ -40,7 +40,7 @@
 }
 
 .button.fancy-button {
-  background: linear-gradient(to right, rgba($themeMain, 0.25), rgba($themeMain, 0.05));
+  background: $themeMainGradient;
   border: 1px solid rgba($themeMain, 0.5);
   display: inline-block;
   font-weight: bolder;

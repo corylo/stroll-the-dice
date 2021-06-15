@@ -25,7 +25,9 @@ export const GameFormUtility: IGameFormUtility = {
         uid: user.profile.uid,
         username: user.profile.username
       },
+      duration: fields.duration,
       id: Nano.generate(),
+      mode: fields.mode,
       name: fields.name,
     }
   },
@@ -40,6 +42,8 @@ export const GameFormUtility: IGameFormUtility = {
   },
   mapUpdate: (fields: IGameFormStateFields): IGameUpdate => {
     return {
+      duration: fields.duration,
+      mode: fields.mode,
       name: fields.name
     }
   }

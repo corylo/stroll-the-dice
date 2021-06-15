@@ -1,10 +1,13 @@
 import React, { useReducer } from "react";
 
 import { Button } from "../buttons/button";
+import { DurationSelector } from "./components/durationSelector/durationSelector";
 import { Form } from "../form/form";
 import { FormActions } from "../form/formActions";
 import { FormBody } from "../form/formBody";
+import { FormTitle } from "../form/formTitle";
 import { InputWrapper } from "../inputWrapper/inputWrapper";
+import { ModeSelector } from "./components/modeSelector/modeSelector";
 
 import { gameFormReducer } from "./reducers/gameFormReducer";
 
@@ -17,6 +20,8 @@ import { IGameFormStateFields } from "./models/gameFormStateFields";
 
 import { FormStatus } from "../../enums/formStatus";
 import { GameFormAction } from "./enums/gameFormAction";
+import { GameDuration } from "../../../stroll-enums/gameDuration";
+import { GameMode } from "../../../stroll-enums/gameMode";
 
 interface GameFormProps {  
   game?: IGame;
@@ -67,6 +72,7 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
       status={status}
       statusMessage={getStatusMessage()}
     >
+      <FormTitle text="Create Game" />
       <FormBody>
         <InputWrapper
           id="game-name-input" 
@@ -83,6 +89,24 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
             value={fields.name}
             onChange={(e: any) => dispatch(GameFormAction.SetName, e.target.value)}
             onKeyDown={handleOnKeyDown}
+          />
+        </InputWrapper>
+        <InputWrapper
+          label="Duration"
+          error={errors.duration}
+        >
+          <DurationSelector
+            selected={fields.duration}
+            select={(duration: GameDuration) => dispatch(GameFormAction.SetDuration, duration)} 
+          />
+        </InputWrapper>
+        <InputWrapper
+          label="Mode"
+          error={errors.mode}
+        >
+          <ModeSelector
+            selected={fields.mode}
+            select={(mode: GameMode) => dispatch(GameFormAction.SetMode, mode)} 
           />
         </InputWrapper>
       </FormBody>
