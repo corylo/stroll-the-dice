@@ -6,7 +6,7 @@
     align-items: center;
     display: inline-flex;
     position: relative;
-    z-index: 2;
+    z-index: 3;
 
     .user-link {
       .username {
@@ -18,6 +18,11 @@
     .game-duration,
     .game-mode {
       color: gray(230);
+    }
+
+    .game-mode {
+      text-align: center;
+      width: 20px;
     }
 
     > .dot {
