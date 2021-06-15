@@ -1,0 +1,9 @@
+#my-games-page {
+  .my-games {
+    .game-link-wrapper {
+      &:nth-of-type(n + 2) {
+        margin-top: 10px;
+      }
+    }
+  }
+}
