@@ -5,6 +5,7 @@ import { CreateGamePage } from "../../pages/createGamePage/createGamePage";
 import { GamePage } from "../../pages/gamePage/gamePage";
 import { HomePage } from "../../pages/homePage/homePage";
 import { MyGamesPage } from "../../pages/myGamesPage/myGamesPage";
+import { NotificationsPage } from "../../pages/notificationsPage/notificationsPage";
 import { ProfilePage } from "../../pages/profilePage/profilePage";
 import { UserPage } from "../../pages/userPage/userPage";
 
@@ -64,6 +65,9 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
           </Route>
           <Route exact path="/game/:id">
             <GamePage />
+          </Route>
+          <Route exact path="/notifications">
+            <NotificationsPage />
           </Route>
         </Switch>
       </div>

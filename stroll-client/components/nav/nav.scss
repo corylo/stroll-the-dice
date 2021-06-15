@@ -97,7 +97,7 @@
         box-shadow: rgba(0, 0, 0, 0.12) 0px -1px 6px, rgba(0, 0, 0, 0.12) 0px -1px 4px;
         display: grid;
         grid-gap: 1em;
-        grid-template-columns: repeat(auto-fill, minmax(20%, 1fr)); 
+        grid-template-columns: repeat(auto-fill, minmax(15vw, 1fr)); 
         padding: 5px 10px;
         width: calc(100% - 20px);
 
