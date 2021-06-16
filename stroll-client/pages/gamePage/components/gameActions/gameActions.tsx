@@ -32,7 +32,7 @@ export const GameActions: React.FC<GameActionsProps> = (props: GameActionsProps)
         key="copy"
         icon="fal fa-link"
         tooltip="Invite"
-        tooltipSide={TooltipSide.BottomLeft}
+        tooltipSide={TooltipSide.Right}
         value={InviteUtility.getLink(invite)}
       />
     )

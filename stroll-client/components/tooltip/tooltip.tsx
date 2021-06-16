@@ -5,7 +5,7 @@ export enum TooltipSide {
   Bottom = "bottom",
   BottomLeft = "bottom-left",
   Left = "left",
-  Right = "light"
+  Right = "right"
 }
 
 interface TooltipProps {
