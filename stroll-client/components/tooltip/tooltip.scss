@@ -19,6 +19,21 @@
       }
     }
   }
+
+  &.bottom-left {
+    bottom: -12px;
+    left: -10px;
+    transform: translateY(100%);
+
+    h1 {
+      &:after {
+        left: 15px;
+        position: absolute;
+        top: -5px;
+        transform: rotate(45deg);
+      }
+    }
+  }
   
   &.left {
     left: -12px;

@@ -2,9 +2,10 @@ import React from "react";
 import classNames from "classnames";
 
 export enum TooltipSide {
-  Bottom = "Bottom",
-  Left = "Left",
-  Right = "Right"
+  Bottom = "bottom",
+  BottomLeft = "bottom-left",
+  Left = "left",
+  Right = "light"
 }
 
 interface TooltipProps {
@@ -13,7 +14,7 @@ interface TooltipProps {
 }
 
 export const Tooltip: React.FC<TooltipProps> = (props: TooltipProps) => {
-  const classes: string = classNames("tooltip", props.side.toLowerCase());
+  const classes: string = classNames("tooltip", props.side);
 
   return(
     <div className={classes}>

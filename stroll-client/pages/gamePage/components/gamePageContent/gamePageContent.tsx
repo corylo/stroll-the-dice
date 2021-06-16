@@ -2,6 +2,7 @@ import React from "react";
 
 import { CopyButton } from "../../../../components/copyButton/copyButton";
 import { GameDetails } from "../../../../components/gameDetails/gameDetails";
+import { TooltipSide } from "../../../../components/tooltip/tooltip";
 import { UpdateGameButton } from "../updateGameButton/updateGameButton";
 import { UpdateGameModal } from "../updateGameModal/updateGameModal";
 
@@ -45,6 +46,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
             <CopyButton
               icon="fal fa-link"
               tooltip="Game"
+              tooltipSide={TooltipSide.BottomLeft}
               value={`${window.location.origin}/game/${game.id}`}
             />
             <UpdateGameButton creator={game.creator} toggle={() => toggle(true)} />

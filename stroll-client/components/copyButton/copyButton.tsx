@@ -6,6 +6,7 @@ import { TooltipSide } from "../tooltip/tooltip";
 interface CopyButtonProps {
   icon: string;
   tooltip: string;
+  tooltipSide?: TooltipSide;
   value: string;
 }
 
@@ -42,7 +43,7 @@ export const CopyButton: React.FC<CopyButtonProps> = (props: CopyButtonProps) =>
         className="copy-button-icon"
         icon={props.icon} 
         tooltip={copied ? "Copied" : `Copy ${props.tooltip}`}
-        tooltipSide={TooltipSide.Bottom}
+        tooltipSide={props.tooltipSide || TooltipSide.Bottom}
         handleOnClick={handleCopyLink} 
       />    
       <input 
