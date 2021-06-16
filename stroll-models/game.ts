@@ -34,10 +34,10 @@ export const gameConverter: firebase.firestore.FirestoreDataConverter<IGame> = {
     }
   },
   fromFirestore(
-    snapshot: firebase.firestore.QueryDocumentSnapshot,
+    snapshot: firebase.firestore.QueryDocumentSnapshot<IGame>,
     options: firebase.firestore.SnapshotOptions
   ): IGame {
-    const data: IGame = snapshot.data(options) as IGame;
+    const data: IGame = snapshot.data(options);
 
     return {
       createdAt: data.createdAt,

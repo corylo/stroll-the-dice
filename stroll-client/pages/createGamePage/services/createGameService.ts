@@ -5,6 +5,7 @@ import { db } from "../../../firebase";
 import { InviteUtility } from "../../../utilities/inviteUtility";
 
 import { gameConverter, IGame } from "../../../../stroll-models/game";
+import { gameSummaryConverter, IGameSummary } from "../../../../stroll-models/gameSummary";
 import { IInvite, inviteConverter } from "../../../../stroll-models/invite";
 
 interface ICreateGameService {
@@ -20,6 +21,14 @@ export const CreateGameService: ICreateGameService = {
       .withConverter(gameConverter);
 
     batch.set(gameRef, game);
+
+    const summaryRef: firebase.firestore.DocumentReference<IGameSummary> = db.collection("games")
+      .doc(game.id)
+      .collection("summary")
+      .doc(game.id)
+      .withConverter(gameSummaryConverter);
+
+    batch.set(summaryRef, { players: [] });
 
     const inviteRef: firebase.firestore.DocumentReference<IInvite> = db
       .collection("games")

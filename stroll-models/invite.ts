@@ -46,14 +46,8 @@ export const inviteConverter: firebase.firestore.FirestoreDataConverter<IInvite>
       createdAt: invite.createdAt,
       creator: invite.creator,
       duration: invite.duration,
-      ref: {
-        game: invite.ref.game,
-        team: invite.ref.team,
-      },
-      uses: {
-        current: invite.uses.current,
-        max: invite.uses.max
-      }
+      ref: invite.ref,
+      uses: invite.uses
     }
   },
   fromFirestore(
@@ -67,14 +61,8 @@ export const inviteConverter: firebase.firestore.FirestoreDataConverter<IInvite>
       creator: data.creator,
       duration: data.duration,
       id: snapshot.id,
-      ref: {
-        game: data.ref.game,
-        team: data.ref.team,
-      },
-      uses: {
-        current: data.uses.current,
-        max: data.uses.max
-      }
+      ref: data.ref,
+      uses: data.uses
     }
   }
 }

@@ -12,7 +12,7 @@ export const useClearParamsEffect = (param: string): void => {
     const value: string = UrlUtility.getQueryParam(param);
 
     if(value !== null) {
-      history.push(window.location.pathname);
+      history.replace(window.location.pathname);
     }
   }, []);
 }

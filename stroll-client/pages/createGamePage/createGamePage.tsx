@@ -21,10 +21,12 @@ interface CreateGamePageProps {
 export const CreateGamePage: React.FC<CreateGamePageProps> = (props: CreateGamePageProps) => {
   const { appState } = useContext(AppContext);
 
+  const { user } = appState;
+
   const history: any = useHistory();
 
   const save = async (fields: IGameFormStateFields): Promise<void> => {    
-    const game: IGame = GameFormUtility.mapCreate(fields, appState.user);
+    const game: IGame = GameFormUtility.mapCreate(fields, user);
 
     await CreateGameService.createGameAndInvite(game);
 

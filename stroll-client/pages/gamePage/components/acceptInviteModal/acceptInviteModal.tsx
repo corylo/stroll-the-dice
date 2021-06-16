@@ -37,7 +37,7 @@ export const AcceptInviteModal: React.FC<AcceptInviteModalProps> = (props: Accep
       try {
         setStatus(FormStatus.Submitting);
 
-        const player: IPlayer = PlayerUtility.mapCreate(user.profile, state.invite);
+        const player: IPlayer = PlayerUtility.mapCreate(user.profile, state.game, state.invite);
 
         await PlayerService.create(state.game, player);
         

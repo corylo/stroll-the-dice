@@ -2,28 +2,38 @@ import firebase from "firebase/app";
 
 import { defaultProfile, IProfile } from "./profile";
 
+export interface IPlayerRef {
+  game: string;
+  invite: string;
+}
+
+export const defaultPlayerRef = (): IPlayerRef => ({
+  game: "",
+  invite: ""
+});
+
 export interface IPlayer {
   createdAt: firebase.firestore.FieldValue;  
-  id: string;
-  inviteID: string;
+  id: string;  
   profile: IProfile;
+  ref: IPlayerRef;
   team: string;
 }
 
 export const defaultPlayer = (): IPlayer => ({
   createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-  id: "",
-  inviteID: "",
+  id: "",  
   profile: defaultProfile(),
+  ref: defaultPlayerRef(),
   team: ""
 });
 
 export const playerConverter: firebase.firestore.FirestoreDataConverter<IPlayer> = {
   toFirestore(player: IPlayer): firebase.firestore.DocumentData {
     return {
-      createdAt: player.createdAt,
-      inviteID: player.inviteID,
+      createdAt: player.createdAt,      
       profile: player.profile,
+      ref: player.ref,
       team: player.team
     }
   },
@@ -34,10 +44,10 @@ export const playerConverter: firebase.firestore.FirestoreDataConverter<IPlayer>
     const data: IPlayer = snapshot.data(options);
 
     return {
-      createdAt: data.createdAt,
-      inviteID: data.inviteID,
+      createdAt: data.createdAt,      
       profile: data.profile,
       id: snapshot.id,
+      ref: data.ref,
       team: data.team
     }
   }
