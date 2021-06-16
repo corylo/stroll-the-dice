@@ -14,8 +14,8 @@ interface IGameService {
 export const GameService: IGameService = {
   batchUpdate: async (batch: firebase.firestore.WriteBatch, uid: string, update: IProfileUpdate): Promise<firebase.firestore.WriteBatch> => {    
     const snap: firebase.firestore.QuerySnapshot = await db.collection("games")
-    .where("creator.uid", "==", uid)
-    .get();
+      .where("creator.uid", "==", uid)
+      .get();
 
     snap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => {
       const game: IGame = doc.data();

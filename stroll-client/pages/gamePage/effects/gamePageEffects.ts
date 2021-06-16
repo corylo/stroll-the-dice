@@ -1,24 +1,27 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { GameService } from "../../../services/gameService";
 import { InviteService } from "../../../services/inviteService";
 
 import { ErrorUtility } from "../../../utilities/errorUtility";
+import { InviteUtility } from "../../../utilities/inviteUtility";
+import { UrlUtility } from "../../../utilities/urlUtility";
 
 import { IGame } from "../../../../stroll-models/game";
 import { IGamePageState } from "../models/gamePageState";
 import { IInvite } from "../../../../stroll-models/invite";
+import { IUser } from "../../../models/user";
 
 import { DocumentType } from "../../../../stroll-enums/documentType";
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
 
-export const useFetchGameEffect = (id: string, state: IGamePageState, setState: (state: IGamePageState) => void): IGamePageState => { 
+export const useFetchGameEffect = (id: string, state: IGamePageState, setState: (state: IGamePageState) => void): void => { 
   useEffect(() => {
     if(id.trim() !== "") {
       const fetch = async (): Promise<void> => {
         try {
           const game: IGame = await GameService.get(id),
-            invite: IInvite = await InviteService.get(game);
+            invite: IInvite = await InviteService.get.by.game(game);
 
           if(game !== null) {
             setState({ ...state, game, invite, status: RequestStatus.Success });
@@ -39,6 +42,28 @@ export const useFetchGameEffect = (id: string, state: IGamePageState, setState: 
       fetch();
     }
   }, [id]);
-  
-  return state;
+}
+
+export const useGameInviteEffect = (user: IUser, state: IGamePageState, setState: (state: IGamePageState) => void): void => {
+  const [inviteID] = useState<string>(UrlUtility.getQueryParam("invite"));
+
+  useEffect(() => {
+    const load = async (): Promise<void> => {
+      if(InviteUtility.showInvite(inviteID, state.invite, state.game, user)) {
+        try {
+          const invite: IInvite = await InviteService.get.by.id(state.game, inviteID);
+
+          setState({ 
+            ...state, 
+            invite,
+            toggles: { ...state.toggles, invite: true } 
+          });
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    }
+
+    load();
+  }, [user, state.game, state.invite]);
 }

@@ -90,12 +90,19 @@
     }
 
     .modal-actions {
-      margin-top: 10px;
-
-      .button {
-        color: white;
+      margin-top: 20px;
+  
+      .submit-button {
         font-size: 2em;
-        padding: 10px 20px;
+        width: 100%;
+  
+        &:nth-child(n + 2) {
+          margin-top: 10px;
+        }
+      }
+  
+      a.submit-button {
+        width: calc(100% - 40px);
       }
     }
   }

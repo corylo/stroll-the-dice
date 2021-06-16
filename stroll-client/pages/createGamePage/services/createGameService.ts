@@ -25,7 +25,7 @@ export const CreateGameService: ICreateGameService = {
       .collection("games")
       .doc(game.id)
       .collection("invites")
-      .doc(game.id)
+      .doc()
       .withConverter(inviteConverter);
 
     batch.set(inviteRef, InviteUtility.mapCreate(game, game.creator));

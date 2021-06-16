@@ -1,16 +1,17 @@
 import firebase from "firebase/app";
 
 import { DateUtility } from "./dateUtility";
-import { Nano } from "./nanoUtility";
 import { UrlUtility } from "./urlUtility";
 
 import { IGame } from "../../stroll-models/game";
 import { IInvite } from "../../stroll-models/invite";
 import { IProfile } from "../../stroll-models/profile";
+import { IUser } from "../models/user";
 
 interface IInviteUtility {
   getLink: (invite: IInvite) => string;
   mapCreate: (game: IGame, creator: IProfile) => IInvite;
+  showInvite: (id: string, invite: IInvite, game: IGame, user: IUser) => boolean;
 }
 
 export const InviteUtility: IInviteUtility = {
@@ -22,7 +23,7 @@ export const InviteUtility: IInviteUtility = {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       creator,
       duration: DateUtility.daysToMillis(365),
-      id: Nano.generate(),
+      id: "",
       ref: {
         game: game.id,
         team: "",
@@ -32,5 +33,15 @@ export const InviteUtility: IInviteUtility = {
         max: 10000
       }
     }
+  },
+  showInvite: (id: string, invite: IInvite, game: IGame, user: IUser): boolean => {
+    return (
+      invite === null &&
+      id !== null &&
+      user !== null && 
+      user.profile !== null &&
+      game !== null &&
+      user.profile.uid !== game.creator.uid
+    )
   }
 }

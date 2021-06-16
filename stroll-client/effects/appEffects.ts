@@ -1,14 +1,15 @@
 import { useEffect } from "react";
 import { useHistory } from "react-router";
 
+import { UrlUtility } from "../utilities/urlUtility";
+
 import { ElementID } from "../enums/elementId";
 
 export const useClearParamsEffect = (param: string): void => {
   const history: any = useHistory();
 
   useEffect(() => {
-    const params: URLSearchParams = new URLSearchParams(window.location.search),
-      value: string | null = params.get(param);
+    const value: string = UrlUtility.getQueryParam(param);
 
     if(value !== null) {
       history.push(window.location.pathname);

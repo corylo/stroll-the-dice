@@ -1,0 +1,14 @@
+#accept-invite-modal {
+  .modal-content {
+    .form-body {
+      background-color: gray(40);
+      border-radius: 10px;
+      padding: 10px;
+
+      .game-name {
+        color: gray(230);
+        font-size: 2em;
+      }
+    }
+  }
+}

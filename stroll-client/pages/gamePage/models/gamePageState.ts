@@ -1,8 +1,8 @@
 import { IGame } from "../../../../stroll-models/game";
 import { defaultGamePageStateToggles, IGamePageStateToggles } from "./gamePageStateToggles"
+import { IInvite } from "../../../../stroll-models/invite";
 
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
-import { IInvite } from "../../../../stroll-models/invite";
 
 export interface IGamePageState {
   game: IGame;
