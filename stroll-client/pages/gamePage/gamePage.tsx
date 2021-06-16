@@ -20,7 +20,9 @@ interface GamePageProps {
 export const GamePage: React.FC<GamePageProps> = (props: GamePageProps) => {
   const [state, setState] = useState<IGamePageState>(defaultGamePageState());
 
-  useFetchGameEffect(UrlUtility.getParam(useRouteMatch(), "id"), state, setState);
+  const id: string = UrlUtility.getParam(useRouteMatch(), "id");
+
+  useFetchGameEffect(id, state, setState);
 
   return(
     <Page 

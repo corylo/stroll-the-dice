@@ -6,6 +6,7 @@ import { auth } from "../firebase";
 
 import { ProfileService } from "../services/profileService";
 
+import { ErrorUtility } from "../utilities/errorUtility";
 import { UserUtility } from "../utilities/userUtility";
 
 import { IAppState } from "../components/app/models/appState";
@@ -13,7 +14,7 @@ import { IUser } from "../models/user";
 
 import { AppAction } from "../enums/appAction";
 import { AppStatus } from "../enums/appStatus";
-import { ProfileErrorCode } from "../enums/profileErrorCode";
+import { DocumentType } from "../../stroll-enums/documentType";
 
 export const useAuthStateChangedEffect = (appState: IAppState, dispatch: (type: AppAction, payload?: any) => void): void => {
   useEffect(() => {
@@ -28,7 +29,7 @@ export const useAuthStateChangedEffect = (appState: IAppState, dispatch: (type: 
         } catch (err) {
           console.error(err);
           
-          if(err.message === ProfileErrorCode.DoesNotExist) {
+          if(err.message === ErrorUtility.doesNotExist(DocumentType.Profile)) {
             dispatch(AppAction.SignInUserForFirstTime, user);
           }
         }

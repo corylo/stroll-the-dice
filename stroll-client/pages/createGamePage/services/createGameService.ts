@@ -21,8 +21,11 @@ export const CreateGameService: ICreateGameService = {
 
     batch.set(gameRef, game);
 
-    const inviteRef: firebase.firestore.DocumentReference<IInvite> = db.collection("invites")
-      .doc()
+    const inviteRef: firebase.firestore.DocumentReference<IInvite> = db
+      .collection("games")
+      .doc(game.id)
+      .collection("invites")
+      .doc(game.id)
       .withConverter(inviteConverter);
 
     batch.set(inviteRef, InviteUtility.mapCreate(game, game.creator));

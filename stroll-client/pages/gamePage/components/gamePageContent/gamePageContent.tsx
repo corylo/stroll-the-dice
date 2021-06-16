@@ -1,9 +1,7 @@
 import React from "react";
 
-import { CopyButton } from "../../../../components/copyButton/copyButton";
+import { GameActions } from "../gameActions/gameActions";
 import { GameDetails } from "../../../../components/gameDetails/gameDetails";
-import { TooltipSide } from "../../../../components/tooltip/tooltip";
-import { UpdateGameButton } from "../updateGameButton/updateGameButton";
 import { UpdateGameModal } from "../updateGameModal/updateGameModal";
 
 import { GameService } from "../../../../services/gameService";
@@ -22,7 +20,7 @@ interface GamePageContentProps {
 }
 
 export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageContentProps) => {
-  const { game, status, toggles } = props.state;
+  const { game, invite, status, toggles } = props.state;
   
   if(status === RequestStatus.Success && game !== null) {
     const toggle = (update: boolean): void => {
@@ -36,21 +34,17 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
   
       props.setState({ ...props.state, game: { ...game, ...update } });
     }
-  
+
     return (
       <div className="game-page-content">
         <GameDetails game={game} />
         <div className="game-page-body">
           <h1 className="game-name passion-one-font">{game.name}</h1>
-          <div className="game-actions">    
-            <CopyButton
-              icon="fal fa-link"
-              tooltip="Invite"
-              tooltipSide={TooltipSide.BottomLeft}
-              value={`${window.location.origin}/game/${game.id}`}
-            />
-            <UpdateGameButton creator={game.creator} toggle={() => toggle(true)} />
-          </div>
+          <GameActions 
+            creator={game.creator}
+            invite={invite}
+            toggle={() => toggle(true)}
+          />
         </div>
         <UpdateGameModal state={props.state} cancel={() => toggle(false)} update={updateGame} />
       </div>

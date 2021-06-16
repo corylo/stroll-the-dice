@@ -31,7 +31,7 @@ export const useFetchGamesEffect = (appState: IAppState, limit?: number): IUseFe
     if(appState.status === AppStatus.SignedIn) {
       const fetch = async (): Promise<void> => {
         try {
-          const results: IGame[] = await GameService.fetchGames(user.profile.uid, limit);
+          const results: IGame[] = await GameService.getAll(user.profile.uid, limit);
           
           setState({ games: results, status: RequestStatus.Success });
         } catch (err) {

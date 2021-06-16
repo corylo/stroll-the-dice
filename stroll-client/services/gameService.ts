@@ -8,8 +8,8 @@ import { IGameUpdate } from "../../stroll-models/gameUpdate";
 interface IGameService {
   create: (game: IGame) => Promise<void>;
   delete: (id: string) => Promise<void>;
-  fetchGame: (id: string) => Promise<IGame>;
-  fetchGames: (uid: string, limit?: number) => Promise<IGame[]>;
+  get: (id: string) => Promise<IGame>;
+  getAll: (uid: string, limit?: number) => Promise<IGame[]>;
   update: (id: string, update: IGameUpdate) => Promise<void>;  
 }
 
@@ -25,17 +25,15 @@ export const GameService: IGameService = {
       .doc(id)
       .delete();
   },
-  fetchGame: async (id: string): Promise<IGame> => {
-    const doc: firebase.firestore.DocumentSnapshot = await db.collection("games")
+  get: async (id: string): Promise<IGame> => {
+    const doc: firebase.firestore.DocumentSnapshot<IGame> = await db.collection("games")
       .doc(id)
       .withConverter(gameConverter)
       .get();
 
-    return doc.exists 
-      ? doc.data() as IGame
-      : null;
+    return doc.exists ? doc.data() : null;
   },
-  fetchGames: async (uid: string, limit?: number): Promise<IGame[]> => {
+  getAll: async (uid: string, limit?: number): Promise<IGame[]> => {
     const snap: firebase.firestore.QuerySnapshot = await db.collection("games")
       .where("creator.uid", "==", uid)
       .orderBy("createdAt", "desc")      

@@ -2,10 +2,12 @@ import firebase from "firebase/app";
 
 import { db } from "../firebase";
 
+import { ErrorUtility } from "../utilities/errorUtility";
+
 import { IProfile, profileConverter } from "../../stroll-models/profile";
 import { IProfileUpdate } from "../../stroll-models/profileUpdate";
 
-import { ProfileErrorCode } from "../enums/profileErrorCode";
+import { DocumentType } from "../../stroll-enums/documentType";
 
 interface IProfileServiceGetBy {
   id: (id: string) => Promise<IProfile>;
@@ -46,7 +48,7 @@ export const ProfileService: IProfileService = {
           return profiles[0];
         }
 
-        throw new Error(ProfileErrorCode.DoesNotExist);
+        throw new Error(ErrorUtility.doesNotExist(DocumentType.Profile));
       },
       uid: async (uid: string): Promise<IProfile> => {
         const doc: firebase.firestore.DocumentData = await db.collection("profiles")
@@ -58,7 +60,7 @@ export const ProfileService: IProfileService = {
           return doc.data() as IProfile;
         }
 
-        throw new Error(ProfileErrorCode.DoesNotExist);
+        throw new Error(ErrorUtility.doesNotExist(DocumentType.Profile));
       }
     }
   },
