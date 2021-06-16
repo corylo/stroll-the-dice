@@ -1,11 +1,15 @@
 import firebase from "firebase/app";
 
 interface IDateUtility {
+  daysToMillis: (days: number) => number;
   formatRelative: (seconds: number) => string;
   stringToFirestoreTimestamp: (date: string) => firebase.firestore.Timestamp;
 }
 
 export const DateUtility: IDateUtility = {
+  daysToMillis: (days: number): number => {
+    return days * 24 * 3600 * 1000;
+  },
   formatRelative: (seconds: number): string => {
     const relativeMillis: number = Math.abs(
         seconds * 1000 - new Date().getTime()

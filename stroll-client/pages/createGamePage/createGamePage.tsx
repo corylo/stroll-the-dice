@@ -6,7 +6,7 @@ import { Page } from "../../components/page/page";
 
 import { AppContext } from "../../components/app/contexts/appContext";
 
-import { GameService } from "../../services/gameService";
+import { CreateGameService } from "./services/createGameService";
 
 import { GameFormUtility } from "../../components/gameForm/utilities/gameFormUtility";
 import { ImageUtility } from "../../utilities/imageUtility";
@@ -26,7 +26,7 @@ export const CreateGamePage: React.FC<CreateGamePageProps> = (props: CreateGameP
   const save = async (fields: IGameFormStateFields): Promise<void> => {    
     const game: IGame = GameFormUtility.mapCreate(fields, appState.user);
 
-    await GameService.create(game);
+    await CreateGameService.createGameAndInvite(game);
 
     history.push(`/game/${game.id}`);
   }
