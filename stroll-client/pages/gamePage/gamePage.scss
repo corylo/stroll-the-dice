@@ -1,21 +1,2 @@
+@import "./components/gamePageContent/gamePageContent.scss";
 @import "./components/updateGameModal/updateGameModal.scss";
-
-#game-page {
-  .game-page-body {
-    margin-top: 5px;
-
-    .game-name {
-      color: gray(230);
-      font-size: 2em;
-    }
-
-    .game-actions {
-      align-items: center;
-      border: 1px solid rgba(white, 0.25);
-      border-radius: 6px;
-      display: inline-flex;
-      margin-top: 5px;
-      padding: 0px 10px;
-    }
-  }
-}

@@ -38,7 +38,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
     }
   
     return (
-      <React.Fragment>
+      <div className="game-page-content">
         <GameDetails game={game} />
         <div className="game-page-body">
           <h1 className="game-name passion-one-font">{game.name}</h1>
@@ -53,7 +53,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
           </div>
         </div>
         <UpdateGameModal state={props.state} cancel={() => toggle(false)} update={updateGame} />
-      </React.Fragment>
+      </div>
     )
   }
 
