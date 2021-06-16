@@ -1,9 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 
-import { Button } from "../buttons/button";
 import { CopyButton } from "../copyButton/copyButton";
 import { Dot } from "../dot/dot";
+import { IconButton } from "../buttons/iconButton";
 import { ProfileIcon } from "../profileIcon/profileIcon";
+import { TooltipSide } from "../tooltip/tooltip";
 
 import { AppContext } from "../app/contexts/appContext";
 
@@ -28,7 +29,17 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (props: ProfileHeader
   const getFullName = (): JSX.Element => {
     if(user && user.profile.uid === profile.uid) {
       return (
-        <h1 className="profile-full-name passion-one-font">{user.name}</h1>
+        <div className="profile-full-name-wrapper">
+          <h1 className="profile-full-name passion-one-font">{user.name}</h1>
+          <Dot />
+          <IconButton
+            className="update-profile-button inline-icon-button"
+            icon="fal fa-pen" 
+            tooltip="Update"
+            tooltipSide={TooltipSide.Bottom}
+            handleOnClick={() => dispatch(AppAction.ToggleUpdateProfile, !appState.toggles.profile)} 
+          />
+        </div>
       )
     }
   }
@@ -40,25 +51,11 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (props: ProfileHeader
           <h1 className="passion-one-font">{profile.username}</h1>
           <Dot />
           <CopyButton
-            icon="fad fa-link"
+            icon="fal fa-link"
             tooltip="Profile"
             value={`${window.location.origin}/u/${profile.id}/${UrlUtility.format(profile.username)}`}
           />
         </div>
-      )
-    }
-  }
-
-  const getUpdateButton = (): JSX.Element => {
-    if(user && user.profile.uid === profile.uid) {
-      return (        
-        <Button 
-          className="update-profile-button fancy-button" 
-          handleOnClick={() => dispatch(AppAction.ToggleUpdateProfile, !appState.toggles.profile)}
-        >
-          <i className="fad fa-pen" />
-          <h1 className="passion-one-font">Update</h1>
-        </Button>
       )
     }
   }
@@ -68,7 +65,6 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (props: ProfileHeader
       <ProfileIcon color={profile.color} icon={profile.icon} />
       {getFullName()}
       {getUsername()}
-      {getUpdateButton()}
     </div>
   );
 }

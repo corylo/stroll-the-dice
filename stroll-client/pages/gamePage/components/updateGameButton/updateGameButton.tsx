@@ -25,8 +25,8 @@ export const UpdateGameButton: React.FC<UpdateGameButtonProps> = (props: UpdateG
       <React.Fragment>
         <Dot />
         <IconButton
-          className="update-game-button"
-          icon="fad fa-pen" 
+          className="update-game-button inline-icon-button"
+          icon="fal fa-pen" 
           tooltip="Update"
           tooltipSide={TooltipSide.Bottom}
           handleOnClick={toggle} 

@@ -9,9 +9,14 @@
     width: 100px;
   }
 
-  .profile-full-name {
-    color: white;
-    font-size: 2em;
+  .profile-full-name-wrapper {
+    display: flex;
+    justify-content: center;
+
+    .profile-full-name {
+      color: white;
+      font-size: 2em;
+    }
   }
 
   .profile-username {
@@ -24,19 +29,6 @@
     > h1 {
       color: rgba(white, 0.5);
       font-size: 1.5em;
-    }
-  }
-
-  .update-profile-button {
-    margin-top: 10px;
-    padding: 5px 15px;
-
-    i {
-      font-size: 1em;
-    }
-
-    > h1 {
-      font-size: 1.1em;
     }
   }
 }

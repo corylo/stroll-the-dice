@@ -39,6 +39,26 @@
   }
 }
 
+.inline-icon-button {       
+  background-color: transparent;
+
+  &:hover,
+  &:focus {
+    background-color: transparent;
+    
+    i {
+      color: $themeMain;
+    }
+  }
+  
+  i {
+    font-size: 1em;
+    height: 20px;
+    line-height: 20px;
+    width: 20px;
+  }
+}
+
 .button.fancy-button {
   background: $themeMainGradient;
   border: 1px solid rgba($themeMain, 0.5);
