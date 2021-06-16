@@ -1,5 +1,6 @@
 import React from "react";
 
+import { CopyButton } from "../../../../components/copyButton/copyButton";
 import { GameDetails } from "../../../../components/gameDetails/gameDetails";
 import { UpdateGameButton } from "../updateGameButton/updateGameButton";
 import { UpdateGameModal } from "../updateGameModal/updateGameModal";
@@ -39,8 +40,13 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
       <React.Fragment>
         <GameDetails game={game} />
         <div className="game-page-body">
-          <div className="game-name-wrapper">
-            <h1 className="game-name passion-one-font">{game.name}</h1>          
+          <h1 className="game-name passion-one-font">{game.name}</h1>
+          <div className="game-actions">    
+            <CopyButton
+              icon="fal fa-link"
+              tooltip="Game"
+              value={`${window.location.origin}/game/${game.id}`}
+            />
             <UpdateGameButton creator={game.creator} toggle={() => toggle(true)} />
           </div>
         </div>
