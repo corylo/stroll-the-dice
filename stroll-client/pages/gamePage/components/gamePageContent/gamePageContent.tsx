@@ -45,7 +45,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
           <div className="game-actions">    
             <CopyButton
               icon="fal fa-link"
-              tooltip="Game"
+              tooltip="Invite"
               tooltipSide={TooltipSide.BottomLeft}
               value={`${window.location.origin}/game/${game.id}`}
             />
