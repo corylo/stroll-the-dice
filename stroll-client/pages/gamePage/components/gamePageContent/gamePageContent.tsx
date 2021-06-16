@@ -32,10 +32,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
       
       await GameService.update(game.id, update);
   
-      props.setState({ 
-        ...props.state, 
-        game: { ...game, ...update } 
-      });
+      props.setState({ ...props.state, game: { ...game, ...update } });
     }
   
     return (

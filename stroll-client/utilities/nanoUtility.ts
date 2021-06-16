@@ -8,7 +8,7 @@ export const Nano: INanoUtility = {
   generate: (length?: number): string => {
     const id: () => string = customAlphabet(
       "0123456789abcdefghijklmnopqrstuvwxyz",
-      length || 10
+      length || 14
     );
 
     return id();
