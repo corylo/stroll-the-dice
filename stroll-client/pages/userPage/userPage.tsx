@@ -62,6 +62,12 @@ export const UserPage: React.FC<UserPageProps> = (props: UserPageProps) => {
     fetch();
   }, []);
 
+  useEffect(() => {
+    if(user && user.profile.id === id) {
+      setState({ ...state, profile: user.profile });
+    }
+  }, [user]);
+
   return(
     <Page id="user-page" status={state.status} backgroundGraphic={ImageUtility.getGraphic(Graphic.CityWalk)}>    
       <ProfileHeader profile={state.profile} /> 

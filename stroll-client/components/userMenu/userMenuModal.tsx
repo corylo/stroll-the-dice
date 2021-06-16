@@ -88,7 +88,7 @@ export const UserMenuModal: React.FC<UserMenuModalProps> = (props: UserMenuModal
         {getUserIcon()}
         <div id="user-menu-content">
           {getUserInfo()}
-          {/* <Button className="user-menu-item passion-one-font" url="https://legal.roool.io" external>
+          {/* <Button className="user-menu-item passion-one-font" url="https://legal.strollthedice.com" external>
             Legal
           </Button> */}
           {getSignOutButton()}
