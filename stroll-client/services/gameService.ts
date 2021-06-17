@@ -46,7 +46,7 @@ export const GameService: IGameService = {
     snap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => 
       games.push(doc.data()));
       
-    return games;
+    return list.map((id: string) => games.find((game: IGame) => game.id === id));
   },
   getAllMyGames: async (uid: string, limit?: number): Promise<IGame[]> => {
     const snap: firebase.firestore.QuerySnapshot<IGame> = await db.collection("games")
@@ -67,6 +67,7 @@ export const GameService: IGameService = {
     const snap: firebase.firestore.QuerySnapshot = await db.collection("profiles")      
       .doc(uid)
       .collection("playing_in")
+      .orderBy("createdAt", "desc")
       .get();
 
     let ids: string[] = [];

@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import classNames from "classnames";
 
 import { GameLink } from "../gameLink/gameLink";
 import { LoadingIcon } from "../loadingIcon/loadingIcon";
@@ -8,8 +9,8 @@ import { AppContext } from "../app/contexts/appContext";
 import { useFetchGamesEffect } from "../../effects/gameEffects";
 
 import { IGame } from "../../../stroll-models/game";
+
 import { RequestStatus } from "../../../stroll-enums/requestStatus";
-import classNames from "classnames";
 
 interface GamesProps {  
   limit: number;
