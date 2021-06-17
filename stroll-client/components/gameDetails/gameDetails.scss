@@ -1,40 +1,28 @@
 .game-details {
   align-items: center;
-  display: inline-flex;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 5px;
   position: relative;
   z-index: 3;
 
-  .user-link {
-    .username-wrapper {
-      margin-left: 5px;
-      
-      .username {
-        font-size: 1em;
-      }
-    }
+  .game-duration,
+  .game-mode,
+  .game-player-count {
+    background-color: gray(20);
+    border-radius: 100px;
+    color: gray(230);
+    padding: 5px 15px;
   }
 
   .game-duration,
   .game-mode {
-    color: gray(230);
-  }
-
-  .game-mode {
-    text-align: center;
-    width: 20px;
+    margin-right: 10px;
   }
 }
 
 @include small-phone-or-smaller {
   .game-details {
     width: 100%;
-
-    .user-link {
-      max-width: calc(100% - 90px);
-
-      .username-wrapper {
-        max-width: calc(100% - 39px);
-      }
-    }
   }
 }

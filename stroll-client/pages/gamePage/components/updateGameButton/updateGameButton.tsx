@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 
 import { Dot } from "../../../../components/dot/dot";
 import { IconButton } from "../../../../components/buttons/iconButton";
-import { TooltipSide } from "../../../../components/tooltip/tooltip";
 
 import { AppContext } from "../../../../components/app/contexts/appContext";
 
@@ -28,7 +27,6 @@ export const UpdateGameButton: React.FC<UpdateGameButtonProps> = (props: UpdateG
           className="update-game-button inline-icon-button"
           icon="fal fa-pen" 
           tooltip="Update"
-          tooltipSide={TooltipSide.Bottom}
           handleOnClick={toggle} 
         />
       </React.Fragment>

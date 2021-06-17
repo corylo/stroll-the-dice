@@ -20,7 +20,15 @@ export const Label: React.FC<LabelProps> = (props: LabelProps) => {
     }
   }
 
-  if(props.text) {
+  if(props.text && props.icon) {
+    return (
+      <div className={classNames("label", "combo", props.className)}>
+        <i className={props.icon} />
+        <h1 className="passion-one-font">{props.text}</h1>      
+        {getTooltip()}          
+      </div>
+    )
+  } else if(props.text) {
     return (
       <h1 className={classNames("label", props.className)}>
         {props.text}

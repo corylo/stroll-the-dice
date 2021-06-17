@@ -3,8 +3,8 @@ import React, { useContext } from "react";
 import { AcceptInviteModal } from "../acceptInviteModal/acceptInviteModal";
 import { GameActions } from "../gameActions/gameActions";
 import { GameDetails } from "../../../../components/gameDetails/gameDetails";
-import { GamePlayersPreview } from "../gamePlayersPreview/gamePlayersPreview";
 import { UpdateGameModal } from "../updateGameModal/updateGameModal";
+import { UserLink } from "../../../../components/userLink/userLink";
 
 import { GamePageContext } from "../../gamePage";
 
@@ -26,15 +26,15 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
 
     return (
       <div className="game-page-content">
-        <GameDetails game={game} />
+        <UserLink profile={game.creator} tooltip="Creator" />
         <div className="game-page-body">
           <h1 className="game-name passion-one-font">{game.name}</h1>
+          <GameDetails game={game} summary={summary} />
           <GameActions 
             creator={game.creator}
             invite={invite}
             toggle={() => toggle({ update: true })}
           />
-          <GamePlayersPreview game={game} summary={summary} />
         </div>
         <UpdateGameModal back={() => toggle({ update: false })} />
         <AcceptInviteModal back={() => toggle({ invite: false })} />

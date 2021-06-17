@@ -2,6 +2,7 @@ import React from "react";
 
 import { Button } from "../buttons/button";
 import { GameDetails } from "../gameDetails/gameDetails";
+import { UserLink } from "../userLink/userLink";
 
 import { IGame } from "../../../stroll-models/game";
 
@@ -14,10 +15,11 @@ export const GameLink: React.FC<GameLinkProps> = (props: GameLinkProps) => {
 
   return ( 
     <div className="game-link-wrapper">
-      <GameDetails game={game} />
       <Button key={game.id} className="game-link" url={`/game/${game.id}`} />
+      <UserLink profile={game.creator} tooltip="Creator" />
       <div className="game-link-body">
         <h1 className="game-name passion-one-font">{game.name}</h1>
+        <GameDetails game={game} />
       </div>
     </div>
   ); 

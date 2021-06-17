@@ -4,6 +4,7 @@ import classNames from "classnames";
 export enum TooltipSide {
   Bottom = "bottom",
   BottomLeft = "bottom-left",
+  BottomRight = "bottom-right",
   Left = "left",
   Right = "right"
 }

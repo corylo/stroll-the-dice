@@ -20,7 +20,7 @@
     align-items: center;
     display: flex;
     height: 100%;
-    margin-left: 10px;
+    margin-left: 5px;
     position: relative;
 
     &:hover,
@@ -38,7 +38,7 @@
     .username {
       color: gray(230);
       display: inline-block;
-      font-size: 1.25em;
+      font-size: 1em;
       font-weight: bolder;
       overflow: hidden;
       position: relative;

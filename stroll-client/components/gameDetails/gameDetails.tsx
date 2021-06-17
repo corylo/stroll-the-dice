@@ -1,39 +1,54 @@
 import React from "react";
 
-import { Dot } from "../dot/dot";
 import { Label } from "../label/label";
-import { TooltipSide } from "../tooltip/tooltip";
-import { UserLink } from "../userLink/userLink";
 
 import { GameDurationUtility } from "../../utilities/gameDurationUtility";
 import { GameModeUtility } from "../../utilities/gameModeUtility";
 
 import { IGame } from "../../../stroll-models/game";
+import { IGameSummary } from "../../../stroll-models/gameSummary";
 
 interface GameDetailsProps {  
   game: IGame;
+  summary?: IGameSummary;
 }
 
 export const GameDetails: React.FC<GameDetailsProps> = (props: GameDetailsProps) => {  
-  const { game } = props;
+  const { game, summary } = props;
+
+  const getPlayerCount = (): JSX.Element => {
+    if(summary) {
+      const getText = (): string => {
+        if(summary.players.length === 1) {
+          return `${summary.players.length} player`;
+        }
+  
+        return `${summary.players.length} players`;
+      }
+
+      return (
+        <Label 
+          className="game-player-count passion-one-font" 
+          text={getText()} 
+        />
+      )
+    }
+  }
 
   return ( 
     <div className="game-details">
-      <UserLink profile={game.creator} tooltip="Creator" />
-      <Dot />
       <Label 
         className="game-duration passion-one-font" 
-        text={GameDurationUtility.getShortLabel(game.duration)} 
-        tooltip={GameDurationUtility.getLabel(game.duration)}
-        tooltipSide={TooltipSide.Bottom}
+        text={GameDurationUtility.getLabel(game.duration)} 
+        tooltip="Duration"
       />
-      <Dot />
       <Label 
-        className="game-mode" 
-        icon={GameModeUtility.getIcon(game.mode)} 
-        tooltip={game.mode}
-        tooltipSide={TooltipSide.Bottom}
+        className="game-mode passion-one-" 
+        icon={GameModeUtility.getIcon(game.mode)}
+        text={game.mode}
+        tooltip="Mode"
       />
+      {getPlayerCount()}
     </div>
   ); 
 }
