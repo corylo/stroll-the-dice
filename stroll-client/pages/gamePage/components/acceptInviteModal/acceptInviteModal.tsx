@@ -42,7 +42,7 @@ export const AcceptInviteModal: React.FC<AcceptInviteModalProps> = (props: Accep
 
         await PlayerService.create(state.game, player);
         
-        setState({ ...state, toggles: { ...state.toggles, invite: false } });
+        setState({ ...state, toggles: { ...state.toggles, accept: false } });
       } catch (err) {
         console.error(err);
 
