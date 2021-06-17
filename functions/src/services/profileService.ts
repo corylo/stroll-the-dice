@@ -30,11 +30,11 @@ export const ProfileService: IProfileService = {
   
         const update: IProfileUpdate = ProfileUtility.mapUpdate(after);
   
-        await GameService.batch.update(batch, after.uid, update);
+        await GameService.batch.update(batch, context.params.id, update);
 
-        await PlayerService.batch.update(batch, after.uid, update);
+        await PlayerService.batch.update(batch, context.params.id, update);
 
-        await InviteService.batch.update(batch, after.uid, update);
+        await InviteService.batch.update(batch, context.params.id, update);
   
         const results: firebase.firestore.WriteResult[] = await batch.commit();
   

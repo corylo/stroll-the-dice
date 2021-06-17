@@ -8,5 +8,5 @@ exports.onProfileUpdate = firestore
   .onUpdate(ProfileService.onUpdate);
 
 exports.onPlayerCreate = firestore
-  .document("games/{gameID}/players/{playerID}")
+  .document("games/{gameID}/players/{id}")
   .onCreate(PlayerService.onCreate);
