@@ -1,3 +1,5 @@
+import { DateUtility } from "../../../utilities/dateUtility";
+
 import { IGameFormStateErrors } from "../models/gameFormStateErrors";
 import { IGameFormStateFields } from "../models/gameFormStateFields";
 
@@ -26,6 +28,14 @@ export const GameFormValidator: IGameFormValidator = {
 
     if(fields.mode === GameMode.None) {
       errors.mode = FormError.MissingValue;
+      errorCount++;
+    }
+
+    if(!DateUtility.valid(fields.startsAt)) {
+      errors.startsAt = FormError.InvalidValue;
+      errorCount++;
+    } else if (!DateUtility.withinBoundaries(fields.startsAt)) {
+      errors.startsAt = FormError.DateRequirementNotMet;
       errorCount++;
     }
 

@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 
+import { DateUtility } from "../../../utilities/dateUtility";
 import { Nano } from "../../../utilities/nanoUtility";
 
 import { IGame } from "../../../../stroll-models/game";
@@ -21,13 +22,14 @@ export const GameFormUtility: IGameFormUtility = {
       return (
         game.duration !== fields.duration ||
         game.mode !== fields.mode || 
-        game.name !== fields.name
+        game.name !== fields.name ||
+        DateUtility.firestoreSecondsToDateInput(game.startsAt) !== fields.startsAt
       )
     }
 
     return true;
   },
-  mapCreate: (fields: IGameFormStateFields, user: IUser): IGame => {
+  mapCreate: (fields: IGameFormStateFields, user: IUser): IGame => {    
     return {
       counts: {
         players: 1,
@@ -45,6 +47,7 @@ export const GameFormUtility: IGameFormUtility = {
       id: Nano.generate(),
       mode: fields.mode,
       name: fields.name,
+      startsAt: DateUtility.stringToOffsetFirestoreTimestamp(fields.startsAt)
     }
   },
   mapInitialState: (game?: IGame): IGameFormState => {
@@ -55,7 +58,8 @@ export const GameFormUtility: IGameFormUtility = {
         ...state.fields,
         duration: game.duration,
         mode: game.mode,
-        name: game.name    
+        name: game.name,
+        startsAt: DateUtility.firestoreSecondsToDateInput(game.startsAt)
       }
     }
 
@@ -65,7 +69,8 @@ export const GameFormUtility: IGameFormUtility = {
     return {
       duration: fields.duration,
       mode: fields.mode,
-      name: fields.name
+      name: fields.name,
+      startsAt: DateUtility.stringToOffsetFirestoreTimestamp(fields.startsAt)
     }
   }
 }

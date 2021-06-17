@@ -3,5 +3,6 @@ export enum GameFormAction {
   SetErrors = "Set Errors",
   SetMode = "Set Mode",
   SetName = "Set Name",
-  SetStatus = "Set Status"
+  SetStatus = "Set Status",
+  SetStartsAt = "Set Starts At"
 }

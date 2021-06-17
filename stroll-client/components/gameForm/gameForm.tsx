@@ -24,6 +24,8 @@ import { FormStatus } from "../../enums/formStatus";
 import { GameDuration } from "../../../stroll-enums/gameDuration";
 import { GameFormAction } from "./enums/gameFormAction";
 import { GameMode } from "../../../stroll-enums/gameMode";
+import { DateUtility } from "../../utilities/dateUtility";
+import { FormError } from "../../enums/formError";
 
 interface GameFormProps {  
   game?: IGame;
@@ -44,7 +46,7 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
       dispatch(GameFormAction.SetStatus, FormStatus.InProgress);
     }
   }, [fields]);
-
+  
   const save = async (): Promise<void> => {
     if(status !== FormStatus.Submitting && GameFormValidator.validate(errors, fields, dispatch)) {
       try {
@@ -111,6 +113,14 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
     }
   }
 
+  const getStartDateErrorMessage = (): string => {
+    if(errors.startsAt === FormError.InvalidValue) {
+      return FormError.InvalidValue;
+    } else if (errors.startsAt === FormError.DateRequirementNotMet) {
+      return "Date must be within 30 days of today."
+    }
+  }
+  
   return (
     <Form     
       errors={errors}
@@ -153,6 +163,18 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
           <ModeSelector
             selected={fields.mode}
             select={(mode: GameMode) => dispatch(GameFormAction.SetMode, mode)} 
+          />
+        </InputWrapper>
+        <InputWrapper
+          label="Start Date"
+          error={errors.startsAt}
+          errorMessage={getStartDateErrorMessage()}
+        >
+          <input 
+            type="date" 
+            className="passion-one-font"
+            value={fields.startsAt}
+            onChange={(e: any) => dispatch(GameFormAction.SetStartsAt, e.target.value)}
           />
         </InputWrapper>
       </FormBody>

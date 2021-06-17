@@ -1,14 +1,43 @@
 import firebase from "firebase/app";
 
 interface IDateUtility {
+  dateToFirestoreTimestamp: (date: Date) => firebase.firestore.Timestamp;
   daysToMillis: (days: number) => number;
-  formatRelative: (seconds: number) => string;
-  stringToFirestoreTimestamp: (date: string) => firebase.firestore.Timestamp;
+  firestoreSecondsToDateInput: (value: firebase.firestore.FieldValue) => string;
+  formatForDateInput: (date: Date) => string;
+  formatRelative: (seconds: number) => string;  
+  stringToFirestoreTimestamp: (value: string) => firebase.firestore.Timestamp;
+  stringToOffsetFirestoreTimestamp: (value: string) => firebase.firestore.Timestamp;
+  valid: (value: string) => boolean;
+  withinBoundaries: (value: string) => boolean;
 }
 
 export const DateUtility: IDateUtility = {
+  dateToFirestoreTimestamp: (date: Date): firebase.firestore.Timestamp => {
+    return firebase.firestore.Timestamp.fromDate(date);
+  },
   daysToMillis: (days: number): number => {
     return days * 24 * 3600 * 1000;
+  },
+  firestoreSecondsToDateInput: (value: firebase.firestore.FieldValue): string => {
+    const date: any = value as any;
+
+    return DateUtility.formatForDateInput(new Date(date.seconds * 1000));
+  },
+  formatForDateInput: (date: Date): string => {
+    var month: string = (date.getMonth() + 1).toString(),
+        day: string = date.getDate().toString(),
+        year: string = date.getFullYear().toString();
+
+    if(month.length < 2) {
+      month = `0${month}`;
+    }
+    
+    if(day.length < 2) {
+      day = `0${day}`;
+    }
+
+    return [year, month, day].join("-");
   },
   formatRelative: (seconds: number): string => {
     const relativeMillis: number = Math.abs(
@@ -58,7 +87,28 @@ export const DateUtility: IDateUtility = {
 
     return `${relativeYears}y`;
   },
-  stringToFirestoreTimestamp: (date: string): firebase.firestore.Timestamp => {
-    return firebase.firestore.Timestamp.fromDate(new Date(date));
+  stringToFirestoreTimestamp: (value: string): firebase.firestore.Timestamp => {
+    return DateUtility.dateToFirestoreTimestamp(new Date(value));
+  },
+  stringToOffsetFirestoreTimestamp: (value: string): firebase.firestore.Timestamp => {
+    const date: Date = new Date(value);
+    
+    date.setTime(date.getTime() + date.getTimezoneOffset() * 60000);
+
+    return DateUtility.dateToFirestoreTimestamp(date);
+  },
+  valid: (value: string): boolean => {
+    const date: Date = new Date(value);
+
+    return !isNaN(date.valueOf());
+  },
+  withinBoundaries: (value: string): boolean => {
+    const current: Date = new Date(),
+      date: Date = new Date(value);
+
+    const diff: number = Math.abs(current.getTime() - date.getTime()),
+      days: number = diff / (1000 * 60 * 60 * 24);
+      
+    return days <= 30;
   }
 };

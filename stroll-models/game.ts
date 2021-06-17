@@ -23,6 +23,7 @@ export interface IGame {
   id: string;  
   mode: GameMode;
   name: string;
+  startsAt: firebase.firestore.FieldValue;
 }
 
 export const defaultGame = (): IGame => ({
@@ -32,7 +33,8 @@ export const defaultGame = (): IGame => ({
   duration: GameDuration.None,
   id: "",
   mode: GameMode.None,
-  name: ""
+  name: "",
+  startsAt: firebase.firestore.FieldValue.serverTimestamp(),
 });
 
 export const gameConverter: firebase.firestore.FirestoreDataConverter<IGame> = {
@@ -43,7 +45,8 @@ export const gameConverter: firebase.firestore.FirestoreDataConverter<IGame> = {
       creator: game.creator,
       duration: game.duration,
       mode: game.mode,
-      name: game.name
+      name: game.name,
+      startsAt: game.startsAt
     }
   },
   fromFirestore(
@@ -59,7 +62,8 @@ export const gameConverter: firebase.firestore.FirestoreDataConverter<IGame> = {
       duration: data.duration,    
       id: snapshot.id,
       mode: data.mode,
-      name: data.name
+      name: data.name,
+      startsAt: data.startsAt
     }
   }
 }

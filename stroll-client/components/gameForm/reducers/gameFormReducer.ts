@@ -6,6 +6,7 @@ import { FormError } from "../../../enums/formError";
 import { GameDuration } from "../../../../stroll-enums/gameDuration";
 import { GameFormAction } from "../enums/gameFormAction";
 import { GameMode } from "../../../../stroll-enums/gameMode";
+import { DateUtility } from "../../../utilities/dateUtility";
 
 export const gameFormReducer = (state: IGameFormState, action: IAction): IGameFormState => {  
   const { errors, fields } = state;
@@ -59,6 +60,22 @@ export const gameFormReducer = (state: IGameFormState, action: IAction): IGameFo
         },
         errors: updatedErrors
       } 
+    case GameFormAction.SetStartsAt:
+      if(
+        errors.startsAt === FormError.InvalidValue && DateUtility.valid(action.payload) ||
+        errors.startsAt === FormError.DateRequirementNotMet && DateUtility.withinBoundaries(action.payload)
+      ) {
+        updatedErrors.startsAt = FormError.None;
+      }
+
+      return {
+        ...state,
+        fields: {
+          ...fields,
+          startsAt: action.payload
+        },
+        errors: updatedErrors
+      }
     case GameFormAction.SetStatus:
       return {
         ...state,
