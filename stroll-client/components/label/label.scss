@@ -4,7 +4,8 @@
   position: relative;
   white-space: nowrap;
   
-  &:hover {
+  &:hover,
+  &:focus {
     .tooltip {
       opacity: 1;
     }
@@ -26,6 +27,28 @@
     > h1 {
       margin-left: 10px;
       position: relative;
+    }
+  }
+
+  button {
+    background-color: transparent;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    height: 100%;
+    left: 0px;
+    outline: none;
+    position: absolute;
+    top: 0px;
+    width: 100%;
+
+    &:hover,
+    &:focus {
+      background-color: rgba($themeMain, 0.2);
+
+      + .tooltip {
+        opacity: 1;
+      }
     }
   }
 }

@@ -23,13 +23,7 @@
     margin-left: 5px;
     position: relative;
 
-    &:hover,
-    &:focus {
-      .username {
-        color: $themeMain;
-        text-decoration: underline;
-      }
-
+    &:hover {
       .tooltip {
         opacity: 1;
       }
@@ -40,12 +34,19 @@
       display: inline-block;
       font-size: 1em;
       font-weight: bolder;
+      outline: none;
       overflow: hidden;
       position: relative;
       text-decoration: none;
       text-overflow: ellipsis;
       white-space: nowrap;
       width: 100%;
+      
+      &:hover,
+      &:focus {
+        color: $themeMain;
+        text-decoration: underline;
+      }
     }
   }
 }

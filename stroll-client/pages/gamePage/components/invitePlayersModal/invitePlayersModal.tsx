@@ -26,7 +26,7 @@ export const InvitePlayersModal: React.FC<InvitePlayersModalProps> = (props: Inv
     props.back
   );
 
-  if(state.invite !== null && state.toggles.invite) {
+  if(state.toggles.invite) {
     return (
       <Modal id="invite-players-modal" priority>
         <ModalTitle text="Invite players!" handleOnClose={props.back} />

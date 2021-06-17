@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Label } from "../label/label";
+import { TooltipSide } from "../tooltip/tooltip";
 
 import { GameDurationUtility } from "../../utilities/gameDurationUtility";
 import { GameModeUtility } from "../../utilities/gameModeUtility";
@@ -9,6 +10,7 @@ import { IGame } from "../../../stroll-models/game";
 
 interface GameDetailsProps {  
   game: IGame;
+  togglePlayers?: () => void;
 }
 
 export const GameDetails: React.FC<GameDetailsProps> = (props: GameDetailsProps) => {  
@@ -38,6 +40,9 @@ export const GameDetails: React.FC<GameDetailsProps> = (props: GameDetailsProps)
       <Label 
         className="game-player-count passion-one-font" 
         text={getPlayerCountText()} 
+        tooltip={props.togglePlayers ? "View" : null}
+        tooltipSide={TooltipSide.Bottom}
+        handleOnClick={props.togglePlayers}
       />
     </div>
   ); 

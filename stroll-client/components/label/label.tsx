@@ -9,6 +9,7 @@ interface LabelProps {
   text?: string;
   tooltip?: string;
   tooltipSide?: TooltipSide;
+  handleOnClick?: () => void;
 }
 
 export const Label: React.FC<LabelProps> = (props: LabelProps) => {  
@@ -20,25 +21,36 @@ export const Label: React.FC<LabelProps> = (props: LabelProps) => {
     }
   }
 
+  const getButton = (): JSX.Element => {
+    if(props.handleOnClick) {
+      return (
+        <button type="button" onClick={props.handleOnClick} />
+      )
+    }
+  }
+
   if(props.text && props.icon) {
     return (
       <div className={classNames("label", "combo", props.className)}>
         <i className={props.icon} />
-        <h1 className="passion-one-font">{props.text}</h1>      
-        {getTooltip()}          
+        <h1 className="passion-one-font">{props.text}</h1>         
+        {getButton()}  
+        {getTooltip()}     
       </div>
     )
   } else if(props.text) {
     return (
       <h1 className={classNames("label", props.className)}>
         {props.text}
-        {getTooltip()}
+        {getButton()}     
+        {getTooltip()} 
       </h1>
     );
   } else if (props.icon) {
     return (
-      <i className={classNames("label", props.icon, props.className)}>        
-        {getTooltip()}
+      <i className={classNames("label", props.icon, props.className)}>  
+        {getButton()}         
+        {getTooltip()}   
       </i>
     );
   }

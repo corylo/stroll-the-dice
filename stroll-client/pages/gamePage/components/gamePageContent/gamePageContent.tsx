@@ -6,6 +6,7 @@ import { GameDetails } from "../../../../components/gameDetails/gameDetails";
 import { InvitePlayersModal } from "../invitePlayersModal/invitePlayersModal";
 import { UpdateGameModal } from "../updateGameModal/updateGameModal";
 import { UserLink } from "../../../../components/userLink/userLink";
+import { ViewPlayersModal } from "../viewPlayersModal/viewPlayersModal";
 
 import { GamePageContext } from "../../gamePage";
 
@@ -18,7 +19,7 @@ interface GamePageContentProps {
 export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageContentProps) => {
   const { state, setState } = useContext(GamePageContext);
 
-  const { game, invite, status, summary, toggles } = state;
+  const { game, invite, status, toggles } = state;
   
   if(status === RequestStatus.Success && game !== null) {
     const toggle = (updates: any): void => {
@@ -30,7 +31,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
         <UserLink profile={game.creator} tooltip="Creator" />
         <div className="game-page-body">
           <h1 className="game-name passion-one-font">{game.name}</h1>
-          <GameDetails game={game} />
+          <GameDetails game={game} togglePlayers={() => toggle({ players: true })} />
           <GameActions 
             creator={game.creator}
             invite={invite}
@@ -39,8 +40,9 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
           />
         </div>
         <UpdateGameModal back={() => toggle({ update: false })} />
-        <AcceptInviteModal back={() => toggle({ invite: false })} />
+        <AcceptInviteModal back={() => toggle({ accept: false })} />
         <InvitePlayersModal back={() => toggle({ invite: false })} />
+        <ViewPlayersModal back={() => toggle({ players: false })} />
       </div>
     )
   }

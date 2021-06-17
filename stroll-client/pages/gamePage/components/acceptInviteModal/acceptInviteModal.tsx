@@ -33,7 +33,7 @@ export const AcceptInviteModal: React.FC<AcceptInviteModalProps> = (props: Accep
 
   const { user } = appState;
 
-  if(state.invite === null && state.toggles.invite) {
+  if(state.toggles.accept) {
     const acceptInvite = async (): Promise<void> => {
       try {
         setStatus(FormStatus.Submitting);
