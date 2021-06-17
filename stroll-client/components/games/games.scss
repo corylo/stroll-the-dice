@@ -3,6 +3,13 @@
     margin-top: 20px;
   }
 
+  &.loading {
+    .game-links {
+      background-color: rgba(white, 0.1);
+      border-radius: 6px;
+    }
+  }
+
   .games-title {
     margin-bottom: 20px;
     position: relative;
@@ -24,9 +31,14 @@
     }
   }
 
-  .game-link-wrapper {
-    &:nth-of-type(n + 2) {
-      margin-top: 10px;
+  .game-links {
+    min-height: 100px;
+    position: relative;
+
+    .game-link-wrapper {
+      &:nth-of-type(n + 2) {
+        margin-top: 10px;
+      }
     }
   }
 }

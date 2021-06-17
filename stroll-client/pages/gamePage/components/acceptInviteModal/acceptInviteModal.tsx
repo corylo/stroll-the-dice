@@ -8,6 +8,7 @@ import { GameDetails } from "../../../../components/gameDetails/gameDetails";
 import { Modal } from "../../../../components/modal/modal";
 import { ModalBody } from "../../../../components/modal/modalBody";
 import { ModalTitle } from "../../../../components/modal/modalTitle";
+import { UserLink } from "../../../../components/userLink/userLink";
 
 import { AppContext } from "../../../../components/app/contexts/appContext";
 import { GamePageContext } from "../../gamePage";
@@ -55,6 +56,7 @@ export const AcceptInviteModal: React.FC<AcceptInviteModalProps> = (props: Accep
         <ModalBody>
           <Form status={status}>
             <FormBody>
+              <UserLink profile={state.game.creator} />
               <h1 className="game-name passion-one-font">{state.game.name}</h1>
               <GameDetails game={state.game} />
             </FormBody>

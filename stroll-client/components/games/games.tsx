@@ -1,12 +1,15 @@
 import React, { useContext } from "react";
 
 import { GameLink } from "../gameLink/gameLink";
+import { LoadingIcon } from "../loadingIcon/loadingIcon";
 
 import { AppContext } from "../app/contexts/appContext";
 
 import { useFetchGamesEffect } from "../../effects/gameEffects";
 
 import { IGame } from "../../../stroll-models/game";
+import { RequestStatus } from "../../../stroll-enums/requestStatus";
+import classNames from "classnames";
 
 interface GamesProps {  
   limit: number;
@@ -21,30 +24,41 @@ export const Games: React.FC<GamesProps> = (props: GamesProps) => {
   
   const { games, status } = useFetchGamesEffect(appState, limit, get);
 
-  if(games.length > 0) {
-    const links: JSX.Element[] = games.map((game: IGame) =>         
-      <GameLink key={game.id} game={game} />
-    );
 
-    const getTitle = (): JSX.Element => {
-      if(title) {
-        return (
-          <div className="games-title">
-            <h1 className="passion-one-font">{title}</h1>
-          </div>
-        )
-      }
+  const getTitle = (): JSX.Element => {
+    if(title) {
+      return (
+        <div className="games-title">
+          <h1 className="passion-one-font">{title}</h1>
+        </div>
+      )
     }
+  }
+
+  const getLoading = (): JSX.Element => {    
+    if(status === RequestStatus.Loading) {
+      return (
+        <LoadingIcon />
+      )
+    }
+  }
+
+  const getLinks = (): JSX.Element => {
+    const links: JSX.Element[] = games.map((game: IGame) => 
+      <GameLink key={game.id} game={game} />);
 
     return (
-      <div className="games">
-        {getTitle()}
-        <div className="game-links">
-          {links}
-        </div>
+      <div className="game-links">
+        {links}
+        {getLoading()}
       </div>
     )
   }
 
-  return null;
+  return (
+    <div className={classNames("games", { loading: status === RequestStatus.Loading })}>
+      {getTitle()}
+      {getLinks()}
+    </div>
+  )
 }

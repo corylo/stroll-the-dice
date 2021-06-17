@@ -29,6 +29,10 @@ export const GameFormUtility: IGameFormUtility = {
   },
   mapCreate: (fields: IGameFormStateFields, user: IUser): IGame => {
     return {
+      counts: {
+        players: 1,
+        teams: 0
+      },
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       creator: {
         color: user.profile.color,

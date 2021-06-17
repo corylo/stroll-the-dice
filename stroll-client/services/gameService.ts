@@ -9,8 +9,9 @@ interface IGameService {
   create: (game: IGame) => Promise<void>;
   delete: (id: string) => Promise<void>;
   get: (id: string) => Promise<IGame>;
-  getAll: (uid: string, limit?: number) => Promise<IGame[]>;
-  getAllPlaying: (uid: string, limit?: number) => Promise<IGame[]>;
+  getAllByList: (list: string[]) => Promise<IGame[]>;
+  getAllMyGames: (uid: string, limit?: number) => Promise<IGame[]>;
+  getAllPlayingIn: (uid: string, limit?: number) => Promise<IGame[]>;
   update: (id: string, update: IGameUpdate) => Promise<void>;  
 }
 
@@ -34,8 +35,21 @@ export const GameService: IGameService = {
 
     return doc.exists ? doc.data() : null;
   },
-  getAll: async (uid: string, limit?: number): Promise<IGame[]> => {
-    const snap: firebase.firestore.QuerySnapshot = await db.collection("games")
+  getAllByList: async (list: string[]): Promise<IGame[]> => {
+    const snap: firebase.firestore.QuerySnapshot = await db.collection("games")  
+      .where(firebase.firestore.FieldPath.documentId(), "in", list)          
+      .withConverter(gameConverter)
+      .get();
+
+    let games: IGame[] = [];
+
+    snap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => 
+      games.push(doc.data()));
+      
+    return games;
+  },
+  getAllMyGames: async (uid: string, limit?: number): Promise<IGame[]> => {
+    const snap: firebase.firestore.QuerySnapshot<IGame> = await db.collection("games")
       .where("creator.uid", "==", uid)
       .orderBy("createdAt", "desc")      
       .limit(limit || 10)
@@ -49,21 +63,20 @@ export const GameService: IGameService = {
       
     return games;
   },
-  getAllPlaying: async (uid: string, limit?: number): Promise<IGame[]> => {
+  getAllPlayingIn: async (uid: string, limit?: number): Promise<IGame[]> => {
     const snap: firebase.firestore.QuerySnapshot = await db.collection("profiles")      
       .doc(uid)
-      .collection("playing")
-      .orderBy("createdAt", "desc")      
-      .limit(limit || 10)
-      .withConverter(gameConverter)
+      .collection("playing_in")
       .get();
 
-    let games: IGame[] = [];
+    let ids: string[] = [];
 
-    snap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => 
-      games.push(doc.data()));
-
-    return games;
+    snap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot) => 
+      ids.push(doc.id));
+      
+    return ids.length > 0
+      ? await GameService.getAllByList(ids)
+      : [];
   },
   update: async (id: string, update: IGameUpdate): Promise<void> => {
     return await db.collection("games")

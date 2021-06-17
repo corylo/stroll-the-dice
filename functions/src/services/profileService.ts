@@ -5,6 +5,10 @@ import { Change, EventContext, logger } from "firebase-functions";
 import { db } from "../../firebase";
 
 import { GameService } from "./gameService";
+import { InviteService } from "./inviteService";
+import { PlayerService } from "./playerService";
+
+import { ProfileUtility } from "../utilities/profileUtility";
 
 import { IProfile } from "../../../stroll-models/profile";
 import { IProfileUpdate } from "../../../stroll-models/profileUpdate";
@@ -18,23 +22,19 @@ export const ProfileService: IProfileService = {
     const before: IProfile = change.before.data(),
       after: IProfile = change.after.data();
   
-    if(
-      before.color !== after.color || 
-      before.icon !== after.icon ||
-      before.username !== after.username
-    ) {
-      logger.info(`Updating games for user: ${after.username}`);
+    if(ProfileUtility.hasChanged(before, after)) {
+      logger.info(`Updating documents for user: ${after.username}`);
       
       try {
         const batch: firebase.firestore.WriteBatch = db.batch();
   
-        const update: IProfileUpdate = {
-          color: after.color,
-          icon: after.icon,
-          username: after.username
-        };
+        const update: IProfileUpdate = ProfileUtility.mapUpdate(after);
   
-        await GameService.batchUpdate(batch, context.params.id, update);
+        await GameService.batch.update(batch, after.uid, update);
+
+        await PlayerService.batch.update(batch, after.uid, update);
+
+        await InviteService.batch.update(batch, after.uid, update);
   
         const results: firebase.firestore.WriteResult[] = await batch.commit();
   

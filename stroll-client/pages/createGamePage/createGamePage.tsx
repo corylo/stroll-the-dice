@@ -28,7 +28,7 @@ export const CreateGamePage: React.FC<CreateGamePageProps> = (props: CreateGameP
   const save = async (fields: IGameFormStateFields): Promise<void> => {    
     const game: IGame = GameFormUtility.mapCreate(fields, user);
 
-    await CreateGameService.createGameAndInvite(game);
+    await CreateGameService.createGame(game);
 
     history.push(`/game/${game.id}`);
   }

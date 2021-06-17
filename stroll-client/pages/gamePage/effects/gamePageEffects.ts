@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 import { GameService } from "../../../services/gameService";
-import { GameSummaryService } from "../../../services/gameSummaryService";
 import { InviteService } from "../../../services/inviteService";
 
 import { ErrorUtility } from "../../../utilities/errorUtility";
@@ -10,7 +9,6 @@ import { UrlUtility } from "../../../utilities/urlUtility";
 
 import { IGame } from "../../../../stroll-models/game";
 import { IGamePageState } from "../models/gamePageState";
-import { IGameSummary } from "../../../../stroll-models/gameSummary";
 import { IInvite } from "../../../../stroll-models/invite";
 import { IUser } from "../../../models/user";
 
@@ -23,16 +21,14 @@ export const useFetchGameEffect = (id: string, state: IGamePageState, setState: 
       const fetch = async (): Promise<void> => {
         try {
           const game: IGame = await GameService.get(id),
-            invite: IInvite = await InviteService.get.by.game(game),
-            summary: IGameSummary = await GameSummaryService.get(id);
+            invite: IInvite = await InviteService.get.by.game(game);
 
           if(game !== null) {
             setState({ 
               ...state, 
               game, 
               invite, 
-              status: RequestStatus.Success,
-              summary
+              status: RequestStatus.Success
             });
           } else {
             throw new Error(ErrorUtility.doesNotExist(DocumentType.Game));

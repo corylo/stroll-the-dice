@@ -29,7 +29,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
         <UserLink profile={game.creator} tooltip="Creator" />
         <div className="game-page-body">
           <h1 className="game-name passion-one-font">{game.name}</h1>
-          <GameDetails game={game} summary={summary} />
+          <GameDetails game={game} />
           <GameActions 
             creator={game.creator}
             invite={invite}

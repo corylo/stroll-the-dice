@@ -5,7 +5,18 @@ import { defaultProfile, IProfile } from "./profile";
 import { GameDuration } from "../stroll-enums/gameDuration";
 import { GameMode } from "../stroll-enums/gameMode";
 
+export interface IGameCounts {
+  players: number;
+  teams: number;
+}
+
+const defaultGameCounts = (): IGameCounts => ({
+  players: 0,
+  teams: 0
+});
+
 export interface IGame {
+  counts: IGameCounts;
   createdAt: firebase.firestore.FieldValue;
   creator: IProfile;  
   duration: GameDuration;
@@ -15,6 +26,7 @@ export interface IGame {
 }
 
 export const defaultGame = (): IGame => ({
+  counts: defaultGameCounts(),
   createdAt: firebase.firestore.FieldValue.serverTimestamp(),
   creator: defaultProfile(),  
   duration: GameDuration.None,
@@ -26,6 +38,7 @@ export const defaultGame = (): IGame => ({
 export const gameConverter: firebase.firestore.FirestoreDataConverter<IGame> = {
   toFirestore(game: IGame): firebase.firestore.DocumentData {
     return {
+      counts: game.counts,
       createdAt: game.createdAt,
       creator: game.creator,
       duration: game.duration,
@@ -40,6 +53,7 @@ export const gameConverter: firebase.firestore.FirestoreDataConverter<IGame> = {
     const data: IGame = snapshot.data(options);
 
     return {
+      counts: data.counts,
       createdAt: data.createdAt,
       creator: data.creator,  
       duration: data.duration,    

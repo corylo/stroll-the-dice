@@ -3,15 +3,37 @@ import { EventContext, logger } from "firebase-functions";
 
 import { db } from "../../firebase";
 
+import { ProfileUtility } from "../utilities/profileUtility";
+
 import { IGame } from "../../../stroll-models/game";
-import { IGameSummary } from "../../../stroll-models/gameSummary";
 import { IPlayer } from "../../../stroll-models/player";
+import { IProfileUpdate } from "../../../stroll-models/profileUpdate";
+
+interface IPlayerServiceBatch {
+  update: (batch: firebase.firestore.WriteBatch, uid: string, update: IProfileUpdate) => Promise<firebase.firestore.WriteBatch>;
+}
 
 interface IPlayerService {
+  batch: IPlayerServiceBatch;
   onCreate: (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext) => Promise<void>;
 }
 
 export const PlayerService: IPlayerService = {
+  batch: {
+    update: async (batch: firebase.firestore.WriteBatch, uid: string, update: IProfileUpdate): Promise<firebase.firestore.WriteBatch> => {    
+      const playerSnap: firebase.firestore.QuerySnapshot = await db.collectionGroup("players")
+        .where("profile.uid", "==", uid)
+        .get();
+
+      playerSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>) => {
+        const player: IPlayer = doc.data();
+
+        batch.update(doc.ref, { profile: ProfileUtility.applyUpdate(player.profile, update) });
+      });
+
+      return batch;
+    }
+  },
   onCreate: async (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext): Promise<void> => {
     const player: IPlayer = snapshot.data() as IPlayer;
 
@@ -21,11 +43,6 @@ export const PlayerService: IPlayerService = {
       const gameRef: firebase.firestore.DocumentReference = db.collection("games")
         .doc(player.ref.game)
 
-      const summaryRef: firebase.firestore.DocumentReference = db.collection("games")
-        .doc(player.ref.game)
-        .collection("summary")
-        .doc(player.ref.game);
-
       const inviteRef: firebase.firestore.DocumentReference = db.collection("games")
         .doc(player.ref.game)
         .collection("invites")
@@ -33,26 +50,26 @@ export const PlayerService: IPlayerService = {
 
       const playingRef: firebase.firestore.DocumentReference = db.collection("profiles")
         .doc(player.profile.uid)
-        .collection("playing")
+        .collection("playing_in")
         .doc(player.ref.game);
 
       await db.runTransaction(async (transaction: firebase.firestore.Transaction) => {
-        const gameDoc: firebase.firestore.DocumentSnapshot = await transaction.get(gameRef),
-          summaryDoc: firebase.firestore.DocumentSnapshot = await transaction.get(summaryRef);
+        const gameDoc: firebase.firestore.DocumentSnapshot = await transaction.get(gameRef);
 
-        if(gameDoc.exists && summaryDoc.exists) {
-          const game: IGame = gameDoc.data() as IGame,
-            summary: IGameSummary = summaryDoc.data() as IGameSummary;
+        if(gameDoc.exists) {
+          const game: IGame = gameDoc.data() as IGame;
 
-          transaction.update(summaryRef, { players: [...summary.players, player] });
+          if(player.profile.uid !== game.creator.uid) {               
+            transaction.update(gameRef, { ["counts.players"]: firebase.firestore.FieldValue.increment(1) });
 
-          transaction.update(inviteRef, { ["uses.current"]: firebase.firestore.FieldValue.increment(1) });
-          
-          transaction.set(playingRef, game);
+            transaction.update(inviteRef, { ["uses.current"]: firebase.firestore.FieldValue.increment(1) });
+          }
+        
+          transaction.set(playingRef, {});
         }
       });
       
-      logger.info(`Successfully added player [${player.profile.username}] to game [${player.ref.game}]'s summary.`);
+      logger.info(`Successfully added game [${player.ref.game}] to [${player.profile.username}]'s games.`);
     } catch (err) {
       logger.error(err);
     }

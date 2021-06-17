@@ -3,18 +3,22 @@ import firebase from "firebase/app";
 import { db } from "../../../firebase";
 
 import { InviteUtility } from "../../../utilities/inviteUtility";
+import { PlayerUtility } from "../../../utilities/playerUtility";
 
 import { gameConverter, IGame } from "../../../../stroll-models/game";
-import { gameSummaryConverter, IGameSummary } from "../../../../stroll-models/gameSummary";
 import { IInvite, inviteConverter } from "../../../../stroll-models/invite";
+import { IPlayer, playerConverter } from "../../../../stroll-models/player";
 
 interface ICreateGameService {
-  createGameAndInvite: (game: IGame) => Promise<void>;
+  createGame: (game: IGame) => Promise<void>;
 }
 
 export const CreateGameService: ICreateGameService = {
-  createGameAndInvite: async (game: IGame): Promise<void> => {
+  createGame: async (game: IGame): Promise<void> => {
     const batch: firebase.firestore.WriteBatch = db.batch();
+
+    const invite: IInvite = InviteUtility.mapCreate(game, game.creator),
+      player: IPlayer = PlayerUtility.mapCreate(game.creator, game, invite);
 
     const gameRef: firebase.firestore.DocumentReference<IGame> = db.collection("games")
       .doc(game.id)
@@ -22,22 +26,22 @@ export const CreateGameService: ICreateGameService = {
 
     batch.set(gameRef, game);
 
-    const summaryRef: firebase.firestore.DocumentReference<IGameSummary> = db.collection("games")
-      .doc(game.id)
-      .collection("summary")
-      .doc(game.id)
-      .withConverter(gameSummaryConverter);
-
-    batch.set(summaryRef, { players: [] });
-
     const inviteRef: firebase.firestore.DocumentReference<IInvite> = db
       .collection("games")
       .doc(game.id)
       .collection("invites")
-      .doc()
+      .doc(invite.id)
       .withConverter(inviteConverter);
 
-    batch.set(inviteRef, InviteUtility.mapCreate(game, game.creator));
+    batch.set(inviteRef, invite);
+
+    const playerRef: firebase.firestore.DocumentReference<IPlayer> = db.collection("games")
+      .doc(game.id)
+      .collection("players")
+      .doc(game.creator.uid)
+      .withConverter(playerConverter);
+
+    batch.set(playerRef, player);
 
     return await batch.commit();
   }

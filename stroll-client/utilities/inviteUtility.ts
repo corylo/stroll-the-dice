@@ -7,6 +7,7 @@ import { IGame } from "../../stroll-models/game";
 import { IInvite } from "../../stroll-models/invite";
 import { IProfile } from "../../stroll-models/profile";
 import { IUser } from "../models/user";
+import { Nano } from "./nanoUtility";
 
 interface IInviteUtility {
   getLink: (invite: IInvite) => string;
@@ -23,7 +24,7 @@ export const InviteUtility: IInviteUtility = {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       creator,
       duration: DateUtility.daysToMillis(365),
-      id: "",
+      id: Nano.generate(28),
       ref: {
         game: game.id,
         team: "",

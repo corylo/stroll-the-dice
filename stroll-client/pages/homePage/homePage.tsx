@@ -22,12 +22,12 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
       <Games  
         limit={3} 
         title="My Games"
-        get={GameService.getAll} 
+        get={GameService.getAllMyGames} 
       />
       <Games 
         limit={3} 
         title="Playing In" 
-        get={GameService.getAllPlaying} 
+        get={GameService.getAllPlayingIn} 
       />
     </Page>
   )
