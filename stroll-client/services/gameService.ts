@@ -68,6 +68,7 @@ export const GameService: IGameService = {
       .doc(uid)
       .collection("playing_in")
       .orderBy("createdAt", "desc")
+      .limit(limit)
       .get();
 
     let ids: string[] = [];
