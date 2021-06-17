@@ -19,8 +19,8 @@ export const GameLink: React.FC<GameLinkProps> = (props: GameLinkProps) => {
       <UserLink profile={game.creator} tooltip="Creator" />
       <div className="game-link-body">
         <h1 className="game-name passion-one-font">{game.name}</h1>
-        <GameDetails game={game} />
       </div>
+      <GameDetails game={game} />
     </div>
   ); 
 }
