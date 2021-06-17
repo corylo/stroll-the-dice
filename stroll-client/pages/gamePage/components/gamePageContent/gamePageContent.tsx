@@ -26,12 +26,18 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
       setState({ ...state, toggles: { ...toggles, ...updates } });
     }
 
+    const togglePlayers = (): any => {
+      if(toggles.playing) {
+        return () => toggle({ players: true });
+      }
+    }
+
     return (
       <div className="game-page-content">
         <UserLink profile={game.creator} tooltip="Creator" />
         <div className="game-page-body">
           <h1 className="game-name passion-one-font">{game.name}</h1>
-          <GameDetails game={game} togglePlayers={() => toggle({ players: true })} />
+          <GameDetails game={game} togglePlayers={togglePlayers()} />
           <GameActions 
             creator={game.creator}
             invite={invite}

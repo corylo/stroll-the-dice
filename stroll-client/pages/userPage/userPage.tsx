@@ -69,7 +69,12 @@ export const UserPage: React.FC<UserPageProps> = (props: UserPageProps) => {
   }, [user]);
 
   return(
-    <Page id="user-page" status={state.status} backgroundGraphic={ImageUtility.getGraphic(Graphic.CityWalk)}>    
+    <Page 
+      id="user-page" 
+      backgroundGraphic={ImageUtility.getGraphic(Graphic.CityWalk)}
+      requireAuth
+      status={state.status} 
+    >    
       <ProfileHeader profile={state.profile} /> 
     </Page>
   )

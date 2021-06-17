@@ -30,7 +30,11 @@ export const useFetchGameEffect = (id: string, state: IGamePageState, setState: 
               ...state, 
               game, 
               invite, 
-              status: RequestStatus.Success
+              status: RequestStatus.Success,
+              toggles: {
+                ...state.toggles,
+                playing: invite !== null
+              }
             });
           } else {
             throw new Error(ErrorUtility.doesNotExist(DocumentType.Game));
@@ -82,7 +86,7 @@ export const useFetchPlayersEffect = (
 ): void => { 
   useEffect(() => {
     const fetch = async (): Promise<void> => {
-      if(state.invite !== null && state.toggles.players) {
+      if(state.toggles.playing && state.toggles.players) {
         try {
           setStatus(RequestStatus.Loading);
 

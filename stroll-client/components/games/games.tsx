@@ -13,6 +13,7 @@ import { IGame } from "../../../stroll-models/game";
 import { RequestStatus } from "../../../stroll-enums/requestStatus";
 
 interface GamesProps {  
+  emptyMessage: string;
   limit: number;
   title?: string;
   get: (uid: string, limit: number) => Promise<IGame[]>;
@@ -56,10 +57,21 @@ export const Games: React.FC<GamesProps> = (props: GamesProps) => {
     )
   }
 
+  const getEmptyMessage = (): JSX.Element => {
+    if(games.length === 0) {
+      return (
+        <div className="empty-message">
+          <h1 className="passion-one-font">{props.emptyMessage}</h1>
+        </div>
+      )
+    }
+  }
+
   return (
     <div className={classNames("games", { loading: status === RequestStatus.Loading })}>
       {getTitle()}
       {getLinks()}
+      {getEmptyMessage()}
     </div>
   )
 }

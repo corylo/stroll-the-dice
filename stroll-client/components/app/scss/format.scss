@@ -27,8 +27,12 @@ td {
   font-family: "Passion One", cursive;
 }
 
-.text-highlight {
+.highlight-main {
   color: $themeMain;
+}
+
+.highlight-secondary {
+  color: $themeSecondary;
 }
 
 .scroll-bar {
