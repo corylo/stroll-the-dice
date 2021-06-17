@@ -1,12 +1,9 @@
 import React, { useContext } from "react";
 
-import { CopyButton } from "../../../../components/copyButton/copyButton";
-import { TooltipSide } from "../../../../components/tooltip/tooltip";
+import { IconButton } from "../../../../components/buttons/iconButton";
 import { UpdateGameButton } from "../updateGameButton/updateGameButton";
 
 import { AppContext } from "../../../../components/app/contexts/appContext";
-
-import { InviteUtility } from "../../../../utilities/inviteUtility";
 
 import { IInvite } from "../../../../../stroll-models/invite";
 import { IProfile } from "../../../../../stroll-models/profile";
@@ -16,7 +13,8 @@ import { AppStatus } from "../../../../enums/appStatus";
 interface GameActionsProps {  
   creator: IProfile;
   invite: IInvite;
-  toggle: () => void;
+  toggleInvite: () => void;
+  toggleUpdate: () => void;
 }
 
 export const GameActions: React.FC<GameActionsProps> = (props: GameActionsProps) => {
@@ -26,15 +24,15 @@ export const GameActions: React.FC<GameActionsProps> = (props: GameActionsProps)
 
   let actions: JSX.Element[] = [];
 
-  if(invite) {
+  if(invite) {    
     actions.push(
-      <CopyButton
-        key="copy"
-        icon="fal fa-link"
+      <IconButton
+        key="invite"
+        className="invite-button inline-icon-button"
+        icon="fal fa-user-plus" 
         tooltip="Invite"
-        tooltipSide={TooltipSide.Right}
-        value={InviteUtility.getLink(invite)}
-      />
+        handleOnClick={props.toggleInvite} 
+      />      
     )
   }
 
@@ -43,7 +41,7 @@ export const GameActions: React.FC<GameActionsProps> = (props: GameActionsProps)
       <UpdateGameButton 
         key="update"
         creator={creator} 
-        toggle={props.toggle} 
+        toggle={props.toggleUpdate} 
       />
     );
   }

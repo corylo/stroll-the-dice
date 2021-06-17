@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { AcceptInviteModal } from "../acceptInviteModal/acceptInviteModal";
 import { GameActions } from "../gameActions/gameActions";
 import { GameDetails } from "../../../../components/gameDetails/gameDetails";
+import { InvitePlayersModal } from "../invitePlayersModal/invitePlayersModal";
 import { UpdateGameModal } from "../updateGameModal/updateGameModal";
 import { UserLink } from "../../../../components/userLink/userLink";
 
@@ -33,11 +34,13 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
           <GameActions 
             creator={game.creator}
             invite={invite}
-            toggle={() => toggle({ update: true })}
+            toggleInvite={() => toggle({ invite: true })}
+            toggleUpdate={() => toggle({ update: true })}
           />
         </div>
         <UpdateGameModal back={() => toggle({ update: false })} />
         <AcceptInviteModal back={() => toggle({ invite: false })} />
+        <InvitePlayersModal back={() => toggle({ invite: false })} />
       </div>
     )
   }

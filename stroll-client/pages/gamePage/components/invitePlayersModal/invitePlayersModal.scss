@@ -1,0 +1,22 @@
+#invite-players-modal {
+  .instructions {
+    color: gray(200);
+    font-size: 1.25em;
+  }
+
+  .copy-button {
+    margin-top: 10px;
+    padding: 10px;
+    text-align: center;
+    width: calc(100% - 20px);
+
+    .button {
+      i {
+        font-size: 2em;
+        height: 50px;
+        line-height: 50px;
+        width: 50px;
+      }
+    }
+  }
+}
