@@ -10,6 +10,7 @@ interface IGameService {
   delete: (id: string) => Promise<void>;
   get: (id: string) => Promise<IGame>;
   getAll: (uid: string, limit?: number) => Promise<IGame[]>;
+  getAllPlaying: (uid: string, limit?: number) => Promise<IGame[]>;
   update: (id: string, update: IGameUpdate) => Promise<void>;  
 }
 
@@ -36,6 +37,22 @@ export const GameService: IGameService = {
   getAll: async (uid: string, limit?: number): Promise<IGame[]> => {
     const snap: firebase.firestore.QuerySnapshot = await db.collection("games")
       .where("creator.uid", "==", uid)
+      .orderBy("createdAt", "desc")      
+      .limit(limit || 10)
+      .withConverter(gameConverter)
+      .get();
+
+    let games: IGame[] = [];
+
+    snap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => 
+      games.push(doc.data()));
+      
+    return games;
+  },
+  getAllPlaying: async (uid: string, limit?: number): Promise<IGame[]> => {
+    const snap: firebase.firestore.QuerySnapshot = await db.collection("profiles")      
+      .doc(uid)
+      .collection("playing")
       .orderBy("createdAt", "desc")      
       .limit(limit || 10)
       .withConverter(gameConverter)

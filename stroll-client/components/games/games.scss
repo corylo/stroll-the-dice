@@ -1,4 +1,8 @@
-.games {  
+.games { 
+  &:nth-of-type(n + 2) {
+    margin-top: 20px;
+  }
+
   .games-title {
     margin-bottom: 20px;
     position: relative;

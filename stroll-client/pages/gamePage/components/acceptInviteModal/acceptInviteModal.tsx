@@ -55,8 +55,8 @@ export const AcceptInviteModal: React.FC<AcceptInviteModalProps> = (props: Accep
         <ModalBody>
           <Form status={status}>
             <FormBody>
-              <GameDetails game={state.game} />
               <h1 className="game-name passion-one-font">{state.game.name}</h1>
+              <GameDetails game={state.game} />
             </FormBody>
             <FormActions>    
               <Button

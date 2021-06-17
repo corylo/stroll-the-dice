@@ -1,11 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { Games } from "../../components/games/games";
 import { Page } from "../../components/page/page";
 
-import { AppContext } from "../../components/app/contexts/appContext";
-
-import { useFetchGamesEffect } from "../../effects/gameEffects";
+import { GameService } from "../../services/gameService";
 
 import { ImageUtility } from "../../utilities/imageUtility";
 
@@ -16,17 +14,21 @@ interface HomePageProps {
 }
 
 export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
-  const { appState } = useContext(AppContext);
-
-  const { games, status } = useFetchGamesEffect(appState, 3);
-
   return(
     <Page 
       id="home-page" 
       backgroundGraphic={ImageUtility.getGraphic(Graphic.WorkingOut)}
-      status={status}
     >
-      <Games games={games} title="Recent Games" />
+      <Games  
+        limit={3} 
+        title="My Games"
+        get={GameService.getAll} 
+      />
+      <Games 
+        limit={3} 
+        title="Playing In" 
+        get={GameService.getAllPlaying} 
+      />
     </Page>
   )
 }

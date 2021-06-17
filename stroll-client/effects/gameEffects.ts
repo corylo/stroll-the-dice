@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 
-import { GameService } from "../services/gameService";
-
 import { IAppState } from "../components/app/models/appState";
 import { IGame } from "../../stroll-models/game";
 
@@ -13,7 +11,11 @@ interface IUseFetchGamesEffect {
   status: RequestStatus;  
 }
 
-export const useFetchGamesEffect = (appState: IAppState, limit?: number): IUseFetchGamesEffect => {
+export const useFetchGamesEffect = (
+  appState: IAppState, 
+  limit: number, 
+  get: (uid: string, limit: number) => Promise<IGame[]>
+): IUseFetchGamesEffect => {
   const { user } = appState;
 
   const [state, setState] = useState<IUseFetchGamesEffect>({ 
@@ -31,7 +33,7 @@ export const useFetchGamesEffect = (appState: IAppState, limit?: number): IUseFe
     if(appState.status === AppStatus.SignedIn) {
       const fetch = async (): Promise<void> => {
         try {
-          const results: IGame[] = await GameService.getAll(user.profile.uid, limit);
+          const results: IGame[] = await get(user.profile.uid, limit);
           
           setState({ games: results, status: RequestStatus.Success });
         } catch (err) {
