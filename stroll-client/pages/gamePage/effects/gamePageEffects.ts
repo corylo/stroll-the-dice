@@ -109,7 +109,17 @@ export const useFetchPlayersEffect = (
 
           const players: IPlayer[] = await PlayerService.getByGame(state.game.id);
 
-          setState({ ...state, players });
+          setState({ 
+            ...state, 
+            players, 
+            game: { 
+              ...state.game, 
+              counts: {
+                ...state.game.counts,
+                players: players.length
+              } 
+            } 
+          });
 
           setStatus(RequestStatus.Success);
         } catch (err) {
