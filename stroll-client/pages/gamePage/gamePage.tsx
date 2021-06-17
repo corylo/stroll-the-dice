@@ -6,7 +6,6 @@ import { Page } from "../../components/page/page";
 
 import { AppContext } from "../../components/app/contexts/appContext";
 
-import { useClearParamsEffect } from "../../effects/appEffects";
 import { useFetchGameEffect, useGameInviteEffect } from "./effects/gamePageEffects";
 
 import { ImageUtility } from "../../utilities/imageUtility";
@@ -14,6 +13,7 @@ import { UrlUtility } from "../../utilities/urlUtility";
 
 import { defaultGamePageState, IGamePageState } from "./models/gamePageState";
 
+import { AppAction } from "../../enums/appAction";
 import { Graphic } from "../../../stroll-enums/graphic";
 
 interface IGamePageContext {
@@ -28,9 +28,9 @@ interface GamePageProps {
 }
 
 export const GamePage: React.FC<GamePageProps> = (props: GamePageProps) => {
-  const { appState } = useContext(AppContext);
+  const { appState, dispatchToApp } = useContext(AppContext);
 
-  const { user } = appState;
+  const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
 
   const [state, setState] = useState<IGamePageState>(defaultGamePageState());    
 
@@ -38,9 +38,7 @@ export const GamePage: React.FC<GamePageProps> = (props: GamePageProps) => {
 
   useFetchGameEffect(id, state, setState);
 
-  useGameInviteEffect(user, state, setState);
-
-  useClearParamsEffect("invite");
+  useGameInviteEffect(appState, state, dispatch, setState);
 
   return(
     <GamePageContext.Provider value={{ state, setState }}>

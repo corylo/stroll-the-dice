@@ -1,4 +1,5 @@
 interface IUrlUtility {
+  clearParam: (history: any, param: string) => void;
   format: (value: string) => string;
   getLink: (path: string) => string;
   getParam: (match: any, param: string) => string;
@@ -6,6 +7,13 @@ interface IUrlUtility {
 }
 
 export const UrlUtility: IUrlUtility = {
+  clearParam: (history: any, param: string): void => {
+    const value: string = UrlUtility.getQueryParam(param);
+
+    if(value !== null) {
+      history.replace(window.location.pathname);
+    }
+  },
   format: (value: string): string => {
     return value.replace(/\s+/g, '-').toLowerCase();
   },

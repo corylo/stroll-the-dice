@@ -9,11 +9,7 @@ export const useClearParamsEffect = (param: string): void => {
   const history: any = useHistory();
 
   useEffect(() => {
-    const value: string = UrlUtility.getQueryParam(param);
-
-    if(value !== null) {
-      history.replace(window.location.pathname);
-    }
+    UrlUtility.clearParam(history, param);
   }, []);
 }
 
