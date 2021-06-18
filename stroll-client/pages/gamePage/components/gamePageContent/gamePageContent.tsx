@@ -35,7 +35,10 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
 
     return (
       <div className="game-page-content">
-        <UserLink profile={game.creator} tooltip="Creator" />
+        <div className="game-page-header">
+          <UserLink profile={game.creator} tooltip="Creator" />
+          <GameDateStatus game={game} gameStatus={state.gameStatus} />
+        </div>
         <div className="game-page-body">
           <h1 className="game-name passion-one-font">{game.name}</h1>
           <GameDetails game={game} togglePlayers={togglePlayers()} />
@@ -46,7 +49,6 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
             toggleUpdate={() => toggle({ update: true })}
           />
         </div>
-        <GameDateStatus game={game} gameStatus={state.gameStatus} />
         <UpdateGameModal back={() => toggle({ update: false })} />
         <AcceptInviteModal back={() => toggle({ accept: false })} />
         <InvitePlayersModal back={() => toggle({ invite: false })} />

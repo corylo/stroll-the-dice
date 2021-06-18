@@ -1,8 +1,19 @@
 .game-page-content {
   position: relative;
 
-  .user-link {
-    display: flex;
+  .game-page-header {
+    position: relative;
+    
+    .user-link {
+      display: flex;
+    }
+
+    .label.game-date-status {
+      margin: 8px 10px;
+      position: absolute;
+      right: 0px;
+      top: 0px;
+    }
   }
 
   .game-page-body {
@@ -12,12 +23,5 @@
       color: gray(230);
       font-size: 2em;
     }
-  }
-
-  .label.game-date-status {
-    margin: 8px 10px;
-    position: absolute;
-    right: 0px;
-    top: 0px;
   }
 }
