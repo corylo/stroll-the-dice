@@ -1,9 +1,13 @@
 interface IDateUtility {
   dateToInput: (date: Date) => string;
   daysToMillis: (days: number) => number;  
+  diffInDays: (value: string) => number;
+  inPast: (seconds: number) => boolean;
+  secondsToLocale: (seconds: number) => string;
   secondsToRelative: (seconds: number) => string;  
-  valid: (value: string) => boolean;
-  withinBoundaries: (value: string) => boolean;
+  valid: (value: string) => boolean;  
+  withinDaysLower: (value: string, limit: number) => boolean;
+  withinDaysUpper: (value: string, limit: number) => boolean;
 }
 
 export const DateUtility: IDateUtility = {
@@ -25,16 +29,28 @@ export const DateUtility: IDateUtility = {
   daysToMillis: (days: number): number => {
     return days * 24 * 3600 * 1000;
   },
+  diffInDays: (value: string): number => {
+    const current: Date = new Date(),
+      date: Date = new Date(value);
+
+    const diff: number = date.getTime() - current.getTime();
+    
+    return diff / (24 * 3600 * 1000);
+  },
+  inPast: (seconds: number): boolean => {    
+    return (seconds * 1000) < Date.now();
+  },
+  secondsToLocale: (seconds: number): string => {
+    const date: Date = new Date(seconds * 1000);
+
+    return date.toDateString();
+  },
   secondsToRelative: (seconds: number): string => {
     const relativeMillis: number = Math.abs(
         seconds * 1000 - new Date().getTime()
       ),
       relativeSeconds: number = Math.round(relativeMillis / 1000);
- 
-    if (relativeSeconds < 5) {
-      return "Now";
-    }
-
+      
     if (relativeSeconds < 60) {
       return `${relativeSeconds}s`;
     }
@@ -52,39 +68,18 @@ export const DateUtility: IDateUtility = {
     }
 
     const relativeDays: number = Math.floor(relativeHours / 24);
-
-    if (relativeDays < 7) {
-      return `${relativeDays}d`;
-    }
-
-    const relativeWeeks: number = Math.floor(relativeDays / 7);
-
-    if (relativeWeeks < 4) {
-      return `${relativeWeeks}w`;
-    }
-
-    const relativeMonths: number = Math.floor(relativeDays / 30.41666);
-
-    if (relativeMonths < 12) {
-      return `${relativeMonths}M`;
-    }
-
-    const relativeYears: number = Math.floor(relativeDays / 365);
-
-    return `${relativeYears}y`;
+    
+    return `${relativeDays}d`;
   },
   valid: (value: string): boolean => {
     const date: Date = new Date(value);
 
     return !isNaN(date.valueOf());
   },
-  withinBoundaries: (value: string): boolean => {
-    const current: Date = new Date(),
-      date: Date = new Date(value);
-
-    const diff: number = Math.abs(current.getTime() - date.getTime()),
-      days: number = diff / (1000 * 60 * 60 * 24);
-      
-    return days <= 30;
-  }
+  withinDaysLower: (value: string, limit: number): boolean => {
+    return DateUtility.diffInDays(value) >= limit;
+  },
+  withinDaysUpper: (value: string, limit: number): boolean => {
+    return DateUtility.diffInDays(value) <= limit;
+  },
 };

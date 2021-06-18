@@ -3,10 +3,12 @@ import { defaultGamePageStateToggles, IGamePageStateToggles } from "./gamePageSt
 import { IInvite } from "../../../../stroll-models/invite";
 import { IPlayer } from "../../../../stroll-models/player";
 
+import { GameStatus } from "../../../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
 
 export interface IGamePageState {
   game: IGame;
+  gameStatus: GameStatus;
   invite: IInvite;
   message: string;
   players: IPlayer[];
@@ -16,6 +18,7 @@ export interface IGamePageState {
 
 export const defaultGamePageState = (): IGamePageState => ({ 
   game: null,
+  gameStatus: GameStatus.Unknown,
   invite: null,
   message: "",
   players: [],

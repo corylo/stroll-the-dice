@@ -2,9 +2,9 @@ import React, { useContext } from "react";
 
 import { AcceptInviteModal } from "../acceptInviteModal/acceptInviteModal";
 import { GameActions } from "../gameActions/gameActions";
+import { GameDateStatus } from "../../../../components/gameDateStatus/gameDateStatus";
 import { GameDetails } from "../../../../components/gameDetails/gameDetails";
 import { InvitePlayersModal } from "../invitePlayersModal/invitePlayersModal";
-import { StartingIn } from "../../../../components/startingIn/startingIn";
 import { UpdateGameModal } from "../updateGameModal/updateGameModal";
 import { UserLink } from "../../../../components/userLink/userLink";
 import { ViewPlayersModal } from "../viewPlayersModal/viewPlayersModal";
@@ -46,7 +46,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
             toggleUpdate={() => toggle({ update: true })}
           />
         </div>
-        <StartingIn timestamp={game.startsAt} />
+        <GameDateStatus game={game} gameStatus={state.gameStatus} />
         <UpdateGameModal back={() => toggle({ update: false })} />
         <AcceptInviteModal back={() => toggle({ accept: false })} />
         <InvitePlayersModal back={() => toggle({ invite: false })} />

@@ -1,7 +1,8 @@
-export enum FormError {
-  DateRequirementNotMet = "Date Requirement Not Met",
+export enum FormError {  
+  CharacterMinimumNotMet = "Character Minimum Not Met",
   InvalidValue = "Invalid Value",
-  None = "",
+  LowerDateLimitExceeded = "Lower Date Limit Exceeded",
   MissingValue = "Missing Value",
-  CharacterMinimumNotMet = "Character Minimum Not Met"
+  None = "",
+  UpperDateLimitExceeded = "Upper Date Limit Exceeded"
 }

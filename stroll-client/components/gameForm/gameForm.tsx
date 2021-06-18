@@ -116,8 +116,10 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
   const getStartDateErrorMessage = (): string => {
     if(errors.startsAt === FormError.InvalidValue) {
       return FormError.InvalidValue;
-    } else if (errors.startsAt === FormError.DateRequirementNotMet) {
+    } else if (errors.startsAt === FormError.UpperDateLimitExceeded) {
       return "Date must be within 30 days of today."
+    } else if (errors.startsAt === FormError.LowerDateLimitExceeded) {
+      return "Date cannot be prior to today."
     }
   }
   

@@ -6,6 +6,7 @@ import { InviteService } from "../../../services/inviteService";
 import { PlayerService } from "../../../services/playerService";
 
 import { ErrorUtility } from "../../../utilities/errorUtility";
+import { GameDurationUtility } from "../../../utilities/gameDurationUtility";
 import { InviteUtility } from "../../../utilities/inviteUtility";
 import { UrlUtility } from "../../../utilities/urlUtility";
 
@@ -34,6 +35,7 @@ export const useFetchGameEffect = (id: string, state: IGamePageState, setState: 
             setState({ 
               ...state, 
               game, 
+              gameStatus: GameDurationUtility.getGameStatus(game),
               invite, 
               status: RequestStatus.Success,
               toggles: {

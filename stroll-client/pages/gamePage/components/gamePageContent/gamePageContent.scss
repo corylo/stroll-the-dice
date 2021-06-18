@@ -2,7 +2,7 @@
   position: relative;
 
   .user-link {
-    display: inline-flex;
+    display: flex;
   }
 
   .game-page-body {
@@ -14,7 +14,8 @@
     }
   }
 
-  .label.starting-in {
+  .label.game-date-status {
+    margin: 8px 10px;
     position: absolute;
     right: 0px;
     top: 0px;

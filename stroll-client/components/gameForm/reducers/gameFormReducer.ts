@@ -62,8 +62,9 @@ export const gameFormReducer = (state: IGameFormState, action: IAction): IGameFo
       } 
     case GameFormAction.SetStartsAt:
       if(
-        errors.startsAt === FormError.InvalidValue && DateUtility.valid(action.payload) ||
-        errors.startsAt === FormError.DateRequirementNotMet && DateUtility.withinBoundaries(action.payload)
+        (errors.startsAt === FormError.InvalidValue && DateUtility.valid(action.payload)) ||
+        (errors.startsAt === FormError.UpperDateLimitExceeded && DateUtility.withinDaysUpper(action.payload, 30)) ||
+        (errors.startsAt === FormError.LowerDateLimitExceeded && DateUtility.withinDaysLower(action.payload, -1))
       ) {
         updatedErrors.startsAt = FormError.None;
       }
