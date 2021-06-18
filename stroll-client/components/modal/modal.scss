@@ -121,6 +121,10 @@
       padding: 0px 20px;
       padding-top: 20px;
       width: calc(100% - 40px);
+
+      .modal-content {
+        padding: 20px 0px;
+      }
     }
   }
 }
