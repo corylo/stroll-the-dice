@@ -34,7 +34,7 @@ export const ViewPlayersModal: React.FC<ViewPlayersModalProps> = (props: ViewPla
 
   if(state.toggles.players) {
     const getPlayers = (): JSX.Element => {
-      const players: JSX.Element[] = [...state.players, ...state.players, ...state.players, ...state.players, ...state.players, ...state.players, ...state.players, ...state.players].map((player: IPlayer) => 
+      const players: JSX.Element[] = state.players.map((player: IPlayer) => 
         <UserLink key={player.id} profile={player.profile} />);
 
       return (
