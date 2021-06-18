@@ -98,6 +98,19 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
     }
   }
 
+  const getLockGameSection = (): JSX.Element => {
+    if(props.game) {
+      return (
+        <FormBodySection>
+          <LockGame 
+            locked={fields.locked}
+            toggle={(locked: boolean) => handleOnChange(GameFormAction.SetLocked, locked)} 
+          />
+        </FormBodySection>
+      )
+    }
+  }
+
   const getStatusMessage = (): string => {
     if(status === FormStatus.SubmitSuccess) {
       return "Game saved successfully!";
@@ -140,7 +153,7 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
     } else if (errors.startsAt === FormError.UpperDateLimitExceeded) {
       return "Date must be within 30 days of today."
     } else if (errors.startsAt === FormError.LowerDateLimitExceeded) {
-      return "Date cannot be prior to today."
+      return "Date must be in the future."
     }
   }
   
@@ -205,12 +218,7 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
             Games start at <span className="highlight-main">midnight</span> on the selected date.
           </h1>
         </FormBodySection>
-        <FormBodySection>
-          <LockGame 
-            locked={fields.locked}
-            toggle={(locked: boolean) => handleOnChange(GameFormAction.SetLocked, locked)} 
-          />
-        </FormBodySection>
+        {getLockGameSection()}
       </FormBody>
       <FormActions>
         {getSaveButton()}

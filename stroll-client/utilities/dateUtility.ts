@@ -2,6 +2,7 @@ interface IDateUtility {
   dateToInput: (date: Date) => string;
   daysToMillis: (days: number) => number;  
   diffInDays: (value: string) => number;
+  getTomorrow: () => Date;
   inPast: (seconds: number) => boolean;
   secondsToLocale: (seconds: number) => string;
   secondsToRelative: (seconds: number) => string;  
@@ -36,6 +37,13 @@ export const DateUtility: IDateUtility = {
     const diff: number = date.getTime() - current.getTime();
     
     return diff / (24 * 3600 * 1000);
+  },
+  getTomorrow: (): Date => {
+    const date: Date = new Date();
+
+    date.setDate(date.getDate() + 1);
+
+    return date;
   },
   inPast: (seconds: number): boolean => {    
     return (seconds * 1000) < Date.now();
