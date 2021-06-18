@@ -1,25 +1,25 @@
 .game-details {
   align-items: center;
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 5px;
-  pointer-events: none;
   position: relative;
   z-index: 3;
 
-  .game-duration,
-  .game-mode,
-  .game-player-count {
-    background-color: gray(20);
-    border-radius: 100px;
-    color: gray(230);
-    padding: 5px 15px;
-    pointer-events: all;
-  }
+  .game-labels {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 5px;
 
-  .game-duration,
-  .game-mode {
-    margin-right: 10px;
+    .label {
+      background-color: gray(20);
+      border-radius: 100px;
+      color: gray(230);
+      padding: 5px 15px;
+      pointer-events: all;
+    }
+
+    .game-duration,
+    .game-mode {
+      margin-right: 10px;
+    }
   }
 }
 

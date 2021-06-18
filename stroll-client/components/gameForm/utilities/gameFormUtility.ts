@@ -23,7 +23,7 @@ export const GameFormUtility: IGameFormUtility = {
         game.duration !== fields.duration ||
         game.mode !== fields.mode || 
         game.name !== fields.name ||
-        DateUtility.firestoreSecondsToDateInput(game.startsAt) !== fields.startsAt
+        DateUtility.firestoreTimestampToDateInput(game.startsAt) !== fields.startsAt
       )
     }
 
@@ -59,7 +59,7 @@ export const GameFormUtility: IGameFormUtility = {
         duration: game.duration,
         mode: game.mode,
         name: game.name,
-        startsAt: DateUtility.firestoreSecondsToDateInput(game.startsAt)
+        startsAt: DateUtility.firestoreTimestampToDateInput(game.startsAt)
       }
     }
 

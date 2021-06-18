@@ -2,8 +2,10 @@ import firebase from "firebase/app";
 
 interface IDateUtility {
   dateToFirestoreTimestamp: (date: Date) => firebase.firestore.Timestamp;
-  daysToMillis: (days: number) => number;
-  firestoreSecondsToDateInput: (value: firebase.firestore.FieldValue) => string;
+  daysToMillis: (days: number) => number;  
+  firestoreTimestampToDateInput: (value: firebase.firestore.FieldValue) => string;
+  firestoreTimestampToLocale: (value: firebase.firestore.FieldValue) => string;
+  firestoreTimestampToRelative: (value: firebase.firestore.FieldValue) => string;
   formatForDateInput: (date: Date) => string;
   formatRelative: (seconds: number) => string;  
   stringToFirestoreTimestamp: (value: string) => firebase.firestore.Timestamp;
@@ -19,10 +21,21 @@ export const DateUtility: IDateUtility = {
   daysToMillis: (days: number): number => {
     return days * 24 * 3600 * 1000;
   },
-  firestoreSecondsToDateInput: (value: firebase.firestore.FieldValue): string => {
+  firestoreTimestampToDateInput: (value: firebase.firestore.FieldValue): string => {
     const date: any = value as any;
 
     return DateUtility.formatForDateInput(new Date(date.seconds * 1000));
+  },
+  firestoreTimestampToLocale: (value: firebase.firestore.FieldValue): string => {
+    const date: any = value as any,
+      formatted: Date = new Date(date.seconds * 1000);
+
+    return formatted.toDateString();
+  },
+  firestoreTimestampToRelative: (value: firebase.firestore.FieldValue): string => {
+    const date: any = value as any;
+
+    return DateUtility.formatRelative(date.seconds);
   },
   formatForDateInput: (date: Date): string => {
     var month: string = (date.getMonth() + 1).toString(),

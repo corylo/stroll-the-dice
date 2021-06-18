@@ -24,6 +24,13 @@
     display: inline-flex;
   }
 
+  .label.starting-in {
+    margin: 22px 20px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+  }
+
   .game-link-body {
     margin-top: 5px;
     pointer-events: none;
@@ -34,6 +41,10 @@
       color: gray(230);
       font-size: 2em;
     }
+  }
+
+  .game-details {    
+    pointer-events: none;
   }
 }
 

@@ -26,24 +26,26 @@ export const GameDetails: React.FC<GameDetailsProps> = (props: GameDetailsProps)
 
   return ( 
     <div className="game-details">
-      <Label 
-        className="game-duration passion-one-font" 
-        text={GameDurationUtility.getLabel(game.duration)} 
-        tooltip="Duration"
-      />
-      <Label 
-        className="game-mode" 
-        icon={GameModeUtility.getIcon(game.mode)}
-        text={game.mode}
-        tooltip="Mode"
-      />
-      <Label 
-        className="game-player-count passion-one-font" 
-        text={getPlayerCountText()} 
-        tooltip={props.togglePlayers ? "View" : null}
-        tooltipSide={TooltipSide.Bottom}
-        handleOnClick={props.togglePlayers}
-      />
+      <div className="game-labels">
+        <Label 
+          className="game-duration passion-one-font" 
+          text={GameDurationUtility.getLabel(game.duration)} 
+          tooltip="Duration"
+        />
+        <Label 
+          className="game-mode" 
+          icon={GameModeUtility.getIcon(game.mode)}
+          text={game.mode}
+          tooltip="Mode"
+        />
+        <Label 
+          className="game-player-count passion-one-font" 
+          text={getPlayerCountText()} 
+          tooltip={props.togglePlayers ? "View" : null}
+          tooltipSide={TooltipSide.Bottom}
+          handleOnClick={props.togglePlayers}
+        />
+      </div>
     </div>
   ); 
 }

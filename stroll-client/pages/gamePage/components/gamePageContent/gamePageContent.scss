@@ -1,4 +1,10 @@
 .game-page-content {
+  position: relative;
+
+  .user-link {
+    display: inline-flex;
+  }
+
   .game-page-body {
     margin-top: 5px;
 
@@ -6,5 +12,11 @@
       color: gray(230);
       font-size: 2em;
     }
+  }
+
+  .label.starting-in {
+    position: absolute;
+    right: 0px;
+    top: 0px;
   }
 }

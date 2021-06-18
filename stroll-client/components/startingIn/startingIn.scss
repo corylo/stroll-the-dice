@@ -1,0 +1,11 @@
+.label.starting-in {
+  color: gray(200);
+  position: absolute;
+  right: 0px;
+  top: 0px;
+
+  > h1 {    
+    height: 20px;
+    line-height: 20px;
+  }
+}
