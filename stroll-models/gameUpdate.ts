@@ -5,6 +5,7 @@ import { GameMode } from "../stroll-enums/gameMode";
 
 export interface IGameUpdate {  
   duration: GameDuration;
+  locked: boolean;
   mode: GameMode,
   name: string;
   startsAt: firebase.firestore.FieldValue;

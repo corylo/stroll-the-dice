@@ -5,8 +5,10 @@ import { DurationSelector } from "./components/durationSelector/durationSelector
 import { Form } from "../form/form";
 import { FormActions } from "../form/formActions";
 import { FormBody } from "../form/formBody";
+import { FormBodySection } from "../form/formBodySection";
 import { FormTitle } from "../form/formTitle";
 import { InputWrapper } from "../inputWrapper/inputWrapper";
+import { LockGame } from "./components/lockGame/lockGame";
 import { ModeSelector } from "./components/modeSelector/modeSelector";
 
 import { gameFormReducer } from "./reducers/gameFormReducer";
@@ -186,18 +188,29 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
             select={(mode: GameMode) => handleOnChange(GameFormAction.SetMode, mode)} 
           />
         </InputWrapper>
-        <InputWrapper
-          label="Start Date"
-          error={errors.startsAt}
-          errorMessage={getStartDateErrorMessage()}
-        >
-          <input 
-            type="date" 
-            className="passion-one-font"
-            value={fields.startsAt}
-            onChange={(e: any) => handleOnChange(GameFormAction.SetStartsAt, e.target.value)}
+        <FormBodySection>
+          <InputWrapper
+            label="Start Date"
+            error={errors.startsAt}
+            errorMessage={getStartDateErrorMessage()}
+          >
+            <input 
+              type="date" 
+              className="passion-one-font"
+              value={fields.startsAt}
+              onChange={(e: any) => handleOnChange(GameFormAction.SetStartsAt, e.target.value)}
+            />
+          </InputWrapper>
+          <h1 className="start-date-label passion-one-font">
+            Games start at <span className="highlight-main">midnight</span> on the selected date.
+          </h1>
+        </FormBodySection>
+        <FormBodySection>
+          <LockGame 
+            locked={fields.locked}
+            toggle={(locked: boolean) => handleOnChange(GameFormAction.SetLocked, locked)} 
           />
-        </InputWrapper>
+        </FormBodySection>
       </FormBody>
       <FormActions>
         {getSaveButton()}

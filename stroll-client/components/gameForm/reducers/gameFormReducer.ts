@@ -45,8 +45,14 @@ export const gameFormReducer = (state: IGameFormState, action: IAction): IGameFo
         ...state,
         errors: action.payload
       }
-    case GameFormAction.SetDuration:
-
+    case GameFormAction.SetLocked:
+      return {
+        ...state,
+        fields: {
+          ...fields,
+          locked: action.payload
+        }
+      }      
     case GameFormAction.SetName:
       if(errors.name === FormError.MissingValue && action.payload.trim() !== "") {
         updatedErrors.name = FormError.None;
@@ -64,7 +70,7 @@ export const gameFormReducer = (state: IGameFormState, action: IAction): IGameFo
       if(
         (errors.startsAt === FormError.InvalidValue && DateUtility.valid(action.payload)) ||
         (errors.startsAt === FormError.UpperDateLimitExceeded && DateUtility.withinDaysUpper(action.payload, 30)) ||
-        (errors.startsAt === FormError.LowerDateLimitExceeded && DateUtility.withinDaysLower(action.payload, -1))
+        (errors.startsAt === FormError.LowerDateLimitExceeded && DateUtility.withinDaysLower(action.payload, 0))
       ) {
         updatedErrors.startsAt = FormError.None;
       }

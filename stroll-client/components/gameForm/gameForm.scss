@@ -1,2 +1,10 @@
 @import "./components/durationSelector/durationSelector.scss";
+@import "./components/lockGame/lockGame.scss";
 @import "./components/modeSelector/modeSelector.scss";
+
+#game-form {
+  .start-date-label {
+    color: gray(200);
+    margin-top: 10px;
+  }
+}

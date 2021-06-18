@@ -37,7 +37,7 @@ export const GameFormValidator: IGameFormValidator = {
     } else if (!DateUtility.withinDaysUpper(fields.startsAt, 30)) {
       errors.startsAt = FormError.UpperDateLimitExceeded;
       errorCount++;
-    } else if (!DateUtility.withinDaysLower(fields.startsAt, -1)) {
+    } else if (!DateUtility.withinDaysLower(fields.startsAt, 0)) {
       errors.startsAt = FormError.LowerDateLimitExceeded;
       errorCount++;
     }

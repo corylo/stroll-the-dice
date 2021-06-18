@@ -24,6 +24,7 @@ export const GameFormUtility: IGameFormUtility = {
     if(game) {
       return (
         game.duration !== fields.duration ||
+        game.locked !== fields.locked ||
         game.mode !== fields.mode || 
         game.name !== fields.name ||
         FirestoreDateUtility.timestampToDateInput(game.startsAt) !== fields.startsAt
@@ -51,6 +52,7 @@ export const GameFormUtility: IGameFormUtility = {
       },
       duration: fields.duration,
       id: Nano.generate(),
+      locked: false,
       mode: fields.mode,
       name: fields.name,
       startsAt: FirestoreDateUtility.stringToOffsetTimestamp(fields.startsAt)
@@ -74,6 +76,7 @@ export const GameFormUtility: IGameFormUtility = {
   mapUpdate: (fields: IGameFormStateFields): IGameUpdate => {
     return {
       duration: fields.duration,
+      locked: fields.locked,
       mode: fields.mode,
       name: fields.name,
       startsAt: FirestoreDateUtility.stringToOffsetTimestamp(fields.startsAt)

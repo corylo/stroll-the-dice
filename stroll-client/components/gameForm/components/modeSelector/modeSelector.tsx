@@ -20,7 +20,7 @@ export const ModeSelector: React.FC<ModeSelectorProps> = (props: ModeSelectorPro
       return (
         <Button 
           key={mode}
-          className={classNames("mode-selector-option", { selected })}          
+          className={classNames("mode-selector-option", "fancy-option-button", { selected })}          
           handleOnClick={() => props.select(mode)} 
         >
           <i className={GameModeUtility.getIcon(mode)} />

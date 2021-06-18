@@ -20,7 +20,7 @@ export const DurationSelector: React.FC<DurationSelectorProps> = (props: Duratio
       return (
         <Button 
           key={duration}
-          className={classNames("duration-selector-option", "passion-one-font", { selected })}          
+          className={classNames("duration-selector-option", "fancy-option-button", "passion-one-font", { selected })}          
           handleOnClick={() => props.select(duration)} 
         >
           {GameDurationUtility.getLabel(duration)}
