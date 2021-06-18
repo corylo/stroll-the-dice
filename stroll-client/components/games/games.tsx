@@ -58,7 +58,7 @@ export const Games: React.FC<GamesProps> = (props: GamesProps) => {
   }
 
   const getEmptyMessage = (): JSX.Element => {
-    if(games.length === 0) {
+    if(status !== RequestStatus.Loading && games.length === 0) {
       return (
         <div className="empty-message">
           <h1 className="passion-one-font">{props.emptyMessage}</h1>
