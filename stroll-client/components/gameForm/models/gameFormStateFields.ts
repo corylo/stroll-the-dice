@@ -14,5 +14,5 @@ export const defaultGameFormStateFields = (): IGameFormStateFields => ({
   duration: GameDuration.None,
   mode: GameMode.None,
   name: "",
-  startsAt: DateUtility.formatForDateInput(new Date())
+  startsAt: DateUtility.dateToInput(new Date())
 });

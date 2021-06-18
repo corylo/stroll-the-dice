@@ -1,6 +1,6 @@
 import firebase from "firebase/app";
 
-import { DateUtility } from "../../../utilities/dateUtility";
+import { FirestoreDateUtility } from "../../../utilities/firestoreDateUtility";
 import { Nano } from "../../../utilities/nanoUtility";
 
 import { IGame } from "../../../../stroll-models/game";
@@ -23,7 +23,7 @@ export const GameFormUtility: IGameFormUtility = {
         game.duration !== fields.duration ||
         game.mode !== fields.mode || 
         game.name !== fields.name ||
-        DateUtility.firestoreTimestampToDateInput(game.startsAt) !== fields.startsAt
+        FirestoreDateUtility.timestampToDateInput(game.startsAt) !== fields.startsAt
       )
     }
 
@@ -47,7 +47,7 @@ export const GameFormUtility: IGameFormUtility = {
       id: Nano.generate(),
       mode: fields.mode,
       name: fields.name,
-      startsAt: DateUtility.stringToOffsetFirestoreTimestamp(fields.startsAt)
+      startsAt: FirestoreDateUtility.stringToOffsetTimestamp(fields.startsAt)
     }
   },
   mapInitialState: (game?: IGame): IGameFormState => {
@@ -59,7 +59,7 @@ export const GameFormUtility: IGameFormUtility = {
         duration: game.duration,
         mode: game.mode,
         name: game.name,
-        startsAt: DateUtility.firestoreTimestampToDateInput(game.startsAt)
+        startsAt: FirestoreDateUtility.timestampToDateInput(game.startsAt)
       }
     }
 
@@ -70,7 +70,7 @@ export const GameFormUtility: IGameFormUtility = {
       duration: fields.duration,
       mode: fields.mode,
       name: fields.name,
-      startsAt: DateUtility.stringToOffsetFirestoreTimestamp(fields.startsAt)
+      startsAt: FirestoreDateUtility.stringToOffsetTimestamp(fields.startsAt)
     }
   }
 }

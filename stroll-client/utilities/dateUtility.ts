@@ -1,43 +1,13 @@
-import firebase from "firebase/app";
-
 interface IDateUtility {
-  dateToFirestoreTimestamp: (date: Date) => firebase.firestore.Timestamp;
+  dateToInput: (date: Date) => string;
   daysToMillis: (days: number) => number;  
-  firestoreTimestampToDateInput: (value: firebase.firestore.FieldValue) => string;
-  firestoreTimestampToLocale: (value: firebase.firestore.FieldValue) => string;
-  firestoreTimestampToRelative: (value: firebase.firestore.FieldValue) => string;
-  formatForDateInput: (date: Date) => string;
-  formatRelative: (seconds: number) => string;  
-  stringToFirestoreTimestamp: (value: string) => firebase.firestore.Timestamp;
-  stringToOffsetFirestoreTimestamp: (value: string) => firebase.firestore.Timestamp;
+  secondsToRelative: (seconds: number) => string;  
   valid: (value: string) => boolean;
   withinBoundaries: (value: string) => boolean;
 }
 
 export const DateUtility: IDateUtility = {
-  dateToFirestoreTimestamp: (date: Date): firebase.firestore.Timestamp => {
-    return firebase.firestore.Timestamp.fromDate(date);
-  },
-  daysToMillis: (days: number): number => {
-    return days * 24 * 3600 * 1000;
-  },
-  firestoreTimestampToDateInput: (value: firebase.firestore.FieldValue): string => {
-    const date: any = value as any;
-
-    return DateUtility.formatForDateInput(new Date(date.seconds * 1000));
-  },
-  firestoreTimestampToLocale: (value: firebase.firestore.FieldValue): string => {
-    const date: any = value as any,
-      formatted: Date = new Date(date.seconds * 1000);
-
-    return formatted.toDateString();
-  },
-  firestoreTimestampToRelative: (value: firebase.firestore.FieldValue): string => {
-    const date: any = value as any;
-
-    return DateUtility.formatRelative(date.seconds);
-  },
-  formatForDateInput: (date: Date): string => {
+  dateToInput: (date: Date): string => {
     var month: string = (date.getMonth() + 1).toString(),
         day: string = date.getDate().toString(),
         year: string = date.getFullYear().toString();
@@ -52,7 +22,10 @@ export const DateUtility: IDateUtility = {
 
     return [year, month, day].join("-");
   },
-  formatRelative: (seconds: number): string => {
+  daysToMillis: (days: number): number => {
+    return days * 24 * 3600 * 1000;
+  },
+  secondsToRelative: (seconds: number): string => {
     const relativeMillis: number = Math.abs(
         seconds * 1000 - new Date().getTime()
       ),
@@ -99,16 +72,6 @@ export const DateUtility: IDateUtility = {
     const relativeYears: number = Math.floor(relativeDays / 365);
 
     return `${relativeYears}y`;
-  },
-  stringToFirestoreTimestamp: (value: string): firebase.firestore.Timestamp => {
-    return DateUtility.dateToFirestoreTimestamp(new Date(value));
-  },
-  stringToOffsetFirestoreTimestamp: (value: string): firebase.firestore.Timestamp => {
-    const date: Date = new Date(value);
-    
-    date.setTime(date.getTime() + date.getTimezoneOffset() * 60000);
-
-    return DateUtility.dateToFirestoreTimestamp(date);
   },
   valid: (value: string): boolean => {
     const date: Date = new Date(value);

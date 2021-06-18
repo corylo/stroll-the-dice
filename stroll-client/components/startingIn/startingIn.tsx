@@ -1,7 +1,7 @@
 import React from "react";
 import firebase from "firebase/app";
 
-import { DateUtility } from "../../utilities/dateUtility";
+import { FirestoreDateUtility } from "../../utilities/firestoreDateUtility";
 
 import { Label } from "../label/label";
 import { TooltipSide } from "../tooltip/tooltip";
@@ -15,8 +15,8 @@ export const StartingIn: React.FC<StartingInProps> = (props: StartingInProps) =>
     <Label
       className="starting-in passion-one-font"
       icon="fal fa-clock"
-      text={`Starts in ${DateUtility.firestoreTimestampToRelative(props.timestamp)}`}
-      tooltip={DateUtility.firestoreTimestampToLocale(props.timestamp)}
+      text={`Starts in ${FirestoreDateUtility.timestampToRelative(props.timestamp)}`}
+      tooltip={FirestoreDateUtility.timestampToLocale(props.timestamp)}
       tooltipSide={TooltipSide.Bottom}
     />
   );
