@@ -41,13 +41,13 @@ export const GameService: IGameService = {
     const before: IGame = change.before.data(),
       after: IGame = change.after.data();
   
-    if(GameUtility.hasStartsAtChanged(before, after)) {
-      logger.info(`Updating startsAt to [${after.startsAt}] for game [${after.id}]`);
+    if(GameUtility.hasChanged(before, after)) {
+      logger.info(`Updating all references to game [${after.id}]`);
       
       try {
         const batch: firebase.firestore.WriteBatch = db.batch();
   
-        await PlayingInService.batch.update(batch, context.params.id, after.startsAt);
+        await PlayingInService.batch.update(batch, context.params.id, after);
 
         const results: firebase.firestore.WriteResult[] = await batch.commit();
   

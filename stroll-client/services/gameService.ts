@@ -52,6 +52,7 @@ export const GameService: IGameService = {
     const snap: firebase.firestore.QuerySnapshot<IGame> = await db.collection("games")
       .where("creator.uid", "==", uid)
       .orderBy("startsAt")      
+      .orderBy("name")
       .limit(limit || 10)
       .withConverter(gameConverter)
       .get();
@@ -68,8 +69,11 @@ export const GameService: IGameService = {
       .doc(uid)
       .collection("playing_in")
       .orderBy("startsAt")
+      .orderBy("name")
       .limit(limit)
       .get();
+
+    console.log(snap.docs.length);
     
     let ids: string[] = [];
 

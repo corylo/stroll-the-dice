@@ -1,11 +1,14 @@
 import { IGame } from "../../../stroll-models/game";
 
 interface IGameUtility {
-  hasStartsAtChanged: (before: IGame, after: IGame) => boolean;
+  hasChanged: (before: IGame, after: IGame) => boolean;
 }
 
 export const GameUtility: IGameUtility = {  
-  hasStartsAtChanged: (before: IGame, after: IGame): boolean => {
-    return !after.startsAt.isEqual(before.startsAt);
+  hasChanged: (before: IGame, after: IGame): boolean => {
+    return (
+      before.name !== after.name ||
+      !before.startsAt.isEqual(after.startsAt)
+    );
   }
 }
