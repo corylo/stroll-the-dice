@@ -55,6 +55,9 @@ export const GameFormUtility: IGameFormUtility = {
       locked: false,
       mode: fields.mode,
       name: fields.name,
+      sortable: {
+        name: fields.name.toLowerCase()
+      },
       startsAt: FirestoreDateUtility.stringToOffsetTimestamp(fields.startsAt)
     }
   },
@@ -80,6 +83,9 @@ export const GameFormUtility: IGameFormUtility = {
       locked: fields.locked,
       mode: fields.mode,
       name: fields.name,
+      sortable: {
+        name: fields.name.toLowerCase(),
+      },
       startsAt: FirestoreDateUtility.stringToOffsetTimestamp(fields.startsAt)
     }
   }

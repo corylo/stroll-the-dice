@@ -15,6 +15,14 @@ const defaultGameCounts = (): IGameCounts => ({
   teams: 0
 });
 
+export interface IGameSortable {
+  name: string;
+}
+
+const defaultGameSortable = (): IGameSortable => ({
+  name: ""
+});
+
 export interface IGame {
   counts: IGameCounts;
   createdAt: firebase.firestore.FieldValue;
@@ -24,6 +32,7 @@ export interface IGame {
   locked: boolean;
   mode: GameMode;
   name: string;
+  sortable: IGameSortable;
   startsAt: firebase.firestore.FieldValue;
 }
 
@@ -36,6 +45,7 @@ export const defaultGame = (): IGame => ({
   locked: false,
   mode: GameMode.None,
   name: "",
+  sortable: defaultGameSortable(),
   startsAt: firebase.firestore.FieldValue.serverTimestamp(),
 });
 
@@ -49,6 +59,7 @@ export const gameConverter: firebase.firestore.FirestoreDataConverter<IGame> = {
       locked: game.locked,
       mode: game.mode,
       name: game.name,
+      sortable: game.sortable,
       startsAt: game.startsAt
     }
   },
@@ -67,6 +78,7 @@ export const gameConverter: firebase.firestore.FirestoreDataConverter<IGame> = {
       locked: data.locked,
       mode: data.mode,
       name: data.name,
+      sortable: data.sortable,
       startsAt: data.startsAt
     }
   }

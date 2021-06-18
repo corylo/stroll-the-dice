@@ -20,7 +20,7 @@ export const PlayingInService: IPlayingInService = {
         .get();
 
       playingInSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot) => {        
-        batch.update(doc.ref, { name: after.name, startsAt: after.startsAt });
+        batch.update(doc.ref, { name: after.name.toLowerCase(), startsAt: after.startsAt });
       });
 
       return batch;

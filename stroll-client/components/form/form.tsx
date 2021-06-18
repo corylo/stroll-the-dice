@@ -48,8 +48,6 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
   }
   
   const getSubmitStatusMessage = (): JSX.Element | null => {
-    console.log(props.status, props.statusMessage);
-
     if(props.status === FormStatus.SubmitInfo) {
       const infoMessage: string = props.statusMessage || "Info!";
 

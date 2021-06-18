@@ -65,7 +65,7 @@ export const PlayerService: IPlayerService = {
             transaction.update(inviteRef, { ["uses.current"]: firebase.firestore.FieldValue.increment(1) });
           }
         
-          transaction.set(playingRef, { id: gameDoc.id, startsAt: game.startsAt });
+          transaction.set(playingRef, { name: game.name.toLowerCase(), id: gameDoc.id, startsAt: game.startsAt });
         }
       });
       
