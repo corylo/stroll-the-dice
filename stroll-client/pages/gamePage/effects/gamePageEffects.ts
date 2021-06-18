@@ -26,10 +26,11 @@ export const useFetchGameEffect = (id: string, state: IGamePageState, setState: 
     if(id.trim() !== "") {
       const fetch = async (): Promise<void> => {
         try {
-          const game: IGame = await GameService.get(id),
-            invite: IInvite = await InviteService.get.by.game(game);
+          const game: IGame = await GameService.get(id);
 
           if(game !== null) {
+            const invite: IInvite = await InviteService.get.by.game(game);
+
             setState({ 
               ...state, 
               game, 

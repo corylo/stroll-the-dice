@@ -20,17 +20,17 @@ export const MyGamesPage: React.FC<MyGamesPageProps> = (props: MyGamesPageProps)
       backgroundGraphic={ImageUtility.getGraphic(Graphic.DayAtPark)} 
       requireAuth
     >    
-      <Games  
-        emptyMessage="You haven't created any games yet."
-        limit={10} 
-        title="My Games"
-        get={GameService.getAllMyGames} 
-      />
       <Games 
         emptyMessage="You're not playing in any games yet."
         limit={10} 
         title="Playing In" 
         get={GameService.getAllPlayingIn} 
+      />
+      <Games  
+        emptyMessage="You haven't created any games yet."
+        limit={10} 
+        title="My Games"
+        get={GameService.getAllMyGames} 
       />
     </Page>
   )

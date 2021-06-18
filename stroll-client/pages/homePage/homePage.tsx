@@ -24,17 +24,17 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
     if(appState.status === AppStatus.SignedIn) {
       return (
         <React.Fragment>
-          <Games  
-            emptyMessage="You haven't created any games yet."
-            limit={3} 
-            title="My Games"
-            get={GameService.getAllMyGames} 
-          />
           <Games 
             emptyMessage="You're not playing in any games yet."
             limit={3} 
             title="Playing In" 
             get={GameService.getAllPlayingIn} 
+          />
+          <Games  
+            emptyMessage="You haven't created any games yet."
+            limit={3} 
+            title="My Games"
+            get={GameService.getAllMyGames} 
           />
         </React.Fragment>
       )

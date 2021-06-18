@@ -1,8 +1,12 @@
 
 import firebase from "firebase-admin";
+import { Change, EventContext, logger } from "firebase-functions";
 
 import { db } from "../../firebase";
 
+import { PlayingInService } from "./playingInService";
+
+import { GameUtility } from "../utilities/gameUtility";
 import { ProfileUtility } from "../utilities/profileUtility";
 
 import { IGame } from "../../../stroll-models/game";
@@ -14,6 +18,7 @@ interface IGameServiceBatch {
 
 interface IGameService {
   batch: IGameServiceBatch;
+  onUpdate: (change: Change<firebase.firestore.QueryDocumentSnapshot<IGame>>, context: EventContext) => Promise<void>;
 }
 
 export const GameService: IGameService = {
@@ -31,5 +36,25 @@ export const GameService: IGameService = {
 
       return batch;
     }
-  }
+  },
+  onUpdate: async (change: Change<firebase.firestore.QueryDocumentSnapshot<IGame>>, context: EventContext): Promise<void> => {
+    const before: IGame = change.before.data(),
+      after: IGame = change.after.data();
+  
+    if(GameUtility.hasStartsAtChanged(before, after)) {
+      logger.info(`Updating startsAt to [${after.startsAt}] for game [${after.id}]`);
+      
+      try {
+        const batch: firebase.firestore.WriteBatch = db.batch();
+  
+        await PlayingInService.batch.update(batch, context.params.id, after.startsAt);
+
+        const results: firebase.firestore.WriteResult[] = await batch.commit();
+  
+        logger.info(`Successfully updated ${results.length} documents.`);
+      } catch (err) {
+        logger.error(err);
+      }
+    }
+  },
 }
