@@ -3,7 +3,7 @@
 
 @include phone-or-larger {
   #update-profile-modal {
-    .modal-content {
+    .modal-content-wrapper {
       width: 540px;
     }
   }

@@ -12,7 +12,6 @@ import { RequestStatus } from "../../../stroll-enums/requestStatus";
 interface ModalProps {
   id: string;
   children: any;
-  transparent?: boolean;  
   priority?: boolean;
   status?: RequestStatus | FormStatus;
   handleOnClose?: () => void;
@@ -23,7 +22,6 @@ export const Modal: React.FC<ModalProps> = (props: ModalProps) => {
 
   const getClasses = (): string => {
     const classes: any = { 
-      transparent: props.transparent,
       priority: props.priority
     };
 
@@ -38,8 +36,10 @@ export const Modal: React.FC<ModalProps> = (props: ModalProps) => {
     }
 
     return (
-      <div id={`${props.id}-content`} className="modal-content" onClick={(e: any) => e.stopPropagation()}>
-        {props.children}
+      <div id={`${props.id}-content`} className="modal-content-wrapper" onClick={(e: any) => e.stopPropagation()}>
+        <div className="modal-content">
+          {props.children}
+        </div>
       </div>
     )
   }

@@ -10,99 +10,98 @@
   width: 100%;
   z-index: 9998;
 
-  &.transparent {
-    background-color: transparent;
-    z-index: 9996;
-  }
-
   &.priority {
     z-index: 9999;
   }
 
-  .modal-content { 
-    padding: 20px;
+  .modal-content-wrapper { 
+    padding: 20px 0px;
 
-    .modal-title {   
-      margin-bottom: 20px;
-      position: relative;
-  
-      &:after {
-        background-color: $themeMain;
-        bottom: -4px;
-        content: "";
-        height: 2px;
-        left: 0px;
-        position: absolute;
-        width: 50px;
-      }
-  
-      .close-button {  
-        background-color: transparent;      
-        position: absolute;
-        right: 0px;
-        top: 0px;
-        
-        &:hover,
-        &:focus {
-          color: $themeMain;
+    .modal-content {
+      padding: 20px;
+
+      .modal-title {   
+        margin-bottom: 20px;
+        position: relative;
+    
+        &:after {
+          background-color: $themeMain;
+          bottom: -4px;
+          content: "";
+          height: 2px;
+          left: 0px;
+          position: absolute;
+          width: 50px;
         }
+    
+        .close-button {  
+          background-color: transparent;      
+          position: absolute;
+          right: 0px;
+          top: 0px;
+          
+          &:hover,
+          &:focus {
+            color: $themeMain;
+          }
 
-        i {
-          height: 36px;
-          line-height: 36px;
-          width: 36px;
+          i {
+            height: 36px;
+            line-height: 36px;
+            width: 36px;
+          }
         }
-      }
-
-      h1 {
-        color: gray(200);
-        font-size: 2em;
-        text-align: left;
-        width: calc(100% - 60px);
-      }
-    }
-
-    .modal-status-message {
-      border-radius: 6px;
-      margin-top: 10px;
-      padding: 15px 10px;
-
-      &.success {
-        background-color: rgba($green, 0.15);
 
         h1 {
-          color: $green;
+          color: gray(200);
+          font-size: 2em;
+          text-align: left;
+          width: calc(100% - 60px);
         }
       }
 
-      &.error {
-        background-color: rgba($red, 0.15);
+      .modal-status-message {
+        border-radius: 6px;
+        margin-top: 10px;
+        padding: 15px 10px;
+
+        &.success {
+          background-color: rgba($green, 0.15);
+
+          h1 {
+            color: $green;
+          }
+        }
+
+        &.error {
+          background-color: rgba($red, 0.15);
+
+          h1 {
+            color: $red;
+          }
+        }
 
         h1 {
-          color: $red;
+          font-size: 1.1em;
+          font-weight: 400;
         }
       }
 
-      h1 {
-        font-size: 1.1em;
-        font-weight: 400;
-      }
-    }
-
-    .modal-actions {
-      margin-top: 20px;
-  
-      .submit-button {
-        font-size: 2em;
-        width: 100%;
-  
-        &:nth-child(n + 2) {
-          margin-top: 10px;
+      .modal-actions {
+        margin-top: 20px;
+    
+        .submit-button {
+          font-size: 2em;
+          width: 100%;
+    
+          &:nth-child(n + 2) {
+            margin-top: 10px;
+          }
         }
-      }
-  
-      a.submit-button {
-        width: calc(100% - 40px);
+    
+        a.submit-button {
+          width: calc(100% - 40px);
+        }
       }
     }
   }
@@ -116,10 +115,11 @@
       position: absolute;
     }
 
-    .modal-content { 
+    .modal-content-wrapper { 
       animation: fadeIn 400ms ease-in;
       margin-top: 0px;
-      padding-top: 70px;
+      padding: 0px 20px;
+      padding-top: 20px;
       width: calc(100% - 40px);
     }
   }
@@ -127,17 +127,19 @@
 
 @include phone-or-larger {
   .modal-wrapper {  
-    .modal-content { 
-      background-color: gray(30);
-      border-radius: 10px;
-      box-shadow: $shadow3;
+    .modal-content-wrapper {     
+      animation: fadeInCenteredX 400ms ease-in;
+      left: 50%;
+      margin: 20px auto;
       min-width: 500px;
-    }
-  
-    .modal-content { 
-      @include centered;
-      
-      animation: fadeInCentered 400ms ease-in;
+      transform: translateX(-50%);
+      position: absolute;
+
+      .modal-content {
+        background-color: gray(30);
+        border-radius: 10px;
+        box-shadow: $shadow3;
+      }
     }
   }
 }
