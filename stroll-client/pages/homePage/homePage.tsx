@@ -47,20 +47,10 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
     }
   }
 
-  const getGraphic = (): string => {
-    if(appState.status === AppStatus.SignedIn) {
-      return ImageUtility.getGraphic(Graphic.WorkingOut);
-    } else if(appState.status === AppStatus.SignedOut) {
-      return ImageUtility.getGraphic(Graphic.AccessAccount);
-    }
-
-    return "";
-  }
-
   return(
     <Page 
       id="home-page" 
-      backgroundGraphic={getGraphic()}
+      backgroundGraphic={ImageUtility.getGraphic(Graphic.WorkingOut)}
     >
       {getContent()}
     </Page>
