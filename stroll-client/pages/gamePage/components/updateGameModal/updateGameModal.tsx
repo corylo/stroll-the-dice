@@ -48,7 +48,12 @@ export const UpdateGameModal: React.FC<UpdateGameModalProps> = (props: UpdateGam
       <Modal id={ElementID.UpdateGameModal} status={state.status} priority>
         <ModalTitle text="Update Game" handleOnClose={props.back} />
         <ModalBody>
-          <GameForm game={state.game} back={props.back} save={updateGame} />
+          <GameForm 
+            game={state.game} 
+            gameStatus={state.gameStatus}
+            back={props.back} 
+            save={updateGame} 
+          />
         </ModalBody>
       </Modal>
     );

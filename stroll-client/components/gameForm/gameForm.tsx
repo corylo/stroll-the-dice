@@ -20,15 +20,16 @@ import { IGame } from "../../../stroll-models/game";
 import { IGameFormStateFields } from "./models/gameFormStateFields";
 
 import { ElementID } from "../../enums/elementId";
+import { FormError } from "../../enums/formError";
 import { FormStatus } from "../../enums/formStatus";
 import { GameDuration } from "../../../stroll-enums/gameDuration";
 import { GameFormAction } from "./enums/gameFormAction";
 import { GameMode } from "../../../stroll-enums/gameMode";
-import { DateUtility } from "../../utilities/dateUtility";
-import { FormError } from "../../enums/formError";
+import { GameStatus } from "../../../stroll-enums/gameStatus";
 
 interface GameFormProps {  
   game?: IGame;
+  gameStatus?: GameStatus;
   title?: string;
   back?: () => void;
   save: (fields: IGameFormStateFields) => Promise<void>;
@@ -42,13 +43,23 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
   const dispatch = (type: GameFormAction, payload?: any): void => dispatchToGameForm({ type, payload });
 
   useEffect(() => {
+    if(!GameFormUtility.isValidGameStatus(props.gameStatus)) {
+      dispatch(GameFormAction.SetStatus, FormStatus.SubmitInfo);
+    }
+  }, [props.gameStatus]);
+
+  useEffect(() => {
     if(status !== FormStatus.InProgress && GameFormUtility.hasChanged(props.game, fields)) {
       dispatch(GameFormAction.SetStatus, FormStatus.InProgress);
     }
   }, [fields]);
   
   const save = async (): Promise<void> => {
-    if(status !== FormStatus.Submitting && GameFormValidator.validate(errors, fields, dispatch)) {
+    if(
+      GameFormUtility.isValidGameStatus(props.gameStatus) &&
+      status !== FormStatus.Submitting && 
+      GameFormValidator.validate(errors, fields, dispatch)
+    ) {
       try {
         dispatch(GameFormAction.SetStatus, FormStatus.Submitting);
 
@@ -62,6 +73,12 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
       }
 
       DomUtility.scrollToBottom(ElementID.UpdateGameModal);
+    }
+  }
+
+  const handleOnChange = (type: GameFormAction, payload?: any): void => {
+    if(GameFormUtility.isValidGameStatus(props.gameStatus)) {
+      dispatch(type, payload);
     }
   }
 
@@ -84,6 +101,8 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
       return "Game saved successfully!";
     } else if(status === FormStatus.SubmitError) {
       return "There was an issue saving your game. Please refresh and try again!";
+    } else if(status === FormStatus.SubmitInfo) {
+      return "Games can only be updated prior to the start date";
     }
   }
 
@@ -145,7 +164,7 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
             maxLength={100}
             placeholder="Name"
             value={fields.name}
-            onChange={(e: any) => dispatch(GameFormAction.SetName, e.target.value)}
+            onChange={(e: any) => handleOnChange(GameFormAction.SetName, e.target.value)}
             onKeyDown={handleOnKeyDown}
           />
         </InputWrapper>
@@ -155,7 +174,7 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
         >
           <DurationSelector
             selected={fields.duration}
-            select={(duration: GameDuration) => dispatch(GameFormAction.SetDuration, duration)} 
+            select={(duration: GameDuration) => handleOnChange(GameFormAction.SetDuration, duration)} 
           />
         </InputWrapper>
         <InputWrapper
@@ -164,7 +183,7 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
         >
           <ModeSelector
             selected={fields.mode}
-            select={(mode: GameMode) => dispatch(GameFormAction.SetMode, mode)} 
+            select={(mode: GameMode) => handleOnChange(GameFormAction.SetMode, mode)} 
           />
         </InputWrapper>
         <InputWrapper
@@ -176,7 +195,7 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
             type="date" 
             className="passion-one-font"
             value={fields.startsAt}
-            onChange={(e: any) => dispatch(GameFormAction.SetStartsAt, e.target.value)}
+            onChange={(e: any) => handleOnChange(GameFormAction.SetStartsAt, e.target.value)}
           />
         </InputWrapper>
       </FormBody>

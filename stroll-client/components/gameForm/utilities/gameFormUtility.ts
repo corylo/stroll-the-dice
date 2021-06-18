@@ -9,8 +9,11 @@ import { IGameFormStateFields } from "../models/gameFormStateFields";
 import { IGameUpdate } from "../../../../stroll-models/gameUpdate";
 import { IUser } from "../../../models/user";
 
+import { GameStatus } from "../../../../stroll-enums/gameStatus";
+
 interface IGameFormUtility {
   hasChanged: (game: IGame, fields: IGameFormStateFields) => boolean;
+  isValidGameStatus: (gameStatus: GameStatus) => boolean;
   mapCreate: (fields: IGameFormStateFields, user: IUser) => IGame;
   mapInitialState: (game?: IGame) => IGameFormState;
   mapUpdate: (fields: IGameFormStateFields) => IGameUpdate;
@@ -28,6 +31,9 @@ export const GameFormUtility: IGameFormUtility = {
     }
 
     return true;
+  },
+  isValidGameStatus: (gameStatus: GameStatus): boolean => {
+    return gameStatus === undefined || gameStatus === GameStatus.Upcoming;
   },
   mapCreate: (fields: IGameFormStateFields, user: IUser): IGame => {    
     return {
