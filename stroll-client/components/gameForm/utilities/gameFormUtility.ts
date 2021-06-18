@@ -65,6 +65,7 @@ export const GameFormUtility: IGameFormUtility = {
       state.fields = {
         ...state.fields,
         duration: game.duration,
+        locked: game.locked,
         mode: game.mode,
         name: game.name,
         startsAt: FirestoreDateUtility.timestampToDateInput(game.startsAt)
