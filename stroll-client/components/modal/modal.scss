@@ -111,10 +111,6 @@
   .modal-wrapper {
     background-color: rgba(gray(40), 0.98);
 
-    &:not(.priority) {
-      position: absolute;
-    }
-
     .modal-content-wrapper { 
       animation: fadeIn 400ms ease-in;
       margin-top: 0px;

@@ -28,7 +28,7 @@ export const InvitePlayersModal: React.FC<InvitePlayersModalProps> = (props: Inv
 
   if(state.toggles.invite) {
     return (
-      <Modal id="invite-players-modal" priority>
+      <Modal id="invite-players-modal">
         <ModalTitle text="Invite players!" handleOnClose={props.back} />
         <ModalBody>          
           <h1 className="instructions passion-one-font">Copy the link below and send it to anyone you'd like to invite!</h1>

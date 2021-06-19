@@ -46,7 +46,7 @@ export const ViewPlayersModal: React.FC<ViewPlayersModalProps> = (props: ViewPla
     
     
     return (
-      <Modal id="view-players-modal" priority status={status}>
+      <Modal id="view-players-modal" status={status}>
         <ModalTitle text="All players" handleOnClose={props.back} />
         <ModalBody>       
           {getPlayers()}   

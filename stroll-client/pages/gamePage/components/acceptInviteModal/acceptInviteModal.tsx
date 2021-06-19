@@ -61,7 +61,7 @@ export const AcceptInviteModal: React.FC<AcceptInviteModalProps> = (props: Accep
     }
 
     return (
-      <Modal id="accept-invite-modal" priority>
+      <Modal id="accept-invite-modal">
         <ModalTitle text="You've been invited!" handleOnClose={props.back} />
         <ModalBody>
           <Form status={status} statusMessage="Whoops! Looks like this game is locked.">
