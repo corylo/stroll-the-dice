@@ -41,7 +41,7 @@ export const PlayerService: IPlayerService = {
     
     try {
       const gameRef: firebase.firestore.DocumentReference = db.collection("games")
-        .doc(player.ref.game)
+        .doc(player.ref.game);
 
       const inviteRef: firebase.firestore.DocumentReference = db.collection("games")
         .doc(player.ref.game)

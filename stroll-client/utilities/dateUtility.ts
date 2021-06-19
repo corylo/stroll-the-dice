@@ -72,12 +72,12 @@ export const DateUtility: IDateUtility = {
     const relativeHours: number = Math.floor(relativeMinutes / 60);
 
     if (relativeHours < 24) {
-      return `${relativeHours}h`;
+      return `${relativeHours}h ${relativeMinutes - (relativeHours * 60)}m`;
     }
 
     const relativeDays: number = Math.floor(relativeHours / 24);
-    
-    return `${relativeDays}d`;
+
+    return `${relativeDays}d ${relativeHours - (relativeDays * 24)}h`;
   },
   valid: (value: string): boolean => {
     const date: Date = new Date(value);
