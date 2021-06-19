@@ -8,6 +8,13 @@
       border-radius: 10px;
       padding: 10px;
 
+      .label.game-date-status {
+        margin: 19px 20px;
+        position: absolute;
+        right: 0px;
+        top: 0px;
+      }
+
       .game-name {
         color: gray(230);
         font-size: 2em;
