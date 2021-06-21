@@ -14,11 +14,14 @@ import { UserLink } from "../../../../components/userLink/userLink";
 import { AppContext } from "../../../../components/app/contexts/appContext";
 import { GamePageContext } from "../../gamePage";
 
+import { MatchupService } from "../../../../services/matchupService";
 import { PlayerService } from "../../../../services/playerService";
 
 import { GameDurationUtility } from "../../../../utilities/gameDurationUtility";
+import { MatchupUtility } from "../../../../utilities/matchupUtility";
 import { PlayerUtility } from "../../../../utilities/playerUtility";
 
+import { IMatchup } from "../../../../../stroll-models/matchup";
 import { IPlayer } from "../../../../../stroll-models/player";
 
 import { FormStatus } from "../../../../enums/formStatus";
@@ -41,8 +44,11 @@ export const AcceptInviteModal: React.FC<AcceptInviteModalProps> = (props: Accep
         setStatus(FormStatus.Submitting);
 
         const player: IPlayer = PlayerUtility.mapCreate(user.profile, state.game, state.invite);
-
+          
         await PlayerService.create(state.game, player);
+
+        const players: IPlayer[] = await PlayerService.get.by.game(state.game.id),
+          matchups: IMatchup[] = await MatchupService.get.by.day(state.game.id, state.day);
         
         setState({ 
           ...state, 
@@ -50,9 +56,11 @@ export const AcceptInviteModal: React.FC<AcceptInviteModalProps> = (props: Accep
             ...state.game,
             counts: {
               ...state.game.counts,
-              players: state.game.counts.players + 1
+              players: players.length
             }
           },
+          matchups: MatchupUtility.mapPlayers(matchups, players),
+          players,
           toggles: { ...state.toggles, accept: false }
         });
       } catch (err) {
