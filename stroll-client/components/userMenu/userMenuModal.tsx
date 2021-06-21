@@ -24,7 +24,7 @@ export const UserMenuModal: React.FC<UserMenuModalProps> = (props: UserMenuModal
   const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
 
   const { toggles, user } = appState;
-
+  console.log(user);
   useOnClickAwayEffect(
     toggles.menu, 
     ["user-menu", "user-menu-button"], 
@@ -56,10 +56,10 @@ export const UserMenuModal: React.FC<UserMenuModalProps> = (props: UserMenuModal
     const getUserInfo = (): JSX.Element => {
       if(user) {
         return (
-          <React.Fragment>
-            
+          <React.Fragment>       
+            <h1 className="profile-username passion-one-font" style={{ color: `rgb(${user.profile.color})` }}>{user.profile.username}</h1>     
             <h1 className="profile-full-name passion-one-font">{user.name}</h1>
-            <h1 className="profile-username passion-one-font">{user.profile.username}</h1>
+            <h1 className="profile-email passion-one-font">{user.email}</h1>
           </React.Fragment>
         )
       }

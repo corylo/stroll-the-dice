@@ -29,8 +29,19 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (props: ProfileHeader
   const getFullName = (): JSX.Element => {
     if(user && user.profile.uid === profile.uid) {
       return (
-        <div className="profile-full-name-wrapper">
+        <React.Fragment>
           <h1 className="profile-full-name passion-one-font">{user.name}</h1>
+          <h1 className="profile-email passion-one-font">{user.email}</h1>
+        </React.Fragment>
+      )
+    }
+  }
+
+  
+  const getUpdateButton = (): JSX.Element => {
+    if(user && user.profile.uid === profile.uid) {
+      return (
+        <React.Fragment>
           <Dot />
           <IconButton
             className="update-profile-button inline-icon-button"
@@ -39,7 +50,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (props: ProfileHeader
             tooltipSide={TooltipSide.Bottom}
             handleOnClick={() => dispatch(AppAction.ToggleUpdateProfile, !appState.toggles.profile)} 
           />
-        </div>
+        </React.Fragment>
       )
     }
   }
@@ -48,13 +59,13 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (props: ProfileHeader
     if(profile.username !== "") {
       return (
         <div className="profile-username">
-          <h1 className="passion-one-font">{profile.username}</h1>
-          <Dot />
-          <CopyButton
+          <h1 className="passion-one-font" style={{ color: `rgb(${user.profile.color})` }}>{profile.username}</h1>
+          {getUpdateButton()}
+          {/* <CopyButton
             icon="fal fa-link"
             tooltip="Profile"
             value={`${window.location.origin}/u/${profile.id}/${UrlUtility.format(profile.username)}`}
-          />
+          /> */}
         </div>
       )
     }
@@ -63,8 +74,8 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (props: ProfileHeader
   return(
     <div className="profile-header">
       <ProfileIcon color={profile.color} icon={profile.icon} />
-      {getFullName()}
       {getUsername()}
+      {getFullName()}
     </div>
   );
 }
