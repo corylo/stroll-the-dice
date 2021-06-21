@@ -22,9 +22,9 @@ export const GameDurationUtility: IGameDurationUtility = {
   },
   getDurations: (): GameDuration[] => {
     return [
-      GameDuration.OneDay,
       GameDuration.ThreeDay,
       GameDuration.OneWeek,
+      GameDuration.TwoWeek,
       GameDuration.OneMonth
     ]
   },
@@ -48,28 +48,28 @@ export const GameDurationUtility: IGameDurationUtility = {
   },
   getLabel: (duration: GameDuration): string => {
     switch(duration) {
-      case GameDuration.OneDay:
-        return "1 Day";
       case GameDuration.OneMonth:
         return "1 Month";
       case GameDuration.OneWeek:
         return "1 Week";
       case GameDuration.ThreeDay:
         return "3 Day";
+      case GameDuration.TwoWeek:
+        return "2 Week";
       default:
         throw new Error(`Unknown game duration: ${duration}`);
     }
   },
   getShortLabel: (duration: GameDuration): string => {
     switch(duration) {
-      case GameDuration.OneDay:
-        return "1D";
       case GameDuration.OneMonth:
         return "1M";
       case GameDuration.OneWeek:
         return "1W";
       case GameDuration.ThreeDay:
         return "3D";
+      case GameDuration.TwoWeek:
+        return "2W";
       default:
         throw new Error(`Unknown game duration: ${duration}`);
     }
