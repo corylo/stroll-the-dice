@@ -5,6 +5,7 @@ import { GameActions } from "../gameActions/gameActions";
 import { GameDateStatus } from "../../../../components/gameDateStatus/gameDateStatus";
 import { GameDetails } from "../../../../components/gameDetails/gameDetails";
 import { InvitePlayersModal } from "../invitePlayersModal/invitePlayersModal";
+import { Matchups } from "../matchups/matchups";
 import { UpdateGameModal } from "../updateGameModal/updateGameModal";
 import { UserLink } from "../../../../components/userLink/userLink";
 import { ViewPlayersModal } from "../viewPlayersModal/viewPlayersModal";
@@ -48,6 +49,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
             toggleInvite={() => toggle({ invite: true })}
             toggleUpdate={() => toggle({ update: true })}
           />
+          <Matchups day={1} />
         </div>
         <UpdateGameModal back={() => toggle({ update: false })} />
         <AcceptInviteModal back={() => toggle({ accept: false })} />

@@ -2,10 +2,13 @@ import firebase from "firebase/app";
 
 import { DateUtility } from "./dateUtility";
 
+import { IFirestoreTimestamp } from "../../stroll-models/firestoreTimestamp";
+
 interface IFirestoreDateUtility {
   add: (value: firebase.firestore.FieldValue, seconds: number) => number;
   dateToTimestamp: (date: Date) => firebase.firestore.Timestamp;
   inPast: (value: firebase.firestore.FieldValue) => boolean;
+  timestampToDate: (value: firebase.firestore.FieldValue) => Date;
   timestampToDateInput: (value: firebase.firestore.FieldValue) => string;
   timestampToLocale: (value: firebase.firestore.FieldValue) => string;
   timestampToRelative: (value: firebase.firestore.FieldValue) => string;
@@ -15,30 +18,35 @@ interface IFirestoreDateUtility {
 
 export const FirestoreDateUtility: IFirestoreDateUtility = {
   add: (value: firebase.firestore.FieldValue, seconds: number): number => {
-    const date: any = value as any;
-
+    const date: IFirestoreTimestamp = value as any;
+    
     return date.seconds + seconds;
   },
   dateToTimestamp: (date: Date): firebase.firestore.Timestamp => {
     return firebase.firestore.Timestamp.fromDate(date);
   },
   inPast: (value: firebase.firestore.FieldValue): boolean => {
-    const date: any = value as any;
+    const date: IFirestoreTimestamp = value as any;
 
     return DateUtility.inPast(date.seconds);
   },
+  timestampToDate: (value: firebase.firestore.FieldValue): Date => {
+    const date: IFirestoreTimestamp = value as any;
+
+    return new Date(date.seconds * 1000);
+  },
   timestampToDateInput: (value: firebase.firestore.FieldValue): string => {
-    const date: any = value as any;
+    const date: IFirestoreTimestamp = value as any;
 
     return DateUtility.dateToInput(new Date(date.seconds * 1000));
   },
   timestampToLocale: (value: firebase.firestore.FieldValue): string => {
-    const timestamp: any = value as any;
+    const timestamp: IFirestoreTimestamp = value as any;
     
     return DateUtility.secondsToLocale(timestamp.seconds);
   },
   timestampToRelative: (value: firebase.firestore.FieldValue): string => {
-    const date: any = value as any;
+    const date: IFirestoreTimestamp = value as any;
 
     return DateUtility.secondsToRelative(date.seconds);
   },

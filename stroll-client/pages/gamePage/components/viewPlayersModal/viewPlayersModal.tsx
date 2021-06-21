@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 import { Modal } from "../../../../components/modal/modal";
 import { ModalBody } from "../../../../components/modal/modalBody";
@@ -7,30 +7,14 @@ import { UserLink } from "../../../../components/userLink/userLink";
 
 import { GamePageContext } from "../../gamePage";
 
-import { useOnClickAwayEffect } from "../../../../effects/appEffects";
-import { useFetchPlayersEffect } from "../../effects/gamePageEffects";
-
 import { IPlayer } from "../../../../../stroll-models/player";
-
-import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
 
 interface ViewPlayersModalProps {  
   back: () => void;
 }
 
 export const ViewPlayersModal: React.FC<ViewPlayersModalProps> = (props: ViewPlayersModalProps) => {  
-  const { state, setState } = useContext(GamePageContext);
-
-  const [status, setStatus] = useState<RequestStatus>(RequestStatus.Idle);
-
-  useOnClickAwayEffect(
-    state.toggles.players, 
-    ["view-players-modal-content"], 
-    [state.toggles.players, status], 
-    props.back
-  );
-
-  useFetchPlayersEffect(state, setState, setStatus);
+  const { state } = useContext(GamePageContext);
 
   if(state.toggles.players) {
     const getPlayers = (): JSX.Element => {
@@ -46,7 +30,7 @@ export const ViewPlayersModal: React.FC<ViewPlayersModalProps> = (props: ViewPla
     
     
     return (
-      <Modal id="view-players-modal" status={status}>
+      <Modal id="view-players-modal">
         <ModalTitle text="All players" handleOnClose={props.back} />
         <ModalBody>       
           {getPlayers()}   

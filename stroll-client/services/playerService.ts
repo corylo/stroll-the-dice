@@ -5,9 +5,19 @@ import { db } from "../firebase";
 import { IGame } from "../../stroll-models/game";
 import { IPlayer, playerConverter } from "../../stroll-models/player";
 
+import { FirebaseErrorCode } from "../../stroll-enums/firebaseErrorCode";
+
+interface IPlayerServiceGetBy {
+  game: (id: string) => Promise<IPlayer[]>;
+}
+
+interface IPlayerServiceGet {
+  by: IPlayerServiceGetBy;
+}
+
 interface IPlayerService {
   create: (game: IGame, player: IPlayer) => Promise<void>;
-  getByGame: (id: string) => Promise<IPlayer[]>;
+  get: IPlayerServiceGet;
 }
 
 export const PlayerService: IPlayerService = {
@@ -19,19 +29,31 @@ export const PlayerService: IPlayerService = {
       .withConverter(playerConverter)
       .set(player);
   },
-  getByGame: async (id: string): Promise<IPlayer[]> => {
-    const snap: firebase.firestore.QuerySnapshot = await db.collection("games")
-      .doc(id)
-      .collection("players")
-      .orderBy("profile.username")
-      .withConverter(playerConverter)
-      .get();
+  get: {
+    by: {
+      game: async (id: string): Promise<IPlayer[]> => {
+        try {
+          const snap: firebase.firestore.QuerySnapshot = await db.collection("games")
+            .doc(id)
+            .collection("players")
+            .orderBy("profile.username")
+            .withConverter(playerConverter)
+            .get();
+      
+          let players: IPlayer[] = [];
+      
+          snap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>) => 
+            players.push(doc.data()));
+      
+          return players;
+        } catch (err) {
+          if(err.message === FirebaseErrorCode.MissingPermissions) {
+            return [];
+          }
 
-    let players: IPlayer[] = [];
-
-    snap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>) => 
-      players.push(doc.data()));
-
-    return players;
+          throw err;
+        }
+      }
+    }
   }
 }

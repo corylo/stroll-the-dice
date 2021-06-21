@@ -1,0 +1,20 @@
+.game-matchups {
+  margin-top: 20px;
+
+  .game-matchups-title {
+    .game-matchups-title-text {
+      color: gray(230);
+      font-size: 2em;
+    }
+    
+    .game-matchups-title-date {
+      color: gray(150);
+    }
+  }
+
+  .game-matchups-list {
+    border: 1px solid rgba(white, 0.25);
+    border-radius: 10px;
+    margin-top: 10px;
+  }
+}

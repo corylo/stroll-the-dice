@@ -24,7 +24,7 @@ export const UserMenuModal: React.FC<UserMenuModalProps> = (props: UserMenuModal
   const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
 
   const { toggles, user } = appState;
-  console.log(user);
+  
   useOnClickAwayEffect(
     toggles.menu, 
     ["user-menu", "user-menu-button"], 

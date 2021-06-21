@@ -8,6 +8,7 @@ import { GameStatus } from "../../stroll-enums/gameStatus";
 
 interface IGameDurationUtility {
   completed: (game: IGame) => boolean;
+  getDay: (game: IGame) => number;
   getDurations: () => GameDuration[];  
   getEndsAt: (game: IGame) => number;
   getGameStatus: (game: IGame) => GameStatus;
@@ -19,6 +20,9 @@ interface IGameDurationUtility {
 export const GameDurationUtility: IGameDurationUtility = {
   completed: (game: IGame): boolean => {   
     return DateUtility.inPast(GameDurationUtility.getEndsAt(game));
+  },
+  getDay: (game: IGame): number => {
+    return 1;
   },
   getDurations: (): GameDuration[] => {
     return [

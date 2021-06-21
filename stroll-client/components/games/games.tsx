@@ -26,7 +26,6 @@ export const Games: React.FC<GamesProps> = (props: GamesProps) => {
   
   const { games, status } = useFetchGamesEffect(appState, limit, get);
 
-
   const getTitle = (): JSX.Element => {
     if(title) {
       return (

@@ -3,11 +3,13 @@ import { useHistory } from "react-router-dom";
 
 import { GameService } from "../../../services/gameService";
 import { InviteService } from "../../../services/inviteService";
+import { MatchupService } from "../../../services/matchupService";
 import { PlayerService } from "../../../services/playerService";
 
 import { ErrorUtility } from "../../../utilities/errorUtility";
 import { GameDurationUtility } from "../../../utilities/gameDurationUtility";
 import { InviteUtility } from "../../../utilities/inviteUtility";
+import { MatchupUtility } from "../../../utilities/matchupUtility";
 import { UrlUtility } from "../../../utilities/urlUtility";
 
 import { IAppState } from "../../../components/app/models/appState";
@@ -15,6 +17,7 @@ import { IGame } from "../../../../stroll-models/game";
 import { IGamePageState } from "../models/gamePageState";
 import { IGamePageStateToggles } from "../models/gamePageStateToggles";
 import { IInvite } from "../../../../stroll-models/invite";
+import { IMatchup } from "../../../../stroll-models/matchup";
 import { IPlayer } from "../../../../stroll-models/player";
 
 import { AppAction } from "../../../enums/appAction";
@@ -30,18 +33,27 @@ export const useFetchGameEffect = (id: string, state: IGamePageState, setState: 
           const game: IGame = await GameService.get(id);
 
           if(game !== null) {
-            const invite: IInvite = await InviteService.get.by.game(game);
+            const day: number = GameDurationUtility.getDay(game);
+
+            const invite: IInvite = await InviteService.get.by.game(game),
+              players: IPlayer[] = await PlayerService.get.by.game(game.id),
+              matchups: IMatchup[] = await MatchupService.get.by.day(game.id, day);
+
+            const toggles: IGamePageStateToggles = {
+              ...state.toggles,
+              playing: invite !== null
+            }
 
             setState({ 
               ...state, 
+              day,
               game, 
               gameStatus: GameDurationUtility.getGameStatus(game),
-              invite, 
+              invite,
+              matchups: MatchupUtility.mapPlayers(matchups, players),
+              players, 
               status: RequestStatus.Success,
-              toggles: {
-                ...state.toggles,
-                playing: invite !== null
-              }
+              toggles
             });
           } else {
             throw new Error(ErrorUtility.doesNotExist(DocumentType.Game));
@@ -110,7 +122,7 @@ export const useFetchPlayersEffect = (
         try {
           setStatus(RequestStatus.Loading);
 
-          const players: IPlayer[] = await PlayerService.getByGame(state.game.id);
+          const players: IPlayer[] = await PlayerService.get.by.game(state.game.id);
 
           setState({ 
             ...state, 

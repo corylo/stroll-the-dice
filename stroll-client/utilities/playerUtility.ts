@@ -5,21 +5,26 @@ import { IInvite } from "../../stroll-models/invite";
 import { IPlayer } from "../../stroll-models/player";
 import { IProfile } from "../../stroll-models/profile";
 
-interface IPlayerUtility {  
+interface IPlayerUtility {
+  getById: (id: string, players: IPlayer[]) => IPlayer;
   mapCreate: (profile: IProfile, game: IGame, invite: IInvite) => IPlayer;
 }
 
 export const PlayerUtility: IPlayerUtility = {
+  getById: (id: string, players: IPlayer[]): IPlayer => {
+    return players.find((player: IPlayer) => player.id === id) || null;
+  },
   mapCreate: (profile: IProfile, game: IGame, invite: IInvite): IPlayer => {
     return {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       id: "",      
+      index: 0,
       profile,
       ref: {
         game: game.id,
-        invite: invite.id
-      },
-      team: ""
+        invite: invite.id,
+        team: ""
+      }
     }
   }
 }
