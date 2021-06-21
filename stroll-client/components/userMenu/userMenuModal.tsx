@@ -65,6 +65,16 @@ export const UserMenuModal: React.FC<UserMenuModalProps> = (props: UserMenuModal
       }
     }
 
+    const getProfileButton = (): JSX.Element => {
+      if(user) {
+        return (          
+          <Button className="user-menu-item passion-one-font" url="/profile" handleOnClick={() => dispatch(AppAction.ToggleMenu, false)}>
+            Profile
+          </Button>
+        )
+      }
+    }
+
     const getSignOutButton = (): JSX.Element => {
       if(user) {
         return (          
@@ -88,6 +98,7 @@ export const UserMenuModal: React.FC<UserMenuModalProps> = (props: UserMenuModal
         {getUserIcon()}
         <div id="user-menu-content">
           {getUserInfo()}
+          {getProfileButton()}
           {/* <Button className="user-menu-item passion-one-font" url="https://legal.strollthedice.com" external>
             Legal
           </Button> */}
