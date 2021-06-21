@@ -24,7 +24,7 @@ export const Matchups: React.FC<MatchupsProps> = (props: MatchupsProps) => {
     const getDate = (): string => {
       const date: Date = FirestoreDateUtility.timestampToDate(state.game.startsAt);
 
-      date.setDate(date.getDate() + props.day);
+      date.setDate(date.getDate() + (props.day - 1));
 
       return date.toDateString();
     }
