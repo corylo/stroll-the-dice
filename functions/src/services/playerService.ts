@@ -55,7 +55,7 @@ export const PlayerService: IPlayerService = {
       const existingMatchupRef: firebase.firestore.Query = db.collection("games")
         .doc(player.ref.game)
         .collection("matchups")
-        .orderBy("createdAt")
+        .orderBy("createdAt", "desc")
         .limit(1)
         .withConverter(matchupConverter);
 

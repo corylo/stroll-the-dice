@@ -15,28 +15,32 @@ interface MatchupsProps {
 export const Matchups: React.FC<MatchupsProps> = (props: MatchupsProps) => {  
   const { state } = useContext(GamePageContext);
 
-  const getMatchups = (): JSX.Element[] => {
-    return state.matchups.map((matchup: IMatchup) =>       
-      <Matchup key={matchup.id} matchup={matchup} />);
+  if(state.matchups.length > 0) {
+    const getMatchups = (): JSX.Element[] => {
+      return state.matchups.map((matchup: IMatchup) =>       
+        <Matchup key={matchup.id} matchup={matchup} />);
+    }
+
+    const getDate = (): string => {
+      const date: Date = FirestoreDateUtility.timestampToDate(state.game.startsAt);
+
+      date.setDate(date.getDate() + props.day);
+
+      return date.toDateString();
+    }
+
+    return (
+      <div className="game-matchups">
+        <div className="game-matchups-title">
+          <h1 className="passion-one-font game-matchups-title-text">Day {props.day}</h1>
+          <h1 className="passion-one-font game-matchups-title-date">{getDate()}</h1>
+        </div>
+        <div className="game-matchups-list">
+          {getMatchups()}
+        </div>
+      </div>
+    );
   }
 
-  const getDate = (): string => {
-    const date: Date = FirestoreDateUtility.timestampToDate(state.game.startsAt);
-
-    date.setDate(date.getDate() + props.day);
-
-    return date.toDateString();
-  }
-
-  return (
-    <div className="game-matchups">
-      <div className="game-matchups-title">
-        <h1 className="passion-one-font game-matchups-title-text">Day {props.day}</h1>
-        <h1 className="passion-one-font game-matchups-title-date">{getDate()}</h1>
-      </div>
-      <div className="game-matchups-list">
-        {getMatchups()}
-      </div>
-    </div>
-  );
+  return null;
 }
