@@ -15,11 +15,13 @@ export const defaultMatchupSideTotal = (): IMatchupSideTotal => ({
 export interface IMatchupSide {    
   player?: IPlayer;
   ref: string;
+  steps: number;
   total: IMatchupSideTotal;
 }
 
 export const defaultMatchupSide = (): IMatchupSide => ({  
   ref: "",
+  steps: 0,
   total: defaultMatchupSideTotal()
 });
 

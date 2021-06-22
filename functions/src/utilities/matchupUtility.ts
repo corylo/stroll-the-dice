@@ -15,10 +15,12 @@ export const MatchupUtility: IMatchupUtility = {
       id: "",
       left: {
         ref: player.id,
+        steps: 0,
         total: defaultMatchupSideTotal()
       },
       right: {
         ref: "",
+        steps: 0,
         total: defaultMatchupSideTotal()
       }
     }

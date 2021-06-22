@@ -33,6 +33,11 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
         <div className="game-matchup-side-stats">
           <MatchupSideStat 
             alignment={props.alignment}
+            icon="fal fa-shoe-prints" 
+            value={side.steps || "0"} 
+          />
+          <MatchupSideStat 
+            alignment={props.alignment}
             icon="fal fa-money-bill-wave-alt" 
             value={side.total.wagered || "-"} 
           />
