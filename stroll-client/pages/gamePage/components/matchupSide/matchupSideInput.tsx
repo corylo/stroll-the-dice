@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Button } from "../../../../components/buttons/button";
+import { IconButton } from "../../../../components/buttons/iconButton";
 import { InputWrapper } from "../../../../components/inputWrapper/inputWrapper";
 
 interface MatchupSideInputProps {  
@@ -17,16 +17,17 @@ export const MatchupSideInput: React.FC<MatchupSideInputProps> = (props: Matchup
         <input 
           type="text"
           className="passion-one-font"
-          maxLength={100}
-          placeholder="100"
+          placeholder="126400"
           value={""}
           onChange={(e: any) => {}}
           onKeyDown={() => {}}
         />
       </InputWrapper>
-        <Button className="game-matchup-side-input-button passion-one-font" handleOnClick={() => {}}>
-          Predict
-        </Button>
+        <IconButton 
+          className="game-matchup-side-input-button passion-one-font" 
+          icon="fal fa-check"
+          handleOnClick={() => {}}
+        />
     </div>
   );
 }
