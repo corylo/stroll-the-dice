@@ -1,6 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 
+import { MatchupSideInput } from "./matchupSideInput";
 import { MatchupSideStat } from "./matchupSideStat";
 import { ProfileIcon } from "../../../../components/profileIcon/profileIcon";
 
@@ -49,9 +50,10 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
           <MatchupSideStat 
             alignment={props.alignment}
             icon="fal fa-user-friends" 
-            value={side.total.bets} 
+            value={side.total.predictions} 
           />
         </div>
+        <MatchupSideInput />
       </div>
     )
   }

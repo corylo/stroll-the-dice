@@ -65,6 +65,26 @@
         }
       }
     }
+
+    .game-matchup-side-input-wrapper {
+      display: flex;
+      margin-top: 10px;
+      text-align: left;
+
+      .input-wrapper {
+        width: 80px;
+
+        input {
+          background-color: gray(30);
+          height: 20px;
+          padding: 5px;
+        }        
+      }
+
+      .game-matchup-side-input-button {
+        padding: 5px 10px;
+      }
+    }
   }
 }
 

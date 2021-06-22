@@ -3,12 +3,12 @@ import firebase from "firebase/app";
 import { IPlayer } from "./player";
 
 export interface IMatchupSideTotal {
-  bets: number;
+  predictions: number;
   wagered: number;
 }
 
 export const defaultMatchupSideTotal = (): IMatchupSideTotal => ({
-  bets: 0,
+  predictions: 0,
   wagered: 0
 });
 
