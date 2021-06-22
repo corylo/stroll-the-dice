@@ -30,6 +30,7 @@ import { GameMode } from "../../../stroll-enums/gameMode";
 import { GameStatus } from "../../../stroll-enums/gameStatus";
 
 interface GameFormProps {  
+  forwarding?: boolean;
   game?: IGame;
   gameStatus?: GameStatus;
   title?: string;
@@ -67,7 +68,9 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
 
         await props.save(fields);
 
-        dispatch(GameFormAction.SetStatus, FormStatus.SubmitSuccess);
+        if(!props.forwarding) {
+          dispatch(GameFormAction.SetStatus, FormStatus.SubmitSuccess);
+        }
       } catch (err) {
         console.error(err);
 
