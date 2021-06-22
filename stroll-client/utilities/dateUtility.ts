@@ -6,6 +6,7 @@ interface IDateUtility {
   inPast: (seconds: number) => boolean;
   secondsToLocale: (seconds: number) => string;
   secondsToRelative: (seconds: number) => string;  
+  stringToOffsetDate: (value: string) => Date;
   valid: (value: string) => boolean;  
   withinDaysLower: (value: string, limit: number) => boolean;
   withinDaysUpper: (value: string, limit: number) => boolean;
@@ -32,7 +33,7 @@ export const DateUtility: IDateUtility = {
   },
   diffInDays: (value: string): number => {
     const current: Date = new Date(),
-      date: Date = new Date(value);
+      date: Date = DateUtility.stringToOffsetDate(value);
 
     const diff: number = date.getTime() - current.getTime();
     
@@ -78,6 +79,13 @@ export const DateUtility: IDateUtility = {
     const relativeDays: number = Math.floor(relativeHours / 24);
 
     return `${relativeDays}d ${relativeHours - (relativeDays * 24)}h`;
+  },
+  stringToOffsetDate: (value: string): Date => {
+    const date: Date = new Date(value);
+    
+    date.setTime(date.getTime() + date.getTimezoneOffset() * 60000);
+
+    return date;
   },
   valid: (value: string): boolean => {
     const date: Date = new Date(value);

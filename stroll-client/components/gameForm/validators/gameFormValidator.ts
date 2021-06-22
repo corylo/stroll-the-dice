@@ -30,7 +30,7 @@ export const GameFormValidator: IGameFormValidator = {
       errors.mode = FormError.MissingValue;
       errorCount++;
     }
-
+    
     if(!DateUtility.valid(fields.startsAt)) {
       errors.startsAt = FormError.InvalidValue;
       errorCount++;

@@ -51,11 +51,7 @@ export const FirestoreDateUtility: IFirestoreDateUtility = {
     return DateUtility.secondsToRelative(date.seconds);
   },
   stringToOffsetTimestamp: (value: string): firebase.firestore.Timestamp => {
-    const date: Date = new Date(value);
-    
-    date.setTime(date.getTime() + date.getTimezoneOffset() * 60000);
-
-    return FirestoreDateUtility.dateToTimestamp(date);
+    return FirestoreDateUtility.dateToTimestamp(DateUtility.stringToOffsetDate(value));
   },
   stringToTimestamp: (value: string): firebase.firestore.Timestamp => {
     return FirestoreDateUtility.dateToTimestamp(new Date(value));
