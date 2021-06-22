@@ -1,9 +1,10 @@
 import React from "react";
 
-import { MatchupSide } from "./matchupSide";
+import { MatchupSide, MatchupSideAlignment } from "../matchupSide/matchupSide";
+
+import { MatchupUtility } from "../../../../utilities/matchupUtility";
 
 import { IMatchup } from "../../../../../stroll-models/matchup";
-import { IProfile } from "../../../../../stroll-models/profile";
 
 interface MatchupProps {  
   matchup: IMatchup;
@@ -12,17 +13,19 @@ interface MatchupProps {
 export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => {    
   const { matchup } = props;
 
-  const getRightProfile = (): IProfile => {
-    if(matchup.right.ref !== "" && matchup.right.player !== null) {
-      return matchup.right.player.profile;
-    }
-  }
-
   return (
     <div className="game-matchup">
-      <MatchupSide profile={matchup.left.player.profile} />
+      <MatchupSide 
+        alignment={MatchupSideAlignment.Left}
+        odds={MatchupUtility.calculateOdds(matchup.left, matchup.right)} 
+        side={matchup.left} 
+      />
       <h1 className="game-matchup-vs-label passion-one-font">VS</h1>
-      <MatchupSide profile={getRightProfile()} />
+      <MatchupSide 
+        alignment={MatchupSideAlignment.Right}
+        odds={MatchupUtility.calculateOdds(matchup.right, matchup.left)} 
+        side={matchup.right} 
+      />
     </div>
   );
 }

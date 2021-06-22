@@ -13,40 +13,4 @@
     font-size: 2em;
     margin: 0px 20px;
   }
-
-  .game-matchup-side {
-    text-align: center;
-    width: 160px;
-
-    .profile-icon {
-      font-size: 2em;
-      height: 80px;
-      margin: auto;
-      width: 80px;
-    }
-
-    .game-matchup-side-username {
-      font-size: 1.25em;
-      margin: auto;
-      margin-top: 10px;
-      word-wrap: break-word;
-    }
-  }
-}
-
-@include medium-phone-or-smaller {
-  .game-matchup {
-    .game-matchup-side {
-      .profile-icon {
-        font-size: 1.5em;
-        height: 60px;
-        width: 60px;
-      }
-      
-      .game-matchup-side-username {
-        font-size: 1em;
-        max-width: 100px;
-      }
-    }
-  }
 }

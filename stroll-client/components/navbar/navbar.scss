@@ -98,15 +98,3 @@
     }
   }
 }
-
-@include small-phone-or-smaller {
-  #navbar {  
-    #navbar-content {
-      .app-brand {
-        h1 {
-          display: none;
-        }
-      }
-    }
-  }
-}

@@ -1,0 +1,98 @@
+.game-matchup {
+  .game-matchup-side {
+    text-align: center;
+    width: 160px;
+
+    &.left {
+      .game-matchup-side-stats {
+        .game-matchup-side-stat {          
+          h1 {
+            margin-left: 10px;
+          }
+        }
+      }
+    }
+
+    &.right {
+      .game-matchup-side-stats {
+        .game-matchup-side-stat {
+          justify-content: flex-end;
+          
+          h1 {
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+
+    .profile-icon {
+      font-size: 2em;
+      height: 80px;
+      margin: auto;
+      width: 80px;
+    }
+
+    .game-matchup-side-username {
+      font-size: 1.25em;
+      margin: auto;
+      margin-top: 5px;
+      overflow: hidden;      
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .game-matchup-side-stats {
+      margin-top: 5px;
+      padding: 10px;
+
+      .game-matchup-side-stat {
+        align-items: center;
+        display: flex;
+
+        &:nth-of-type(n + 2) {        
+          margin-top: 5px;
+        }
+  
+        i, h1 {
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+@include medium-phone-or-smaller {
+  .game-matchup {
+    padding: 10px;
+    
+    .game-matchup-side {
+      .profile-icon {
+        font-size: 1.5em;
+        height: 60px;
+        width: 60px;
+      }
+      
+      .game-matchup-side-username {
+        font-size: 1em;
+        max-width: 120px;
+      }
+    }
+  }
+}
+
+@include small-phone-or-smaller {
+  .game-matchup {
+    .game-matchup-side {
+      .profile-icon {
+        font-size: 1em;
+        height: 40px;
+        width: 40px;
+      }
+      
+      .game-matchup-side-username {
+        font-size: 0.8em;
+        max-width: 90px;
+      }
+    }
+  }
+}
