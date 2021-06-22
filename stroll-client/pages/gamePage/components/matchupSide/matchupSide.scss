@@ -5,6 +5,9 @@
 
     &.left {
       .game-matchup-side-stats {
+        border-left: 2px solid rgba(white, 0.25);
+        border-top-left-radius: 6px;
+        
         .game-matchup-side-stat {          
           h1 {
             margin-left: 10px;
@@ -15,6 +18,9 @@
 
     &.right {
       .game-matchup-side-stats {
+        border-right: 2px solid rgba(white, 0.25);
+        border-top-right-radius: 6px;
+
         .game-matchup-side-stat {
           justify-content: flex-end;
           
@@ -42,6 +48,7 @@
     }
 
     .game-matchup-side-stats {
+      border-top: 2px solid rgba(white, 0.25);
       margin-top: 5px;
       padding: 10px;
 
