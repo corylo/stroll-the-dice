@@ -7,6 +7,7 @@ import { Page } from "../../components/page/page";
 import { AppContext } from "../../components/app/contexts/appContext";
 
 import { useFetchGameEffect, useGameInviteEffect, useUpdateCurrentPlayerEffect } from "./effects/gamePageEffects";
+import { useGameListenersEffect } from "./effects/gamePageListenerEffects";
 
 import { ImageUtility } from "../../utilities/imageUtility";
 import { UrlUtility } from "../../utilities/urlUtility";
@@ -40,10 +41,12 @@ export const GamePage: React.FC<GamePageProps> = (props: GamePageProps) => {
 
   useUpdateCurrentPlayerEffect(user, state, setState);
 
-  useFetchGameEffect(id, state, setState);
+  useFetchGameEffect(id, appState, state, setState);
 
   useGameInviteEffect(appState, state, dispatch, setState);
 
+  useGameListenersEffect(state, setState);
+  
   return(
     <GamePageContext.Provider value={{ state, setState }}>
       <Page 

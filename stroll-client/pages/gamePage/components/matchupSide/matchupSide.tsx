@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import classNames from "classnames";
 
 import { MatchupSidePrediction } from "../matchupSidePrediction/matchupSidePrediction";
 import { MatchupSideStat } from "./matchupSideStat";
 import { ProfileIcon } from "../../../../components/profileIcon/profileIcon";
 
+import { GamePageContext } from "../../gamePage";
+
+import { NumberUtility } from "../../../../utilities/numberUtility";
+import { PredictionUtility } from "../../../../utilities/predictionUtility";
+
 import { IMatchup, IMatchupSide } from "../../../../../stroll-models/matchup";
+import { IPrediction } from "../../../../../stroll-models/prediction";
 
 export enum MatchupSideAlignment {
   Left = "left",
@@ -19,12 +25,37 @@ interface MatchupSideProps {
 }
 
 export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps) => {  
+  const { player, predictions } = useContext(GamePageContext).state;
+
   const { alignment, matchup, odds } = props;
   
   const side: IMatchupSide = matchup[alignment];
 
   if(side.player) {
     const { profile } = side.player;
+
+    const myPrediction: IPrediction = PredictionUtility.getById(player.id, predictions),
+      predictedThisSide: boolean = myPrediction && myPrediction.ref.player === side.ref;
+
+    const getMyPrediction = (): JSX.Element => {
+      if(myPrediction && predictedThisSide) {
+        return (        
+          <h1 className="my-prediction passion-one-font">You predicted <span className="highlight-main">{NumberUtility.shorten(myPrediction.amount)}</span></h1>
+        )
+      }
+    }
+
+    const getMatchupSidePrediction = (): JSX.Element => {
+      if(myPrediction === null || predictedThisSide) {
+        return (          
+          <MatchupSidePrediction 
+            matchupID={matchup.id}
+            myPrediction={myPrediction}
+            playerID={side.ref}
+          />
+        )
+      }
+    }
     
     return (
       <div className={classNames("game-matchup-side", props.alignment)}>
@@ -55,10 +86,8 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
             value={side.total.predictions} 
           />
         </div>
-        <MatchupSidePrediction 
-          matchupID={matchup.id}
-          playerID={side.ref}
-        />
+        {getMyPrediction()}
+        {getMatchupSidePrediction()}
       </div>
     )
   }

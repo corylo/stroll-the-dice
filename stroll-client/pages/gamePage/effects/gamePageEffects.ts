@@ -3,13 +3,11 @@ import { useHistory } from "react-router-dom";
 
 import { GameService } from "../../../services/gameService";
 import { InviteService } from "../../../services/inviteService";
-import { MatchupService } from "../../../services/matchupService";
 import { PlayerService } from "../../../services/playerService";
 
 import { ErrorUtility } from "../../../utilities/errorUtility";
 import { GameDurationUtility } from "../../../utilities/gameDurationUtility";
 import { InviteUtility } from "../../../utilities/inviteUtility";
-import { MatchupUtility } from "../../../utilities/matchupUtility";
 import { PlayerUtility } from "../../../utilities/playerUtility";
 import { UrlUtility } from "../../../utilities/urlUtility";
 
@@ -18,7 +16,6 @@ import { IGame } from "../../../../stroll-models/game";
 import { IGamePageState } from "../models/gamePageState";
 import { IGamePageStateToggles } from "../models/gamePageStateToggles";
 import { IInvite } from "../../../../stroll-models/invite";
-import { IMatchup } from "../../../../stroll-models/matchup";
 import { IPlayer } from "../../../../stroll-models/player";
 import { IUser } from "../../../models/user";
 
@@ -35,9 +32,14 @@ export const useUpdateCurrentPlayerEffect = (user: IUser, state: IGamePageState,
   }, [user, state.players]);
 }
 
-export const useFetchGameEffect = (id: string, state: IGamePageState, setState: (state: IGamePageState) => void): void => { 
+export const useFetchGameEffect = (
+  id: string, 
+  appState: IAppState, 
+  state: IGamePageState, 
+  setState: (state: IGamePageState) => void
+): void => { 
   useEffect(() => {
-    if(id.trim() !== "") {
+    if(id.trim() !== "" && appState.status !== AppStatus.Loading) {
       const fetch = async (): Promise<void> => {
         try {
           const game: IGame = await GameService.get(id);
@@ -46,9 +48,12 @@ export const useFetchGameEffect = (id: string, state: IGamePageState, setState: 
             const day: number = GameDurationUtility.getDay(game);
 
             const invite: IInvite = await InviteService.get.by.game(game),
-              players: IPlayer[] = await PlayerService.get.by.game(game.id),
-              matchups: IMatchup[] = await MatchupService.get.by.day(game.id, day);
-
+              players: IPlayer[] = await PlayerService.get.by.game(game.id);
+            
+            const player: IPlayer = appState.user 
+              ? PlayerUtility.getById(appState.user.profile.uid, players) 
+              : null;
+            
             const toggles: IGamePageStateToggles = {
               ...state.toggles,
               playing: invite !== null
@@ -59,8 +64,8 @@ export const useFetchGameEffect = (id: string, state: IGamePageState, setState: 
               day,
               game, 
               gameStatus: GameDurationUtility.getGameStatus(game),
-              invite,
-              matchups: MatchupUtility.mapPlayers(matchups, players),              
+              invite, 
+              player,    
               players, 
               status: RequestStatus.Success,
               toggles
@@ -81,7 +86,7 @@ export const useFetchGameEffect = (id: string, state: IGamePageState, setState: 
 
       fetch();
     }
-  }, [id]);
+  }, [id, appState.status]);
 }
 
 export const useGameInviteEffect = (
@@ -119,42 +124,4 @@ export const useGameInviteEffect = (
 
     load();
   }, [appState.user, appState.status, state.game, state.invite]);
-}
-
-export const useFetchPlayersEffect = (
-  state: IGamePageState, 
-  setState: (state: IGamePageState) => void, 
-  setStatus: (status: RequestStatus) => void
-): void => { 
-  useEffect(() => {
-    const fetch = async (): Promise<void> => {
-      if(state.toggles.playing && state.toggles.players) {
-        try {
-          setStatus(RequestStatus.Loading);
-
-          const players: IPlayer[] = await PlayerService.get.by.game(state.game.id);
-
-          setState({ 
-            ...state, 
-            players, 
-            game: { 
-              ...state.game, 
-              counts: {
-                ...state.game.counts,
-                players: players.length
-              } 
-            } 
-          });
-
-          setStatus(RequestStatus.Success);
-        } catch (err) {
-          console.error(err);
-          
-          setStatus(RequestStatus.Error);
-        }
-      }
-    }
-
-    fetch();
-  }, [state.invite, state.toggles.players]);
 }

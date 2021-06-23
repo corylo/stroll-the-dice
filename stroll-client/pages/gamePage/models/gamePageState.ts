@@ -3,6 +3,7 @@ import { defaultGamePageStateToggles, IGamePageStateToggles } from "./gamePageSt
 import { IInvite } from "../../../../stroll-models/invite";
 import { IMatchup } from "../../../../stroll-models/matchup";
 import { IPlayer } from "../../../../stroll-models/player";
+import { IPrediction } from "../../../../stroll-models/prediction";
 
 import { GameStatus } from "../../../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
@@ -16,6 +17,7 @@ export interface IGamePageState {
   message: string;
   player: IPlayer;
   players: IPlayer[];
+  predictions: IPrediction[];
   status: RequestStatus;
   toggles: IGamePageStateToggles;
 }
@@ -29,6 +31,7 @@ export const defaultGamePageState = (): IGamePageState => ({
   message: "",
   player: null,
   players: [],
+  predictions: [],
   status: RequestStatus.Loading,
   toggles: defaultGamePageStateToggles()
 });

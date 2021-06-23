@@ -1,4 +1,5 @@
 .game-matchup-side-prediction {
+  margin-top: 5px;
   padding-bottom: 20px;
 
   &.submitting {
@@ -12,7 +13,6 @@
   .game-matchup-side-input-wrapper {
     display: flex;
     justify-content: flex-start;
-    margin-top: 10px;
 
     .input-wrapper {
       width: 80px;

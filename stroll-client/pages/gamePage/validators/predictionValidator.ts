@@ -1,16 +1,21 @@
 import { IMatchupSidePredictionState } from "../components/matchupSidePrediction/matchupSidePrediction";
 
 import { FormError } from "../../../enums/formError";
+import { IPrediction } from "../../../../stroll-models/prediction";
 
 interface IPredictionValidator {
-  validate: (funds: number, state: IMatchupSidePredictionState, setState: (state: IMatchupSidePredictionState) => void) => boolean;
+  validate: (funds: number, myPrediction: IPrediction, state: IMatchupSidePredictionState, setState: (state: IMatchupSidePredictionState) => void) => boolean;
 }
 
 export const PredictionValidator: IPredictionValidator = {
-  validate: (funds: number, state: IMatchupSidePredictionState, setState: (state: IMatchupSidePredictionState) => void): boolean => {
+  validate: (funds: number, myPrediction: IPrediction, state: IMatchupSidePredictionState, setState: (state: IMatchupSidePredictionState) => void): boolean => {
     let errorCount: number = 0;
 
-    if(state.amount === "" || parseInt(state.amount) > funds) {
+    const amount: number = state.amount !== ""
+      ? parseInt(state.amount)
+      : 0;
+
+    if(amount === 0 || amount > funds) {
       setState({ ...state, error: FormError.InvalidValue });
       errorCount++;
     }

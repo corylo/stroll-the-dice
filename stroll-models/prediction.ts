@@ -3,7 +3,7 @@ import firebase from "firebase/app";
 export interface IPredictionRef {
   creator: string;
   game: string;
-  matchup: string;
+  matchup: string,
   player: string;
 }
 

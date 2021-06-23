@@ -21,6 +21,7 @@ export interface IPlayer {
   index: number;
   profile: IProfile;
   ref: IPlayerRef;  
+  updatedAt: firebase.firestore.FieldValue; 
 }
 
 export const defaultPlayer = (): IPlayer => ({
@@ -30,6 +31,7 @@ export const defaultPlayer = (): IPlayer => ({
   index: 0,
   profile: defaultProfile(),
   ref: defaultPlayerRef(),  
+  updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
 });
 
 export const playerConverter: firebase.firestore.FirestoreDataConverter<IPlayer> = {
@@ -39,7 +41,8 @@ export const playerConverter: firebase.firestore.FirestoreDataConverter<IPlayer>
       funds: player.funds,
       index: player.index,
       profile: player.profile,
-      ref: player.ref
+      ref: player.ref,
+      updatedAt: player.updatedAt
     }
   },
   fromFirestore(
@@ -54,7 +57,8 @@ export const playerConverter: firebase.firestore.FirestoreDataConverter<IPlayer>
       index: data.index,
       profile: data.profile,
       id: snapshot.id,
-      ref: data.ref
+      ref: data.ref,
+      updatedAt: data.updatedAt
     }
   }
 }

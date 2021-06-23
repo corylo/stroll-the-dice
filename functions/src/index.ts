@@ -18,5 +18,9 @@ exports.onPlayerCreate = firestore
   .onCreate(PlayerService.onCreate);
   
 exports.onPredictionCreate = firestore
-  .document("games/{gameID}/players/{playerID}/predictions/{id}")
+  .document("games/{gameID}/matchups/{matchupID}/predictions/{id}")
   .onCreate(PredictionService.onCreate);
+  
+exports.onPredictionUpdate = firestore
+  .document("games/{gameID}/matchups/{matchupID}/predictions/{id}")
+  .onUpdate(PredictionService.onUpdate);

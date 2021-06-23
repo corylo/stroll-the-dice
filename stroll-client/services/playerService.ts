@@ -25,7 +25,7 @@ export const PlayerService: IPlayerService = {
     return await db.collection("games")      
       .doc(game.id)
       .collection("players")
-      .doc(player.profile.uid)
+      .doc(player.id)
       .withConverter(playerConverter)
       .set(player);
   },

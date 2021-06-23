@@ -118,14 +118,14 @@ export const PlayerService: IPlayerService = {
     },
     createPlayingIn: (transaction: firebase.firestore.Transaction, game: IGame, player: IPlayer): void => {
       const playingInRef: firebase.firestore.DocumentReference = db.collection("profiles")
-            .doc(player.profile.uid)
+            .doc(player.id)
             .collection("playing_in")
             .doc(player.ref.game);
 
       transaction.set(playingInRef, { name: game.name.toLowerCase(), id: game.id, startsAt: game.startsAt });
     },
     updateCounts: (transaction: firebase.firestore.Transaction, gameRef: firebase.firestore.DocumentReference, game: IGame, player: IPlayer): void => {      
-      if(player.profile.uid !== game.creator.uid) { 
+      if(player.id !== game.creator.uid) { 
         transaction.update(gameRef, { ["counts.players"]: firebase.firestore.FieldValue.increment(1) });
 
         const inviteRef: firebase.firestore.DocumentReference = db.collection("games")

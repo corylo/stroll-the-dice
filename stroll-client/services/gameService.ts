@@ -86,5 +86,5 @@ export const GameService: IGameService = {
     return await db.collection("games")
       .doc(id)
       .update(update);
-  },
+  }
 }

@@ -8,13 +8,15 @@ import { GamePageContext } from "../../gamePage";
 
 import { PredictionService } from "../../../../services/predictionService";
 
+import { PredictionValidator } from "../../validators/predictionValidator";
+
 import { PredictionUtility } from "../../../../utilities/predictionUtility";
 
 import { IPrediction } from "../../../../../stroll-models/prediction";
+import { IPredictionUpdate } from "../../../../../stroll-models/predictionUpdate";
 
 import { FormStatus } from "../../../../enums/formStatus";
 import { FormError } from "../../../../enums/formError";
-import { PredictionValidator } from "../../validators/predictionValidator";
 
 export interface IMatchupSidePredictionState {
   amount: string;
@@ -24,13 +26,14 @@ export interface IMatchupSidePredictionState {
 
 interface MatchupSidePredictionProps {  
   matchupID: string;
+  myPrediction: IPrediction;
   playerID: string;
 }
 
 export const MatchupSidePrediction: React.FC<MatchupSidePredictionProps> = (props: MatchupSidePredictionProps) => {   
   const { game, player } = useContext(GamePageContext).state;
   
-  const { matchupID, playerID } = props;
+  const { matchupID, myPrediction, playerID } = props;
 
   const [state, setState] = useState<IMatchupSidePredictionState>({ 
     amount: "", 
@@ -53,21 +56,32 @@ export const MatchupSidePrediction: React.FC<MatchupSidePredictionProps> = (prop
   }
 
   const submit = async (): Promise<void> => {
-    if(state.status !== FormStatus.Submitting && PredictionValidator.validate(player.funds, state, setState)) {
+    if(
+      state.status !== FormStatus.Submitting && 
+      PredictionValidator.validate(player.funds, myPrediction, state, setState)
+    ) {
       try {
         updateStatus(FormStatus.Submitting);
 
-        const prediction: IPrediction = PredictionUtility.mapCreate(
-          parseInt(state.amount), 
-          player.id,
-          game.id,
-          matchupID,
-          playerID
-        );
+        const amount: number = parseInt(state.amount);
 
-        await PredictionService.create(player.id, prediction);
+        if(myPrediction) {
+          const update: IPredictionUpdate = PredictionUtility.mapUpdate(amount, myPrediction);
 
-        updateStatus(FormStatus.SubmitSuccess);
+          await PredictionService.update(myPrediction, update);
+        } else {
+          const prediction: IPrediction = PredictionUtility.mapCreate(
+            amount, 
+            player.id,
+            game.id,
+            matchupID,
+            playerID
+          );
+
+          await PredictionService.create(prediction);
+        }
+
+        setState({ ...state, status: FormStatus.SubmitSuccess, amount: "" });
       } catch (err) {
         console.error(err);
 
@@ -107,7 +121,7 @@ export const MatchupSidePrediction: React.FC<MatchupSidePredictionProps> = (prop
   }
 
   return (
-    <div className={classNames("game-matchup-side-prediction", { submitting: state.status === FormStatus.Submitting })}>
+    <div className={classNames("game-matchup-side-prediction", { submitting: state.status === FormStatus.Submitting })}>      
       <div className="game-matchup-side-input-wrapper">
         <InputWrapper label="Predict" error={getError()} errorMessage={getErrorMessage()}>
           <input 

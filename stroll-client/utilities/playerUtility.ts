@@ -25,7 +25,8 @@ export const PlayerUtility: IPlayerUtility = {
         game: game.id,
         invite: invite.id,
         team: ""
-      }
+      },
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     }
   }
 }
