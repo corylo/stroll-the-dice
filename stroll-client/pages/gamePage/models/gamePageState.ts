@@ -14,6 +14,7 @@ export interface IGamePageState {
   invite: IInvite;
   matchups: IMatchup[];
   message: string;
+  player: IPlayer;
   players: IPlayer[];
   status: RequestStatus;
   toggles: IGamePageStateToggles;
@@ -26,6 +27,7 @@ export const defaultGamePageState = (): IGamePageState => ({
   invite: null,
   matchups: [],
   message: "",
+  player: null,
   players: [],
   status: RequestStatus.Loading,
   toggles: defaultGamePageStateToggles()

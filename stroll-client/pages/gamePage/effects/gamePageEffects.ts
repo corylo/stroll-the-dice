@@ -10,6 +10,7 @@ import { ErrorUtility } from "../../../utilities/errorUtility";
 import { GameDurationUtility } from "../../../utilities/gameDurationUtility";
 import { InviteUtility } from "../../../utilities/inviteUtility";
 import { MatchupUtility } from "../../../utilities/matchupUtility";
+import { PlayerUtility } from "../../../utilities/playerUtility";
 import { UrlUtility } from "../../../utilities/urlUtility";
 
 import { IAppState } from "../../../components/app/models/appState";
@@ -19,11 +20,20 @@ import { IGamePageStateToggles } from "../models/gamePageStateToggles";
 import { IInvite } from "../../../../stroll-models/invite";
 import { IMatchup } from "../../../../stroll-models/matchup";
 import { IPlayer } from "../../../../stroll-models/player";
+import { IUser } from "../../../models/user";
 
 import { AppAction } from "../../../enums/appAction";
 import { AppStatus } from "../../../enums/appStatus";
 import { DocumentType } from "../../../../stroll-enums/documentType";
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
+
+export const useUpdateCurrentPlayerEffect = (user: IUser, state: IGamePageState, setState: (state: IGamePageState) => void): void => {
+  useEffect(() => {    
+    if(user !== null && user.profile !== null && state.players.length > 0 && state.player === null) {      
+      setState({ ...state, player: PlayerUtility.getById(user.profile.uid, state.players) });
+    }
+  }, [user, state.players]);
+}
 
 export const useFetchGameEffect = (id: string, state: IGamePageState, setState: (state: IGamePageState) => void): void => { 
   useEffect(() => {
@@ -50,7 +60,7 @@ export const useFetchGameEffect = (id: string, state: IGamePageState, setState: 
               game, 
               gameStatus: GameDurationUtility.getGameStatus(game),
               invite,
-              matchups: MatchupUtility.mapPlayers(matchups, players),
+              matchups: MatchupUtility.mapPlayers(matchups, players),              
               players, 
               status: RequestStatus.Success,
               toggles

@@ -17,14 +17,14 @@ export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => {
     <div className="game-matchup">
       <MatchupSide 
         alignment={MatchupSideAlignment.Left}
+        matchup={matchup}
         odds={MatchupUtility.calculateOdds(matchup.left, matchup.right)} 
-        side={matchup.left} 
       />
       <h1 className="game-matchup-vs-label passion-one-font">VS</h1>
       <MatchupSide 
         alignment={MatchupSideAlignment.Right}
+        matchup={matchup}
         odds={MatchupUtility.calculateOdds(matchup.right, matchup.left)} 
-        side={matchup.right} 
       />
     </div>
   );

@@ -1,11 +1,11 @@
 import React from "react";
 import classNames from "classnames";
 
-import { MatchupSideInput } from "./matchupSideInput";
+import { MatchupSidePrediction } from "../matchupSidePrediction/matchupSidePrediction";
 import { MatchupSideStat } from "./matchupSideStat";
 import { ProfileIcon } from "../../../../components/profileIcon/profileIcon";
 
-import { IMatchupSide } from "../../../../../stroll-models/matchup";
+import { IMatchup, IMatchupSide } from "../../../../../stroll-models/matchup";
 
 export enum MatchupSideAlignment {
   Left = "left",
@@ -14,16 +14,18 @@ export enum MatchupSideAlignment {
 
 interface MatchupSideProps {  
   alignment: MatchupSideAlignment;
+  matchup: IMatchup;
   odds: number;
-  side: IMatchupSide;
 }
 
-export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps) => {    
-  const { odds, side } = props;
+export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps) => {  
+  const { alignment, matchup, odds } = props;
+  
+  const side: IMatchupSide = matchup[alignment];
 
   if(side.player) {
     const { profile } = side.player;
-
+    
     return (
       <div className={classNames("game-matchup-side", props.alignment)}>
         <ProfileIcon 
@@ -53,7 +55,10 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
             value={side.total.predictions} 
           />
         </div>
-        <MatchupSideInput />
+        <MatchupSidePrediction 
+          matchupID={matchup.id}
+          playerID={side.ref}
+        />
       </div>
     )
   }

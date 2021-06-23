@@ -111,6 +111,20 @@
   }
 
   50% {
+    transform: rotate(720deg);
+  }
+
+  to {
+    transform: rotate(1440deg);
+  }
+}
+
+@keyframes spinAndScale {
+  from {
+    transform: rotate(0deg);
+  }
+
+  50% {
     transform: rotate(720deg) scale(1.5);
   }
 

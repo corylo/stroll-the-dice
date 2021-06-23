@@ -1,0 +1,56 @@
+.game-matchup-side-prediction {
+  padding-bottom: 20px;
+
+  &.submitting {
+    .game-matchup-side-prediction-button {
+      i {
+        animation: spin 2s ease-in-out infinite;  
+      }
+    }
+  }
+
+  .game-matchup-side-input-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 10px;
+
+    .input-wrapper {
+      width: 80px;
+
+      input {
+        background-color: gray(30);
+        border-bottom-right-radius: 0px;
+        border-top-right-radius: 0px;
+        height: 20px;
+        padding: 5px 10px;
+        width: calc(100% - 24px);
+      }        
+
+      .input-label {
+        position: absolute;
+      }
+    }
+
+    .game-matchup-side-prediction-button {
+      background-color: gray(230);
+      border-bottom-left-radius: 0px;
+      border-top-left-radius: 0px;
+      padding: 5px;
+
+      &:hover,
+      &:focus {
+        i {
+          color: $themeMain;
+        }
+      }
+
+      i {
+        color: gray(120);
+        font-size: 1em;
+        height: 20px;
+        line-height: 20px;
+        width: 20px;
+      }
+    }
+  }
+}

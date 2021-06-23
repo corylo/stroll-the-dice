@@ -5,8 +5,10 @@
 
     &.left {
       .game-matchup-side-stats {
-        border-left: 2px solid rgba(white, 0.25);
+        background: linear-gradient(to right, rgba(white, 0.1), transparent);
+        border-bottom-left-radius: 6px;
         border-top-left-radius: 6px;
+        box-shadow: rgba(0, 0, 0, 0.05) -2px 0px 2px;
         
         .game-matchup-side-stat {          
           h1 {
@@ -18,8 +20,10 @@
 
     &.right {
       .game-matchup-side-stats {
-        border-right: 2px solid rgba(white, 0.25);
+        background: linear-gradient(to left, rgba(white, 0.1), transparent);
+        border-bottom-right-radius: 6px;
         border-top-right-radius: 6px;
+        box-shadow: rgba(0, 0, 0, 0.05) 2px 0px 2px;
 
         .game-matchup-side-stat {
           justify-content: flex-end;
@@ -48,7 +52,6 @@
     }
 
     .game-matchup-side-stats {
-      border-top: 2px solid rgba(white, 0.25);
       margin-top: 5px;
       padding: 10px;
 
@@ -62,38 +65,6 @@
   
         i, h1 {
           color: white;
-        }
-      }
-    }
-
-    .game-matchup-side-input-wrapper {
-      display: flex;
-      margin-top: 10px;
-      text-align: left;
-
-      .input-wrapper {
-        width: 70px;
-
-        input {
-          background-color: gray(30);
-          border-bottom-right-radius: 0px;
-          border-top-right-radius: 0px;
-          height: 20px;
-          padding: 5px;
-          width: calc(100% - 14px);
-        }        
-      }
-
-      .game-matchup-side-input-button {
-        border-bottom-left-radius: 0px;
-        border-top-left-radius: 0px;
-        padding: 5px;
-
-        i {
-          font-size: 1em;
-          height: 20px;
-          line-height: 20px;
-          width: 20px;
         }
       }
     }

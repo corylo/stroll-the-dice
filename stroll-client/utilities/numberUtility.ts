@@ -1,22 +1,22 @@
 interface INumberUtility {
-  likes: (count: number) => string;
+  shorten: (value: number) => string;
   random: (min: number, max: number) => number;
 }
 
 export const NumberUtility: INumberUtility = {
-  likes: (count: number): string => {
-    if (count < 1000) {
-      return count.toString();
-    } else if (count < 20000) {
-      return `${(count / 1000).toFixed(1)}K`;
-    } else if (count < 1000000) {
-      return `${Math.round(count / 1000)}K`;
-    } else if (count < 20000000) {
-      return `${(count / 1000000).toFixed(1)}M`;
-    } else if (count < 1000000000) {
-      return `${Math.round(count / 1000000)}M`;
-    } else if (count < 20000000000) {
-      return `${(count / 1000000000).toFixed(1)}B`;
+  shorten: (value: number): string => {
+    if (value < 1000) {
+      return value.toString();
+    } else if (value < 100000) {
+      return `${(value / 1000).toFixed(2)}K`;
+    } else if (value < 1000000) {
+      return `${(value / 1000).toFixed(1)}K`;
+    } else if (value < 100000000) {
+      return `${(value / 1000000).toFixed(2)}M`;
+    } else if (value < 1000000000) {
+      return `${(value / 1000000).toFixed(1)}M`;
+    } else if (value < 20000000000) {
+      return `${(value / 1000000000).toFixed(1)}B`;
     } else {
       return "∞";
     }
