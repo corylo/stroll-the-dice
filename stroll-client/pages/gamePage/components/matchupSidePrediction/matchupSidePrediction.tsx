@@ -10,8 +10,10 @@ import { PredictionService } from "../../../../services/predictionService";
 
 import { PredictionValidator } from "../../validators/predictionValidator";
 
+import { MatchupUtility } from "../../../../utilities/matchupUtility";
 import { PredictionUtility } from "../../../../utilities/predictionUtility";
 
+import { IMatchup } from "../../../../../stroll-models/matchup";
 import { IPrediction } from "../../../../../stroll-models/prediction";
 import { IPredictionUpdate } from "../../../../../stroll-models/predictionUpdate";
 
@@ -25,7 +27,7 @@ export interface IMatchupSidePredictionState {
 }
 
 interface MatchupSidePredictionProps {  
-  matchupID: string;
+  matchup: IMatchup;
   myPrediction: IPrediction;
   playerID: string;
 }
@@ -33,9 +35,9 @@ interface MatchupSidePredictionProps {
 export const MatchupSidePrediction: React.FC<MatchupSidePredictionProps> = (props: MatchupSidePredictionProps) => {   
   const { game, player } = useContext(GamePageContext).state;
   
-  const { matchupID, myPrediction, playerID } = props;
+  const { matchup, myPrediction, playerID } = props;
 
-  const enabled: boolean = myPrediction === null || myPrediction.ref.player === playerID;
+  const enabled: boolean = PredictionUtility.enabled(player, matchup, playerID, myPrediction);
 
   const [state, setState] = useState<IMatchupSidePredictionState>({ 
     amount: "", 
@@ -79,7 +81,7 @@ export const MatchupSidePrediction: React.FC<MatchupSidePredictionProps> = (prop
             amount, 
             player.id,
             game.id,
-            matchupID,
+            matchup.id,
             playerID
           );
 

@@ -10,7 +10,7 @@ interface MatchupProps {
   matchup: IMatchup;
 }
 
-export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => {    
+export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => { 
   const { matchup } = props;
 
   return (

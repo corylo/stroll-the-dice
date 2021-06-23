@@ -26,7 +26,7 @@ import { RequestStatus } from "../../../../stroll-enums/requestStatus";
 
 export const useUpdateCurrentPlayerEffect = (user: IUser, state: IGamePageState, setState: (state: IGamePageState) => void): void => {
   useEffect(() => {    
-    if(user !== null && user.profile !== null && state.players.length > 0 && state.player === null) {      
+    if(user !== null && user.profile !== null && state.players.length > 0 && state.player.id === "") {      
       setState({ ...state, player: PlayerUtility.getById(user.profile.uid, state.players) });
     }
   }, [user, state.players]);
@@ -49,27 +49,32 @@ export const useFetchGameEffect = (
 
             const invite: IInvite = await InviteService.get.by.game(game),
               players: IPlayer[] = await PlayerService.get.by.game(game.id);
-            
-            const player: IPlayer = appState.user 
-              ? PlayerUtility.getById(appState.user.profile.uid, players) 
-              : null;
-            
+
             const toggles: IGamePageStateToggles = {
               ...state.toggles,
               playing: invite !== null
             }
 
-            setState({ 
+            const updates: IGamePageState = { 
               ...state, 
               day,
               game, 
               gameStatus: GameDurationUtility.getGameStatus(game),
-              invite, 
-              player,    
+              invite,               
               players, 
               status: RequestStatus.Success,
               toggles
-            });
+            }
+            
+            const player: IPlayer = appState.user 
+              ? PlayerUtility.getById(appState.user.profile.uid, players)
+              : null;
+
+            if(player) {
+              updates.player = player;
+            }
+            
+            setState(updates);
           } else {
             throw new Error(ErrorUtility.doesNotExist(DocumentType.Game));
           }

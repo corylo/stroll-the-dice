@@ -4,14 +4,18 @@ import { IPlayer } from "../../stroll-models/player";
 import { PlayerUtility } from "./playerUtility";
 
 interface IMatchupUtility {  
-  calculateOdds: (left: IMatchupSide, right: IMatchupSide) => number;
+  calculateOdds: (left: IMatchupSide, right: IMatchupSide) => number;  
+  findPlayer: (player: IPlayer, matchup: IMatchup) => boolean;
   mapPlayers: (matchups: IMatchup[], players: IPlayer[]) => IMatchup[];
-  mapPlayerToSide: (side: IMatchupSide, players: IPlayer[]) => IMatchupSide;
+  mapPlayerToSide: (side: IMatchupSide, players: IPlayer[]) => IMatchupSide;  
 }
 
 export const MatchupUtility: IMatchupUtility = {
   calculateOdds: (left: IMatchupSide, right: IMatchupSide): number => {
     return 1;
+  },
+  findPlayer: (player: IPlayer, matchup: IMatchup): boolean => {
+    return (player.id === matchup.left.ref || player.id === matchup.right.ref);
   },
   mapPlayers: (matchups: IMatchup[], players: IPlayer[]): IMatchup[] => {
     return matchups.map((matchup: IMatchup) => {

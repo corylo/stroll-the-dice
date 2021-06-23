@@ -18,7 +18,7 @@ export const PlayerUtility: IPlayerUtility = {
     return {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       funds: 1000,
-      id: "",      
+      id: profile.uid,      
       index: 0,
       profile,
       ref: {

@@ -11,27 +11,38 @@ import { IPrediction, predictionConverter } from "../../../../stroll-models/pred
 import { IPlayer, playerConverter } from "../../../../stroll-models/player";
 
 export const useGameListenersEffect = (state: IGamePageState, setState: (state: IGamePageState) => void): void => {
-  const [player, setPlayer] = useState<IPlayer>(null),
+  const [player, setPlayer] = useState<IPlayer>(state.player),
     [matchups, setMatchups] = useState<IMatchup[]>([]),
     [predictions, setPredictions] = useState<IPrediction[]>([]);
-
+  
   useEffect(() => {
     setState({ ...state, matchups, player, predictions });
   }, [matchups, player, predictions]);
-
-  useEffect(() => {
-    if(state.game !== null && state.toggles.playing) {
+  
+  useEffect(() => {    
+    if(
+      state.game !== null && 
+      state.player.id !== ""
+    ) {
       const unsubToPlayer = db.collection("games")
         .doc(state.game.id)
         .collection("players")
         .doc(state.player.id)
         .withConverter(playerConverter)
         .onSnapshot((doc: firebase.firestore.DocumentSnapshot<IPlayer>) => {
-          const update: IPlayer = { ...doc.data(), id: doc. id };
-
+          const update: IPlayer = { ...doc.data(), id: doc.id };
+          
           setPlayer(update);
         });
+        
+      return () => {
+        unsubToPlayer();
+      }
+    }
+  }, [state.game, state.player.id]);
 
+  useEffect(() => {    
+    if(state.game !== null && state.player.id !== "") {
       const unsubToMatchups = db.collection("games")
         .doc(state.game.id)
         .collection("matchups")
@@ -60,10 +71,9 @@ export const useGameListenersEffect = (state: IGamePageState, setState: (state: 
         });
         
       return () => {
-        unsubToPlayer();
         unsubToMatchups();
         unsubToPredictions();
       }
     }
-  }, [state.game, state.toggles.playing]);
+  }, [state.game, state.player.id]);
 }
