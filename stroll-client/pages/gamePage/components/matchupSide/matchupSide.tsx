@@ -12,6 +12,7 @@ import { PredictionUtility } from "../../../../utilities/predictionUtility";
 
 import { IMatchup, IMatchupSide } from "../../../../../stroll-models/matchup";
 import { IPrediction } from "../../../../../stroll-models/prediction";
+import { MatchupUtility } from "../../../../utilities/matchupUtility";
 
 export enum MatchupSideAlignment {
   Left = "left",
@@ -40,6 +41,18 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
       if(myPrediction && myPrediction.ref.player === side.ref) {
         return (        
           <h1 className="my-prediction passion-one-font">You predicted <span className="highlight-main">{NumberUtility.shorten(myPrediction.amount)}</span></h1>
+        )
+      }
+    }
+
+    const getMatchupSidePrediction = (): JSX.Element => {
+      if(!MatchupUtility.findPlayer(player, matchup)) {
+        return (
+          <MatchupSidePrediction 
+            matchup={matchup}
+            myPrediction={myPrediction}
+            playerID={side.ref}
+          />
         )
       }
     }
@@ -74,11 +87,7 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
           />
         </div>
         {getMyPrediction()}      
-        <MatchupSidePrediction 
-          matchup={matchup}
-          myPrediction={myPrediction}
-          playerID={side.ref}
-        />
+        {getMatchupSidePrediction()}
       </div>
     )
   }

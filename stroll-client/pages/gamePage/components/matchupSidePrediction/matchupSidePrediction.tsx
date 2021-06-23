@@ -37,7 +37,7 @@ export const MatchupSidePrediction: React.FC<MatchupSidePredictionProps> = (prop
   
   const { matchup, myPrediction, playerID } = props;
 
-  const enabled: boolean = PredictionUtility.enabled(player, matchup, playerID, myPrediction);
+  const enabled: boolean = PredictionUtility.enabled(playerID, myPrediction);
 
   const [state, setState] = useState<IMatchupSidePredictionState>({ 
     amount: "", 
