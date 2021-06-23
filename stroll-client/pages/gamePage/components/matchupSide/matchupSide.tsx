@@ -34,29 +34,16 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
   if(side.player) {
     const { profile } = side.player;
 
-    const myPrediction: IPrediction = PredictionUtility.getById(player.id, predictions),
-      predictedThisSide: boolean = myPrediction && myPrediction.ref.player === side.ref;
+    const myPrediction: IPrediction = PredictionUtility.getById(player.id, predictions);
 
     const getMyPrediction = (): JSX.Element => {
-      if(myPrediction && predictedThisSide) {
+      if(myPrediction && myPrediction.ref.player === side.ref) {
         return (        
           <h1 className="my-prediction passion-one-font">You predicted <span className="highlight-main">{NumberUtility.shorten(myPrediction.amount)}</span></h1>
         )
       }
     }
 
-    const getMatchupSidePrediction = (): JSX.Element => {
-      if(myPrediction === null || predictedThisSide) {
-        return (          
-          <MatchupSidePrediction 
-            matchupID={matchup.id}
-            myPrediction={myPrediction}
-            playerID={side.ref}
-          />
-        )
-      }
-    }
-    
     return (
       <div className={classNames("game-matchup-side", props.alignment)}>
         <ProfileIcon 
@@ -86,8 +73,12 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
             value={side.total.predictions} 
           />
         </div>
-        {getMyPrediction()}
-        {getMatchupSidePrediction()}
+        {getMyPrediction()}      
+        <MatchupSidePrediction 
+          matchupID={matchup.id}
+          myPrediction={myPrediction}
+          playerID={side.ref}
+        />
       </div>
     )
   }

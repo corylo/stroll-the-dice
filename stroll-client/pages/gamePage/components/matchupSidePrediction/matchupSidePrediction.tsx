@@ -35,10 +35,12 @@ export const MatchupSidePrediction: React.FC<MatchupSidePredictionProps> = (prop
   
   const { matchupID, myPrediction, playerID } = props;
 
+  const enabled: boolean = myPrediction === null || myPrediction.ref.player === playerID;
+
   const [state, setState] = useState<IMatchupSidePredictionState>({ 
     amount: "", 
     error: FormError.None,
-    status: FormStatus.SubmitSuccess 
+    status: FormStatus.InProgress 
   });
 
   useEffect(() => {
@@ -48,7 +50,9 @@ export const MatchupSidePrediction: React.FC<MatchupSidePredictionProps> = (prop
   }, [player, state.amount]);
 
   const updateAmount = (e: any): void => {
-    setState({ ...state, amount: e.target.value.replace(/\D/g, "") });
+    if(enabled) {
+      setState({ ...state, amount: e.target.value.replace(/\D/g, "") });
+    }
   }
 
   const updateStatus = (status: FormStatus): void => {
@@ -57,6 +61,7 @@ export const MatchupSidePrediction: React.FC<MatchupSidePredictionProps> = (prop
 
   const submit = async (): Promise<void> => {
     if(
+      enabled &&
       state.status !== FormStatus.Submitting && 
       PredictionValidator.validate(player.funds, myPrediction, state, setState)
     ) {
@@ -95,7 +100,7 @@ export const MatchupSidePrediction: React.FC<MatchupSidePredictionProps> = (prop
       submit();
     }
   }
-  
+
   const getSubmitIcon = (): string => {
     if(state.status === FormStatus.Submitting) {
       return "fal fa-spinner-third";
@@ -127,7 +132,7 @@ export const MatchupSidePrediction: React.FC<MatchupSidePredictionProps> = (prop
           <input 
             type="text"
             className="passion-one-font"
-            disabled={state.status === FormStatus.Submitting}
+            disabled={state.status === FormStatus.Submitting || !enabled}
             placeholder="0"
             value={state.amount}
             onChange={updateAmount}
