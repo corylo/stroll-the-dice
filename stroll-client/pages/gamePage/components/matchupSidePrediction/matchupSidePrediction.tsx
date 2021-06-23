@@ -15,8 +15,8 @@ import { PredictionUtility } from "../../../../utilities/predictionUtility";
 import { IPrediction } from "../../../../../stroll-models/prediction";
 import { IPredictionUpdate } from "../../../../../stroll-models/predictionUpdate";
 
-import { FormStatus } from "../../../../enums/formStatus";
 import { FormError } from "../../../../enums/formError";
+import { FormStatus } from "../../../../enums/formStatus";
 
 export interface IMatchupSidePredictionState {
   amount: string;
@@ -86,7 +86,7 @@ export const MatchupSidePrediction: React.FC<MatchupSidePredictionProps> = (prop
           await PredictionService.create(prediction);
         }
 
-        setState({ ...state, status: FormStatus.SubmitSuccess, amount: "" });
+        setState({ ...state, status: FormStatus.SubmitSuccess, amount: "" });       
       } catch (err) {
         console.error(err);
 

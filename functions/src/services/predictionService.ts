@@ -34,7 +34,12 @@ export const PredictionService: IPredictionService = {
         if(playerDoc.exists && matchupDoc.exists) {
           const player: IPlayer = { ...playerDoc.data() as IPlayer, id: playerDoc.id };          
 
-          transaction.update(playerRef, { funds: player.funds - prediction.amount });
+          const updatedFunds: number = player.funds - prediction.amount;
+
+          transaction.update(playerRef, { 
+            funds: player.funds - prediction.amount,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp() 
+          });
 
           const matchup: IMatchup = { ...matchupDoc.data() as IMatchup, id: matchupDoc.id };
 
@@ -42,14 +47,17 @@ export const PredictionService: IPredictionService = {
             ? "left"
             : "right";
 
+          const updatedTotalWagered: number = matchup[side].total.wagered + prediction.amount;
+
           transaction.update(matchupRef, { 
             [`${side}.total.predictions`]: firebase.firestore.FieldValue.increment(1),
             [`${side}.total.wagered`]: matchup[side].total.wagered + prediction.amount
           });
+          
+          logger.info(`Updated funds for player [${prediction.ref.creator}] to [${updatedFunds}] and total wagered to [${updatedTotalWagered}]`);
         }
       });
       
-      logger.info(`Player [${prediction.ref.creator}] successfully predicted amount [${prediction.amount}] in game [${context.params.gameID}] and matchup [${context.params.matchupID}] on player [${prediction.ref.player}].`);
     } catch (err) {
       logger.error(err);
     }
