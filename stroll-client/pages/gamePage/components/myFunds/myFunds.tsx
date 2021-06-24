@@ -12,8 +12,8 @@ interface MyFundsProps {
   player: IPlayer;
 }
 
-export const MyFunds: React.FC<MyFundsProps> = (props: MyFundsProps) => {  
-  if(props.player) {
+export const MyFunds: React.FC<MyFundsProps> = (props: MyFundsProps) => {    
+  if(props.player.id !== "") {
     return ReactDOM.createPortal(
       <div className="my-funds-modal">
         <div className="my-funds-wrapper">

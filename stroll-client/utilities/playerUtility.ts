@@ -24,6 +24,7 @@ export const PlayerUtility: IPlayerUtility = {
       ref: {
         game: game.id,
         invite: invite.id,
+        lastMatchupPredicted: "",
         team: ""
       },
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()

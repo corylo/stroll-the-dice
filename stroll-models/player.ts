@@ -4,13 +4,15 @@ import { defaultProfile, IProfile } from "./profile";
 
 export interface IPlayerRef {
   game: string;
-  invite: string;
+  invite: string
+  lastMatchupPredicted: string;
   team: string;
 }
 
 export const defaultPlayerRef = (): IPlayerRef => ({
   game: "",
   invite: "",
+  lastMatchupPredicted: "",
   team: ""
 });
 
