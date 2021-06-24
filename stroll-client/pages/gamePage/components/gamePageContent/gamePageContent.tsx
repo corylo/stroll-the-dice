@@ -30,7 +30,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
     }
 
     const togglePlayers = (): any => {
-      if(toggles.playing) {
+      if(player) {
         return () => toggle({ players: true });
       }
     }

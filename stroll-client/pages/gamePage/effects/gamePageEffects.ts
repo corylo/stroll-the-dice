@@ -39,12 +39,7 @@ export const useFetchGameEffect = (
             const day: number = GameDurationUtility.getDay(game);
 
             const invite: IInvite = await InviteService.get.by.game(game),
-              players: IPlayer[] = await PlayerService.get.by.game(game.id)
-
-            const toggles: IGamePageStateToggles = {
-              ...state.toggles,
-              playing: invite !== null
-            }
+              players: IPlayer[] = await PlayerService.get.by.game(game.id);
 
             const updates: IGamePageState = { 
               ...state, 
@@ -53,8 +48,7 @@ export const useFetchGameEffect = (
               gameStatus: GameDurationUtility.getGameStatus(game),
               invite,    
               players,
-              status: RequestStatus.Success,
-              toggles
+              status: RequestStatus.Success
             }
             
             const player: IPlayer = PlayerUtility.getByUser(appState.user, players);
@@ -101,8 +95,7 @@ export const useGameInviteEffect = (
 
           const toggles: IGamePageStateToggles = {
             ...state.toggles,
-            accept: true,
-            playing: true
+            accept: true
           }
 
           setState({ ...state, invite, toggles });
