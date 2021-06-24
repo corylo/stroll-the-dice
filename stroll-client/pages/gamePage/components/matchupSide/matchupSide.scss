@@ -35,6 +35,12 @@
       }
     }
 
+    &.undetermined {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+    }
+
     .profile-icon {
       font-size: 2em;
       height: 80px;
@@ -67,12 +73,6 @@
           color: white;
         }
       }
-    }
-
-    .my-prediction {
-      color: gray(230);
-      margin-top: 5px;
-      text-align: left;
     }
   }
 }

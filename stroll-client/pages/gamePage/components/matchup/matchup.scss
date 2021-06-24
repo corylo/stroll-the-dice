@@ -1,16 +1,41 @@
 .game-matchup {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
   padding: 20px;
 
   &:nth-of-type(n + 2) {
     border-top: 1px solid rgba(white, 0.25);
   }
 
-  .game-matchup-vs-label {
-    color: white;
-    font-size: 2em;
-    margin: 0px 20px;
+  .game-matchup-sides {
+    display: flex;
+    justify-content: space-between;
+
+    .game-matchup-vs-label {
+      align-items: center;
+      color: white;
+      display: flex;
+      font-size: 2em;
+      margin: 0px 20px;
+    }
+  }
+
+  .my-prediction {
+    align-items: center;
+    background-color: rgba(white, 0.1);
+    border-radius: 10px;   
+    color: gray(230); 
+    display: flex;
+    margin-top: 10px;
+    padding: 15px 10px;
+    text-align: left;
+
+    i {
+      font-size: 0.9em;
+      margin-left: 4px;
+    }
+
+    span {
+      display: inline-block;
+      margin: 0px 4px;
+    }
   }
 }

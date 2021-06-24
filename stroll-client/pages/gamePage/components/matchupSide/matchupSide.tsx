@@ -7,12 +7,11 @@ import { ProfileIcon } from "../../../../components/profileIcon/profileIcon";
 
 import { GamePageContext } from "../../gamePage";
 
-import { NumberUtility } from "../../../../utilities/numberUtility";
+import { MatchupUtility } from "../../../../utilities/matchupUtility";
 import { PredictionUtility } from "../../../../utilities/predictionUtility";
 
 import { IMatchup, IMatchupSide } from "../../../../../stroll-models/matchup";
 import { IPrediction } from "../../../../../stroll-models/prediction";
-import { MatchupUtility } from "../../../../utilities/matchupUtility";
 
 export enum MatchupSideAlignment {
   Left = "left",
@@ -35,18 +34,10 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
   if(player && side.player) {
     const { profile } = side.player;
     
-    const myPrediction: IPrediction = PredictionUtility.getById(player.id, matchup.id, predictions);
-    
-    const getMyPrediction = (): JSX.Element => {
-      if(myPrediction && myPrediction.ref.player === side.ref) {
-        return (        
-          <h1 className="my-prediction passion-one-font">You predicted <span className="highlight-main">{NumberUtility.shorten(myPrediction.amount)}</span></h1>
-        )
-      }
-    }
-
     const getMatchupSidePrediction = (): JSX.Element => {
       if(!MatchupUtility.findPlayer(player, matchup)) {
+        const myPrediction: IPrediction = PredictionUtility.getById(player.id, matchup.id, predictions);
+
         return (
           <MatchupSidePrediction 
             matchup={matchup}
@@ -85,17 +76,18 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
             icon="fal fa-user-friends" 
             value={side.total.predictions} 
           />
-        </div>
-        {getMyPrediction()}      
+        </div>   
         {getMatchupSidePrediction()}
       </div>
     )
   }
 
   return (
-    <div className="game-matchup-side">
-      <ProfileIcon anonymous />
-      <h1 className="game-matchup-side-username passion-one-font" style={{ color: "rgb(230, 230, 230)" }}>Undetermined</h1>     
+    <div className="game-matchup-side undetermined">
+      <div className="game-matchup-side-undetermined">
+        <ProfileIcon anonymous />
+        <h1 className="game-matchup-side-username passion-one-font" style={{ color: "rgb(230, 230, 230)" }}>Undetermined</h1>     
+      </div>
     </div>
   );
 }
