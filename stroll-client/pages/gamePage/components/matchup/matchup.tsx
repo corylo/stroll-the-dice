@@ -6,7 +6,6 @@ import { GamePageContext } from "../../gamePage";
 
 import { MatchupUtility } from "../../../../utilities/matchupUtility";
 import { NumberUtility } from "../../../../utilities/numberUtility";
-import { PlayerUtility } from "../../../../utilities/playerUtility";
 import { PredictionUtility } from "../../../../utilities/predictionUtility";
 
 import { IMatchup } from "../../../../../stroll-models/matchup";

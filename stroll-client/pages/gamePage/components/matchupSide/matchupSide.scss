@@ -80,7 +80,7 @@
 @include phone-or-smaller {
   .game-matchup {
     .game-matchup-side {
-      width: 160px;
+      width: 180px;
     }
   }
 }
@@ -123,7 +123,7 @@
       
       .game-matchup-side-username {
         font-size: 0.8em;
-        max-width: 90px;
+        max-width: 100px;
       }
     }
   }

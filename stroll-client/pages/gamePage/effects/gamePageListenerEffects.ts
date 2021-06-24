@@ -55,8 +55,7 @@ export const useGameListenersEffect = (appState: IAppState, state: IGamePageStat
     }
   }, [state.game, state.player.id]);
 
-  useEffect(() => {    
-    console.log(state.game, state.player.id)
+  useEffect(() => {        
     if(state.game !== null && state.player.id !== "") {
       const unsubToMatchups = db.collection("games")
         .doc(state.game.id)
@@ -68,7 +67,7 @@ export const useGameListenersEffect = (appState: IAppState, state: IGamePageStat
 
           snap.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IMatchup>) =>
             updates.push({ ...doc.data(), id: doc.id }));
-          console.log(updates);
+          
           setMatchups(updates);
         });
 
