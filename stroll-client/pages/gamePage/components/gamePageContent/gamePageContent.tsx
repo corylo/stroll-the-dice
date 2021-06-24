@@ -23,7 +23,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
   const { state, setState } = useContext(GamePageContext);
 
   const { game, invite, player, status, toggles } = state;
-  
+
   if(status === RequestStatus.Success && game !== null) {
     const toggle = (updates: any): void => {
       setState({ ...state, toggles: { ...toggles, ...updates } });

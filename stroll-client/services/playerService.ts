@@ -44,7 +44,7 @@ export const PlayerService: IPlayerService = {
       
           snap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>) => 
             players.push(doc.data()));
-      
+          
           return players;
         } catch (err) {
           if(err.message === FirebaseErrorCode.MissingPermissions) {

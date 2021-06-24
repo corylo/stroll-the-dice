@@ -6,7 +6,7 @@ import { Page } from "../../components/page/page";
 
 import { AppContext } from "../../components/app/contexts/appContext";
 
-import { useFetchGameEffect, useGameInviteEffect, useUpdateCurrentPlayerEffect } from "./effects/gamePageEffects";
+import { useFetchGameEffect, useGameInviteEffect } from "./effects/gamePageEffects";
 import { useGameListenersEffect } from "./effects/gamePageListenerEffects";
 
 import { ImageUtility } from "../../utilities/imageUtility";
@@ -31,21 +31,17 @@ interface GamePageProps {
 export const GamePage: React.FC<GamePageProps> = (props: GamePageProps) => {
   const { appState, dispatchToApp } = useContext(AppContext);
 
-  const { user } = appState;
-  
   const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
 
   const [state, setState] = useState<IGamePageState>(defaultGamePageState());    
 
   const id: string = UrlUtility.getParam(useRouteMatch(), "id");
 
-  useUpdateCurrentPlayerEffect(user, state, setState);
-
   useFetchGameEffect(id, appState, state, setState);
 
   useGameInviteEffect(appState, state, dispatch, setState);
 
-  useGameListenersEffect(state, setState);
+  useGameListenersEffect(appState, state, setState);
   
   return(
     <GamePageContext.Provider value={{ state, setState }}>

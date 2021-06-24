@@ -17,20 +17,11 @@ import { IGamePageState } from "../models/gamePageState";
 import { IGamePageStateToggles } from "../models/gamePageStateToggles";
 import { IInvite } from "../../../../stroll-models/invite";
 import { IPlayer } from "../../../../stroll-models/player";
-import { IUser } from "../../../models/user";
 
 import { AppAction } from "../../../enums/appAction";
 import { AppStatus } from "../../../enums/appStatus";
 import { DocumentType } from "../../../../stroll-enums/documentType";
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
-
-export const useUpdateCurrentPlayerEffect = (user: IUser, state: IGamePageState, setState: (state: IGamePageState) => void): void => {
-  useEffect(() => {    
-    if(user !== null && user.profile !== null && state.players.length > 0 && state.player.id === "") {      
-      setState({ ...state, player: PlayerUtility.getById(user.profile.uid, state.players) });
-    }
-  }, [user, state.players]);
-}
 
 export const useFetchGameEffect = (
   id: string, 
@@ -48,7 +39,7 @@ export const useFetchGameEffect = (
             const day: number = GameDurationUtility.getDay(game);
 
             const invite: IInvite = await InviteService.get.by.game(game),
-              players: IPlayer[] = await PlayerService.get.by.game(game.id);
+              players: IPlayer[] = await PlayerService.get.by.game(game.id)
 
             const toggles: IGamePageStateToggles = {
               ...state.toggles,
@@ -60,15 +51,13 @@ export const useFetchGameEffect = (
               day,
               game, 
               gameStatus: GameDurationUtility.getGameStatus(game),
-              invite,               
-              players, 
+              invite,    
+              players,
               status: RequestStatus.Success,
               toggles
             }
             
-            const player: IPlayer = appState.user 
-              ? PlayerUtility.getById(appState.user.profile.uid, players)
-              : null;
+            const player: IPlayer = PlayerUtility.getByUser(appState.user, players);
 
             if(player) {
               updates.player = player;
