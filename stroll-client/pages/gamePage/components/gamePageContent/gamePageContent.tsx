@@ -13,6 +13,8 @@ import { ViewPlayersModal } from "../viewPlayersModal/viewPlayersModal";
 
 import { GamePageContext } from "../../gamePage";
 
+import { MatchupUtility } from "../../../../utilities/matchupUtility";
+
 import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
 
 interface GamePageContentProps {
@@ -35,6 +37,17 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
       }
     }
 
+    const getMatchups = (): JSX.Element[] => {        
+      return MatchupUtility.groupByDay(state.matchups)
+        .map((entry: any) => (
+          <Matchups 
+            key={entry.day} 
+            day={entry.day} 
+            matchups={entry.matchups} 
+          />
+        ));
+    }
+
     return (
       <div className="game-page-content">
         <div className="game-page-header">
@@ -50,8 +63,8 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
             toggleInvite={() => toggle({ invite: true })}
             toggleUpdate={() => toggle({ update: true })}
           />
-          <Matchups day={1} />
         </div>
+        {getMatchups()}
         <MyFunds player={player} />
         <UpdateGameModal back={() => toggle({ update: false })} />
         <AcceptInviteModal back={() => toggle({ accept: false })} />

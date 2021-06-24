@@ -17,8 +17,8 @@ interface IPlayerServiceBatch {
 
 interface IPlayerServiceTransaction {
   handleMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, game: IGame, player: IPlayer) => void;
-  completeMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, player: IPlayer) => void;
-  createMatchup: (transaction: firebase.firestore.Transaction, player: IPlayer) => void;
+  completeDayOneMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, player: IPlayer) => void;
+  createDayOneMatchup: (transaction: firebase.firestore.Transaction, player: IPlayer) => void;
   createPlayingIn: (transaction: firebase.firestore.Transaction, game: IGame, player: IPlayer) => void;
   updateCounts: (transaction: firebase.firestore.Transaction, gameRef: firebase.firestore.DocumentReference, game: IGame, player: IPlayer) => void;
 }
@@ -82,12 +82,12 @@ export const PlayerService: IPlayerService = {
   transaction: {
     handleMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, game: IGame, player: IPlayer): void => {
       if(matchupSnap.empty || game.counts.players % 2 === 0) {
-        PlayerService.transaction.createMatchup(transaction, player);
+        PlayerService.transaction.createDayOneMatchup(transaction, player);
       } else if (matchupSnap.docs.length === 1) {
-        PlayerService.transaction.completeMatchup(transaction, matchupSnap, player);
+        PlayerService.transaction.completeDayOneMatchup(transaction, matchupSnap, player);
       }
     },
-    completeMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, player: IPlayer): void => {      
+    completeDayOneMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, player: IPlayer): void => {      
       const matchups: IMatchup[] = [];
 
       matchupSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IMatchup>) => 
@@ -105,7 +105,7 @@ export const PlayerService: IPlayerService = {
 
       transaction.update(matchupRef, { ["right.ref"]: player.id });
     },
-    createMatchup: (transaction: firebase.firestore.Transaction, player: IPlayer): void => {
+    createDayOneMatchup: (transaction: firebase.firestore.Transaction, player: IPlayer): void => {
       logger.info(`Creating matchup for player [${player.id}] in game [${player.ref.game}].`);
 
       const matchupRef: firebase.firestore.DocumentReference = db.collection("games")
@@ -114,7 +114,7 @@ export const PlayerService: IPlayerService = {
         .withConverter<IMatchup>(matchupConverter)
         .doc();
 
-      transaction.set(matchupRef, MatchupUtility.mapCreate(player));
+      transaction.set(matchupRef, MatchupUtility.mapDayOneCreate(player));
     },
     createPlayingIn: (transaction: firebase.firestore.Transaction, game: IGame, player: IPlayer): void => {
       const playingInRef: firebase.firestore.DocumentReference = db.collection("profiles")

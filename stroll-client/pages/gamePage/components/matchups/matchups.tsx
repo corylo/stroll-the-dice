@@ -10,14 +10,15 @@ import { IMatchup } from "../../../../../stroll-models/matchup";
 
 interface MatchupsProps {  
   day: number;
+  matchups: IMatchup[];
 }
 
 export const Matchups: React.FC<MatchupsProps> = (props: MatchupsProps) => {  
   const { state } = useContext(GamePageContext);
 
-  if(state.matchups.length > 0) {
+  if(props.matchups.length > 0) {
     const getMatchups = (): JSX.Element[] => {
-      return state.matchups.map((matchup: IMatchup) =>       
+      return props.matchups.map((matchup: IMatchup) =>       
         <Matchup key={matchup.id} matchup={matchup} />);
     }
 

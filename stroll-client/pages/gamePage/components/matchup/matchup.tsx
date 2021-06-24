@@ -32,11 +32,7 @@ export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => {
       const style: React.CSSProperties = { color: `rgb(${predictedPlayer.profile.color})` };
 
       return (        
-        <h1 className="my-prediction passion-one-font">You predicted
-          <i className={predictedPlayer.profile.icon} style={style} />
-          <span style={style}> {predictedPlayer.profile.username}</span>with
-          <span className="highlight-main"> {NumberUtility.shorten(myPrediction.amount)}</span>
-        </h1>
+        <h1 className="my-prediction passion-one-font">You predicted <i className={predictedPlayer.profile.icon} style={style} /> <span style={style}> {predictedPlayer.profile.username}</span> with <span className="highlight-main">{NumberUtility.shorten(myPrediction.amount)}</span></h1>
       )
     }
   }

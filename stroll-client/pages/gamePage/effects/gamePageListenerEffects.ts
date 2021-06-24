@@ -60,6 +60,8 @@ export const useGameListenersEffect = (appState: IAppState, state: IGamePageStat
       const unsubToMatchups = db.collection("games")
         .doc(state.game.id)
         .collection("matchups")
+        .where("day", "<=", state.day + 1)
+        .orderBy("day", "desc")
         .orderBy("createdAt")
         .withConverter(matchupConverter)
         .onSnapshot((snap: firebase.firestore.QuerySnapshot) => {

@@ -22,7 +22,13 @@ export const GameDurationUtility: IGameDurationUtility = {
     return DateUtility.inPast(GameDurationUtility.getEndsAt(game));
   },
   getDay: (game: IGame): number => {
-    return 1;
+    if(FirestoreDateUtility.inPast(game.startsAt)) {
+      const diff: number = Math.round(Math.abs(FirestoreDateUtility.diffInDays(game.startsAt)));
+
+      return diff;
+    }
+
+    return 0;
   },
   getDurations: (): GameDuration[] => {
     return [

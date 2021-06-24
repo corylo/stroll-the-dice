@@ -26,7 +26,7 @@ interface MatchupSideProps {
 }
 
 export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps) => {  
-  const { player, predictions } = useContext(GamePageContext).state;
+  const { day, player, predictions } = useContext(GamePageContext).state;
 
   const { alignment, matchup, odds } = props;
   
@@ -39,6 +39,7 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
       const myPrediction: IPrediction = PredictionUtility.getById(player.id, matchup.id, predictions);
       
       if(
+        matchup.day > day &&
         (matchup.left.ref !== "" || matchup.right.ref !== "") &&
         !MatchupUtility.findPlayer(player, matchup) && 
         (myPrediction === null || myPrediction.ref.player === side.ref)
@@ -82,7 +83,7 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
           <MatchupSideStat 
             alignment={props.alignment}
             icon="fal fa-user-friends" 
-            tooltip="Players"
+            tooltip="Participants"
             value={side.total.predictions} 
           />
         </div>   
