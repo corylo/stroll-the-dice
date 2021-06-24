@@ -17,7 +17,7 @@ interface MatchupProps {
 }
 
 export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => { 
-  const { player, players, predictions } = useContext(GamePageContext).state;
+  const { player, predictions } = useContext(GamePageContext).state;
 
   const { matchup } = props;
 

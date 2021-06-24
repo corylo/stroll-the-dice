@@ -20,7 +20,8 @@
 
   .my-prediction {
     align-items: center;
-    background-color: rgba(white, 0.1);
+    background-color: rgba(black, 0.4);
+    border: 1px solid rgba(white, 0.25);
     border-radius: 10px;   
     color: gray(230); 
     display: flex;
