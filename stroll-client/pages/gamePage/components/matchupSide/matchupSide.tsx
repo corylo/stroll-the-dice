@@ -64,21 +64,25 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
           <MatchupSideStat 
             alignment={props.alignment}
             icon="fal fa-shoe-prints" 
+            tooltip="Steps"
             value={side.steps || "0"} 
           />
           <MatchupSideStat 
             alignment={props.alignment}
             icon="fal fa-money-bill-wave-alt" 
+            tooltip="Total Wagered"
             value={side.total.wagered ? NumberUtility.shorten(side.total.wagered) : "-"} 
           />
           <MatchupSideStat 
             alignment={props.alignment}
             icon="fal fa-dice" 
+            tooltip="Odds"
             value={`1 : ${odds}`} 
           />
           <MatchupSideStat 
             alignment={props.alignment}
             icon="fal fa-user-friends" 
+            tooltip="Players"
             value={side.total.predictions} 
           />
         </div>   

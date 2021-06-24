@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { Tooltip, TooltipSide } from "../tooltip/tooltip";
 
 interface LabelProps { 
-  className: string; 
+  className?: string; 
   icon?: string;
   text?: string;
   tooltip?: string;

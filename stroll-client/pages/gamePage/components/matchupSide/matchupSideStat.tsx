@@ -1,10 +1,13 @@
 import React from "react";
 
+import { Label } from "../../../../components/label/label";
+import { TooltipSide } from "../../../../components/tooltip/tooltip";
 import { MatchupSideAlignment } from "./matchupSide";
 
 interface MatchupSideStatProps {  
   alignment: MatchupSideAlignment;
   icon: string;
+  tooltip: string;
   value: number | string;
 }
 
@@ -12,7 +15,7 @@ export const MatchupSideStat: React.FC<MatchupSideStatProps> = (props: MatchupSi
   if(props.alignment === MatchupSideAlignment.Left) {
     return (
       <div className="game-matchup-side-stat">
-        <i className={props.icon} />
+        <Label icon={props.icon} tooltip={props.tooltip} />
         <h1 className="passion-one-font">{props.value}</h1>
       </div>
     );
@@ -21,7 +24,7 @@ export const MatchupSideStat: React.FC<MatchupSideStatProps> = (props: MatchupSi
   return (
     <div className="game-matchup-side-stat">      
       <h1 className="passion-one-font">{props.value}</h1>
-      <i className={props.icon} />
+      <Label icon={props.icon} tooltip={props.tooltip} tooltipSide={TooltipSide.Left} />
     </div>
   );
 }
