@@ -1,7 +1,7 @@
 .game-matchup {
   .game-matchup-side {
     text-align: center;
-    width: 160px;
+    width: 200px;
 
     &.left {
       .game-matchup-side-stats {
@@ -73,6 +73,14 @@
           color: white;
         }
       }
+    }
+  }
+}
+
+@include phone-or-smaller {
+  .game-matchup {
+    .game-matchup-side {
+      width: 160px;
     }
   }
 }

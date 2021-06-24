@@ -36,9 +36,9 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
     const { profile } = side.player;
     
     const getMatchupSidePrediction = (): JSX.Element => {
-      if(!MatchupUtility.findPlayer(player, matchup)) {
-        const myPrediction: IPrediction = PredictionUtility.getById(player.id, matchup.id, predictions);
-
+      const myPrediction: IPrediction = PredictionUtility.getById(player.id, matchup.id, predictions);
+      
+      if(!MatchupUtility.findPlayer(player, matchup) && (myPrediction === null || myPrediction.ref.player === side.ref)) {
         return (
           <MatchupSidePrediction 
             matchup={matchup}
