@@ -1,14 +1,34 @@
 import { IGame } from "../../../stroll-models/game";
 
+import { GameStatus } from "../../../stroll-enums/gameStatus";
+
 interface IGameUtility {
-  hasChanged: (before: IGame, after: IGame) => boolean;
+  hasReferenceFieldChanged: (before: IGame, after: IGame) => boolean;
+  inProgressToCompleted: (before: IGame, after: IGame) => boolean;
+  stillInProgress: (before: IGame, after: IGame) => boolean;
+  upcomingToInProgress: (before: IGame, after: IGame) => boolean;
 }
 
 export const GameUtility: IGameUtility = {  
-  hasChanged: (before: IGame, after: IGame): boolean => {
+  hasReferenceFieldChanged: (before: IGame, after: IGame): boolean => {
     return (
       before.name !== after.name ||
       !before.startsAt.isEqual(after.startsAt)
     );
+  },
+  inProgressToCompleted: (before: IGame, after: IGame): boolean => {
+    return (
+      before.status === GameStatus.InProgress && 
+      after.status === GameStatus.Completed
+    )
+  },
+  stillInProgress: (before: IGame, after: IGame): boolean => {
+    return !before.progressUpdateAt.isEqual(after.progressUpdateAt);
+  },
+  upcomingToInProgress: (before: IGame, after: IGame): boolean => {
+    return (
+      before.status === GameStatus.Upcoming && 
+      after.status === GameStatus.InProgress
+    )
   }
 }

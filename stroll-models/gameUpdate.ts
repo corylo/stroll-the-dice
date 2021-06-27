@@ -11,6 +11,7 @@ export interface IGameUpdate {
   locked?: boolean;
   mode?: GameMode,
   name?: string;
+  progressUpdateAt?: firebase.firestore.FieldValue;
   sortable?: IGameSortable;
   startsAt?: firebase.firestore.FieldValue;
   status?: GameStatus;

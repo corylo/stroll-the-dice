@@ -218,7 +218,7 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
             />
           </InputWrapper>
           <h1 className="start-date-label passion-one-font">
-            Games start at <span className="highlight-main">midnight</span> on the selected date.
+            Games start at <span className="highlight-main">midnight</span> (12 hours before noon) on the selected date.
           </h1>
         </FormBodySection>
         {getLockGameSection()}

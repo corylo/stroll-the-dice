@@ -28,4 +28,4 @@ exports.onPredictionUpdate = firestore
 
 exports.scheduledFunction = pubsub
   .schedule("every 1 hours")
-  .onRun(ScheduleService.manageGames);
+  .onRun(ScheduleService.updateGameStatuses);

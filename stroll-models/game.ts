@@ -33,6 +33,7 @@ export interface IGame {
   locked: boolean;
   mode: GameMode;
   name: string;
+  progressUpdateAt: firebase.firestore.FieldValue;
   sortable: IGameSortable;
   startsAt: firebase.firestore.FieldValue;
   status: GameStatus;
@@ -47,6 +48,7 @@ export const defaultGame = (): IGame => ({
   locked: false,
   mode: GameMode.None,
   name: "",
+  progressUpdateAt: null,
   sortable: defaultGameSortable(),
   startsAt: firebase.firestore.FieldValue.serverTimestamp(),
   status: GameStatus.Upcoming
@@ -62,6 +64,7 @@ export const gameConverter: firebase.firestore.FirestoreDataConverter<IGame> = {
       locked: game.locked,
       mode: game.mode,
       name: game.name,
+      progressUpdateAt: game.progressUpdateAt,
       sortable: game.sortable,
       startsAt: game.startsAt,
       status: game.status
@@ -82,6 +85,7 @@ export const gameConverter: firebase.firestore.FirestoreDataConverter<IGame> = {
       locked: data.locked,
       mode: data.mode,
       name: data.name,
+      progressUpdateAt: data.progressUpdateAt,
       sortable: data.sortable,
       startsAt: data.startsAt,
       status: data.status

@@ -35,7 +35,7 @@ export const LockGame: React.FC<LockGameProps> = (props: LockGameProps) => {
         <h1 className="passion-one-font">{getText()}</h1>
       </Button>
       <h1 className="lock-game-label passion-one-font">
-        Locking a game <span className="highlight-main">prevents more players from joining</span>. Games will <span className="highlight-main">lock automatically</span> 1 hour prior to the start of the game.
+        Locking a game <span className="highlight-main">prevents more players from joining</span>. Games will <span className="highlight-main">lock automatically</span> after the start time.
       </h1>
     </div>
   );

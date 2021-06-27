@@ -12,6 +12,8 @@ import { ProfileUtility } from "../utilities/profileUtility";
 import { IGame } from "../../../stroll-models/game";
 import { IProfileUpdate } from "../../../stroll-models/profileUpdate";
 
+import { GameStatus } from "../../../stroll-enums/gameStatus";
+
 interface IGameServiceBatch {
   update: (batch: firebase.firestore.WriteBatch, uid: string, update: IProfileUpdate) => Promise<firebase.firestore.WriteBatch>;
 }
@@ -41,7 +43,7 @@ export const GameService: IGameService = {
     const before: IGame = change.before.data(),
       after: IGame = change.after.data();
   
-    if(GameUtility.hasChanged(before, after)) {
+    if(GameUtility.hasReferenceFieldChanged(before, after)) {
       logger.info(`Updating all references to game [${after.id}]`);
       
       try {
@@ -55,6 +57,16 @@ export const GameService: IGameService = {
       } catch (err) {
         logger.error(err);
       }
-    }
+    } else if (GameUtility.stillInProgress(before, after)) {
+      // Fetch all players and update step counts
+
+      // If current time is 24hrs from startsAt
+      // -- Fetch all matchups and matchup predictions
+      // -- Set winner based on step counts, send funds to players with correct predictions
+    } else if (GameUtility.upcomingToInProgress(before, after)) {
+      // Generate remaining matchups for days 2 thru last day
+    } else if (GameUtility.inProgressToCompleted(before, after)) {
+      // Do game completion stuff
+    } 
   },
 }
