@@ -4,7 +4,7 @@ import { Matchup } from "../matchup/matchup";
 
 import { GamePageContext } from "../../gamePage";
 
-import { FirestoreDateUtility } from "../../../../utilities/firestoreDateUtility";
+import { FirestoreDateUtility } from "../../../../../stroll-utilities/firestoreDateUtility";
 
 import { IMatchup } from "../../../../../stroll-models/matchup";
 

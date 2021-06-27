@@ -16,7 +16,7 @@ import { GamePageContext } from "../../gamePage";
 
 import { PlayerService } from "../../../../services/playerService";
 
-import { GameDurationUtility } from "../../../../utilities/gameDurationUtility";
+import { GameDurationUtility } from "../../../../../stroll-utilities/gameDurationUtility";
 import { PlayerUtility } from "../../../../utilities/playerUtility";
 
 import { IPlayer } from "../../../../../stroll-models/player";

@@ -3,12 +3,12 @@ import firebase from "firebase/app";
 import { IPlayer } from "./player";
 
 export interface IMatchupSideTotal {
-  predictions: number;
+  participants: number;
   wagered: number;
 }
 
 export const defaultMatchupSideTotal = (): IMatchupSideTotal => ({
-  predictions: 0,
+  participants: 0,
   wagered: 0
 });
 
@@ -31,6 +31,7 @@ export interface IMatchup {
   id: string;  
   left: IMatchupSide;
   right: IMatchupSide;
+  winner: string;
 }
 
 export const defaultMatchup = (): IMatchup => ({    
@@ -38,7 +39,8 @@ export const defaultMatchup = (): IMatchup => ({
   day: 0,
   id: "",
   left: defaultMatchupSide(),
-  right: defaultMatchupSide()
+  right: defaultMatchupSide(),
+  winner: ""
 });
 
 export const matchupConverter: any = {
@@ -47,7 +49,8 @@ export const matchupConverter: any = {
       createdAt: matchup.createdAt,     
       day: matchup.day, 
       left: matchup.left,
-      right: matchup.right
+      right: matchup.right,
+      winner: matchup.winner
     }
   },
   fromFirestore(
@@ -60,7 +63,8 @@ export const matchupConverter: any = {
       day: data.day,
       id: snapshot.id,
       left: data.left,
-      right: data.right
+      right: data.right,
+      winner: data.winner
     }
   }
 }

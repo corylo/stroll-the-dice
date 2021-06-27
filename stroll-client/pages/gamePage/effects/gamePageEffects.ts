@@ -6,7 +6,7 @@ import { InviteService } from "../../../services/inviteService";
 import { PlayerService } from "../../../services/playerService";
 
 import { ErrorUtility } from "../../../utilities/errorUtility";
-import { GameDurationUtility } from "../../../utilities/gameDurationUtility";
+import { GameDurationUtility } from "../../../../stroll-utilities/gameDurationUtility";
 import { InviteUtility } from "../../../utilities/inviteUtility";
 import { PlayerUtility } from "../../../utilities/playerUtility";
 import { UrlUtility } from "../../../utilities/urlUtility";

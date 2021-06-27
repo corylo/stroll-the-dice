@@ -7,5 +7,5 @@
     "target": "es6"
   },
   "compileOnSave": true,
-  "include": ["stroll-client", "stroll-models", "stroll-enums"]
+  "include": ["stroll-client", "stroll-models", "stroll-enums", "stroll-utilities"]
 }

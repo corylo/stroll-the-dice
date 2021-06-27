@@ -1,10 +1,10 @@
 import { DateUtility } from "./dateUtility";
 import { FirestoreDateUtility } from "./firestoreDateUtility";
 
-import { IGame } from "../../stroll-models/game";
+import { IGame } from "../stroll-models/game";
 
-import { GameDuration } from "../../stroll-enums/gameDuration";
-import { GameStatus } from "../../stroll-enums/gameStatus";
+import { GameDuration } from "../stroll-enums/gameDuration";
+import { GameStatus } from "../stroll-enums/gameStatus";
 
 interface IGameDurationUtility {
   completed: (game: IGame) => boolean;
@@ -19,10 +19,10 @@ interface IGameDurationUtility {
 
 export const GameDurationUtility: IGameDurationUtility = {
   completed: (game: IGame): boolean => {   
-    return DateUtility.inPast(GameDurationUtility.getEndsAt(game));
+    return DateUtility.lessThanOrEqualToNow(GameDurationUtility.getEndsAt(game));
   },
   getDay: (game: IGame): number => {
-    if(FirestoreDateUtility.inPast(game.startsAt)) {
+    if(FirestoreDateUtility.lessThanOrEqualToNow(game.startsAt)) {
       const diff: number = Math.round(Math.abs(FirestoreDateUtility.diffInDays(game.startsAt)));
 
       return diff;
@@ -47,7 +47,7 @@ export const GameDurationUtility: IGameDurationUtility = {
   getGameStatus: (game: IGame): GameStatus => {
     if(GameDurationUtility.completed(game)) {
       return GameStatus.Completed;
-    } else if (FirestoreDateUtility.inPast(game.startsAt)) {
+    } else if (FirestoreDateUtility.lessThanOrEqualToNow(game.startsAt)) {
       return GameStatus.InProgress;
     }
 

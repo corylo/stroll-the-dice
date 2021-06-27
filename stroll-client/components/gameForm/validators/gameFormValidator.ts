@@ -1,4 +1,4 @@
-import { DateUtility } from "../../../utilities/dateUtility";
+import { DateUtility } from "../../../../stroll-utilities/dateUtility";
 
 import { IGameFormStateErrors } from "../models/gameFormStateErrors";
 import { IGameFormStateFields } from "../models/gameFormStateFields";

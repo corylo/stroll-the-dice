@@ -3,7 +3,7 @@ import React from "react";
 import { Label } from "../label/label";
 import { TooltipSide } from "../tooltip/tooltip";
 
-import { GameDurationUtility } from "../../utilities/gameDurationUtility";
+import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtility";
 import { GameModeUtility } from "../../utilities/gameModeUtility";
 
 import { IGame } from "../../../stroll-models/game";

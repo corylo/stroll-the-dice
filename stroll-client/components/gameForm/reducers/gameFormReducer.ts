@@ -1,3 +1,5 @@
+import { DateUtility } from "../../../../stroll-utilities/dateUtility";
+
 import { IAction } from "../../../models/action";
 import { IGameFormState } from "../models/gameFormState";
 import { IGameFormStateErrors } from "../models/gameFormStateErrors";
@@ -6,7 +8,6 @@ import { FormError } from "../../../enums/formError";
 import { GameDuration } from "../../../../stroll-enums/gameDuration";
 import { GameFormAction } from "../enums/gameFormAction";
 import { GameMode } from "../../../../stroll-enums/gameMode";
-import { DateUtility } from "../../../utilities/dateUtility";
 
 export const gameFormReducer = (state: IGameFormState, action: IAction): IGameFormState => {  
   const { errors, fields } = state;

@@ -84,7 +84,7 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
             alignment={props.alignment}
             icon="fal fa-user-friends" 
             tooltip="Participants"
-            value={side.total.predictions} 
+            value={side.total.participants} 
           />
         </div>   
         {getMatchupSidePrediction()}

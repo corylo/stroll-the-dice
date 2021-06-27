@@ -31,7 +31,8 @@ export const MatchupUtility: IMatchupUtility = {
         ref: "",
         steps: 0,
         total: defaultMatchupSideTotal()
-      }
+      },
+      winner: ""
     }
   }
 }

@@ -1,4 +1,4 @@
-import { DateUtility } from "../../../utilities/dateUtility";
+import { DateUtility } from "../../../../stroll-utilities/dateUtility";
 
 import { GameDuration } from "../../../../stroll-enums/gameDuration";
 import { GameMode } from "../../../../stroll-enums/gameMode";

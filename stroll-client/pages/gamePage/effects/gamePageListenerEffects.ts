@@ -39,6 +39,7 @@ export const useGameListenersEffect = (appState: IAppState, state: IGamePageStat
       const unsubToPlayers = db.collection("games")
         .doc(state.game.id)
         .collection("players")
+        .orderBy("profile.username")
         .withConverter(playerConverter)
         .onSnapshot((snap: firebase.firestore.QuerySnapshot) => {
           let updates: IPlayer[] = [];

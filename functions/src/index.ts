@@ -1,9 +1,10 @@
-import { firestore } from "firebase-functions";
+import { firestore, pubsub } from "firebase-functions";
 
 import { GameService } from "./services/gameService";
 import { PlayerService } from "./services/playerService";
 import { PredictionService } from "./services/predictionService";
 import { ProfileService } from "./services/profileService";
+import { ScheduleService } from "./services/scheduleService";
 
 exports.onProfileUpdate = firestore
   .document("profiles/{id}")
@@ -24,3 +25,7 @@ exports.onPredictionCreate = firestore
 exports.onPredictionUpdate = firestore
   .document("games/{gameID}/matchups/{matchupID}/predictions/{id}")
   .onUpdate(PredictionService.onUpdate);
+
+exports.scheduledFunction = pubsub
+  .schedule("every 1 hours")
+  .onRun(ScheduleService.manageGames);

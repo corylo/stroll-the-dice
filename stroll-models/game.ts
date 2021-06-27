@@ -4,6 +4,7 @@ import { defaultProfile, IProfile } from "./profile";
 
 import { GameDuration } from "../stroll-enums/gameDuration";
 import { GameMode } from "../stroll-enums/gameMode";
+import { GameStatus } from "../stroll-enums/gameStatus";
 
 export interface IGameCounts {
   players: number;
@@ -34,6 +35,7 @@ export interface IGame {
   name: string;
   sortable: IGameSortable;
   startsAt: firebase.firestore.FieldValue;
+  status: GameStatus;
 }
 
 export const defaultGame = (): IGame => ({
@@ -47,6 +49,7 @@ export const defaultGame = (): IGame => ({
   name: "",
   sortable: defaultGameSortable(),
   startsAt: firebase.firestore.FieldValue.serverTimestamp(),
+  status: GameStatus.Upcoming
 });
 
 export const gameConverter: firebase.firestore.FirestoreDataConverter<IGame> = {
@@ -60,7 +63,8 @@ export const gameConverter: firebase.firestore.FirestoreDataConverter<IGame> = {
       mode: game.mode,
       name: game.name,
       sortable: game.sortable,
-      startsAt: game.startsAt
+      startsAt: game.startsAt,
+      status: game.status
     }
   },
   fromFirestore(
@@ -79,7 +83,8 @@ export const gameConverter: firebase.firestore.FirestoreDataConverter<IGame> = {
       mode: data.mode,
       name: data.name,
       sortable: data.sortable,
-      startsAt: data.startsAt
+      startsAt: data.startsAt,
+      status: data.status
     }
   }
 }

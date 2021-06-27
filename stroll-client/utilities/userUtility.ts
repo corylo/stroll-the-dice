@@ -1,6 +1,6 @@
 import firebase from "firebase/app";
 
-import { FirestoreDateUtility } from "./firestoreDateUtility";
+import { FirestoreDateUtility } from "../../stroll-utilities/firestoreDateUtility";
 
 import { defaultProfile, IProfile } from "../../stroll-models/profile";
 import { IUser } from "../models/user";

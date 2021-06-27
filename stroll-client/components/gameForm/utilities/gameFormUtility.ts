@@ -1,6 +1,6 @@
 import firebase from "firebase/app";
 
-import { FirestoreDateUtility } from "../../../utilities/firestoreDateUtility";
+import { FirestoreDateUtility } from "../../../../stroll-utilities/firestoreDateUtility";
 import { Nano } from "../../../utilities/nanoUtility";
 
 import { IGame } from "../../../../stroll-models/game";
@@ -58,7 +58,8 @@ export const GameFormUtility: IGameFormUtility = {
       sortable: {
         name: fields.name.toLowerCase()
       },
-      startsAt: FirestoreDateUtility.stringToOffsetTimestamp(fields.startsAt)
+      startsAt: FirestoreDateUtility.stringToOffsetTimestamp(fields.startsAt),
+      status: GameStatus.Upcoming
     }
   },
   mapInitialState: (game?: IGame): IGameFormState => {

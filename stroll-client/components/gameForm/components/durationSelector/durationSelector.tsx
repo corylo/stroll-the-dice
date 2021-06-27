@@ -3,7 +3,7 @@ import classNames from "classnames";
 
 import { Button } from "../../../buttons/button";
 
-import { GameDurationUtility } from "../../../../utilities/gameDurationUtility";
+import { GameDurationUtility } from "../../../../../stroll-utilities/gameDurationUtility";
 
 import { GameDuration } from "../../../../../stroll-enums/gameDuration";
 

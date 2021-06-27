@@ -3,7 +3,7 @@ interface IDateUtility {
   daysToMillis: (days: number) => number;  
   diffInDays: (value: string) => number;
   getTomorrow: () => Date;
-  inPast: (seconds: number) => boolean;
+  lessThanOrEqualToNow: (seconds: number) => boolean;
   secondsToLocale: (seconds: number) => string;
   secondsToRelative: (seconds: number) => string;  
   stringToOffsetDate: (value: string) => Date;
@@ -46,8 +46,8 @@ export const DateUtility: IDateUtility = {
 
     return date;
   },
-  inPast: (seconds: number): boolean => {    
-    return (seconds * 1000) < Date.now();
+  lessThanOrEqualToNow: (seconds: number): boolean => {    
+    return (seconds * 1000) <= Date.now();
   },
   secondsToLocale: (seconds: number): string => {
     const date: Date = new Date(seconds * 1000);

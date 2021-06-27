@@ -2,13 +2,13 @@ import firebase from "firebase/app";
 
 import { DateUtility } from "./dateUtility";
 
-import { IFirestoreTimestamp } from "../../stroll-models/firestoreTimestamp";
+import { IFirestoreTimestamp } from "../stroll-models/firestoreTimestamp";
 
 interface IFirestoreDateUtility {
   add: (value: firebase.firestore.FieldValue, seconds: number) => number;
   dateToTimestamp: (date: Date) => firebase.firestore.Timestamp;
   diffInDays: (value: firebase.firestore.FieldValue) => number;
-  inPast: (value: firebase.firestore.FieldValue) => boolean;
+  lessThanOrEqualToNow: (value: firebase.firestore.FieldValue) => boolean;
   timestampToDate: (value: firebase.firestore.FieldValue) => Date;
   timestampToDateInput: (value: firebase.firestore.FieldValue) => string;
   timestampToLocale: (value: firebase.firestore.FieldValue) => string;
@@ -29,10 +29,10 @@ export const FirestoreDateUtility: IFirestoreDateUtility = {
   diffInDays: (value: firebase.firestore.FieldValue): number => {
     return DateUtility.diffInDays(FirestoreDateUtility.timestampToDateInput(value));
   },
-  inPast: (value: firebase.firestore.FieldValue): boolean => {
+  lessThanOrEqualToNow: (value: firebase.firestore.FieldValue): boolean => {
     const date: IFirestoreTimestamp = value as any;
 
-    return DateUtility.inPast(date.seconds);
+    return DateUtility.lessThanOrEqualToNow(date.seconds);
   },
   timestampToDate: (value: firebase.firestore.FieldValue): Date => {
     const date: IFirestoreTimestamp = value as any;

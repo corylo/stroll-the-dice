@@ -5,7 +5,7 @@ import { GameDateStatus } from "../gameDateStatus/gameDateStatus";
 import { GameDetails } from "../gameDetails/gameDetails";
 import { UserLink } from "../userLink/userLink";
 
-import { GameDurationUtility } from "../../utilities/gameDurationUtility";
+import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtility";
 
 import { IGame } from "../../../stroll-models/game";
 

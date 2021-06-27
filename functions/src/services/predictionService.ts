@@ -36,11 +36,11 @@ export const PredictionService: IPredictionService = {
           const updatedTotalWagered: number = side.total.wagered + prediction.amount;
 
           transaction.update(matchupRef, { 
-            [`${property}.total.predictions`]: firebase.firestore.FieldValue.increment(1),
+            [`${property}.total.participants`]: firebase.firestore.FieldValue.increment(1),
             [`${property}.total.wagered`]: side.total.wagered + prediction.amount
           });
           
-          logger.info(`Updated total wagered to [${updatedTotalWagered}] and total predictions to [${side.total.predictions + 1}]`);
+          logger.info(`Updated total wagered to [${updatedTotalWagered}] and total participants to [${side.total.participants + 1}]`);
         }
       });
       

@@ -1,6 +1,6 @@
 import firebase from "firebase/app";
 
-import { DateUtility } from "./dateUtility";
+import { DateUtility } from "../../stroll-utilities/dateUtility";
 import { UrlUtility } from "./urlUtility";
 
 import { IGame } from "../../stroll-models/game";

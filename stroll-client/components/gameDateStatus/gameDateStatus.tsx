@@ -3,9 +3,9 @@ import React from "react";
 import { Label } from "../label/label";
 import { TooltipSide } from "../tooltip/tooltip";
 
-import { DateUtility } from "../../utilities/dateUtility";
-import { FirestoreDateUtility } from "../../utilities/firestoreDateUtility";
-import { GameDurationUtility } from "../../utilities/gameDurationUtility";
+import { DateUtility } from "../../../stroll-utilities/dateUtility";
+import { FirestoreDateUtility } from "../../../stroll-utilities/firestoreDateUtility";
+import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtility";
 
 import { IGame } from "../../../stroll-models/game";
 
@@ -30,7 +30,7 @@ export const GameDateStatus: React.FC<GameDateStatusProps> = (props: GameDateSta
   }
 
   const getTooltip = (): string => {
-    if(FirestoreDateUtility.inPast(game.startsAt)) {
+    if(FirestoreDateUtility.lessThanOrEqualToNow(game.startsAt)) {
       const locale: string = DateUtility.secondsToLocale(GameDurationUtility.getEndsAt(game));
 
       return locale;
