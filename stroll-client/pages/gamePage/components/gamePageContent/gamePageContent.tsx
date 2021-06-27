@@ -52,7 +52,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
       <div className="game-page-content">
         <div className="game-page-header">
           <UserLink profile={game.creator} tooltip="Creator" />
-          <GameDateStatus game={game} gameStatus={state.gameStatus} />
+          <GameDateStatus game={game} />
         </div>
         <div className="game-page-body">
           <h1 className="game-name passion-one-font">{game.name}</h1>

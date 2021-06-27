@@ -16,7 +16,6 @@ import { GamePageContext } from "../../gamePage";
 
 import { PlayerService } from "../../../../services/playerService";
 
-import { GameDurationUtility } from "../../../../../stroll-utilities/gameDurationUtility";
 import { PlayerUtility } from "../../../../utilities/playerUtility";
 
 import { IPlayer } from "../../../../../stroll-models/player";
@@ -73,7 +72,7 @@ export const AcceptInviteModal: React.FC<AcceptInviteModalProps> = (props: Accep
           <Form status={status} statusMessage="Whoops! Looks like this game is locked.">
             <FormBody>
               <UserLink profile={state.game.creator} />
-              <GameDateStatus game={state.game} gameStatus={GameDurationUtility.getGameStatus(state.game)} />
+              <GameDateStatus game={state.game} />
               <h1 className="game-name passion-one-font">{state.game.name}</h1>
               <GameDetails game={state.game} />
             </FormBody>

@@ -4,41 +4,19 @@ import { Change, EventContext, logger } from "firebase-functions";
 
 import { db } from "../../firebase";
 
-import { PlayingInService } from "./playingInService";
+import { PlayingInBatchService } from "./batch/playingInBatchService";
 
-import { GameUtility } from "../utilities/gameUtility";
-import { ProfileUtility } from "../utilities/profileUtility";
+import { FirestoreDateUtility } from "../../../stroll-utilities/firestoreDateUtility";
+import { GameUtility } from "../utilities/gameUtility"
 
 import { IGame } from "../../../stroll-models/game";
-import { IProfileUpdate } from "../../../stroll-models/profileUpdate";
-
-import { GameStatus } from "../../../stroll-enums/gameStatus";
-
-interface IGameServiceBatch {
-  update: (batch: firebase.firestore.WriteBatch, uid: string, update: IProfileUpdate) => Promise<firebase.firestore.WriteBatch>;
-}
+import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtility";
 
 interface IGameService {
-  batch: IGameServiceBatch;
   onUpdate: (change: Change<firebase.firestore.QueryDocumentSnapshot<IGame>>, context: EventContext) => Promise<void>;
 }
 
 export const GameService: IGameService = {
-  batch: {
-    update: async (batch: firebase.firestore.WriteBatch, uid: string, update: IProfileUpdate): Promise<firebase.firestore.WriteBatch> => {    
-      const gameSnap: firebase.firestore.QuerySnapshot = await db.collection("games")
-        .where("creator.uid", "==", uid)
-        .get();
-
-      gameSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => {
-        const game: IGame = doc.data();
-
-        batch.update(doc.ref, { creator: ProfileUtility.applyUpdate(game.creator, update) });
-      });
-
-      return batch;
-    }
-  },
   onUpdate: async (change: Change<firebase.firestore.QueryDocumentSnapshot<IGame>>, context: EventContext): Promise<void> => {
     const before: IGame = change.before.data(),
       after: IGame = change.after.data();
@@ -49,7 +27,7 @@ export const GameService: IGameService = {
       try {
         const batch: firebase.firestore.WriteBatch = db.batch();
   
-        await PlayingInService.batch.update(batch, context.params.id, after);
+        await PlayingInBatchService.update(batch, context.params.id, after);
 
         const results: firebase.firestore.WriteResult[] = await batch.commit();
   
@@ -58,14 +36,22 @@ export const GameService: IGameService = {
         logger.error(err);
       }
     } else if (GameUtility.stillInProgress(before, after)) {
+      logger.info(`Progress update for game [${context.params.id}]. Updating steps.`);
       // Fetch all players and update step counts
 
-      // If current time is 24hrs from startsAt
-      // -- Fetch all matchups and matchup predictions
-      // -- Set winner based on step counts, send funds to players with correct predictions
+      if(FirestoreDateUtility.on24HourIncrement(after.startsAt)) {
+        const day: number = GameDurationUtility.getDay(after);
+
+        logger.info(`Day [${day}] complete for game [${context.params.id}]`);
+        
+        // -- Fetch all matchups and matchup predictions
+        // -- Set winner based on step counts, send funds to players with correct predictions
+      }
     } else if (GameUtility.upcomingToInProgress(before, after)) {
+      logger.info(`Game [${context.params.id}] is now in progress. Generating matchups for days 2 - ${after.duration}`);
       // Generate remaining matchups for days 2 thru last day
     } else if (GameUtility.inProgressToCompleted(before, after)) {
+      logger.info(`Game [${context.params.id}] is now complete.`);
       // Do game completion stuff
     } 
   },

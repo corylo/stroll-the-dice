@@ -50,7 +50,7 @@ export const UpdateGameModal: React.FC<UpdateGameModalProps> = (props: UpdateGam
         <ModalBody>
           <GameForm 
             game={state.game} 
-            gameStatus={state.gameStatus}
+            gameStatus={state.game.status}
             back={props.back} 
             save={updateGame} 
           />

@@ -43,7 +43,6 @@ export const useFetchGameEffect = (
               ...state, 
               day: GameDurationUtility.getDay(game),
               game, 
-              gameStatus: GameDurationUtility.getGameStatus(game),
               invite,    
               players,
               status: RequestStatus.Success

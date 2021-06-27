@@ -11,7 +11,6 @@ import { RequestStatus } from "../../../../stroll-enums/requestStatus";
 export interface IGamePageState {
   day: number;
   game: IGame;
-  gameStatus: GameStatus;
   invite: IInvite;
   matchups: IMatchup[];
   message: string;
@@ -25,7 +24,6 @@ export interface IGamePageState {
 export const defaultGamePageState = (): IGamePageState => ({ 
   day: 0,
   game: null,
-  gameStatus: GameStatus.Unknown,
   invite: null,
   matchups: [],
   message: "",

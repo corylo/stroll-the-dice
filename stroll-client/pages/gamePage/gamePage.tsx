@@ -16,6 +16,7 @@ import { defaultGamePageState, IGamePageState } from "./models/gamePageState";
 
 import { AppAction } from "../../enums/appAction";
 import { Graphic } from "../../../stroll-enums/graphic";
+import { FirestoreDateUtility } from "../../../stroll-utilities/firestoreDateUtility";
 
 interface IGamePageContext {
   state: IGamePageState;
@@ -42,6 +43,9 @@ export const GamePage: React.FC<GamePageProps> = (props: GamePageProps) => {
   useGameInviteEffect(appState, state, dispatch, setState);
 
   useGameListenersEffect(appState, state, setState);
+
+  if(state.game)
+    console.log(FirestoreDateUtility.diffInDays(state.game.startsAt))
   
   return(
     <GamePageContext.Provider value={{ state, setState }}>

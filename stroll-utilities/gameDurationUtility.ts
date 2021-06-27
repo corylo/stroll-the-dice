@@ -4,14 +4,12 @@ import { FirestoreDateUtility } from "./firestoreDateUtility";
 import { IGame } from "../stroll-models/game";
 
 import { GameDuration } from "../stroll-enums/gameDuration";
-import { GameStatus } from "../stroll-enums/gameStatus";
 
 interface IGameDurationUtility {
   completed: (game: IGame) => boolean;
   getDay: (game: IGame) => number;
   getDurations: () => GameDuration[];  
   getEndsAt: (game: IGame) => number;
-  getGameStatus: (game: IGame) => GameStatus;
   getTimeRemaining: (game: IGame) => string;
   getLabel: (duration: GameDuration) => string;
   getShortLabel: (duration: GameDuration) => string;
@@ -43,15 +41,6 @@ export const GameDurationUtility: IGameDurationUtility = {
       endsAt: number = FirestoreDateUtility.add(game.startsAt, end);
 
     return endsAt;
-  },
-  getGameStatus: (game: IGame): GameStatus => {
-    if(GameDurationUtility.completed(game)) {
-      return GameStatus.Completed;
-    } else if (FirestoreDateUtility.lessThanOrEqualToNow(game.startsAt)) {
-      return GameStatus.InProgress;
-    }
-
-    return GameStatus.Upcoming;
   },
   getTimeRemaining: (game: IGame): string => {    
     return DateUtility.secondsToRelative(GameDurationUtility.getEndsAt(game));

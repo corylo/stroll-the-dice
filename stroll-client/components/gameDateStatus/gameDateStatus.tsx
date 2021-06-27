@@ -13,18 +13,17 @@ import { GameStatus } from "../../../stroll-enums/gameStatus";
 
 interface GameDateStatusProps {  
   game: IGame;
-  gameStatus: GameStatus;
 }
 
 export const GameDateStatus: React.FC<GameDateStatusProps> = (props: GameDateStatusProps) => {    
-  const { game, gameStatus } = props;
+  const { game } = props;
 
   const getText = (): string => {
-    if(gameStatus === GameStatus.Completed) {
+    if(game.status === GameStatus.Completed) {
       return "Completed";
-    } else if(gameStatus === GameStatus.InProgress) {
+    } else if(game.status === GameStatus.InProgress) {
       return `Ends in ${GameDurationUtility.getTimeRemaining(game)}`;
-    } else if (gameStatus === GameStatus.Upcoming) {
+    } else if (game.status === GameStatus.Upcoming) {
       return `Starts in ${FirestoreDateUtility.timestampToRelative(game.startsAt)}`;
     }
   }

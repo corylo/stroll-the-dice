@@ -4,9 +4,9 @@ import { Change, EventContext, logger } from "firebase-functions";
 
 import { db } from "../../firebase";
 
-import { GameService } from "./gameService";
-import { InviteService } from "./inviteService";
-import { PlayerService } from "./playerService";
+import { GameBatchService } from "./batch/gameBatchService";
+import { InviteBatchService } from "./batch/inviteBatchService";
+import { PlayerBatchService } from "./batch/playerBatchService";
 
 import { ProfileUtility } from "../utilities/profileUtility";
 
@@ -30,11 +30,11 @@ export const ProfileService: IProfileService = {
   
         const update: IProfileUpdate = ProfileUtility.mapUpdate(after);
   
-        await GameService.batch.update(batch, context.params.id, update);
+        await GameBatchService.updateCreator(batch, context.params.id, update);
 
-        await PlayerService.batch.update(batch, context.params.id, update);
+        await PlayerBatchService.updateProfile(batch, context.params.id, update);
 
-        await InviteService.batch.update(batch, context.params.id, update);
+        await InviteBatchService.updateCreator(batch, context.params.id, update);
   
         const results: firebase.firestore.WriteResult[] = await batch.commit();
   

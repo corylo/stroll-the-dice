@@ -27,5 +27,5 @@ exports.onPredictionUpdate = firestore
   .onUpdate(PredictionService.onUpdate);
 
 exports.scheduledFunction = pubsub
-  .schedule("every 1 hours")
+  .schedule("0 0-23 * * *")
   .onRun(ScheduleService.updateGameStatuses);

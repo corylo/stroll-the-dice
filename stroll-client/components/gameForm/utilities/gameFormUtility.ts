@@ -55,7 +55,7 @@ export const GameFormUtility: IGameFormUtility = {
       locked: false,
       mode: fields.mode,
       name: fields.name,
-      progressUpdateAt: firebase.firestore.FieldValue.serverTimestamp(),
+      progressUpdateAt: null,
       sortable: {
         name: fields.name.toLowerCase()
       },
