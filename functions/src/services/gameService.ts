@@ -42,7 +42,7 @@ export const GameService: IGameService = {
       if(FirestoreDateUtility.on24HourIncrement(after.startsAt)) {
         const day: number = GameDurationUtility.getDay(after);
 
-        logger.info(`Day [${day}] complete for game [${context.params.id}]`);
+        logger.info(`Day [${day}] complete for game [${context.params.id}]. Closing out matchups and paying out to correct predictions.`);
         
         // -- Fetch all matchups and matchup predictions
         // -- Set winner based on step counts, send funds to players with correct predictions
