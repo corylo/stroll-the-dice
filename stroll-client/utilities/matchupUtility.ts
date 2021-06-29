@@ -7,9 +7,12 @@ import { IMatchup, IMatchupSide } from "../../stroll-models/matchup";
 import { IMatchupGroup } from "../../stroll-models/matchupGroup";
 import { IPlayer } from "../../stroll-models/player";
 
+import { MatchupLeader } from "../../stroll-enums/matchupLeader";
+
 interface IMatchupUtility {  
   calculateOdds: (left: IMatchupSide, right: IMatchupSide) => number;    
   findPlayer: (player: IPlayer, matchup: IMatchup) => boolean;
+  getLeader: (matchup: IMatchup) => string;
   groupByDay: (matchups: IMatchup[]) => IMatchupGroup[];
   mapPlayers: (matchups: IMatchup[], players: IPlayer[]) => IMatchup[];
   mapPlayerToSide: (side: IMatchupSide, players: IPlayer[]) => IMatchupSide;  
@@ -25,6 +28,17 @@ export const MatchupUtility: IMatchupUtility = {
   },
   findPlayer: (player: IPlayer, matchup: IMatchup): boolean => {
     return (player.id === matchup.left.ref || player.id === matchup.right.ref);
+  },
+  getLeader: (matchup: IMatchup): string => {
+    let leader: string = MatchupLeader.Tie;
+
+    if(matchup.left.steps > matchup.right.steps) {
+      leader = matchup.left.ref;
+    } else if (matchup.left.steps < matchup.right.steps) {
+      leader = matchup.right.ref;
+    }
+
+    return leader;
   },
   groupByDay: (matchups: IMatchup[]): IMatchupGroup[] => {
     return _orderBy(Object.entries(_groupBy(matchups, "day"))

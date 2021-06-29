@@ -2,27 +2,41 @@ import firebase from "firebase-admin";
 
 import { NumberUtility } from "../../../stroll-utilities/numberUtility";
 
-import { defaultMatchupSideTotal, IMatchup } from "../../../stroll-models/matchup";
+import { defaultMatchupSideTotal, IMatchup, IMatchupSide } from "../../../stroll-models/matchup";
 import { IMatchupPair } from "../../../stroll-models/matchupPair";
 import { IMatchupPairGroup } from "../../../stroll-models/matchupPairGroup";
 import { IMatchupSideStepUpdate } from "../../../stroll-models/matchupSideStepUpdate";
 import { IPlayer } from "../../../stroll-models/player";
 
+import { MatchupLeader } from "../../../stroll-enums/matchupLeader";
+
 interface IMatchupUtility {  
+  calculateOdds: (left: IMatchupSide, right: IMatchupSide) => number;
   filterOutCombinationsOfPair: (pair: IMatchupPair, list: IMatchupPair[]) => IMatchupPair[];
   filterOutPairs: (listOne: IMatchupPair[], listTwo: IMatchupPair[]) => IMatchupPair[];
-  findStepUpdate: (playerID: string, updates: IMatchupSideStepUpdate[]) => IMatchupSideStepUpdate;
-  getCombinationsOfPair: (pair: IMatchupPair, list: IMatchupPair[]) => IMatchupPair[];
-  getAdjustedPlayerCount: (numberOfPlayers: number) => number;
+  findStepUpdate: (playerID: string, updates: IMatchupSideStepUpdate[]) => IMatchupSideStepUpdate;    
   generateAllPairs: (numberOfPlayers: number) => IMatchupPair[];
   generateDayOnePairs: (numberOfPlayers: number) => IMatchupPair[];
   generatePairGroups: (numberOfDays: number, numberOfPlayers: number) => IMatchupPairGroup[];
+  getAdjustedPlayerCount: (numberOfPlayers: number) => number;
+  getByPrediction: (predictionMatchupRef: string, matchups: IMatchup[]) => IMatchup;
+  getCombinationsOfPair: (pair: IMatchupPair, list: IMatchupPair[]) => IMatchupPair[];
+  getLeader: (matchup: IMatchup) => string;
+  getWinnerOdds: (matchup: IMatchup) => number;
   mapCreate: (leftID: string, rightID: string, day: number) => IMatchup;
   mapMatchupsFromPairGroups: (groups: IMatchupPairGroup[], players: IPlayer[]) => IMatchup[];
-  mapStepUpdates: (matchups: IMatchup[], updates: IMatchupSideStepUpdate[]) => IMatchup[];
+  mapStepUpdates: (matchups: IMatchup[], updates: IMatchupSideStepUpdate[]) => IMatchup[];  
+  setWinners: (matchups: IMatchup[]) => IMatchup[];
 }
 
 export const MatchupUtility: IMatchupUtility = {   
+  calculateOdds: (left: IMatchupSide, right: IMatchupSide): number => {
+    if(left.total.wagered !== 0 && right.total.wagered !== 0) {
+      return parseFloat(((left.total.wagered + right.total.wagered) / left.total.wagered).toFixed(4));
+    }
+
+    return 1;
+  },
   filterOutCombinationsOfPair: (pair: IMatchupPair, list: IMatchupPair[]): IMatchupPair[] => {
     return list.filter((listPair: IMatchupPair) => (
       listPair.left !== pair.left &&
@@ -43,19 +57,6 @@ export const MatchupUtility: IMatchupUtility = {
     const match: IMatchupSideStepUpdate = updates.find((update: IMatchupSideStepUpdate) => update.id === playerID);
 
     return match || null;
-  },
-  getCombinationsOfPair: (pair: IMatchupPair, list: IMatchupPair[]): IMatchupPair[] => {
-    return list.filter((listPair: IMatchupPair) => (
-      listPair.left === pair.left ||
-      listPair.left === pair.right ||
-      listPair.right === pair.left ||
-      listPair.right === pair.right
-    ));
-  },
-  getAdjustedPlayerCount: (numberOfPlayers: number): number => {
-    return numberOfPlayers % 2 === 0 
-      ? numberOfPlayers 
-      : numberOfPlayers + 1;
   },
   generateAllPairs: (numberOfPlayers: number): IMatchupPair[] => {
     const count: number = MatchupUtility.getAdjustedPlayerCount(numberOfPlayers);
@@ -123,6 +124,42 @@ export const MatchupUtility: IMatchupUtility = {
 
     return groups;
   },
+  getAdjustedPlayerCount: (numberOfPlayers: number): number => {
+    return numberOfPlayers % 2 === 0 
+      ? numberOfPlayers 
+      : numberOfPlayers + 1;
+  },
+  getByPrediction: (predictionMatchupRef: string, matchups: IMatchup[]): IMatchup => {
+    return matchups.find((matchup: IMatchup) => matchup.id === predictionMatchupRef);
+  },
+  getCombinationsOfPair: (pair: IMatchupPair, list: IMatchupPair[]): IMatchupPair[] => {
+    return list.filter((listPair: IMatchupPair) => (
+      listPair.left === pair.left ||
+      listPair.left === pair.right ||
+      listPair.right === pair.left ||
+      listPair.right === pair.right
+    ));
+  },
+  getLeader: (matchup: IMatchup): string => {
+    let leader: string = MatchupLeader.Tie;
+
+    if(matchup.left.steps > matchup.right.steps) {
+      leader = matchup.left.ref;
+    } else if (matchup.left.steps < matchup.right.steps) {
+      leader = matchup.right.ref;
+    }
+
+    return leader;
+  },
+  getWinnerOdds: (matchup: IMatchup): number => {
+    if(matchup.winner !== "" && matchup.winner !== MatchupLeader.Tie) {
+      return matchup.winner === matchup.left.ref
+        ? MatchupUtility.calculateOdds(matchup.left, matchup.right)
+        : MatchupUtility.calculateOdds(matchup.right, matchup.left);
+    }
+
+    return 1;
+  },
   mapCreate: (leftID: string, rightID: string, day: number): IMatchup => {
     return {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -170,6 +207,15 @@ export const MatchupUtility: IMatchupUtility = {
 
       if(rightUpdate) {
         matchup.right.steps = rightUpdate.steps;
+      }
+
+      return matchup;
+    });
+  },
+  setWinners: (matchups: IMatchup[]): IMatchup[] => {
+    return matchups.map((matchup: IMatchup) => {
+      if(matchup.left.ref !== "" && matchup.right.ref !== "") {
+        matchup.winner = MatchupUtility.getLeader(matchup);
       }
 
       return matchup;

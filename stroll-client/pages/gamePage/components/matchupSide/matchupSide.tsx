@@ -24,22 +24,20 @@ export enum MatchupSideAlignment {
 interface MatchupSideProps {  
   alignment: MatchupSideAlignment;
   matchup: IMatchup;
-  nonalignment: MatchupSideAlignment;
   odds: number;
 }
 
 export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps) => {  
   const { day, game, player, predictions } = useContext(GamePageContext).state;
 
-  const { alignment, matchup, nonalignment, odds } = props;
+  const { alignment, matchup, odds } = props;
   
   const side: IMatchupSide = matchup[alignment];
 
   if(side.player) {
     const { profile } = side.player;
 
-    const opposition: IMatchupSide = matchup[nonalignment],
-      leader: boolean = side.steps > opposition.steps;
+    const leader: boolean = MatchupUtility.getLeader(matchup)=== side.ref;
     
     const getMatchupSidePrediction = (): JSX.Element => {
       const myPrediction: IPrediction = PredictionUtility.getById(player.id, matchup.id, predictions);

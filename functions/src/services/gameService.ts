@@ -7,9 +7,12 @@ import { db } from "../../firebase";
 import { MatchupBatchService } from "./batch/matchupBatchService";
 import { MatchupService } from "./matchupService";
 import { PlayerService } from "./playerService";
+import { PlayerTransactionService } from "./transaction/playerTransactionService";
 import { PlayingInBatchService } from "./batch/playingInBatchService";
+import { PredictionService } from "./predictionService";
 import { StepService } from "./stepService";
 
+import { FirestoreDateUtility } from "../../../stroll-utilities/firestoreDateUtility";
 import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtility";
 import { GameUtility } from "../utilities/gameUtility"
 import { MatchupUtility } from "../utilities/matchupUtility";
@@ -19,6 +22,7 @@ import { IMatchup } from "../../../stroll-models/matchup";
 import { IMatchupPairGroup } from "../../../stroll-models/matchupPairGroup";
 import { IPlayer } from "../../../stroll-models/player";
 import { IMatchupSideStepUpdate } from "../../../stroll-models/matchupSideStepUpdate";
+import { IPrediction } from "../../../stroll-models/prediction";
 
 interface IGameService {
   onUpdate: (change: Change<firebase.firestore.QueryDocumentSnapshot<IGame>>, context: EventContext) => Promise<void>;
@@ -51,24 +55,32 @@ export const GameService: IGameService = {
 
         await MatchupBatchService.createRemainingMatchups(context.params.id, matchups);
       } else if (GameUtility.stillInProgress(before, after)) {
-        const day: number = GameDurationUtility.getDay(after);
+        const day: number = GameDurationUtility.getDay(after);        
 
-        logger.info(`Progress update for game [${context.params.id}] on day [${day}].`);
-
-        const matchups: IMatchup[] = await MatchupService.getByGameAndDay(context.params.id, day),
-          players: IPlayer[] = await PlayerService.getByGame(context.params.id);
-        
-        logger.info(`Updating steps for [${players.length}] players in [${matchups.length}] matchups in game [${context.params.id}].`);
-
-        const updates: IMatchupSideStepUpdate[] = await StepService.getUpdates(matchups);
-
-        await MatchupBatchService.updateAll(context.params.id, MatchupUtility.mapStepUpdates(matchups, updates));
-        
         if(GameDurationUtility.hasDayPassed(after)) {
-          logger.info(`Day [${day}] complete for game [${context.params.id}]. Closing out matchups and paying out to correct predictions.`);
+          logger.info(`Day [${day - 1}] complete for game [${context.params.id}]. Completing matchups and distributing prediction winnings.`);
+
+          let matchups: IMatchup[] = await MatchupService.getByGameAndDay(context.params.id, day - 1);
           
-          // -- Fetch all matchups and matchup predictions
-          // -- Set winner based on step counts, send funds to players with correct predictions
+          const predictions: IPrediction[] = await PredictionService.getAllForMatchups(context.params.id, matchups),          
+            updates: IMatchupSideStepUpdate[] = await StepService.getUpdates(matchups);   
+
+          matchups = MatchupUtility.mapStepUpdates(matchups, updates);
+
+          matchups = MatchupUtility.setWinners(matchups);
+
+          await PlayerTransactionService.distributePayoutsAndFinalizeSteps(context.params.id, matchups, predictions);
+        } else {
+          logger.info(`Progress update for game [${context.params.id}] on day [${day}].`);
+
+          const players: IPlayer[] = await PlayerService.getByGame(context.params.id),
+            matchups: IMatchup[] = await MatchupService.getByGameAndDay(context.params.id, day);
+            
+          logger.info(`Updating steps for [${players.length}] players in [${matchups.length}] matchups in game [${context.params.id}].`);
+  
+          const updates: IMatchupSideStepUpdate[] = await StepService.getUpdates(matchups);
+  
+          await MatchupBatchService.updateAll(context.params.id, MatchupUtility.mapStepUpdates(matchups, updates));
         }
       } else if (GameUtility.inProgressToCompleted(before, after)) {
         logger.info(`Game [${context.params.id}] is now complete.`);

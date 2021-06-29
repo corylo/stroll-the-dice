@@ -30,7 +30,7 @@ export const defaultPrediction = (): IPrediction => ({
   updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
 });
 
-export const predictionConverter: firebase.firestore.FirestoreDataConverter<IPrediction> = {
+export const predictionConverter: any = {
   toFirestore(prediction: IPrediction): firebase.firestore.DocumentData {
     return {
       amount: prediction.amount,
@@ -40,10 +40,9 @@ export const predictionConverter: firebase.firestore.FirestoreDataConverter<IPre
     }
   },
   fromFirestore(
-    snapshot: firebase.firestore.QueryDocumentSnapshot,
-    options: firebase.firestore.SnapshotOptions
+    snapshot: firebase.firestore.QueryDocumentSnapshot
   ): IPrediction {
-    const data: IPrediction = snapshot.data(options) as IPrediction;
+    const data: IPrediction = snapshot.data() as IPrediction;
 
     return {
       amount: data.amount,

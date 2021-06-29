@@ -4,14 +4,43 @@ import { Change, EventContext, logger } from "firebase-functions";
 import { db } from "../../firebase";
 
 import { IMatchup, IMatchupSide } from "../../../stroll-models/matchup";
-import { IPrediction } from "../../../stroll-models/prediction";
+import { IPrediction, predictionConverter } from "../../../stroll-models/prediction";
 
 interface IPredictionService {  
+  getAllByMatchup: (gameID: string, matchupID: string) => Promise<IPrediction[]>;
+  getAllForMatchups: (gameID: string, matchups: IMatchup[]) => Promise<IPrediction[]>;
   onCreate: (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext) => Promise<void>;
   onUpdate: (change: Change<firebase.firestore.QueryDocumentSnapshot<IPrediction>>, context: EventContext) => Promise<void>;
 }
 
 export const PredictionService: IPredictionService = {
+  getAllByMatchup: async (gameID, matchupID: string): Promise<IPrediction[]> => {
+    const snap: firebase.firestore.QuerySnapshot = await db.collection("games")
+      .doc(gameID)
+      .collection("matchups")
+      .doc(matchupID)
+      .collection("predictions")
+      .withConverter(predictionConverter)
+      .get();
+      
+    let predictions: IPrediction[] = [];
+
+    snap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPrediction>) => 
+      predictions.push(doc.data()));
+      
+    return predictions;
+  },
+  getAllForMatchups: async (gameID: string, matchups: IMatchup[]): Promise<IPrediction[]> => {
+    let predictions: IPrediction[] = [];
+
+    for(let matchup of matchups) {
+      const fetched: IPrediction[] = await PredictionService.getAllByMatchup(gameID, matchup.id);
+
+      predictions = [...predictions, ...fetched];
+    }
+
+    return predictions;
+  },
   onCreate: async (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext): Promise<void> => {
     const prediction: IPrediction = { ...snapshot.data() as IPrediction, id: snapshot.id };
 
