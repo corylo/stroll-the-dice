@@ -5,8 +5,10 @@ import { Change, EventContext, logger } from "firebase-functions";
 import { db } from "../../firebase";
 
 import { MatchupBatchService } from "./batch/matchupBatchService";
+import { MatchupService } from "./matchupService";
 import { PlayerService } from "./playerService";
 import { PlayingInBatchService } from "./batch/playingInBatchService";
+import { StepService } from "./stepService";
 
 import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtility";
 import { GameUtility } from "../utilities/gameUtility"
@@ -16,7 +18,7 @@ import { IGame } from "../../../stroll-models/game";
 import { IMatchup } from "../../../stroll-models/matchup";
 import { IMatchupPairGroup } from "../../../stroll-models/matchupPairGroup";
 import { IPlayer } from "../../../stroll-models/player";
-import { IMatchupPair } from "../../../stroll-models/matchupPair";
+import { IMatchupSideStepUpdate } from "../../../stroll-models/matchupSideStepUpdate";
 
 interface IGameService {
   onUpdate: (change: Change<firebase.firestore.QueryDocumentSnapshot<IGame>>, context: EventContext) => Promise<void>;
@@ -49,9 +51,19 @@ export const GameService: IGameService = {
 
         await MatchupBatchService.createRemainingMatchups(context.params.id, matchups);
       } else if (GameUtility.stillInProgress(before, after)) {
-        logger.info(`Progress update for game [${context.params.id}]. Updating steps.`);
-        // Fetch all players and update step counts
+        const day: number = GameDurationUtility.getDay(after);
 
+        logger.info(`Progress update for game [${context.params.id}] on day [${day}].`);
+
+        const matchups: IMatchup[] = await MatchupService.getByGameAndDay(context.params.id, day),
+          players: IPlayer[] = await PlayerService.getByGame(context.params.id);
+        
+        logger.info(`Updating steps for [${players.length}] players in [${matchups.length}] matchups in game [${context.params.id}].`);
+
+        const updates: IMatchupSideStepUpdate[] = await StepService.getUpdates(matchups);
+
+        await MatchupBatchService.updateAll(context.params.id, MatchupUtility.mapStepUpdates(matchups, updates));
+        
         if(GameDurationUtility.hasDayPassed(after)) {
           const day: number = GameDurationUtility.getDay(after);
 

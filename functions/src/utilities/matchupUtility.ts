@@ -5,11 +5,13 @@ import { NumberUtility } from "../../../stroll-utilities/numberUtility";
 import { defaultMatchupSideTotal, IMatchup } from "../../../stroll-models/matchup";
 import { IMatchupPair } from "../../../stroll-models/matchupPair";
 import { IMatchupPairGroup } from "../../../stroll-models/matchupPairGroup";
+import { IMatchupSideStepUpdate } from "../../../stroll-models/matchupSideStepUpdate";
 import { IPlayer } from "../../../stroll-models/player";
 
 interface IMatchupUtility {  
   filterOutCombinationsOfPair: (pair: IMatchupPair, list: IMatchupPair[]) => IMatchupPair[];
   filterOutPairs: (listOne: IMatchupPair[], listTwo: IMatchupPair[]) => IMatchupPair[];
+  findStepUpdate: (playerID: string, updates: IMatchupSideStepUpdate[]) => IMatchupSideStepUpdate;
   getCombinationsOfPair: (pair: IMatchupPair, list: IMatchupPair[]) => IMatchupPair[];
   getAdjustedPlayerCount: (numberOfPlayers: number) => number;
   generateAllPairs: (numberOfPlayers: number) => IMatchupPair[];
@@ -17,6 +19,7 @@ interface IMatchupUtility {
   generatePairGroups: (numberOfDays: number, numberOfPlayers: number) => IMatchupPairGroup[];
   mapCreate: (leftID: string, rightID: string, day: number) => IMatchup;
   mapMatchupsFromPairGroups: (groups: IMatchupPairGroup[], players: IPlayer[]) => IMatchup[];
+  mapStepUpdates: (matchups: IMatchup[], updates: IMatchupSideStepUpdate[]) => IMatchup[];
 }
 
 export const MatchupUtility: IMatchupUtility = {   
@@ -35,6 +38,11 @@ export const MatchupUtility: IMatchupUtility = {
 
       return match === undefined;
     });
+  },
+  findStepUpdate: (playerID: string, updates: IMatchupSideStepUpdate[]): IMatchupSideStepUpdate => {
+    const match: IMatchupSideStepUpdate = updates.find((update: IMatchupSideStepUpdate) => update.id === playerID);
+
+    return match || null;
   },
   getCombinationsOfPair: (pair: IMatchupPair, list: IMatchupPair[]): IMatchupPair[] => {
     return list.filter((listPair: IMatchupPair) => (
@@ -150,5 +158,21 @@ export const MatchupUtility: IMatchupUtility = {
     });
 
     return matchups;
+  },
+  mapStepUpdates: (matchups: IMatchup[], updates: IMatchupSideStepUpdate[]): IMatchup[] => {
+    return matchups.map((matchup: IMatchup) => {
+      const leftUpdate: IMatchupSideStepUpdate = MatchupUtility.findStepUpdate(matchup.left.ref, updates),
+        rightUpdate: IMatchupSideStepUpdate = MatchupUtility.findStepUpdate(matchup.right.ref, updates);
+
+      if(leftUpdate) {
+        matchup.left.steps = leftUpdate.steps;
+      }
+
+      if(rightUpdate) {
+        matchup.right.steps = rightUpdate.steps;
+      }
+
+      return matchup;
+    });
   }
 }
