@@ -38,7 +38,7 @@ export const useFetchGameEffect = (
           if(game !== null) {
             const invite: IInvite = await InviteService.get.by.game(game),
               players: IPlayer[] = await PlayerService.get.by.game(game.id);
-
+              
             const updates: IGamePageState = { 
               ...state, 
               day: GameDurationUtility.getDay(game),

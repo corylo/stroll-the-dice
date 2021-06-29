@@ -65,8 +65,6 @@ export const GameService: IGameService = {
         await MatchupBatchService.updateAll(context.params.id, MatchupUtility.mapStepUpdates(matchups, updates));
         
         if(GameDurationUtility.hasDayPassed(after)) {
-          const day: number = GameDurationUtility.getDay(after);
-
           logger.info(`Day [${day}] complete for game [${context.params.id}]. Closing out matchups and paying out to correct predictions.`);
           
           // -- Fetch all matchups and matchup predictions

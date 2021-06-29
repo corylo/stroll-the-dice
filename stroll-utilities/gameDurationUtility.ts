@@ -29,9 +29,10 @@ export const GameDurationUtility: IGameDurationUtility = {
   },
   getDay: (game: IGame): number => {
     if(FirestoreDateUtility.lessThanOrEqualToNow(game.startsAt)) {
-      const diff: number = Math.floor(Math.abs(FirestoreDateUtility.diffInDays(game.startsAt)));
+      const date: Date = FirestoreDateUtility.timestampToDate(game.startsAt),
+        diff: number = Math.abs(date.getTime() - Date.now());
 
-      return diff + 1;
+      return Math.floor(diff / (24 * 3600 * 1000)) + 1;
     }
 
     return 0;
