@@ -1,5 +1,10 @@
 .game-matchup {
   .game-matchup-side {
+    border-bottom: 1px solid transparent;
+    border-radius: 10px;
+    border-top: 1px solid transparent;
+    padding: 10px;
+    position: relative;
     text-align: center;
     width: 200px;
 
@@ -65,6 +70,19 @@
       white-space: nowrap;
     }
 
+    .game-matchup-side-leader-label {
+      margin-top: 10px;
+      justify-content: center;
+
+      i {
+        font-size: 0.7em;
+      }
+
+      h1 {
+        margin-left: 5px;
+      }
+    }
+
     .game-matchup-side-stats {
       margin-top: 5px;
       padding: 10px;
@@ -95,8 +113,6 @@
 
 @include medium-phone-or-smaller {
   .game-matchup {
-    padding: 10px;
-    
     .game-matchup-side {
       .profile-icon {
         font-size: 1.5em;

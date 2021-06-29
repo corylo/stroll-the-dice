@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import classNames from "classnames";
 
+import { Label } from "../../../../components/label/label";
 import { MatchupSidePrediction } from "../matchupSidePrediction/matchupSidePrediction";
 import { MatchupSideStat } from "./matchupSideStat";
 import { ProfileIcon } from "../../../../components/profileIcon/profileIcon";
@@ -22,15 +23,18 @@ export enum MatchupSideAlignment {
 interface MatchupSideProps {  
   alignment: MatchupSideAlignment;
   matchup: IMatchup;
+  nonalignment: MatchupSideAlignment;
   odds: number;
 }
 
 export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps) => {  
   const { day, player, predictions } = useContext(GamePageContext).state;
 
-  const { alignment, matchup, odds } = props;
+  const { alignment, matchup, nonalignment, odds } = props;
   
-  const side: IMatchupSide = matchup[alignment];
+  const side: IMatchupSide = matchup[alignment],
+    opposition: IMatchupSide = matchup[nonalignment],
+    leader: boolean = side.steps > opposition.steps;
 
   if(side.player) {
     const { profile } = side.player;
@@ -55,8 +59,40 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
       }
     }
 
+    const getLeaderLabel = (): JSX.Element => {
+      if(leader) {
+        return (
+          <Label 
+            className="game-matchup-side-leader-label" 
+            icon="fal fa-trophy" 
+            text="Leader" 
+          />
+        )
+      }
+    }
+
+    const getStyles = (): React.CSSProperties => {
+      if(leader) {
+        const { color } = side.player.profile;
+
+        const background: string = alignment === MatchupSideAlignment.Left 
+          ? `linear-gradient(to right, rgba(${color}, 0.15), transparent)`
+          : `linear-gradient(to left, rgba(${color}, 0.15), transparent)`;
+
+        const styles: React.CSSProperties = { background };
+
+        if(alignment === MatchupSideAlignment.Left) {
+          styles.borderLeft = `2px solid rgb(${color})`;
+        } else {
+          styles.borderRight = `2px solid rgb(${color})`;
+        }
+
+        return styles;
+      }
+    }
+
     return (
-      <div className={classNames("game-matchup-side", props.alignment)}>
+      <div className={classNames("game-matchup-side", props.alignment)} style={getStyles()}>
         <ProfileIcon 
           color={profile.color}
           icon={profile.icon}
@@ -88,16 +124,19 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
             value={side.total.participants} 
           />
         </div>   
+        {getLeaderLabel()}
         {getMatchupSidePrediction()}
       </div>
     )
   }
 
+  const text: string = day > 0 ? "Bye" : "Undetermined";
+
   return (
     <div className="game-matchup-side undetermined">
       <div className="game-matchup-side-undetermined">
         <ProfileIcon anonymous />
-        <h1 className="game-matchup-side-username passion-one-font" style={{ color: "rgb(230, 230, 230)" }}>Undetermined</h1>     
+        <h1 className="game-matchup-side-username passion-one-font" style={{ color: "rgb(230, 230, 230)" }}>{text}</h1>     
       </div>
     </div>
   );

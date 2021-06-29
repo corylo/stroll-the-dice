@@ -28,7 +28,7 @@ export const MatchupUtility: IMatchupUtility = {
   },
   groupByDay: (matchups: IMatchup[]): IMatchupGroup[] => {
     return _orderBy(Object.entries(_groupBy(matchups, "day"))
-      .map((entry: any) => ({ day: entry[0], matchups: entry[1] })), "day", "desc");      
+      .map((entry: any) => ({ day: parseInt(entry[0]), matchups: entry[1] })), "day", "desc");      
   },
   mapPlayers: (matchups: IMatchup[], players: IPlayer[]): IMatchup[] => {
     return matchups.map((matchup: IMatchup) => {

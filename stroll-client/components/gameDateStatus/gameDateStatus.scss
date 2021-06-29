@@ -1,8 +1,13 @@
-.label.game-date-status {
+.label.combo.date-status {
+  align-items: center;
   color: gray(200);
+  display: flex;
+
+  i { 
+    font-size: 0.8em;
+  }
 
   > h1 {    
-    height: 20px;
-    line-height: 20px;
+    margin-left: 5px;
   }
 }

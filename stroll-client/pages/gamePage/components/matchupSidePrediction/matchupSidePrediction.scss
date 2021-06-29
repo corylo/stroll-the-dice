@@ -54,3 +54,13 @@
     }
   }
 }
+
+@include small-phone-or-smaller {
+  .game-matchup-side-prediction {
+    .game-matchup-side-input-wrapper {      
+      .input-wrapper {
+        width: 60px;
+      }
+    }
+  }
+}

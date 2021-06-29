@@ -40,7 +40,7 @@ export const GameDateStatus: React.FC<GameDateStatusProps> = (props: GameDateSta
   
   return (
     <Label
-      className="game-date-status passion-one-font"
+      className="game-date-status date-status passion-one-font"
       icon="fal fa-clock"
       text={getText()}
       tooltip={getTooltip()}
