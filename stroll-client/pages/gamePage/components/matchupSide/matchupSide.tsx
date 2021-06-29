@@ -14,6 +14,7 @@ import { PredictionUtility } from "../../../../utilities/predictionUtility";
 
 import { IMatchup, IMatchupSide } from "../../../../../stroll-models/matchup";
 import { IPrediction } from "../../../../../stroll-models/prediction";
+import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 
 export enum MatchupSideAlignment {
   Left = "left",
@@ -28,7 +29,7 @@ interface MatchupSideProps {
 }
 
 export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps) => {  
-  const { day, player, predictions } = useContext(GamePageContext).state;
+  const { day, game, player, predictions } = useContext(GamePageContext).state;
 
   const { alignment, matchup, nonalignment, odds } = props;
   
@@ -130,13 +131,23 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
     )
   }
 
-  const text: string = day > 0 ? "Bye" : "Undetermined";
+  const getText = (): string => {
+    return game.status === GameStatus.Upcoming
+      ? "Undetermined"
+      : "Bye";
+  }
+
+  const getIcon = (): string => {
+    return game.status === GameStatus.Upcoming
+      ? "fal fa-question"
+      : "fal fa-hand-scissors";
+  }
 
   return (
     <div className="game-matchup-side undetermined">
       <div className="game-matchup-side-undetermined">
-        <ProfileIcon anonymous />
-        <h1 className="game-matchup-side-username passion-one-font" style={{ color: "rgb(230, 230, 230)" }}>{text}</h1>     
+        <ProfileIcon color="230, 230, 230" icon={getIcon()} />
+        <h1 className="game-matchup-side-username passion-one-font" style={{ color: "rgb(230, 230, 230)" }}>{getText()}</h1>     
       </div>
     </div>
   );
