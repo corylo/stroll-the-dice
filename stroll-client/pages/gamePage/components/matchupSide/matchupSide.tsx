@@ -8,11 +8,11 @@ import { ProfileIcon } from "../../../../components/profileIcon/profileIcon";
 import { GamePageContext } from "../../gamePage";
 
 import { MatchupUtility } from "../../../../utilities/matchupUtility";
+import { NumberUtility } from "../../../../../stroll-utilities/numberUtility";
 import { PredictionUtility } from "../../../../utilities/predictionUtility";
 
 import { IMatchup, IMatchupSide } from "../../../../../stroll-models/matchup";
 import { IPrediction } from "../../../../../stroll-models/prediction";
-import { NumberUtility } from "../../../../utilities/numberUtility";
 
 export enum MatchupSideAlignment {
   Left = "left",

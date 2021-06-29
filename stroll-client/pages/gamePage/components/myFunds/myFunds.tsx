@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 
 import { Label } from "../../../../components/label/label";
 
-import { NumberUtility } from "../../../../utilities/numberUtility";
+import { NumberUtility } from "../../../../../stroll-utilities/numberUtility";
 
 import { IPlayer } from "../../../../../stroll-models/player";
 import { TooltipSide } from "../../../../components/tooltip/tooltip";

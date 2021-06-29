@@ -7,13 +7,29 @@ import { PlayerTransactionService } from "./transaction/playerTransactionService
 
 import { IGame } from "../../../stroll-models/game";
 import { matchupConverter } from "../../../stroll-models/matchup";
-import { IPlayer } from "../../../stroll-models/player";
+import { IPlayer, playerConverter } from "../../../stroll-models/player";
 
 interface IPlayerService {
+  getByGame: (id: string) => Promise<IPlayer[]>;
   onCreate: (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext) => Promise<void>;  
 }
 
 export const PlayerService: IPlayerService = {
+  getByGame: async (id: string): Promise<IPlayer[]> => {    
+    const snap: firebase.firestore.QuerySnapshot = await db.collection("games")
+      .doc(id)
+      .collection("players")
+      .orderBy("createdAt")
+      .withConverter(playerConverter)
+      .get();
+
+    let players: IPlayer[] = [];
+
+    snap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>) => 
+      players.push(doc.data()));
+    
+    return players;
+  },
   onCreate: async (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext): Promise<void> => {
     const player: IPlayer = { ...snapshot.data() as IPlayer, id: snapshot.id };
 

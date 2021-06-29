@@ -8,7 +8,7 @@ import { IMatchupGroup } from "../../stroll-models/matchupGroup";
 import { IPlayer } from "../../stroll-models/player";
 
 interface IMatchupUtility {  
-  calculateOdds: (left: IMatchupSide, right: IMatchupSide) => number;  
+  calculateOdds: (left: IMatchupSide, right: IMatchupSide) => number;    
   findPlayer: (player: IPlayer, matchup: IMatchup) => boolean;
   groupByDay: (matchups: IMatchup[]) => IMatchupGroup[];
   mapPlayers: (matchups: IMatchup[], players: IPlayer[]) => IMatchup[];

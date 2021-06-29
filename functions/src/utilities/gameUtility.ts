@@ -23,7 +23,11 @@ export const GameUtility: IGameUtility = {
     )
   },
   stillInProgress: (before: IGame, after: IGame): boolean => {
-    return !before.progressUpdateAt.isEqual(after.progressUpdateAt);
+    if(before.progressUpdateAt && after.progressUpdateAt) {
+      return !before.progressUpdateAt.isEqual(after.progressUpdateAt);
+    }
+
+    return false;
   },
   upcomingToInProgress: (before: IGame, after: IGame): boolean => {
     return (

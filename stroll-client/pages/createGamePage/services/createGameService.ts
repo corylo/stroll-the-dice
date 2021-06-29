@@ -35,7 +35,7 @@ export const CreateGameService: ICreateGameService = {
 
     batch.set(inviteRef, invite);
 
-    const playerRef: firebase.firestore.DocumentReference<IPlayer> = db.collection("games")
+    const playerRef: firebase.firestore.DocumentReference = db.collection("games")
       .doc(game.id)
       .collection("players")
       .doc(game.creator.uid)

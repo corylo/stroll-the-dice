@@ -9,7 +9,6 @@ interface IFirestoreDateUtility {
   dateToTimestamp: (date: Date) => firebase.firestore.Timestamp;
   diffInDays: (value: firebase.firestore.FieldValue) => number;  
   lessThanOrEqualToNow: (value: firebase.firestore.FieldValue) => boolean;
-  on24HourIncrement: (value: firebase.firestore.FieldValue) => boolean;
   timestampToDate: (value: firebase.firestore.FieldValue) => Date;
   timestampToDateInput: (value: firebase.firestore.FieldValue) => string;
   timestampToLocale: (value: firebase.firestore.FieldValue) => string;
@@ -34,13 +33,6 @@ export const FirestoreDateUtility: IFirestoreDateUtility = {
     const date: IFirestoreTimestamp = value as any;
 
     return DateUtility.lessThanOrEqualToNow(date.seconds);
-  },
-  on24HourIncrement: (value: firebase.firestore.FieldValue): boolean => {
-    const date: Date = FirestoreDateUtility.timestampToDate(value),
-      diff: number = date.getTime() - Date.now(),
-      hours: number = Math.floor(diff / (3600 * 1000));
-
-    return hours % 24 === 0;
   },
   timestampToDate: (value: firebase.firestore.FieldValue): Date => {
     const date: IFirestoreTimestamp = value as any;

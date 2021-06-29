@@ -52,7 +52,7 @@ export const PlayerTransactionService: IPlayerTransactionService = {
       .withConverter<IMatchup>(matchupConverter)
       .doc();
 
-    transaction.set(matchupRef, MatchupUtility.mapDayOneCreate(player));
+    transaction.set(matchupRef, MatchupUtility.mapCreate(player.id, "", 1));
   },
   createPlayingIn: (transaction: firebase.firestore.Transaction, game: IGame, player: IPlayer): void => {
     const playingInRef: firebase.firestore.DocumentReference = db.collection("profiles")

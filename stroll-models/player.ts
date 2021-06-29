@@ -36,7 +36,7 @@ export const defaultPlayer = (): IPlayer => ({
   updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
 });
 
-export const playerConverter: firebase.firestore.FirestoreDataConverter<IPlayer> = {
+export const playerConverter: any = {
   toFirestore(player: IPlayer): firebase.firestore.DocumentData {
     return {
       createdAt: player.createdAt,      
@@ -48,10 +48,9 @@ export const playerConverter: firebase.firestore.FirestoreDataConverter<IPlayer>
     }
   },
   fromFirestore(
-    snapshot: firebase.firestore.QueryDocumentSnapshot<IPlayer>,
-    options: firebase.firestore.SnapshotOptions
+    snapshot: firebase.firestore.QueryDocumentSnapshot<IPlayer>
   ): IPlayer {
-    const data: IPlayer = snapshot.data(options);
+    const data: IPlayer = snapshot.data();
 
     return {
       createdAt: data.createdAt,      
