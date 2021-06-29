@@ -33,12 +33,13 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
 
   const { alignment, matchup, nonalignment, odds } = props;
   
-  const side: IMatchupSide = matchup[alignment],
-    opposition: IMatchupSide = matchup[nonalignment],
-    leader: boolean = side.steps > opposition.steps;
+  const side: IMatchupSide = matchup[alignment];
 
   if(side.player) {
     const { profile } = side.player;
+
+    const opposition: IMatchupSide = matchup[nonalignment],
+      leader: boolean = side.steps > opposition.steps;
     
     const getMatchupSidePrediction = (): JSX.Element => {
       const myPrediction: IPrediction = PredictionUtility.getById(player.id, matchup.id, predictions);
@@ -66,6 +67,7 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
           <Label 
             className="game-matchup-side-leader-label" 
             icon="fal fa-trophy" 
+            styles={{ color: `rgb(${profile.color})`}}
             text="Leader" 
           />
         )

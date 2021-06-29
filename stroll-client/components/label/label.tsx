@@ -6,6 +6,7 @@ import { Tooltip, TooltipSide } from "../tooltip/tooltip";
 interface LabelProps { 
   className?: string; 
   icon?: string;
+  styles?: React.CSSProperties;
   text?: string;
   tooltip?: string;
   tooltipSide?: TooltipSide;
@@ -29,18 +30,24 @@ export const Label: React.FC<LabelProps> = (props: LabelProps) => {
     }
   }
 
+  const getStyles = (): React.CSSProperties => {
+    if(props.styles) {
+      return props.styles;
+    }
+  }
+
   if(props.text && props.icon) {
     return (
       <div className={classNames("label", "combo", props.className)}>
-        <i className={props.icon} />
-        <h1 className="passion-one-font">{props.text}</h1>         
+        <i className={props.icon} style={getStyles()} />
+        <h1 className="passion-one-font" style={getStyles()}>{props.text}</h1>         
         {getButton()}  
         {getTooltip()}     
       </div>
     )
   } else if(props.text) {
     return (
-      <h1 className={classNames("label", props.className)}>
+      <h1 className={classNames("label", props.className)} style={getStyles()}>
         {props.text}
         {getButton()}     
         {getTooltip()} 
@@ -48,7 +55,7 @@ export const Label: React.FC<LabelProps> = (props: LabelProps) => {
     );
   } else if (props.icon) {
     return (
-      <i className={classNames("label", props.icon, props.className)}>  
+      <i className={classNames("label", props.icon, props.className)} style={getStyles()}>  
         {getButton()}         
         {getTooltip()}   
       </i>
