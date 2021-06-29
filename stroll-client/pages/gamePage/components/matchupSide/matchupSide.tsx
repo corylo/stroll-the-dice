@@ -104,7 +104,7 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
             alignment={props.alignment}
             icon="fal fa-shoe-prints" 
             tooltip="Steps"
-            value={side.steps || "0"} 
+            value={side.steps ? side.steps.toLocaleString() : "0"} 
           />
           <MatchupSideStat 
             alignment={props.alignment}
