@@ -10,7 +10,6 @@ import { PredictionService } from "../../../../services/predictionService";
 
 import { PredictionValidator } from "../../validators/predictionValidator";
 
-import { MatchupUtility } from "../../../../utilities/matchupUtility";
 import { PredictionUtility } from "../../../../utilities/predictionUtility";
 
 import { IMatchup } from "../../../../../stroll-models/matchup";

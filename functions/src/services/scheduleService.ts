@@ -25,7 +25,7 @@ export const ScheduleService: IScheduleService = {
         .get();
 
       if(!upcomingSnap.empty) {
-        logger.info(`Updating [${upcomingSnap.size}] games from [${GameStatus.Upcoming}] to [${GameStatus.InProgress}]`)
+        logger.info(`Updating [${upcomingSnap.size}] games from [${GameStatus.Upcoming}] to [${GameStatus.InProgress}]`);
 
         upcomingSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => {          
           batch.update(doc.ref, { locked: true, status: GameStatus.InProgress });

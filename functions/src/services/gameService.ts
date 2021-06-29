@@ -16,6 +16,7 @@ import { IGame } from "../../../stroll-models/game";
 import { IMatchup } from "../../../stroll-models/matchup";
 import { IMatchupPairGroup } from "../../../stroll-models/matchupPairGroup";
 import { IPlayer } from "../../../stroll-models/player";
+import { IMatchupPair } from "../../../stroll-models/matchupPair";
 
 interface IGameService {
   onUpdate: (change: Change<firebase.firestore.QueryDocumentSnapshot<IGame>>, context: EventContext) => Promise<void>;
@@ -40,9 +41,23 @@ export const GameService: IGameService = {
       } else if (GameUtility.upcomingToInProgress(before, after)) {
         logger.info(`Game [${context.params.id}] is now in progress. Generating matchups for days 2 - ${after.duration}`);
 
-        const groups: IMatchupPairGroup[] = MatchupUtility.generatePairGroups(after.duration, after.counts.players),
-          players: IPlayer[] = await PlayerService.getByGame(context.params.id),
-          matchups: IMatchup[] = MatchupUtility.mapMatchupsFromPairGroups(groups, players);
+        const groups: IMatchupPairGroup[] = MatchupUtility.generatePairGroups(after.duration, after.counts.players);
+
+        groups.forEach((group: IMatchupPairGroup) => {
+          logger.info(`Day ${group.day}`);
+
+          group.pairs.forEach((pair: IMatchupPair) => {
+            logger.info(pair)
+          });
+        });
+
+        const players: IPlayer[] = await PlayerService.getByGame(context.params.id);
+
+        logger.info(players);
+
+        const matchups: IMatchup[] = MatchupUtility.mapMatchupsFromPairGroups(groups, players);
+
+        logger.info(matchups);
         
         logger.info(`Creating [${matchups.length}] matchups for game [${context.params.id}].`);
 

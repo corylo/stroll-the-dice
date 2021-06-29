@@ -26,6 +26,6 @@ exports.onPredictionUpdate = firestore
   .document("games/{gameID}/matchups/{matchupID}/predictions/{id}")
   .onUpdate(PredictionService.onUpdate);
 
-exports.scheduledFunction = pubsub
+exports.scheduledGameUpdate = pubsub
   .schedule("0 0-23 * * *")
   .onRun(ScheduleService.updateGameStatuses);

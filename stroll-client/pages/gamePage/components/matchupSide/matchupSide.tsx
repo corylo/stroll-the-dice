@@ -40,7 +40,8 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
       
       if(
         matchup.day > day &&
-        (matchup.left.ref !== "" || matchup.right.ref !== "") &&
+        matchup.left.ref !== "" && 
+        matchup.right.ref !== "" &&
         !MatchupUtility.findPlayer(player, matchup) && 
         (myPrediction === null || myPrediction.ref.player === side.ref)
       ) {

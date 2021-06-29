@@ -73,7 +73,9 @@ export const MatchupUtility: IMatchupUtility = {
 
     return pairs;
   },
-  generatePairGroups: (numberOfDays: number, numberOfPlayers: number): IMatchupPairGroup[] => {    
+  generatePairGroups: (numberOfDays: number, numberOfPlayers: number): IMatchupPairGroup[] => {      
+    numberOfPlayers = MatchupUtility.getAdjustedPlayerCount(numberOfPlayers);
+    
     const groups: IMatchupPairGroup[] = [],
       allPossiblePairs: IMatchupPair[] = MatchupUtility.generateAllPairs(numberOfPlayers),
       dayOnePairs: IMatchupPair[] = MatchupUtility.generateDayOnePairs(numberOfPlayers),
