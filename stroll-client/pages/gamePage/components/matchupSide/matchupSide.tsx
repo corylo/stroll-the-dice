@@ -14,6 +14,7 @@ import { PredictionUtility } from "../../../../utilities/predictionUtility";
 
 import { IMatchup, IMatchupSide } from "../../../../../stroll-models/matchup";
 import { IPrediction } from "../../../../../stroll-models/prediction";
+
 import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 
 export enum MatchupSideAlignment {
@@ -23,6 +24,7 @@ export enum MatchupSideAlignment {
 
 interface MatchupSideProps {  
   alignment: MatchupSideAlignment;
+  dayStatus: GameStatus;
   matchup: IMatchup;
   odds: number;
 }
@@ -30,17 +32,17 @@ interface MatchupSideProps {
 export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps) => {  
   const { day, game, player, predictions } = useContext(GamePageContext).state;
 
-  const { alignment, matchup, odds } = props;
+  const { alignment, dayStatus, matchup, odds } = props;
   
   const side: IMatchupSide = matchup[alignment];
 
   if(side.player) {
     const { profile } = side.player;
 
-    const leader: boolean = MatchupUtility.getLeader(matchup)=== side.ref;
+    const leader: boolean = MatchupUtility.getLeader(matchup)=== side.ref,
+      myPrediction: IPrediction = PredictionUtility.getById(player.id, matchup.id, predictions);
     
     const getMatchupSidePrediction = (): JSX.Element => {
-      const myPrediction: IPrediction = PredictionUtility.getById(player.id, matchup.id, predictions);
       
       if(
         matchup.day > day &&
@@ -61,12 +63,16 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
 
     const getLeaderLabel = (): JSX.Element => {
       if(leader) {
+        const text: string = dayStatus === GameStatus.Completed
+          ? "Winner"
+          : "Leader";
+
         return (
           <Label 
             className="game-matchup-side-leader-label" 
             icon="fal fa-trophy" 
             styles={{ color: `rgb(${profile.color})`}}
-            text="Leader" 
+            text={text}
           />
         )
       }

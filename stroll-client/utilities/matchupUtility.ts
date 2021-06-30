@@ -13,6 +13,7 @@ interface IMatchupUtility {
   calculateOdds: (left: IMatchupSide, right: IMatchupSide) => number;    
   findPlayer: (player: IPlayer, matchup: IMatchup) => boolean;
   getLeader: (matchup: IMatchup) => string;
+  getWinnerOdds: (matchup: IMatchup) => number;
   groupByDay: (matchups: IMatchup[]) => IMatchupGroup[];
   mapPlayers: (matchups: IMatchup[], players: IPlayer[]) => IMatchup[];
   mapPlayerToSide: (side: IMatchupSide, players: IPlayer[]) => IMatchupSide;  
@@ -39,6 +40,15 @@ export const MatchupUtility: IMatchupUtility = {
     }
 
     return leader;
+  },
+  getWinnerOdds: (matchup: IMatchup): number => {
+    if(matchup.winner !== "" && matchup.winner !== MatchupLeader.Tie) {
+      return matchup.winner === matchup.left.ref
+        ? MatchupUtility.calculateOdds(matchup.left, matchup.right)
+        : MatchupUtility.calculateOdds(matchup.right, matchup.left);
+    }
+
+    return 1;
   },
   groupByDay: (matchups: IMatchup[]): IMatchupGroup[] => {
     return _orderBy(Object.entries(_groupBy(matchups, "day"))

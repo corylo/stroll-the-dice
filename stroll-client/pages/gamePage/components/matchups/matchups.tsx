@@ -27,7 +27,7 @@ export const Matchups: React.FC<MatchupsProps> = (props: MatchupsProps) => {
 
     const getMatchups = (): JSX.Element[] => {
       return props.matchups.map((matchup: IMatchup) =>       
-        <Matchup key={matchup.id} matchup={matchup} />);
+        <Matchup key={matchup.id} dayStatus={dayStatus} matchup={matchup} />);
     }
 
     const getDate = (): string => {
