@@ -12,7 +12,6 @@ import { PlayingInBatchService } from "./batch/playingInBatchService";
 import { PredictionService } from "./predictionService";
 import { StepService } from "./stepService";
 
-import { FirestoreDateUtility } from "../../../stroll-utilities/firestoreDateUtility";
 import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtility";
 import { GameUtility } from "../utilities/gameUtility"
 import { MatchupUtility } from "../utilities/matchupUtility";

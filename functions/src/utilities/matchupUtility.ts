@@ -32,7 +32,7 @@ interface IMatchupUtility {
 export const MatchupUtility: IMatchupUtility = {   
   calculateOdds: (left: IMatchupSide, right: IMatchupSide): number => {
     if(left.total.wagered !== 0 && right.total.wagered !== 0) {
-      return parseFloat(((left.total.wagered + right.total.wagered) / left.total.wagered).toFixed(4));
+      return (left.total.wagered + right.total.wagered) / left.total.wagered;
     }
 
     return 1;
