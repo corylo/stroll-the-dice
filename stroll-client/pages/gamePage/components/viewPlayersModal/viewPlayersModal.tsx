@@ -1,13 +1,14 @@
 import React, { useContext } from "react";
+import _orderBy from "lodash.orderby";
 
+import { Leaderboard, LeaderboardSort } from "../../../../components/leaderboard/leaderboard";
 import { Modal } from "../../../../components/modal/modal";
 import { ModalBody } from "../../../../components/modal/modalBody";
 import { ModalTitle } from "../../../../components/modal/modalTitle";
-import { UserLink } from "../../../../components/userLink/userLink";
 
 import { GamePageContext } from "../../gamePage";
 
-import { IPlayer } from "../../../../../stroll-models/player";
+import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 
 interface ViewPlayersModalProps {  
   back: () => void;
@@ -17,23 +18,20 @@ export const ViewPlayersModal: React.FC<ViewPlayersModalProps> = (props: ViewPla
   const { state } = useContext(GamePageContext);
 
   if(state.toggles.players) {
-    const getPlayers = (): JSX.Element => {
-      const players: JSX.Element[] = state.players.map((player: IPlayer) => 
-        <UserLink key={player.id} profile={player.profile} />);
-
-      return (
-        <div className="player-list">
-          {players}
-        </div>
-      )
+    const getTitleText = (): string => {
+      return state.game.status === GameStatus.Upcoming
+        ? "All players"
+        : "Leaderboard";
     }
-    
     
     return (
       <Modal id="view-players-modal">
-        <ModalTitle text="All players" handleOnClose={props.back} />
+        <ModalTitle text={getTitleText()} handleOnClose={props.back} />
         <ModalBody>       
-          {getPlayers()}   
+          <Leaderboard 
+            players={state.players} 
+            sort={state.game.status === GameStatus.Upcoming ? LeaderboardSort.Alphabetical : LeaderboardSort.Funds}
+          />
         </ModalBody>
       </Modal>
     );
