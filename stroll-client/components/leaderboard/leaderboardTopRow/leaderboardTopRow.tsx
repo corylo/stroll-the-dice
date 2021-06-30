@@ -35,7 +35,13 @@ export const LeaderboardTopRow: React.FC<LeaderboardTopRowProps> = (props: Leade
           />
           <i className="leaderboard-top-row-icon fal fa-trophy-alt" />      
         </div>
-        <h1 className="leaderboard-top-row-player-username passion-one-font" style={{ color: `rgb(${profile.color})` }}>{profile.username}</h1>     
+        <h1 
+          className="leaderboard-top-row-player-username passion-one-font" 
+          style={{ color: `rgb(${profile.color})` }}
+          title={profile.username}
+        >
+          {profile.username}
+        </h1>     
       </div>            
       <h1 className="leaderboard-top-row-funds passion-one-font">{funds.toLocaleString()}</h1>
     </div>
