@@ -109,6 +109,27 @@
   }
 }
 
+@include small-tablet-or-larger {
+  .leaderboard-top-row {      
+    padding: 10px 20px;
+
+    &.place-1 {
+      background: linear-gradient(to top, rgba($gold, 0.1), transparent);
+      border-bottom: 4px solid $gold;
+    }
+
+    &.place-2 {
+      background: linear-gradient(to top, rgba($silver, 0.1), transparent);
+      border-bottom: 4px solid $silver;
+    }
+
+    &.place-3 {
+      background: linear-gradient(to top, rgba($bronze, 0.1), transparent);
+      border-bottom: 4px solid $bronze;
+    }
+  }
+}
+
 @include medium-phone-or-smaller {
   .leaderboard-top-row {  
     &.place-1 {
@@ -123,7 +144,7 @@
           }
       
           .leaderboard-top-row-icon {
-            font-size: 1em;
+            font-size: 0.9em;
             height: 30px;
             line-height: 30px;
             width: 30px;
@@ -144,13 +165,21 @@
     
         .leaderboard-top-row-icon {
           bottom: -3px;
-          font-size: 0.6em;
+          font-size: 0.5em;
           height: 20px;
           line-height: 20px;
           right: -3px;
           width: 20px;
         }
       }
+
+      .leaderboard-top-row-player-username {
+        font-size: 0.8em;
+      }
+    }
+
+    .leaderboard-top-row-funds {
+      font-size: 0.9em;
     }
   }
 }

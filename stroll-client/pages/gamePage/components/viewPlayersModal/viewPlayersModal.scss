@@ -1,12 +1,12 @@
-@include phone-or-larger {
+@include small-tablet-or-larger {
   #view-players-modal {
     .modal-content-wrapper {
-      width: 600px;
+      width: 700px;
     }
   }
 }
 
-@include phone-or-smaller {
+@include small-tablet-or-smaller {
   #view-players-modal {
     .modal-content-wrapper {      
       padding: 20px 10px;
