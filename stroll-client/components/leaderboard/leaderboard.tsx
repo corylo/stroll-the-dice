@@ -1,6 +1,7 @@
 import React from "react";
 import _orderBy from "lodash.orderby";
 
+import { Button } from "../buttons/button";
 import { LeaderboardRow } from "./leaderboardRow/leaderboardRow";
 import { LeaderboardTopRow } from "./leaderboardTopRow/leaderboardTopRow";
 
@@ -14,7 +15,9 @@ export enum LeaderboardSort {
 
 interface LeaderboardProps {  
   players: IPlayer[];
+  showTitle?: boolean;
   sort: LeaderboardSort;
+  toggleView?: () => void;
 }
 
 export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps) => {    
@@ -65,9 +68,29 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
     )
   }
 
+  const getTitle = (): JSX.Element => {
+    if(props.showTitle) {
+      return (
+        <h1 className="leaderboard-title passion-one-font">Leaderboard</h1>
+      )
+    }
+  }
+
+  const getViewButton = (): JSX.Element => {
+    if(props.toggleView) {
+      return (
+        <Button className="leaderboard-view-button passion-one-font" handleOnClick={props.toggleView}>View All</Button>
+      )
+    }
+  }
+
   return (
     <div className="leaderboard">
-      {getRows()}
+      {getTitle()}
+      <div className="leaderboard-rows">
+        {getRows()}
+      </div>
+      {getViewButton()}
     </div>
   );
 }

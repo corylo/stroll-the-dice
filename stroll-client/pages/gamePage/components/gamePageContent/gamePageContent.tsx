@@ -5,6 +5,7 @@ import { GameActions } from "../gameActions/gameActions";
 import { GameDateStatus } from "../../../../components/gameDateStatus/gameDateStatus";
 import { GameDetails } from "../../../../components/gameDetails/gameDetails";
 import { InvitePlayersModal } from "../invitePlayersModal/invitePlayersModal";
+import { Leaderboard, LeaderboardSort } from "../../../../components/leaderboard/leaderboard";
 import { Matchups } from "../matchups/matchups";
 import { MyFunds } from "../myFunds/myFunds";
 import { UpdateGameModal } from "../updateGameModal/updateGameModal";
@@ -15,6 +16,7 @@ import { GamePageContext } from "../../gamePage";
 
 import { MatchupUtility } from "../../../../utilities/matchupUtility";
 
+import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
 
 interface GamePageContentProps {
@@ -24,7 +26,7 @@ interface GamePageContentProps {
 export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageContentProps) => {
   const { state, setState } = useContext(GamePageContext);
 
-  const { game, invite, player, status, toggles } = state;
+  const { game, invite, player, players, status, toggles } = state;
 
   if(status === RequestStatus.Success && game !== null) {
     const toggle = (updates: any): void => {
@@ -34,6 +36,19 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
     const togglePlayers = (): any => {
       if(player) {
         return () => toggle({ players: true });
+      }
+    }
+
+    const getLeaderboard = (): JSX.Element => {   
+      if(game.status !== GameStatus.Upcoming) {
+        return (
+          <Leaderboard 
+            players={players.slice(0, 4)} 
+            showTitle
+            sort={LeaderboardSort.Funds} 
+            toggleView={() => toggle({ players: true })}
+          />
+        )
       }
     }
 
@@ -63,8 +78,9 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
             toggleInvite={() => toggle({ invite: true })}
             toggleUpdate={() => toggle({ update: true })}
           />
+          {getLeaderboard()}
+          {getMatchups()}
         </div>
-        {getMatchups()}
         <MyFunds player={player} />
         <UpdateGameModal back={() => toggle({ update: false })} />
         <AcceptInviteModal back={() => toggle({ accept: false })} />

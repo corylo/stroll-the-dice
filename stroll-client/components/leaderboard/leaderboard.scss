@@ -2,14 +2,35 @@
 @import "./leaderboardTopRow/leaderboardTopRow.scss";
 
 .leaderboard {
-  .leaderboard-top-rows {
-    align-items: center;
-    display: flex;
-    justify-content: center;
+  .leaderboard-title {
+    color: gray(230);
+    font-size: 2em;
+    text-align: center;
   }
 
-  .leaderboard-remaining-rows {
-    margin-top: 20px;
+  .leaderboard-rows {
+    .leaderboard-top-rows {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+    }
+
+    .leaderboard-remaining-rows {
+      margin-top: 20px;
+    }
+  }
+
+  .leaderboard-view-button {
+    background-color: rgba(white, 0.1);
+    margin-top: 10px;
+    padding: 15px 10px;
+    width: 100%;
+
+    &:hover,
+    &:focus {
+      background-color: rgba(white, 0.2);
+      color: $themeMain;
+    }
   }
 }
 
