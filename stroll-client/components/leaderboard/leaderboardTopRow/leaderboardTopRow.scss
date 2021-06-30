@@ -99,6 +99,9 @@
 
     .leaderboard-top-row-player-username {
       margin-top: 5px;
+      max-width: 140px;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 
@@ -111,6 +114,9 @@
 
 @include small-tablet-or-larger {
   .leaderboard-top-row {      
+    border-left: 2px solid transparent;
+    border-radius: 10px;
+    border-right: 2px solid transparent;
     padding: 10px 20px;
 
     &.place-1 {
@@ -175,6 +181,7 @@
 
       .leaderboard-top-row-player-username {
         font-size: 0.8em;
+        max-width: 100px;
       }
     }
 
