@@ -1,0 +1,43 @@
+.leaderboard-remaining-row {
+  align-items: center;
+  display: flex;
+  position: relative;
+  background: linear-gradient(to right, rgba(white, 0.05), transparent);
+  border: 2px solid transparent;
+  border-left: 2px solid rgba(white, 0.6);
+  border-radius: 6px;
+  border-right: none;
+  padding: 5px 10px;
+
+  &:nth-of-type(n + 2) {
+    margin-top: 10px;
+  }
+
+  .leaderboard-row-place,
+  .leaderboard-row-icon {
+    color: gray(230);
+  }
+  
+  .leaderboard-row-place {    
+    text-align: center;
+    width: 20px;
+  }
+
+  .leaderboard-row-icon {
+    font-size: 0.9em;
+    margin-left: 10px;
+    text-align: center;
+  }
+
+  .leaderboard-row-player-and-funds {
+    align-items: center;
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+    margin-left: 10px;
+
+    .leaderboard-row-funds {
+      color: gray(230);
+    }
+  }
+}

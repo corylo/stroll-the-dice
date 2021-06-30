@@ -1,8 +1,8 @@
 import React from "react";
 import _orderBy from "lodash.orderby";
 
-import { LeaderboardRow } from "./leaderboardRow";
-import { LeaderboardTopRow } from "./leaderboardTopRow";
+import { LeaderboardRow } from "./leaderboardRow/leaderboardRow";
+import { LeaderboardTopRow } from "./leaderboardTopRow/leaderboardTopRow";
 
 import { IPlayer } from "../../../stroll-models/player";
 
@@ -24,7 +24,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
 
       return getRemainingRows(players);
     } else {
-      const players: IPlayer[] = _orderBy(props.players, "funds", "desc");
+      const players: IPlayer[] = _orderBy(props.players, ["funds", (player: IPlayer) => player.profile.username.toLowerCase()], ["desc", "asc"]);
       
       const remainingRows: JSX.Element = players.length > 3
         ? getRemainingRows(players.slice(3), 4)
@@ -40,13 +40,15 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
   }
 
   const getTopRows = (players: IPlayer[]): JSX.Element => {
-    const rows: JSX.Element[] = players.map((player: IPlayer, index: number) => 
-      <LeaderboardTopRow key={player.id} place={index + 1} player={player} />
-    );
-
+    const first: IPlayer = players[0],
+      second: IPlayer = players[1],
+      third: IPlayer = players[2];
+    
     return (
       <div className="leaderboard-top-rows">
-        {rows}
+        <LeaderboardTopRow place={2} player={second} />
+        <LeaderboardTopRow place={1} player={first} />
+        <LeaderboardTopRow place={3} player={third} />
       </div>
     )
   }
