@@ -13,7 +13,8 @@ export const GameUtility: IGameUtility = {
   hasReferenceFieldChanged: (before: IGame, after: IGame): boolean => {
     return (
       before.name !== after.name ||
-      !before.startsAt.isEqual(after.startsAt)
+      !before.startsAt.isEqual(after.startsAt) ||
+      before.status !== after.status
     );
   },
   inProgressToCompleted: (before: IGame, after: IGame): boolean => {

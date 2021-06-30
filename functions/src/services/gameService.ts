@@ -36,14 +36,16 @@ export const GameService: IGameService = {
       if(GameUtility.hasReferenceFieldChanged(before, after)) {
         logger.info(`Updating all references to game [${context.params.id}]`);
         
-          const batch: firebase.firestore.WriteBatch = db.batch();
-    
-          await PlayingInBatchService.update(batch, context.params.id, after);
+        const batch: firebase.firestore.WriteBatch = db.batch();
+  
+        await PlayingInBatchService.update(batch, context.params.id, after);
 
-          const results: firebase.firestore.WriteResult[] = await batch.commit();
-    
-          logger.info(`Successfully updated ${results.length} documents.`);
-      } else if (GameUtility.upcomingToInProgress(before, after)) {
+        const results: firebase.firestore.WriteResult[] = await batch.commit();
+  
+        logger.info(`Successfully updated ${results.length} references to game [${context.params.id}].`);
+      } 
+      
+      if (GameUtility.upcomingToInProgress(before, after)) {
         logger.info(`Game [${context.params.id}] is now in progress. Generating matchups for days 2 - ${after.duration}`);
 
         const groups: IMatchupPairGroup[] = MatchupUtility.generatePairGroups(after.duration, after.counts.players),

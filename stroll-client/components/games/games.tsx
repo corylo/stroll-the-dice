@@ -10,21 +10,23 @@ import { useFetchGamesEffect } from "../../effects/gameEffects";
 
 import { IGame } from "../../../stroll-models/game";
 
+import { GameStatus } from "../../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../../stroll-enums/requestStatus";
 
 interface GamesProps {  
   emptyMessage: string;
-  limit: number;
+  gameStatus: GameStatus;
+  limit: number;  
   title?: string;
-  get: (uid: string, limit: number) => Promise<IGame[]>;
+  get: (uid: string, gameStatus: GameStatus, limit: number) => Promise<IGame[]>;
 }
 
 export const Games: React.FC<GamesProps> = (props: GamesProps) => {  
   const { appState } = useContext(AppContext);
 
-  const { limit, title, get } = props;
+  const { gameStatus, limit, title, get } = props;
   
-  const { games, status } = useFetchGamesEffect(appState, limit, get);
+  const { games, status } = useFetchGamesEffect(appState, gameStatus, limit, get);
 
   const getTitle = (): JSX.Element => {
     if(title) {

@@ -14,11 +14,7 @@ import { UserLink } from "../../../../components/userLink/userLink";
 import { AppContext } from "../../../../components/app/contexts/appContext";
 import { GamePageContext } from "../../gamePage";
 
-import { PlayerService } from "../../../../services/playerService";
-
-import { PlayerUtility } from "../../../../utilities/playerUtility";
-
-import { IPlayer } from "../../../../../stroll-models/player";
+import { AcceptInviteService } from "./services/acceptInviteService";
 
 import { FormStatus } from "../../../../enums/formStatus";
 
@@ -39,9 +35,7 @@ export const AcceptInviteModal: React.FC<AcceptInviteModalProps> = (props: Accep
       try {
         setStatus(FormStatus.Submitting);
 
-        const player: IPlayer = PlayerUtility.mapCreate(user.profile, state.game, state.invite);
-          
-        await PlayerService.create(state.game, player);;
+        await AcceptInviteService.acceptInvite(state.game, user.profile, state.invite);
         
         setState({ 
           ...state, 

@@ -53,8 +53,6 @@ export const PlayerService: IPlayerService = {
 
           PlayerTransactionService.updateCounts(transaction, gameRef, game, player);
         
-          PlayerTransactionService.createPlayingIn(transaction, game, player);
-
           PlayerTransactionService.handleMatchup(transaction, matchupSnap, game, player);
         }
       });

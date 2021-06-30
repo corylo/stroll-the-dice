@@ -14,8 +14,7 @@ import { IPrediction } from "../../../../stroll-models/prediction";
 interface IPlayerTransactionService {
   handleMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, game: IGame, player: IPlayer) => void;
   completeDayOneMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, player: IPlayer) => void;
-  createDayOneMatchup: (transaction: firebase.firestore.Transaction, player: IPlayer) => void;
-  createPlayingIn: (transaction: firebase.firestore.Transaction, game: IGame, player: IPlayer) => void;
+  createDayOneMatchup: (transaction: firebase.firestore.Transaction, player: IPlayer) => void;  
   distributePayoutsAndFinalizeSteps: (gameID: string, matchups: IMatchup[], predictions: IPrediction[]) => Promise<void>;
   updateCounts: (transaction: firebase.firestore.Transaction, gameRef: firebase.firestore.DocumentReference, game: IGame, player: IPlayer) => void;  
 }
@@ -56,14 +55,6 @@ export const PlayerTransactionService: IPlayerTransactionService = {
       .doc();
 
     transaction.set(matchupRef, MatchupUtility.mapCreate(player.id, "", 1));
-  },
-  createPlayingIn: (transaction: firebase.firestore.Transaction, game: IGame, player: IPlayer): void => {
-    const playingInRef: firebase.firestore.DocumentReference = db.collection("profiles")
-          .doc(player.id)
-          .collection("playing_in")
-          .doc(player.ref.game);
-
-    transaction.set(playingInRef, { name: game.name.toLowerCase(), id: game.id, startsAt: game.startsAt });
   },
   distributePayoutsAndFinalizeSteps: async (gameID: string, matchups: IMatchup[], predictions: IPrediction[]): Promise<void> => {
     try {

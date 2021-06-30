@@ -15,7 +15,11 @@ export const PlayingInBatchService: IPlayingInBatchService = {
       .get();
 
     playingInSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot) => {        
-      batch.update(doc.ref, { name: after.name.toLowerCase(), startsAt: after.startsAt });
+      batch.update(doc.ref, { 
+        name: after.name.toLowerCase(), 
+        startsAt: after.startsAt,
+        status: after.status
+      });
     });
 
     return batch;

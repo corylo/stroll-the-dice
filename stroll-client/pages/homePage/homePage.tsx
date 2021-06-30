@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 
 import { Games } from "../../components/games/games";
+import { GamesGroup } from "../../components/games/gamesGroup";
 import { Page } from "../../components/page/page";
 import { PageMessage } from "../../components/page/pageMessage";
 
@@ -11,6 +12,7 @@ import { GameService } from "../../services/gameService";
 import { ImageUtility } from "../../utilities/imageUtility";
 
 import { AppStatus } from "../../enums/appStatus";
+import { GameStatus } from "../../../stroll-enums/gameStatus";
 import { Graphic } from "../../../stroll-enums/graphic";
 
 interface HomePageProps {
@@ -24,18 +26,38 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
     if(appState.status === AppStatus.SignedIn) {
       return (
         <React.Fragment>
-          <Games 
-            emptyMessage="You're not playing in any games yet."
-            limit={3} 
-            title="Playing In" 
-            get={GameService.getAllPlayingIn} 
-          />
-          <Games  
-            emptyMessage="You haven't created any games yet."
-            limit={3} 
-            title="My Games"
-            get={GameService.getAllMyGames} 
-          />
+          <GamesGroup title="In Progress">
+            <Games 
+              emptyMessage="You haven't joined any games in progress."
+              gameStatus={GameStatus.InProgress}
+              limit={2} 
+              title="Joined" 
+              get={GameService.getPlayingIn} 
+            />
+            <Games  
+              emptyMessage="You aren't hosting any games in progress."
+              gameStatus={GameStatus.InProgress}
+              limit={2} 
+              title="Hosting"
+              get={GameService.getHosting} 
+            />
+          </GamesGroup>
+          <GamesGroup title="Upcoming">
+            <Games  
+              emptyMessage="You haven't joined any upcoming games yet."
+              gameStatus={GameStatus.Upcoming}
+              limit={2} 
+              title="Joined"
+              get={GameService.getPlayingIn} 
+            />
+            <Games  
+              emptyMessage="You aren't hosting any upcoming games yet."
+              gameStatus={GameStatus.Upcoming}
+              limit={2} 
+              title="Hosting"
+              get={GameService.getHosting} 
+            />
+          </GamesGroup>
         </React.Fragment>
       )
     } else {

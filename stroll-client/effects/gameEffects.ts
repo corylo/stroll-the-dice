@@ -4,6 +4,7 @@ import { IAppState } from "../components/app/models/appState";
 import { IGame } from "../../stroll-models/game";
 
 import { AppStatus } from "../enums/appStatus";
+import { GameStatus } from "../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../stroll-enums/requestStatus";
 
 interface IUseFetchGamesEffect {
@@ -13,8 +14,9 @@ interface IUseFetchGamesEffect {
 
 export const useFetchGamesEffect = (
   appState: IAppState, 
+  gameStatus: GameStatus,
   limit: number, 
-  get: (uid: string, limit: number) => Promise<IGame[]>
+  get: (uid: string, status: GameStatus, limit: number) => Promise<IGame[]>
 ): IUseFetchGamesEffect => {
   const { user } = appState;
 
@@ -33,7 +35,7 @@ export const useFetchGamesEffect = (
     if(appState.status === AppStatus.SignedIn) {
       const fetch = async (): Promise<void> => {
         try {
-          const results: IGame[] = await get(user.profile.uid, limit);
+          const results: IGame[] = await get(user.profile.uid, gameStatus, limit);
           
           setState({ games: results, status: RequestStatus.Success });
         } catch (err) {

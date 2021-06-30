@@ -22,7 +22,7 @@ export const Nav: React.FC<NavProps> = (props: NavProps) => {
           </NavLink>
           <NavLink to="/games" className="nav-menu-button" exact>
             <i className="fal fa-dice" />
-            <h1 className="passion-one-font">My Games</h1>
+            <h1 className="passion-one-font">Games</h1>
           </NavLink>
           <NavLink to="/profile" className="nav-menu-button" exact>
             <i className="fal fa-user" />

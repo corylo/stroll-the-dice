@@ -5,13 +5,15 @@ import { db } from "../firebase";
 import { gameConverter, IGame } from "../../stroll-models/game";
 import { IGameUpdate } from "../../stroll-models/gameUpdate";
 
+import { GameStatus } from "../../stroll-enums/gameStatus";
+
 interface IGameService {
   create: (game: IGame) => Promise<void>;
   delete: (id: string) => Promise<void>;
   get: (id: string) => Promise<IGame>;
   getAllByList: (list: string[]) => Promise<IGame[]>;
-  getAllMyGames: (uid: string, limit?: number) => Promise<IGame[]>;
-  getAllPlayingIn: (uid: string, limit?: number) => Promise<IGame[]>;
+  getHosting: (uid: string, status: GameStatus, limit?: number) => Promise<IGame[]>;
+  getPlayingIn: (uid: string, status: GameStatus, limit?: number) => Promise<IGame[]>;
   update: (id: string, update: IGameUpdate) => Promise<void>;  
 }
 
@@ -48,9 +50,10 @@ export const GameService: IGameService = {
       
     return list.map((id: string) => games.find((game: IGame) => game.id === id));
   },
-  getAllMyGames: async (uid: string, limit?: number): Promise<IGame[]> => {
+  getHosting: async (uid: string, status: GameStatus, limit?: number): Promise<IGame[]> => {
     const snap: firebase.firestore.QuerySnapshot<IGame> = await db.collection("games")
       .where("creator.uid", "==", uid)
+      .where("status", "==", status)
       .orderBy("startsAt")      
       .orderBy("sortable.name")
       .limit(limit || 10)
@@ -64,10 +67,11 @@ export const GameService: IGameService = {
       
     return games;
   },
-  getAllPlayingIn: async (uid: string, limit?: number): Promise<IGame[]> => {
+  getPlayingIn: async (uid: string, status: GameStatus, limit?: number): Promise<IGame[]> => {
     const snap: firebase.firestore.QuerySnapshot = await db.collection("profiles")      
       .doc(uid)
       .collection("playing_in")
+      .where("status", "==", status)      
       .orderBy("startsAt")
       .orderBy("name")
       .limit(limit)

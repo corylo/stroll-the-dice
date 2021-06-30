@@ -1,18 +1,9 @@
-.games { 
+.games-group {  
   &:nth-of-type(n + 2) {
     margin-top: 20px;
   }
 
-  &.loading {
-    .game-links {
-      background-color: rgba(white, 0.05);
-      border: 1px solid rgba(white, 0.2);
-      border-radius: 10px;
-      min-height: 100px;
-    }
-  }
-
-  .games-title {
+  .games-group-title {
     margin-bottom: 20px;
     position: relative;
 
@@ -29,6 +20,35 @@
     h1 {
       color: gray(230);
       font-size: 2em;
+      text-align: left;
+    }
+  }
+}
+
+.games { 
+  border-left: 2px solid rgba(white, 0.75);
+  padding-left: 10px;
+
+  &:nth-of-type(n + 2) {
+    margin-top: 20px;
+  }
+
+  &.loading {
+    .game-links {
+      background-color: rgba(white, 0.05);
+      border: 1px solid rgba(white, 0.2);
+      border-radius: 10px;
+      min-height: 100px;
+    }
+  }
+
+  .games-title {
+    margin-bottom: 10px;
+    position: relative;
+
+    h1 {
+      color: gray(230);
+      font-size: 1.1em;
       text-align: left;
     }
   }
