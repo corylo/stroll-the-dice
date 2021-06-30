@@ -19,7 +19,7 @@ export const ViewPlayersModal: React.FC<ViewPlayersModalProps> = (props: ViewPla
 
   if(state.toggles.players) {
     const getTitleText = (): string => {
-      return state.game.status === GameStatus.Upcoming
+      return state.game.status === GameStatus.Upcoming || state.players.length < 4
         ? "All players"
         : "Leaderboard";
     }

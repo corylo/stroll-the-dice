@@ -20,28 +20,7 @@ interface LeaderboardProps {
   toggleView?: () => void;
 }
 
-export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps) => {    
-  const getRows = (): JSX.Element => {
-    if(props.sort === LeaderboardSort.Alphabetical) {
-      const players: IPlayer[] = _orderBy(props.players, (player: IPlayer) => player.profile.username.toLowerCase(), "desc");
-
-      return getRemainingRows(players);
-    } else {
-      const players: IPlayer[] = _orderBy(props.players, ["funds", (player: IPlayer) => player.profile.username.toLowerCase()], ["desc", "asc"]);
-      
-      const remainingRows: JSX.Element = players.length > 3
-        ? getRemainingRows(players.slice(3), 4)
-        : null;
-
-      return (
-        <React.Fragment>
-          {getTopRows(players.slice(0, 3))}
-          {remainingRows}
-        </React.Fragment>
-      )
-    }
-  }
-
+export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps) => {   
   const getTopRows = (players: IPlayer[]): JSX.Element => {
     const first: IPlayer = players[0],
       second: IPlayer = players[1],
@@ -66,6 +45,27 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
         {rows}
       </div>
     )
+  }
+ 
+  const getRows = (): JSX.Element => {
+    if(props.sort === LeaderboardSort.Alphabetical || props.players.length < 4) {
+      const players: IPlayer[] = _orderBy(props.players, (player: IPlayer) => player.profile.username.toLowerCase(), "desc");
+
+      return getRemainingRows(players);
+    } else {
+      const players: IPlayer[] = _orderBy(props.players, ["funds", (player: IPlayer) => player.profile.username.toLowerCase()], ["desc", "asc"]);
+      
+      const remainingRows: JSX.Element = players.length > 3
+        ? getRemainingRows(players.slice(3), 4)
+        : null;
+
+      return (
+        <React.Fragment>
+          {getTopRows(players.slice(0, 3))}
+          {remainingRows}
+        </React.Fragment>
+      )
+    }
   }
 
   const getTitle = (): JSX.Element => {

@@ -40,7 +40,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
     }
 
     const getLeaderboard = (): JSX.Element => {   
-      if(game.status !== GameStatus.Upcoming) {
+      if(game.status !== GameStatus.Upcoming && players.length > 3) {
         return (
           <Leaderboard 
             players={players.slice(0, 4)} 
