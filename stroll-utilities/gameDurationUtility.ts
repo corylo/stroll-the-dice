@@ -1,3 +1,5 @@
+import firebase from "firebase/app";
+
 import { DateUtility } from "./dateUtility";
 import { FirestoreDateUtility } from "./firestoreDateUtility";
 
@@ -12,7 +14,9 @@ interface IGameDurationUtility {
   getDay: (game: IGame) => number;
   getDayStatus: (day: number, currentDay: number) => GameStatus;
   getDurations: () => GameDuration[];  
-  getEndsAt: (game: IGame) => number;
+  getEndsAt: (startsAt: firebase.firestore.FieldValue, duration: number) => number;
+  getOrderBy: (status: GameStatus) => "startsAt" | "endsAt";
+  getOrderByDirection: (status: GameStatus) => "asc" | "desc";
   getTimeRemaining: (game: IGame) => string;
   getTimeRemainingInToday: () => string;
   getLabel: (duration: GameDuration) => string;
@@ -21,7 +25,7 @@ interface IGameDurationUtility {
 
 export const GameDurationUtility: IGameDurationUtility = {
   completed: (game: IGame): boolean => {   
-    return DateUtility.lessThanOrEqualToNow(GameDurationUtility.getEndsAt(game));
+    return DateUtility.lessThanOrEqualToNow(GameDurationUtility.getEndsAt(game.startsAt, game.duration));
   },
   hasDayPassed: (game: IGame): boolean => {
     const date: Date = FirestoreDateUtility.timestampToDate(game.startsAt),
@@ -57,14 +61,28 @@ export const GameDurationUtility: IGameDurationUtility = {
       GameDuration.OneMonth
     ]
   },
-  getEndsAt: (game: IGame): number => {
-    const end: number = DateUtility.daysToMillis(game.duration) / 1000,
-      endsAt: number = FirestoreDateUtility.add(game.startsAt, end);
+  getEndsAt: (startsAt: firebase.firestore.FieldValue, duration: number): number => {
+    const end: number = DateUtility.daysToMillis(duration) / 1000,
+      endsAt: number = FirestoreDateUtility.add(startsAt, end);
 
     return endsAt;
   },
+  getOrderBy: (status: GameStatus): "startsAt" | "endsAt" => {
+    if(status === GameStatus.InProgress || GameStatus.Completed) {
+      return "endsAt";
+    }
+
+    return "startsAt";
+  },
+  getOrderByDirection: (status: GameStatus): "asc" | "desc" => {
+    if(status === GameStatus.Completed) {
+      return "desc";
+    }
+
+    return "asc"
+  },
   getTimeRemaining: (game: IGame): string => {    
-    return DateUtility.secondsToRelative(GameDurationUtility.getEndsAt(game));
+    return DateUtility.secondsToRelative(GameDurationUtility.getEndsAt(game.startsAt, game.duration));
   },
   getTimeRemainingInToday: (): string => {
     const end = new Date();

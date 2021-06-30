@@ -30,7 +30,7 @@ export const GameDateStatus: React.FC<GameDateStatusProps> = (props: GameDateSta
 
   const getTooltip = (): string => {
     if(FirestoreDateUtility.lessThanOrEqualToNow(game.startsAt)) {
-      const locale: string = DateUtility.secondsToLocale(GameDurationUtility.getEndsAt(game));
+      const locale: string = DateUtility.secondsToLocale(GameDurationUtility.getEndsAt(game.startsAt, game.duration));
 
       return locale;
     }

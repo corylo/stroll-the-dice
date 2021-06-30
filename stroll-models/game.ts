@@ -29,6 +29,7 @@ export interface IGame {
   createdAt: firebase.firestore.FieldValue;
   creator: IProfile;  
   duration: GameDuration;
+  endsAt: firebase.firestore.FieldValue;
   id: string;  
   locked: boolean;
   mode: GameMode;
@@ -44,6 +45,7 @@ export const defaultGame = (): IGame => ({
   createdAt: firebase.firestore.FieldValue.serverTimestamp(),
   creator: defaultProfile(),  
   duration: GameDuration.None,
+  endsAt: null,
   id: "",
   locked: false,
   mode: GameMode.None,
@@ -61,6 +63,7 @@ export const gameConverter: firebase.firestore.FirestoreDataConverter<IGame> = {
       createdAt: game.createdAt,
       creator: game.creator,
       duration: game.duration,
+      endsAt: game.endsAt,
       locked: game.locked,
       mode: game.mode,
       name: game.name,
@@ -81,6 +84,7 @@ export const gameConverter: firebase.firestore.FirestoreDataConverter<IGame> = {
       createdAt: data.createdAt,
       creator: data.creator,  
       duration: data.duration,    
+      endsAt: data.endsAt,
       id: snapshot.id,
       locked: data.locked,
       mode: data.mode,

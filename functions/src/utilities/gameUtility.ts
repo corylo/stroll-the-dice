@@ -14,6 +14,7 @@ export const GameUtility: IGameUtility = {
     return (
       before.name !== after.name ||
       !before.startsAt.isEqual(after.startsAt) ||
+      !before.endsAt.isEqual(after.endsAt) ||
       before.status !== after.status
     );
   },

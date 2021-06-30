@@ -6,6 +6,7 @@ import { gameConverter, IGame } from "../../stroll-models/game";
 import { IGameUpdate } from "../../stroll-models/gameUpdate";
 
 import { GameStatus } from "../../stroll-enums/gameStatus";
+import { GameDurationUtility } from "../../stroll-utilities/gameDurationUtility";
 
 interface IGameService {
   create: (game: IGame) => Promise<void>;
@@ -50,11 +51,11 @@ export const GameService: IGameService = {
       
     return list.map((id: string) => games.find((game: IGame) => game.id === id));
   },
-  getHosting: async (uid: string, status: GameStatus, limit?: number): Promise<IGame[]> => {
+  getHosting: async (uid: string, status: GameStatus, limit?: number): Promise<IGame[]> => {    
     const snap: firebase.firestore.QuerySnapshot<IGame> = await db.collection("games")
       .where("creator.uid", "==", uid)
       .where("status", "==", status)
-      .orderBy("startsAt")      
+      .orderBy(GameDurationUtility.getOrderBy(status), GameDurationUtility.getOrderByDirection(status))      
       .orderBy("sortable.name")
       .limit(limit || 10)
       .withConverter(gameConverter)
@@ -67,12 +68,12 @@ export const GameService: IGameService = {
       
     return games;
   },
-  getPlayingIn: async (uid: string, status: GameStatus, limit?: number): Promise<IGame[]> => {
+  getPlayingIn: async (uid: string, status: GameStatus, limit?: number): Promise<IGame[]> => {    
     const snap: firebase.firestore.QuerySnapshot = await db.collection("profiles")      
       .doc(uid)
       .collection("playing_in")
       .where("status", "==", status)      
-      .orderBy("startsAt")
+      .orderBy(GameDurationUtility.getOrderBy(status), GameDurationUtility.getOrderByDirection(status))
       .orderBy("name")
       .limit(limit)
       .get();

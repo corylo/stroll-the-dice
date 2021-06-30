@@ -8,6 +8,7 @@ import { GameStatus } from "../stroll-enums/gameStatus";
 
 export interface IGameUpdate {  
   duration?: GameDuration;
+  endsAt?: firebase.firestore.FieldValue;
   locked?: boolean;
   mode?: GameMode,
   name?: string;

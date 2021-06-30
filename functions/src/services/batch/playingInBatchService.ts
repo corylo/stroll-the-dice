@@ -18,7 +18,8 @@ export const PlayingInBatchService: IPlayingInBatchService = {
       batch.update(doc.ref, { 
         name: after.name.toLowerCase(), 
         startsAt: after.startsAt,
-        status: after.status
+        status: after.status,
+        endsAt: after.endsAt
       });
     });
 

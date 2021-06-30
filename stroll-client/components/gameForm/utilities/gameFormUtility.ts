@@ -10,6 +10,7 @@ import { IGameUpdate } from "../../../../stroll-models/gameUpdate";
 import { IUser } from "../../../models/user";
 
 import { GameStatus } from "../../../../stroll-enums/gameStatus";
+import { GameDurationUtility } from "../../../../stroll-utilities/gameDurationUtility";
 
 interface IGameFormUtility {
   hasChanged: (game: IGame, fields: IGameFormStateFields) => boolean;
@@ -37,6 +38,9 @@ export const GameFormUtility: IGameFormUtility = {
     return gameStatus === undefined || gameStatus === GameStatus.Upcoming;
   },
   mapCreate: (fields: IGameFormStateFields, user: IUser): IGame => {    
+    const startsAt: firebase.firestore.FieldValue = FirestoreDateUtility.stringToOffsetTimestamp(fields.startsAt),
+      endsAt: firebase.firestore.FieldValue = FirestoreDateUtility.dateToTimestamp(new Date(GameDurationUtility.getEndsAt(startsAt, fields.duration) * 1000));
+    
     return {
       counts: {
         players: 1,
@@ -52,6 +56,7 @@ export const GameFormUtility: IGameFormUtility = {
         username: user.profile.username
       },
       duration: fields.duration,
+      endsAt,
       id: Nano.generate(),
       locked: false,
       mode: fields.mode,
@@ -60,7 +65,7 @@ export const GameFormUtility: IGameFormUtility = {
       sortable: {
         name: fields.name.toLowerCase()
       },
-      startsAt: FirestoreDateUtility.stringToOffsetTimestamp(fields.startsAt),
+      startsAt,
       status: GameStatus.Upcoming
     }
   },
@@ -81,15 +86,19 @@ export const GameFormUtility: IGameFormUtility = {
     return state;
   },
   mapUpdate: (fields: IGameFormStateFields): IGameUpdate => {
+    const startsAt: firebase.firestore.FieldValue = FirestoreDateUtility.stringToOffsetTimestamp(fields.startsAt),
+      endsAt: firebase.firestore.FieldValue = FirestoreDateUtility.dateToTimestamp(new Date(GameDurationUtility.getEndsAt(startsAt, fields.duration) * 1000));
+
     return {
       duration: fields.duration,
+      endsAt,
       locked: fields.locked,
       mode: fields.mode,
       name: fields.name,
       sortable: {
         name: fields.name.toLowerCase(),
       },
-      startsAt: FirestoreDateUtility.stringToOffsetTimestamp(fields.startsAt)
+      startsAt
     }
   }
 }
