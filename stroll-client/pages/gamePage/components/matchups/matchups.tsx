@@ -23,6 +23,8 @@ export const Matchups: React.FC<MatchupsProps> = (props: MatchupsProps) => {
   const { state } = useContext(GamePageContext);
 
   if(props.matchups.length > 0) {
+    const { game } = state;
+
     const dayStatus: GameStatus = GameDurationUtility.getDayStatus(props.day, state.day);
 
     const getMatchups = (): JSX.Element[] => {
@@ -31,7 +33,7 @@ export const Matchups: React.FC<MatchupsProps> = (props: MatchupsProps) => {
     }
 
     const getDate = (): string => {
-      const date: Date = FirestoreDateUtility.timestampToDate(state.game.startsAt);
+      const date: Date = FirestoreDateUtility.timestampToDate(game.startsAt);
 
       date.setDate(date.getDate() + (props.day - 1));
 
@@ -41,7 +43,7 @@ export const Matchups: React.FC<MatchupsProps> = (props: MatchupsProps) => {
     const getDayLabel = (): JSX.Element => {
       if(dayStatus === GameStatus.InProgress) {
         return <span className="highlight-main">Today</span>;
-      } else if (dayStatus === GameStatus.Upcoming) {
+      } else if (game.status === GameStatus.InProgress && dayStatus === GameStatus.Upcoming) {
         return <span className="highlight-main">Tomorrow</span>;
       }
     }
