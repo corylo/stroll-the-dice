@@ -3,7 +3,7 @@ import { EventContext, logger } from "firebase-functions";
 
 import { db } from "../../firebase";
 
-import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtility";
+import { FirestoreDateUtility } from "../../../stroll-utilities/firestoreDateUtility";
 
 import { IGame } from "../../../stroll-models/game";
 import { IGameUpdate } from "../../../stroll-models/gameUpdate";
@@ -46,7 +46,7 @@ export const ScheduleService: IScheduleService = {
           const game: IGame = doc.data(),
             updates: IGameUpdate = {};
 
-          if (GameDurationUtility.completed(game)) {
+          if (FirestoreDateUtility.lessThanOrEqualToNow(game.endsAt)) {
             updates.status = GameStatus.Completed;
 
             completedGamesCount++;

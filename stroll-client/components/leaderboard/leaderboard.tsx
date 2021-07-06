@@ -53,7 +53,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
 
       return getRemainingRows(players);
     } else {
-      const players: IPlayer[] = _orderBy(props.players, ["funds", (player: IPlayer) => player.profile.username.toLowerCase()], ["desc", "asc"]);
+      const players: IPlayer[] = _orderBy(props.players, ["points.total", (player: IPlayer) => player.profile.username.toLowerCase()], ["desc", "asc"]);
       
       const remainingRows: JSX.Element = players.length > 3
         ? getRemainingRows(players.slice(3), 4)

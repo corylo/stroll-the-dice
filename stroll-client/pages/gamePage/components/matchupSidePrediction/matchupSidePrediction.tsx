@@ -45,7 +45,7 @@ export const MatchupSidePrediction: React.FC<MatchupSidePredictionProps> = (prop
   });
 
   useEffect(() => {
-    if(player && parseInt(state.amount) <= player.funds) {
+    if(player && parseInt(state.amount) <= player.points.available) {
       setState({ ...state, error: FormError.None });
     }
   }, [player, state.amount]);
@@ -64,7 +64,7 @@ export const MatchupSidePrediction: React.FC<MatchupSidePredictionProps> = (prop
     if(
       enabled &&
       state.status !== FormStatus.Submitting && 
-      PredictionValidator.validate(player.funds, myPrediction, state, setState)
+      PredictionValidator.validate(player.points.available, state, setState)
     ) {
       try {
         updateStatus(FormStatus.Submitting);

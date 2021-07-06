@@ -26,9 +26,12 @@ export const PlayerUtility: IPlayerUtility = {
   mapCreate: (profile: IProfile, game: IGame, invite: IInvite): IPlayer => {
     return {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      funds: 1000,
       id: profile.uid,      
       index: 0,
+      points: {
+        available: 1000,
+        total: 1000
+      },
       profile,
       ref: {
         game: game.id,

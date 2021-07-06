@@ -72,21 +72,23 @@ export const PlayerTransactionService: IPlayerTransactionService = {
           playerSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>) => 
             players.push(doc.data()));
 
-          players.forEach((player: IPlayer) => {
-            const payout: number = PredictionUtility.determinePayoutForPlayer(player.id, matchups, predictions);
+          players.forEach((player: IPlayer) => {            
+            const available: number = PredictionUtility.determineNewAvailablePoints(player, matchups, predictions),
+              total: number = PredictionUtility.determineNewTotalPoints(player, matchups, predictions);
 
-            if(payout > 0) {
-              const playerRef: firebase.firestore.DocumentReference = db.collection("games")
-                .doc(gameID)
-                .collection("players")
-                .doc(player.id)
-                .withConverter(playerConverter);
+            const playerRef: firebase.firestore.DocumentReference = db.collection("games")
+              .doc(gameID)
+              .collection("players")
+              .doc(player.id)
+              .withConverter(playerConverter);
 
-              transaction.update(playerRef, { 
-                funds: player.funds + payout, 
-                updatedAt: firebase.firestore.FieldValue.serverTimestamp() 
-              });
-            }
+            transaction.update(playerRef, { 
+              points: {
+                available,
+                total
+              },
+              updatedAt: firebase.firestore.FieldValue.serverTimestamp() 
+            });
           }); 
           
           matchups.forEach((matchup: IMatchup) => {      

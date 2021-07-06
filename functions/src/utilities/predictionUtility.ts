@@ -2,13 +2,20 @@ import { MatchupUtility } from "./matchupUtility";
 
 import { IMatchup } from "../../../stroll-models/matchup";
 import { IPrediction } from "../../../stroll-models/prediction";
+import { IPlayer } from "../../../stroll-models/player";
 
-interface IPredictionUtility {
-  determineIfCorrect: (prediction: IPrediction, matchups: IMatchup[]) => boolean;
-  determinePayoutForPlayer: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]) => number;
+interface IPredictionUtility {    
+  determineIfCorrect: (prediction: IPrediction, matchups: IMatchup[]) => boolean;        
+  determineNewAvailablePoints: (player: IPlayer, matchups: IMatchup[], allPredictions: IPrediction[]) => number;
+  determineNewTotalPoints: (player: IPlayer, matchups: IMatchup[], allPredictions: IPrediction[]) => number;
   getByPlayer: (playerID: string, predictions: IPrediction[]) => IPrediction[];
   getCorrectPredictions: (predictions: IPrediction[], matchups: IMatchup[]) => IPrediction[];
-  sumCorrectPredictions: (predictions: IPrediction[], matchups: IMatchup[]) => number;
+  getIncorrectPredictions: (predictions: IPrediction[], matchups: IMatchup[]) => IPrediction[];  
+  sumCorrectPredictions: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]) => number;  
+  sumCorrectPredictionsWithOdds: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]) => number;
+  sumIncorrectPredictions: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]) => number;
+  sumPredictions: (predictions: IPrediction[]) => number;
+  sumPredictionsWithOdds: (predictions: IPrediction[], matchups: IMatchup[]) => number;
 }
 
 export const PredictionUtility: IPredictionUtility = {
@@ -17,11 +24,19 @@ export const PredictionUtility: IPredictionUtility = {
 
     return matchup.winner === prediction.ref.player;
   },
-  determinePayoutForPlayer: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]): number => {
-    const predictions: IPrediction[] = PredictionUtility.getByPlayer(playerID, allPredictions),
-      correctPredictions: IPrediction[] = PredictionUtility.getCorrectPredictions(predictions, matchups);
+  determineNewAvailablePoints: (player: IPlayer, matchups: IMatchup[], allPredictions: IPrediction[]): number => {
+    const grossPayout: number = PredictionUtility.sumCorrectPredictionsWithOdds(player.id, matchups, allPredictions);
 
-    return PredictionUtility.sumCorrectPredictions(correctPredictions, matchups);
+    return player.points.available + grossPayout;
+  },
+  determineNewTotalPoints: (player: IPlayer, matchups: IMatchup[], allPredictions: IPrediction[]): number => {
+    const grossPayout: number = PredictionUtility.sumCorrectPredictionsWithOdds(player.id, matchups, allPredictions),
+      correctlyWagered: number = PredictionUtility.sumCorrectPredictions(player.id, matchups, allPredictions),
+      incorrectlyWagered: number = PredictionUtility.sumIncorrectPredictions(player.id, matchups, allPredictions);
+    
+    const netPayout: number = grossPayout - correctlyWagered;
+
+    return player.points.total + netPayout - incorrectlyWagered;
   },
   getByPlayer: (playerID: string, predictions: IPrediction[]): IPrediction[] => {
     return predictions.filter((prediction: IPrediction) => prediction.ref.creator === playerID);
@@ -29,7 +44,31 @@ export const PredictionUtility: IPredictionUtility = {
   getCorrectPredictions: (predictions: IPrediction[], matchups: IMatchup[]): IPrediction[] => {
     return predictions.filter((prediction: IPrediction) => PredictionUtility.determineIfCorrect(prediction, matchups));
   },
-  sumCorrectPredictions: (predictions: IPrediction[], matchups: IMatchup[]): number => {
+  getIncorrectPredictions: (predictions: IPrediction[], matchups: IMatchup[]): IPrediction[] => {
+    return predictions.filter((prediction: IPrediction) => !PredictionUtility.determineIfCorrect(prediction, matchups));
+  },
+  sumCorrectPredictions: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]): number => {
+    const predictions: IPrediction[] = PredictionUtility.getByPlayer(playerID, allPredictions),
+      correctPredictions: IPrediction[] = PredictionUtility.getCorrectPredictions(predictions, matchups);
+
+    return PredictionUtility.sumPredictions(correctPredictions);    
+  },
+  sumCorrectPredictionsWithOdds: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]): number => {
+    const predictions: IPrediction[] = PredictionUtility.getByPlayer(playerID, allPredictions),
+      correctPredictions: IPrediction[] = PredictionUtility.getCorrectPredictions(predictions, matchups);
+
+    return PredictionUtility.sumPredictionsWithOdds(correctPredictions, matchups);
+  },
+  sumIncorrectPredictions: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]): number => {
+    const predictions: IPrediction[] = PredictionUtility.getByPlayer(playerID, allPredictions),
+      incorrectPredictions: IPrediction[] = PredictionUtility.getIncorrectPredictions(predictions, matchups);
+
+    return PredictionUtility.sumPredictions(incorrectPredictions);
+  },
+  sumPredictions: (predictions: IPrediction[]): number => {
+    return predictions.reduce((sum: number, prediction: IPrediction) => sum + prediction.amount, 0);
+  },
+  sumPredictionsWithOdds: (predictions: IPrediction[], matchups: IMatchup[]): number => {
     let sum: number = 0;
 
     predictions.forEach((prediction: IPrediction) => {

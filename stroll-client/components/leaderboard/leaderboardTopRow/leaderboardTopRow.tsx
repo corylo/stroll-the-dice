@@ -12,7 +12,7 @@ interface LeaderboardTopRowProps {
 }
 
 export const LeaderboardTopRow: React.FC<LeaderboardTopRowProps> = (props: LeaderboardTopRowProps) => {      
-  const { funds, profile } = props.player;
+  const { points, profile } = props.player;
 
   const getPlace = (): string => {
     if(props.place === 1) {
@@ -43,7 +43,7 @@ export const LeaderboardTopRow: React.FC<LeaderboardTopRowProps> = (props: Leade
           {profile.username}
         </h1>     
       </div>            
-      <h1 className="leaderboard-top-row-points passion-one-font">{funds.toLocaleString()}</h1>
+      <h1 className="leaderboard-top-row-points passion-one-font">{points.total.toLocaleString()}</h1>
     </div>
   );
 }

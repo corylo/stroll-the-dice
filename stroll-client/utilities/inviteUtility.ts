@@ -1,13 +1,13 @@
 import firebase from "firebase/app";
 
 import { DateUtility } from "../../stroll-utilities/dateUtility";
+import { Nano } from "./nanoUtility";
 import { UrlUtility } from "./urlUtility";
 
 import { IGame } from "../../stroll-models/game";
 import { IInvite } from "../../stroll-models/invite";
 import { IProfile } from "../../stroll-models/profile";
 import { IUser } from "../models/user";
-import { Nano } from "./nanoUtility";
 
 interface IInviteUtility {
   getLink: (invite: IInvite) => string;

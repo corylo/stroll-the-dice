@@ -2,11 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import { Label } from "../../../../components/label/label";
+import { TooltipSide } from "../../../../components/tooltip/tooltip";
 
 import { NumberUtility } from "../../../../../stroll-utilities/numberUtility";
 
 import { IPlayer } from "../../../../../stroll-models/player";
-import { TooltipSide } from "../../../../components/tooltip/tooltip";
 
 interface MyPointsProps {  
   player: IPlayer;
@@ -22,9 +22,9 @@ export const MyPoints: React.FC<MyPointsProps> = (props: MyPointsProps) => {
               <div className="my-points-content">
                 <Label 
                   className="passion-one-font" 
-                  icon="fal fa-money-bill-wave-alt" 
-                  text={NumberUtility.shorten(props.player.funds)} 
-                  tooltip={props.player.funds.toLocaleString()}
+                  icon="fal fa-sack-dollar" 
+                  text={NumberUtility.shorten(props.player.points.available)} 
+                  tooltip={props.player.points.available.toLocaleString()}
                   tooltipSide={TooltipSide.Top}
                 />
               </div>

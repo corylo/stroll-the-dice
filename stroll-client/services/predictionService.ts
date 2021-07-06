@@ -35,7 +35,7 @@ export const PredictionService: IPredictionService = {
         transaction.set(predictionRef, prediction);
 
         transaction.update(playerRef, { 
-          funds: player.funds - prediction.amount,
+          ["points.available"]: player.points.available - prediction.amount,
           ["ref.lastMatchupPredicted"]: prediction.ref.matchup,
           updatedAt: firebase.firestore.FieldValue.serverTimestamp()
         });
@@ -69,7 +69,7 @@ export const PredictionService: IPredictionService = {
         const delta: number = update.amount - retrievedPrediction.amount;
 
         transaction.update(playerRef, { 
-          funds: player.funds - delta,
+          ["points.available"]: player.points.available - delta,
           ["ref.lastMatchupPredicted"]: prediction.ref.matchup,
           updatedAt: firebase.firestore.FieldValue.serverTimestamp()
         });
