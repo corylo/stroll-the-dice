@@ -17,9 +17,9 @@ export const LeaderboardRow: React.FC<LeaderboardRowProps> = (props: Leaderboard
     <div className="leaderboard-remaining-row leaderboard-row">
       <h1 className="leaderboard-row-place passion-one-font">{place}</h1>
       <i className="leaderboard-row-icon fal fa-trophy" />      
-      <div className="leaderboard-row-player-and-funds">
+      <div className="leaderboard-row-player-and-points">
         <UserLink key={player.id} profile={player.profile} />
-        <h1 className="leaderboard-row-funds passion-one-font">{player.funds.toLocaleString()}</h1>
+        <h1 className="leaderboard-row-points passion-one-font">{player.funds.toLocaleString()}</h1>
       </div>
     </div>
   );

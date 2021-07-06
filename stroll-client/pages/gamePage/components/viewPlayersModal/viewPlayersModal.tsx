@@ -30,7 +30,7 @@ export const ViewPlayersModal: React.FC<ViewPlayersModalProps> = (props: ViewPla
         <ModalBody>       
           <Leaderboard 
             players={state.players} 
-            sort={state.game.status === GameStatus.Upcoming ? LeaderboardSort.Alphabetical : LeaderboardSort.Funds}
+            sort={state.game.status === GameStatus.Upcoming ? LeaderboardSort.Alphabetical : LeaderboardSort.Points}
           />
         </ModalBody>
       </Modal>

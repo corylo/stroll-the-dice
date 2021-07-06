@@ -29,14 +29,14 @@
     text-align: center;
   }
 
-  .leaderboard-row-player-and-funds {
+  .leaderboard-row-player-and-points {
     align-items: center;
     display: flex;
     flex-grow: 1;
     justify-content: space-between;
     margin-left: 10px;
 
-    .leaderboard-row-funds {
+    .leaderboard-row-points {
       color: gray(230);
     }
   }

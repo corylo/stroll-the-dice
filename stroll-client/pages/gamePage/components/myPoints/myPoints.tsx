@@ -8,18 +8,18 @@ import { NumberUtility } from "../../../../../stroll-utilities/numberUtility";
 import { IPlayer } from "../../../../../stroll-models/player";
 import { TooltipSide } from "../../../../components/tooltip/tooltip";
 
-interface MyFundsProps {  
+interface MyPointsProps {  
   player: IPlayer;
 }
 
-export const MyFunds: React.FC<MyFundsProps> = (props: MyFundsProps) => {    
+export const MyPoints: React.FC<MyPointsProps> = (props: MyPointsProps) => {    
   if(props.player.id !== "") {
     return ReactDOM.createPortal(
-      <div className="my-funds-modal">
-        <div className="my-funds-wrapper">
-          <div className="my-funds">            
-            <div className="my-funds-content-wrapper">
-              <div className="my-funds-content">
+      <div className="my-points-modal">
+        <div className="my-points-wrapper">
+          <div className="my-points">            
+            <div className="my-points-content-wrapper">
+              <div className="my-points-content">
                 <Label 
                   className="passion-one-font" 
                   icon="fal fa-money-bill-wave-alt" 
@@ -28,7 +28,7 @@ export const MyFunds: React.FC<MyFundsProps> = (props: MyFundsProps) => {
                   tooltipSide={TooltipSide.Top}
                 />
               </div>
-              <h1 className="my-funds-label passion-one-font">My Funds</h1>
+              <h1 className="my-points-label passion-one-font">My Points</h1>
             </div>
           </div>
         </div>

@@ -43,7 +43,7 @@ export const LeaderboardTopRow: React.FC<LeaderboardTopRowProps> = (props: Leade
           {profile.username}
         </h1>     
       </div>            
-      <h1 className="leaderboard-top-row-funds passion-one-font">{funds.toLocaleString()}</h1>
+      <h1 className="leaderboard-top-row-points passion-one-font">{funds.toLocaleString()}</h1>
     </div>
   );
 }

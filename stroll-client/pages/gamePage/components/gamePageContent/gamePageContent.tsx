@@ -7,7 +7,7 @@ import { GameDetails } from "../../../../components/gameDetails/gameDetails";
 import { InvitePlayersModal } from "../invitePlayersModal/invitePlayersModal";
 import { Leaderboard, LeaderboardSort } from "../../../../components/leaderboard/leaderboard";
 import { Matchups } from "../matchups/matchups";
-import { MyFunds } from "../myFunds/myFunds";
+import { MyPoints } from "../myPoints/myPoints";
 import { UpdateGameModal } from "../updateGameModal/updateGameModal";
 import { UserLink } from "../../../../components/userLink/userLink";
 import { ViewPlayersModal } from "../viewPlayersModal/viewPlayersModal";
@@ -52,7 +52,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
           <Leaderboard 
             players={players.slice(0, 4)} 
             showTitle
-            sort={LeaderboardSort.Funds} 
+            sort={LeaderboardSort.Points} 
             toggleView={() => toggle({ players: true })}
           />
         )
@@ -89,7 +89,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
           {getLeaderboard()}
           {getMatchups()}
         </div>
-        <MyFunds player={player} />
+        <MyPoints player={player} />
         <UpdateGameModal back={() => toggle({ update: false })} />
         <AcceptInviteModal back={() => toggle({ accept: false })} />
         <InvitePlayersModal back={() => toggle({ invite: false })} />

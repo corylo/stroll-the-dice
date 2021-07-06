@@ -9,7 +9,7 @@ import { IPlayer } from "../../../stroll-models/player";
 
 export enum LeaderboardSort {
   Alphabetical = "Alphabetical",
-  Funds = "Funds",
+  Points = "Points",
   Steps = "Steps"
 }
 

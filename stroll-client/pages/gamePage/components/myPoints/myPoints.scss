@@ -1,4 +1,4 @@
-.my-funds-modal {
+.my-points-modal {
   animation: fadeIn 400ms ease-in;
   bottom: 10px;
   left: 0px;
@@ -7,11 +7,11 @@
   width: 100%;
   z-index: 2;
 
-  .my-funds-wrapper {
+  .my-points-wrapper {
     margin: auto;
     max-width: 1200px;
 
-    .my-funds {     
+    .my-points {     
       background-color: gray(30);
       border-radius: 10px;
       box-shadow: $shadow1;
@@ -19,12 +19,12 @@
       margin-left: 270px;
       padding: 5px;
 
-      .my-funds-content-wrapper {
+      .my-points-content-wrapper {
         border: 1px solid gray(60);
         border-radius: 10px;
         padding: 10px 30px;
 
-        .my-funds-content {    
+        .my-points-content {    
           align-items: center;
           display: flex;
           pointer-events: all;
@@ -51,7 +51,7 @@
           }
         }
         
-        .my-funds-label {   
+        .my-points-label {   
           color: $themeMain;
           font-size: 0.8em;
           margin-top: 2px;
@@ -64,9 +64,9 @@
 }
 
 @include tablet-or-smaller {
-  .my-funds-modal {
-    .my-funds-wrapper {
-      .my-funds {
+  .my-points-modal {
+    .my-points-wrapper {
+      .my-points {
         margin-left: 70px;
       }
     }
@@ -74,11 +74,11 @@
 }
 
 @include phone-or-smaller {
-  .my-funds-modal {
+  .my-points-modal {
     bottom: 70px;
 
-    .my-funds-wrapper {
-      .my-funds {
+    .my-points-wrapper {
+      .my-points {
         margin-left: 20px;
       }
     }
