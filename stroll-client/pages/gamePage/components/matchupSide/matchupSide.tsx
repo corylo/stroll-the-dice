@@ -42,15 +42,8 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
     const leader: boolean = MatchupUtility.getLeader(matchup)=== side.ref,
       myPrediction: IPrediction = PredictionUtility.getById(player.id, matchup.id, predictions);
     
-    const getMatchupSidePrediction = (): JSX.Element => {
-      
-      if(
-        matchup.day > day &&
-        matchup.left.ref !== "" && 
-        matchup.right.ref !== "" &&
-        !MatchupUtility.findPlayer(player, matchup) && 
-        (myPrediction === null || myPrediction.ref.player === side.ref)
-      ) {
+    const getMatchupSidePrediction = (): JSX.Element => {      
+      if(PredictionUtility.available(matchup, side, player, myPrediction, day)) {
         return (
           <MatchupSidePrediction 
             matchup={matchup}
