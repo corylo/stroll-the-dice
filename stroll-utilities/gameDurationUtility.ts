@@ -9,7 +9,6 @@ import { GameDuration } from "../stroll-enums/gameDuration";
 import { GameStatus } from "../stroll-enums/gameStatus";
 
 interface IGameDurationUtility {
-  completed: (game: IGame) => boolean;
   hasDayPassed: (game: IGame) => boolean;
   getDay: (game: IGame) => number;
   getDayStatus: (day: number, currentDay: number) => GameStatus;
@@ -24,9 +23,6 @@ interface IGameDurationUtility {
 }
 
 export const GameDurationUtility: IGameDurationUtility = {
-  completed: (game: IGame): boolean => {   
-    return DateUtility.lessThanOrEqualToNow(GameDurationUtility.getEndsAt(game.startsAt, game.duration));
-  },
   hasDayPassed: (game: IGame): boolean => {
     const date: Date = FirestoreDateUtility.timestampToDate(game.startsAt),
       diff: number = Math.abs(date.getTime() - Date.now()),
@@ -82,7 +78,7 @@ export const GameDurationUtility: IGameDurationUtility = {
     return "asc"
   },
   getTimeRemaining: (game: IGame): string => {    
-    return DateUtility.secondsToRelative(GameDurationUtility.getEndsAt(game.startsAt, game.duration));
+    return FirestoreDateUtility.timestampToRelative(game.endsAt);
   },
   getTimeRemainingInToday: (): string => {
     const end = new Date();

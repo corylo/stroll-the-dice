@@ -16,6 +16,7 @@ import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 
 interface MatchupsProps {  
   day: number;
+  duration: number;
   matchups: IMatchup[];
 }
 
@@ -51,7 +52,7 @@ export const Matchups: React.FC<MatchupsProps> = (props: MatchupsProps) => {
     return (
       <div className={classNames("game-matchups", UrlUtility.format(dayStatus))}>
         <div className="game-matchups-title">
-          <h1 className="game-matchups-title-text passion-one-font">Day {props.day} {getDayLabel()}</h1>
+          <h1 className="game-matchups-title-text passion-one-font">Day {props.day} of {props.duration} {getDayLabel()}</h1>
           <h1 className="game-matchups-title-date passion-one-font">{getDate()}</h1>
           <GameDayStatus status={dayStatus} />
         </div>

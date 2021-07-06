@@ -26,7 +26,14 @@ interface GamePageContentProps {
 export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageContentProps) => {
   const { state, setState } = useContext(GamePageContext);
 
-  const { game, invite, player, players, status, toggles } = state;
+  const { 
+    game, 
+    invite, 
+    player, 
+    players, 
+    status, 
+    toggles 
+  } = state;
 
   if(status === RequestStatus.Success && game !== null) {
     const toggle = (updates: any): void => {
@@ -58,6 +65,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
           <Matchups 
             key={entry.day} 
             day={entry.day} 
+            duration={game.duration}
             matchups={entry.matchups} 
           />
         ));

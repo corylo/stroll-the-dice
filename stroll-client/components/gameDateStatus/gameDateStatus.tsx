@@ -3,7 +3,6 @@ import React from "react";
 import { Label } from "../label/label";
 import { TooltipSide } from "../tooltip/tooltip";
 
-import { DateUtility } from "../../../stroll-utilities/dateUtility";
 import { FirestoreDateUtility } from "../../../stroll-utilities/firestoreDateUtility";
 import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtility";
 
@@ -30,9 +29,7 @@ export const GameDateStatus: React.FC<GameDateStatusProps> = (props: GameDateSta
 
   const getTooltip = (): string => {
     if(FirestoreDateUtility.lessThanOrEqualToNow(game.startsAt)) {
-      const locale: string = DateUtility.secondsToLocale(GameDurationUtility.getEndsAt(game.startsAt, game.duration));
-
-      return locale;
+      return FirestoreDateUtility.timestampToLocale(game.endsAt);
     }
 
     return FirestoreDateUtility.timestampToLocale(game.startsAt);
