@@ -6,6 +6,8 @@ import { TooltipSide } from "../tooltip/tooltip";
 import { FirestoreDateUtility } from "../../../stroll-utilities/firestoreDateUtility";
 import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtility";
 
+import { useCurrentDateEffect } from "../../effects/appEffects";
+
 import { IGame } from "../../../stroll-models/game";
 
 import { GameStatus } from "../../../stroll-enums/gameStatus";
@@ -16,6 +18,8 @@ interface GameDateStatusProps {
 
 export const GameDateStatus: React.FC<GameDateStatusProps> = (props: GameDateStatusProps) => {    
   const { game } = props;
+
+  useCurrentDateEffect();
 
   const getText = (): string => {
     if(game.status === GameStatus.Completed) {

@@ -64,7 +64,7 @@ export const DateUtility: IDateUtility = {
       return `${relativeSeconds}s`;
     }
 
-    const relativeMinutes: number = Math.floor(relativeSeconds / 60);
+    const relativeMinutes: number = Math.ceil(relativeSeconds / 60);
 
     if (relativeMinutes < 60) {
       return `${relativeMinutes}m`;

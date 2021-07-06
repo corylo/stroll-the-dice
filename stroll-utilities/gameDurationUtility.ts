@@ -16,7 +16,7 @@ interface IGameDurationUtility {
   getOrderBy: (status: GameStatus) => "startsAt" | "endsAt";
   getOrderByDirection: (status: GameStatus) => "asc" | "desc";
   getTimeRemaining: (game: IGame) => string;
-  getTimeRemainingInToday: () => string;
+  getTimeRemainingInToday: (game: IGame, day: number) => string;
   getLabel: (duration: GameDuration) => string;
   getShortLabel: (duration: GameDuration) => string;
   hasDayPassed: (game: IGame) => boolean;
@@ -73,10 +73,11 @@ export const GameDurationUtility: IGameDurationUtility = {
   getTimeRemaining: (game: IGame): string => {    
     return FirestoreDateUtility.timestampToRelative(game.endsAt);
   },
-  getTimeRemainingInToday: (): string => {
-    const end = new Date();
-      
-    end.setHours(23,59,59,999);
+  getTimeRemainingInToday: (game: IGame, day: number): string => {
+    const start: Date = FirestoreDateUtility.timestampToDate(game.startsAt),
+      end: Date = new Date(start);
+
+    end.setDate(start.getDate() + day);
 
     return DateUtility.secondsToRelative(end.getTime() / 1000);
   },

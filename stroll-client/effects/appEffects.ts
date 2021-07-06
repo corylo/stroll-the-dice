@@ -1,9 +1,31 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 
 import { UrlUtility } from "../utilities/urlUtility";
 
 import { ElementID } from "../enums/elementId";
+
+interface IUseCurrentDateEffect {
+  date: Date;
+}
+
+export const useCurrentDateEffect = (): IUseCurrentDateEffect => {
+  const [date, setDate] = useState<Date>(new Date());
+
+  useEffect(() => {
+    const interval: NodeJS.Timeout = setInterval(() => {
+      const update: Date = new Date();
+
+      if(update.getSeconds() !== date.getSeconds()) {
+        setDate(update);
+      }
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [date]);
+
+  return { date };
+}
 
 export const useClearParamsEffect = (param: string): void => {
   const history: any = useHistory();
