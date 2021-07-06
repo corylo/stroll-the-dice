@@ -40,7 +40,7 @@ export const profileConverter: firebase.firestore.FirestoreDataConverter<IProfil
       color: data.color,
       createdAt: data.createdAt,
       icon: data.icon,
-      id: data.id,
+      id: snapshot.id,
       uid: snapshot.id,
       username: data.username  
     }

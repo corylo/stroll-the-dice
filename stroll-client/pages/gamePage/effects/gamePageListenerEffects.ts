@@ -7,19 +7,22 @@ import { MatchupUtility } from "../../../utilities/matchupUtility";
 import { PlayerUtility } from "../../../utilities/playerUtility";
 
 import { IAppState } from "../../../components/app/models/appState";
+import { defaultGame, gameConverter, IGame } from "../../../../stroll-models/game";
 import { IGamePageState } from "../models/gamePageState";
 import { IMatchup, matchupConverter } from "../../../../stroll-models/matchup";
 import { IPrediction, predictionConverter } from "../../../../stroll-models/prediction";
 import { IPlayer, playerConverter } from "../../../../stroll-models/player";
 
 export const useGameListenersEffect = (appState: IAppState, state: IGamePageState, setState: (state: IGamePageState) => void): void => {
-  const [players, setPlayers] = useState<IPlayer[]>([]),
+  const [game, setGame] = useState<IGame>(defaultGame()),
+    [players, setPlayers] = useState<IPlayer[]>([]),
     [matchups, setMatchups] = useState<IMatchup[]>([]),
     [predictions, setPredictions] = useState<IPrediction[]>([]);
   
   useEffect(() => {    
     const updates: IGamePageState = {
-      ...state, 
+      ...state,
+      game,
       matchups: MatchupUtility.mapPlayers(matchups, players), 
       players, 
       predictions
@@ -30,12 +33,21 @@ export const useGameListenersEffect = (appState: IAppState, state: IGamePageStat
     if(player) {
       updates.player = player;
     }
-      
+
     setState(updates);
-  }, [appState.user, matchups, players, predictions]);
-  
-  useEffect(() => {    
-    if(state.game !== null && state.player.id !== "") {
+  }, [appState.user, game, matchups, players, predictions]);
+
+  useEffect(() => {        
+    if(state.game.id !== "" && state.player.id !== "") {
+      const unsubToGame = db.collection("games")
+        .doc(state.game.id)
+        .withConverter(gameConverter)
+        .onSnapshot((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => {
+          if(doc.exists) {
+            setGame(doc.data());
+          }
+        });
+
       const unsubToPlayers = db.collection("games")
         .doc(state.game.id)
         .collection("players")
@@ -49,15 +61,7 @@ export const useGameListenersEffect = (appState: IAppState, state: IGamePageStat
           
           setPlayers(updates);
         });
-        
-      return () => {
-        unsubToPlayers();
-      }
-    }
-  }, [state.game, state.player.id]);
 
-  useEffect(() => {        
-    if(state.game !== null && state.player.id !== "") {
       const unsubToMatchups = db.collection("games")
         .doc(state.game.id)
         .collection("matchups")
@@ -69,7 +73,7 @@ export const useGameListenersEffect = (appState: IAppState, state: IGamePageStat
           let updates: IMatchup[] = [];
 
           snap.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IMatchup>) =>
-            updates.push({ ...doc.data(), id: doc.id }));
+            updates.push(doc.data()));
           
           setMatchups(updates);
         });
@@ -80,17 +84,19 @@ export const useGameListenersEffect = (appState: IAppState, state: IGamePageStat
         .withConverter(predictionConverter)
         .onSnapshot((snap: firebase.firestore.QuerySnapshot) => {
           let updates: IPrediction[] = [];
-
-          snap.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPrediction>) =>
-            updates.push({ ...doc.data(), id: doc.id }));
           
+          snap.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPrediction>) =>
+            updates.push(doc.data()));
+            
           setPredictions(updates);
         });
         
       return () => {
+        unsubToGame();
+        unsubToPlayers();
         unsubToMatchups();
         unsubToPredictions();
       }
     }
-  }, [state.game, state.player.id]);
+  }, [state.game.id, state.player.id]);
 }

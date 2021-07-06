@@ -47,7 +47,7 @@ export const predictionConverter: any = {
     return {
       amount: data.amount,
       createdAt: data.createdAt,
-      id: data.id,
+      id: snapshot.id,
       ref: data.ref,
       updatedAt: data.updatedAt
     }

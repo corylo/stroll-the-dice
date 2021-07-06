@@ -49,7 +49,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
  
   const getRows = (): JSX.Element => {
     if(props.sort === LeaderboardSort.Alphabetical || props.players.length < 4) {
-      const players: IPlayer[] = _orderBy(props.players, (player: IPlayer) => player.profile.username.toLowerCase(), "desc");
+      const players: IPlayer[] = _orderBy(props.players, (player: IPlayer) => player.profile.username.toLowerCase(), "asc");
 
       return getRemainingRows(players);
     } else {

@@ -9,7 +9,6 @@ import { GameDuration } from "../stroll-enums/gameDuration";
 import { GameStatus } from "../stroll-enums/gameStatus";
 
 interface IGameDurationUtility {
-  hasDayPassed: (game: IGame) => boolean;
   getDay: (game: IGame) => number;
   getDayStatus: (day: number, currentDay: number) => GameStatus;
   getDurations: () => GameDuration[];  
@@ -20,16 +19,10 @@ interface IGameDurationUtility {
   getTimeRemainingInToday: () => string;
   getLabel: (duration: GameDuration) => string;
   getShortLabel: (duration: GameDuration) => string;
+  hasDayPassed: (game: IGame) => boolean;
 }
 
 export const GameDurationUtility: IGameDurationUtility = {
-  hasDayPassed: (game: IGame): boolean => {
-    const date: Date = FirestoreDateUtility.timestampToDate(game.startsAt),
-      diff: number = Math.abs(date.getTime() - Date.now()),
-      hours: number = Math.floor(diff / (3600 * 1000));
-
-    return hours % 24 === 0;
-  },
   getDay: (game: IGame): number => {
     if(FirestoreDateUtility.lessThanOrEqualToNow(game.startsAt)) {
       const date: Date = FirestoreDateUtility.timestampToDate(game.startsAt),
@@ -114,5 +107,12 @@ export const GameDurationUtility: IGameDurationUtility = {
       default:
         throw new Error(`Unknown game duration: ${duration}`);
     }
+  },
+  hasDayPassed: (game: IGame): boolean => {
+    const date: Date = FirestoreDateUtility.timestampToDate(game.startsAt),
+      diff: number = Math.abs(date.getTime() - Date.now()),
+      hours: number = Math.floor(diff / (3600 * 1000));
+
+    return hours % 24 === 0;
   }
 }

@@ -39,7 +39,7 @@ export const InviteUtility: IInviteUtility = {
       id !== null &&
       user !== null && 
       user.profile !== null &&
-      game !== null &&
+      game.id !== "" &&
       user.profile.uid !== game.creator.uid
     )
   }

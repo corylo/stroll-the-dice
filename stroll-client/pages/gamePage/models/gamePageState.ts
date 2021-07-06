@@ -1,11 +1,10 @@
-import { IGame } from "../../../../stroll-models/game";
+import { defaultGame, IGame } from "../../../../stroll-models/game";
 import { defaultGamePageStateToggles, IGamePageStateToggles } from "./gamePageStateToggles";
 import { IInvite } from "../../../../stroll-models/invite";
 import { IMatchup } from "../../../../stroll-models/matchup";
 import { defaultPlayer, IPlayer } from "../../../../stroll-models/player";
 import { IPrediction } from "../../../../stroll-models/prediction";
 
-import { GameStatus } from "../../../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
 
 export interface IGamePageState {
@@ -23,7 +22,7 @@ export interface IGamePageState {
 
 export const defaultGamePageState = (): IGamePageState => ({ 
   day: 0,
-  game: null,
+  game: defaultGame(),
   invite: null,
   matchups: [],
   message: "",
