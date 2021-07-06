@@ -114,25 +114,28 @@
 
 @include small-tablet-or-larger {
   .leaderboard-top-row {      
-    border-left: 2px solid transparent;
+    border-bottom: 2px solid transparent;
     border-radius: 10px;
-    border-right: 2px solid transparent;
+    border-top: 2px solid transparent;
     padding: 10px 20px;
     width: 140px;
 
     &.place-1 {
-      background: linear-gradient(to top, rgba($gold, 0.1), transparent);
-      border-bottom: 4px solid $gold;
+      background: linear-gradient(to right, rgba($gold, 0.05) 2%, transparent 50%, rgba($gold, 0.05) 98%);      
+      border-left: 2px solid $gold;
+      border-right: 2px solid $gold;
     }
 
     &.place-2 {
-      background: linear-gradient(to top, rgba($silver, 0.1), transparent);
-      border-bottom: 4px solid $silver;
+      background: linear-gradient(to right, rgba($silver, 0.05) 2%, transparent 50%, rgba($silver, 0.05) 98%);      
+      border-left: 2px solid $silver;
+      border-right: 2px solid $silver;
     }
 
     &.place-3 {
-      background: linear-gradient(to top, rgba($bronze, 0.1), transparent);
-      border-bottom: 4px solid $bronze;
+      background: linear-gradient(to right, rgba($bronze, 0.05) 2%, transparent 50%, rgba($bronze, 0.05) 98%);      
+      border-left: 2px solid $bronze;
+      border-right: 2px solid $bronze;
     }
   }
 }
