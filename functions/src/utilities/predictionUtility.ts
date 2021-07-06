@@ -66,17 +66,25 @@ export const PredictionUtility: IPredictionUtility = {
     return PredictionUtility.sumPredictions(incorrectPredictions);
   },
   sumPredictions: (predictions: IPrediction[]): number => {
-    return predictions.reduce((sum: number, prediction: IPrediction) => sum + prediction.amount, 0);
+    if(predictions.length > 0) {
+      return predictions.reduce((sum: number, prediction: IPrediction) => sum + prediction.amount, 0);
+    }
+
+    return 0;
   },
   sumPredictionsWithOdds: (predictions: IPrediction[], matchups: IMatchup[]): number => {
-    let sum: number = 0;
+    if(predictions.length > 0) {
+      let sum: number = 0;
+  
+      predictions.forEach((prediction: IPrediction) => {
+        const matchup: IMatchup = MatchupUtility.getByPrediction(prediction.ref.matchup, matchups);
 
-    predictions.forEach((prediction: IPrediction) => {
-      const matchup: IMatchup = MatchupUtility.getByPrediction(prediction.ref.matchup, matchups);
+        sum += (prediction.amount * MatchupUtility.getWinnerOdds(matchup));
+      });
 
-      sum += (prediction.amount * MatchupUtility.getWinnerOdds(matchup));
-    });
+      return sum;
+    }
 
-    return sum;
+    return 0;
   }
 }

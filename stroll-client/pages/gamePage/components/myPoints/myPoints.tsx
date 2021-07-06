@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import { Label } from "../../../../components/label/label";
-import { TooltipSide } from "../../../../components/tooltip/tooltip";
 
 import { NumberUtility } from "../../../../../stroll-utilities/numberUtility";
 
@@ -20,15 +19,25 @@ export const MyPoints: React.FC<MyPointsProps> = (props: MyPointsProps) => {
           <div className="my-points">            
             <div className="my-points-content-wrapper">
               <div className="my-points-content">
-                <Label 
-                  className="passion-one-font" 
-                  icon="fal fa-sack-dollar" 
-                  text={NumberUtility.shorten(props.player.points.available)} 
-                  tooltip={props.player.points.available.toLocaleString()}
-                  tooltipSide={TooltipSide.Top}
-                />
+                <div className="my-available-points-wrapper">
+                  <Label 
+                    className="my-available-points passion-one-font" 
+                    icon="fal fa-sack-dollar" 
+                    text={NumberUtility.shorten(props.player.points.available)} 
+                    tooltip="My Available Points"
+                  />
+                </div>
+                <div className="my-total-points-wrapper">
+                  <h1 className="divider passion-one-font">
+                    <span className="highlight-main">/</span>
+                  </h1>
+                  <Label 
+                    className="my-total-points passion-one-font"                   
+                    text={NumberUtility.shorten(props.player.points.total)} 
+                    tooltip="My Total Points"
+                  />
+                </div>
               </div>
-              <h1 className="my-points-label passion-one-font">My Points</h1>
             </div>
           </div>
         </div>

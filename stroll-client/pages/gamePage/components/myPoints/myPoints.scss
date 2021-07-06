@@ -23,39 +23,58 @@
         border: 1px solid gray(60);
         border-radius: 10px;
         padding: 10px 20px;
+        padding-bottom: 6px;
 
         .my-points-content {    
-          align-items: center;
-          display: flex;
           pointer-events: all;
 
-          &:hover {
-            .tooltip {
-              opacity: 1;
+          .my-available-points-wrapper,
+          .my-total-points-wrapper {
+            &:hover {
+              .tooltip {
+                opacity: 1;
+              }
+            }  
+          }
+
+          .my-available-points-wrapper {
+            .my-available-points {
+              justify-content: flex-end;
+
+              .label-text-wrapper > h1, i {
+                color: gray(230);
+              }
+
+              i {
+                font-size: 1.25em;
+              }
+
+              .label-text-wrapper > h1 {          
+                font-size: 1.75em;
+                margin-left: 10px;
+              }
+            }
+
+            .my-available-points-label {
+              color: gray(120);
+              font-size: 0.8em;
+              text-align: right;
+              text-transform: uppercase;
             }
           }
 
-          .label {
-            > h1, i {
+          .my-total-points-wrapper {
+            display: flex;
+            justify-content: flex-end;
+
+            .divider {
+              margin-right: 6px;
+            }
+
+            .my-total-points {
               color: gray(230);
             }
-
-            i {
-              font-size: 1em;
-            }
-
-            > h1 {          
-              font-size: 1.5em;
-              margin-left: 10px;
-            }
           }
-        }
-        
-        .my-points-label {   
-          color: $themeMain;
-          font-size: 0.8em;
-          text-align: right;
-          text-transform: uppercase;
         }
       }
     }

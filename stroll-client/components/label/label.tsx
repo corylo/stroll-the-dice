@@ -40,7 +40,10 @@ export const Label: React.FC<LabelProps> = (props: LabelProps) => {
     return (
       <div className={classNames("label", "combo", props.className)}>
         <i className={props.icon} style={getStyles()} />
-        <h1 className="passion-one-font" style={getStyles()}>{props.text}{getTooltip()}</h1>         
+        <div className="label-text-wrapper">
+          <h1 className="passion-one-font" style={getStyles()}>{props.text}</h1>         
+          {getTooltip()}
+        </div>
         {getButton()}  
       </div>
     )

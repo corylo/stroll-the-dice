@@ -1,12 +1,12 @@
 .leaderboard-remaining-row {
   align-items: center;
-  display: flex;
-  position: relative;
   background: linear-gradient(to right, rgba(white, 0.03) 2%, transparent 50%, rgba(white, 0.03) 98%);   
   border: 2px solid transparent;
   border-left: 2px solid rgba(white, 0.6);
   border-radius: 6px;
   border-right: 2px solid rgba(white, 0.6);
+  display: flex;
+  position: relative;
   padding: 5px 10px;
 
   &:nth-of-type(n + 2) {

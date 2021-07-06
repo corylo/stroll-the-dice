@@ -3,9 +3,11 @@
     max-width: 540px;
 
     .form-body {
-      background-color: rgba(white, 0.10);
-      border: 1px solid white;
+      background: linear-gradient(to right, rgba(white, 0.05) 2%, transparent 50%, rgba(white, 0.05) 98%);   
+      border: 2px solid transparent;
+      border-left: 2px solid rgba(white, 0.6);
       border-radius: 10px;
+      border-right: 2px solid rgba(white, 0.6);
       padding: 10px;
 
       .label.game-date-status {

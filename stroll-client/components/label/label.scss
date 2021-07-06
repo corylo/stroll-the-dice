@@ -14,9 +14,8 @@
   &.combo {
     align-items: center;
     display: flex;
-    position: relative;
 
-    > h1, i {
+    .label-text-wrapper > h1, i {
       color: white;
     }
 
@@ -24,9 +23,12 @@
       font-size: 0.8em;
     }
 
-    > h1 {
-      margin-left: 10px;
+    .label-text-wrapper {      
       position: relative;
+
+      > h1 {
+        margin-left: 10px;
+      }
     }
   }
 

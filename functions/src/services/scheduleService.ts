@@ -28,7 +28,11 @@ export const ScheduleService: IScheduleService = {
         logger.info(`Updating [${upcomingSnap.size}] games from [${GameStatus.Upcoming}] to [${GameStatus.InProgress}]`);
 
         upcomingSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => {          
-          batch.update(doc.ref, { locked: true, status: GameStatus.InProgress });
+          batch.update(doc.ref, {             
+            locked: true, 
+            progressUpdateAt: firebase.firestore.FieldValue.serverTimestamp(),
+            status: GameStatus.InProgress 
+          });
         });
       }
 
