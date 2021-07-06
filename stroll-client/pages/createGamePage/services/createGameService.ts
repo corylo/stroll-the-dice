@@ -17,7 +17,7 @@ export const CreateGameService: ICreateGameService = {
   createGame: async (game: IGame): Promise<void> => {
     const batch: firebase.firestore.WriteBatch = db.batch();
 
-    const invite: IInvite = InviteUtility.mapCreate(game, game.creator),
+    const invite: IInvite = InviteUtility.mapCreate(game.creator.uid),
       player: IPlayer = PlayerUtility.mapCreate(game.creator, game, invite);
 
     const gameRef: firebase.firestore.DocumentReference<IGame> = db.collection("games")

@@ -19,8 +19,8 @@ import { MatchupUtility } from "../utilities/matchupUtility";
 import { IGame } from "../../../stroll-models/game";
 import { IMatchup } from "../../../stroll-models/matchup";
 import { IMatchupPairGroup } from "../../../stroll-models/matchupPairGroup";
-import { IPlayer } from "../../../stroll-models/player";
 import { IMatchupSideStepUpdate } from "../../../stroll-models/matchupSideStepUpdate";
+import { IPlayer } from "../../../stroll-models/player";
 import { IPrediction } from "../../../stroll-models/prediction";
 
 interface IGameService {

@@ -37,7 +37,7 @@ export const InvitePlayersModal: React.FC<InvitePlayersModalProps> = (props: Inv
             icon="fal fa-link"
             tooltip="Invite"
             tooltipSide={TooltipSide.Bottom}
-            value={InviteUtility.getLink(state.invite)}
+            value={InviteUtility.getLink(state.game.id, state.invite.id)}
           />
         </ModalBody>
       </Modal>

@@ -1,14 +1,12 @@
 import firebase from "firebase/app";
 
-import { defaultProfile, IProfile } from "./profile";
-
 interface IInviteRef {
-  game: string;
+  creator: string;  
   team: string;
 }
 
 export const defaultInviteRef = (): IInviteRef => ({
-  game: "",
+  creator: "",
   team: ""
 });
 
@@ -24,7 +22,6 @@ export const defaultInviteUses = (): IInviteUses => ({
 
 export interface IInvite {
   createdAt: firebase.firestore.FieldValue;
-  creator: IProfile;  
   duration: number;
   id: string;
   ref: IInviteRef;
@@ -33,7 +30,6 @@ export interface IInvite {
 
 export const defaultInvite = (): IInvite => ({
   createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-  creator: defaultProfile(),  
   duration: 0,
   id: "",
   ref: defaultInviteRef(),
@@ -44,7 +40,6 @@ export const inviteConverter: firebase.firestore.FirestoreDataConverter<IInvite>
   toFirestore(invite: IInvite): firebase.firestore.DocumentData {
     return {
       createdAt: invite.createdAt,
-      creator: invite.creator,
       duration: invite.duration,
       ref: invite.ref,
       uses: invite.uses
@@ -58,7 +53,6 @@ export const inviteConverter: firebase.firestore.FirestoreDataConverter<IInvite>
 
     return {
       createdAt: data.createdAt,
-      creator: data.creator,
       duration: data.duration,
       id: snapshot.id,
       ref: data.ref,

@@ -6,27 +6,25 @@ import { UrlUtility } from "./urlUtility";
 
 import { IGame } from "../../stroll-models/game";
 import { IInvite } from "../../stroll-models/invite";
-import { IProfile } from "../../stroll-models/profile";
 import { IUser } from "../models/user";
 
 interface IInviteUtility {
-  getLink: (invite: IInvite) => string;
-  mapCreate: (game: IGame, creator: IProfile) => IInvite;
+  getLink: (gameID: string, inviteID: string) => string;
+  mapCreate: (uid: string) => IInvite;
   showInvite: (id: string, invite: IInvite, game: IGame, user: IUser) => boolean;
 }
 
 export const InviteUtility: IInviteUtility = {
-  getLink: (invite: IInvite): string => {
-    return UrlUtility.getLink(`/game/${invite.ref.game}?invite=${invite.id}`);
+  getLink: (gameID: string, inviteID: string): string => {
+    return UrlUtility.getLink(`/game/${gameID}?invite=${inviteID}`);
   },
-  mapCreate: (game: IGame, creator: IProfile): IInvite => {
+  mapCreate: (uid: string): IInvite => {
     return {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      creator,
       duration: DateUtility.daysToMillis(365),
       id: Nano.generate(28),
       ref: {
-        game: game.id,
+        creator: uid,
         team: "",
       },
       uses: {

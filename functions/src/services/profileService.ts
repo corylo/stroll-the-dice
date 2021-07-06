@@ -5,7 +5,6 @@ import { Change, EventContext, logger } from "firebase-functions";
 import { db } from "../../firebase";
 
 import { GameBatchService } from "./batch/gameBatchService";
-import { InviteBatchService } from "./batch/inviteBatchService";
 import { PlayerBatchService } from "./batch/playerBatchService";
 
 import { ProfileUtility } from "../utilities/profileUtility";
@@ -34,8 +33,6 @@ export const ProfileService: IProfileService = {
 
         await PlayerBatchService.updateProfile(batch, context.params.id, update);
 
-        await InviteBatchService.updateCreator(batch, context.params.id, update);
-  
         const results: firebase.firestore.WriteResult[] = await batch.commit();
   
         logger.info(`Successfully updated ${results.length} documents.`);
