@@ -15,10 +15,10 @@ interface IGameDurationUtility {
   getEndsAt: (startsAt: firebase.firestore.FieldValue, duration: number) => number;
   getOrderBy: (status: GameStatus) => "startsAt" | "endsAt";
   getOrderByDirection: (status: GameStatus) => "asc" | "desc";
-  getTimeRemaining: (game: IGame) => string;
-  getTimeRemainingInToday: (game: IGame, day: number) => string;
   getLabel: (duration: GameDuration) => string;
   getShortLabel: (duration: GameDuration) => string;
+  getTimeRemaining: (game: IGame) => string;
+  getTimeRemainingInToday: (game: IGame, day: number) => string;
   hasDayPassed: (game: IGame) => boolean;
 }
 
@@ -70,17 +70,6 @@ export const GameDurationUtility: IGameDurationUtility = {
 
     return "asc"
   },
-  getTimeRemaining: (game: IGame): string => {    
-    return FirestoreDateUtility.timestampToRelative(game.endsAt);
-  },
-  getTimeRemainingInToday: (game: IGame, day: number): string => {
-    const start: Date = FirestoreDateUtility.timestampToDate(game.startsAt),
-      end: Date = new Date(start);
-
-    end.setDate(start.getDate() + day);
-
-    return DateUtility.secondsToRelative(end.getTime() / 1000);
-  },
   getLabel: (duration: GameDuration): string => {
     switch(duration) {
       case GameDuration.OneMonth:
@@ -108,6 +97,17 @@ export const GameDurationUtility: IGameDurationUtility = {
       default:
         throw new Error(`Unknown game duration: ${duration}`);
     }
+  },
+  getTimeRemaining: (game: IGame): string => {    
+    return FirestoreDateUtility.timestampToRelative(game.endsAt);
+  },
+  getTimeRemainingInToday: (game: IGame, day: number): string => {
+    const start: Date = FirestoreDateUtility.timestampToDate(game.startsAt),
+      end: Date = new Date(start);
+
+    end.setDate(start.getDate() + day);
+
+    return DateUtility.secondsToRelative(end.getTime() / 1000);
   },
   hasDayPassed: (game: IGame): boolean => {
     const date: Date = FirestoreDateUtility.timestampToDate(game.startsAt),

@@ -46,7 +46,7 @@ export const DateUtility: IDateUtility = {
 
     return date;
   },
-  lessThanOrEqualToNow: (seconds: number): boolean => {    
+  lessThanOrEqualToNow: (seconds: number): boolean => {  
     return (seconds * 1000) <= Date.now();
   },
   secondsToLocale: (seconds: number): string => {

@@ -38,7 +38,7 @@ export const useGameListenersEffect = (appState: IAppState, state: IGamePageStat
   }, [appState.user, game, matchups, players, predictions]);
 
   useEffect(() => {        
-    if(state.game.id !== "" && state.player.id !== "") {
+    if(state.game.id !== "" && state.player.id !== "") {      
       const unsubToGame = db.collection("games")
         .doc(state.game.id)
         .withConverter(gameConverter)
@@ -57,7 +57,7 @@ export const useGameListenersEffect = (appState: IAppState, state: IGamePageStat
           let updates: IPlayer[] = [];
 
           snap.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>) =>
-            updates.push({ ...doc.data(), id: doc.id }));
+            updates.push(doc.data()));
           
           setPlayers(updates);
         });
@@ -98,5 +98,5 @@ export const useGameListenersEffect = (appState: IAppState, state: IGamePageStat
         unsubToPredictions();
       }
     }
-  }, [state.game.id, state.player.id]);
+  }, [state.game.id, state.player.id, state.day]);
 }

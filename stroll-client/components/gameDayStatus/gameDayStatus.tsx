@@ -13,22 +13,22 @@ import { GameStatus } from "../../../stroll-enums/gameStatus";
 interface GameDayStatusProps { 
   day: number;
   game: IGame;
-  status: GameStatus;
+  dayStatus: GameStatus;
 }
 
 export const GameDayStatus: React.FC<GameDayStatusProps> = (props: GameDayStatusProps) => {    
-  const { status } = props;
+  const { game, dayStatus } = props;
 
   useCurrentDateEffect();
   
   const getText = (): string => {
-    const timeRemaining: string = GameDurationUtility.getTimeRemainingInToday(props.game, props.day);
+    const timeRemaining: string = GameDurationUtility.getTimeRemainingInToday(game, props.day);
 
-    if(status === GameStatus.Completed) {
+    if(dayStatus === GameStatus.Completed) {
       return "Completed";
-    } else if(status === GameStatus.InProgress) {
+    } else if(dayStatus === GameStatus.InProgress) {
       return `Ends in ${timeRemaining}`;      
-    } else if(status === GameStatus.Upcoming) {
+    } else if(dayStatus === GameStatus.Upcoming) {
       return `Starts in ${timeRemaining}`;      
     }
   }

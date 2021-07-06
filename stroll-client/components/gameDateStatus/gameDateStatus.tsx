@@ -22,9 +22,9 @@ export const GameDateStatus: React.FC<GameDateStatusProps> = (props: GameDateSta
   useCurrentDateEffect();
 
   const getText = (): string => {
-    if(game.status === GameStatus.Completed) {
+    if(game.status === GameStatus.Completed || FirestoreDateUtility.lessThanOrEqualToNow(game.endsAt)) {
       return "Completed";
-    } else if(game.status === GameStatus.InProgress) {
+    } else if(game.status === GameStatus.InProgress || FirestoreDateUtility.lessThanOrEqualToNow(game.startsAt)) {
       return `Ends in ${GameDurationUtility.getTimeRemaining(game)}`;
     } else if (game.status === GameStatus.Upcoming) {
       return `Starts in ${FirestoreDateUtility.timestampToRelative(game.startsAt)}`;

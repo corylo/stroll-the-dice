@@ -54,7 +54,11 @@ export const Matchups: React.FC<MatchupsProps> = (props: MatchupsProps) => {
         <div className="game-matchups-title">
           <h1 className="game-matchups-title-text passion-one-font">Day {props.day} of {props.duration} {getDayLabel()}</h1>
           <h1 className="game-matchups-title-date passion-one-font">{getDate()}</h1>
-          <GameDayStatus day={state.day} game={game} status={dayStatus} />
+          <GameDayStatus 
+            day={state.day} 
+            game={game} 
+            dayStatus={dayStatus} 
+          />
         </div>
         <div className="game-matchups-list">
           {getMatchups()}

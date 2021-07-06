@@ -22,7 +22,7 @@ export const PredictionUtility: IPredictionUtility = {
     
     const validDay: boolean = matchup.day > day,
       validMatchup: boolean = matchup.left.ref !== "" && matchup.right.ref !== "",
-      ifMyMatchupThenOnlyMe: boolean = match && side.ref === player.id,
+      ifMyMatchupThenOnlyMe: boolean = match ? side.ref === player.id : true,
       onlyTheSideIvePredicted: boolean = myPrediction === null || myPrediction.ref.player === side.ref;
 
     return (

@@ -74,6 +74,22 @@ export const useFetchGameEffect = (
   }, [id, appState.status]);
 }
 
+export const useUpdateCurrentDayEffect = (state: IGamePageState, setState: (state: IGamePageState) => void): void => {      
+  useEffect(() => {
+    if(state.game.id !== "") {
+      const interval: NodeJS.Timeout = setInterval(() => {      
+        const day: number = GameDurationUtility.getDay(state.game);
+        
+        if(state.day !== day) {
+          setState({ ...state, day });
+        }
+      }, 100);
+
+      return () => clearInterval(interval);
+    }
+  }, [state.game, state.day]);
+}
+
 export const useGameInviteEffect = (
   appState: IAppState, 
   state: IGamePageState,   
