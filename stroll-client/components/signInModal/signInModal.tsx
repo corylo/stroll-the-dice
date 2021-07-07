@@ -63,10 +63,10 @@ export const SignInModal: React.FC<SignInModalProps> = (props: SignInModalProps)
             <img src="/img/brands/google-logo.png" />
             <h1 className="passion-one-font">Sign In</h1>
           </Button>
-          <Button id="facebook-sign-in-button" className="sign-in-button" handleOnClick={handleSignInWithFacebook}>
+          {/* <Button id="facebook-sign-in-button" className="sign-in-button" handleOnClick={handleSignInWithFacebook}>
             <img src="/img/brands/facebook-logo.png" />
             <h1 className="passion-one-font">Sign In</h1>
-          </Button>
+          </Button> */}
           {/* <Button id="twitter-sign-in-button" className="sign-in-button" handleOnClick={handleSignInWithTwitter}>
             <img src="/img/brands/twitter-logo.png" />
             <h1 className="passion-one-font">Sign In</h1>
