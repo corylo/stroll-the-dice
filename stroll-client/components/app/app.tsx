@@ -51,7 +51,7 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
           <Route exact path="/">
             <HomePage />
           </Route>
-          <Route exact path="/profile">
+          <Route exact path={["/profile", "/profile/connect/:tracker"]}>
             <ProfilePage />
           </Route>
           <Route exact path={["/u/:id", "/u/:id/:username"]}>

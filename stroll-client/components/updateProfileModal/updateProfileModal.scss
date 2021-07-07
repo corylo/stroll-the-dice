@@ -1,5 +1,14 @@
 @import "./components/colorSelector/colorSelector.scss";
 @import "./components/iconSelector/iconSelector.scss";
+@import "./components/stepTrackerHub/stepTrackerHub.scss";
+
+#update-profile-modal {
+  #profile-form {
+    border: 1px solid rgba(white, 0.25);
+    border-radius: 10px;
+    padding: 10px;
+  }
+}
 
 @include phone-or-larger {
   #update-profile-modal {

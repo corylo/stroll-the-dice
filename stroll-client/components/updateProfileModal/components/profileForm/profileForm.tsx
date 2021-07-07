@@ -88,19 +88,6 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props: ProfileFormProps)
     }
   }
 
-  const getBackButton = (): JSX.Element => {
-    if(props.profile && props.profile.username !== "") {
-      return (        
-        <Button
-          className="submit-button fancy-button white passion-one-font" 
-          handleOnClick={props.back}
-        >
-          Back
-        </Button>
-      )
-    }
-  }
-
   return (    
     <Form     
       errors={errors}
@@ -150,7 +137,6 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props: ProfileFormProps)
       </FormBody>   
       <FormActions>
         {getSaveButton()}
-        {getBackButton()}
       </FormActions>
     </Form>
   );

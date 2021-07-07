@@ -4,6 +4,7 @@ import { Modal } from "../modal/modal";
 import { ModalBody } from "../modal/modalBody";
 import { ModalTitle } from "../modal/modalTitle";
 import { ProfileForm } from "./components/profileForm/profileForm";
+import { StepTrackerHub } from "./components/stepTrackerHub/stepTrackerHub";
 
 import { AppContext } from "../app/contexts/appContext";
 
@@ -33,7 +34,7 @@ export const UpdateProfileModal: React.FC<UpdateProfileModalProps> = (props: Upd
 
   const cancel = (): void => { 
     if(user.profile.username !== "") {
-      dispatch(AppAction.ToggleUpdateProfile, false)
+      dispatch(AppAction.ToggleUpdateProfile, false);
     }
   };  
 
@@ -79,6 +80,7 @@ export const UpdateProfileModal: React.FC<UpdateProfileModalProps> = (props: Upd
         {getTitle()}
         <ModalBody>   
           <ProfileForm profile={user.profile} back={cancel} save={save} />
+          <StepTrackerHub />
         </ModalBody>
       </Modal>
     );

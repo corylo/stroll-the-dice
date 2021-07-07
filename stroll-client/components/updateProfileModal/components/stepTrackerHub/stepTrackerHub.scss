@@ -1,0 +1,100 @@
+.step-tracker-hub {
+  border: 1px solid rgba(white, 0.25);
+  border-radius: 10px;
+  margin-top: 30px;
+  padding: 10px;
+  padding-top: 20px;
+  position: relative;
+
+  .step-tracker-hub-label {
+    background-color: gray(30);
+    height: 20px;
+    line-height: 20px;
+    left: 0px;
+    margin-left: 20px;
+    padding: 0px 10px;
+    position: absolute;
+    top: -10px;
+
+    .label {
+      color: gray(200);
+      text-transform: uppercase;
+    }
+  }
+
+  .step-tracker-links {
+    .step-tracker-link,
+    .connected-step-tracker-link {
+      align-items: center;
+      display: flex;
+
+      img {
+        height: 50px;
+      }
+
+      h1 {
+        color: gray(230);
+        font-size: 1.5em;
+        height: 20px;
+        line-height: 20px;
+        margin-left: 10px;
+        text-transform: uppercase;
+      }
+    }
+
+    .step-tracker-link {
+      border: 1px solid rgba(white, 0.2);
+      justify-content: center;
+      width: 100%;
+
+      &:hover,
+      &:focus {
+        background-color: rgba($themeMain, 0.3);
+        border-color: $themeMain;
+      }
+    }
+
+    .connected-step-tracker-link {
+      background: rgba(white, 0.1);
+      border: 1px solid rgba(white, 0.2);
+      border-radius: 6px;
+      justify-content: flex-start;
+      padding: 10px;
+      position: relative;
+      
+      h1 {
+        span {
+          color: $themeMain;
+          font-size: 0.75em;
+          height: 20px;
+          line-height: 20px;
+          margin-left: 5px;
+          vertical-align: top;
+        }
+      }
+
+      .disconnect-step-tracker-button {   
+        background-color: transparent;     
+        margin: 10px;
+        position: absolute;
+        right: 0px;
+
+        &:hover,
+        &:focus {
+          background-color: rgba(white, 0.1);
+          
+          i {
+            color: $themeMain;
+          }
+        }
+
+        i {
+          font-size: 1.5em;
+          height: 40px;
+          line-height: 40px;
+          width: 40px;
+        }
+      }
+    }
+  }
+}

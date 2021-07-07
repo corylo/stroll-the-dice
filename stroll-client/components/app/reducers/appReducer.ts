@@ -3,9 +3,22 @@ import { IAppState } from "../models/appState";
 
 import { AppAction } from "../../../enums/appAction";
 import { AppStatus } from "../../../enums/appStatus";
+import { RequestStatus } from "../../../../stroll-enums/requestStatus";
 
 export const appReducer = (state: IAppState, action: IAction): IAppState => {  
   switch (action.type) {    
+    case AppAction.CompleteStepTrackerConnection:
+      return {
+        ...state,      
+        statuses: {
+          ...state.statuses,
+          tracker: {
+            ...state.statuses.tracker,
+            is: RequestStatus.Success
+          }
+        },
+        tracker: action.payload
+      }
     case AppAction.InitiateSignOut:
       return {
         ...state,        
@@ -13,6 +26,25 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
         toggles: {
           ...state.toggles,
           menu: false
+        }
+      }
+    case AppAction.InitiateStepTrackerConnection:
+      return {
+        ...state,      
+        statuses: {
+          ...state.statuses,
+          tracker: {
+            ...state.statuses.tracker,
+            is: RequestStatus.Loading
+          }
+        },
+        tracker: {
+          ...state.tracker,
+          name: action.payload
+        },
+        toggles: {
+          ...state.toggles,
+          profile: true
         }
       }
     case AppAction.SetProfile:
@@ -32,7 +64,8 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
       return {
         ...state,
         status: AppStatus.SignedIn,
-        user: action.payload
+        tracker: action.payload.tracker,
+        user: action.payload.user
       }
     case AppAction.SignInUserForFirstTime:
       return {
