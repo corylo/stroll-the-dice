@@ -82,7 +82,7 @@ export const GameService: IGameService = {
 
     snap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot) => 
       ids.push(doc.id));
-      
+
     return ids.length > 0
       ? await GameService.getAllByList(ids)
       : [];

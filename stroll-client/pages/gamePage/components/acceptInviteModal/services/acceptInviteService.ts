@@ -36,7 +36,8 @@ export const AcceptInviteService: IAcceptInviteService = {
       id: game.id,
       name: game.name.toLowerCase(), 
       startsAt: game.startsAt,
-      status: game.status
+      status: game.status,
+      endsAt: game.endsAt
     });
 
     return await batch.commit();
