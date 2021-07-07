@@ -14,6 +14,7 @@ export enum LeaderboardSort {
 }
 
 interface LeaderboardProps {  
+  limit?: number;
   players: IPlayer[];
   showTitle?: boolean;
   sort: LeaderboardSort;
@@ -53,8 +54,12 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
 
       return getRemainingRows(players);
     } else {
-      const players: IPlayer[] = _orderBy(props.players, ["points.total", (player: IPlayer) => player.profile.username.toLowerCase()], ["desc", "asc"]);
-      
+      const players: IPlayer[] = _orderBy(
+        props.players, 
+        ["points.total", (player: IPlayer) => player.profile.username.toLowerCase()], 
+        ["desc", "asc"]
+      ).slice(0, props.limit || props.players.length);
+
       const remainingRows: JSX.Element = players.length > 3
         ? getRemainingRows(players.slice(3), 4)
         : null;

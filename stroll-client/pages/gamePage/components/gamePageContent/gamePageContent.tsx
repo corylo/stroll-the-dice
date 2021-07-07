@@ -50,7 +50,8 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
       if(game.status !== GameStatus.Upcoming && players.length > 3) {
         return (
           <Leaderboard 
-            players={players.slice(0, 4)} 
+            limit={4}
+            players={players} 
             showTitle
             sort={LeaderboardSort.Points} 
             toggleView={() => toggle({ players: true })}
