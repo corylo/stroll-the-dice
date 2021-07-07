@@ -41,36 +41,30 @@ export const SignInModal: React.FC<SignInModalProps> = (props: SignInModalProps)
       auth.signInWithRedirect(provider);
     }
   
-    const handleSignInWithFacebook = async () => {
-      const provider: firebase.auth.GoogleAuthProvider = new firebase.auth.FacebookAuthProvider();
+    const handleSignInWithTwitter = async () => {
+      const provider: firebase.auth.TwitterAuthProvider = new firebase.auth.TwitterAuthProvider();
+  
+      provider.setCustomParameters({ prompt: "select_account" });
   
       auth.signInWithRedirect(provider);
     }
-
-    // const handleSignInWithTwitter = async () => {
-    //   const provider: firebase.auth.TwitterAuthProvider = new firebase.auth.TwitterAuthProvider();
-  
-    //   provider.setCustomParameters({ prompt: "select_account" });
-  
-    //   auth.signInWithRedirect(provider);
-    // }
 
     return (
       <Modal id="sign-in-modal" priority>
         <ModalTitle text="Sign In" handleOnClose={() => dispatch(AppAction.ToggleSignIn, false)} />
         <ModalBody>
-          <Button id="google-sign-in-button" className="sign-in-button" handleOnClick={handleSignInWithGoogle}>
-            <img src="/img/brands/google-logo.png" />
-            <h1 className="passion-one-font">Sign In</h1>
-          </Button>
-          {/* <Button id="facebook-sign-in-button" className="sign-in-button" handleOnClick={handleSignInWithFacebook}>
-            <img src="/img/brands/facebook-logo.png" />
-            <h1 className="passion-one-font">Sign In</h1>
-          </Button> */}
-          {/* <Button id="twitter-sign-in-button" className="sign-in-button" handleOnClick={handleSignInWithTwitter}>
-            <img src="/img/brands/twitter-logo.png" />
-            <h1 className="passion-one-font">Sign In</h1>
-          </Button> */}
+          <div className="sign-in-buttons">
+            <Button id="google-sign-in-button" className="sign-in-button" handleOnClick={handleSignInWithGoogle}>
+              <div className="sign-in-button-logo">
+                <img src="/img/brands/google-logo.png" />
+              </div>
+            </Button>
+            <Button id="twitter-sign-in-button" className="sign-in-button" handleOnClick={handleSignInWithTwitter}>
+              <div className="sign-in-button-logo">
+                <img src="/img/brands/twitter-logo.png" />
+              </div>
+            </Button>      
+          </div>
           {/* <div id="sign-in-disclaimer">
             <h1 className="passion-one-font">By signing in you agree to our <a href="https://legal.strollthedice.com/privacy">Privacy Policy</a> and <a href="https://legal.strollthedice.com/terms">Terms & Conditions</a></h1>
           </div> */}

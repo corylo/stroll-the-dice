@@ -1,39 +1,35 @@
 #sign-in-modal {
-  .sign-in-button {
-    height: 60px;
-    margin-top: 10px;
-    width: 100%;
+  .sign-in-buttons {
+    display: grid;
+    grid-gap: 1em;
+    grid-template-columns: repeat(auto-fill, minmax(40%, 1fr)); 
 
-    &:hover,
-    &:focus {
-      background-color: rgba(white, 0.2);
+    .sign-in-button {
+      border: 1px solid rgba(white, 0.2);
+      margin-top: 10px;
+      width: 100%;
+
+      &:hover,
+      &:focus {
+        background-color: rgba($themeMain, 0.3);
+        border-color: $themeMain;
+      }
+
+      img {
+        height: 30px;
+        margin: 5px 0px;
+        width: 30px;
+      }
     }
 
-    img, h1 {
-      display: inline-block;
-      vertical-align: top;
-    }
-
-    img {
-      height: 30px;
-      margin: 5px 0px;
-      width: 30px;
-    }
-
-    h1 {  
-      color: white;
-      font-size: 1.5em;
-      height: 40px;
-      line-height: 40px;
-      margin-left: 10px;
-    }
-  }
-
-  #twitter-sign-in-button {
-    img {
-      height: 40px;
-      margin: 0px;
-      width: 40px;
+    #twitter-sign-in-button {
+      .sign-in-button-logo {
+        img {
+          height: 40px;
+          margin: 0px;
+          width: 40px;
+        }
+      }
     }
   }
 

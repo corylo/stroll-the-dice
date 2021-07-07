@@ -18,8 +18,7 @@ import { DocumentType } from "../../stroll-enums/documentType";
 
 export const useAuthStateChangedEffect = (appState: IAppState, dispatch: (type: AppAction, payload?: any) => void): void => {
   useEffect(() => {
-    const unsub = auth.onAuthStateChanged(async (firebaseUser: firebase.User) => {        
-      console.log(firebaseUser)
+    const unsub = auth.onAuthStateChanged(async (firebaseUser: firebase.User) => {      
       if(firebaseUser && appState.user === null) {        
         const user: IUser = UserUtility.mapUser(firebaseUser);
         
