@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import classNames from "classnames";
 
+import { EmptyMessage } from "../emptyMessage/emptyMessage";
 import { GameLink } from "../gameLink/gameLink";
 import { LoadingIcon } from "../loadingIcon/loadingIcon";
 
@@ -61,9 +62,7 @@ export const Games: React.FC<GamesProps> = (props: GamesProps) => {
   const getEmptyMessage = (): JSX.Element => {
     if(status !== RequestStatus.Loading && games.length === 0) {
       return (
-        <div className="empty-message">
-          <h1 className="passion-one-font">{props.emptyMessage}</h1>
-        </div>
+        <EmptyMessage text={props.emptyMessage} />
       )
     }
   }

@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 
+import { EmptyMessage } from "../../components/emptyMessage/emptyMessage";
 import { Page } from "../../components/page/page";
 import { PageTitle } from "../../components/page/pageTitle";
 
@@ -23,6 +24,7 @@ export const NotificationsPage: React.FC<NotificationsPageProps> = (props: Notif
       requireAuth
     >     
       <PageTitle text="Notifications" />
+      <EmptyMessage text="You don't have any notifications yet!" />
     </Page>
   )
 }
