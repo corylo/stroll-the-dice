@@ -2,7 +2,7 @@ import firebase from "firebase/app";
 import { IGame } from "../../stroll-models/game";
 
 import { IInvite } from "../../stroll-models/invite";
-import { IPlayer } from "../../stroll-models/player";
+import { defaultPlayer, IPlayer } from "../../stroll-models/player";
 import { IProfile } from "../../stroll-models/profile";
 import { IUser } from "../models/user";
 
@@ -14,14 +14,14 @@ interface IPlayerUtility {
 
 export const PlayerUtility: IPlayerUtility = {
   getById: (id: string, players: IPlayer[]): IPlayer => {
-    return players.find((player: IPlayer) => player.id === id) || null;
+    return players.find((player: IPlayer) => player.id === id) || defaultPlayer();
   },
   getByUser: (user: IUser, players: IPlayer[]): IPlayer => {
     if(user && user.profile) {      
       return PlayerUtility.getById(user.profile.uid, players);
     }
 
-    return null;
+    return defaultPlayer();
   },
   mapCreate: (profile: IProfile, game: IGame, invite: IInvite): IPlayer => {
     return {

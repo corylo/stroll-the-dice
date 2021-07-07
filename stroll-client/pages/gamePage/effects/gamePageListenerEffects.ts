@@ -18,20 +18,32 @@ export const useGameListenersEffect = (appState: IAppState, state: IGamePageStat
     [players, setPlayers] = useState<IPlayer[]>([]),
     [matchups, setMatchups] = useState<IMatchup[]>([]),
     [predictions, setPredictions] = useState<IPrediction[]>([]);
-  
+
   useEffect(() => {    
-    const updates: IGamePageState = {
-      ...state,
-      game,
-      matchups: MatchupUtility.mapPlayers(matchups, players), 
-      players, 
-      predictions
+    const updates: IGamePageState = { ...state };
+
+    if(game.id !== "") {
+      updates.game = game;
     }
 
     const player: IPlayer = PlayerUtility.getByUser(appState.user, players);
 
+    console.log("doin updates", players, player)
+
     if(player) {
       updates.player = player;
+    }
+
+    if(matchups.length > 0) {
+      updates.matchups = MatchupUtility.mapPlayers(matchups, players);
+    }
+
+    if(players.length > 0) {
+      updates.players = players;
+    }
+
+    if(predictions.length > 0) {
+      updates.predictions = predictions;
     }
 
     setState(updates);
@@ -39,6 +51,7 @@ export const useGameListenersEffect = (appState: IAppState, state: IGamePageStat
 
   useEffect(() => {        
     if(state.game.id !== "" && state.player.id !== "") {      
+      console.log("listening", state.player)
       const unsubToGame = db.collection("games")
         .doc(state.game.id)
         .withConverter(gameConverter)

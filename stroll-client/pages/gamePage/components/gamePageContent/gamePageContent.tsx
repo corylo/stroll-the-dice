@@ -40,8 +40,8 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
       setState({ ...state, toggles: { ...toggles, ...updates } });
     }
 
-    const togglePlayers = (): any => {
-      if(player) {
+    const togglePlayers = (): any => {      
+      if(player.id !== "") {
         return () => toggle({ players: true });
       }
     }
