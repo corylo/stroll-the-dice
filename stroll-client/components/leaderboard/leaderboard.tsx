@@ -84,7 +84,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
   const getViewButton = (): JSX.Element => {
     if(props.toggleView) {
       return (
-        <Button className="leaderboard-view-button passion-one-font" handleOnClick={props.toggleView}>View All</Button>
+        <Button className="view-leaderboard-button passion-one-font" handleOnClick={props.toggleView}>View Full Leaderboard</Button>
       )
     }
   }

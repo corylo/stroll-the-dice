@@ -1,7 +1,15 @@
 .game-matchups {
+  background-color: rgba(white, 0.03);
+  border: 2px solid rgba(white, 0.4);    
+  border-bottom: 2px solid transparent;
+  border-radius: 10px;
+  border-top: 2px solid transparent;
+  padding: 20px 10px;
   margin-top: 20px;
 
   .game-matchups-title {
+    position: relative;
+
     .game-matchups-title-text {
       color: gray(230);
       font-size: 2em;
@@ -15,13 +23,41 @@
     .game-day-status {
       margin-top: 5px;
     }
+
+    .hide-matchups-button {
+      position: absolute;
+      right: 0px;
+      top: 0px;
+
+      &:hover,
+      &:focus {
+        background-color: rgba(white, 0.2);
+        color: $themeMain;
+      }
+
+      i {        
+        font-size: 0.9em;
+        height: 36px;
+        line-height: 36px;
+        width: 36px;
+      }
+    }
   }
 
   .game-matchups-list {
-    border: 2px solid rgba(white, 0.25);    
-    border-bottom: 2px solid transparent;
-    border-radius: 10px;
-    border-top: 2px solid transparent;
     margin-top: 10px;
+  }
+  
+  .view-matchups-button {
+    background-color: rgba(white, 0.1);
+    margin-top: 10px;
+    padding: 15px 0px;
+    width: 100%;
+
+    &:hover,
+    &:focus {
+      background-color: rgba(white, 0.2);
+      color: $themeMain;
+    }
   }
 }

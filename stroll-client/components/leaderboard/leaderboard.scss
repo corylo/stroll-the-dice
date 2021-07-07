@@ -17,7 +17,7 @@
     }
   }
 
-  .leaderboard-view-button {
+  .view-leaderboard-button {
     background-color: rgba(white, 0.1);
     margin-top: 10px;
     padding: 15px 10px;
@@ -34,8 +34,8 @@
 @include phone-or-larger {
   .leaderboard {    
     border: 2px solid transparent;
-    border-left: 2px solid rgba(white, 0.25);
-    border-right: 2px solid rgba(white, 0.25);
+    border-left: 2px solid rgba(white, 0.4);
+    border-right: 2px solid rgba(white, 0.4);
     border-radius: 10px;
     padding: 10px;
   }

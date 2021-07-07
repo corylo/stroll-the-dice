@@ -1,6 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import classNames from "classnames";
 
+import { Button } from "../../../../components/buttons/button";
+import { IconButton } from "../../../../components/buttons/iconButton";
 import { GameDayStatus } from "../../../../components/gameDayStatus/gameDayStatus";
 import { Matchup } from "../matchup/matchup";
 
@@ -13,6 +15,7 @@ import { UrlUtility } from "../../../../utilities/urlUtility";
 import { IMatchup } from "../../../../../stroll-models/matchup";
 
 import { GameStatus } from "../../../../../stroll-enums/gameStatus";
+import { TooltipSide } from "../../../../components/tooltip/tooltip";
 
 interface MatchupsProps {  
   day: number;
@@ -23,15 +26,12 @@ interface MatchupsProps {
 export const Matchups: React.FC<MatchupsProps> = (props: MatchupsProps) => {  
   const { state } = useContext(GamePageContext);
 
+  const [minimized, setMinimized] = useState<boolean>(props.day !== state.day);
+
   if(props.matchups.length > 0) {
     const { game } = state;
 
     const dayStatus: GameStatus = GameDurationUtility.getDayStatus(props.day, state.day);
-
-    const getMatchups = (): JSX.Element[] => {
-      return props.matchups.map((matchup: IMatchup) =>       
-        <Matchup key={matchup.id} dayStatus={dayStatus} matchup={matchup} />);
-    }
 
     const getDate = (): string => {
       const date: Date = FirestoreDateUtility.timestampToDate(game.startsAt);
@@ -49,6 +49,47 @@ export const Matchups: React.FC<MatchupsProps> = (props: MatchupsProps) => {
       }
     }
 
+    const getMatchupsList = (): JSX.Element => {
+      if(!minimized) {
+        const getMatchups = (): JSX.Element[] => {
+          return props.matchups.map((matchup: IMatchup) =>       
+            <Matchup key={matchup.id} dayStatus={dayStatus} matchup={matchup} />);
+        }
+
+        return (
+          <div className="game-matchups-list">
+            {getMatchups()}
+          </div>
+        )
+      }
+    }
+
+    const getViewButton = (): JSX.Element => {
+      if(minimized) {
+        const text: string = props.day === state.day + 1
+          ? "Predictions Are Open!"
+          : "View Matchups";
+
+        return (
+          <Button className="view-matchups-button passion-one-font" handleOnClick={() => setMinimized(false)}>{text}</Button>
+        )
+      }
+    }
+
+    const getHideButton = (): JSX.Element => {
+      if(!minimized) {        
+        return (
+          <IconButton 
+            className="hide-matchups-button"
+            icon="fal fa-horizontal-rule" 
+            tooltip="Hide"
+            tooltipSide={TooltipSide.Left}
+            handleOnClick={() => setMinimized(true)}
+          />    
+        )
+      }
+    }
+
     return (
       <div className={classNames("game-matchups", UrlUtility.format(dayStatus))}>
         <div className="game-matchups-title">
@@ -59,10 +100,10 @@ export const Matchups: React.FC<MatchupsProps> = (props: MatchupsProps) => {
             game={game} 
             dayStatus={dayStatus} 
           />
+          {getHideButton()}
         </div>
-        <div className="game-matchups-list">
-          {getMatchups()}
-        </div>
+        {getMatchupsList()}
+        {getViewButton()}
       </div>
     );
   }
