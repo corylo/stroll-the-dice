@@ -28,8 +28,6 @@ export const useGameListenersEffect = (appState: IAppState, state: IGamePageStat
 
     const player: IPlayer = PlayerUtility.getByUser(appState.user, players);
 
-    console.log("doin updates", players, player)
-
     if(player) {
       updates.player = player;
     }
@@ -50,8 +48,7 @@ export const useGameListenersEffect = (appState: IAppState, state: IGamePageStat
   }, [appState.user, game, matchups, players, predictions]);
 
   useEffect(() => {        
-    if(state.game.id !== "" && state.player.id !== "") {      
-      console.log("listening", state.player)
+    if(state.game.id !== "" && state.player.id !== "") {     
       const unsubToGame = db.collection("games")
         .doc(state.game.id)
         .withConverter(gameConverter)

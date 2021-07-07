@@ -41,6 +41,12 @@ export const SignInModal: React.FC<SignInModalProps> = (props: SignInModalProps)
       auth.signInWithRedirect(provider);
     }
   
+    const handleSignInWithFacebook = async () => {
+      const provider: firebase.auth.GoogleAuthProvider = new firebase.auth.FacebookAuthProvider();
+  
+      auth.signInWithRedirect(provider);
+    }
+
     // const handleSignInWithTwitter = async () => {
     //   const provider: firebase.auth.TwitterAuthProvider = new firebase.auth.TwitterAuthProvider();
   
@@ -55,6 +61,10 @@ export const SignInModal: React.FC<SignInModalProps> = (props: SignInModalProps)
         <ModalBody>
           <Button id="google-sign-in-button" className="sign-in-button" handleOnClick={handleSignInWithGoogle}>
             <img src="/img/brands/google-logo.png" />
+            <h1 className="passion-one-font">Sign In</h1>
+          </Button>
+          <Button id="facebook-sign-in-button" className="sign-in-button" handleOnClick={handleSignInWithFacebook}>
+            <img src="/img/brands/facebook-logo.png" />
             <h1 className="passion-one-font">Sign In</h1>
           </Button>
           {/* <Button id="twitter-sign-in-button" className="sign-in-button" handleOnClick={handleSignInWithTwitter}>
