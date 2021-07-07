@@ -1,8 +1,10 @@
 import firebase from "firebase-admin";
 
+import { db } from "../../firebase";
+
 import { NumberUtility } from "../../../stroll-utilities/numberUtility";
 
-import { defaultMatchupSideTotal, IMatchup, IMatchupSide } from "../../../stroll-models/matchup";
+import { defaultMatchupSideTotal, IMatchup, IMatchupSide, matchupConverter } from "../../../stroll-models/matchup";
 import { IMatchupPair } from "../../../stroll-models/matchupPair";
 import { IMatchupPairGroup } from "../../../stroll-models/matchupPairGroup";
 import { IMatchupSideStepUpdate } from "../../../stroll-models/matchupSideStepUpdate";
@@ -19,9 +21,10 @@ interface IMatchupUtility {
   generateDayOnePairs: (numberOfPlayers: number) => IMatchupPair[];
   generatePairGroups: (numberOfDays: number, numberOfPlayers: number) => IMatchupPairGroup[];
   getAdjustedPlayerCount: (numberOfPlayers: number) => number;
-  getByPrediction: (predictionMatchupRef: string, matchups: IMatchup[]) => IMatchup;
+  getByID: (id: string, matchups: IMatchup[]) => IMatchup;
   getCombinationsOfPair: (pair: IMatchupPair, list: IMatchupPair[]) => IMatchupPair[];
   getLeader: (matchup: IMatchup) => string;
+  getMatchupRef: (gameID: string, matchupID?: string) => firebase.firestore.DocumentReference;
   getWinnerOdds: (matchup: IMatchup) => number;
   mapCreate: (leftID: string, rightID: string, day: number) => IMatchup;
   mapMatchupsFromPairGroups: (groups: IMatchupPairGroup[], players: IPlayer[]) => IMatchup[];
@@ -129,8 +132,8 @@ export const MatchupUtility: IMatchupUtility = {
       ? numberOfPlayers 
       : numberOfPlayers + 1;
   },
-  getByPrediction: (predictionMatchupRef: string, matchups: IMatchup[]): IMatchup => {
-    return matchups.find((matchup: IMatchup) => matchup.id === predictionMatchupRef);
+  getByID: (id: string, matchups: IMatchup[]): IMatchup => {
+    return matchups.find((matchup: IMatchup) => matchup.id === id);
   },
   getCombinationsOfPair: (pair: IMatchupPair, list: IMatchupPair[]): IMatchupPair[] => {
     return list.filter((listPair: IMatchupPair) => (
@@ -150,6 +153,13 @@ export const MatchupUtility: IMatchupUtility = {
     }
 
     return leader;
+  },
+  getMatchupRef: (gameID: string, matchupID?: string): firebase.firestore.DocumentReference => {
+    return db.collection("games")
+      .doc(gameID)
+      .collection("matchups")
+      .withConverter<IMatchup>(matchupConverter)
+      .doc(matchupID || null);
   },
   getWinnerOdds: (matchup: IMatchup): number => {
     if(matchup.winner !== "" && matchup.winner !== MatchupLeader.Tie) {

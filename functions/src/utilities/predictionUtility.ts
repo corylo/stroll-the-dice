@@ -4,6 +4,8 @@ import { IMatchup } from "../../../stroll-models/matchup";
 import { IPrediction } from "../../../stroll-models/prediction";
 import { IPlayer } from "../../../stroll-models/player";
 
+import { MatchupLeader } from "../../../stroll-enums/matchupLeader";
+
 interface IPredictionUtility {    
   determineIfCorrect: (prediction: IPrediction, matchups: IMatchup[]) => boolean;        
   determineNewAvailablePoints: (player: IPlayer, matchups: IMatchup[], allPredictions: IPrediction[]) => number;
@@ -20,9 +22,13 @@ interface IPredictionUtility {
 
 export const PredictionUtility: IPredictionUtility = {
   determineIfCorrect: (prediction: IPrediction, matchups: IMatchup[]): boolean => {
-    const matchup: IMatchup = MatchupUtility.getByPrediction(prediction.ref.matchup, matchups);
+    const matchup: IMatchup = MatchupUtility.getByID(prediction.ref.matchup, matchups);
 
-    return matchup.winner === prediction.ref.player;
+    if(matchup.winner !== "" && matchup.winner !== MatchupLeader.Tie) {
+      return matchup.winner === prediction.ref.player;
+    }
+    
+    return true;
   },
   determineNewAvailablePoints: (player: IPlayer, matchups: IMatchup[], allPredictions: IPrediction[]): number => {
     const grossPayout: number = PredictionUtility.sumCorrectPredictionsWithOdds(player.id, matchups, allPredictions);
@@ -77,7 +83,7 @@ export const PredictionUtility: IPredictionUtility = {
       let sum: number = 0;
   
       predictions.forEach((prediction: IPrediction) => {
-        const matchup: IMatchup = MatchupUtility.getByPrediction(prediction.ref.matchup, matchups);
+        const matchup: IMatchup = MatchupUtility.getByID(prediction.ref.matchup, matchups);
 
         sum += (prediction.amount * MatchupUtility.getWinnerOdds(matchup));
       });

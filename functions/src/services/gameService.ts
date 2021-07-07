@@ -66,22 +66,14 @@ export const GameService: IGameService = {
           const predictions: IPrediction[] = await PredictionService.getAllForMatchups(context.params.id, matchups),          
             updates: IMatchupSideStepUpdate[] = await StepService.getUpdates(matchups);   
 
-          matchups = MatchupUtility.mapStepUpdates(matchups, updates);
-
-          matchups = MatchupUtility.setWinners(matchups);
-
-          await PlayerTransactionService.distributePayoutsAndFinalizeSteps(context.params.id, matchups, predictions);
+          await PlayerTransactionService.distributePayoutsAndFinalizeSteps(context.params.id, matchups, updates, predictions);
         } else {
           logger.info(`Progress update for game [${context.params.id}] on day [${day}].`);
 
-          const players: IPlayer[] = await PlayerService.getByGame(context.params.id),
-            matchups: IMatchup[] = await MatchupService.getByGameAndDay(context.params.id, day);
-            
-          logger.info(`Updating steps for [${players.length}] players in [${matchups.length}] matchups in game [${context.params.id}].`);
-  
-          const updates: IMatchupSideStepUpdate[] = await StepService.getUpdates(matchups);
-  
-          await MatchupBatchService.updateAll(context.params.id, MatchupUtility.mapStepUpdates(matchups, updates));
+          const matchups: IMatchup[] = await MatchupService.getByGameAndDay(context.params.id, day),            
+            updates: IMatchupSideStepUpdate[] = await StepService.getUpdates(matchups);
+
+          await PlayerTransactionService.distributePointsAndUpdateSteps(context.params.id, matchups, updates);  
         }
       } else if (GameUtility.inProgressToCompleted(before, after)) {
         logger.info(`Game [${context.params.id}] is now complete.`);
