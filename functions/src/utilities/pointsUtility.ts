@@ -14,7 +14,7 @@ export const PointsUtility: IPointsUtility = {
     if(update) {
       player.points = {
         available: player.points.available + update.steps,
-        total: player.points.available + update.steps
+        total: player.points.total + update.steps
       }
     }
 

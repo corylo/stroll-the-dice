@@ -212,11 +212,11 @@ export const MatchupUtility: IMatchupUtility = {
         rightUpdate: IMatchupSideStepUpdate = MatchupUtility.findStepUpdate(matchup.right.ref, updates);
 
       if(leftUpdate) {
-        matchup.left.steps = leftUpdate.steps;
+        matchup.left.steps += leftUpdate.steps;
       }
 
       if(rightUpdate) {
-        matchup.right.steps = rightUpdate.steps;
+        matchup.right.steps += rightUpdate.steps;
       }
 
       return matchup;

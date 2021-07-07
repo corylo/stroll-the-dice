@@ -14,7 +14,7 @@ export const StepService: IStepService = {
   getUpdate: async (playerID: string, steps: number): Promise<IMatchupSideStepUpdate> => {
     if(playerID !== "") {
       try {
-        steps = steps + NumberUtility.random(0, 2000);
+        steps = NumberUtility.random(0, 2000);
       } catch (err) {
         logger.error(err);
       }

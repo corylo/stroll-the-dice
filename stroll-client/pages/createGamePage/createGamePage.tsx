@@ -34,7 +34,7 @@ export const CreateGamePage: React.FC<CreateGamePageProps> = (props: CreateGameP
   }
 
   return(
-    <Page id="create-game-page" backgroundGraphic={ImageUtility.getGraphic("hiking")}>    
+    <Page id="create-game-page" backgroundGraphic={ImageUtility.getGraphic("hiking")} requireAuth>    
       <GameForm title="Create Game" forwarding save={save} />
     </Page>
   )

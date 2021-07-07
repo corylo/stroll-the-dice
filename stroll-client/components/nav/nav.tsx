@@ -1,21 +1,17 @@
-import React, { useContext } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
-
-import { AppContext } from "../app/contexts/appContext";
-
-import { AppStatus } from "../../enums/appStatus";
 
 interface NavProps {}
 
 export const Nav: React.FC<NavProps> = (props: NavProps) => {
-  const { appState } = useContext(AppContext);
-
-  const { status } = appState;
-
-  const getAuthenticatedLinks = (): JSX.Element => {
-    if(status === AppStatus.SignedIn) {
-      return (
-        <React.Fragment>
+  return (
+    <div id="nav-menu-wrapper">    
+      <div id="nav-menu">
+        <div id="nav-menu-content">
+          <NavLink to="/" className="nav-menu-button" exact>
+            <i className="far fa-home" />
+            <h1 className="passion-one-font">Home</h1>
+          </NavLink>
           <NavLink to="/create" className="nav-menu-button" exact>
             <i className="fal fa-plus" />
             <h1 className="passion-one-font">Create Game</h1>
@@ -32,20 +28,6 @@ export const Nav: React.FC<NavProps> = (props: NavProps) => {
             <i className="fal fa-bell" />
             <h1 className="passion-one-font">Notifications</h1>
           </NavLink>
-        </React.Fragment>
-      )
-    }
-  }
-
-  return (
-    <div id="nav-menu-wrapper">    
-      <div id="nav-menu">
-        <div id="nav-menu-content">
-          <NavLink to="/" className="nav-menu-button" exact>
-            <i className="far fa-home" />
-            <h1 className="passion-one-font">Home</h1>
-          </NavLink>
-          {getAuthenticatedLinks()}
         </div>
       </div>
     </div>

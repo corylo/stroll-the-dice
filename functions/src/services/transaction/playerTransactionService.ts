@@ -53,32 +53,6 @@ export const PlayerTransactionService: IPlayerTransactionService = {
 
     transaction.set(matchupRef, MatchupUtility.mapCreate(player.id, "", 1));
   },
-  distributePointsAndUpdateSteps: async (gameID: string, matchups: IMatchup[], updates: IMatchupSideStepUpdate[]): Promise<void> => {
-    try {
-      const playersRef: firebase.firestore.Query = PlayerUtility.getPlayersRef(gameID);
-
-      await db.runTransaction(async (transaction: firebase.firestore.Transaction) => {
-        const playerSnap: firebase.firestore.QuerySnapshot = await transaction.get(playersRef);
-
-        if(!playerSnap.empty) {    
-          matchups = MatchupUtility.mapStepUpdates(matchups, updates);
-
-          playerSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>) => {
-            const player: IPlayer = PointsUtility.updatePointsForSteps(doc.data(), updates);
-
-            transaction.update(doc.ref, {
-              points: player.points,
-              updatedAt: firebase.firestore.FieldValue.serverTimestamp() 
-            });
-          }); 
-
-          MatchupTransactionService.updateAll(transaction, gameID, matchups);    
-        }
-      });
-    } catch (err) {
-      logger.error(err);
-    }
-  },
   distributePayoutsAndFinalizeSteps: async (gameID: string, matchups: IMatchup[], updates: IMatchupSideStepUpdate[], predictions: IPrediction[]): Promise<void> => {
     try {
       const playersRef: firebase.firestore.Query = PlayerUtility.getPlayersRef(gameID);
@@ -107,6 +81,32 @@ export const PlayerTransactionService: IPlayerTransactionService = {
           });
 
           MatchupTransactionService.updateAll(transaction, gameID, matchups);          
+        }
+      });
+    } catch (err) {
+      logger.error(err);
+    }
+  },
+  distributePointsAndUpdateSteps: async (gameID: string, matchups: IMatchup[], updates: IMatchupSideStepUpdate[]): Promise<void> => {
+    try {
+      const playersRef: firebase.firestore.Query = PlayerUtility.getPlayersRef(gameID);
+
+      await db.runTransaction(async (transaction: firebase.firestore.Transaction) => {
+        const playerSnap: firebase.firestore.QuerySnapshot = await transaction.get(playersRef);
+
+        if(!playerSnap.empty) {    
+          matchups = MatchupUtility.mapStepUpdates(matchups, updates);
+
+          playerSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>) => {
+            const player: IPlayer = PointsUtility.updatePointsForSteps(doc.data(), updates);
+
+            transaction.update(doc.ref, {
+              points: player.points,
+              updatedAt: firebase.firestore.FieldValue.serverTimestamp() 
+            });
+          }); 
+
+          MatchupTransactionService.updateAll(transaction, gameID, matchups);    
         }
       });
     } catch (err) {
