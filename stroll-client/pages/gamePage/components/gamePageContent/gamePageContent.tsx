@@ -82,7 +82,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
           <h1 className="game-name passion-one-font">{game.name}</h1>
           <GameDetails game={game} togglePlayers={togglePlayers()} />
           <GameActions 
-            creator={game.creator}
+            game={game}
             invite={invite}
             toggleInvite={() => toggle({ invite: true })}
             toggleUpdate={() => toggle({ update: true })}

@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 
 import { Brand } from "../brand/brand";
 import { Button } from "../buttons/button";
+import { IconButton } from "../buttons/iconButton";
 import { ProfileIcon } from "../profileIcon/profileIcon";
 
 import { AppContext } from "../app/contexts/appContext";
@@ -42,13 +43,12 @@ export const Navbar: React.FC<NavbarProps> = (props: NavbarProps) => {
       )
     } else if (status === AppStatus.SignedOut) {
       return (
-        <Button 
+        <IconButton 
           id="sign-in-button" 
-          className="passion-one-font fancy-button white" 
-          handleOnClick={() => dispatch(AppAction.ToggleSignIn, !toggles.signIn)}
-        >
-          Sign In
-        </Button>
+          className="fancy-button white"
+          icon="fad fa-sign-in"          
+          handleOnClick={() => dispatch(AppAction.ToggleSignIn, !toggles.signIn)} 
+        />        
       )
     }
   }
