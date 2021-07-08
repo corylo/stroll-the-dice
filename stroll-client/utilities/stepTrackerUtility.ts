@@ -1,5 +1,6 @@
 import { UrlUtility } from "./urlUtility";
 
+import { ClientID } from "../../stroll-enums/clientID";
 import { StepTracker } from "../../stroll-enums/stepTracker";
 
 interface IStepTrackerUtility {
@@ -15,10 +16,10 @@ export const StepTrackerUtility: IStepTrackerUtility = {
 
     if(param !== "") {
       switch(param) {
-        case UrlUtility.format(StepTracker.Fitbit):        
-          return StepTracker.Fitbit;
+        case UrlUtility.format(StepTracker.GoogleFit):        
+          return StepTracker.GoogleFit;
         default:
-          throw new Error(`Step tracker [${param}] is not valid.`);
+          throw new Error(`Unknown step tracker: [${param}]`);
       }    
     }
 
@@ -26,10 +27,10 @@ export const StepTrackerUtility: IStepTrackerUtility = {
   },
   determineTrackerFromString: (value: string): StepTracker => {
     switch(value) {
-      case StepTracker.Fitbit:        
-        return StepTracker.Fitbit;
+      case StepTracker.GoogleFit:        
+        return StepTracker.GoogleFit;
       default:
-        throw new Error(`Step tracker [${value}] is not valid.`);
+        throw new Error(`Unknown step tracker: [${value}]`);
     }    
   },
   getConnectUrl: (tracker: StepTracker): string => {
@@ -39,8 +40,10 @@ export const StepTrackerUtility: IStepTrackerUtility = {
     const redirectUri: string = UrlUtility.encode(UrlUtility.getLink(StepTrackerUtility.getConnectUrl(tracker)));
 
     switch(tracker) {
-      case StepTracker.Fitbit:        
-        return `https://www.fitbit.com/oauth2/authorize?response_type=code&client_id=23BB2H&redirect_uri=${redirectUri}&scope=activity&expires_in=604800`;
+      case StepTracker.GoogleFit:     
+        const scope: string = UrlUtility.encode("https://www.googleapis.com/auth/fitness.activity.read");
+
+        return `https://accounts.google.com/o/oauth2/v2/auth?scope=${scope}&prompt=consent&response_type=code&redirect_uri=${redirectUri}&client_id=${ClientID.Google}&access_type=offline`;
       default:
         throw new Error(`Unknown step tracker: ${tracker}`);
     }

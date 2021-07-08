@@ -1,30 +1,50 @@
-import { FitbitConfig } from "../../../config/fitbitConfig"
+import { StepTrackerRequestUtility } from "./stepTrackerRequestUtility";
+
+import { IGame } from "../../../stroll-models/game";
+
+import { GoogleFitConfig } from "../../../config/googleFitConfig"
+import { StepTracker } from "../../../stroll-enums/stepTracker";
 
 interface IStepTrackerUtility {
   getAccessTokenRequestData: (code: string) => string;
   getAccessTokenRequestHeaders: () => any;
-  getOAuthUrl: () => string;
+  getOAuthUrl: (tracker: StepTracker) => string;
+  getRefreshTokenRequestData: (refreshToken: string) => string;
+  getStepDataRequestBody: (game: IGame, tracker: StepTracker) => any;
   getStepDataRequestHeaders: (accessToken: string) => any;
-  getStepDataUrl: (playerID: string) => string;
-  mapStepsFromResponse: (data: any, yesterday?: boolean) => number;
+  getStepDataRequestUrl: (tracker: StepTracker) => string;
+  mapStepsFromResponse: (data: any) => number;
 }
 
 export const StepTrackerUtility: IStepTrackerUtility = {
   getAccessTokenRequestData: (code: string): string => {
-    return `clientId=${FitbitConfig.ClientID}&grant_type=authorization_code&redirect_uri=${encodeURIComponent("http://localhost:3001/profile/connect/fitbit")}&code=${code}`;
+    return `client_id=${GoogleFitConfig.ClientID}&client_secret=${GoogleFitConfig.ClientSecret}&grant_type=authorization_code&redirect_uri=${encodeURIComponent("http://localhost:3001/profile/connect/google-fit")}&code=${code}`;
   },
   getAccessTokenRequestHeaders: (): any => {
-    const token: string = Buffer.from(`${FitbitConfig.ClientID}:${FitbitConfig.ClientSecret}`).toString("base64");
-
     return {
       headers: {
-        "Authorization": `Basic ${token}`,
         "Content-Type": "application/x-www-form-urlencoded" 
       }
     }
   },
-  getOAuthUrl: (): string => {
-    return "https://api.fitbit.com/oauth2/token";
+  getOAuthUrl: (tracker: StepTracker): string => {
+    switch(tracker) {
+      case StepTracker.GoogleFit:
+        return "https://oauth2.googleapis.com/token";
+      default:
+        throw new Error(`Unknown step tracker: ${tracker}`);
+    }
+  },
+  getRefreshTokenRequestData: (refreshToken: string): string => {
+    return `client_id=${GoogleFitConfig.ClientID}&client_secret=${GoogleFitConfig.ClientSecret}}&grant_type=refresh_token&refresh_token=${refreshToken}`;
+  },
+  getStepDataRequestBody: (game: IGame, tracker: StepTracker): any => {
+    switch(tracker) {
+      case StepTracker.GoogleFit:
+        return StepTrackerRequestUtility.getGoogleFitStepDataRequestBody(game);
+      default:
+        throw new Error(`Unknown step tracker: ${tracker}`);
+    }
   },
   getStepDataRequestHeaders: (accessToken: string): any => {
     return {
@@ -33,18 +53,15 @@ export const StepTrackerUtility: IStepTrackerUtility = {
       }
     }
   },
-  getStepDataUrl: (playerID: string): string => {
-    return `https://api.fitbit.com/1/user/${playerID}/activities/steps/date/today/1w.json`;
-  },
-  mapStepsFromResponse: (data: any, yesterday?: boolean): number => {
-    const counts: any[] = data["activities-steps"];
-
-    if(counts.length === 7) {
-      return yesterday
-        ? counts[counts.length - 2].value
-        : counts[counts.length - 1].value;
+  getStepDataRequestUrl: (tracker: StepTracker): string => {
+    switch(tracker) {
+      case StepTracker.GoogleFit:
+        return "https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate";
+      default:
+        throw new Error(`Unknown step tracker: ${tracker}`);
     }
-
+  },
+  mapStepsFromResponse: (data: any): number => {
     return 0;
   }
 }

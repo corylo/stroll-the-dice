@@ -1,4 +1,4 @@
-export enum StepTracker {
-  Fitbit = "Fitbit",
+export enum StepTracker {  
+  GoogleFit = "Google Fit",
   Unknown = ""
 }

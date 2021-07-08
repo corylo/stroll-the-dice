@@ -46,11 +46,9 @@ export const useConnectStepTrackerEffect = (
         state.authorizationCode !== "" &&
         state.tracker.name !== StepTracker.Unknown
       ) {
-        dispatch(AppAction.InitiateStepTrackerConnection);
+        dispatch(AppAction.InitiateStepTrackerConnection, state.tracker.name);
 
-        console.log("connecting");
-
-        try {          
+        try {  
           await StepTrackerService.connect(
             state.authorizationCode, 
             appState.user.profile.uid, 
@@ -59,9 +57,11 @@ export const useConnectStepTrackerEffect = (
 
           setState(defaultUseConnectStepTrackerEffectState());
 
-          dispatch(AppAction.CompleteStepTrackerConnection, state.tracker.name);
+          dispatch(AppAction.CompleteStepTrackerConnection);
         } catch (err) {
           console.error(err);
+
+          dispatch(AppAction.FailedStepTrackerConnection);
         }
       }
 

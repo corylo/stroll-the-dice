@@ -8,16 +8,20 @@ import { NumberUtility } from "../../../stroll-utilities/numberUtility";
 import { StepTrackerUtility } from "../utilities/stepTrackerUtility";
 
 import { IConnectStepTrackerRequest } from "../../../stroll-models/connectStepTrackerRequest";
+import { IGame } from "../../../stroll-models/game";
 import { IMatchup } from "../../../stroll-models/matchup";
 import { IMatchupSideStepUpdate } from "../../../stroll-models/matchupSideStepUpdate";
 import { profileConverter } from "../../../stroll-models/profile";
 import { IStepTracker, stepTrackerConverter } from "../../../stroll-models/stepTracker";
 
+import { StepTracker } from "../../../stroll-enums/stepTracker";
+
 interface IStepTrackerService {
   connectStepTracker: (request: IConnectStepTrackerRequest, context: https.CallableContext) => Promise<void>;
   get: (uid: string) => Promise<IStepTracker>;
-  getStepCountUpdate: (playerID: string, steps: number, yesterday?: boolean) => Promise<IMatchupSideStepUpdate>;
-  getStepCountUpdates: (matchups: IMatchup[], yesterday?: boolean) => Promise<IMatchupSideStepUpdate[]>;
+  getAccessTokenFromRefreshToken: (tracker: StepTracker, refreshToken: string) => Promise<string>;
+  getStepCountUpdate: (game: IGame, playerID: string, steps: number) => Promise<IMatchupSideStepUpdate>;
+  getStepCountUpdates: (game: IGame, matchups: IMatchup[]) => Promise<IMatchupSideStepUpdate[]>;
 }
 
 export const StepTrackerService: IStepTrackerService = {
@@ -27,16 +31,14 @@ export const StepTrackerService: IStepTrackerService = {
 
       try {
         const res: any = await axios.post(
-          StepTrackerUtility.getOAuthUrl(), 
+          StepTrackerUtility.getOAuthUrl(request.tracker.name), 
           StepTrackerUtility.getAccessTokenRequestData(request.authorizationCode),
           StepTrackerUtility.getAccessTokenRequestHeaders()
         );
 
         const tracker: IStepTracker = {
-          accessToken: res.data.access_token,
           name: request.tracker.name,
-          refreshToken: res.data.refresh_token,
-          userID: res.data.user_id
+          refreshToken: res.data.refresh_token
         }
 
         await db.collection("profiles")
@@ -89,7 +91,16 @@ export const StepTrackerService: IStepTrackerService = {
       }
     }
   },
-  getStepCountUpdate: async (playerID: string, steps: number, yesterday?: boolean): Promise<IMatchupSideStepUpdate> => {
+  getAccessTokenFromRefreshToken: async (tracker: StepTracker, refreshToken: string): Promise<string> => {
+    const res: any = await axios.post(
+      StepTrackerUtility.getOAuthUrl(tracker), 
+      StepTrackerUtility.getRefreshTokenRequestData(tracker),
+      StepTrackerUtility.getAccessTokenRequestHeaders()
+    );
+
+    return res.data.access_token;
+  },
+  getStepCountUpdate: async (game: IGame, playerID: string, steps: number): Promise<IMatchupSideStepUpdate> => {
     const tracker: IStepTracker = await StepTrackerService.get(playerID);
 
     const update: IMatchupSideStepUpdate = {
@@ -98,14 +109,16 @@ export const StepTrackerService: IStepTrackerService = {
     }
 
     try {
-      if(tracker && tracker.accessToken !== "") {
+      if(tracker && tracker.refreshToken !== "") {
+        const accessToken: string = await StepTrackerService.getAccessTokenFromRefreshToken(tracker.name, tracker.refreshToken);
+
         const res: any = await axios.post(
-          StepTrackerUtility.getStepDataUrl(playerID), 
-          null,
-          StepTrackerUtility.getStepDataRequestHeaders(tracker.accessToken)
+          StepTrackerUtility.getStepDataRequestUrl(tracker.name), 
+          StepTrackerUtility.getStepDataRequestBody(game, tracker.name),
+          StepTrackerUtility.getStepDataRequestHeaders(accessToken)
         );
 
-        update.steps = StepTrackerUtility.mapStepsFromResponse(res.data, yesterday);
+        update.steps = StepTrackerUtility.mapStepsFromResponse(res.data);
       } else {
         throw new Error(`No tracker connected for user [${playerID}]`);
       }
@@ -117,12 +130,12 @@ export const StepTrackerService: IStepTrackerService = {
 
     return update;
   },  
-  getStepCountUpdates: async (matchups: IMatchup[], yesterday?: boolean): Promise<IMatchupSideStepUpdate[]> => {
+  getStepCountUpdates: async (game: IGame, matchups: IMatchup[]): Promise<IMatchupSideStepUpdate[]> => {
     let updates: IMatchupSideStepUpdate[] = [];
 
     for(let matchup of matchups) {
-      const leftUpdate: IMatchupSideStepUpdate = await StepTrackerService.getStepCountUpdate(matchup.left.ref, matchup.left.steps),
-        rightUpdate: IMatchupSideStepUpdate = await StepTrackerService.getStepCountUpdate(matchup.right.ref, matchup.right.steps);
+      const leftUpdate: IMatchupSideStepUpdate = await StepTrackerService.getStepCountUpdate(game, matchup.left.ref, matchup.left.steps),
+        rightUpdate: IMatchupSideStepUpdate = await StepTrackerService.getStepCountUpdate(game, matchup.right.ref, matchup.right.steps);
 
       updates = [...updates, leftUpdate, rightUpdate];
     }

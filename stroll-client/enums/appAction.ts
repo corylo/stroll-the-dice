@@ -1,5 +1,6 @@
 export enum AppAction {
   CompleteStepTrackerConnection = "Complete Step Tracker Connection",
+  FailedStepTrackerConnection = "Failed Step Tracker Connection",
   InitiateSignOut = "Initiate Sign Out",
   InitiateStepTrackerConnection = "Initiate Step Tracker Connection",
   SetProfile = "Set Profile",

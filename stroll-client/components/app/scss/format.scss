@@ -35,6 +35,10 @@ td {
   color: $themeSecondary;
 }
 
+.highlight-error {
+  color: $red;
+}
+
 .scroll-bar {
   &::-webkit-scrollbar-track {
     background-color: gray(40);

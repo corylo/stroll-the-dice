@@ -16,12 +16,16 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
             ...state.statuses.tracker,
             is: RequestStatus.Success
           }
-        },
-        user: {
-          ...state.user,
-          profile: {
-            ...state.user.profile,
-            tracker: action.payload
+        }
+      } 
+    case AppAction.FailedStepTrackerConnection:
+      return {
+        ...state,              
+        statuses: {
+          ...state.statuses,
+          tracker: {
+            ...state.statuses.tracker,
+            is: RequestStatus.Error
           }
         }
       }
@@ -47,6 +51,13 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
         toggles: {
           ...state.toggles,
           profile: true
+        },
+        user: {
+          ...state.user,
+          profile: {
+            ...state.user.profile,
+            tracker: action.payload
+          }
         }
       }
     case AppAction.SetProfile:
