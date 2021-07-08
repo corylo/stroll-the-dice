@@ -6,6 +6,8 @@ import { IProfileFormStateFields } from "../models/profileFormStateFields";
 import { IProfileUpdate } from "../../../../stroll-models/profileUpdate";
 import { IUser } from "../../../models/user";
 
+import { StepTracker } from "../../../../stroll-enums/stepTracker";
+
 interface IProfileFormUtility {
   hasChanged: (profile: IProfile, fields: IProfileFormStateFields) => boolean;
   mapCreate: (fields: IProfileFormStateFields, user: IUser) => IProfile;
@@ -31,6 +33,7 @@ export const ProfileFormUtility: IProfileFormUtility = {
       createdAt: user.profile.createdAt,
       icon: fields.icon,
       id: Nano.generate(),
+      tracker: StepTracker.Unknown,
       uid: user.profile.uid,
       username: fields.username
     }

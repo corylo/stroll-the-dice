@@ -6,7 +6,7 @@ interface IStepTrackerUtility {
   determineTrackerFromParam: (match: any) => StepTracker;
   determineTrackerFromString: (value: string) => StepTracker;
   getConnectUrl: (tracker: StepTracker) => string;
-  getUrl: (tracker: StepTracker) => string;
+  getOAuthUrl: (tracker: StepTracker) => string;
 }
 
 export const StepTrackerUtility: IStepTrackerUtility = {
@@ -35,7 +35,7 @@ export const StepTrackerUtility: IStepTrackerUtility = {
   getConnectUrl: (tracker: StepTracker): string => {
     return `/profile/connect/${UrlUtility.format(tracker)}`;
   },
-  getUrl: (tracker: StepTracker): string => {
+  getOAuthUrl: (tracker: StepTracker): string => {
     const redirectUri: string = UrlUtility.encode(UrlUtility.getLink(StepTrackerUtility.getConnectUrl(tracker)));
 
     switch(tracker) {

@@ -5,13 +5,11 @@ import firebase from "firebase/app";
 import { auth } from "../firebase";
 
 import { ProfileService } from "../services/profileService";
-import { StepTrackerService } from "../services/stepTrackerService";
 
 import { ErrorUtility } from "../utilities/errorUtility";
 import { UserUtility } from "../utilities/userUtility";
 
 import { IAppState } from "../components/app/models/appState";
-import { IStepTracker } from "../../stroll-models/stepTracker";
 import { IUser } from "../models/user";
 
 import { AppAction } from "../enums/appAction";
@@ -27,9 +25,7 @@ export const useAuthStateChangedEffect = (appState: IAppState, dispatch: (type: 
         try {
           user.profile = await ProfileService.get.by.uid(user.profile.uid);
 
-          const tracker: IStepTracker = await StepTrackerService.get(user.profile.uid);
-
-          dispatch(AppAction.SignInUser, { tracker, user });
+          dispatch(AppAction.SignInUser, user);
         } catch (err) {
           console.error(err);
           

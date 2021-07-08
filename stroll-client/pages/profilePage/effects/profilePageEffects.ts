@@ -7,11 +7,21 @@ import { StepTrackerUtility } from "../../../utilities/stepTrackerUtility";
 import { UrlUtility } from "../../../utilities/urlUtility";
 
 import { IAppState } from "../../../components/app/models/appState";
-import { IStepTracker } from "../../../../stroll-models/stepTracker";
+import { defaultStepTracker, IStepTracker } from "../../../../stroll-models/stepTracker";
 
 import { AppAction } from "../../../enums/appAction";
 import { AppStatus } from "../../../enums/appStatus";
 import { StepTracker } from "../../../../stroll-enums/stepTracker";
+
+interface IUseConnectStepTrackerEffectState {
+  authorizationCode: string;
+  tracker: IStepTracker;
+}
+
+const defaultUseConnectStepTrackerEffectState = (): IUseConnectStepTrackerEffectState => ({
+  authorizationCode: "",
+  tracker: defaultStepTracker()
+})
 
 export const useConnectStepTrackerEffect = (
   appState: IAppState, 
@@ -20,25 +30,36 @@ export const useConnectStepTrackerEffect = (
   const match: any = useRouteMatch(),
     history: any = useHistory();
 
-  const [tracker] = useState<IStepTracker>({
+  const [state, setState] = useState<IUseConnectStepTrackerEffectState>({
     authorizationCode: UrlUtility.getQueryParam("code"),
-    name:  StepTrackerUtility.determineTrackerFromParam(match)
+    tracker: {
+      ...defaultStepTracker(),      
+      name:  StepTrackerUtility.determineTrackerFromParam(match)
+    }
   });
 
   useEffect(() => {
     const load = async (): Promise<void> => {
       if(
         appState.status === AppStatus.SignedIn && 
-        appState.tracker === null &&
-        tracker.authorizationCode !== "" &&
-        tracker.name !== StepTracker.Unknown
+        !appState.user.profile.tracker &&
+        state.authorizationCode !== "" &&
+        state.tracker.name !== StepTracker.Unknown
       ) {
-        dispatch(AppAction.InitiateStepTrackerConnection, tracker.name);
+        dispatch(AppAction.InitiateStepTrackerConnection);
+
+        console.log("connecting");
 
         try {          
-          await StepTrackerService.create(appState.user.profile.uid, tracker);
+          await StepTrackerService.connect(
+            state.authorizationCode, 
+            appState.user.profile.uid, 
+            state.tracker
+          );
 
-          dispatch(AppAction.CompleteStepTrackerConnection, tracker);
+          setState(defaultUseConnectStepTrackerEffectState());
+
+          dispatch(AppAction.CompleteStepTrackerConnection, state.tracker.name);
         } catch (err) {
           console.error(err);
         }
@@ -48,5 +69,5 @@ export const useConnectStepTrackerEffect = (
     }
 
     load();
-  }, [appState.status]);
+  }, [appState.status, state]);
 }

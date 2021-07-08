@@ -9,7 +9,7 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
   switch (action.type) {    
     case AppAction.CompleteStepTrackerConnection:
       return {
-        ...state,      
+        ...state,              
         statuses: {
           ...state.statuses,
           tracker: {
@@ -17,7 +17,13 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
             is: RequestStatus.Success
           }
         },
-        tracker: action.payload
+        user: {
+          ...state.user,
+          profile: {
+            ...state.user.profile,
+            tracker: action.payload
+          }
+        }
       }
     case AppAction.InitiateSignOut:
       return {
@@ -30,17 +36,13 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
       }
     case AppAction.InitiateStepTrackerConnection:
       return {
-        ...state,      
+        ...state,              
         statuses: {
           ...state.statuses,
           tracker: {
             ...state.statuses.tracker,
             is: RequestStatus.Loading
           }
-        },
-        tracker: {
-          ...state.tracker,
-          name: action.payload
         },
         toggles: {
           ...state.toggles,
@@ -64,8 +66,7 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
       return {
         ...state,
         status: AppStatus.SignedIn,
-        tracker: action.payload.tracker,
-        user: action.payload.user
+        user: action.payload
       }
     case AppAction.SignInUserForFirstTime:
       return {

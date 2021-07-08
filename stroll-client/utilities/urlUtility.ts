@@ -16,7 +16,7 @@ export const UrlUtility: IUrlUtility = {
     }
   },
   encode: (value: string): string => {
-    return encodeURI(value);
+    return encodeURIComponent(value);
   },
   format: (value: string): string => {
     return value.replace(/\s+/g, '-').toLowerCase();

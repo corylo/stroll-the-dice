@@ -1,5 +1,4 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 
 import { Button } from "../../../buttons/button";
 import { IconButton } from "../../../buttons/iconButton";
@@ -16,17 +15,9 @@ interface StepTrackerLinkProps {
 }
 
 export const StepTrackerLink: React.FC<StepTrackerLinkProps> = (props: StepTrackerLinkProps) => {  
-  const history: any = useHistory();
-
   if(!props.connected) {
-    const handleOnClick = (): void => {
-      history.replace(StepTrackerUtility.getConnectUrl(props.tracker));
-
-      window.location.href = StepTrackerUtility.getUrl(props.tracker);
-    }
-
     return (
-      <Button className="step-tracker-link" handleOnClick={handleOnClick}>
+      <Button className="step-tracker-link" url={StepTrackerUtility.getOAuthUrl(props.tracker)} external>
         <img src={props.img} />      
         <h1 className="passion-one-font">{props.tracker}</h1>
       </Button>

@@ -4,31 +4,38 @@ import { StepTrackerUtility } from "../stroll-client/utilities/stepTrackerUtilit
 
 import { StepTracker } from "../stroll-enums/stepTracker";
 
-export interface IStepTracker {
-  authorizationCode: string;
+export interface IStepTracker {  
+  accessToken: string;
   name: StepTracker;  
+  refreshToken: string;
+  userID: string;
 }
 
 export const defaultStepTracker = (): IStepTracker => ({
-  authorizationCode: "",
-  name: StepTracker.Unknown
+  accessToken: "",
+  name: StepTracker.Unknown,
+  refreshToken: "",
+  userID: ""
 });
 
-export const stepTrackerConverter: firebase.firestore.FirestoreDataConverter<IStepTracker> = {
+export const stepTrackerConverter: any = {
   toFirestore(tracker: IStepTracker): firebase.firestore.DocumentData {
     return {
-      authorizationCode: tracker.authorizationCode
+      accessToken: tracker.accessToken,
+      refreshToken: tracker.refreshToken,
+      userID: tracker.userID
     }
   },
   fromFirestore(
-    snapshot: firebase.firestore.QueryDocumentSnapshot,
-    options: firebase.firestore.SnapshotOptions
+    snapshot: firebase.firestore.QueryDocumentSnapshot<IStepTracker>
   ): IStepTracker {
-    const data: IStepTracker = snapshot.data(options) as IStepTracker;
+    const data: IStepTracker = snapshot.data();
 
     return {
-      authorizationCode: data.authorizationCode,
-      name: StepTrackerUtility.determineTrackerFromString(snapshot.id)
+      accessToken: data.accessToken,
+      name: StepTrackerUtility.determineTrackerFromString(snapshot.id),      
+      refreshToken: data.refreshToken,
+      userID: data.userID
     }
   }
 }

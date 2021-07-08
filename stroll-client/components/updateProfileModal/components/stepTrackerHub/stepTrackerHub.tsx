@@ -3,10 +3,11 @@ import React, { useContext } from "react";
 import { Label } from "../../../label/label";
 import { StepTrackerLink } from "./stepTrackerLink";
 
+import { AppContext } from "../../../app/contexts/appContext";
+
 import { StepTrackerUtility } from "../../../../utilities/stepTrackerUtility";
 
 import { StepTracker } from "../../../../../stroll-enums/stepTracker";
-import { AppContext } from "../../../app/contexts/appContext";
 
 interface StepTrackerHubProps {  
   
@@ -14,7 +15,7 @@ interface StepTrackerHubProps {
 
 export const StepTrackerHub: React.FC<StepTrackerHubProps> = (props: StepTrackerHubProps) => {  
   const { appState } = useContext(AppContext);
-
+  
   return (
     <div className="step-tracker-hub">
       <div className="step-tracker-hub-label">
@@ -22,10 +23,10 @@ export const StepTrackerHub: React.FC<StepTrackerHubProps> = (props: StepTracker
       </div>
       <div className="step-tracker-links">
         <StepTrackerLink           
-          connected={appState.tracker && appState.tracker.name === StepTracker.Fitbit}
+          connected={appState.user.profile.tracker === StepTracker.Fitbit}
           img="/img/brands/fitbit-logo.png" 
           tracker={StepTracker.Fitbit}
-          url={StepTrackerUtility.getUrl(StepTracker.Fitbit)} 
+          url={StepTrackerUtility.getOAuthUrl(StepTracker.Fitbit)} 
         />
       </div>
     </div>

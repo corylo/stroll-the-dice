@@ -1,10 +1,11 @@
-import { firestore, pubsub } from "firebase-functions";
+import { firestore, https, pubsub } from "firebase-functions";
 
 import { GameService } from "./services/gameService";
 import { PlayerService } from "./services/playerService";
 import { PredictionService } from "./services/predictionService";
 import { ProfileService } from "./services/profileService";
 import { ScheduleService } from "./services/scheduleService";
+import { StepTrackerService } from "./services/stepTrackerService";
 
 exports.onProfileUpdate = firestore
   .document("profiles/{id}")
@@ -29,3 +30,8 @@ exports.onPredictionUpdate = firestore
 exports.scheduledGameUpdate = pubsub
   .schedule("0 0-23 * * *")
   .onRun(ScheduleService.updateGameStatuses);
+
+/* -- Https Callable -- */
+
+exports.connectStepTracker = https
+  .onCall(StepTrackerService.connectStepTracker);

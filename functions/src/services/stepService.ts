@@ -1,9 +1,12 @@
 import { logger } from "firebase-functions";
 
+import { StepTrackerService } from "./stepTrackerService";
+
 import { NumberUtility } from "../../../stroll-utilities/numberUtility";
 
 import { IMatchup } from "../../../stroll-models/matchup";
 import { IMatchupSideStepUpdate } from "../../../stroll-models/matchupSideStepUpdate";
+import { IStepTracker } from "../../../stroll-models/stepTracker";
 
 interface IStepService {
   getUpdate: (playerID: string, steps: number) => Promise<IMatchupSideStepUpdate>;
@@ -14,7 +17,11 @@ export const StepService: IStepService = {
   getUpdate: async (playerID: string, steps: number): Promise<IMatchupSideStepUpdate> => {
     if(playerID !== "") {
       try {
-        steps = NumberUtility.random(0, 2000);
+        const tracker: IStepTracker = await StepTrackerService.get(playerID);
+
+        if(tracker) {
+          steps = NumberUtility.random(0, 2000);
+        }
       } catch (err) {
         logger.error(err);
       }

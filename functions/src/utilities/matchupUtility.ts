@@ -155,11 +155,19 @@ export const MatchupUtility: IMatchupUtility = {
     return leader;
   },
   getMatchupRef: (gameID: string, matchupID?: string): firebase.firestore.DocumentReference => {
+    if(matchupID) {
+      return db.collection("games")
+        .doc(gameID)
+        .collection("matchups")
+        .withConverter<IMatchup>(matchupConverter)
+        .doc(matchupID);
+    }
+
     return db.collection("games")
       .doc(gameID)
       .collection("matchups")
       .withConverter<IMatchup>(matchupConverter)
-      .doc(matchupID || null);
+      .doc();
   },
   getWinnerOdds: (matchup: IMatchup): number => {
     if(matchup.winner !== "" && matchup.winner !== MatchupLeader.Tie) {
