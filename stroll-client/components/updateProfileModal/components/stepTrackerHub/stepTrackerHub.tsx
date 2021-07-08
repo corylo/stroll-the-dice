@@ -7,8 +7,8 @@ import { AppContext } from "../../../app/contexts/appContext";
 
 import { StepTrackerUtility } from "../../../../utilities/stepTrackerUtility";
 
-import { StepTracker } from "../../../../../stroll-enums/stepTracker";
 import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
+import { StepTracker } from "../../../../../stroll-enums/stepTracker";
 
 interface StepTrackerHubProps {  
   

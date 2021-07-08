@@ -12,7 +12,8 @@ export const StepTrackerService: IStepTrackerService = {
       await functions.httpsCallable("connectStepTracker")({
         authorizationCode,
         uid,
-        tracker
+        tracker,
+        origin: window.location.origin
       });
     } catch (err) {
       console.error(err);

@@ -33,7 +33,7 @@ export const StepTrackerService: IStepTrackerService = {
       try {
         const res: any = await axios.post(
           StepTrackerUtility.getOAuthUrl(request.tracker.name), 
-          StepTrackerUtility.getAccessTokenRequestData(request.authorizationCode),
+          StepTrackerUtility.getAccessTokenRequestData(request.authorizationCode, request.origin),
           StepTrackerUtility.getAccessTokenRequestHeaders()
         );
 

@@ -9,7 +9,7 @@ import { IGoogleFitStepDataResponseBucketItem, IGoogleFitStepDataResponseBucketI
 import { StepTracker } from "../../../stroll-enums/stepTracker";
 
 interface IStepTrackerUtility {
-  getAccessTokenRequestData: (code: string) => string;
+  getAccessTokenRequestData: (code: string, origin: string) => string;
   getAccessTokenRequestHeaders: () => any;
   getOAuthUrl: (tracker: StepTracker) => string;
   getRefreshTokenRequestData: (refreshToken: string) => string;
@@ -20,8 +20,8 @@ interface IStepTrackerUtility {
 }
 
 export const StepTrackerUtility: IStepTrackerUtility = {
-  getAccessTokenRequestData: (code: string): string => {
-    return `client_id=${GoogleFitConfig.ClientID}&client_secret=${GoogleFitConfig.ClientSecret}&grant_type=authorization_code&redirect_uri=${encodeURIComponent("http://localhost:3001/profile/connect/google-fit")}&code=${code}`;
+  getAccessTokenRequestData: (code: string, origin: string): string => {
+    return `client_id=${GoogleFitConfig.ClientID}&client_secret=${GoogleFitConfig.ClientSecret}&grant_type=authorization_code&redirect_uri=${encodeURIComponent(`${origin}/profile/connect/google-fit`)}&code=${code}`;
   },
   getAccessTokenRequestHeaders: (): any => {
     return {
