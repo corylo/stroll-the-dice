@@ -90,6 +90,7 @@
       .game-matchup-side-stat {
         align-items: center;
         display: flex;
+        white-space: nowrap;
 
         &:nth-of-type(n + 2) {        
           margin-top: 5px;

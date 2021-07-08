@@ -107,7 +107,7 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
           />
           <MatchupSideStat 
             alignment={props.alignment}
-            icon="fal fa-sack-dollar" 
+            icon="fal fa-coins" 
             tooltip="Total Wagered"
             value={side.total.wagered ? NumberUtility.shorten(side.total.wagered) : "-"} 
           />
