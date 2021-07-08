@@ -22,7 +22,7 @@ export const MyPoints: React.FC<MyPointsProps> = (props: MyPointsProps) => {
                 <div className="my-available-points-wrapper">
                   <Label 
                     className="my-available-points passion-one-font" 
-                    icon="fal fa-sack-dollar" 
+                    icon="fal fa-coins" 
                     text={NumberUtility.shorten(props.player.points.available)} 
                     tooltip="My Available Points"
                   />

@@ -38,6 +38,10 @@
 
     .leaderboard-row-points {
       color: gray(230);
+
+      .label-text-wrapper > h1 {
+        margin-left: 5px;
+      }
     }
   }
 }

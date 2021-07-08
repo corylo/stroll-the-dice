@@ -2,6 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import _orderBy from "lodash.orderby";
 
+import { Label } from "../../label/label";
 import { ProfileIcon } from "../../profileIcon/profileIcon";
 
 import { IPlayer } from "../../../../stroll-models/player";
@@ -43,7 +44,11 @@ export const LeaderboardTopRow: React.FC<LeaderboardTopRowProps> = (props: Leade
           {profile.username}
         </h1>     
       </div>            
-      <h1 className="leaderboard-top-row-points passion-one-font">{points.total.toLocaleString()}</h1>
+      <Label
+        className="leaderboard-top-row-points passion-one-font"
+        icon="fal fa-coins" 
+        text={points.total.toLocaleString()} 
+      />
     </div>
   );
 }

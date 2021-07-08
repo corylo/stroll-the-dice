@@ -121,10 +121,14 @@
     }
   }
 
-  .leaderboard-top-row-points {
+  .leaderboard-top-row-points {    
     color: gray(230);
+    justify-content: center;
     margin-top: 5px;
-    text-align: center;
+
+    .label-text-wrapper > h1 {
+      margin-left: 5px;
+    }
   }
 }
 
