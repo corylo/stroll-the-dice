@@ -117,6 +117,7 @@
       margin-top: 5px;
       max-width: 140px;
       overflow: hidden;
+      text-align: center;
       text-overflow: ellipsis;
     }
   }
@@ -138,48 +139,34 @@
 
     &.place-1 {
       margin: 0px 20px;
+    }
 
+    &.place-1,
+    &.place-2,
+    &.place-3 {
       .leaderboard-top-row-player {
-        .leaderboard-top-row-player-icon {    
+        .leaderboard-top-row-player-icon {
           .profile-icon {
-            font-size: 2em;
-            height: 80px;
-            width: 80px;
+            font-size: 2.25em;
+            height: 90px;
+            margin: auto;
+            width: 90px;
           }
       
           .leaderboard-top-row-icon {
+            bottom: -3px;
             font-size: 0.9em;
             height: 30px;
             line-height: 30px;
+            right: -3px;
             width: 30px;
           }
         }
-      }
-    }
-    
 
-    .leaderboard-top-row-player {
-      .leaderboard-top-row-player-icon {
-        .profile-icon {
-          font-size: 1.5em;
-          height: 60px;
-          margin: auto;
-          width: 60px;
+        .leaderboard-top-row-player-username {
+          font-size: 0.9em;
+          width: 90px;
         }
-    
-        .leaderboard-top-row-icon {
-          bottom: -3px;
-          font-size: 0.5em;
-          height: 20px;
-          line-height: 20px;
-          right: -3px;
-          width: 20px;
-        }
-      }
-
-      .leaderboard-top-row-player-username {
-        font-size: 0.8em;
-        max-width: 100px;
       }
     }
 
@@ -194,22 +181,32 @@
     &.place-1 {
       margin: 0px 10px;
     }
-    
-    .leaderboard-top-row-player {
-      .leaderboard-top-row-player-username {
-        max-width: 100px;
-      }
-    }
-  }
-}
 
-@include small-phone-or-smaller {
-  .leaderboard-top-row {      
-    padding: 10px;
+    &.place-1,
+    &.place-2,
+    &.place-3 {
+      padding: 10px;
 
-    .leaderboard-top-row-player {
-      .leaderboard-top-row-player-username {
-        max-width: 100px;
+      .leaderboard-top-row-player {
+        .leaderboard-top-row-player-icon {
+          .profile-icon {
+            font-size: 1.5em;
+            height: 60px;
+            width: 60px;
+          }
+      
+          .leaderboard-top-row-icon {
+            font-size: 0.6em;
+            height: 20px;
+            line-height: 20px;
+            width: 20px;
+          }
+        }
+
+        .leaderboard-top-row-player-username {
+          font-size: 0.8em;
+          width: 80px;
+        }
       }
     }
   }
