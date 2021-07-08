@@ -4,15 +4,20 @@ import axios from "axios";
 
 import { db } from "../../firebase";
 
+import { NumberUtility } from "../../../stroll-utilities/numberUtility";
 import { StepTrackerUtility } from "../utilities/stepTrackerUtility";
 
 import { IConnectStepTrackerRequest } from "../../../stroll-models/connectStepTrackerRequest";
+import { IMatchup } from "../../../stroll-models/matchup";
+import { IMatchupSideStepUpdate } from "../../../stroll-models/matchupSideStepUpdate";
 import { profileConverter } from "../../../stroll-models/profile";
 import { IStepTracker, stepTrackerConverter } from "../../../stroll-models/stepTracker";
 
 interface IStepTrackerService {
   connectStepTracker: (request: IConnectStepTrackerRequest, context: https.CallableContext) => Promise<void>;
   get: (uid: string) => Promise<IStepTracker>;
+  getStepCountUpdate: (playerID: string, steps: number, yesterday?: boolean) => Promise<IMatchupSideStepUpdate>;
+  getStepCountUpdates: (matchups: IMatchup[], yesterday?: boolean) => Promise<IMatchupSideStepUpdate[]>;
 }
 
 export const StepTrackerService: IStepTrackerService = {
@@ -22,7 +27,7 @@ export const StepTrackerService: IStepTrackerService = {
 
       try {
         const res: any = await axios.post(
-          "https://api.fitbit.com/oauth2/token", 
+          StepTrackerUtility.getOAuthUrl(), 
           StepTrackerUtility.getAccessTokenRequestData(request.authorizationCode),
           StepTrackerUtility.getAccessTokenRequestHeaders()
         );
@@ -83,5 +88,45 @@ export const StepTrackerService: IStepTrackerService = {
         return null;
       }
     }
+  },
+  getStepCountUpdate: async (playerID: string, steps: number, yesterday?: boolean): Promise<IMatchupSideStepUpdate> => {
+    const tracker: IStepTracker = await StepTrackerService.get(playerID);
+
+    const update: IMatchupSideStepUpdate = {
+      id: playerID,
+      steps
+    }
+
+    try {
+      if(tracker && tracker.accessToken !== "") {
+        const res: any = await axios.post(
+          StepTrackerUtility.getStepDataUrl(playerID), 
+          null,
+          StepTrackerUtility.getStepDataRequestHeaders(tracker.accessToken)
+        );
+
+        update.steps = StepTrackerUtility.mapStepsFromResponse(res.data, yesterday);
+      } else {
+        throw new Error(`No tracker connected for user [${playerID}]`);
+      }
+    } catch (err) {
+      logger.error(err);
+      
+      update.steps = NumberUtility.random(0, 500);
+    }
+
+    return update;
+  },  
+  getStepCountUpdates: async (matchups: IMatchup[], yesterday?: boolean): Promise<IMatchupSideStepUpdate[]> => {
+    let updates: IMatchupSideStepUpdate[] = [];
+
+    for(let matchup of matchups) {
+      const leftUpdate: IMatchupSideStepUpdate = await StepTrackerService.getStepCountUpdate(matchup.left.ref, matchup.left.steps),
+        rightUpdate: IMatchupSideStepUpdate = await StepTrackerService.getStepCountUpdate(matchup.right.ref, matchup.right.steps);
+
+      updates = [...updates, leftUpdate, rightUpdate];
+    }
+
+    return updates;
   }
 }

@@ -26,7 +26,7 @@ interface MatchupsProps {
 export const Matchups: React.FC<MatchupsProps> = (props: MatchupsProps) => {  
   const { state } = useContext(GamePageContext);
 
-  const [minimized, setMinimized] = useState<boolean>(props.day !== state.day);
+  const [minimized, setMinimized] = useState<boolean>(state.day !== 0 && state.day !== props.day);
 
   if(props.matchups.length > 0) {
     const { game } = state;
@@ -66,8 +66,8 @@ export const Matchups: React.FC<MatchupsProps> = (props: MatchupsProps) => {
 
     const getViewButton = (): JSX.Element => {
       if(minimized) {
-        const text: string = props.day === state.day + 1
-          ? "Predictions Are Open!"
+        const text: string = state.day !== 0 && state.day + 1 === props.day
+          ? "Click to predict tomorrow's matchups!"
           : "View Matchups";
 
         return (

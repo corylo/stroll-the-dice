@@ -10,7 +10,7 @@ import { PlayerService } from "./playerService";
 import { PlayerTransactionService } from "./transaction/playerTransactionService";
 import { PlayingInBatchService } from "./batch/playingInBatchService";
 import { PredictionService } from "./predictionService";
-import { StepService } from "./stepService";
+import { StepTrackerService } from "./stepTrackerService";
 
 import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtility";
 import { GameUtility } from "../utilities/gameUtility"
@@ -64,14 +64,14 @@ export const GameService: IGameService = {
           let matchups: IMatchup[] = await MatchupService.getByGameAndDay(context.params.id, day - 1);
           
           const predictions: IPrediction[] = await PredictionService.getAllForMatchups(context.params.id, matchups),          
-            updates: IMatchupSideStepUpdate[] = await StepService.getUpdates(matchups);   
+            updates: IMatchupSideStepUpdate[] = await StepTrackerService.getStepCountUpdates(matchups, true);   
 
           await PlayerTransactionService.distributePayoutsAndFinalizeSteps(context.params.id, matchups, updates, predictions);
         } else {
           logger.info(`Progress update for game [${context.params.id}] on day [${day}].`);
 
           const matchups: IMatchup[] = await MatchupService.getByGameAndDay(context.params.id, day),            
-            updates: IMatchupSideStepUpdate[] = await StepService.getUpdates(matchups);
+            updates: IMatchupSideStepUpdate[] = await StepTrackerService.getStepCountUpdates(matchups);
 
           await PlayerTransactionService.distributePointsAndUpdateSteps(context.params.id, matchups, updates);  
         }
