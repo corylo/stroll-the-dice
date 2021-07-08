@@ -9,24 +9,27 @@ interface IStepTrackerRequestUtility {
 export const StepTrackerRequestUtility: IStepTrackerRequestUtility = {
   getGoogleFitStepDataRequestBody: (startsAt: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean): any => {
     const start: Date = FirestoreDateUtility.timestampToDate(startsAt),
-      end: Date = new Date(start);
+      end: Date = FirestoreDateUtility.timestampToDate(startsAt);
 
     const dayOffset: number = hasDayPassed ? day - 2 : day - 1,
-      newDate: number = start.getDate() + dayOffset;
+      startDateValue: number = start.getDate() + dayOffset,
+      endDateValue: number = startDateValue + 1;
 
-    start.setDate(newDate);
-    end.setDate(newDate);
+    start.setDate(startDateValue);
 
-    end.setHours(23, 59, 59, 999);
+    end.setDate(endDateValue);
+    end.setMilliseconds(end.getMilliseconds() - 1);
 
     return {
-      "aggregateBy": [{
-        "dataTypeName": "com.google.step_count.delta",
-        "dataSourceId": "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
+      aggregateBy: [{
+        dataTypeName: "com.google.step_count.delta",
+        dataSourceId: "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
       }],
-      "bucketByTime": { "durationMillis": 86400000 },
-      "startTimeMillis": start.getTime(),
-      "endTimeMillis": end.getTime()
+      bucketByTime: { 
+        durationMillis: 86400000 
+      },
+      startTimeMillis: start.getTime(),
+      endTimeMillis: end.getTime()
     }
   }
 }
