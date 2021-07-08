@@ -5,10 +5,12 @@ import { logger } from "firebase-functions";
 import { db } from "../../firebase";
 
 import { MatchupBatchService } from "./batch/matchupBatchService";
+import { MatchupService } from "./matchupService";
 import { PlayerService } from "./playerService";
 import { PlayerTransactionService } from "./transaction/playerTransactionService";
 import { PlayingInBatchService } from "./batch/playingInBatchService";
 import { PredictionService } from "./predictionService";
+import { StepTrackerService } from "./stepTrackerService";
 
 import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtility";
 import { GameUtility } from "../utilities/gameUtility";
@@ -20,8 +22,6 @@ import { IMatchupPairGroup } from "../../../stroll-models/matchupPairGroup";
 import { IMatchupSideStepUpdate } from "../../../stroll-models/matchupSideStepUpdate";
 import { IPlayer } from "../../../stroll-models/player";
 import { IPrediction } from "../../../stroll-models/prediction";
-import { MatchupService } from "./matchupService";
-import { StepTrackerService } from "./stepTrackerService";
 
 interface IGameUpdateService {
   handleDayPassing: (gameID: string, day: number, matchups: IMatchup[], updates: IMatchupSideStepUpdate[]) => Promise<void>;
@@ -66,9 +66,9 @@ export const GameUpdateService: IGameUpdateService = {
       updates: IMatchupSideStepUpdate[] = await StepTrackerService.getStepCountUpdates(game, matchups);
 
     if(hasDayPassed) {          
-      GameUpdateService.handleDayPassing(gameID, day, matchups, updates);
+      await GameUpdateService.handleDayPassing(gameID, day, matchups, updates);
     } else {
-      GameUpdateService.handleProgressUpdate(gameID, day, matchups, updates);
+      await GameUpdateService.handleProgressUpdate(gameID, day, matchups, updates);
     }
   },
   handleUpcomingToInProgress: async (gameID: string, game: IGame): Promise<void> => {

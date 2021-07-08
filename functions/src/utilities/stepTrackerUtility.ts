@@ -1,8 +1,11 @@
+import firebase from "firebase-admin";
+
+import { GoogleFitConfig } from "../../../config/googleFitConfig";
+
 import { StepTrackerRequestUtility } from "./stepTrackerRequestUtility";
 
-import { IGame } from "../../../stroll-models/game";
+import { IGoogleFitStepDataResponseBucketItem, IGoogleFitStepDataResponseBucketItemDataset, IGoogleFitStepDataResponseBucketItemDatasetPoint, IGoogleFitStepDataResponseBucketItemDatasetPointValue, IGoogleFitStepDataResponseData } from "../../../stroll-models/googleFitStepDataResponseData";
 
-import { GoogleFitConfig } from "../../../config/googleFitConfig"
 import { StepTracker } from "../../../stroll-enums/stepTracker";
 
 interface IStepTrackerUtility {
@@ -10,10 +13,10 @@ interface IStepTrackerUtility {
   getAccessTokenRequestHeaders: () => any;
   getOAuthUrl: (tracker: StepTracker) => string;
   getRefreshTokenRequestData: (refreshToken: string) => string;
-  getStepDataRequestBody: (game: IGame, tracker: StepTracker) => any;
+  getStepDataRequestBody: (tracker: StepTracker, startsAt: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean) => any;
   getStepDataRequestHeaders: (accessToken: string) => any;
   getStepDataRequestUrl: (tracker: StepTracker) => string;
-  mapStepsFromResponse: (data: any) => number;
+  mapStepsFromResponse: (data: IGoogleFitStepDataResponseData, currentStepTotal: number, hasDayPassed: boolean) => number;
 }
 
 export const StepTrackerUtility: IStepTrackerUtility = {
@@ -36,12 +39,12 @@ export const StepTrackerUtility: IStepTrackerUtility = {
     }
   },
   getRefreshTokenRequestData: (refreshToken: string): string => {
-    return `client_id=${GoogleFitConfig.ClientID}&client_secret=${GoogleFitConfig.ClientSecret}}&grant_type=refresh_token&refresh_token=${refreshToken}`;
+    return `client_id=${GoogleFitConfig.ClientID}&client_secret=${GoogleFitConfig.ClientSecret}&grant_type=refresh_token&refresh_token=${refreshToken}`;
   },
-  getStepDataRequestBody: (game: IGame, tracker: StepTracker): any => {
+  getStepDataRequestBody: (tracker: StepTracker, startsAt: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean): any => {
     switch(tracker) {
       case StepTracker.GoogleFit:
-        return StepTrackerRequestUtility.getGoogleFitStepDataRequestBody(game);
+        return StepTrackerRequestUtility.getGoogleFitStepDataRequestBody(startsAt, day, hasDayPassed);
       default:
         throw new Error(`Unknown step tracker: ${tracker}`);
     }
@@ -61,7 +64,27 @@ export const StepTrackerUtility: IStepTrackerUtility = {
         throw new Error(`Unknown step tracker: ${tracker}`);
     }
   },
-  mapStepsFromResponse: (data: any): number => {
-    return 0;
+  mapStepsFromResponse: (data: IGoogleFitStepDataResponseData, currentStepTotal: number, hasDayPassed: boolean): number => {
+    if(data && data.bucket && data.bucket.length > 0) {
+      const item: IGoogleFitStepDataResponseBucketItem = data.bucket[0];
+
+      if(item) {
+        const dataset: IGoogleFitStepDataResponseBucketItemDataset = item.dataset[0];
+
+        if(dataset) {
+          const point: IGoogleFitStepDataResponseBucketItemDatasetPoint = dataset.point[0];
+
+          if(point) {
+            const value: IGoogleFitStepDataResponseBucketItemDatasetPointValue = point.value[0];
+
+            if(value) {
+              return value.intVal;
+            }
+          }
+        }
+      }
+    }
+
+    return currentStepTotal;
   }
 }

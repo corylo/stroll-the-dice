@@ -4,6 +4,7 @@ import axios from "axios";
 
 import { db } from "../../firebase";
 
+import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtility";
 import { NumberUtility } from "../../../stroll-utilities/numberUtility";
 import { StepTrackerUtility } from "../utilities/stepTrackerUtility";
 
@@ -94,31 +95,40 @@ export const StepTrackerService: IStepTrackerService = {
   getAccessTokenFromRefreshToken: async (tracker: StepTracker, refreshToken: string): Promise<string> => {
     const res: any = await axios.post(
       StepTrackerUtility.getOAuthUrl(tracker), 
-      StepTrackerUtility.getRefreshTokenRequestData(tracker),
+      StepTrackerUtility.getRefreshTokenRequestData(refreshToken),
       StepTrackerUtility.getAccessTokenRequestHeaders()
     );
 
     return res.data.access_token;
   },
-  getStepCountUpdate: async (game: IGame, playerID: string, steps: number): Promise<IMatchupSideStepUpdate> => {
+  getStepCountUpdate: async (game: IGame, playerID: string, currentStepTotal: number): Promise<IMatchupSideStepUpdate> => {
     const tracker: IStepTracker = await StepTrackerService.get(playerID);
 
     const update: IMatchupSideStepUpdate = {
       id: playerID,
-      steps
+      steps: currentStepTotal
     }
 
     try {
       if(tracker && tracker.refreshToken !== "") {
         const accessToken: string = await StepTrackerService.getAccessTokenFromRefreshToken(tracker.name, tracker.refreshToken);
 
+        const day: number = GameDurationUtility.getDay(game),
+          hasDayPassed: boolean = GameDurationUtility.hasDayPassed(game);
+
         const res: any = await axios.post(
           StepTrackerUtility.getStepDataRequestUrl(tracker.name), 
-          StepTrackerUtility.getStepDataRequestBody(game, tracker.name),
+          StepTrackerUtility.getStepDataRequestBody(tracker.name, game.startsAt, day, hasDayPassed),
           StepTrackerUtility.getStepDataRequestHeaders(accessToken)
         );
 
-        update.steps = StepTrackerUtility.mapStepsFromResponse(res.data);
+        logger.info(res.data);
+
+        const newStepTotal: number = StepTrackerUtility.mapStepsFromResponse(res.data, currentStepTotal, hasDayPassed);
+
+        logger.info(`New step total of [${newStepTotal}] for player [${playerID}].`);
+
+        update.steps = newStepTotal - currentStepTotal;
       } else {
         throw new Error(`No tracker connected for user [${playerID}]`);
       }

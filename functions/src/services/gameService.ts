@@ -18,12 +18,12 @@ export const GameService: IGameService = {
       after: IGame = change.after.data();
   
     try {
-      GameUpdateService.handleReferenceFieldChange(context.params.id, before, after);
+      await GameUpdateService.handleReferenceFieldChange(context.params.id, before, after);
       
       if (GameUtility.upcomingToInProgress(before, after)) {
-        GameUpdateService.handleUpcomingToInProgress(context.params.id, after);
+        await GameUpdateService.handleUpcomingToInProgress(context.params.id, after);
       } else if (GameUtility.stillInProgress(before, after)) {
-        GameUpdateService.handleStillInProgress(context.params.id, after);
+        await GameUpdateService.handleStillInProgress(context.params.id, after);
       } else if (GameUtility.inProgressToCompleted(before, after)) {
         logger.info(`Game [${context.params.id}] is now complete.`);
         

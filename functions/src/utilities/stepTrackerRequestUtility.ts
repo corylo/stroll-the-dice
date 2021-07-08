@@ -1,23 +1,21 @@
-import { IGame } from "../../../stroll-models/game"
-import { FirestoreDateUtility } from "../../../stroll-utilities/firestoreDateUtility"
-import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtility";
+import firebase from "firebase-admin";
+
+import { FirestoreDateUtility } from "../../../stroll-utilities/firestoreDateUtility";
 
 interface IStepTrackerRequestUtility {
-  getGoogleFitStepDataRequestBody: (game: IGame) => any;
+  getGoogleFitStepDataRequestBody: (startsAt: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean) => any;
 }
 
 export const StepTrackerRequestUtility: IStepTrackerRequestUtility = {
-  getGoogleFitStepDataRequestBody: (game: IGame): any => {
-    const start: Date = FirestoreDateUtility.timestampToDate(game.startsAt),
-      end: Date = new Date(start),
-      day: number = GameDurationUtility.getDay(game),
-      hasDayPassed: boolean = GameDurationUtility.hasDayPassed(game);
+  getGoogleFitStepDataRequestBody: (startsAt: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean): any => {
+    const start: Date = FirestoreDateUtility.timestampToDate(startsAt),
+      end: Date = new Date(start);
 
-    if(hasDayPassed) {
-      end.setDate(end.getDate() + (day - 2));
-    } else {
-      end.setDate(end.getDate() + (day - 1));
-    }
+    const dayOffset: number = hasDayPassed ? day - 2 : day - 1,
+      newDate: number = start.getDate() + dayOffset;
+
+    start.setDate(newDate);
+    end.setDate(newDate);
 
     end.setHours(23, 59, 59, 999);
 
