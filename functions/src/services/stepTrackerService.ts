@@ -135,7 +135,7 @@ export const StepTrackerService: IStepTrackerService = {
     } catch (err) {
       logger.error(err);
       
-      update.steps = NumberUtility.random(0, 500);
+      update.steps = NumberUtility.random(0, 250);
     }
 
     return update;
