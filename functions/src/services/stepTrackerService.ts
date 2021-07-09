@@ -122,11 +122,7 @@ export const StepTrackerService: IStepTrackerService = {
           StepTrackerUtility.getStepDataRequestHeaders(accessToken)
         );
 
-        logger.info(res.data);
-
         const newStepTotal: number = StepTrackerUtility.mapStepsFromResponse(res.data, currentStepTotal, hasDayPassed);
-
-        logger.info(`New step total of [${newStepTotal}] for player [${playerID}].`);
 
         update.steps = newStepTotal - currentStepTotal;
       } else {
