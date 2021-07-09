@@ -41,7 +41,7 @@ export const GameActions: React.FC<GameActionsProps> = (props: GameActionsProps)
 
     if(game.creator.uid === appState.user.profile.uid) {
       if(actions.length === 1) {
-        actions.push(<Dot  />);
+        actions.push(<Dot key="dot" />);
       }
 
       actions.push(
