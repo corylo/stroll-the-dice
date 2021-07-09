@@ -3,6 +3,10 @@ import firebase from "firebase/app";
 
 import { db } from "../../../firebase";
 
+import { InviteService } from "../../../services/inviteService";
+import { PlayerService } from "../../../services/playerService";
+
+import { GameDurationUtility } from "../../../../stroll-utilities/gameDurationUtility";
 import { MatchupUtility } from "../../../utilities/matchupUtility";
 import { PlayerUtility } from "../../../utilities/playerUtility";
 
@@ -13,7 +17,12 @@ import { IMatchup, matchupConverter } from "../../../../stroll-models/matchup";
 import { IPlayer, playerConverter } from "../../../../stroll-models/player";
 import { IPrediction, predictionConverter } from "../../../../stroll-models/prediction";
 
-export const useGameListenersEffect = (appState: IAppState, state: IGamePageState, setState: (state: IGamePageState) => void): void => {
+import { AppStatus } from "../../../enums/appStatus";
+import { RequestStatus } from "../../../../stroll-enums/requestStatus";
+
+import { GameStatus } from "../../../../stroll-enums/gameStatus";
+
+export const useGameListenersEffect = (id: string, appState: IAppState, state: IGamePageState, setState: (state: IGamePageState) => void): void => {
   const [game, setGame] = useState<IGame>(defaultGame()),
     [players, setPlayers] = useState<IPlayer[]>([]),
     [matchups, setMatchups] = useState<IMatchup[]>([]),
@@ -24,6 +33,12 @@ export const useGameListenersEffect = (appState: IAppState, state: IGamePageStat
 
     if(game.id !== "") {
       updates.game = game;
+
+      if(updates.status === RequestStatus.Loading) {
+        updates.day = GameDurationUtility.getDay(game);
+
+        updates.status = RequestStatus.Success;
+      }
     }
 
     const player: IPlayer = PlayerUtility.getByUser(appState.user, players);
@@ -43,21 +58,50 @@ export const useGameListenersEffect = (appState: IAppState, state: IGamePageStat
     if(predictions.length > 0) {
       updates.predictions = predictions;
     }
-
+    
     setState(updates);
   }, [appState.user, game, matchups, players, predictions]);
 
-  useEffect(() => {        
-    if(state.game.id !== "" && state.player.id !== "") {     
+  useEffect(() => {   
+    if(id.trim() !== "" && appState.status !== AppStatus.Loading) {     
       const unsubToGame = db.collection("games")
-        .doc(state.game.id)
+        .doc(id)
         .withConverter(gameConverter)
         .onSnapshot((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => {
           if(doc.exists) {
+            console.log("listen to game", doc.data());
             setGame(doc.data());
           }
         });
 
+      return () => unsubToGame();
+    }
+  }, [id, appState.status]);
+
+  useEffect(() => {    
+    if(appState.status === AppStatus.SignedIn && state.game.id !== "") {
+      const fetch = async (): Promise<void> => {
+        const updates: IGamePageState = { ...state };
+
+        const player: IPlayer = await PlayerService.get.by.id(game.id, appState.user.profile.uid);
+
+        if(player) {
+          updates.player = player;
+
+          if(state.game.status === GameStatus.Upcoming) {
+            updates.invite = await InviteService.get.by.game(game);
+          }
+        }
+
+        setState(updates);
+      }
+
+      fetch();
+    }            
+  }, [appState.status, state.game.id]);
+
+  useEffect(() => {        
+    if(state.game.id !== "" && state.player.id !== "") {        
       const unsubToPlayers = db.collection("games")
         .doc(state.game.id)
         .collection("players")
@@ -68,7 +112,7 @@ export const useGameListenersEffect = (appState: IAppState, state: IGamePageStat
 
           snap.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>) =>
             updates.push(doc.data()));
-          
+
           setPlayers(updates);
         });
 
@@ -102,7 +146,6 @@ export const useGameListenersEffect = (appState: IAppState, state: IGamePageStat
         });
         
       return () => {
-        unsubToGame();
         unsubToPlayers();
         unsubToMatchups();
         unsubToPredictions();

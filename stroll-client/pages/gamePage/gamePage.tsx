@@ -6,7 +6,7 @@ import { Page } from "../../components/page/page";
 
 import { AppContext } from "../../components/app/contexts/appContext";
 
-import { useUpdateCurrentDayEffect, useFetchGameEffect, useGameInviteEffect } from "./effects/gamePageEffects";
+import { useUpdateCurrentDayEffect, useGameInviteEffect } from "./effects/gamePageEffects";
 import { useGameListenersEffect } from "./effects/gamePageListenerEffects";
 
 import { ImageUtility } from "../../utilities/imageUtility";
@@ -37,11 +37,9 @@ export const GamePage: React.FC<GamePageProps> = (props: GamePageProps) => {
 
   const id: string = UrlUtility.getParam(useRouteMatch(), "id");
 
-  useFetchGameEffect(id, appState, state, setState);
-
   useGameInviteEffect(appState, state, dispatch, setState);
 
-  useGameListenersEffect(appState, state, setState);
+  useGameListenersEffect(id, appState, state, setState);
 
   useUpdateCurrentDayEffect(state, setState);
 

@@ -12,7 +12,7 @@ import { FirebaseErrorCode } from "../../stroll-enums/firebaseErrorCode";
 
 interface IPlayerServiceGetBy {
   game: (id: string) => Promise<IPlayer[]>;
-  id: (game: IGame, id: string) => Promise<IPlayer>;  
+  id: (gameID: string, id: string) => Promise<IPlayer>;  
 }
 
 interface IPlayerServiceGet {
@@ -58,10 +58,10 @@ export const PlayerService: IPlayerService = {
           throw err;
         }
       },
-      id: async (game: IGame, id: string): Promise<IPlayer> => {
+      id: async (gameID: string, id: string): Promise<IPlayer> => {
         try {
           const doc: firebase.firestore.DocumentSnapshot<IPlayer> = await db.collection("games")
-            .doc(game.id)
+            .doc(gameID)
             .collection("players")
             .doc(id)
             .withConverter<IPlayer>(playerConverter)
