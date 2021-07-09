@@ -114,6 +114,6 @@ export const GameDurationUtility: IGameDurationUtility = {
       diff: number = Math.abs(date.getTime() - Date.now()),
       hours: number = Math.floor(diff / (3600 * 1000));
 
-    return hours % 24 === 0;
+    return hours >= 24 && hours % 24 === 0;
   }
 }
