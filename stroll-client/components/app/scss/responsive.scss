@@ -1,7 +1,7 @@
 /* -- or smaller -- */
 
 @mixin small-phone-or-smaller {
-  @media (max-width: 419px) {
+  @media (max-width: 399px) {
     @content;
   }
 }
@@ -58,7 +58,7 @@
 /* -- or larger -- */
 
 @mixin small-phone-or-larger {
-  @media (min-width: 420px) {
+  @media (min-width: 400px) {
     @content;
   }
 }

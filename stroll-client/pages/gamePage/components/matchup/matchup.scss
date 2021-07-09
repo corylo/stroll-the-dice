@@ -37,3 +37,14 @@
     }
   }
 }
+
+@include small-phone-or-smaller {
+  .game-matchup {    
+    .game-matchup-sides {
+      .game-matchup-vs-label {
+        font-size: 1.5em;
+        margin: 0px 10px;
+      }
+    }
+  }
+}
