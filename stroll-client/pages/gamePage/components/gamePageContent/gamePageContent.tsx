@@ -49,7 +49,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
 
     const getLeaderboard = (): JSX.Element => {   
       if(game.status !== GameStatus.Upcoming && players.length > 3) {
-        if(state.statuses.matchups === RequestStatus.Success) {
+        if(state.statuses.players === RequestStatus.Success) {
           return (
             <Leaderboard 
               limit={4}
