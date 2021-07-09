@@ -2,6 +2,7 @@
 @import "./leaderboardTopRow/leaderboardTopRow.scss";
 
 .leaderboard {
+  background-color: rgba(white, 0.03);
   border: 2px solid transparent;
   border-left: 2px solid rgba(white, 0.4);
   border-right: 2px solid rgba(white, 0.4);
