@@ -5,6 +5,7 @@ import { Button } from "../../../../components/buttons/button";
 import { IconButton } from "../../../../components/buttons/iconButton";
 import { GameDayStatus } from "../../../../components/gameDayStatus/gameDayStatus";
 import { Matchup } from "../matchup/matchup";
+import { UpdateTimer } from "../../../../components/updateTimer/updateTimer";
 
 import { GamePageContext } from "../../gamePage";
 
@@ -46,6 +47,14 @@ export const Matchups: React.FC<MatchupsProps> = (props: MatchupsProps) => {
         return <span className="highlight-main">Today</span>;
       } else if (game.status === GameStatus.InProgress && dayStatus === GameStatus.Upcoming) {
         return <span className="highlight-main">Tomorrow</span>;
+      }
+    }
+
+    const getUpdateTimer = (): JSX.Element => {
+      if(dayStatus === GameStatus.InProgress) {
+        return (
+          <UpdateTimer />
+        )
       }
     }
 
@@ -94,12 +103,15 @@ export const Matchups: React.FC<MatchupsProps> = (props: MatchupsProps) => {
       <div className={classNames("game-matchups", UrlUtility.format(dayStatus))}>
         <div className="game-matchups-title">
           <h1 className="game-matchups-title-text passion-one-font">Day {props.day} of {props.duration} {getDayLabel()}</h1>
-          <h1 className="game-matchups-title-date passion-one-font">{getDate()}</h1>
-          <GameDayStatus 
-            day={state.day} 
-            game={game} 
-            dayStatus={dayStatus} 
-          />
+          <div className="game-matchups-title-date-and-game-status">
+            <h1 className="game-matchups-title-date passion-one-font">{getDate()}</h1>
+            <GameDayStatus 
+              day={state.day} 
+              game={game} 
+              dayStatus={dayStatus} 
+            />
+          </div>
+          {getUpdateTimer()}          
           {getHideButton()}
         </div>
         {getMatchupsList()}

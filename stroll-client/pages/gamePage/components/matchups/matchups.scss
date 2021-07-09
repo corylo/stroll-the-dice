@@ -8,20 +8,32 @@
   margin-top: 20px;
 
   .game-matchups-title {
+    padding-bottom: 20px;
     position: relative;
 
     .game-matchups-title-text {
+      border-bottom: 1px solid rgba(white, 0.1);
       color: gray(230);
       font-size: 2em;
+      padding-bottom: 10px;
     }
     
-    .game-matchups-title-date {
-      color: gray(150);
-      font-size: 1.25em;
+    .game-matchups-title-date-and-game-status {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5px;
+
+      .game-matchups-title-date {
+        color: gray(230);
+        font-size: 1.25em;
+      }
     }
 
-    .game-day-status {
-      margin-top: 5px;
+    .update-timer {
+      bottom: 0px;
+      position: absolute;
+      right: 0px;
     }
 
     .hide-matchups-button {
@@ -44,10 +56,6 @@
     }
   }
 
-  .game-matchups-list {
-    margin-top: 10px;
-  }
-  
   .view-matchups-button {
     background-color: rgba(white, 0.1);
     margin-top: 10px;

@@ -1,0 +1,13 @@
+.update-timer.label.combo {
+  i {
+    animation: blink 2s ease-in-out infinite;
+    color: $themeMain;
+    font-size: 0.8em;
+  }
+
+  .label-text-wrapper > h1 {
+    height: 20px;
+    line-height: 20px;
+    margin-left: 5px;
+  }
+}
