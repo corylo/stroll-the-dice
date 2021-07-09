@@ -44,7 +44,7 @@ export const PredictionService: IPredictionService = {
   onCreate: async (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext): Promise<void> => {
     const prediction: IPrediction = { ...snapshot.data() as IPrediction, id: snapshot.id };
 
-    if(prediction.ref.creator !== prediction.ref.player) {
+    // if(prediction.ref.creator !== prediction.ref.player) {
       try {
         const matchupRef: firebase.firestore.DocumentReference = db.collection("games")
           .doc(context.params.gameID)
@@ -74,7 +74,7 @@ export const PredictionService: IPredictionService = {
       } catch (err) {
         logger.error(err);
       }
-    }
+    // }
   },
   onUpdate: async (change: Change<firebase.firestore.QueryDocumentSnapshot<IPrediction>>, context: EventContext): Promise<void> => {
     const before: IPrediction = change.before.data(),
