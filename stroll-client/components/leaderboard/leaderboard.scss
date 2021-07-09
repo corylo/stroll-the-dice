@@ -31,7 +31,7 @@
   }
 }
 
-@include phone-or-larger {
+@include small-phone-or-larger {
   .leaderboard {    
     border: 2px solid transparent;
     border-left: 2px solid rgba(white, 0.4);
