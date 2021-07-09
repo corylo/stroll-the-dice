@@ -49,20 +49,22 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
 
     const getLeaderboard = (): JSX.Element => {   
       if(game.status !== GameStatus.Upcoming && players.length > 3) {
-        return (
-          <Leaderboard 
-            limit={4}
-            players={players} 
-            showTitle
-            sort={LeaderboardSort.Points} 
-            toggleView={() => toggle({ players: true })}
-          />
-        )
-      } else {
-        return (
-          <LoadingMessage text="Loading players" />
-        )
-      }
+        if(state.statuses.matchups === RequestStatus.Success) {
+          return (
+            <Leaderboard 
+              limit={4}
+              players={players} 
+              showTitle
+              sort={LeaderboardSort.Points} 
+              toggleView={() => toggle({ players: true })}
+            />
+          )
+        } else {
+          return (
+            <LoadingMessage text="Loading players" />
+          )
+        }
+      } 
     }
 
     const getMatchups = (): JSX.Element | JSX.Element[] => {    

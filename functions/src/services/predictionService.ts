@@ -57,11 +57,8 @@ export const PredictionService: IPredictionService = {
           if(matchupDoc.exists) {
             const matchup: IMatchup = { ...matchupDoc.data() as IMatchup, id: matchupDoc.id };
 
-            const property: string = prediction.ref.player === matchup.left.ref
-              ? "left"
-              : "right";
-
-            const side: IMatchupSide = matchup[property];
+            const property: string = prediction.ref.player === matchup.left.ref ? "left" : "right",
+              side: IMatchupSide = matchup[property];
 
             const updatedTotalWagered: number = side.total.wagered + prediction.amount;
 
