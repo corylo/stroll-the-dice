@@ -120,6 +120,7 @@
       text-align: center;
       text-overflow: ellipsis;
       white-space: nowrap;
+      width: 140px;
     }
   }
 
@@ -207,6 +208,20 @@
         .leaderboard-top-row-player-username {
           font-size: 0.8em;
           width: 80px;
+        }
+      }
+    }
+  }
+}
+
+@include small-phone-or-smaller {
+  .leaderboard-top-row {  
+    &.place-1,
+    &.place-2,
+    &.place-3 {
+      .leaderboard-top-row-player {
+        .leaderboard-top-row-player-username {
+          width: 60px;
         }
       }
     }

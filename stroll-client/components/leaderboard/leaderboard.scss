@@ -2,6 +2,12 @@
 @import "./leaderboardTopRow/leaderboardTopRow.scss";
 
 .leaderboard {
+  border: 2px solid transparent;
+  border-left: 2px solid rgba(white, 0.4);
+  border-right: 2px solid rgba(white, 0.4);
+  border-radius: 10px;
+  padding: 10px;
+
   .leaderboard-title {
     color: gray(230);
     font-size: 2em;
@@ -28,15 +34,5 @@
       background-color: rgba(white, 0.2);
       color: $themeMain;
     }
-  }
-}
-
-@include small-phone-or-larger {
-  .leaderboard {    
-    border: 2px solid transparent;
-    border-left: 2px solid rgba(white, 0.4);
-    border-right: 2px solid rgba(white, 0.4);
-    border-radius: 10px;
-    padding: 10px;
   }
 }
