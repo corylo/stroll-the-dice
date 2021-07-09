@@ -56,7 +56,7 @@ export const defaultGame = (): IGame => ({
   status: GameStatus.Upcoming
 });
 
-export const gameConverter: firebase.firestore.FirestoreDataConverter<IGame> = {
+export const gameConverter: any = {
   toFirestore(game: IGame): firebase.firestore.DocumentData {
     return {
       counts: game.counts,
@@ -74,10 +74,9 @@ export const gameConverter: firebase.firestore.FirestoreDataConverter<IGame> = {
     }
   },
   fromFirestore(
-    snapshot: firebase.firestore.QueryDocumentSnapshot<IGame>,
-    options: firebase.firestore.SnapshotOptions
+    snapshot: firebase.firestore.QueryDocumentSnapshot<IGame>
   ): IGame {
-    const data: IGame = snapshot.data(options);
+    const data: IGame = snapshot.data();
 
     return {
       counts: data.counts,

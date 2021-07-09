@@ -1,10 +1,12 @@
 import firebase from "firebase/app";
-import { IGame } from "../../stroll-models/game";
 
+import { IGame } from "../../stroll-models/game";
 import { IInvite } from "../../stroll-models/invite";
 import { defaultPlayer, IPlayer } from "../../stroll-models/player";
 import { IProfile } from "../../stroll-models/profile";
 import { IUser } from "../models/user";
+
+import { InitialValue } from "../../stroll-enums/initialValue";
 
 interface IPlayerUtility {
   getById: (id: string, players: IPlayer[]) => IPlayer;
@@ -29,8 +31,8 @@ export const PlayerUtility: IPlayerUtility = {
       id: profile.uid,      
       index: 0,
       points: {
-        available: 1000,
-        total: 1000
+        available: InitialValue.PlayerPoints,
+        total: InitialValue.PlayerPoints
       },
       profile,
       ref: {

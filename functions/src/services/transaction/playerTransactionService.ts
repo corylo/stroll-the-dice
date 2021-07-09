@@ -3,21 +3,25 @@ import { logger } from "firebase-functions";
 
 import { db } from "../../../firebase";
 
+import { MatchupTransactionService } from "./matchupTransactionService";
+import { PredictionTransactionService } from "./predictionTransactionService";
+
 import { MatchupUtility } from "../../utilities/matchupUtility";
 import { PlayerUtility } from "../../utilities/playerUtility";
 import { PointsUtility } from "../../utilities/pointsUtility";
 import { PredictionUtility } from "../../utilities/predictionUtility";
 
 import { IGame } from "../../../../stroll-models/game";
-import { IMatchup, matchupConverter } from "../../../../stroll-models/matchup";
+import { IMatchup, IMatchupSideTotal } from "../../../../stroll-models/matchup";
 import { IMatchupSideStepUpdate } from "../../../../stroll-models/matchupSideStepUpdate";
 import { IPlayer } from "../../../../stroll-models/player";
 import { IPrediction } from "../../../../stroll-models/prediction";
-import { MatchupTransactionService } from "./matchupTransactionService";
+
+import { InitialValue } from "../../../../stroll-enums/initialValue";
 
 interface IPlayerTransactionService {
   handleMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, game: IGame, player: IPlayer) => void;
-  completeDayOneMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, player: IPlayer) => void;
+  completeDayOneMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, player: IPlayer) => IMatchup;
   createDayOneMatchup: (transaction: firebase.firestore.Transaction, player: IPlayer) => void;    
   distributePayoutsAndFinalizeSteps: (gameID: string, matchups: IMatchup[], updates: IMatchupSideStepUpdate[], predictions: IPrediction[]) => Promise<void>;
   distributePointsAndUpdateSteps: (gameID: string, matchups: IMatchup[], updates: IMatchupSideStepUpdate[]) => Promise<void>;
@@ -26,17 +30,19 @@ interface IPlayerTransactionService {
 
 export const PlayerTransactionService: IPlayerTransactionService = {
   handleMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, game: IGame, player: IPlayer): void => {
-    if(matchupSnap.empty || game.counts.players % 2 === 0) {
+    if(matchupSnap.empty || game.counts.players % 2 === 0) {    
       PlayerTransactionService.createDayOneMatchup(transaction, player);
-    } else if (matchupSnap.docs.length === 1) {
-      PlayerTransactionService.completeDayOneMatchup(transaction, matchupSnap, player);
+    } else {
+      const matchup: IMatchup = PlayerTransactionService.completeDayOneMatchup(transaction, matchupSnap, player);
+
+      PredictionTransactionService.createInitialPredictions(transaction, game.id, matchup.id, matchup.left.ref, player.id);
     }
   },
-  completeDayOneMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, player: IPlayer): void => {      
+  completeDayOneMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, player: IPlayer): IMatchup => {      
     const matchups: IMatchup[] = [];
 
     matchupSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IMatchup>) => 
-      matchups.push({ ...doc.data(), id: doc.id }));
+      matchups.push(doc.data()));
 
     const matchup: IMatchup = matchups[0];
 
@@ -44,7 +50,18 @@ export const PlayerTransactionService: IPlayerTransactionService = {
 
     const matchupRef: firebase.firestore.DocumentReference = MatchupUtility.getMatchupRef(player.ref.game, matchup.id);
 
-    transaction.update(matchupRef, { ["right.ref"]: player.id });
+    const total: IMatchupSideTotal = {
+      participants: 1,
+      wagered: InitialValue.InitialPredictionPoints
+    };
+    
+    transaction.update(matchupRef, { 
+      ["left.total"]: total,
+      ["right.total"]: total,
+      ["right.ref"]: player.id 
+    });
+
+    return matchup;
   },
   createDayOneMatchup: (transaction: firebase.firestore.Transaction, player: IPlayer): void => {
     logger.info(`Creating matchup for player [${player.id}] in game [${player.ref.game}].`);

@@ -22,7 +22,7 @@ export const CreateGameService: ICreateGameService = {
 
     const gameRef: firebase.firestore.DocumentReference<IGame> = db.collection("games")
       .doc(game.id)
-      .withConverter(gameConverter);
+      .withConverter<IGame>(gameConverter);
 
     batch.set(gameRef, game);
 

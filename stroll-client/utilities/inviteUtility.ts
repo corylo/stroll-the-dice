@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 
 import { DateUtility } from "../../stroll-utilities/dateUtility";
-import { Nano } from "./nanoUtility";
+import { Nano } from "../utilities/nanoUtility";
 import { UrlUtility } from "./urlUtility";
 
 import { IGame } from "../../stroll-models/game";

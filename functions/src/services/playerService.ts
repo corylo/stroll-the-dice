@@ -5,7 +5,7 @@ import { db } from "../../firebase";
 
 import { PlayerTransactionService } from "./transaction/playerTransactionService";
 
-import { IGame } from "../../../stroll-models/game";
+import { gameConverter, IGame } from "../../../stroll-models/game";
 import { matchupConverter } from "../../../stroll-models/matchup";
 import { IPlayer, playerConverter } from "../../../stroll-models/player";
 
@@ -34,8 +34,9 @@ export const PlayerService: IPlayerService = {
     const player: IPlayer = { ...snapshot.data() as IPlayer, id: snapshot.id };
 
     try {
-      const gameRef: firebase.firestore.DocumentReference = db.collection("games")
-        .doc(player.ref.game);
+      const gameRef: firebase.firestore.DocumentReference<IGame> = db.collection("games")
+        .doc(player.ref.game)
+        .withConverter<IGame>(gameConverter);
 
       const existingMatchupRef: firebase.firestore.Query = db.collection("games")
         .doc(player.ref.game)
@@ -45,11 +46,11 @@ export const PlayerService: IPlayerService = {
         .withConverter(matchupConverter);
 
       await db.runTransaction(async (transaction: firebase.firestore.Transaction) => {
-        const gameDoc: firebase.firestore.DocumentSnapshot = await transaction.get(gameRef),
+        const gameDoc: firebase.firestore.DocumentSnapshot<IGame> = await transaction.get(gameRef),
           matchupSnap: firebase.firestore.QuerySnapshot = await transaction.get(existingMatchupRef);
 
         if(gameDoc.exists) {
-          const game: IGame = { ...gameDoc.data() as IGame, id: gameDoc.id }; 
+          const game: IGame = gameDoc.data(); 
 
           PlayerTransactionService.updateCounts(transaction, gameRef, game, player);
         

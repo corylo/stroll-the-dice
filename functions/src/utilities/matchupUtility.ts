@@ -4,12 +4,13 @@ import { db } from "../../firebase";
 
 import { NumberUtility } from "../../../stroll-utilities/numberUtility";
 
-import { defaultMatchupSideTotal, IMatchup, IMatchupSide, matchupConverter } from "../../../stroll-models/matchup";
+import { defaultMatchupSideTotal, IMatchup, IMatchupSide, IMatchupSideTotal, matchupConverter } from "../../../stroll-models/matchup";
 import { IMatchupPair } from "../../../stroll-models/matchupPair";
 import { IMatchupPairGroup } from "../../../stroll-models/matchupPairGroup";
 import { IMatchupSideStepUpdate } from "../../../stroll-models/matchupSideStepUpdate";
 import { IPlayer } from "../../../stroll-models/player";
 
+import { InitialValue } from "../../../stroll-enums/initialValue";
 import { MatchupLeader } from "../../../stroll-enums/matchupLeader";
 
 interface IMatchupUtility {  
@@ -26,7 +27,7 @@ interface IMatchupUtility {
   getLeader: (matchup: IMatchup) => string;
   getMatchupRef: (gameID: string, matchupID?: string) => firebase.firestore.DocumentReference;
   getWinnerOdds: (matchup: IMatchup) => number;
-  mapCreate: (leftID: string, rightID: string, day: number) => IMatchup;
+  mapCreate: (leftID: string, rightID: string, day: number, total?: IMatchupSideTotal) => IMatchup;
   mapMatchupsFromPairGroups: (groups: IMatchupPairGroup[], players: IPlayer[]) => IMatchup[];
   mapStepUpdates: (matchups: IMatchup[], updates: IMatchupSideStepUpdate[]) => IMatchup[];  
   setWinners: (matchups: IMatchup[]) => IMatchup[];
@@ -178,7 +179,7 @@ export const MatchupUtility: IMatchupUtility = {
 
     return 1;
   },
-  mapCreate: (leftID: string, rightID: string, day: number): IMatchup => {
+  mapCreate: (leftID: string, rightID: string, day: number, total?: IMatchupSideTotal): IMatchup => {
     return {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       day,
@@ -186,12 +187,12 @@ export const MatchupUtility: IMatchupUtility = {
       left: {
         ref: leftID,
         steps: 0,
-        total: defaultMatchupSideTotal()
+        total: total || defaultMatchupSideTotal()
       },
       right: {
         ref: rightID,
         steps: 0,
-        total: defaultMatchupSideTotal()
+        total: total || defaultMatchupSideTotal()
       },
       winner: ""
     }
@@ -201,6 +202,11 @@ export const MatchupUtility: IMatchupUtility = {
 
     let matchups: IMatchup[] = [];
 
+    const total: IMatchupSideTotal = {
+      participants: 1,
+      wagered: InitialValue.InitialPredictionPoints
+    };
+    
     groups.forEach((group: IMatchupPairGroup) => {
       group.pairs.forEach((pair: IMatchupPair) => {
         const left: IPlayer = players.find((player: IPlayer) => player.index === pair.left - 1),
@@ -208,7 +214,8 @@ export const MatchupUtility: IMatchupUtility = {
           leftID: string = left ? left.id : "",
           rightID: string = right ? right.id : "";
 
-        matchups.push(MatchupUtility.mapCreate(leftID, rightID, group.day));
+
+        matchups.push(MatchupUtility.mapCreate(leftID, rightID, group.day, total));
       });
     });
 

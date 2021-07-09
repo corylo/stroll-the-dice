@@ -39,7 +39,6 @@ export const useConnectStepTrackerEffect = (
   });
 
   useEffect(() => {
-    console.log(window.location.origin)
     const load = async (): Promise<void> => {
       if(
         appState.status === AppStatus.SignedIn && 

@@ -10,8 +10,8 @@ import { IAppState } from "../../../components/app/models/appState";
 import { defaultGame, gameConverter, IGame } from "../../../../stroll-models/game";
 import { IGamePageState } from "../models/gamePageState";
 import { IMatchup, matchupConverter } from "../../../../stroll-models/matchup";
-import { IPrediction, predictionConverter } from "../../../../stroll-models/prediction";
 import { IPlayer, playerConverter } from "../../../../stroll-models/player";
+import { IPrediction, predictionConverter } from "../../../../stroll-models/prediction";
 
 export const useGameListenersEffect = (appState: IAppState, state: IGamePageState, setState: (state: IGamePageState) => void): void => {
   const [game, setGame] = useState<IGame>(defaultGame()),

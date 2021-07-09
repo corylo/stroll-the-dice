@@ -2,11 +2,12 @@ import firebase from "firebase/app";
 
 import { db } from "../firebase";
 
+import { GameDurationUtility } from "../../stroll-utilities/gameDurationUtility";
+
 import { gameConverter, IGame } from "../../stroll-models/game";
 import { IGameUpdate } from "../../stroll-models/gameUpdate";
 
 import { GameStatus } from "../../stroll-enums/gameStatus";
-import { GameDurationUtility } from "../../stroll-utilities/gameDurationUtility";
 
 interface IGameService {
   create: (game: IGame) => Promise<void>;
@@ -33,7 +34,7 @@ export const GameService: IGameService = {
   get: async (id: string): Promise<IGame> => {
     const doc: firebase.firestore.DocumentSnapshot<IGame> = await db.collection("games")
       .doc(id)
-      .withConverter(gameConverter)
+      .withConverter<IGame>(gameConverter)
       .get();
 
     return doc.exists ? doc.data() : null;
@@ -58,7 +59,7 @@ export const GameService: IGameService = {
       .orderBy(GameDurationUtility.getOrderBy(status), GameDurationUtility.getOrderByDirection(status))      
       .orderBy("sortable.name")
       .limit(limit || 10)
-      .withConverter(gameConverter)
+      .withConverter<IGame>(gameConverter)
       .get();
 
     let games: IGame[] = [];

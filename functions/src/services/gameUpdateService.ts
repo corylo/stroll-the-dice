@@ -9,6 +9,7 @@ import { MatchupService } from "./matchupService";
 import { PlayerService } from "./playerService";
 import { PlayerTransactionService } from "./transaction/playerTransactionService";
 import { PlayingInBatchService } from "./batch/playingInBatchService";
+import { PredictionBatchService } from "./batch/predictionBatchService";
 import { PredictionService } from "./predictionService";
 import { StepTrackerService } from "./stepTrackerService";
 
@@ -80,6 +81,12 @@ export const GameUpdateService: IGameUpdateService = {
 
     logger.info(`Creating [${matchups.length}] matchups for game [${gameID}].`);
 
-    await MatchupBatchService.createRemainingMatchups(gameID, matchups);
+    const batch: firebase.firestore.WriteBatch = db.batch();
+
+    MatchupBatchService.createRemainingMatchups(batch, gameID, matchups);
+
+    PredictionBatchService.createInitialPredictions(batch, gameID, matchups);
+
+    await batch.commit();
   }
 }

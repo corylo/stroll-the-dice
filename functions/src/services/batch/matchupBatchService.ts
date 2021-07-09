@@ -5,14 +5,12 @@ import { db } from "../../../firebase";
 import { IMatchup, matchupConverter } from "../../../../stroll-models/matchup";
 
 interface IMatchupBatchService {
-  createRemainingMatchups: (gameID: string, matchups: IMatchup[]) => Promise<void>;
+  createRemainingMatchups: (batch: firebase.firestore.WriteBatch, gameID: string, matchups: IMatchup[]) => void;
   updateAll: (gameID: string, matchups: IMatchup[]) => Promise<void>;
 }
 
 export const MatchupBatchService: IMatchupBatchService = {
-  createRemainingMatchups: async (gameID: string, matchups: IMatchup[]): Promise<void> => {
-    const batch: firebase.firestore.WriteBatch = db.batch();
-
+  createRemainingMatchups: (batch: firebase.firestore.WriteBatch, gameID: string, matchups: IMatchup[]): void => {    
     matchups.forEach((matchup: IMatchup) => {      
       const matchupRef: firebase.firestore.DocumentReference = db.collection("games")
         .doc(gameID)
@@ -22,8 +20,6 @@ export const MatchupBatchService: IMatchupBatchService = {
 
       batch.set(matchupRef, matchup);
     });
-
-    await batch.commit();
   },
   updateAll: async (gameID: string, matchups: IMatchup[]): Promise<void> => {
     const batch: firebase.firestore.WriteBatch = db.batch();

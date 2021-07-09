@@ -1,3 +1,5 @@
+import firebase from "firebase-admin";
+
 import { MatchupUtility } from "./matchupUtility";
 
 import { IMatchup } from "../../../stroll-models/matchup";
@@ -13,6 +15,7 @@ interface IPredictionUtility {
   getByPlayer: (playerID: string, predictions: IPrediction[]) => IPrediction[];
   getCorrectPredictions: (predictions: IPrediction[], matchups: IMatchup[]) => IPrediction[];
   getIncorrectPredictions: (predictions: IPrediction[], matchups: IMatchup[]) => IPrediction[];  
+  mapCreate: (amount: number, creatorID: string, gameID: string, matchupID: string, playerID: string) => IPrediction;  
   sumCorrectPredictions: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]) => number;  
   sumCorrectPredictionsWithOdds: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]) => number;
   sumIncorrectPredictions: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]) => number;
@@ -52,6 +55,20 @@ export const PredictionUtility: IPredictionUtility = {
   },
   getIncorrectPredictions: (predictions: IPrediction[], matchups: IMatchup[]): IPrediction[] => {
     return predictions.filter((prediction: IPrediction) => !PredictionUtility.determineIfCorrect(prediction, matchups));
+  },
+  mapCreate: (amount: number, creatorID: string, gameID: string, matchupID: string, playerID: string): IPrediction => {
+    return {
+      amount,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      id: "",
+      ref: {
+        creator: creatorID,
+        game: gameID,
+        matchup: matchupID,
+        player: playerID
+      },
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }
   },
   sumCorrectPredictions: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]): number => {
     const predictions: IPrediction[] = PredictionUtility.getByPlayer(playerID, allPredictions),
