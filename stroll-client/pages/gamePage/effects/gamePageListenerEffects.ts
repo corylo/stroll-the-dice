@@ -69,7 +69,6 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
         .withConverter(gameConverter)
         .onSnapshot((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => {
           if(doc.exists) {
-            console.log("listen to game", doc.data());
             setGame(doc.data());
           }
         });
