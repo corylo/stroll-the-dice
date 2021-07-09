@@ -6,6 +6,7 @@ import { GameDateStatus } from "../../../../components/gameDateStatus/gameDateSt
 import { GameDetails } from "../../../../components/gameDetails/gameDetails";
 import { InvitePlayersModal } from "../invitePlayersModal/invitePlayersModal";
 import { Leaderboard, LeaderboardSort } from "../../../../components/leaderboard/leaderboard";
+import { LoadingMessage } from "../../../../components/loadingMessage/loadingMessage";
 import { Matchups } from "../matchups/matchups";
 import { MyPoints } from "../myPoints/myPoints";
 import { UpdateGameModal } from "../updateGameModal/updateGameModal";
@@ -57,19 +58,29 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
             toggleView={() => toggle({ players: true })}
           />
         )
+      } else {
+        return (
+          <LoadingMessage text="Loading players" />
+        )
       }
     }
 
-    const getMatchups = (): JSX.Element[] => {        
-      return MatchupUtility.groupByDay(state.matchups)
-        .map((entry: any) => (
-          <Matchups 
-            key={entry.day} 
-            day={entry.day} 
-            duration={game.duration}
-            matchups={entry.matchups} 
-          />
-        ));
+    const getMatchups = (): JSX.Element | JSX.Element[] => {    
+      if(state.statuses.matchups === RequestStatus.Success) {
+        return MatchupUtility.groupByDay(state.matchups)
+          .map((entry: any) => (
+            <Matchups 
+              key={entry.day} 
+              day={entry.day} 
+              duration={game.duration}
+              matchups={entry.matchups} 
+            />
+          ));
+      } else {
+        return (
+          <LoadingMessage text="Loading matchups" />
+        )
+      }
     }
 
     return (

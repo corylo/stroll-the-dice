@@ -1,0 +1,25 @@
+.loading-message {
+  align-items: center;
+  background-color: rgba(white, 0.05);
+  border: 1px solid rgba(white, 0.2);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  margin: 10px 0px;
+  padding: 40px 20px;
+  position: relative;
+
+  .loading-icon-wrapper {
+    left: auto;
+    position: relative;
+    right: auto;
+    transform: none;
+    width: 50px;
+  }
+
+  h1 {
+    color: gray(200);
+    font-size: 2em;
+    margin-left: 10px;
+  }
+}

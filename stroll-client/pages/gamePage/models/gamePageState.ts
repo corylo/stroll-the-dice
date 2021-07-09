@@ -7,6 +7,18 @@ import { IPrediction } from "../../../../stroll-models/prediction";
 
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
 
+export interface IGamePageStateStatuses {
+  matchups: RequestStatus;
+  players: RequestStatus;
+  predictions: RequestStatus;
+}
+
+export const defaultGamePageStateStatuses = (): IGamePageStateStatuses => ({
+  matchups: RequestStatus.Idle,
+  players: RequestStatus.Idle,
+  predictions: RequestStatus.Idle
+});
+
 export interface IGamePageState {
   day: number;
   game: IGame;
@@ -17,6 +29,7 @@ export interface IGamePageState {
   players: IPlayer[];
   predictions: IPrediction[];
   status: RequestStatus;
+  statuses: IGamePageStateStatuses;
   toggles: IGamePageStateToggles;
 }
 
@@ -30,5 +43,6 @@ export const defaultGamePageState = (): IGamePageState => ({
   players: [],
   predictions: [],
   status: RequestStatus.Loading,
+  statuses: defaultGamePageStateStatuses(),
   toggles: defaultGamePageStateToggles()
 });

@@ -18,9 +18,8 @@ import { IPlayer, playerConverter } from "../../../../stroll-models/player";
 import { IPrediction, predictionConverter } from "../../../../stroll-models/prediction";
 
 import { AppStatus } from "../../../enums/appStatus";
-import { RequestStatus } from "../../../../stroll-enums/requestStatus";
-
 import { GameStatus } from "../../../../stroll-enums/gameStatus";
+import { RequestStatus } from "../../../../stroll-enums/requestStatus";
 
 export const useGameListenersEffect = (id: string, appState: IAppState, state: IGamePageState, setState: (state: IGamePageState) => void): void => {
   const [game, setGame] = useState<IGame>(defaultGame()),
@@ -36,8 +35,6 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
 
       if(updates.status === RequestStatus.Loading) {
         updates.day = GameDurationUtility.getDay(game);
-
-        updates.status = RequestStatus.Success;
       }
     }
 
@@ -49,14 +46,26 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
 
     if(matchups.length > 0) {
       updates.matchups = MatchupUtility.mapPlayers(matchups, players);
+
+      if(updates.statuses.matchups === RequestStatus.Loading) {
+        updates.statuses.matchups = RequestStatus.Success;
+      }
     }
 
     if(players.length > 0) {
       updates.players = players;
+
+      if(updates.statuses.players === RequestStatus.Loading) {
+        updates.statuses.players = RequestStatus.Success;
+      }
     }
 
     if(predictions.length > 0) {
       updates.predictions = predictions;
+
+      if(updates.statuses.predictions === RequestStatus.Loading) {
+        updates.statuses.predictions = RequestStatus.Success;
+      }
     }
     
     setState(updates);
@@ -80,13 +89,20 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
   useEffect(() => {    
     if(appState.status === AppStatus.SignedIn && state.game.id !== "") {
       const fetch = async (): Promise<void> => {
-        const updates: IGamePageState = { ...state };
+        const updates: IGamePageState = { 
+          ...state,
+          status: RequestStatus.Success
+        };
 
         const player: IPlayer = await PlayerService.get.by.id(game.id, appState.user.profile.uid);
 
         if(player) {
           updates.player = player;
 
+          updates.statuses.matchups = RequestStatus.Loading;
+          updates.statuses.players = RequestStatus.Loading;
+          updates.statuses.predictions = RequestStatus.Loading;
+          
           if(state.game.status === GameStatus.Upcoming) {
             updates.invite = await InviteService.get.by.game(game);
           }
