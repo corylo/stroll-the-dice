@@ -39,7 +39,7 @@ export const PredictionUtility: IPredictionUtility = {
     return predictions.find((prediction: IPrediction) => prediction.ref.matchup === matchupID && prediction.id === creatorID) || null;
   },
   getPayoutAmount: (amount: number, matchup: IMatchup): number => {
-    return amount * MatchupUtility.getWinnerOdds(matchup);
+    return Math.round(amount * MatchupUtility.getWinnerOdds(matchup));
   },
   mapCreate: (amount: number, creatorID: string, gameID: string, matchupID: string, playerID: string): IPrediction => {
     return {

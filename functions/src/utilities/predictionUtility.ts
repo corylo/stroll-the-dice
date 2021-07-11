@@ -36,7 +36,7 @@ export const PredictionUtility: IPredictionUtility = {
   determineNewAvailablePoints: (player: IPlayer, matchups: IMatchup[], allPredictions: IPrediction[]): number => {
     const grossPayout: number = PredictionUtility.sumCorrectPredictionsWithOdds(player.id, matchups, allPredictions);
 
-    return Math.round(player.points.available + grossPayout);
+    return player.points.available + grossPayout;
   },
   determineNewTotalPoints: (player: IPlayer, matchups: IMatchup[], allPredictions: IPrediction[]): number => {
     const grossPayout: number = PredictionUtility.sumCorrectPredictionsWithOdds(player.id, matchups, allPredictions),
@@ -45,7 +45,7 @@ export const PredictionUtility: IPredictionUtility = {
     
     const netPayout: number = grossPayout - correctlyWagered;
 
-    return Math.round(player.points.total + netPayout - incorrectlyWagered);
+    return player.points.total + netPayout - incorrectlyWagered;
   },
   getByPlayer: (playerID: string, predictions: IPrediction[]): IPrediction[] => {
     return predictions.filter((prediction: IPrediction) => prediction.ref.creator === playerID);
@@ -102,7 +102,7 @@ export const PredictionUtility: IPredictionUtility = {
       predictions.forEach((prediction: IPrediction) => {
         const matchup: IMatchup = MatchupUtility.getByID(prediction.ref.matchup, matchups);
 
-        sum += (prediction.amount * MatchupUtility.getWinnerOdds(matchup));
+        sum += Math.round(prediction.amount * MatchupUtility.getWinnerOdds(matchup));
       });
 
       return sum;

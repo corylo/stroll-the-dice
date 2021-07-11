@@ -40,11 +40,11 @@ export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => {
         )
       } else if(myPrediction.ref.player === matchup.winner) {      
         return (        
-          <h1 className="my-prediction passion-one-font">You won <span className="highlight-main">{NumberUtility.shorten(PredictionUtility.getPayoutAmount(myPrediction.amount, matchup) - myPrediction.amount)}</span> for correctly predicting <i className={predictedPlayer.profile.icon} style={style} /> <span style={style}> {predictedPlayer.profile.username}</span></h1>
+          <h1 className="my-prediction passion-one-font">You received <span className="highlight-main">{PredictionUtility.getPayoutAmount(myPrediction.amount, matchup).toLocaleString()}</span> for correctly predicting <i className={predictedPlayer.profile.icon} style={style} /> <span style={style}> {predictedPlayer.profile.username}</span></h1>
         )
       } else if (myPrediction.ref.player !== matchup.winner) {
         return (        
-          <h1 className="my-prediction passion-one-font">You lost <span className="highlight-main">{NumberUtility.shorten(myPrediction.amount)}</span> for incorrectly predicting <i className={predictedPlayer.profile.icon} style={style} /> <span style={style}> {predictedPlayer.profile.username}</span></h1>
+          <h1 className="my-prediction passion-one-font">You lost <span className="highlight-main">{myPrediction.amount.toLocaleString()}</span> for incorrectly predicting <i className={predictedPlayer.profile.icon} style={style} /> <span style={style}> {predictedPlayer.profile.username}</span></h1>
         )
       }
     }
