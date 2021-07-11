@@ -22,7 +22,7 @@ export const LeaderboardRow: React.FC<LeaderboardRowProps> = (props: Leaderboard
         <UserLink key={player.id} profile={player.profile} />          
         <Label
           className="leaderboard-row-points passion-one-font"
-          icon="fal fa-coins" 
+          icon="fal fa-sack-dollar" 
           text={player.points.total.toLocaleString()} 
         />
       </div>

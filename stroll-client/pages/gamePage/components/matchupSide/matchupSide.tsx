@@ -107,14 +107,14 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
           />
           <MatchupSideStat 
             alignment={props.alignment}
-            icon="fal fa-coins" 
+            icon="fal fa-sack-dollar" 
             tooltip="Total Wagered"
             value={side.total.wagered ? NumberUtility.shorten(side.total.wagered) : "-"} 
           />
           <MatchupSideStat 
             alignment={props.alignment}
             icon="fal fa-dice" 
-            tooltip="Odds"
+            tooltip="Return Ratio"
             value={`1 : ${new Intl.NumberFormat("en-IN", { maximumFractionDigits: 2 }).format(odds)}`} 
           />
           <MatchupSideStat 

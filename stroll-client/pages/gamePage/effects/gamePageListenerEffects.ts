@@ -26,14 +26,16 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
     [players, setPlayers] = useState<IPlayer[]>([]),
     [matchups, setMatchups] = useState<IMatchup[]>([]),
     [predictions, setPredictions] = useState<IPrediction[]>([]);
-
+  
   useEffect(() => {    
     const updates: IGamePageState = { ...state };
-
+    
     if(game.id !== "") {
       updates.game = game;
 
       if(updates.status === RequestStatus.Loading) {
+        updates.status = RequestStatus.Success;
+
         updates.day = GameDurationUtility.getDay(game);
       }
     }
@@ -77,8 +79,11 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
         .doc(id)
         .withConverter(gameConverter)
         .onSnapshot((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => {
+          console.log(doc.exists)
           if(doc.exists) {
             setGame(doc.data());
+          } else {
+            setState({ ...state, status: RequestStatus.Error });
           }
         });
 

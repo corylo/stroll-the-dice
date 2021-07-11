@@ -46,7 +46,7 @@ export const LeaderboardTopRow: React.FC<LeaderboardTopRowProps> = (props: Leade
       </div>            
       <Label
         className="leaderboard-top-row-points passion-one-font"
-        icon="fal fa-coins" 
+        icon="fal fa-sack-dollar" 
         text={points.total.toLocaleString()} 
       />
     </div>

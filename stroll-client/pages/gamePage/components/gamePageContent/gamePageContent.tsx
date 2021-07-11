@@ -49,7 +49,11 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
 
     const getLeaderboard = (): JSX.Element => {   
       if(game.status !== GameStatus.Upcoming && players.length > 3) {
-        if(state.statuses.players === RequestStatus.Success) {
+        if(state.statuses.players === RequestStatus.Loading) {
+          return (
+            <LoadingMessage text="Loading players" />
+          )
+        } else {
           return (
             <Leaderboard 
               limit={4}
@@ -59,16 +63,18 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
               toggleView={() => toggle({ players: true })}
             />
           )
-        } else {
-          return (
-            <LoadingMessage text="Loading players" />
-          )
         }
       } 
     }
 
     const getMatchups = (): JSX.Element | JSX.Element[] => {    
-      if(state.statuses.matchups === RequestStatus.Success) {
+      if(state.player.id !== "") {
+        if(state.statuses.matchups === RequestStatus.Loading) {          
+          return (
+            <LoadingMessage text="Loading matchups" />
+          )
+        }
+          
         return MatchupUtility.groupByDay(state.matchups)
           .map((entry: any) => (
             <Matchups 
@@ -78,10 +84,6 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
               matchups={entry.matchups} 
             />
           ));
-      } else {
-        return (
-          <LoadingMessage text="Loading matchups" />
-        )
       }
     }
 
