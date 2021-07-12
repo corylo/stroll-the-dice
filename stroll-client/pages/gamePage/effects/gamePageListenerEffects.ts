@@ -33,23 +33,32 @@ export const useMatchupListenerEffect = (
   const [matchups, setMatchups] = useState<IMatchup[]>([]),
     [predictions, setPredictions] = useState<IPrediction[]>([]);
 
+  const [matchupsSynced, setMatchupsSynced] = useState<boolean>(false),
+    [predictionsSynced, setPredictionsSynced] = useState<boolean>(false);
+
+  useEffect(() => {
+    const updates: IMatchupListState = { ...state };
+
+    if(matchupsSynced && state.statuses.matchups === RequestStatus.Loading) {
+      updates.statuses.matchups = RequestStatus.Success;
+    }
+
+    if(predictionsSynced && state.statuses.predictions === RequestStatus.Loading) {
+      updates.statuses.predictions = RequestStatus.Success;
+    }    
+
+    setState(updates);
+  }, [matchupsSynced, predictionsSynced]);
+
   useEffect(() => {    
     const updates: IMatchupListState = { ...state };
     
     if(matchups.length > 0) {
       updates.matchups = matchups;
-
-      if(state.statuses.matchups === RequestStatus.Loading) {
-        updates.statuses.matchups = RequestStatus.Success;
-      }
     }
 
     if(predictions.length > 0) {
       updates.predictions = predictions;
-
-      if(state.statuses.predictions === RequestStatus.Loading) {
-        updates.statuses.predictions = RequestStatus.Success;
-      }
     }
 
     setState(updates);
@@ -70,6 +79,8 @@ export const useMatchupListenerEffect = (
             updates.push(doc.data()));
   
           setMatchups(MatchupUtility.mapPlayers(updates, players));
+
+          setMatchupsSynced(true);
         });
 
       return () => {
@@ -90,8 +101,10 @@ export const useMatchupListenerEffect = (
           
           snap.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPrediction>) =>
             updates.push(doc.data()));
-            
+
           setPredictions(updates);
+          
+          setPredictionsSynced(true);
         });
         
       return () => {

@@ -4,8 +4,10 @@
   .copy-button-icon {
     background-color: transparent;
 
-    &:hover,
-    &:focus {
+    &:not(:disabled):hover,
+    &:not(:disabled):focus {
+      background-color: transparent;
+      
       i {
         color: $themeMain;
       }

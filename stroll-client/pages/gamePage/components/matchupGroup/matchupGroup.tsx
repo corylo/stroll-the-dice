@@ -62,7 +62,7 @@ export const MatchupGroup: React.FC<MatchupGroupProps> = (props: MatchupGroupPro
   }
 
   const getViewButton = (): JSX.Element => {
-    if(expanded) {
+    if(!expanded) {
       const text: string = gameState.day !== 0 && gameState.day + 1 === props.day
         ? "Click to predict tomorrow's matchups!"
         : "View Matchups";
