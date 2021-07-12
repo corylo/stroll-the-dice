@@ -7,20 +7,17 @@
   padding: 10px;
   position: relative;
 
-  &:hover,
-  &:focus {
+  &:not(:disabled):hover,
+  &:not(:disabled):focus {
     background-color: $themeMain;
     color: white;
     cursor: pointer;
-  }
-
-  &:not(:disabled):hover,
-  &:not(:disabled):focus {
+    
     .tooltip {
       opacity: 1;
     }
   }
-  
+
   &.link {
     display: block;
     text-decoration: none;
@@ -42,8 +39,8 @@
 .inline-icon-button {       
   background-color: transparent;
 
-  &:hover,
-  &:focus {
+  &:not(:disabled):hover,
+  &:not(:disabled):focus {
     background-color: transparent;
     
     i {
@@ -67,8 +64,8 @@
   padding: 10px 20px;
   position: relative;
 
-  &:hover,
-  &:focus {
+  &:not(:disabled):hover,
+  &:not(:disabled):focus {
     background-color: rgba($themeMain, 0.6);
   }
 
@@ -76,8 +73,8 @@
     background: rgba(white, 0.1);
     border: 1px solid rgba(white, 0.5);
       
-    &:hover,
-    &:focus {
+    &:not(:disabled):hover,
+    &:not(:disabled):focus {
       background: rgba(white, 0.8);
       color: gray(60);
 
@@ -91,8 +88,8 @@
     background: linear-gradient(to right, rgba($red, 0.25), rgba($red, 0.05));
     border: 1px solid rgba($red, 0.5);
 
-    &:hover,
-    &:focus {
+    &:not(:disabled):hover,
+    &:not(:disabled):focus {
       background-color: rgba($red, 0.6);
     }
   }
@@ -115,13 +112,12 @@
   border: 1px solid gray(120);
   padding: 15px 10px;
 
-  &:hover,
-  &:focus,
-  &.selected {
+  &:not(:disabled):hover,
+  &:not(:disabled):focus {
     background: rgba(white, 0.25);
   }
 
-  &.selected {
+  &:not(:disabled).selected {
     background: $themeMainGradient;
     border: 1px solid rgba($themeMain, 0.5);
   }

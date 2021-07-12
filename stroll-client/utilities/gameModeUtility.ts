@@ -1,11 +1,15 @@
 import { GameMode } from "../../stroll-enums/gameMode";
 
 interface IGameModeUtility {
+  available: (mode: GameMode) => boolean;
   getIcon: (mode: GameMode) => string;
   getModes: () => GameMode[];
 }
 
 export const GameModeUtility: IGameModeUtility = {
+  available: (mode: GameMode): boolean => {
+    return mode === GameMode.Singles;
+  },
   getIcon: (mode: GameMode): string => {
     switch(mode) {
       case GameMode.Singles:

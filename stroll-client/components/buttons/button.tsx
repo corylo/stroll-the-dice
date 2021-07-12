@@ -7,6 +7,7 @@ import { Tooltip, TooltipSide } from "../tooltip/tooltip";
 interface ButtonProps {
   children?: any;
   className?: string;  
+  disabled?: boolean;
   external?: boolean;
   id?: string;
   styles?: React.CSSProperties;
@@ -63,6 +64,7 @@ export const Button: React.FC<ButtonProps> = (
     return (
       <button 
         type="button" 
+        disabled={props.disabled}
         id={props.id} 
         className={classNames("button", props.className)} 
         style={getStyles()}
