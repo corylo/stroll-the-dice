@@ -10,8 +10,11 @@
 
     &.left {
       .game-matchup-side-stats {
-        background: linear-gradient(to right, rgba(white, 0.1), transparent);
+        background: linear-gradient(to right, rgba(white, 0.1), transparent 60%);
+        border-bottom: 1px solid transparent;
         border-bottom-left-radius: 6px;
+        border-left: 1px solid rgba(white, 0.4);  
+        border-top: 1px solid transparent;
         border-top-left-radius: 6px;
         box-shadow: rgba(0, 0, 0, 0.05) -2px 0px 2px;
         
@@ -29,8 +32,11 @@
 
     &.right {
       .game-matchup-side-stats {
-        background: linear-gradient(to left, rgba(white, 0.1), transparent);
+        background: linear-gradient(to left, rgba(white, 0.1), transparent 60%);
+        border-bottom: 1px solid transparent;
         border-bottom-right-radius: 6px;
+        border-right: 1px solid rgba(white, 0.4);     
+        border-top: 1px solid transparent;  
         border-top-right-radius: 6px;
         box-shadow: rgba(0, 0, 0, 0.05) 2px 0px 2px;
 
@@ -145,6 +151,8 @@
 @include small-phone-or-smaller {
   .game-matchup {
     .game-matchup-side {
+      padding: 10px 5px;
+
       .profile-icon {
         font-size: 1em;
         height: 40px;

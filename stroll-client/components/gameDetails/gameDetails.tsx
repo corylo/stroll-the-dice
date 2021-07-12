@@ -16,14 +16,6 @@ interface GameDetailsProps {
 export const GameDetails: React.FC<GameDetailsProps> = (props: GameDetailsProps) => {  
   const { game } = props;
 
-  const getPlayerCountText = (): string => {
-    if(game.counts.players === 1) {
-      return "1 player";
-    }
-
-    return `${game.counts.players} players`;
-  }
-
   return ( 
     <div className="game-details">
       <div className="game-labels">
@@ -40,7 +32,8 @@ export const GameDetails: React.FC<GameDetailsProps> = (props: GameDetailsProps)
         />
         <Label 
           className="game-player-count passion-one-font" 
-          text={getPlayerCountText()} 
+          icon="fal fa-user-friends"
+          text={game.counts.players.toString()} 
           tooltip={props.togglePlayers ? "View" : null}
           tooltipSide={TooltipSide.Bottom}
           handleOnClick={props.togglePlayers}
