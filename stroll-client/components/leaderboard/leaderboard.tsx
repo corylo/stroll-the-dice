@@ -10,7 +10,6 @@ import { GamePageContext } from "../../pages/gamePage/gamePage";
 
 import { IPlayer } from "../../../stroll-models/player";
 
-import { GameStatus } from "../../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../../stroll-enums/requestStatus";
 
 export enum LeaderboardSort {
@@ -30,9 +29,9 @@ interface LeaderboardProps {
 export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps) => {   
   const { state } = useContext(GamePageContext);
 
-  const { game, players, statuses } = state;
-
-  if(game.status !== GameStatus.Upcoming && statuses.players !== RequestStatus.Idle) {
+  const { statuses } = state;
+  
+  if(statuses.players !== RequestStatus.Idle) {
     const getTopRows = (players: IPlayer[]): JSX.Element => {
       const first: IPlayer = players[0],
         second: IPlayer = players[1],
@@ -101,10 +100,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
     }
 
     const getLeaderboardContent = (): JSX.Element => {
-      if(
-        statuses.players === RequestStatus.Success &&
-        players.length > 3
-      ) {
+      if(statuses.players === RequestStatus.Success) {
         return (
           <React.Fragment>
             {getTitle()}

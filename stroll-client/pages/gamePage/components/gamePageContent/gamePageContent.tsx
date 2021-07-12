@@ -46,6 +46,20 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
 
     const getGamePageContentForPlayer = (): JSX.Element => {
       if(player.id !== "") {
+        const getLeaderboard = (): JSX.Element => {
+          if(game.status !== GameStatus.Upcoming && players.length > 4) {
+            return (
+              <Leaderboard 
+                limit={4}
+                players={players} 
+                showTitle
+                sort={LeaderboardSort.Points} 
+                toggleView={() => toggle({ players: true })}
+              />
+            )
+          }
+        }
+
         const getMatchups = (): JSX.Element[] => {    
           let max: number = state.game.status === GameStatus.Upcoming ? 1 : state.game.duration,
             matchupGroups: JSX.Element[] = [];
@@ -61,13 +75,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
 
         return (
           <React.Fragment>
-            <Leaderboard 
-              limit={4}
-              players={players} 
-              showTitle
-              sort={LeaderboardSort.Points} 
-              toggleView={() => toggle({ players: true })}
-            />
+            {getLeaderboard()}
             {getMatchups()}
           </React.Fragment>
         )
