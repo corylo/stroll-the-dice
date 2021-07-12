@@ -68,7 +68,7 @@ export const MatchupGroup: React.FC<MatchupGroupProps> = (props: MatchupGroupPro
         : "View Matchups";
 
       return (
-        <Button className="view-matchups-button passion-one-font" handleOnClick={() => setExpanded(false)}>{text}</Button>
+        <Button className="view-matchups-button passion-one-font" handleOnClick={() => setExpanded(true)}>{text}</Button>
       )
     }
   }
@@ -81,7 +81,7 @@ export const MatchupGroup: React.FC<MatchupGroupProps> = (props: MatchupGroupPro
           icon="fal fa-horizontal-rule" 
           tooltip="Hide"
           tooltipSide={TooltipSide.Left}
-          handleOnClick={() => setExpanded(true)}
+          handleOnClick={() => setExpanded(false)}
         />    
       )
     }
