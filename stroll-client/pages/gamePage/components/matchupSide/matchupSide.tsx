@@ -16,6 +16,7 @@ import { IMatchup, IMatchupSide } from "../../../../../stroll-models/matchup";
 import { IPrediction } from "../../../../../stroll-models/prediction";
 
 import { GameStatus } from "../../../../../stroll-enums/gameStatus";
+import { Icon } from "../../../../../stroll-enums/icon";
 
 export enum MatchupSideAlignment {
   Left = "left",
@@ -107,7 +108,7 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
           />
           <MatchupSideStat 
             alignment={props.alignment}
-            icon="fal fa-sack-dollar" 
+            icon={Icon.Points}
             tooltip="Total Wagered"
             value={side.total.wagered ? NumberUtility.shorten(side.total.wagered) : "-"} 
           />

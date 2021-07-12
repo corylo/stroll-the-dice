@@ -1,11 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import classNames from "classnames";
 
 import { Label } from "../../../../components/label/label";
 
 import { NumberUtility } from "../../../../../stroll-utilities/numberUtility";
 
 import { IPlayer } from "../../../../../stroll-models/player";
+
+import { Icon } from "../../../../../stroll-enums/icon";
 
 interface MyPointsProps {  
   player: IPlayer;
@@ -21,7 +24,7 @@ export const MyPoints: React.FC<MyPointsProps> = (props: MyPointsProps) => {
           <div className="my-points">            
             <div className="my-points-content-wrapper">
               <div className="my-points-content">
-                <i className="my-points-icon fal fa-sack-dollar" />
+                <i className={classNames("my-points-icon", Icon.Points)} />
                 <div className="my-available-points-wrapper">
                   <Label 
                     className="my-available-points passion-one-font"      
@@ -36,7 +39,7 @@ export const MyPoints: React.FC<MyPointsProps> = (props: MyPointsProps) => {
                     text={NumberUtility.shorten(points.total)} 
                     tooltip={points.total.toLocaleString()}
                   />
-                  <h1 className="my-total-points-label passion-one-font">Total</h1>
+                  <h1 className="my-total-points-label passion-one-font">Total Points</h1>
                 </div>
               </div>
             </div>

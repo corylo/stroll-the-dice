@@ -7,6 +7,8 @@ import { ProfileIcon } from "../../profileIcon/profileIcon";
 
 import { IPlayer } from "../../../../stroll-models/player";
 
+import { Icon } from "../../../../stroll-enums/icon";
+
 interface LeaderboardTopRowProps {  
   place: number;
   player: IPlayer;
@@ -46,7 +48,7 @@ export const LeaderboardTopRow: React.FC<LeaderboardTopRowProps> = (props: Leade
       </div>            
       <Label
         className="leaderboard-top-row-points passion-one-font"
-        icon="fal fa-sack-dollar" 
+        icon={Icon.Points}
         text={points.total.toLocaleString()} 
       />
     </div>

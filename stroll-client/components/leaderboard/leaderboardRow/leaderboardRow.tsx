@@ -6,6 +6,8 @@ import { UserLink } from "../../userLink/userLink";
 
 import { IPlayer } from "../../../../stroll-models/player";
 
+import { Icon } from "../../../../stroll-enums/icon";
+
 interface LeaderboardRowProps {  
   place: number;
   player: IPlayer;
@@ -22,7 +24,7 @@ export const LeaderboardRow: React.FC<LeaderboardRowProps> = (props: Leaderboard
         <UserLink key={player.id} profile={player.profile} />          
         <Label
           className="leaderboard-row-points passion-one-font"
-          icon="fal fa-sack-dollar" 
+          icon={Icon.Points} 
           text={player.points.total.toLocaleString()} 
         />
       </div>

@@ -5,5 +5,6 @@ export enum Icon {
   Kiwi = "far fa-kiwi-bird",
   Monkey = "far fa-monkey",  
   Narwhal = "far fa-narwhal",
+  Points = "fal fa-dice-d8",
   None = ""
 }

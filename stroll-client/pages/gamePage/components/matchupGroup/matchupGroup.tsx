@@ -27,7 +27,7 @@ export const MatchupGroup: React.FC<MatchupGroupProps> = (props: MatchupGroupPro
   const { game } = gameState,
     dayStatus: GameStatus = GameDurationUtility.getDayStatus(props.day, gameState.day);
 
-  const [minimized, setMinimized] = useState<boolean>(GamePageUtility.minimizeMatchupGroup(game.status, props.day, gameState.day, game.duration));
+  const [expanded, setExpanded] = useState<boolean>(GamePageUtility.expandMatchupGroup(game.status, props.day, gameState.day, game.duration));
 
   const getDate = (): string => {
     const date: Date = FirestoreDateUtility.timestampToDate(game.startsAt);
@@ -54,7 +54,7 @@ export const MatchupGroup: React.FC<MatchupGroupProps> = (props: MatchupGroupPro
   }
 
   const getMatchupsList = (): JSX.Element => {
-    if(!minimized) {
+    if(expanded) {
       return (
         <MatchupList day={props.day} />
       )
@@ -62,26 +62,26 @@ export const MatchupGroup: React.FC<MatchupGroupProps> = (props: MatchupGroupPro
   }
 
   const getViewButton = (): JSX.Element => {
-    if(minimized) {
+    if(expanded) {
       const text: string = gameState.day !== 0 && gameState.day + 1 === props.day
         ? "Click to predict tomorrow's matchups!"
         : "View Matchups";
 
       return (
-        <Button className="view-matchups-button passion-one-font" handleOnClick={() => setMinimized(false)}>{text}</Button>
+        <Button className="view-matchups-button passion-one-font" handleOnClick={() => setExpanded(false)}>{text}</Button>
       )
     }
   }
 
   const getHideButton = (): JSX.Element => {
-    if(!minimized) {        
+    if(expanded) {        
       return (
         <IconButton 
           className="hide-matchups-button"
           icon="fal fa-horizontal-rule" 
           tooltip="Hide"
           tooltipSide={TooltipSide.Left}
-          handleOnClick={() => setMinimized(true)}
+          handleOnClick={() => setExpanded(true)}
         />    
       )
     }

@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 
 import { MatchupSide, MatchupSideAlignment } from "../matchupSide/matchupSide";
+import { PlayerStatement } from "../../../../components/playerStatement/playerStatement";
+import { PointStatement } from "../../../../components/pointStatement/pointStatement";
 
 import { GamePageContext } from "../../gamePage";
 
 import { MatchupUtility } from "../../../../utilities/matchupUtility";
-import { NumberUtility } from "../../../../../stroll-utilities/numberUtility";
 import { PredictionUtility } from "../../../../utilities/predictionUtility";
 
 import { IMatchup } from "../../../../../stroll-models/matchup";
@@ -26,26 +27,29 @@ export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => {
   const { dayStatus, matchup, predictions } = props;
 
   const myPrediction: IPrediction = PredictionUtility.getById(player.id, matchup.id, predictions);
-    
+
   const getMyPrediction = (): JSX.Element => {
     if(myPrediction) {      
       const predictedPlayer: IPlayer = myPrediction.ref.player === matchup.left.ref
         ? matchup.left.player
         : matchup.right.player;
 
-      const style: React.CSSProperties = { color: `rgb(${predictedPlayer.profile.color})` };
-      
+      const pointStatement: JSX.Element = <PointStatement amount={myPrediction.amount.toLocaleString()} />,
+        playerStatement: JSX.Element = <PlayerStatement profile={predictedPlayer.profile} />;
+
       if(matchup.winner === "") {
         return (        
-          <h1 className="my-prediction passion-one-font">You predicted <i className={predictedPlayer.profile.icon} style={style} /> <span style={style}> {predictedPlayer.profile.username}</span> with <span className="highlight-main">{NumberUtility.shorten(myPrediction.amount)}</span></h1>
+          <h1 className="my-prediction passion-one-font">You predicted {playerStatement} with {pointStatement}</h1>
         )
-      } else if(myPrediction.ref.player === matchup.winner) {      
+      } else if(myPrediction.ref.player === matchup.winner) {     
+        const payoutPointStatement: JSX.Element = <PointStatement amount={PredictionUtility.getPayoutAmount(myPrediction.amount, matchup).toLocaleString()} />;
+
         return (        
-          <h1 className="my-prediction passion-one-font">You received <span className="highlight-main">{PredictionUtility.getPayoutAmount(myPrediction.amount, matchup).toLocaleString()}</span> for correctly predicting <i className={predictedPlayer.profile.icon} style={style} /> <span style={style}> {predictedPlayer.profile.username}</span></h1>
+          <h1 className="my-prediction passion-one-font">You received {payoutPointStatement} for correctly predicting {playerStatement}</h1>
         )
       } else if (myPrediction.ref.player !== matchup.winner) {
         return (        
-          <h1 className="my-prediction passion-one-font">You lost <span className="highlight-main">{myPrediction.amount.toLocaleString()}</span> for incorrectly predicting <i className={predictedPlayer.profile.icon} style={style} /> <span style={style}> {predictedPlayer.profile.username}</span></h1>
+          <h1 className="my-prediction passion-one-font">You lost {pointStatement} for incorrectly predicting {playerStatement}</h1>
         )
       }
     }
