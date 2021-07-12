@@ -6,6 +6,7 @@ import { IMatchup } from "../../../stroll-models/matchup";
 import { IPrediction } from "../../../stroll-models/prediction";
 import { IPlayer } from "../../../stroll-models/player";
 
+import { InitialValue } from "../../../stroll-enums/initialValue";
 import { MatchupLeader } from "../../../stroll-enums/matchupLeader";
 
 interface IPredictionUtility {    
@@ -84,7 +85,14 @@ export const PredictionUtility: IPredictionUtility = {
   },
   sumIncorrectPredictions: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]): number => {
     const predictions: IPrediction[] = PredictionUtility.getByPlayer(playerID, allPredictions),
-      incorrectPredictions: IPrediction[] = PredictionUtility.getIncorrectPredictions(predictions, matchups);
+      incorrectPredictions: IPrediction[] = PredictionUtility.getIncorrectPredictions(predictions, matchups)
+        .map((prediction: IPrediction) => {
+          if(prediction.ref.player === playerID) {
+            prediction.amount - InitialValue.InitialPredictionPoints;
+          }
+
+          return prediction;
+        });
 
     return PredictionUtility.sumPredictions(incorrectPredictions);
   },
