@@ -49,11 +49,11 @@ export const Label: React.FC<LabelProps> = (props: LabelProps) => {
     )
   } else if(props.text) {
     return (
-      <h1 className={classNames("label", props.className)} style={getStyles()}>
-        {props.text}
+      <div className={classNames("label", props.className)}>
+        <h1 style={getStyles()} className="passion-one-font">{props.text}</h1>
         {getButton()}     
         {getTooltip()} 
-      </h1>
+      </div>
     );
   } else if (props.icon) {
     return (

@@ -9,8 +9,10 @@ export const NumberUtility: INumberUtility = {
     return new Intl.NumberFormat("en-IN", { maximumSignificantDigits: maxSig || 4 }).format(value / divisor);
   },
   shorten: (value: number): string => {
-    if (value < 100000) {
-      return value.toLocaleString(); 
+    if (value < 10000) {
+      return value.toLocaleString();
+    } else if (value < 100000) {
+      return `${NumberUtility.format(value, 1000)}K`;      
     } else if (value < 1000000) {
       return `${NumberUtility.format(value, 1000, 4)}K`;    
     } else if (value < 10000000) {

@@ -17,8 +17,10 @@
     top: -10px;
 
     .label {
-      color: gray(200);
-      text-transform: uppercase;
+      > h1 {
+        color: gray(200);
+        text-transform: uppercase;
+      }
     }
   }
 

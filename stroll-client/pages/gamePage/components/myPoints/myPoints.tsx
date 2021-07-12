@@ -21,14 +21,14 @@ export const MyPoints: React.FC<MyPointsProps> = (props: MyPointsProps) => {
           <div className="my-points">            
             <div className="my-points-content-wrapper">
               <div className="my-points-content">
+                <i className="my-points-icon fal fa-sack-dollar" />
                 <div className="my-available-points-wrapper">
-                  <h1 className="my-total-points-label passion-one-font"><span className="highlight-white">Available</span><span className="divider">/</span>Total Points</h1>
                   <Label 
                     className="my-available-points passion-one-font"      
-                    icon="fal fa-sack-dollar"            
                     text={NumberUtility.shorten(points.available)} 
                     tooltip={points.available.toLocaleString()}
                   />
+                  <h1 className="my-available-points-label passion-one-font">Available</h1>
                 </div>
                 <div className="my-total-points-wrapper">
                   <Label 
@@ -36,6 +36,7 @@ export const MyPoints: React.FC<MyPointsProps> = (props: MyPointsProps) => {
                     text={NumberUtility.shorten(points.total)} 
                     tooltip={points.total.toLocaleString()}
                   />
+                  <h1 className="my-total-points-label passion-one-font">Total</h1>
                 </div>
               </div>
             </div>

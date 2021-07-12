@@ -22,61 +22,56 @@
       .my-points-content-wrapper {
         border: 1px solid gray(60);
         border-radius: 10px;
-        padding: 5px 20px;
+        padding: 10px 20px;
 
         .my-points-content {    
+          align-items: center;
           display: flex;
-          flex-direction: column;
-          justify-content: center;
+          justify-content: flex-start;
           pointer-events: all;
+
+          .my-points-icon {
+            border-right: 1px solid rgba(white, 0.2);
+            color: white;
+            font-size: 2em;
+            margin-right: 10px;
+            padding-right: 10px;
+          }
 
           .my-total-points-wrapper,
           .my-available-points-wrapper {
-            align-items: center;
-            display: flex;
-            flex-direction: column;
-
-            .my-total-points-label,
-            .my-available-points-label {
-              color: $themeMain;
-              font-size: 0.8em;              
-              text-transform: uppercase;
-
-              .divider {
-                color: rgba(white, 0.5);
-                font-size: 1.5em;
-                font-weight: 400;
-                margin: 0px 8px;
+            .my-total-points,
+            .my-available-points {
+              > h1 {
+                font-size: 2em;
+                height: 30px;
+                line-height: 30px;
               }
+            }
+
+            .my-available-points-label,
+            .my-total-points-label {
+              color: gray(230);
+              font-size: 0.8em;
+              text-transform: uppercase;
             }
           }
 
           .my-available-points-wrapper {
-            align-items: center;
-            display: flex;
-            flex-direction: column;
-
             .my-available-points {
-              margin-top: 2px;
-
-              i {
-                font-size: 0.8em;
-              }
-
-              .label-text-wrapper {
-                > h1 {
-                  color: gray(230);
-                  font-size: 2.25em;
-                  height: 30px;
-                  line-height: 30px;
-                }
+              > h1 {
+                color: gray(230);
               }
             }
           }
           
           .my-total-points-wrapper {
+            margin-left: 10px;
+
             .my-total-points {
-              color: $themeMain;
+              > h1 {
+                color: $themeMain;
+              }
             }
           }
         }
