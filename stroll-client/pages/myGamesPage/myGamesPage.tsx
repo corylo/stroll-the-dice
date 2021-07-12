@@ -19,9 +19,9 @@ export const MyGamesPage: React.FC<MyGamesPageProps> = (props: MyGamesPageProps)
       backgroundGraphic={ImageUtility.getGraphic(Graphic.DayAtPark)} 
       requireAuth
     >    
-      <GameGroup limit={2} status={GameStatus.InProgress} />
-      <GameGroup limit={2} status={GameStatus.Upcoming} />
-      <GameGroup limit={2} status={GameStatus.Completed} />
+      <GameGroup limit={10} status={GameStatus.InProgress} />
+      <GameGroup limit={10} status={GameStatus.Upcoming} />
+      <GameGroup limit={10} status={GameStatus.Completed} />
     </Page>
   )
 }
