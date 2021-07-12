@@ -8,12 +8,14 @@ import { gameConverter, IGame } from "../../stroll-models/game";
 import { IGameUpdate } from "../../stroll-models/gameUpdate";
 
 import { GameStatus } from "../../stroll-enums/gameStatus";
+import { GroupGameBy } from "../../stroll-enums/groupGameBy";
 
 interface IGameService {
   create: (game: IGame) => Promise<void>;
   delete: (id: string) => Promise<void>;
   get: (id: string) => Promise<IGame>;
   getAllByList: (list: string[]) => Promise<IGame[]>;
+  getGrouped: (uid: string, status: GameStatus, groupBy: GroupGameBy, limit?: number) => Promise<IGame[]>;
   getHosting: (uid: string, status: GameStatus, limit?: number) => Promise<IGame[]>;
   getPlayingIn: (uid: string, status: GameStatus, limit?: number) => Promise<IGame[]>;
   update: (id: string, update: IGameUpdate) => Promise<void>;  
@@ -51,6 +53,13 @@ export const GameService: IGameService = {
       games.push(doc.data()));
       
     return list.map((id: string) => games.find((game: IGame) => game.id === id));
+  },
+  getGrouped: async (uid: string, status: GameStatus, groupBy: GroupGameBy, limit?: number): Promise<IGame[]> => {
+    if(groupBy === GroupGameBy.Hosting) {
+      return await GameService.getHosting(uid, status, limit);
+    } else if (groupBy === GroupGameBy.Joined) {
+      return await GameService.getPlayingIn(uid, status, limit);
+    }
   },
   getHosting: async (uid: string, status: GameStatus, limit?: number): Promise<IGame[]> => {    
     const snap: firebase.firestore.QuerySnapshot<IGame> = await db.collection("games")

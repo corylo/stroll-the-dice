@@ -1,13 +1,10 @@
 import React, { useContext } from "react";
 
-import { Games } from "../../components/games/games";
-import { GamesGroup } from "../../components/games/gamesGroup";
+import { GameGroup } from "../../components/gameGroup/gameGroup";
 import { Page } from "../../components/page/page";
 import { PageMessage } from "../../components/page/pageMessage";
 
 import { AppContext } from "../../components/app/contexts/appContext";
-
-import { GameService } from "../../services/gameService";
 
 import { ImageUtility } from "../../utilities/imageUtility";
 
@@ -26,38 +23,8 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
     if(appState.status === AppStatus.SignedIn) {
       return (
         <React.Fragment>
-          <GamesGroup title="In Progress">
-            <Games 
-              emptyMessage="You haven't joined any games in progress."
-              gameStatus={GameStatus.InProgress}
-              limit={2} 
-              title="Joined" 
-              get={GameService.getPlayingIn} 
-            />
-            <Games  
-              emptyMessage="You aren't hosting any games in progress."
-              gameStatus={GameStatus.InProgress}
-              limit={2} 
-              title="Hosting"
-              get={GameService.getHosting} 
-            />
-          </GamesGroup>
-          <GamesGroup title="Upcoming">
-            <Games  
-              emptyMessage="You haven't joined any upcoming games yet."
-              gameStatus={GameStatus.Upcoming}
-              limit={2} 
-              title="Joined"
-              get={GameService.getPlayingIn} 
-            />
-            <Games  
-              emptyMessage="You aren't hosting any upcoming games yet."
-              gameStatus={GameStatus.Upcoming}
-              limit={2} 
-              title="Hosting"
-              get={GameService.getHosting} 
-            />
-          </GamesGroup>
+          <GameGroup limit={2} status={GameStatus.InProgress} />
+          <GameGroup limit={2} status={GameStatus.Upcoming} />
         </React.Fragment>
       )
     } else {
