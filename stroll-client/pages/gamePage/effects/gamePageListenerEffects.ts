@@ -78,8 +78,7 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
       const unsubToGame = db.collection("games")
         .doc(id)
         .withConverter(gameConverter)
-        .onSnapshot((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => {
-          console.log(doc.exists)
+        .onSnapshot((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => {          
           if(doc.exists) {
             setGame(doc.data());
           } else {
