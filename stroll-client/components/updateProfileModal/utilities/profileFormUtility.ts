@@ -1,4 +1,4 @@
-import { Nano } from "../../../utilities/nanoUtility";
+import { Nano } from "../../../../stroll-utilities/nanoUtility";
 
 import { IProfile } from "../../../../stroll-models/profile";
 import { defaultProfileFormState, IProfileFormState } from "../models/profileFormState";

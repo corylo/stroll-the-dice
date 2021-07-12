@@ -1,4 +1,3 @@
-
 import firebase from "firebase-admin";
 import { Change, EventContext, logger } from "firebase-functions";
 

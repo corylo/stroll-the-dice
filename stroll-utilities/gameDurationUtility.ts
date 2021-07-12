@@ -112,8 +112,8 @@ export const GameDurationUtility: IGameDurationUtility = {
   hasDayPassed: (game: IGame): boolean => {
     const date: Date = FirestoreDateUtility.timestampToDate(game.startsAt),
       diff: number = Math.abs(date.getTime() - Date.now()),
-      hours: number = Math.round(diff / (3600 * 1000));
+      hours: number = diff / (3600 * 1000);
 
-    return hours >= 24 && hours % 24 === 0;
+    return hours >= 24 && hours % 24 < 0.1;
   }
 }

@@ -2,6 +2,7 @@ import firebase from "firebase-admin";
 
 import { db } from "../../firebase";
 
+import { Nano } from "../../../stroll-utilities/nanoUtility";
 import { NumberUtility } from "../../../stroll-utilities/numberUtility";
 
 import { defaultMatchupSideTotal, IMatchup, IMatchupSide, IMatchupSideTotal, matchupConverter } from "../../../stroll-models/matchup";
@@ -183,7 +184,7 @@ export const MatchupUtility: IMatchupUtility = {
     return {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       day,
-      id: "",
+      id: Nano.generate(22),
       left: {
         ref: leftID,
         steps: 0,

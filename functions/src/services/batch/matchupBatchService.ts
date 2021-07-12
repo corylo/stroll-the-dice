@@ -15,7 +15,7 @@ export const MatchupBatchService: IMatchupBatchService = {
       const matchupRef: firebase.firestore.DocumentReference = db.collection("games")
         .doc(gameID)
         .collection("matchups")
-        .doc()
+        .doc(matchup.id)
         .withConverter(matchupConverter);
 
       batch.set(matchupRef, matchup);

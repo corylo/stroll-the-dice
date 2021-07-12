@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 
 import { FirestoreDateUtility } from "../../../../stroll-utilities/firestoreDateUtility";
-import { Nano } from "../../../utilities/nanoUtility";
+import { Nano } from "../../../../stroll-utilities/nanoUtility";
 
 import { IGame } from "../../../../stroll-models/game";
 import { defaultGameFormState, IGameFormState } from "../models/gameFormState";
