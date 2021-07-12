@@ -15,6 +15,10 @@ exports.onGameUpdate = firestore
   .document("games/{id}")
   .onUpdate(GameService.onUpdate);
 
+exports.onGameDelete = firestore
+  .document("games/{id}")
+  .onDelete(GameService.onDelete);
+
 exports.onPlayerCreate = firestore
   .document("games/{gameID}/players/{id}")
   .onCreate(PlayerService.onCreate);
