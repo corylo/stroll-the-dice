@@ -39,6 +39,10 @@ td {
   color: $red;
 }
 
+.highlight-white {
+  color: white;
+}
+
 .scroll-bar {
   &::-webkit-scrollbar-track {
     background-color: gray(40);

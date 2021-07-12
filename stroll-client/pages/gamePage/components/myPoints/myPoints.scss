@@ -17,62 +17,66 @@
       box-shadow: $shadow1;
       display: inline-block;
       margin-left: 270px;
-      padding: 5px;
+      padding: 4px;
 
       .my-points-content-wrapper {
         border: 1px solid gray(60);
         border-radius: 10px;
-        padding: 10px 20px;
-        padding-bottom: 6px;
+        padding: 5px 20px;
 
         .my-points-content {    
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
           pointer-events: all;
 
-          .my-available-points-wrapper,
-          .my-total-points-wrapper {
-            &:hover {
-              .tooltip {
-                opacity: 1;
+          .my-total-points-wrapper,
+          .my-available-points-wrapper {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+
+            .my-total-points-label,
+            .my-available-points-label {
+              color: $themeMain;
+              font-size: 0.8em;              
+              text-transform: uppercase;
+
+              .divider {
+                color: rgba(white, 0.5);
+                font-size: 1.5em;
+                font-weight: 400;
+                margin: 0px 8px;
               }
-            }  
+            }
           }
 
           .my-available-points-wrapper {
-            .my-available-points {
-              justify-content: flex-end;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
 
-              .label-text-wrapper > h1, i {
-                color: gray(230);
-              }
+            .my-available-points {
+              margin-top: 2px;
 
               i {
-                font-size: 1.25em;
+                font-size: 0.8em;
               }
 
-              .label-text-wrapper > h1 {          
-                font-size: 1.75em;
-                margin-left: 10px;
+              .label-text-wrapper {
+                > h1 {
+                  color: gray(230);
+                  font-size: 2.25em;
+                  height: 30px;
+                  line-height: 30px;
+                }
               }
-            }
-
-            .my-available-points-label {
-              color: gray(120);
-              font-size: 0.8em;
-              text-align: right;
-              text-transform: uppercase;
             }
           }
-
+          
           .my-total-points-wrapper {
-            display: flex;
-            justify-content: flex-end;
-
-            .divider {
-              margin-right: 6px;
-            }
-
             .my-total-points {
-              color: gray(230);
+              color: $themeMain;
             }
           }
         }
