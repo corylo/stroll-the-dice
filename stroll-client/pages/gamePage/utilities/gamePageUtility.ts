@@ -6,8 +6,6 @@ interface IGamePageUtility {
 
 export const GamePageUtility: IGamePageUtility = {
   expandMatchupGroup: (gameStatus: GameStatus, day: number, currentDay: number, duration: number): boolean => {
-    console.log(day, currentDay, duration)
-
     if(gameStatus === GameStatus.Upcoming) {
       return day === 1;
     } else if (gameStatus === GameStatus.InProgress) {
