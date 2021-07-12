@@ -6,16 +6,13 @@ import { GameDateStatus } from "../../../../components/gameDateStatus/gameDateSt
 import { GameDetails } from "../../../../components/gameDetails/gameDetails";
 import { InvitePlayersModal } from "../invitePlayersModal/invitePlayersModal";
 import { Leaderboard, LeaderboardSort } from "../../../../components/leaderboard/leaderboard";
-import { LoadingMessage } from "../../../../components/loadingMessage/loadingMessage";
-import { Matchups } from "../matchups/matchups";
+import { MatchupGroup } from "../matchupGroup/matchupGroup";
 import { MyPoints } from "../myPoints/myPoints";
 import { UpdateGameModal } from "../updateGameModal/updateGameModal";
 import { UserLink } from "../../../../components/userLink/userLink";
 import { ViewPlayersModal } from "../viewPlayersModal/viewPlayersModal";
 
 import { GamePageContext } from "../../gamePage";
-
-import { MatchupUtility } from "../../../../utilities/matchupUtility";
 
 import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
@@ -32,11 +29,11 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
     invite, 
     player, 
     players, 
-    status, 
+    statuses,
     toggles 
   } = state;
 
-  if(status === RequestStatus.Success && game.id !== "") {
+  if(statuses.game === RequestStatus.Success) {
     const toggle = (updates: any): void => {
       setState({ ...state, toggles: { ...toggles, ...updates } });
     }
@@ -47,14 +44,23 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
       }
     }
 
-    const getLeaderboard = (): JSX.Element => {   
-      if(game.status !== GameStatus.Upcoming && players.length > 3) {
-        if(state.statuses.players === RequestStatus.Loading) {
-          return (
-            <LoadingMessage text="Loading players" />
-          )
-        } else {
-          return (
+    const getGamePageContentForPlayer = (): JSX.Element => {
+      if(player.id !== "") {
+        const getMatchups = (): JSX.Element[] => {    
+          let max: number = state.game.status === GameStatus.Upcoming ? 1 : state.game.duration,
+            matchupGroups: JSX.Element[] = [];
+  
+          for(let i: number = max; i > 0; i--) {
+            matchupGroups.push(
+              <MatchupGroup key={i} day={i} />
+            )
+          }      
+  
+          return matchupGroups;
+        }
+
+        return (
+          <React.Fragment>
             <Leaderboard 
               limit={4}
               players={players} 
@@ -62,30 +68,14 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
               sort={LeaderboardSort.Points} 
               toggleView={() => toggle({ players: true })}
             />
-          )
-        }
-      } 
-    }
-
-    const getMatchups = (): JSX.Element | JSX.Element[] => {    
-      if(state.player.id !== "") {
-        if(state.statuses.matchups === RequestStatus.Loading) {          
-          return (
-            <LoadingMessage text="Loading matchups" />
-          )
-        }
-          
-        return MatchupUtility.groupByDay(state.matchups)
-          .map((entry: any) => (
-            <Matchups 
-              key={entry.day} 
-              day={entry.day} 
-              duration={game.duration}
-              matchups={entry.matchups} 
-            />
-          ));
+            {getMatchups()}
+          </React.Fragment>
+        )
       }
     }
+
+
+
 
     return (
       <div className="game-page-content">
@@ -102,8 +92,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
             toggleInvite={() => toggle({ invite: true })}
             toggleUpdate={() => toggle({ update: true })}
           />
-          {getLeaderboard()}
-          {getMatchups()}
+          {getGamePageContentForPlayer()}
         </div>
         <MyPoints player={player} />
         <UpdateGameModal back={() => toggle({ update: false })} />

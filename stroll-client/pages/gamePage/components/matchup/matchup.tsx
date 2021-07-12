@@ -17,16 +17,17 @@ import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 interface MatchupProps {  
   dayStatus: GameStatus;
   matchup: IMatchup;
+  predictions: IPrediction[];
 }
 
 export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => { 
-  const { player, predictions } = useContext(GamePageContext).state;
+  const { player } = useContext(GamePageContext).state;
 
-  const { dayStatus, matchup } = props;
+  const { dayStatus, matchup, predictions } = props;
 
-  const getMyPrediction = (): JSX.Element => {
-    const myPrediction: IPrediction = PredictionUtility.getById(player.id, matchup.id, predictions);
+  const myPrediction: IPrediction = PredictionUtility.getById(player.id, matchup.id, predictions);
     
+  const getMyPrediction = (): JSX.Element => {
     if(myPrediction) {      
       const predictedPlayer: IPlayer = myPrediction.ref.player === matchup.left.ref
         ? matchup.left.player
@@ -57,6 +58,7 @@ export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => {
           alignment={MatchupSideAlignment.Left}
           dayStatus={dayStatus}
           matchup={matchup}
+          myPrediction={myPrediction}
           odds={MatchupUtility.calculateOdds(matchup.left, matchup.right)} 
         />
         <h1 className="game-matchup-vs-label passion-one-font">VS</h1>
@@ -64,6 +66,7 @@ export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => {
           alignment={MatchupSideAlignment.Right}
           dayStatus={dayStatus}
           matchup={matchup}
+          myPrediction={myPrediction}
           odds={MatchupUtility.calculateOdds(matchup.right, matchup.left)} 
         />
       </div>

@@ -28,7 +28,7 @@ export const UpdateGameModal: React.FC<UpdateGameModalProps> = (props: UpdateGam
   useOnClickAwayEffect(
     state.toggles.update, 
     ["update-game-modal-content"], 
-    [state.toggles.update, state.status], 
+    [state.toggles.update, state.statuses.game], 
     props.back
   );
 
@@ -45,7 +45,7 @@ export const UpdateGameModal: React.FC<UpdateGameModalProps> = (props: UpdateGam
     }
 
     return (
-      <Modal id={ElementID.UpdateGameModal} status={state.status}>
+      <Modal id={ElementID.UpdateGameModal} status={state.statuses.game}>
         <ModalTitle text="Update Game" handleOnClose={props.back} />
         <ModalBody>
           <GameForm 

@@ -8,6 +8,8 @@ import { IGame } from "../../stroll-models/game";
 import { IInvite } from "../../stroll-models/invite";
 import { IUser } from "../models/user";
 
+import { InitialValue } from "../../stroll-enums/initialValue";
+
 interface IInviteUtility {
   getLink: (gameID: string, inviteID: string) => string;
   mapCreate: (uid: string) => IInvite;
@@ -29,7 +31,7 @@ export const InviteUtility: IInviteUtility = {
       },
       uses: {
         current: 0,
-        max: 10000
+        max: InitialValue.MaxInviteUses
       }
     }
   },

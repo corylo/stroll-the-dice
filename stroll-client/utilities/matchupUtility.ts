@@ -4,7 +4,6 @@ import _orderBy from "lodash.orderby";
 import { PlayerUtility } from "./playerUtility";
 
 import { IMatchup, IMatchupSide } from "../../stroll-models/matchup";
-import { IMatchupGroup } from "../../stroll-models/matchupGroup";
 import { IPlayer } from "../../stroll-models/player";
 
 import { MatchupLeader } from "../../stroll-enums/matchupLeader";
@@ -14,7 +13,6 @@ interface IMatchupUtility {
   findPlayer: (player: IPlayer, matchup: IMatchup) => boolean;
   getLeader: (matchup: IMatchup) => string;
   getWinnerOdds: (matchup: IMatchup) => number;
-  groupByDay: (matchups: IMatchup[]) => IMatchupGroup[];
   mapPlayers: (matchups: IMatchup[], players: IPlayer[]) => IMatchup[];
   mapPlayerToSide: (side: IMatchupSide, players: IPlayer[]) => IMatchupSide;  
 }
@@ -49,10 +47,6 @@ export const MatchupUtility: IMatchupUtility = {
     }
 
     return 1;
-  },
-  groupByDay: (matchups: IMatchup[]): IMatchupGroup[] => {
-    return _orderBy(Object.entries(_groupBy(matchups, "day"))
-      .map((entry: any) => ({ day: parseInt(entry[0]), matchups: entry[1] })), "day", "desc");      
   },
   mapPlayers: (matchups: IMatchup[], players: IPlayer[]): IMatchup[] => {
     return matchups.map((matchup: IMatchup) => {

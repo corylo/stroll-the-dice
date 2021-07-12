@@ -22,7 +22,7 @@ export const InvitePlayersModal: React.FC<InvitePlayersModalProps> = (props: Inv
   useOnClickAwayEffect(
     state.toggles.invite, 
     ["invite-players-modal-content"], 
-    [state.toggles.invite, state.status], 
+    [state.toggles.invite, state.statuses.game], 
     props.back
   );
 

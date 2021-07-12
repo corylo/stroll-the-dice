@@ -48,7 +48,7 @@ export const GamePage: React.FC<GamePageProps> = (props: GamePageProps) => {
       <Page 
         id="game-page" 
         backgroundGraphic={ImageUtility.getGraphic(Graphic.DayAtPark)} 
-        status={state.status}
+        status={state.statuses.game}
         errorMessage="Whoops! Looks like this game doesn't exist."
       >   
         <GamePageContent />

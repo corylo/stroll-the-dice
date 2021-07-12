@@ -14,6 +14,7 @@ import { IAppState } from "../../../components/app/models/appState";
 import { defaultGame, gameConverter, IGame } from "../../../../stroll-models/game";
 import { IGamePageState } from "../models/gamePageState";
 import { IMatchup, matchupConverter } from "../../../../stroll-models/matchup";
+import { IMatchupListState } from "../models/matchupListState";
 import { IPlayer, playerConverter } from "../../../../stroll-models/player";
 import { IPrediction, predictionConverter } from "../../../../stroll-models/prediction";
 
@@ -21,11 +22,88 @@ import { AppStatus } from "../../../enums/appStatus";
 import { GameStatus } from "../../../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
 
+export const useMatchupListenerEffect = (
+  gameState: IGamePageState, 
+  state: IMatchupListState,
+  day: number,
+  setState: (state: IMatchupListState) => void
+): void => {
+  const { game, player, players } = gameState;
+
+  const [matchups, setMatchups] = useState<IMatchup[]>([]),
+    [predictions, setPredictions] = useState<IPrediction[]>([]);
+
+  useEffect(() => {    
+    const updates: IMatchupListState = { ...state };
+    
+    if(matchups.length > 0) {
+      updates.matchups = matchups;
+
+      if(state.statuses.matchups === RequestStatus.Loading) {
+        updates.statuses.matchups = RequestStatus.Success;
+      }
+    }
+
+    if(predictions.length > 0) {
+      updates.predictions = predictions;
+
+      if(state.statuses.predictions === RequestStatus.Loading) {
+        updates.statuses.predictions = RequestStatus.Success;
+      }
+    }
+
+    setState(updates);
+  }, [matchups, predictions]);
+  
+  useEffect(() => {
+    if(players.length > 0) {
+      const unsubToMatchups = db.collection("games")
+        .doc(game.id)
+        .collection("matchups")
+        .where("day", "==", day)      
+        .orderBy("createdAt")
+        .withConverter(matchupConverter)
+        .onSnapshot((snap: firebase.firestore.QuerySnapshot) => {
+          let updates: IMatchup[] = [];
+
+          snap.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IMatchup>) =>
+            updates.push(doc.data()));
+  
+          setMatchups(MatchupUtility.mapPlayers(updates, players));
+        });
+
+      return () => {
+        unsubToMatchups();
+      }
+    }
+  }, [day, players]);
+  
+  useEffect(() => {
+    if(matchups.length > 0) {
+      const unsubToPredictions = db.collectionGroup("predictions")
+        .where("ref.game", "==", game.id)
+        .where("ref.creator", "==", player.id)
+        .where("ref.matchup", "in", matchups.map((matchup: IMatchup) => matchup.id))
+        .withConverter(predictionConverter)
+        .onSnapshot((snap: firebase.firestore.QuerySnapshot) => {
+          let updates: IPrediction[] = [];
+          
+          snap.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPrediction>) =>
+            updates.push(doc.data()));
+            
+          setPredictions(updates);
+        });
+        
+      return () => {
+        unsubToPredictions();
+      }
+    }
+  }, [matchups]);
+}
+
 export const useGameListenersEffect = (id: string, appState: IAppState, state: IGamePageState, setState: (state: IGamePageState) => void): void => {
   const [game, setGame] = useState<IGame>(defaultGame()),
-    [players, setPlayers] = useState<IPlayer[]>([]),
-    [matchups, setMatchups] = useState<IMatchup[]>([]),
-    [predictions, setPredictions] = useState<IPrediction[]>([]);
+    [players, setPlayers] = useState<IPlayer[]>([]);
   
   useEffect(() => {    
     const updates: IGamePageState = { ...state };
@@ -33,8 +111,8 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
     if(game.id !== "") {
       updates.game = game;
 
-      if(updates.status === RequestStatus.Loading) {
-        updates.status = RequestStatus.Success;
+      if(updates.statuses.game === RequestStatus.Loading) {
+        updates.statuses.game = RequestStatus.Success;
 
         updates.day = GameDurationUtility.getDay(game);
       }
@@ -44,14 +122,8 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
 
     if(player) {
       updates.player = player;
-    }
 
-    if(matchups.length > 0) {
-      updates.matchups = MatchupUtility.mapPlayers(matchups, players);
-
-      if(updates.statuses.matchups === RequestStatus.Loading) {
-        updates.statuses.matchups = RequestStatus.Success;
-      }
+      updates.statuses.players = RequestStatus.Loading;
     }
 
     if(players.length > 0) {
@@ -62,16 +134,8 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
       }
     }
 
-    if(predictions.length > 0) {
-      updates.predictions = predictions;
-
-      if(updates.statuses.predictions === RequestStatus.Loading) {
-        updates.statuses.predictions = RequestStatus.Success;
-      }
-    }
-    
     setState(updates);
-  }, [appState.user, game, matchups, players, predictions]);
+  }, [appState.user, game, players]);
 
   useEffect(() => {   
     if(id.trim() !== "" && appState.status !== AppStatus.Loading) {     
@@ -82,7 +146,10 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
           if(doc.exists) {
             setGame(doc.data());
           } else {
-            setState({ ...state, status: RequestStatus.Error });
+            setState({ ...state, statuses: {
+              ...state.statuses,
+              game: RequestStatus.Error 
+            }});
           }
         });
 
@@ -93,20 +160,15 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
   useEffect(() => {    
     if(appState.status === AppStatus.SignedIn && state.game.id !== "") {
       const fetch = async (): Promise<void> => {
-        const updates: IGamePageState = { 
-          ...state,
-          status: RequestStatus.Success
-        };
+        const updates: IGamePageState = { ...state };
+
+        updates.statuses.game = RequestStatus.Success;
 
         const player: IPlayer = await PlayerService.get.by.id(game.id, appState.user.profile.uid);
 
         if(player) {
           updates.player = player;
 
-          updates.statuses.matchups = RequestStatus.Loading;
-          updates.statuses.players = RequestStatus.Loading;
-          updates.statuses.predictions = RequestStatus.Loading;
-          
           if(state.game.status === GameStatus.Upcoming) {
             updates.invite = await InviteService.get.by.game(game);
           }
@@ -135,39 +197,8 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
           setPlayers(updates);
         });
 
-      const unsubToMatchups = db.collection("games")
-        .doc(state.game.id)
-        .collection("matchups")
-        .where("day", "<=", state.day + 1)
-        .orderBy("day", "desc")
-        .orderBy("createdAt")
-        .withConverter(matchupConverter)
-        .onSnapshot((snap: firebase.firestore.QuerySnapshot) => {
-          let updates: IMatchup[] = [];
-
-          snap.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IMatchup>) =>
-            updates.push(doc.data()));
-          
-          setMatchups(updates);
-        });
-
-      const unsubToPredictions = db.collectionGroup("predictions")
-        .where("ref.game", "==", state.game.id)
-        .where("ref.creator", "==", state.player.id)
-        .withConverter(predictionConverter)
-        .onSnapshot((snap: firebase.firestore.QuerySnapshot) => {
-          let updates: IPrediction[] = [];
-          
-          snap.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPrediction>) =>
-            updates.push(doc.data()));
-            
-          setPredictions(updates);
-        });
-        
       return () => {
         unsubToPlayers();
-        unsubToMatchups();
-        unsubToPredictions();
       }
     }
   }, [state.game.id, state.player.id, state.day]);
