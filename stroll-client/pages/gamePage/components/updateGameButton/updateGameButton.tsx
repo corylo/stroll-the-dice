@@ -4,12 +4,12 @@ import { IconButton } from "../../../../components/buttons/iconButton";
 
 import { AppContext } from "../../../../components/app/contexts/appContext";
 
-import { IProfile } from "../../../../../stroll-models/profile";
+import { IProfileReference } from "../../../../../stroll-models/profileReference";
 
 import { AppStatus } from "../../../../enums/appStatus";
 
 interface UpdateGameButtonProps {  
-  creator: IProfile;
+  creator: IProfileReference;
   toggle: () => void;
 }
 

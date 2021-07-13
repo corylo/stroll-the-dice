@@ -1,6 +1,6 @@
 import firebase from "firebase/app";
 
-import { defaultProfile, IProfile } from "./profile";
+import { defaultProfileReference, IProfileReference } from "./profileReference";
 
 import { GameDuration } from "../stroll-enums/gameDuration";
 import { GameMode } from "../stroll-enums/gameMode";
@@ -27,7 +27,7 @@ const defaultGameSortable = (): IGameSortable => ({
 export interface IGame {
   counts: IGameCounts;
   createdAt: firebase.firestore.FieldValue;
-  creator: IProfile;  
+  creator: IProfileReference;  
   duration: GameDuration;
   endsAt: firebase.firestore.FieldValue;
   id: string;  
@@ -43,7 +43,7 @@ export interface IGame {
 export const defaultGame = (): IGame => ({
   counts: defaultGameCounts(),
   createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-  creator: defaultProfile(),  
+  creator: defaultProfileReference(),  
   duration: GameDuration.None,
   endsAt: null,
   id: "",

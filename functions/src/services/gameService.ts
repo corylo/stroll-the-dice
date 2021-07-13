@@ -34,10 +34,8 @@ export const GameService: IGameService = {
         await GameUpdateService.handleUpcomingToInProgress(context.params.id, after);
       } else if (GameUtility.stillInProgress(before, after)) {
         await GameUpdateService.handleStillInProgress(context.params.id, after);
-      } else if (GameUtility.inProgressToCompleted(before, after)) {
-        logger.info(`Game [${context.params.id}] is now complete.`);
-        
-        // Do game completion stuff
+      } else if (GameUtility.inProgressToCompleted(before, after)) {        
+        await GameUpdateService.handleInProgressToCompleted(context.params.id, after);
       } 
     } catch (err) {
       logger.error(err);

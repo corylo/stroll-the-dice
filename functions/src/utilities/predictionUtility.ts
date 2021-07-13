@@ -29,7 +29,7 @@ export const PredictionUtility: IPredictionUtility = {
   adjustForInitialSelfPrediction: (playerID: string, predictions: IPrediction[]): IPrediction[] => {
     return predictions.map((prediction: IPrediction) => {
       if(prediction.ref.player === playerID) {
-        prediction.amount - InitialValue.InitialPredictionPoints;
+        prediction.amount = prediction.amount - InitialValue.InitialPredictionPoints;
       }
 
       return prediction;

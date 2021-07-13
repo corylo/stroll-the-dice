@@ -10,9 +10,13 @@ import { CreateGameService } from "./services/createGameService";
 
 import { GameFormUtility } from "../../components/gameForm/utilities/gameFormUtility";
 import { ImageUtility } from "../../utilities/imageUtility";
+import { InviteUtility } from "../../utilities/inviteUtility";
+import { PlayerUtility } from "../../utilities/playerUtility";
 
 import { IGame } from "../../../stroll-models/game";
 import { IGameFormStateFields } from "../../components/gameForm/models/gameFormStateFields";
+import { IInvite } from "../../../stroll-models/invite";
+import { IPlayer } from "../../../stroll-models/player";
 
 interface CreateGamePageProps {
   
@@ -26,9 +30,11 @@ export const CreateGamePage: React.FC<CreateGamePageProps> = (props: CreateGameP
   const history: any = useHistory();
 
   const save = async (fields: IGameFormStateFields): Promise<void> => {    
-    const game: IGame = GameFormUtility.mapCreate(fields, user);
+    const game: IGame = GameFormUtility.mapCreate(fields, user),
+      invite: IInvite = InviteUtility.mapCreate(game.creator.uid),
+      player: IPlayer = PlayerUtility.mapCreate(user.profile, game, invite);
 
-    await CreateGameService.createGame(game);
+    await CreateGameService.createGame(game, player, invite);
 
     history.push(`/game/${game.id}`);
   }

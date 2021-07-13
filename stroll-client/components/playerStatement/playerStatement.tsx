@@ -1,9 +1,9 @@
 import React from "react";
 
-import { IProfile } from "../../../stroll-models/profile";
+import { IProfileReference } from "../../../stroll-models/profileReference";
 
 interface PlayerStatementProps {  
-  profile: IProfile
+  profile: IProfileReference;
 }
 
 export const PlayerStatement: React.FC<PlayerStatementProps> = (props: PlayerStatementProps) => {  

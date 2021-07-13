@@ -1,14 +1,15 @@
 import { IProfile } from "../../../stroll-models/profile";
+import { IProfileReference } from "../../../stroll-models/profileReference";
 import { IProfileUpdate } from "../../../stroll-models/profileUpdate";
 
 interface IProfileUtility {
-  applyUpdate: (profile: IProfile, update: IProfileUpdate) => IProfileUpdate;
+  applyUpdate: (profile: IProfileReference, update: IProfileUpdate) => IProfileUpdate;
   hasChanged: (before: IProfile, after: IProfile) => boolean;
   mapUpdate: (profile: IProfile) => IProfileUpdate;
 }
 
 export const ProfileUtility: IProfileUtility = {  
-  applyUpdate: (profile: IProfile, update: IProfileUpdate): IProfileUpdate => {
+  applyUpdate: (profile: IProfileReference, update: IProfileUpdate): IProfileUpdate => {
     return {
       ...profile,
       color: update.color,

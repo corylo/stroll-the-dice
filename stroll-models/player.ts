@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
+import { GameStatus } from "../stroll-enums/gameStatus";
 
-import { defaultProfile, IProfile } from "./profile";
+import { defaultProfileReference, IProfileReference } from "./profileReference";
 
 export interface IPlayerPoints {
   available: number;
@@ -14,6 +15,7 @@ export const defaultPlayerPoints = (): IPlayerPoints => ({
 
 export interface IPlayerRef {
   game: string;
+  gameStatus: GameStatus;
   invite: string
   lastMatchupPredicted: string;
   team: string;
@@ -21,6 +23,7 @@ export interface IPlayerRef {
 
 export const defaultPlayerRef = (): IPlayerRef => ({
   game: "",
+  gameStatus: GameStatus.Upcoming,
   invite: "",
   lastMatchupPredicted: "",
   team: ""
@@ -31,7 +34,7 @@ export interface IPlayer {
   id: string;  
   index: number;
   points: IPlayerPoints;
-  profile: IProfile;
+  profile: IProfileReference;
   ref: IPlayerRef;  
   updatedAt: firebase.firestore.FieldValue; 
 }
@@ -41,7 +44,7 @@ export const defaultPlayer = (): IPlayer => ({
   id: "",  
   index: 0,
   points: defaultPlayerPoints(),
-  profile: defaultProfile(),
+  profile: defaultProfileReference(),
   ref: defaultPlayerRef(),  
   updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
 });

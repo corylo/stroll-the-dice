@@ -23,9 +23,11 @@ import { IMatchupPairGroup } from "../../../stroll-models/matchupPairGroup";
 import { IMatchupSideStepUpdate } from "../../../stroll-models/matchupSideStepUpdate";
 import { IPlayer } from "../../../stroll-models/player";
 import { IPrediction } from "../../../stroll-models/prediction";
+import { PlayerBatchService } from "./batch/playerBatchService";
 
 interface IGameUpdateService {
   handleDayPassing: (gameID: string, day: number, matchups: IMatchup[], updates: IMatchupSideStepUpdate[]) => Promise<void>;
+  handleInProgressToCompleted: (gameID: string, game: IGame) => Promise<void>;
   handleProgressUpdate: (gameID: string, day: number, matchups: IMatchup[], updates: IMatchupSideStepUpdate[]) => Promise<void>;
   handleReferenceFieldChange: (gameID: string, before: IGame, after: IGame) => Promise<void>;
   handleStillInProgress: (gameID: string, game: IGame) => Promise<void>;
@@ -39,6 +41,17 @@ export const GameUpdateService: IGameUpdateService = {
     const predictions: IPrediction[] = await PredictionService.getAllForMatchups(gameID, matchups);   
 
     await PlayerTransactionService.distributePayoutsAndFinalizeSteps(gameID, matchups, updates, predictions);
+  },
+  handleInProgressToCompleted: async (gameID: string, game: IGame): Promise<void> => {
+    logger.info(`Game [${gameID}] is now complete.`);
+
+    const batch: firebase.firestore.WriteBatch = db.batch();
+
+    const players: IPlayer[] = await PlayerService.getByGame(gameID);
+
+    PlayerBatchService.updateGameStatus(batch, players, game.status);
+
+    await batch.commit();
   },
   handleProgressUpdate: async (gameID: string, day: number, matchups: IMatchup[], updates: IMatchupSideStepUpdate[]): Promise<void> => {
     logger.info(`Progress update for game [${gameID}] on day [${day}].`);
@@ -73,7 +86,7 @@ export const GameUpdateService: IGameUpdateService = {
     }
   },
   handleUpcomingToInProgress: async (gameID: string, game: IGame): Promise<void> => {
-    logger.info(`Game [${gameID}] is now in progress. Generating matchups for days 2 - ${game.duration}`);
+    logger.info(`Game [${gameID}] is now in progress. Generating matchups and predictions for days 2 - ${game.duration}`);
 
     const groups: IMatchupPairGroup[] = MatchupUtility.generatePairGroups(game.duration, game.counts.players),
       players: IPlayer[] = await PlayerService.getByGame(gameID),
@@ -82,6 +95,8 @@ export const GameUpdateService: IGameUpdateService = {
     logger.info(`Creating [${matchups.length}] matchups for game [${gameID}].`);
 
     const batch: firebase.firestore.WriteBatch = db.batch();
+
+    PlayerBatchService.updateGameStatus(batch, players, game.status);
 
     MatchupBatchService.createRemainingMatchups(batch, gameID, matchups);
 

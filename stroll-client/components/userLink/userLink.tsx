@@ -3,10 +3,10 @@ import React from "react";
 import { ProfileIcon } from "../profileIcon/profileIcon";
 import { Tooltip, TooltipSide } from "../tooltip/tooltip";
 
-import { IProfile } from "../../../stroll-models/profile";
+import { IProfileReference } from "../../../stroll-models/profileReference";
 
 interface UserLinkProps {  
-  profile: IProfile;
+  profile: IProfileReference;
   tooltip?: string;
 }
 

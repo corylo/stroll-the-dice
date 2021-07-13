@@ -34,9 +34,15 @@ export const PlayerUtility: IPlayerUtility = {
         available: InitialValue.PlayerPoints,
         total: InitialValue.PlayerPoints
       },
-      profile,
+      profile: {
+        color: profile.color,
+        icon: profile.icon,
+        uid: profile.uid,
+        username: profile.username
+      },
       ref: {
         game: game.id,
+        gameStatus: game.status,
         invite: invite.id,
         lastMatchupPredicted: "",
         team: ""

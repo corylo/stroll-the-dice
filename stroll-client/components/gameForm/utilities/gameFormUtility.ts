@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 
 import { FirestoreDateUtility } from "../../../../stroll-utilities/firestoreDateUtility";
+import { GameDurationUtility } from "../../../../stroll-utilities/gameDurationUtility";
 import { Nano } from "../../../../stroll-utilities/nanoUtility";
 
 import { IGame } from "../../../../stroll-models/game";
@@ -10,7 +11,6 @@ import { IGameUpdate } from "../../../../stroll-models/gameUpdate";
 import { IUser } from "../../../models/user";
 
 import { GameStatus } from "../../../../stroll-enums/gameStatus";
-import { GameDurationUtility } from "../../../../stroll-utilities/gameDurationUtility";
 
 interface IGameFormUtility {
   hasChanged: (game: IGame, fields: IGameFormStateFields) => boolean;
@@ -49,9 +49,7 @@ export const GameFormUtility: IGameFormUtility = {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       creator: {
         color: user.profile.color,
-        createdAt: user.profile.createdAt,
         icon: user.profile.icon,
-        id: user.profile.id,
         uid: user.profile.uid,
         username: user.profile.username
       },

@@ -2,22 +2,16 @@ import firebase from "firebase/app";
 
 import { db } from "../../../../../firebase";
 
-import { PlayerUtility } from "../../../../../utilities/playerUtility";
-
 import { IGame } from "../../../../../../stroll-models/game";
-import { IInvite } from "../../../../../../stroll-models/invite";
 import { IPlayer, playerConverter } from "../../../../../../stroll-models/player";
-import { IProfile } from "../../../../../../stroll-models/profile";
 
 interface IAcceptInviteService {
-  acceptInvite: (game: IGame, profile: IProfile, invite: IInvite) => Promise<void>;
+  acceptInvite: (game: IGame, player: IPlayer) => Promise<void>;
 }
 
 export const AcceptInviteService: IAcceptInviteService = {
-  acceptInvite: async (game: IGame, profile: IProfile, invite: IInvite): Promise<void> => {
+  acceptInvite: async (game: IGame, player: IPlayer): Promise<void> => {
     const batch: firebase.firestore.WriteBatch = db.batch();
-
-    const player: IPlayer = PlayerUtility.mapCreate(profile, game, invite);
 
     const playerRef: firebase.firestore.DocumentReference = db.collection("games")      
       .doc(game.id)
