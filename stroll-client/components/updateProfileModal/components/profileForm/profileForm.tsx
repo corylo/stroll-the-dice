@@ -7,6 +7,7 @@ import { FormActions } from "../../../form/formActions";
 import { FormBody } from "../../../form/formBody";
 import { IconSelector } from "../iconSelector/iconSelector";
 import { InputWrapper } from "../../../inputWrapper/inputWrapper";
+import { ProfileIcon } from "../../../profileIcon/profileIcon";
 
 import { profileFormReducer } from "../../reducers/profileFormReducer";
 
@@ -115,6 +116,12 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props: ProfileFormProps)
             onKeyDown={handleOnKeyDown}
           />
         </InputWrapper>
+        <div className="profile-icon-preview" style={{ backgroundColor: `rgba(${fields.color}, 0.1)` }}>
+          <ProfileIcon 
+            color={fields.color}
+            icon={fields.icon}
+          />
+        </div>
         <InputWrapper
           label="Color"
           error={errors.color}

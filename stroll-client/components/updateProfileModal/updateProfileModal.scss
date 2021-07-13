@@ -7,6 +7,22 @@
     border: 1px solid rgba(white, 0.25);
     border-radius: 10px;
     padding: 10px;
+
+    .profile-icon-preview {
+      border: 1px solid rgba(white, 0.25);
+      border-radius: 10px;
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+      padding: 10px;
+
+      .profile-icon {
+        background-color: transparent;
+        font-size: 4em;
+        height: 80px;
+        width: 80px;
+      }
+    }
   }
 }
 

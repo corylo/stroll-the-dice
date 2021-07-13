@@ -14,7 +14,7 @@ interface ColorSelectorProps {
 
 export const ColorSelector: React.FC<ColorSelectorProps> = (props: ColorSelectorProps) => {  
   const getOptions = (): JSX.Element[] => {
-    return ColorUtility.getColors().map((color: Color) => {
+    return ColorUtility.getUserColors().map((color: Color) => {
       const selected: boolean = color === props.selected;
 
       const getStyles = (): React.CSSProperties => {
@@ -41,7 +41,7 @@ export const ColorSelector: React.FC<ColorSelectorProps> = (props: ColorSelector
   }
 
   return (
-    <div className="color-selector">
+    <div className="color-selector scroll-bar">
       {getOptions()}
     </div>
   );

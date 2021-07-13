@@ -16,7 +16,7 @@ interface IconSelectorProps {
 
 export const IconSelector: React.FC<IconSelectorProps> = (props: IconSelectorProps) => {  
   const getOptions = (): JSX.Element[] => {
-    return IconUtility.getIcons().map((icon: Icon) => {     
+    return IconUtility.getUserIcons().map((icon: Icon) => {     
       const selected: boolean = icon === props.selected;
 
       const getStyles = (): React.CSSProperties => {
@@ -46,7 +46,7 @@ export const IconSelector: React.FC<IconSelectorProps> = (props: IconSelectorPro
   }
 
   return (
-    <div className="icon-selector">
+    <div className="icon-selector scroll-bar">
       {getOptions()}
     </div>
   );

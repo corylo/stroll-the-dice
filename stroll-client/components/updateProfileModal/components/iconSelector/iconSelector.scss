@@ -2,6 +2,9 @@
   display: grid;
   grid-gap: 1em;
   grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); 
+  max-height: 150px; 
+  overflow: auto;
+  padding: 0px 5px;
 
   .icon-selector-option {
     &:hover,
@@ -11,7 +14,7 @@
     }
 
     i {
-      font-size: 1.25em;
+      font-size: 1.5em;
     }
   }
 }
