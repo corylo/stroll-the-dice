@@ -1,7 +1,7 @@
 export enum GameDuration {
   None = 0,
-  OneMonth = 30,
+  FiveDay = 5,
+  OneDay = 1,
   OneWeek = 7,  
-  ThreeDay = 3,
-  TwoWeek = 14
+  ThreeDay = 3
 }
