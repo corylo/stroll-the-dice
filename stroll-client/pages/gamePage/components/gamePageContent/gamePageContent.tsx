@@ -62,7 +62,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
 
         const getMaxDay = (): number => {          
           if(state.game.status === GameStatus.InProgress) {
-            return state.day + 1;
+            return Math.min(state.day + 1, state.game.duration);
           } else if (state.game.status === GameStatus.Completed) {
             return state.game.duration;
           }
