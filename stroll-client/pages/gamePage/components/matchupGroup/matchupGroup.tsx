@@ -48,7 +48,7 @@ export const MatchupGroup: React.FC<MatchupGroupProps> = (props: MatchupGroupPro
   const getUpdateTimer = (): JSX.Element => {
     if(dayStatus === GameStatus.InProgress) {
       return (
-        <UpdateTimer />
+        <UpdateTimer interval={0} />
       )
     }
   }

@@ -7,7 +7,7 @@ import { useCurrentDateEffect } from "../../effects/appEffects";
 import { DateUtility } from "../../../stroll-utilities/dateUtility";
 
 interface UpdateTimerProps { 
-
+  interval: number;
 }
 
 export const UpdateTimer: React.FC<UpdateTimerProps> = (props: UpdateTimerProps) => {      
@@ -17,7 +17,7 @@ export const UpdateTimer: React.FC<UpdateTimerProps> = (props: UpdateTimerProps)
     <Label
       className="update-timer passion-one-font"
       icon="fad fa-circle"
-      text={`Update in ${DateUtility.getTimeUntilInterval(30)}`}
+      text={`Update in ${DateUtility.getTimeUntilInterval(props.interval)}`}
     />
   );
 }
