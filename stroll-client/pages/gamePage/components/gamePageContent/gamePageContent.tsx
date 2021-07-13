@@ -60,9 +60,20 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
           }
         }
 
+        const getMaxDay = (): number => {          
+          if(state.game.status === GameStatus.InProgress) {
+            return state.day + 1;
+          } else if (state.game.status === GameStatus.Completed) {
+            return state.game.duration;
+          }
+
+          return 1;
+        }
+
         const getMatchups = (): JSX.Element[] => {    
-          let max: number = state.game.status === GameStatus.Upcoming ? 1 : state.game.duration,
-            matchupGroups: JSX.Element[] = [];
+          const max: number = getMaxDay();
+          
+          const matchupGroups: JSX.Element[] = [];
   
           for(let i: number = max; i > 0; i--) {
             matchupGroups.push(
