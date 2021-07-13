@@ -45,17 +45,7 @@ export const AcceptInviteModal: React.FC<AcceptInviteModalProps> = (props: Accep
         
         setState({ 
           ...state, 
-          game: {
-            ...state.game,
-            counts: {
-              ...state.game.counts,
-              players: state.game.counts.players + 1
-            }
-          },
-          player: {
-            ...state.player,
-            id: user.profile.uid
-          },
+          player,
           toggles: { ...state.toggles, accept: false }
         });
       } catch (err) {
