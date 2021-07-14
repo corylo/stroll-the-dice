@@ -19,10 +19,18 @@
     .game-event-description-clause {
       color: gray(230);
 
+      .highlight-custom {
+        color: $blue2;
+      }
+
       .clause-arrow {
         font-size: 0.8em;
         margin: 0px 4px;
       }
+    }
+
+    .player-earned-points-from-steps {
+      color: gray(230);
     }
   }
 }

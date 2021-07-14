@@ -1,11 +1,13 @@
 import React from "react";
 
 import { PlayerCreatedEventDescription } from "./playerCreatedEventDescription";
+import { PlayerEarnedPointsFromStepsEventDescription } from "./playerEarnedPointsFromStepsEventDescription";
 import { UpdateEventDescription } from "./updateEventDescription";
 
 import { IGameEvent } from "../../../../../../stroll-models/gameEvent/gameEvent";
 import { IGameUpdateEvent } from "../../../../../../stroll-models/gameEvent/gameUpdateEvent";
 import { IPlayerCreatedEvent } from "../../../../../../stroll-models/gameEvent/playerCreatedEvent";
+import { IPlayerEarnedPointsFromStepsEvent } from "../../../../../../stroll-models/gameEvent/playerEarnedPointsFromStepsEvent";
 
 import { GameEventType } from "../../../../../../stroll-enums/gameEventType";
 
@@ -23,6 +25,10 @@ export const EventDescription: React.FC<EventDescriptionProps> = (props: EventDe
   } else if (event.type === GameEventType.PlayerCreated) {
     return (
       <PlayerCreatedEventDescription event={event as IPlayerCreatedEvent} />
+    )
+  } else if (event.type === GameEventType.PlayerEarnedPointsFromSteps)  {
+    return (
+      <PlayerEarnedPointsFromStepsEventDescription event={event as IPlayerEarnedPointsFromStepsEvent} />
     )
   }
 
