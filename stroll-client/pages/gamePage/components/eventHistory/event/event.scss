@@ -1,27 +1,35 @@
 .game-event {
   background-color: rgba(white, 0.05);
-  border: 1px solid rgba(white, 0.2);
-  border-radius: 6px;
+  display: flex;
   padding: 10px;
 
   &:nth-of-type(n + 2) {
-    margin-top: 10px;
+    border-top: 1px solid rgba(white, 0.2);
   }
 
-  .game-event-header {
-    display: flex;
-    justify-content: space-between;
+  .game-event-color-indicator {    
+    border-radius: 10px;
+    width: 4px;
+  }
 
-    .game-event-time {
-      width: 100px;
+  .game-event-content {
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+    flex-grow: 1;
+    margin-left: 5px;
+    padding: 10px;
 
-      h1 {
-        background-color: rgba(black, 0.2);
-        border: 1px solid rgba(white, 0.25);
-        border-radius: 4px;
-        color: gray(230);
-        padding: 5px;
-        text-align: center;
+    .game-event-header {
+      display: flex;
+      justify-content: space-between;
+
+      .game-event-time {
+        width: 100px;
+
+        h1 {
+          color: gray(230);
+          text-align: right;
+        }
       }
     }
   }

@@ -1,18 +1,28 @@
 .game-event-description {
-  background-color: rgba(white, 0.1);
-  border: 1px solid rgba(white, 0.2);
-  border-radius: 4px;
+  display: flex;
   flex-grow: 1;
   margin-top: 5px;
-  padding: 10px;
-  text-align: left;
 
-  .game-event-description-clause {
-    color: gray(230);
+  .game-event-description-indicator {    
+    background-color: gray(230);
+    border-radius: 10px;
+    width: 4px;
+  }
 
-    .clause-arrow {
-      font-size: 0.8em;
-      margin: 0px 4px;
+  .game-event-description-content {
+    background: linear-gradient(to right, rgba(white, 0.1), transparent 50%);        
+    border-radius: 4px;
+    margin-left: 5px;
+    padding: 10px;
+    text-align: left;
+
+    .game-event-description-clause {
+      color: gray(230);
+
+      .clause-arrow {
+        font-size: 0.8em;
+        margin: 0px 4px;
+      }
     }
   }
 }

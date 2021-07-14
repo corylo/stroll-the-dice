@@ -1,11 +1,11 @@
 export enum GameEventType {
-  Created = "Game Created",
-  Updated = "Game Updated",
-  Started = "Game Started",
+  Created = "Game Created", // ✔
+  Updated = "Game Updated", // ✔
+  Started = "Game Started", // ✔
   DayCompleted = "Day Completed",
-  Completed = "Game Completed",
+  Completed = "Game Completed", // ✔
 
-  PlayerCreated = "Player Created",
+  PlayerCreated = "Player Created", // ✔
   PlayerCreatedPrediction = "Player Created Prediction",
   PlayerUpdatedPrediction = "Player Updated Prediction",
   PlayerEarnedPointsFromSteps = "Player Earned Points From Steps",  

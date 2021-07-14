@@ -1,7 +1,10 @@
 import React from "react";
 
-import { IGameUpdateEvent } from "../../../../../../stroll-models/gameEvent/gameUpdateEvent";
+import { EventDescriptionWrapper } from "./eventDescriptionWrapper";
+
 import { FirestoreDateUtility } from "../../../../../../stroll-utilities/firestoreDateUtility";
+
+import { IGameUpdateEvent } from "../../../../../../stroll-models/gameEvent/gameUpdateEvent";
 
 interface UpdateEventDescriptionProps {  
   event: IGameUpdateEvent;
@@ -49,8 +52,8 @@ export const UpdateEventDescription: React.FC<UpdateEventDescriptionProps> = (pr
   }
 
   return (
-    <div className="game-event-description">
+    <EventDescriptionWrapper>
       {updates}
-    </div>
+    </EventDescriptionWrapper>
   )
 }

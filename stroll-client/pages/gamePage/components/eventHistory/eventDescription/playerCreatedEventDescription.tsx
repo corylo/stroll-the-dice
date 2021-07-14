@@ -1,7 +1,10 @@
 import React from "react";
 
-import { IPlayerCreatedEvent } from "../../../../../../stroll-models/gameEvent/playerCreatedEvent";
+import { EventDescriptionWrapper } from "./eventDescriptionWrapper";
 import { UserLink } from "../../../../../components/userLink/userLink";
+
+import { IPlayerCreatedEvent } from "../../../../../../stroll-models/gameEvent/playerCreatedEvent";
+
 
 interface PlayerCreatedEventDescriptionProps {  
   event: IPlayerCreatedEvent;
@@ -9,8 +12,8 @@ interface PlayerCreatedEventDescriptionProps {
 
 export const PlayerCreatedEventDescription: React.FC<PlayerCreatedEventDescriptionProps> = (props: PlayerCreatedEventDescriptionProps) => {      
   return (
-    <div className="game-event-description">
+    <EventDescriptionWrapper>
       <UserLink profile={props.event.profile} />
-    </div>
+    </EventDescriptionWrapper>
   )
 }
