@@ -17,25 +17,17 @@ interface IScheduleService {
 }
 
 export const ScheduleService: IScheduleService = {
-  handleInProgress: async (): Promise<void> => {
-    const batch: firebase.firestore.WriteBatch = db.batch();
-
+  handleInProgress: async (): Promise<void> => {    
     const inProgressGamesSnap: firebase.firestore.QuerySnapshot = await db.collection("games")     
       .where("endsAt", ">", firebase.firestore.Timestamp.now())  
       .where("status", "==", GameStatus.InProgress)
       .get();
 
     if(!inProgressGamesSnap.empty) {
-      logger.info(`[${inProgressGamesSnap.size}] games are in progress.`);
+      logger.info(`Updating progress of [${inProgressGamesSnap.size}] games.`);
 
-      inProgressGamesSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => {      
-        batch.update(doc.ref, {
-          progressUpdateAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-      });
+      await GameBatchService.handleInProgress(inProgressGamesSnap);
     }
-      
-    await batch.commit();
   },
   handleInProgressToCompleted: async (): Promise<void> => {
     const completedGamesSnap: firebase.firestore.QuerySnapshot = await db.collection("games")     

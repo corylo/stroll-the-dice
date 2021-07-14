@@ -15,6 +15,8 @@ import { GameEventType } from "../../../../stroll-enums/gameEventType";
 import { GameStatus } from "../../../../stroll-enums/gameStatus";
 
 interface IGameBatchService {
+  handleInProgress: (inProgressGamesSnap: firebase.firestore.QuerySnapshot) => Promise<void>;
+  handleInProgressLoop: (docs: FirebaseFirestore.QueryDocumentSnapshot[]) => Promise<void>;
   handleInProgressToCompleted: (completedGamesSnap: firebase.firestore.QuerySnapshot) => Promise<void>;
   handleInProgressToCompletedLoop: (docs: FirebaseFirestore.QueryDocumentSnapshot[]) => Promise<void>;
   handleUpcomingToInProgress: (upcomingGamesSnap: firebase.firestore.QuerySnapshot) => Promise<void>;
@@ -23,6 +25,29 @@ interface IGameBatchService {
 }
 
 export const GameBatchService: IGameBatchService = {
+  handleInProgress: async (inProgressGamesSnap: firebase.firestore.QuerySnapshot): Promise<void> => {
+    for(let i: number = 0; i < inProgressGamesSnap.docs.length; i += 500) {
+      const min: number = i,
+        max: number = i + 500;
+
+      logger.info(`Updating progress of games [${min} - ${max}]`);
+
+      const docs: FirebaseFirestore.QueryDocumentSnapshot[] = inProgressGamesSnap.docs.slice(min, max);
+      
+      await GameBatchService.handleInProgressLoop(docs);
+    }
+  },
+  handleInProgressLoop: async (docs: FirebaseFirestore.QueryDocumentSnapshot[]): Promise<void> => {
+    const batch: firebase.firestore.WriteBatch = db.batch();
+
+    docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => {      
+      batch.update(doc.ref, {
+        progressUpdateAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    });
+
+    await batch.commit();
+  },
   handleInProgressToCompleted: async (completedGamesSnap: firebase.firestore.QuerySnapshot): Promise<void> => {
     for(let i: number = 0; i < completedGamesSnap.docs.length; i += 250) {
       const min: number = i,
