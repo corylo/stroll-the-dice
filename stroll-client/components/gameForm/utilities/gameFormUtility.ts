@@ -64,7 +64,8 @@ export const GameFormUtility: IGameFormUtility = {
         name: fields.name.toLowerCase()
       },
       startsAt,
-      status: GameStatus.Upcoming
+      status: GameStatus.Upcoming,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     }
   },
   mapInitialState: (game?: IGame): IGameFormState => {
@@ -96,7 +97,8 @@ export const GameFormUtility: IGameFormUtility = {
       sortable: {
         name: fields.name.toLowerCase(),
       },
-      startsAt
+      startsAt,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     }
   }
 }

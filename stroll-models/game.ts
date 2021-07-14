@@ -38,6 +38,7 @@ export interface IGame {
   sortable: IGameSortable;
   startsAt: firebase.firestore.FieldValue;
   status: GameStatus;
+  updatedAt: firebase.firestore.FieldValue;
 }
 
 export const defaultGame = (): IGame => ({
@@ -53,7 +54,8 @@ export const defaultGame = (): IGame => ({
   progressUpdateAt: null,
   sortable: defaultGameSortable(),
   startsAt: firebase.firestore.FieldValue.serverTimestamp(),
-  status: GameStatus.Upcoming
+  status: GameStatus.Upcoming,
+  updatedAt: firebase.firestore.FieldValue.serverTimestamp()
 });
 
 export const gameConverter: any = {
@@ -70,7 +72,8 @@ export const gameConverter: any = {
       progressUpdateAt: game.progressUpdateAt,
       sortable: game.sortable,
       startsAt: game.startsAt,
-      status: game.status
+      status: game.status,
+      updatedAt: game.updatedAt
     }
   },
   fromFirestore(
@@ -91,7 +94,8 @@ export const gameConverter: any = {
       progressUpdateAt: data.progressUpdateAt,
       sortable: data.sortable,
       startsAt: data.startsAt,
-      status: data.status
+      status: data.status,
+      updatedAt: data.updatedAt
     }
   }
 }

@@ -11,6 +11,10 @@ exports.onProfileUpdate = firestore
   .document("profiles/{id}")
   .onUpdate(ProfileService.onUpdate);
 
+exports.onGameCreate = firestore
+  .document("games/{id}")
+  .onCreate(GameService.onCreate);
+
 exports.onGameUpdate = firestore
   .document("games/{id}")
   .onUpdate(GameService.onUpdate);

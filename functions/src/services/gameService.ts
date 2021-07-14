@@ -1,19 +1,33 @@
 import firebase from "firebase-admin";
 import { Change, EventContext, logger } from "firebase-functions";
 
+import { GameEventService } from "./gameEventService";
 import { GameUpdateService } from "./gameUpdateService";
 import { PlayingInBatchService } from "./batch/playingInBatchService";
 
 import { GameUtility } from "../utilities/gameUtility";
+import { GameEventUtility } from "../../../stroll-utilities/gameEventUtility";
 
 import { IGame } from "../../../stroll-models/game";
 
+import { GameEventType } from "../../../stroll-enums/gameEventType";
+
 interface IGameService {
+  onCreate: (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext) => Promise<void>;  
   onDelete: (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext) => Promise<void>;  
   onUpdate: (change: Change<firebase.firestore.QueryDocumentSnapshot<IGame>>, context: EventContext) => Promise<void>;
 }
 
 export const GameService: IGameService = {
+  onCreate: async (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext): Promise<void> => {
+    const game: IGame = snapshot.data() as IGame;
+
+    try {
+      await GameEventService.create(context.params.id, GameEventUtility.mapGeneralEvent(game.createdAt, GameEventType.Created));
+    } catch (err) {
+      logger.error(err);
+    }
+  },
   onDelete: async (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext): Promise<void> => {
     try {
       logger.info(`Deleting all references to game [${context.params.id}]`)
@@ -28,7 +42,13 @@ export const GameService: IGameService = {
       after: IGame = change.after.data();
   
     try {
-      await GameUpdateService.handleReferenceFieldChange(context.params.id, before, after);
+      if(GameUtility.hasReferenceFieldChanged(before, after)) {
+        await GameUpdateService.handleReferenceFieldChange(context.params.id, after);
+      }
+
+      if(GameUtility.hasUpdateEventOccurred(before, after)) {      
+        await GameUpdateService.handleUpdateEvent(context.params.id, before, after);
+      }
       
       if (GameUtility.upcomingToInProgress(before, after)) {
         await GameUpdateService.handleUpcomingToInProgress(context.params.id, after);

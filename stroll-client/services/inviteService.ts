@@ -29,8 +29,6 @@ export const InviteService: IInviteService = {
     await db.collection("invites")      
       .withConverter(inviteConverter)
       .add(invite);
-
-    return;
   },
   get: {
     by: {

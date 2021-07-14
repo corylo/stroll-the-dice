@@ -4,8 +4,10 @@ import { logger } from "firebase-functions";
 
 import { db } from "../../firebase";
 
+import { GameEventService } from "./gameEventService";
 import { MatchupBatchService } from "./batch/matchupBatchService";
 import { MatchupService } from "./matchupService";
+import { PlayerBatchService } from "./batch/playerBatchService";
 import { PlayerService } from "./playerService";
 import { PlayerTransactionService } from "./transaction/playerTransactionService";
 import { PlayingInBatchService } from "./batch/playingInBatchService";
@@ -14,7 +16,7 @@ import { PredictionService } from "./predictionService";
 import { StepTrackerService } from "./stepTrackerService";
 
 import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtility";
-import { GameUtility } from "../utilities/gameUtility";
+import { GameEventUtility } from "../../../stroll-utilities/gameEventUtility";
 import { MatchupUtility } from "../utilities/matchupUtility";
 
 import { IGame } from "../../../stroll-models/game";
@@ -23,15 +25,15 @@ import { IMatchupPairGroup } from "../../../stroll-models/matchupPairGroup";
 import { IMatchupSideStepUpdate } from "../../../stroll-models/matchupSideStepUpdate";
 import { IPlayer } from "../../../stroll-models/player";
 import { IPrediction } from "../../../stroll-models/prediction";
-import { PlayerBatchService } from "./batch/playerBatchService";
 
 interface IGameUpdateService {
   handleDayPassing: (gameID: string, day: number, matchups: IMatchup[], updates: IMatchupSideStepUpdate[]) => Promise<void>;
   handleInProgressToCompleted: (gameID: string, game: IGame) => Promise<void>;
   handleProgressUpdate: (gameID: string, day: number, matchups: IMatchup[], updates: IMatchupSideStepUpdate[]) => Promise<void>;
-  handleReferenceFieldChange: (gameID: string, before: IGame, after: IGame) => Promise<void>;
+  handleReferenceFieldChange: (gameID: string, game: IGame) => Promise<void>;
   handleStillInProgress: (gameID: string, game: IGame) => Promise<void>;
   handleUpcomingToInProgress: (gameID: string, game: IGame) => Promise<void>;
+  handleUpdateEvent: (gameID: string, before: IGame, after: IGame) => Promise<void>;
 }
 
 export const GameUpdateService: IGameUpdateService = {
@@ -60,18 +62,16 @@ export const GameUpdateService: IGameUpdateService = {
 
     await PlayerTransactionService.distributePointsAndUpdateSteps(gameID, matchups, updates);  
   },
-  handleReferenceFieldChange: async (gameID: string, before: IGame, after: IGame): Promise<void> => {    
-    if(GameUtility.hasReferenceFieldChanged(before, after)) {
-      logger.info(`Updating all references to game [${gameID}]`);
-      
-      const batch: firebase.firestore.WriteBatch = db.batch();
+  handleReferenceFieldChange: async (gameID: string, game: IGame): Promise<void> => {    
+    logger.info(`Updating all references to game [${gameID}]`);
+    
+    const batch: firebase.firestore.WriteBatch = db.batch();
 
-      await PlayingInBatchService.update(batch, gameID, after);
+    await PlayingInBatchService.update(batch, gameID, game);
 
-      const results: firebase.firestore.WriteResult[] = await batch.commit();
+    const results: firebase.firestore.WriteResult[] = await batch.commit();
 
-      logger.info(`Successfully updated ${results.length} references to game [${gameID}].`);
-    } 
+    logger.info(`Successfully updated ${results.length} references to game [${gameID}].`);
   },
   handleStillInProgress: async (gameID: string, game: IGame): Promise<void> => {
     const hasDayPassed: boolean = GameDurationUtility.hasDayPassed(game),
@@ -108,5 +108,8 @@ export const GameUpdateService: IGameUpdateService = {
     PlayerBatchService.updateGameStatus(batch, players, game.status);
 
     await batch.commit();
+  },
+  handleUpdateEvent: async (gameID: string, before: IGame, after: IGame): Promise<void> => {    
+    await GameEventService.create(gameID, GameEventUtility.mapUpdateEvent(after.updatedAt, before, after));
   }
 }

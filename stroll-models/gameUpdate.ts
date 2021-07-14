@@ -16,4 +16,5 @@ export interface IGameUpdate {
   sortable?: IGameSortable;
   startsAt?: firebase.firestore.FieldValue;
   status?: GameStatus;
+  updatedAt?: firebase.firestore.FieldValue;
 }
