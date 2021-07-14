@@ -43,6 +43,8 @@ export const GameUpdateService: IGameUpdateService = {
     await PlayerTransactionService.distributePayoutsAndFinalizeSteps(gameID, matchups, updates, predictions);
   },
   handleInProgressToCompleted: async (gameID: string, game: IGame): Promise<void> => {
+    await GameUpdateService.handleStillInProgress(gameID, game);
+    
     logger.info(`Game [${gameID}] is now complete.`);
 
     const batch: firebase.firestore.WriteBatch = db.batch();
