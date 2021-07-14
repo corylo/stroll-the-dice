@@ -1,5 +1,4 @@
 import { defaultGame, IGame } from "../../../../stroll-models/game";
-import { defaultGamePageStateToggles, IGamePageStateToggles } from "./gamePageStateToggles";
 import { IInvite } from "../../../../stroll-models/invite";
 import { defaultPlayer, IPlayer } from "../../../../stroll-models/player";
 
@@ -13,6 +12,22 @@ export interface IGamePageStateStatuses {
 export const defaultGamePageStateStatuses = (): IGamePageStateStatuses => ({ 
   game: RequestStatus.Loading,
   players: RequestStatus.Idle
+});
+
+export interface IGamePageStateToggles {
+  accept: boolean;
+  events: boolean;
+  invite: boolean;
+  players: boolean;
+  update: boolean;
+}
+
+export const defaultGamePageStateToggles = (): IGamePageStateToggles => ({
+  accept: false,
+  events: false,
+  invite: false,
+  players: false,
+  update: false
 });
 
 export interface IGamePageState {

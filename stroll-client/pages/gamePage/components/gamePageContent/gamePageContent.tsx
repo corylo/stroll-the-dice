@@ -5,12 +5,14 @@ import { GameActions } from "../gameActions/gameActions";
 import { GameDateStatus } from "../../../../components/gameDateStatus/gameDateStatus";
 import { GameDetails } from "../../../../components/gameDetails/gameDetails";
 import { InvitePlayersModal } from "../invitePlayersModal/invitePlayersModal";
+import { Label } from "../../../../components/label/label";
 import { Leaderboard, LeaderboardSort } from "../../../../components/leaderboard/leaderboard";
 import { MatchupGroup } from "../matchupGroup/matchupGroup";
 import { MyPoints } from "../myPoints/myPoints";
 import { UpdateGameModal } from "../updateGameModal/updateGameModal";
 import { UserLink } from "../../../../components/userLink/userLink";
 import { ViewPlayersModal } from "../viewPlayersModal/viewPlayersModal";
+import { ViewEventsModalWrapper } from "../viewEventsModal/viewEventsModalWrapper";
 
 import { GamePageContext } from "../../gamePage";
 
@@ -93,9 +95,6 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
       }
     }
 
-
-
-
     return (
       <div className="game-page-content">
         <div className="game-page-header">
@@ -105,12 +104,20 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
         <div className="game-page-body">
           <h1 className="game-name passion-one-font">{game.name}</h1>
           <GameDetails game={game} togglePlayers={togglePlayers()} />
-          <GameActions 
-            game={game}
-            invite={invite}
-            toggleInvite={() => toggle({ invite: true })}
-            toggleUpdate={() => toggle({ update: true })}
-          />
+          <div className="game-action-bar">
+            <GameActions 
+              game={game}
+              invite={invite}
+              toggleInvite={() => toggle({ invite: true })}
+              toggleUpdate={() => toggle({ update: true })}
+            />
+            <Label 
+              className="events-button passion-one-font" 
+              icon="fal fa-history"
+              text="History"
+              handleOnClick={() => toggle({ events: true })}
+            />
+          </div>
           {getGamePageContentForPlayer()}
         </div>
         <MyPoints player={player} />
@@ -118,6 +125,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
         <AcceptInviteModal back={() => toggle({ accept: false })} />
         <InvitePlayersModal back={() => toggle({ invite: false })} />
         <ViewPlayersModal back={() => toggle({ players: false })} />
+        <ViewEventsModalWrapper back={() => toggle({ players: false })} />
       </div>
     )
   }

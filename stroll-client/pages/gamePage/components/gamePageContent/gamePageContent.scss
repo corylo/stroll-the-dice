@@ -25,6 +25,23 @@
       font-size: 2em;
     }
 
+    .game-action-bar {
+      display: flex;
+      margin-top: 10px;
+
+      .events-button {        
+        border: 1px solid rgba(white, 0.25);
+        border-radius: 100px;
+        height: 20px;
+        padding: 5px 15px;
+
+        .label-text-wrapper > h1 {             
+          height: 20px;
+          line-height: 20px;
+        }
+      }
+    }
+
     .leaderboard {
       margin-top: 20px;
     }

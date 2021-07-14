@@ -31,7 +31,7 @@
     "axios": "^0.21.1",
     "classnames": "^2.3.1",
     "copy-webpack-plugin": "^9.0.0",
-    "firebase": "^8.6.2",
+    "firebase": "^8.7.1",
     "lodash.groupby": "^4.6.0",
     "lodash.orderby": "^4.6.0",
     "nanoid": "^3.1.23",

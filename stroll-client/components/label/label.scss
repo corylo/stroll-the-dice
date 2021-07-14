@@ -3,9 +3,12 @@
   display: inline-flex;
   position: relative;
   white-space: nowrap;
+  z-index: 1;
   
   &:hover,
   &:focus {
+    z-index: 2;
+
     .tooltip {
       opacity: 1;
     }
@@ -14,6 +17,11 @@
   &.combo {
     .label-text-wrapper > h1, i {
       color: white;
+    }
+
+    i, .label-text-wrapper {      
+      pointer-events: none;
+      z-index: 2;
     }
 
     i {

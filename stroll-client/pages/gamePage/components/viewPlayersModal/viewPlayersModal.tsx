@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import _orderBy from "lodash.orderby";
 
 import { Leaderboard, LeaderboardSort } from "../../../../components/leaderboard/leaderboard";
 import { Modal } from "../../../../components/modal/modal";

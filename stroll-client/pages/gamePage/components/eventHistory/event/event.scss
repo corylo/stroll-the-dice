@@ -1,0 +1,53 @@
+.game-event {
+  background-color: rgba(white, 0.08);
+  border: 1px solid rgba(white, 0.25);
+  border-radius: 6px;
+  padding: 10px;
+
+  &:nth-of-type(n + 2) {
+    margin-top: 10px;
+  }
+
+  .game-event-header {
+    display: flex;
+    justify-content: space-between;
+
+    .game-event-type,
+    .game-event-time {
+
+      h1 {      
+        color: gray(230);
+      }
+    }
+
+    .game-event-type {
+      width: 120px;
+      
+      h1 {
+        background-color: rgba($indigo, 0.75);
+        border: 1px solid rgba(white, 0.25);
+        border-bottom: 1px solid transparent;
+        border-radius: 4px;
+        border-top: 1px solid transparent;
+        font-size: 0.9em;
+        padding: 5px;
+        text-align: center;
+        text-transform: uppercase;
+      }
+    }
+    
+    .game-event-time {
+      width: 100px;
+
+      h1 {
+        background-color: rgba(black, 0.2);
+        border: 1px solid rgba(white, 0.25);
+        border-bottom: 1px solid transparent;
+        border-radius: 4px;
+        border-top: 1px solid transparent;
+        padding: 5px;
+        text-align: center;
+      }
+    }
+  }
+}

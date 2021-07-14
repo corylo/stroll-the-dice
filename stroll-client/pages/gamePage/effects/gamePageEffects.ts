@@ -8,8 +8,7 @@ import { InviteUtility } from "../../../utilities/inviteUtility";
 import { UrlUtility } from "../../../utilities/urlUtility";
 
 import { IAppState } from "../../../components/app/models/appState";
-import { IGamePageState } from "../models/gamePageState";
-import { IGamePageStateToggles } from "../models/gamePageStateToggles";
+import { IGamePageState, IGamePageStateToggles } from "../models/gamePageState";
 import { IInvite } from "../../../../stroll-models/invite";
 
 import { AppAction } from "../../../enums/appAction";
