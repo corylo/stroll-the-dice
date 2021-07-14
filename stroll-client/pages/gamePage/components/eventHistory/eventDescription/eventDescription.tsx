@@ -1,9 +1,11 @@
 import React from "react";
 
-import { EventUpdateDescription } from "./eventUpdateDescription";
+import { PlayerCreatedEventDescription } from "./playerCreatedEventDescription";
+import { UpdateEventDescription } from "./updateEventDescription";
 
 import { IGameEvent } from "../../../../../../stroll-models/gameEvent/gameEvent";
 import { IGameUpdateEvent } from "../../../../../../stroll-models/gameEvent/gameUpdateEvent";
+import { IPlayerCreatedEvent } from "../../../../../../stroll-models/gameEvent/playerCreatedEvent";
 
 import { GameEventType } from "../../../../../../stroll-enums/gameEventType";
 
@@ -16,8 +18,12 @@ export const EventDescription: React.FC<EventDescriptionProps> = (props: EventDe
 
   if(event.type === GameEventType.Updated) {    
     return (
-      <EventUpdateDescription event={event as IGameUpdateEvent} />
+      <UpdateEventDescription event={event as IGameUpdateEvent} />
     );
+  } else if (event.type === GameEventType.PlayerCreated) {
+    return (
+      <PlayerCreatedEventDescription event={event as IPlayerCreatedEvent} />
+    )
   }
 
   return null;

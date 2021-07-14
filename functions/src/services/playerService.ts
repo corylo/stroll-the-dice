@@ -3,7 +3,10 @@ import { EventContext, logger } from "firebase-functions";
 
 import { db } from "../../firebase";
 
+import { GameEventTransactionService } from "./transaction/gameEventTransactionService";
 import { PlayerTransactionService } from "./transaction/playerTransactionService";
+
+import { GameEventUtility } from "../../../stroll-utilities/gameEventUtility";
 
 import { gameConverter, IGame } from "../../../stroll-models/game";
 import { matchupConverter } from "../../../stroll-models/matchup";
@@ -55,6 +58,10 @@ export const PlayerService: IPlayerService = {
           PlayerTransactionService.updateCounts(transaction, gameRef, game, player);
         
           PlayerTransactionService.handleMatchup(transaction, matchupSnap, game, player);
+
+          if(game.counts.players > 1) {
+            GameEventTransactionService.create(transaction, game.id, GameEventUtility.mapPlayerCreatedEvent(player.createdAt, player.profile));
+          }
         }
       });
       

@@ -3,11 +3,11 @@ import React from "react";
 import { IGameUpdateEvent } from "../../../../../../stroll-models/gameEvent/gameUpdateEvent";
 import { FirestoreDateUtility } from "../../../../../../stroll-utilities/firestoreDateUtility";
 
-interface EventUpdateDescriptionProps {  
+interface UpdateEventDescriptionProps {  
   event: IGameUpdateEvent;
 }
 
-export const EventUpdateDescription: React.FC<EventUpdateDescriptionProps> = (props: EventUpdateDescriptionProps) => {      
+export const UpdateEventDescription: React.FC<UpdateEventDescriptionProps> = (props: UpdateEventDescriptionProps) => {      
   const { after, before } = props.event;
 
   let updates: JSX.Element[] = [];

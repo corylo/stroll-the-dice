@@ -46,6 +46,19 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
       }
     }
 
+    const getEventHistoryToggle = (): JSX.Element => {      
+      if(player.id !== "") {
+        return (
+          <Label 
+            className="events-button passion-one-font" 
+            icon="fal fa-history"
+            text="History"
+            handleOnClick={() => toggle({ events: true })}
+          />
+        )
+      }
+    }
+
     const getGamePageContentForPlayer = (): JSX.Element => {
       if(player.id !== "") {
         const getLeaderboard = (): JSX.Element => {
@@ -111,12 +124,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
               toggleInvite={() => toggle({ invite: true })}
               toggleUpdate={() => toggle({ update: true })}
             />
-            <Label 
-              className="events-button passion-one-font" 
-              icon="fal fa-history"
-              text="History"
-              handleOnClick={() => toggle({ events: true })}
-            />
+            {getEventHistoryToggle()}
           </div>
           {getGamePageContentForPlayer()}
         </div>
@@ -125,7 +133,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
         <AcceptInviteModal back={() => toggle({ accept: false })} />
         <InvitePlayersModal back={() => toggle({ invite: false })} />
         <ViewPlayersModal back={() => toggle({ players: false })} />
-        <ViewEventsModalWrapper back={() => toggle({ players: false })} />
+        <ViewEventsModalWrapper back={() => toggle({ events: false })} />
       </div>
     )
   }

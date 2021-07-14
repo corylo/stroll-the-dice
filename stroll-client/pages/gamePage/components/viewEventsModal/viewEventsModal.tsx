@@ -28,7 +28,7 @@ export const ViewEventsModal: React.FC<ViewEventsModalProps> = (props: ViewEvent
 
   return (
     <Modal id="view-events-modal" status={state.status}>
-      <ModalTitle text="Event History" handleOnClose={props.back} />
+      <ModalTitle text="Game Event History" handleOnClose={props.back} />
       <ModalBody>       
         <EventHistory events={state.events} />
       </ModalBody>
