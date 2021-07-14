@@ -1,5 +1,5 @@
 .modal-wrapper {
-  background-color: rgba(black, 0.8);
+  background-color: rgba(gray(20), 0.8);
   pointer-events: all;
   height: 100vh;
   left: 0px;
@@ -109,7 +109,7 @@
 
 @include phone-or-smaller {
   .modal-wrapper {
-    background-color: rgba(black, 0.98);
+    background-color: rgba(gray(20), 0.98);
 
     .modal-content-wrapper { 
       animation: fadeIn 400ms ease-in;
