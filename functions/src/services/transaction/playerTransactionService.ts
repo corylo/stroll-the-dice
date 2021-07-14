@@ -3,9 +3,11 @@ import { logger } from "firebase-functions";
 
 import { db } from "../../../firebase";
 
+import { GameEventTransactionService } from "./gameEventTransactionService";
 import { MatchupTransactionService } from "./matchupTransactionService";
 import { PredictionTransactionService } from "./predictionTransactionService";
 
+import { GameEventUtility } from "../../../../stroll-utilities/gameEventUtility";
 import { MatchupUtility } from "../../utilities/matchupUtility";
 import { PlayerUtility } from "../../utilities/playerUtility";
 import { PointsUtility } from "../../utilities/pointsUtility";
@@ -83,18 +85,24 @@ export const PlayerTransactionService: IPlayerTransactionService = {
           matchups = MatchupUtility.setWinners(matchups);
            
           playerSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>) => {
-            let player: IPlayer = PointsUtility.updatePointsForSteps(doc.data(), updates);
-            
-            const available: number = PredictionUtility.determineNewAvailablePoints(player, matchups, predictions),
-              total: number = PredictionUtility.determineNewTotalPoints(player, matchups, predictions);
+            const update: IMatchupSideStepUpdate = MatchupUtility.findStepUpdate(doc.id, updates);
 
-            transaction.update(doc.ref, { 
-              points: {
-                available,
-                total
-              },
-              updatedAt: firebase.firestore.FieldValue.serverTimestamp() 
-            });
+            if(update) {
+              const player: IPlayer = PointsUtility.updatePointsForSteps(doc.data(), update);
+            
+              const available: number = PredictionUtility.determineNewAvailablePoints(player, matchups, predictions),
+                total: number = PredictionUtility.determineNewTotalPoints(player, matchups, predictions);
+
+              const updatedAt: firebase.firestore.FieldValue = firebase.firestore.FieldValue.serverTimestamp();
+
+              transaction.update(doc.ref, { 
+                points: {
+                  available,
+                  total
+                },
+                updatedAt
+              });
+            }
           });
 
           MatchupTransactionService.updateAll(transaction, gameID, matchups);          
@@ -115,12 +123,24 @@ export const PlayerTransactionService: IPlayerTransactionService = {
           matchups = MatchupUtility.mapStepUpdates(matchups, updates);
 
           playerSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>) => {
-            const player: IPlayer = PointsUtility.updatePointsForSteps(doc.data(), updates);
+            const update: IMatchupSideStepUpdate = MatchupUtility.findStepUpdate(doc.id, updates);
 
-            transaction.update(doc.ref, {
-              points: player.points,
-              updatedAt: firebase.firestore.FieldValue.serverTimestamp() 
-            });
+            if(update) {
+              const player: IPlayer = PointsUtility.updatePointsForSteps(doc.data(), update);
+
+              const updatedAt: firebase.firestore.FieldValue = firebase.firestore.FieldValue.serverTimestamp();
+
+              transaction.update(doc.ref, {
+                points: player.points,
+                updatedAt
+              });
+
+              GameEventTransactionService.create(
+                transaction, 
+                gameID, 
+                GameEventUtility.mapPlayerEarnedPointsFromStepsEvent(player.id, updatedAt, update.steps)
+              );
+            }
           }); 
 
           MatchupTransactionService.updateAll(transaction, gameID, matchups);    

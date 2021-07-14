@@ -5,7 +5,9 @@ import { GameUtility } from "../functions/src/utilities/gameUtility";
 import { IGame } from "../stroll-models/game";
 import { IGameEvent } from "../stroll-models/gameEvent/gameEvent";
 import { IGameUpdateEvent } from "../stroll-models/gameEvent/gameUpdateEvent";
+import { IPlayer } from "../stroll-models/player";
 import { IPlayerCreatedEvent } from "../stroll-models/gameEvent/playerCreatedEvent";
+import { IPlayerEarnedPointsFromStepsEvent } from "../stroll-models/gameEvent/playerEarnedPointsFromStepsEvent";
 import { IProfileReference } from "../stroll-models/profileReference";
 
 import { Color } from "../stroll-enums/color";
@@ -16,10 +18,12 @@ interface IGameEventUtility {
   getColor: (type: GameEventType) => Color;
   getLabel: (type: GameEventType) => string;
   mapFromFirestore: (id: string, event: any) => any;
-  mapGeneralEvent: (occurredAt: firebase.firestore.FieldValue, type: GameEventType) => IGameEvent;
+  mapGeneralEvent: (occurredAt: firebase.firestore.FieldValue, type: GameEventType) => IGameEvent;  
   mapPlayerCreatedEvent: (occurredAt: firebase.firestore.FieldValue, profile: IProfileReference) => IPlayerCreatedEvent;
-  mapUpdateEvent: (occurredAt: firebase.firestore.FieldValue, before: IGame, after: IGame) => IGameUpdateEvent;
+  mapPlayerEarnedPointsFromStepsEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, points: number) => IPlayerEarnedPointsFromStepsEvent;
+  mapPlayerEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, type: GameEventType) => IGameEvent;
   mapToFirestore: (event: any) => any;
+  mapUpdateEvent: (occurredAt: firebase.firestore.FieldValue, before: IGame, after: IGame) => IGameUpdateEvent;  
 }
 
 export const GameEventUtility: IGameEventUtility = {  
@@ -65,13 +69,20 @@ export const GameEventUtility: IGameEventUtility = {
       profile
     }
   },
-  mapUpdateEvent: (occurredAt: firebase.firestore.FieldValue, before: IGame, after: IGame): IGameUpdateEvent => {
-    const event: IGameEvent = GameEventUtility.mapGeneralEvent(occurredAt, GameEventType.Updated);
+  mapPlayerEarnedPointsFromStepsEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, points: number): IPlayerEarnedPointsFromStepsEvent => {
+    const event: IGameEvent = GameEventUtility.mapPlayerEvent(playerID, occurredAt, GameEventType.PlayerEarnedPointsFromSteps);
 
     return {
       ...event,
-      before: GameUtility.mapUpdates(after, before),
-      after: GameUtility.mapUpdates(before, after)
+      points
+    }
+  },
+  mapPlayerEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, type: GameEventType): IGameEvent => {
+    return {
+      id: "",
+      occurredAt,
+      referenceID: playerID,
+      type
     }
   },
   mapToFirestore: (event: any): any => {
@@ -94,6 +105,21 @@ export const GameEventUtility: IGameEventUtility = {
       to.profile = playerCreatedEvent.profile;
     }
 
+    if(event.type === GameEventType.PlayerEarnedPointsFromSteps) {
+      const playerEarnedPointsFromStepsEvent: IPlayerEarnedPointsFromStepsEvent = event;
+
+      to.points = playerEarnedPointsFromStepsEvent.points;
+    }
+
     return to;
+  },
+  mapUpdateEvent: (occurredAt: firebase.firestore.FieldValue, before: IGame, after: IGame): IGameUpdateEvent => {
+    const event: IGameEvent = GameEventUtility.mapGeneralEvent(occurredAt, GameEventType.Updated);
+
+    return {
+      ...event,
+      before: GameUtility.mapUpdates(after, before),
+      after: GameUtility.mapUpdates(before, after)
+    }
   }
 }

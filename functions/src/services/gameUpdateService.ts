@@ -81,7 +81,9 @@ export const GameUpdateService: IGameUpdateService = {
     const matchups: IMatchup[] = await MatchupService.getByGameAndDay(gameID, day),
       updates: IMatchupSideStepUpdate[] = await StepTrackerService.getStepCountUpdates(game, matchups);
 
-    if(hasDayPassed) {          
+    if(hasDayPassed) {   
+      await GameEventService.createDayCompletedEvent(gameID, game.startsAt, day);
+         
       await GameUpdateService.handleDayPassing(gameID, day, matchups, updates);
     } else {
       await GameUpdateService.handleProgressUpdate(gameID, day, matchups, updates);
