@@ -16,6 +16,9 @@ export enum Icon {
   Turtle = "far fa-turtle",
 
   AppBrand = "fal fa-running",
+  Dice = "fal fa-dice",
   Points = "fal fa-dice-d8",
+  ProfileIcon = "profile-icon",
+  User = "fal fa-user",
   None = ""
 }

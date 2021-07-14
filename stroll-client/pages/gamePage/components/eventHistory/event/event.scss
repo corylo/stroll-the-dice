@@ -7,8 +7,22 @@
     border-top: 1px solid rgba(white, 0.2);
   }
 
+  .game-event-icon {
+    align-items: center;
+    display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+    width: 40px;
+
+    > i {
+      font-size: 1.25em;
+    }
+  }
+
   .game-event-color-indicator {    
     border-radius: 10px;
+    flex-shrink: 0;
+    margin-left: 5px;
     width: 4px;
   }
 
@@ -28,6 +42,7 @@
 
         h1 {
           color: gray(230);
+          line-height: 20px;
           text-align: right;
         }
       }

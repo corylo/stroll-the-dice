@@ -13,9 +13,11 @@ import { IProfileReference } from "../stroll-models/profileReference";
 import { Color } from "../stroll-enums/color";
 import { GameEventReferenceID } from "../stroll-enums/gameEventReferenceID";
 import { GameEventType } from "../stroll-enums/gameEventType";
+import { Icon } from "../stroll-enums/icon";
 
 interface IGameEventUtility {
-  getColor: (type: GameEventType) => Color;
+  getColor: (type: GameEventType, playerColor: Color) => Color;
+  getIcon: (type: GameEventType) => Icon;
   getLabel: (type: GameEventType) => string;
   mapFromFirestore: (id: string, event: any) => any;
   mapGeneralEvent: (occurredAt: firebase.firestore.FieldValue, type: GameEventType) => IGameEvent;  
@@ -27,21 +29,37 @@ interface IGameEventUtility {
 }
 
 export const GameEventUtility: IGameEventUtility = {  
-  getColor: (type: GameEventType): Color => {
+  getColor: (type: GameEventType, playerColor: Color): Color => {
     switch(type) {
       case GameEventType.Created:
       case GameEventType.Updated:
-        return Color.Blue2;
       case GameEventType.PlayerCreated:
-        return Color.Green1;
+        return Color.Blue2;
+      case GameEventType.PlayerEarnedPointsFromSteps:
+        return playerColor;
       default:
         return Color.Gray5;
+    }
+  },
+  getIcon: (type: GameEventType): Icon => {
+    switch(type) {
+      case GameEventType.Created:
+      case GameEventType.Updated:
+        return Icon.Dice;
+      case GameEventType.PlayerCreated:
+        return Icon.User;
+      case GameEventType.PlayerEarnedPointsFromSteps:
+        return Icon.ProfileIcon;
+      default:
+        return Icon.None;
     }
   },
   getLabel: (type: GameEventType): string => {
     switch(type) {
       case GameEventType.PlayerCreated:
         return "Player Joined";
+      case GameEventType.PlayerEarnedPointsFromSteps:
+        return "Points Earned From Stepping";
       default:
         return type;
     }
