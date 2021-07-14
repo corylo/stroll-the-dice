@@ -3,6 +3,8 @@ import { EventContext, logger } from "firebase-functions";
 
 import { db } from "../../firebase";
 
+import { GameBatchService } from "./batch/gameBatchService";
+
 import { IGame } from "../../../stroll-models/game";
 
 import { GameStatus } from "../../../stroll-enums/gameStatus";
@@ -18,15 +20,15 @@ export const ScheduleService: IScheduleService = {
   handleInProgress: async (): Promise<void> => {
     const batch: firebase.firestore.WriteBatch = db.batch();
 
-    const gamesInProgressSnap: firebase.firestore.QuerySnapshot = await db.collection("games")     
+    const inProgressGamesSnap: firebase.firestore.QuerySnapshot = await db.collection("games")     
       .where("endsAt", ">", firebase.firestore.Timestamp.now())  
       .where("status", "==", GameStatus.InProgress)
       .get();
 
-    if(!gamesInProgressSnap.empty) {
-      logger.info(`[${gamesInProgressSnap.size}] games are in progress.`);
+    if(!inProgressGamesSnap.empty) {
+      logger.info(`[${inProgressGamesSnap.size}] games are in progress.`);
 
-      gamesInProgressSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => {      
+      inProgressGamesSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => {      
         batch.update(doc.ref, {
           progressUpdateAt: firebase.firestore.FieldValue.serverTimestamp()
         });
@@ -36,29 +38,18 @@ export const ScheduleService: IScheduleService = {
     await batch.commit();
   },
   handleInProgressToCompleted: async (): Promise<void> => {
-    const batch: firebase.firestore.WriteBatch = db.batch();
-
-    const gamesCompletedSnap: firebase.firestore.QuerySnapshot = await db.collection("games")     
+    const completedGamesSnap: firebase.firestore.QuerySnapshot = await db.collection("games")     
       .where("endsAt", "<=", firebase.firestore.Timestamp.now())  
       .where("status", "==", GameStatus.InProgress)
       .get();
 
-    if(!gamesCompletedSnap.empty) {
-      logger.info(`Updating [${gamesCompletedSnap.size}] games from [${GameStatus.InProgress}] to [${GameStatus.Completed}]`);
+    if(!completedGamesSnap.empty) {
+      logger.info(`Updating [${completedGamesSnap.size}] games from [${GameStatus.InProgress}] to [${GameStatus.Completed}]`);
 
-      gamesCompletedSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => {      
-        batch.update(doc.ref, {
-          progressUpdateAt: firebase.firestore.FieldValue.serverTimestamp(),
-          status: GameStatus.Completed
-        });
-      });
-
-      await batch.commit();
+      await GameBatchService.handleInProgressToCompleted(completedGamesSnap);
     }      
   },
   handleUpcomingToInProgress: async (): Promise<void> => {
-    const batch: firebase.firestore.WriteBatch = db.batch();
-
     const upcomingGamesSnap: firebase.firestore.QuerySnapshot = await db.collection("games")
       .where("startsAt", "<=", firebase.firestore.Timestamp.now())
       .where("status", "==", GameStatus.Upcoming)
@@ -67,15 +58,7 @@ export const ScheduleService: IScheduleService = {
     if(!upcomingGamesSnap.empty) {
       logger.info(`Updating [${upcomingGamesSnap.size}] games from [${GameStatus.Upcoming}] to [${GameStatus.InProgress}]`);
 
-      upcomingGamesSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => {          
-        batch.update(doc.ref, {             
-          locked: true, 
-          progressUpdateAt: firebase.firestore.FieldValue.serverTimestamp(),
-          status: GameStatus.InProgress 
-        });
-      });
-
-      await batch.commit();
+      await GameBatchService.handleUpcomingToInProgress(upcomingGamesSnap);
     }
   },
   scheduledGameUpdate: async (context: EventContext): Promise<void> => {
