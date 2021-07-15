@@ -59,7 +59,7 @@ export const PlayerService: IPlayerService = {
         
           PlayerTransactionService.handleMatchup(transaction, matchupSnap, game, player);
 
-          if(game.counts.players > 1) {
+          if(game.creator.uid !== player.profile.uid) {          
             GameEventTransactionService.create(transaction, game.id, GameEventUtility.mapPlayerCreatedEvent(player.createdAt, player.profile));
           }
         }
