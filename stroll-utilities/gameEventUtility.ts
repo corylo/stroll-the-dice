@@ -5,9 +5,10 @@ import { GameUtility } from "../functions/src/utilities/gameUtility";
 import { IGame } from "../stroll-models/game";
 import { IGameEvent } from "../stroll-models/gameEvent/gameEvent";
 import { IGameUpdateEvent } from "../stroll-models/gameEvent/gameUpdateEvent";
-import { IPlayer } from "../stroll-models/player";
 import { IPlayerCreatedEvent } from "../stroll-models/gameEvent/playerCreatedEvent";
+import { IPlayerCreatedPredictionEvent } from "../stroll-models/gameEvent/playerCreatedPredictionEvent";
 import { IPlayerEarnedPointsFromStepsEvent } from "../stroll-models/gameEvent/playerEarnedPointsFromStepsEvent";
+import { IPlayerUpdatedPredictionEvent } from "../stroll-models/gameEvent/playerUpdatedPredictionEvent";
 import { IProfileReference } from "../stroll-models/profileReference";
 
 import { Color } from "../stroll-enums/color";
@@ -22,8 +23,10 @@ interface IGameEventUtility {
   mapFromFirestore: (id: string, event: any) => any;
   mapGeneralEvent: (occurredAt: firebase.firestore.FieldValue, type: GameEventType) => IGameEvent;  
   mapPlayerCreatedEvent: (occurredAt: firebase.firestore.FieldValue, profile: IProfileReference) => IPlayerCreatedEvent;
+  mapPlayerCreatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, amount: number) => IPlayerCreatedPredictionEvent;
   mapPlayerEarnedPointsFromStepsEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, points: number) => IPlayerEarnedPointsFromStepsEvent;
   mapPlayerEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, type: GameEventType) => IGameEvent;
+  mapPlayerUpdatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, beforeAmount: number, afterAmount: number) => IPlayerUpdatedPredictionEvent;
   mapToFirestore: (event: any) => any;
   mapUpdateEvent: (occurredAt: firebase.firestore.FieldValue, before: IGame, after: IGame) => IGameUpdateEvent;  
 }
@@ -87,12 +90,31 @@ export const GameEventUtility: IGameEventUtility = {
       profile
     }
   },
+  mapPlayerCreatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, amount: number): IPlayerCreatedPredictionEvent => {
+    const event: IGameEvent = GameEventUtility.mapPlayerEvent(creatorID, occurredAt, GameEventType.PlayerCreatedPrediction);
+
+    return {
+      ...event,
+      amount,
+      playerID
+    }
+  },
   mapPlayerEarnedPointsFromStepsEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, points: number): IPlayerEarnedPointsFromStepsEvent => {
     const event: IGameEvent = GameEventUtility.mapPlayerEvent(playerID, occurredAt, GameEventType.PlayerEarnedPointsFromSteps);
 
     return {
       ...event,
       points
+    }
+  },
+  mapPlayerUpdatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, beforeAmount: number, afterAmount: number): IPlayerUpdatedPredictionEvent => {
+    const event: IGameEvent = GameEventUtility.mapPlayerEvent(creatorID, occurredAt, GameEventType.PlayerUpdatedPrediction);
+
+    return {
+      ...event,
+      afterAmount,
+      beforeAmount,
+      playerID
     }
   },
   mapPlayerEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, type: GameEventType): IGameEvent => {
@@ -103,30 +125,37 @@ export const GameEventUtility: IGameEventUtility = {
       type
     }
   },
-  mapToFirestore: (event: any): any => {
+  mapToFirestore: (unidentifiedEvent: any): any => {
     const to: any = {      
-      occurredAt: event.occurredAt,
-      referenceID: event.referenceID,
-      type: event.type
+      occurredAt: unidentifiedEvent.occurredAt,
+      referenceID: unidentifiedEvent.referenceID,
+      type: unidentifiedEvent.type
     }
 
-    if(event.type === GameEventType.Updated) {
-      const updateEvent: IGameUpdateEvent = event;
+    if(unidentifiedEvent.type === GameEventType.Updated) {
+      const event: IGameUpdateEvent = unidentifiedEvent;
 
-      to.after = updateEvent.after;
-      to.before = updateEvent.before;
-    }
+      to.after = event.after;
+      to.before = event.before;
+    } else if(unidentifiedEvent.type === GameEventType.PlayerCreated) {
+      const event: IPlayerCreatedEvent = unidentifiedEvent;
 
-    if(event.type === GameEventType.PlayerCreated) {
-      const playerCreatedEvent: IPlayerCreatedEvent = event;
+      to.profile = event.profile;
+    } else if(unidentifiedEvent.type === GameEventType.PlayerEarnedPointsFromSteps) {
+      const event: IPlayerEarnedPointsFromStepsEvent = unidentifiedEvent;
 
-      to.profile = playerCreatedEvent.profile;
-    }
+      to.points = event.points;
+    } else if(unidentifiedEvent.type === GameEventType.PlayerCreatedPrediction) {
+      const event: IPlayerCreatedPredictionEvent = unidentifiedEvent;
 
-    if(event.type === GameEventType.PlayerEarnedPointsFromSteps) {
-      const playerEarnedPointsFromStepsEvent: IPlayerEarnedPointsFromStepsEvent = event;
+      to.amount = event.amount;
+      to.playerID = event.playerID;
+    } else if(unidentifiedEvent.type === GameEventType.PlayerUpdatedPrediction) {
+      const event: IPlayerUpdatedPredictionEvent = unidentifiedEvent;
 
-      to.points = playerEarnedPointsFromStepsEvent.points;
+      to.afterAmount = event.afterAmount;
+      to.beforeAmount = event.beforeAmount;
+      to.playerID = event.playerID;
     }
 
     return to;
