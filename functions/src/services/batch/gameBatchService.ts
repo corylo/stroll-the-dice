@@ -26,11 +26,16 @@ interface IGameBatchService {
 
 export const GameBatchService: IGameBatchService = {
   handleInProgress: async (inProgressGamesSnap: firebase.firestore.QuerySnapshot): Promise<void> => {
+    const { length } = inProgressGamesSnap.docs;
+
+    let loopIndex: number = 1;
+
     for(let i: number = 0; i < inProgressGamesSnap.docs.length; i += 500) {
       const min: number = i,
-        max: number = i + 500;
+        max: number = i + 500,
+        adjustedMax: number = Math.min(max, length);
 
-      logger.info(`Updating progress of games [${min} - ${max}]`);
+      logger.info(`Loop [${loopIndex++}]: Updating progress of games [${min + 1} - ${adjustedMax}]`);
 
       const docs: FirebaseFirestore.QueryDocumentSnapshot[] = inProgressGamesSnap.docs.slice(min, max);
       
@@ -49,11 +54,16 @@ export const GameBatchService: IGameBatchService = {
     await batch.commit();
   },
   handleInProgressToCompleted: async (completedGamesSnap: firebase.firestore.QuerySnapshot): Promise<void> => {
-    for(let i: number = 0; i < completedGamesSnap.docs.length; i += 250) {
-      const min: number = i,
-        max: number = i + 250;
+    const { length } = completedGamesSnap.docs;
 
-      logger.info(`Updating games [${min} - ${max}] from [${GameStatus.InProgress}] to [${GameStatus.Completed}]`);
+    let loopIndex: number = 1;
+
+    for(let i: number = 0; i < length; i += 250) {
+      const min: number = i,
+        max: number = i + 250,
+        adjustedMax: number = Math.min(max, length);
+
+      logger.info(`Loop [${loopIndex++}]: Updating games [${min + 1} - ${adjustedMax}] from [${GameStatus.InProgress}] to [${GameStatus.Completed}]`);
 
       const docs: FirebaseFirestore.QueryDocumentSnapshot[] = completedGamesSnap.docs.slice(min, max);
       
@@ -77,11 +87,16 @@ export const GameBatchService: IGameBatchService = {
     await batch.commit();
   },
   handleUpcomingToInProgress: async (upcomingGamesSnap: firebase.firestore.QuerySnapshot): Promise<void> => {
-    for(let i: number = 0; i < upcomingGamesSnap.docs.length; i += 250) {
-      const min: number = i,
-        max: number = i + 250;
+    const { length } = upcomingGamesSnap.docs;
 
-      logger.info(`Updating games [${min} - ${max}] from [${GameStatus.Upcoming}] to [${GameStatus.InProgress}]`);
+    let loopIndex: number = 1;
+
+    for(let i: number = 0; i < length; i += 250) {
+      const min: number = i,
+        max: number = i + 250,
+        adjustedMax: number = Math.min(max, length);
+
+      logger.info(`Loop [${loopIndex++}]: Updating games [${min + 1} - ${adjustedMax}] from [${GameStatus.Upcoming}] to [${GameStatus.InProgress}]`);
 
       const docs: FirebaseFirestore.QueryDocumentSnapshot[] = upcomingGamesSnap.docs.slice(min, max);
 
