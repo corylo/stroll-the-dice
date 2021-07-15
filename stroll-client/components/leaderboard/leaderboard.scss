@@ -2,38 +2,51 @@
 @import "./leaderboardTopRow/leaderboardTopRow.scss";
 
 .leaderboard {
-  background-color: rgba(white, 0.03);
-  border: 2px solid transparent;
-  border-left: 2px solid rgba(white, 0.4);
-  border-right: 2px solid rgba(white, 0.4);
-  border-radius: 10px;
+  background-color: rgba(white, 0.05);
+  border: 1px solid rgba(white, 0.2);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
   padding: 10px;
 
-  .leaderboard-title {
-    color: gray(230);
-    font-size: 2em;
-    text-align: center;
-  }
-
-  .leaderboard-rows {
-    .leaderboard-top-rows {
-      align-items: center;
-      display: flex;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-  }
-
-  .view-leaderboard-button {
-    background-color: rgba(white, 0.1);
-    margin-top: 10px;
-    padding: 15px 10px;
+  .leaderboard-border {
+    background-color: white;
+    border-radius: 10px;
+    height: 4px;
     width: 100%;
+  }
 
-    &:hover,
-    &:focus {
-      background-color: rgba(white, 0.2);
-      color: $themeMain;
+  .leaderboard-content {
+    border-radius: 4px;
+    flex-grow: 1;
+
+    .leaderboard-title {
+      color: gray(230);
+      font-size: 2em;
+      margin-top: 5px;
+      text-align: center;
+    }
+
+    .leaderboard-rows {
+      .leaderboard-top-rows {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+    }
+
+    .view-leaderboard-button {
+      background-color: rgba(white, 0.1);
+      margin-top: 10px;
+      padding: 15px 10px;
+      width: 100%;
+
+      &:hover,
+      &:focus {
+        background-color: rgba(white, 0.2);
+        color: $themeMain;
+      }
     }
   }
 }

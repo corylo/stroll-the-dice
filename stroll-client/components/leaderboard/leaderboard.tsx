@@ -123,8 +123,11 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
 
     return (
       <div className="leaderboard">
-        {getLeaderboardContent()}
-        {getLoadingMessage()}
+        <div className="leaderboard-border" />
+        <div className="leaderboard-content">
+          {getLeaderboardContent()}
+          {getLoadingMessage()}
+        </div>
       </div>
     );
   }

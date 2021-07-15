@@ -88,7 +88,8 @@ export const MatchupGroup: React.FC<MatchupGroupProps> = (props: MatchupGroupPro
   }
 
   return (
-    <div className={classNames("game-matchups", UrlUtility.format(dayStatus))}>
+    <div className={classNames("game-matchups", UrlUtility.format(dayStatus))}>      
+     <div className="game-matchups-border" />
       <div className="game-matchups-title">
         <h1 className="game-matchups-title-text passion-one-font">Day {props.day} of {gameState.game.duration} {getDayLabel()}</h1>
         <div className="game-matchups-title-date-and-game-status">

@@ -18,15 +18,18 @@ export const LeaderboardRow: React.FC<LeaderboardRowProps> = (props: Leaderboard
 
   return (
     <div className="leaderboard-remaining-row leaderboard-row">
-      <h1 className="leaderboard-row-place passion-one-font">{place}</h1>
-      <i className="leaderboard-row-icon fal fa-trophy" />      
-      <div className="leaderboard-row-player-and-points">
-        <UserLink key={player.id} profile={player.profile} />          
-        <Label
-          className="leaderboard-row-points passion-one-font"
-          icon={Icon.Points} 
-          text={player.points.total.toLocaleString()} 
-        />
+      <div className="leaderboard-remaining-row-border" />
+      <div className="leaderboard-remaining-row-content">
+        <h1 className="leaderboard-row-place passion-one-font">{place}</h1>
+        <i className="leaderboard-row-icon fal fa-trophy" />      
+        <div className="leaderboard-row-player-and-points">
+          <UserLink key={player.id} profile={player.profile} />          
+          <Label
+            className="leaderboard-row-points passion-one-font"
+            icon={Icon.Points} 
+            text={player.points.total.toLocaleString()} 
+          />
+        </div>
       </div>
     </div>
   );

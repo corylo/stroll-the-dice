@@ -29,28 +29,31 @@ export const LeaderboardTopRow: React.FC<LeaderboardTopRowProps> = (props: Leade
 
   return (
     <div className={classNames("leaderboard-top-row", `place-${props.place}`)}>
-      <div className="leaderboard-top-row-player">        
-        <h1 className="leaderboard-top-row-place passion-one-font">{getPlace()}</h1>
-        <div className="leaderboard-top-row-player-icon">
-          <ProfileIcon 
-            color={profile.color}
-            icon={profile.icon}
-          />
-          <i className="leaderboard-top-row-icon fal fa-trophy-alt" />      
-        </div>
-        <h1 
-          className="leaderboard-top-row-player-username passion-one-font" 
-          style={{ color: `rgb(${profile.color})` }}
-          title={profile.username}
-        >
-          {profile.username}
-        </h1>     
-      </div>            
-      <Label
-        className="leaderboard-top-row-points passion-one-font"
-        icon={Icon.Points}
-        text={points.total.toLocaleString()} 
-      />
+      <div className="leaderboard-top-row-content-border" />
+      <div className="leaderboard-top-row-content">
+        <div className="leaderboard-top-row-player">        
+          <h1 className="leaderboard-top-row-place passion-one-font">{getPlace()}</h1>
+          <div className="leaderboard-top-row-player-icon">
+            <ProfileIcon 
+              color={profile.color}
+              icon={profile.icon}
+            />
+            <i className="leaderboard-top-row-icon fal fa-trophy-alt" />      
+          </div>
+          <h1 
+            className="leaderboard-top-row-player-username passion-one-font" 
+            style={{ color: `rgb(${profile.color})` }}
+            title={profile.username}
+          >
+            {profile.username}
+          </h1>     
+        </div>            
+        <Label
+          className="leaderboard-top-row-points passion-one-font"
+          icon={Icon.Points}
+          text={points.total.toLocaleString()} 
+        />
+      </div>
     </div>
   );
 }
