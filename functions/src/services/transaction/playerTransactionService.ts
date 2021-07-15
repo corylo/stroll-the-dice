@@ -18,6 +18,7 @@ import { IMatchup, IMatchupSideTotal } from "../../../../stroll-models/matchup";
 import { IMatchupSideStepUpdate } from "../../../../stroll-models/matchupSideStepUpdate";
 import { IPlayer } from "../../../../stroll-models/player";
 import { IPrediction } from "../../../../stroll-models/prediction";
+import { defaultProfileReference } from "../../../../stroll-models/profileReference";
 
 import { InitialValue } from "../../../../stroll-enums/initialValue";
 
@@ -37,7 +38,7 @@ export const PlayerTransactionService: IPlayerTransactionService = {
     } else {
       const matchup: IMatchup = PlayerTransactionService.completeDayOneMatchup(transaction, matchupSnap, player);
 
-      PredictionTransactionService.createInitialPredictions(transaction, game.id, matchup.id, matchup.left.ref, player.id);
+      PredictionTransactionService.createInitialPredictions(transaction, game.id, matchup.id, matchup.left.profile.uid, player.id);
     }
   },
   completeDayOneMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, player: IPlayer): IMatchup => {      
@@ -60,7 +61,7 @@ export const PlayerTransactionService: IPlayerTransactionService = {
     transaction.update(matchupRef, { 
       ["left.total"]: total,
       ["right.total"]: total,
-      ["right.ref"]: player.id 
+      ["right.profile"]: player.profile
     });
 
     return matchup;
@@ -70,7 +71,7 @@ export const PlayerTransactionService: IPlayerTransactionService = {
 
     const matchupRef: firebase.firestore.DocumentReference = MatchupUtility.getMatchupRef(player.ref.game);
 
-    transaction.set(matchupRef, MatchupUtility.mapCreate(player.id, "", 1));
+    transaction.set(matchupRef, MatchupUtility.mapCreate(player.profile, defaultProfileReference(), 1));
   },
   distributePayoutsAndFinalizeSteps: async (gameID: string, matchups: IMatchup[], updates: IMatchupSideStepUpdate[], predictions: IPrediction[]): Promise<void> => {
     try {

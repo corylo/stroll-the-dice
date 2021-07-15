@@ -1,6 +1,6 @@
 import firebase from "firebase/app";
 
-import { IPlayer } from "./player";
+import { defaultProfileReference, IProfileReference } from "./profileReference";
 
 export interface IMatchupSideTotal {
   participants: number;
@@ -13,14 +13,13 @@ export const defaultMatchupSideTotal = (): IMatchupSideTotal => ({
 });
 
 export interface IMatchupSide {    
-  player?: IPlayer;
-  ref: string;
+  profile: IProfileReference;
   steps: number;
   total: IMatchupSideTotal;
 }
 
 export const defaultMatchupSide = (): IMatchupSide => ({  
-  ref: "",
+  profile: defaultProfileReference(),
   steps: 0,
   total: defaultMatchupSideTotal()
 });

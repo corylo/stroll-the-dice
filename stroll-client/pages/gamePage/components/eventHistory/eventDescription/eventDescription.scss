@@ -31,8 +31,13 @@
     
     .player-created-prediction-statement,
     .player-earned-points-from-steps-statement,
-    .player-updated-prediction-statement {
+    .player-prediction-amount-statement,
+    .player-prediction-matchup-statement {
       color: gray(230);
+    }
+
+    .player-prediction-amount-statement {
+      margin-top: 5px;
     }
   }
 }

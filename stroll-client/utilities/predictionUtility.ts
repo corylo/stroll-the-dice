@@ -18,12 +18,12 @@ interface IPredictionUtility {
 
 export const PredictionUtility: IPredictionUtility = {
   available: (matchup: IMatchup, side: IMatchupSide, player: IPlayer, myPrediction: IPrediction, day: number): boolean => {
-    const match: boolean = MatchupUtility.findPlayer(player, matchup);
+    const isInMatchup: boolean = MatchupUtility.playerIsInMatchup(player, matchup);
     
     const validDay: boolean = matchup.day > day,
-      validMatchup: boolean = matchup.left.ref !== "" && matchup.right.ref !== "",
-      ifMyMatchupThenOnlyMe: boolean = match ? side.ref === player.id : true,
-      onlyTheSideIvePredicted: boolean = myPrediction === null || myPrediction.ref.player === side.ref;
+      validMatchup: boolean = matchup.left.profile.uid !== "" && matchup.right.profile.uid !== "",
+      ifMyMatchupThenOnlyMe: boolean = isInMatchup ? side.profile.uid === player.id : true,
+      onlyTheSideIvePredicted: boolean = myPrediction === null || myPrediction.ref.player === side.profile.uid;
 
     return (
       validDay &&

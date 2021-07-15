@@ -11,7 +11,7 @@ import { PredictionUtility } from "../../../../utilities/predictionUtility";
 
 import { IMatchup } from "../../../../../stroll-models/matchup";
 import { IPrediction } from "../../../../../stroll-models/prediction";
-import { IPlayer } from "../../../../../stroll-models/player";
+import { IProfileReference } from "../../../../../stroll-models/profileReference";
 
 import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 import { InitialValue } from "../../../../../stroll-enums/initialValue";
@@ -31,12 +31,12 @@ export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => {
 
   const getMyPrediction = (): JSX.Element => {
     if(myPrediction) {      
-      const predictedPlayer: IPlayer = myPrediction.ref.player === matchup.left.ref
-        ? matchup.left.player
-        : matchup.right.player;
+      const profile: IProfileReference = myPrediction.ref.player === matchup.left.profile.uid
+        ? matchup.left.profile
+        : matchup.right.profile;
 
       const pointStatement: JSX.Element = <PointStatement amount={myPrediction.amount.toLocaleString()} />,
-        playerStatement: JSX.Element = <PlayerStatement profile={predictedPlayer.profile} />;
+        playerStatement: JSX.Element = <PlayerStatement profile={profile} />;
 
       if(matchup.winner === "") {
         const text: string = myPrediction.amount === InitialValue.InitialPredictionPoints ? "automatically" : "";

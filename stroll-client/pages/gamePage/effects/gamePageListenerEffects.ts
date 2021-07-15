@@ -7,7 +7,6 @@ import { InviteService } from "../../../services/inviteService";
 import { PlayerService } from "../../../services/playerService";
 
 import { GameDurationUtility } from "../../../../stroll-utilities/gameDurationUtility";
-import { MatchupUtility } from "../../../utilities/matchupUtility";
 import { PlayerUtility } from "../../../utilities/playerUtility";
 
 import { IAppState } from "../../../components/app/models/appState";
@@ -128,7 +127,7 @@ export const useMatchupListenerEffect = (
           snap.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IMatchup>) =>
             updates.push(doc.data()));
   
-          setMatchups(MatchupUtility.mapPlayers(updates, players));
+          setMatchups(updates);
 
           setMatchupsSynced(true);
         });

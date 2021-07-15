@@ -36,9 +36,9 @@ export const PredictionBatchService: IPredictionBatchService = {
   },
   createInitialPredictions: (batch: firebase.firestore.WriteBatch, gameID: string, matchups: IMatchup[]): void => {     
     matchups.forEach((matchup: IMatchup) => { 
-      PredictionBatchService.createInitialPrediction(batch, gameID, matchup.id, matchup.left.ref);
+      PredictionBatchService.createInitialPrediction(batch, gameID, matchup.id, matchup.left.profile.uid);
       
-      PredictionBatchService.createInitialPrediction(batch, gameID, matchup.id, matchup.right.ref);
+      PredictionBatchService.createInitialPrediction(batch, gameID, matchup.id, matchup.right.profile.uid);
     });
   }
 }

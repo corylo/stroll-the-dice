@@ -38,10 +38,8 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
   
   const side: IMatchupSide = matchup[alignment];
 
-  if(side.player) {
-    const { profile } = side.player;
-
-    const leader: boolean = MatchupUtility.getLeader(matchup)=== side.ref;
+  if(side.profile.uid !== "") {
+    const leader: boolean = MatchupUtility.getLeader(matchup) === side.profile.uid;
     
     const getMatchupSidePrediction = (): JSX.Element => {      
       if(PredictionUtility.available(matchup, side, player, myPrediction, day)) {
@@ -49,7 +47,7 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
           <MatchupSidePrediction 
             matchup={matchup}
             myPrediction={myPrediction}
-            playerID={side.ref}
+            playerID={side.profile.uid}
           />
         )
       }
@@ -65,7 +63,7 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
           <Label 
             className="game-matchup-side-leader-label" 
             icon="fal fa-trophy" 
-            styles={{ color: `rgb(${profile.color})`}}
+            styles={{ color: `rgb(${side.profile.color})`}}
             text={text}
           />
         )
@@ -74,7 +72,7 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
 
     const getStyles = (): React.CSSProperties => {
       if(leader) {
-        const { color } = side.player.profile;
+        const { color } = side.profile;
 
         const background: string = alignment === MatchupSideAlignment.Left 
           ? `linear-gradient(to right, rgba(${color}, 0.15), transparent)`
@@ -95,10 +93,10 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
     return (
       <div className={classNames("game-matchup-side", props.alignment)} style={getStyles()}>
         <ProfileIcon 
-          color={profile.color}
-          icon={profile.icon}
+          color={side.profile.color}
+          icon={side.profile.icon}
         />
-        <h1 className="game-matchup-side-username passion-one-font" style={{ color: `rgb(${profile.color})` }}>{profile.username}</h1>     
+        <h1 className="game-matchup-side-username passion-one-font" style={{ color: `rgb(${side.profile.color})` }}>{side.profile.username}</h1>     
         <div className="game-matchup-side-stats">
           <MatchupSideStat 
             alignment={props.alignment}

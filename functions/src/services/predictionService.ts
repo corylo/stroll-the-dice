@@ -6,6 +6,7 @@ import { db } from "../../firebase";
 import { GameEventTransactionService } from "./transaction/gameEventTransactionService";
 
 import { GameEventUtility } from "../../../stroll-utilities/gameEventUtility";
+import { MatchupUtility } from "../utilities/matchupUtility";
 
 import { IMatchup, IMatchupSide, matchupConverter } from "../../../stroll-models/matchup";
 import { IPrediction, predictionConverter } from "../../../stroll-models/prediction";
@@ -62,7 +63,7 @@ export const PredictionService: IPredictionService = {
           if(matchupDoc.exists) {
             const matchup: IMatchup = matchupDoc.data();
 
-            const property: string = prediction.ref.player === matchup.left.ref ? "left" : "right",
+            const property: string = prediction.ref.player === matchup.left.profile.uid ? "left" : "right",
               side: IMatchupSide = matchup[property];
 
             const updatedTotalWagered: number = side.total.wagered + prediction.amount;
@@ -79,7 +80,7 @@ export const PredictionService: IPredictionService = {
                 prediction.ref.creator, 
                 prediction.createdAt, 
                 prediction.ref.player, 
-                prediction.ref.matchup,
+                MatchupUtility.mapProfileReference(matchup),
                 prediction.amount
               )
             );
@@ -111,7 +112,7 @@ export const PredictionService: IPredictionService = {
           if(matchupDoc.exists) {
             const matchup: IMatchup = matchupDoc.data();
 
-            const property: string = after.ref.player === matchup.left.ref
+            const property: string = after.ref.player === matchup.left.profile.uid
               ? "left"
               : "right";
 
@@ -130,7 +131,7 @@ export const PredictionService: IPredictionService = {
                 after.ref.creator,
                 after.updatedAt,
                 after.ref.player,
-                after.ref.matchup,
+                MatchupUtility.mapProfileReference(matchup),
                 before.amount,
                 after.amount
               )
