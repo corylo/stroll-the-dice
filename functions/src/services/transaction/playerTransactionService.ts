@@ -125,7 +125,7 @@ export const PlayerTransactionService: IPlayerTransactionService = {
           playerSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>) => {
             const update: IMatchupSideStepUpdate = MatchupUtility.findStepUpdate(doc.id, updates);
 
-            if(update) {
+            if(update && update.steps > 0) {
               const player: IPlayer = PointsUtility.updatePointsForSteps(doc.data(), update);
 
               const updatedAt: firebase.firestore.FieldValue = firebase.firestore.FieldValue.serverTimestamp();
