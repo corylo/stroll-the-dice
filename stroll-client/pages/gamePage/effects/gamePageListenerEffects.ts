@@ -53,7 +53,7 @@ export const useEventListenerEffect = (
         .collection("events") 
         .where("referenceID", "in", [playerID, GameEventReferenceID.General])    
         .orderBy("occurredAt", "desc")        
-        .limit(10)
+        .limit(20)
         .withConverter(gameEventConverter)
         .onSnapshot((snap: firebase.firestore.QuerySnapshot) => {
           let updates: IGameEvent[] = [];
