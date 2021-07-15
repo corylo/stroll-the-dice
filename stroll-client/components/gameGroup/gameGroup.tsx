@@ -64,20 +64,7 @@ export const GameGroup: React.FC<GameGroupProps> = (props: GameGroupProps) => {
   }
 
   const getEmptyMessage = (): JSX.Element => {
-    if(state.status !== RequestStatus.Loading && empty) {
-      const getText = (): string => {
-        switch(props.status) {
-          case GameStatus.Upcoming:
-            return "You don't have any upcoming games.";
-          case GameStatus.InProgress:
-            return "You don't have any games in progress.";            
-          case GameStatus.Completed:
-            return "You don't have any completed games.";
-          default:
-            throw new Error(`Invalid game status: ${props.status}`);
-        }
-      }
-
+    if(state.status !== RequestStatus.Loading && empty) {      
       return (
         <EmptyMessage text={GameGroupUtility.getAllEmptyMessage(props.status)} />
       )
