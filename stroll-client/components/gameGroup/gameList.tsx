@@ -44,10 +44,13 @@ export const GameList: React.FC<GameListProps> = (props: GameListProps) => {
   }
 
   return (
-    <div className="game-list">
-      {getTitle()}
-      {getLinks()}
-      {getEmptyMessage()}
+    <div className="game-list">      
+      <div className="game-list-border" />      
+      <div className="game-list-content">
+        {getTitle()}
+        {getLinks()}
+        {getEmptyMessage()}
+      </div>
     </div>
   )
 }

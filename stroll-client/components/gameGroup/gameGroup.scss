@@ -26,34 +26,44 @@
 
   .game-group-lists {
     position: relative;
-  
+
     .game-list { 
-      border: 2px solid transparent;
-      border-left: 2px solid rgba(gray(230), 0.4);
-      border-radius: 10px;
-      padding: 10px;
-      padding-right: 0px;
+      display: flex;
 
       &:nth-of-type(n + 2) {
         margin-top: 20px;
       }
 
-      .game-list-title {
-        margin-bottom: 10px;
-        position: relative;
-
-        h1 {
-          color: gray(230);
-          font-size: 1.1em;
-          text-align: left;
-        }
+      .game-list-border {
+        background-color: gray(230);
+        border-radius: 10px;         
+        flex-shrink: 0;   
+        width: 4px;
       }
+    
+      .game-list-content {
+        background: linear-gradient(to right, rgba(white, 0.05), transparent);
+        border-radius: 4px;
+        flex-grow: 1;
+        margin-left: 5px;
+        padding: 10px;
 
-      .game-list-links {
+        .game-list-title {
+          margin-bottom: 10px;
+          position: relative;
 
-        .game-link-wrapper {
-          &:nth-of-type(n + 2) {
-            margin-top: 10px;
+          h1 {
+            color: gray(230);
+            font-size: 1.1em;
+            text-align: left;
+          }
+        }
+
+        .game-list-links {
+          .game-link-wrapper {
+            &:nth-of-type(n + 2) {
+              margin-top: 10px;
+            }
           }
         }
       }

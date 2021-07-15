@@ -131,3 +131,14 @@
     }
   }
 }
+
+@include small-phone-or-smaller {
+  .page {
+    .page-content-wrapper {
+      .page-content {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+    }
+  }
+}
