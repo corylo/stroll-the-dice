@@ -10,15 +10,17 @@
   padding: 10px;
 
   .leaderboard-border {
-    background-color: white;
+    background-color: gray(230);
     border-radius: 10px;
     height: 4px;
     width: 100%;
   }
 
   .leaderboard-content {
+    background: linear-gradient(to bottom, rgba(white, 0.05), transparent 50%);
     border-radius: 4px;
     flex-grow: 1;
+    margin-top: 5px;
 
     .leaderboard-title {
       color: gray(230);

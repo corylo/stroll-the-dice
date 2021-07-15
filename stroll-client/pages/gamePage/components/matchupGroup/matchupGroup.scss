@@ -6,7 +6,7 @@
   margin-top: 40px;
 
   .game-matchups-border {
-    background-color: white;
+    background-color: gray(230);
     border-radius: 10px;    
     height: 4px;
     margin-top: 5px;
@@ -17,6 +17,7 @@
     position: relative;
 
     .game-matchups-title-text {
+      background: linear-gradient(to bottom, rgba(white, 0.05), transparent);
       border-radius: 4px;
       color: gray(230);
       font-size: 2em;
