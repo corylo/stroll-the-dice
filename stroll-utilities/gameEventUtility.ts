@@ -39,6 +39,7 @@ interface IGameEventUtility {
 export const GameEventUtility: IGameEventUtility = {  
   getColor: (type: GameEventType, playerColor: Color): Color => {
     switch(type) {
+      case GameEventType.Completed:
       case GameEventType.Created:
       case GameEventType.DayCompleted:
       case GameEventType.Started:
@@ -55,6 +56,7 @@ export const GameEventUtility: IGameEventUtility = {
   },
   getIcon: (type: GameEventType): Icon => {
     switch(type) {
+      case GameEventType.Completed:
       case GameEventType.Created:
       case GameEventType.DayCompleted:
       case GameEventType.Started:
