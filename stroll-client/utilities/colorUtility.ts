@@ -28,7 +28,6 @@ export const ColorUtility: IColorUtility = {
       Color.Green4,
       Color.Green5,
       Color.Blue1,
-      Color.Blue2,
       Color.Blue3,
       Color.Blue4,
       Color.Blue5,

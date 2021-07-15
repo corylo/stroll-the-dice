@@ -1,10 +1,14 @@
 import firebase from "firebase/app";
 
+import { DateUtility } from "./dateUtility";
+import { FirestoreDateUtility } from "./firestoreDateUtility";
 import { GameUtility } from "../functions/src/utilities/gameUtility";
 
+import { IDayCompletedEvent } from "../stroll-models/gameEvent/dayCompletedEvent";
 import { IGame } from "../stroll-models/game";
 import { IGameEvent } from "../stroll-models/gameEvent/gameEvent";
 import { IGameUpdateEvent } from "../stroll-models/gameEvent/gameUpdateEvent";
+import { IMatchupProfileReference } from "../stroll-models/matchupProfileReference";
 import { IPlayerCreatedEvent } from "../stroll-models/gameEvent/playerCreatedEvent";
 import { IPlayerCreatedPredictionEvent } from "../stroll-models/gameEvent/playerCreatedPredictionEvent";
 import { IPlayerEarnedPointsFromStepsEvent } from "../stroll-models/gameEvent/playerEarnedPointsFromStepsEvent";
@@ -15,12 +19,12 @@ import { Color } from "../stroll-enums/color";
 import { GameEventReferenceID } from "../stroll-enums/gameEventReferenceID";
 import { GameEventType } from "../stroll-enums/gameEventType";
 import { Icon } from "../stroll-enums/icon";
-import { IMatchupProfileReference } from "../stroll-models/matchupProfileReference";
 
 interface IGameEventUtility {
   getColor: (type: GameEventType, playerColor: Color) => Color;
   getIcon: (type: GameEventType) => Icon;
   getLabel: (type: GameEventType) => string;
+  mapDayCompletedEvent: (occurredAt: firebase.firestore.FieldValue, day: number) => IDayCompletedEvent;
   mapFromFirestore: (id: string, event: any) => any;
   mapGeneralEvent: (occurredAt: firebase.firestore.FieldValue, type: GameEventType) => IGameEvent;  
   mapPlayerCreatedEvent: (occurredAt: firebase.firestore.FieldValue, profile: IProfileReference) => IPlayerCreatedEvent;
@@ -77,6 +81,14 @@ export const GameEventUtility: IGameEventUtility = {
         return "Prediction Updated";
       default:
         return type;
+    }
+  },
+  mapDayCompletedEvent: (occurredAt: firebase.firestore.FieldValue, day: number): IDayCompletedEvent => {
+    const event: IGameEvent = GameEventUtility.mapGeneralEvent(occurredAt, GameEventType.DayCompleted);
+
+    return {
+      ...event,
+      day
     }
   },
   mapFromFirestore: (id: string, event: any): any => {
@@ -172,6 +184,10 @@ export const GameEventUtility: IGameEventUtility = {
       to.beforeAmount = event.beforeAmount;
       to.matchup = event.matchup;
       to.playerID = event.playerID;
+    } else if (unidentifiedEvent.type === GameEventType.DayCompleted) {
+      const event: IDayCompletedEvent = unidentifiedEvent;
+
+      to.day = event.day;
     }
 
     return to;

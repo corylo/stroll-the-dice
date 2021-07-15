@@ -25,6 +25,8 @@ import { IMatchupPairGroup } from "../../../stroll-models/matchupPairGroup";
 import { IMatchupSideStepUpdate } from "../../../stroll-models/matchupSideStepUpdate";
 import { IPlayer } from "../../../stroll-models/player";
 import { IPrediction } from "../../../stroll-models/prediction";
+import { FirestoreDateUtility } from "../../../stroll-utilities/firestoreDateUtility";
+import { DateUtility } from "../../../stroll-utilities/dateUtility";
 
 interface IGameUpdateService {
   handleDayPassing: (gameID: string, day: number, matchups: IMatchup[], updates: IMatchupSideStepUpdate[]) => Promise<void>;
@@ -82,7 +84,10 @@ export const GameUpdateService: IGameUpdateService = {
       updates: IMatchupSideStepUpdate[] = await StepTrackerService.getStepCountUpdates(game, matchups);
 
     if(hasDayPassed) {   
-      await GameEventService.createDayCompletedEvent(gameID, game.startsAt, day);
+      const endOfDay: number = DateUtility.daysToMillis(day) / 1000,
+        endOfDayAt: firebase.firestore.FieldValue = firebase.firestore.Timestamp.fromDate(new Date(FirestoreDateUtility.add(game.startsAt, endOfDay)));
+
+      await GameEventService.create(gameID, GameEventUtility.mapDayCompletedEvent(endOfDayAt, day));
          
       await GameUpdateService.handleDayPassing(gameID, day, matchups, updates);
     } else {

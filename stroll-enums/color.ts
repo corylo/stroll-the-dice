@@ -1,5 +1,5 @@
 export enum Color {
-  History = "42,252,152",
+  History = "25,118,210",
   None = "",  
 
   Red1 = "183,28,28",
