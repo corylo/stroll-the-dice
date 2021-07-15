@@ -4,6 +4,7 @@ import { logger } from "firebase-functions";
 
 import { db } from "../../firebase";
 
+import { FirestoreDateUtility } from "../utilities/firestoreDateUtility";
 import { GameEventService } from "./gameEventService";
 import { MatchupBatchService } from "./batch/matchupBatchService";
 import { MatchupService } from "./matchupService";
@@ -15,8 +16,6 @@ import { PredictionBatchService } from "./batch/predictionBatchService";
 import { PredictionService } from "./predictionService";
 import { StepTrackerService } from "./stepTrackerService";
 
-import { DateUtility } from "../../../stroll-utilities/dateUtility";
-import { FirestoreDateUtility } from "../../../stroll-utilities/firestoreDateUtility";
 import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtility";
 import { GameEventUtility } from "../../../stroll-utilities/gameEventUtility";
 import { MatchupUtility } from "../utilities/matchupUtility";
@@ -42,9 +41,7 @@ export const GameUpdateService: IGameUpdateService = {
   handleDayPassing: async (gameID: string, day: number, startsAt: firebase.firestore.FieldValue, matchups: IMatchup[], updates: IMatchupSideStepUpdate[]): Promise<void> => {     
     logger.info(`Day [${day}] complete for game [${gameID}]. Completing matchups and distributing prediction winnings.`);
     
-    const eodAt: firebase.firestore.FieldValue = firebase.firestore.Timestamp.fromDate(new Date(FirestoreDateUtility.add(startsAt, DateUtility.daysToMillis(day) / 1000)));
-
-    await GameEventService.create(gameID, GameEventUtility.mapDayCompletedEvent(eodAt, day));
+    await GameEventService.create(gameID, GameEventUtility.mapDayCompletedEvent(FirestoreDateUtility.endOfDay(day, startsAt), day));
          
     const predictions: IPrediction[] = await PredictionService.getAllForMatchups(gameID, matchups);   
 

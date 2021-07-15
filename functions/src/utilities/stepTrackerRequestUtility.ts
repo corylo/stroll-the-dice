@@ -1,6 +1,6 @@
 import firebase from "firebase-admin";
 
-import { FirestoreDateUtility } from "../../../stroll-utilities/firestoreDateUtility";
+import { FirestoreDateUtility } from "./firestoreDateUtility";
 
 interface IStepTrackerRequestUtility {
   getGoogleFitStepDataRequestBody: (startsAt: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean) => any;
