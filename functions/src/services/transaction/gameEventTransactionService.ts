@@ -5,12 +5,12 @@ import { db } from "../../../firebase";
 import { gameEventConverter, IGameEvent } from "../../../../stroll-models/gameEvent/gameEvent";
 
 interface IGameEventTransactionService {
-  create: (transaction: firebase.firestore.Transaction, gameID: string, event: IGameEvent) => Promise<void>;
+  create: (transaction: firebase.firestore.Transaction, gameID: string, event: IGameEvent) => void;
 }
 
 export const GameEventTransactionService: IGameEventTransactionService = {
-  create: async (transaction: firebase.firestore.Transaction, gameID: string, event: IGameEvent): Promise<void> => {
-    const eventRef: firebase.firestore.DocumentReference = await db.collection("games")      
+  create: (transaction: firebase.firestore.Transaction, gameID: string, event: IGameEvent): void => {
+    const eventRef: firebase.firestore.DocumentReference = db.collection("games")      
       .doc(gameID)
       .collection("events")
       .withConverter(gameEventConverter)
