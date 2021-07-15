@@ -21,11 +21,25 @@
     right: auto;
     transform: none;
     width: 50px;
+
+    .loading-icon {
+      i {
+        font-size: 1.5em;
+      }
+    }
   }
 
   h1 {
     color: gray(200);
-    font-size: 2em;
+    font-size: 1.5em;
     margin-left: 10px;
+  }
+}
+
+@include small-tablet-or-smaller {
+  .loading-message {
+    h1 {
+      font-size: 1.25em;
+    }
   }
 }
