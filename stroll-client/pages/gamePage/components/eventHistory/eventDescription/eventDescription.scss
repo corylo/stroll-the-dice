@@ -20,7 +20,7 @@
       color: gray(230);
 
       .highlight-custom {
-        color: $blue2;
+        color: $history;
       }
 
       .clause-arrow {
@@ -28,8 +28,10 @@
         margin: 0px 4px;
       }
     }
-
-    .player-earned-points-from-steps {
+    
+    .player-created-prediction-statement,
+    .player-earned-points-from-steps-statement,
+    .player-updated-prediction-statement {
       color: gray(230);
     }
   }

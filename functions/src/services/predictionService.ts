@@ -5,9 +5,10 @@ import { db } from "../../firebase";
 
 import { GameEventTransactionService } from "./transaction/gameEventTransactionService";
 
+import { GameEventUtility } from "../../../stroll-utilities/gameEventUtility";
+
 import { IMatchup, IMatchupSide, matchupConverter } from "../../../stroll-models/matchup";
 import { IPrediction, predictionConverter } from "../../../stroll-models/prediction";
-import { GameEventUtility } from "../../../stroll-utilities/gameEventUtility";
 
 interface IPredictionService {  
   getAllByMatchup: (gameID: string, matchupID: string) => Promise<IPrediction[]>;
@@ -53,7 +54,7 @@ export const PredictionService: IPredictionService = {
           .doc(context.params.gameID)
           .collection("matchups")
           .doc(context.params.matchupID)
-          .withConverter<IMatchup>(predictionConverter);
+          .withConverter<IMatchup>(matchupConverter);
 
         await db.runTransaction(async (transaction: firebase.firestore.Transaction) => {
           const matchupDoc: firebase.firestore.DocumentSnapshot<IMatchup> = await transaction.get(matchupRef);
@@ -78,6 +79,7 @@ export const PredictionService: IPredictionService = {
                 prediction.ref.creator, 
                 prediction.createdAt, 
                 prediction.ref.player, 
+                prediction.ref.matchup,
                 prediction.amount
               )
             );
@@ -128,6 +130,7 @@ export const PredictionService: IPredictionService = {
                 after.ref.creator,
                 after.updatedAt,
                 after.ref.player,
+                after.ref.matchup,
                 before.amount,
                 after.amount
               )

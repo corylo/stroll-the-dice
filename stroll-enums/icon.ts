@@ -19,6 +19,7 @@ export enum Icon {
   Dice = "fal fa-dice",
   Points = "fal fa-dice-d8",
   ProfileIcon = "profile-icon",
+  Steps = "fal fa-shoe-prints",
   User = "fal fa-user",
   None = ""
 }

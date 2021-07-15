@@ -23,10 +23,10 @@ interface IGameEventUtility {
   mapFromFirestore: (id: string, event: any) => any;
   mapGeneralEvent: (occurredAt: firebase.firestore.FieldValue, type: GameEventType) => IGameEvent;  
   mapPlayerCreatedEvent: (occurredAt: firebase.firestore.FieldValue, profile: IProfileReference) => IPlayerCreatedEvent;
-  mapPlayerCreatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, amount: number) => IPlayerCreatedPredictionEvent;
+  mapPlayerCreatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, matchupID: string, amount: number) => IPlayerCreatedPredictionEvent;
   mapPlayerEarnedPointsFromStepsEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, points: number) => IPlayerEarnedPointsFromStepsEvent;
   mapPlayerEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, type: GameEventType) => IGameEvent;
-  mapPlayerUpdatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, beforeAmount: number, afterAmount: number) => IPlayerUpdatedPredictionEvent;
+  mapPlayerUpdatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, matchupID: string, beforeAmount: number, afterAmount: number) => IPlayerUpdatedPredictionEvent;
   mapToFirestore: (event: any) => any;
   mapUpdateEvent: (occurredAt: firebase.firestore.FieldValue, before: IGame, after: IGame) => IGameUpdateEvent;  
 }
@@ -35,10 +35,13 @@ export const GameEventUtility: IGameEventUtility = {
   getColor: (type: GameEventType, playerColor: Color): Color => {
     switch(type) {
       case GameEventType.Created:
+      case GameEventType.Started:
       case GameEventType.Updated:
       case GameEventType.PlayerCreated:
-        return Color.Blue2;
+        return Color.History;
+      case GameEventType.PlayerCreatedPrediction:
       case GameEventType.PlayerEarnedPointsFromSteps:
+      case GameEventType.PlayerUpdatedPrediction:
         return playerColor;
       default:
         return Color.Gray5;
@@ -47,12 +50,16 @@ export const GameEventUtility: IGameEventUtility = {
   getIcon: (type: GameEventType): Icon => {
     switch(type) {
       case GameEventType.Created:
+      case GameEventType.Started:
       case GameEventType.Updated:
         return Icon.Dice;
       case GameEventType.PlayerCreated:
         return Icon.User;
       case GameEventType.PlayerEarnedPointsFromSteps:
-        return Icon.ProfileIcon;
+        return Icon.Steps;
+      case GameEventType.PlayerCreatedPrediction:
+      case GameEventType.PlayerUpdatedPrediction:
+        return Icon.Dice;
       default:
         return Icon.None;
     }
@@ -61,8 +68,12 @@ export const GameEventUtility: IGameEventUtility = {
     switch(type) {
       case GameEventType.PlayerCreated:
         return "Player Joined";
+      case GameEventType.PlayerCreatedPrediction:
+        return "Prediction Created";
       case GameEventType.PlayerEarnedPointsFromSteps:
         return "Points Earned From Stepping";
+      case GameEventType.PlayerUpdatedPrediction:
+        return "Prediction Updated";
       default:
         return type;
     }
@@ -90,12 +101,13 @@ export const GameEventUtility: IGameEventUtility = {
       profile
     }
   },
-  mapPlayerCreatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, amount: number): IPlayerCreatedPredictionEvent => {
+  mapPlayerCreatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, matchupID: string, amount: number): IPlayerCreatedPredictionEvent => {
     const event: IGameEvent = GameEventUtility.mapPlayerEvent(creatorID, occurredAt, GameEventType.PlayerCreatedPrediction);
 
     return {
       ...event,
       amount,
+      matchupID,
       playerID
     }
   },
@@ -107,13 +119,14 @@ export const GameEventUtility: IGameEventUtility = {
       points
     }
   },
-  mapPlayerUpdatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, beforeAmount: number, afterAmount: number): IPlayerUpdatedPredictionEvent => {
+  mapPlayerUpdatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, matchupID: string, beforeAmount: number, afterAmount: number): IPlayerUpdatedPredictionEvent => {
     const event: IGameEvent = GameEventUtility.mapPlayerEvent(creatorID, occurredAt, GameEventType.PlayerUpdatedPrediction);
 
     return {
       ...event,
       afterAmount,
       beforeAmount,
+      matchupID,
       playerID
     }
   },
@@ -149,12 +162,14 @@ export const GameEventUtility: IGameEventUtility = {
       const event: IPlayerCreatedPredictionEvent = unidentifiedEvent;
 
       to.amount = event.amount;
+      to.matchupID = event.matchupID;
       to.playerID = event.playerID;
     } else if(unidentifiedEvent.type === GameEventType.PlayerUpdatedPrediction) {
       const event: IPlayerUpdatedPredictionEvent = unidentifiedEvent;
 
       to.afterAmount = event.afterAmount;
       to.beforeAmount = event.beforeAmount;
+      to.matchupID = event.matchupID;
       to.playerID = event.playerID;
     }
 

@@ -52,7 +52,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
           <Label 
             className="events-button passion-one-font" 
             icon="fal fa-history"
-            text="History"
+            text="Timeline"
             handleOnClick={() => toggle({ events: true })}
           />
         )
