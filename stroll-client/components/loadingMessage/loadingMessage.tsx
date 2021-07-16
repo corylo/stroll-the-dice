@@ -4,6 +4,7 @@ import classNames from "classnames";
 import { LoadingIcon } from "../loadingIcon/loadingIcon";
 
 interface LoadingMessageProps {  
+  animation?: "blink" | "spin";
   borderless?: boolean;
   text: string;
 }
@@ -23,7 +24,7 @@ export const LoadingMessage: React.FC<LoadingMessageProps> = (props: LoadingMess
     <div className={classNames("loading-message", { borderless })}>
       {getBorder()}
       <div className="loading-message-content">
-        <LoadingIcon animation="blink" />
+        <LoadingIcon animation={props.animation} />
         <h1 className="passion-one-font">{props.text}</h1>
       </div>
     </div>
