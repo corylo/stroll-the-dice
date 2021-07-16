@@ -2,10 +2,11 @@ import firebase from "firebase-admin";
 
 import { db } from "../../firebase";
 
-import { playerConverter } from "../../../stroll-models/player";
+import { IPlayer, playerConverter } from "../../../stroll-models/player";
 
 interface IPlayerUtility {
   getPlayersRef: (gameID: string) => firebase.firestore.Query;
+  hasProfileChanged: (before: IPlayer, after: IPlayer) => boolean;
 }
 
 export const PlayerUtility: IPlayerUtility = {
@@ -14,5 +15,12 @@ export const PlayerUtility: IPlayerUtility = {
       .doc(gameID)
       .collection("players")
       .withConverter(playerConverter);
+  },
+  hasProfileChanged: (before: IPlayer, after: IPlayer): boolean => {
+    return (
+      before.profile.color !== after.profile.color ||
+      before.profile.icon !== after.profile.icon ||
+      before.profile.username !== after.profile.username
+    )
   }
 }

@@ -1,5 +1,5 @@
 import firebase from "firebase-admin";
-import { EventContext, logger } from "firebase-functions";
+import { Change, EventContext, logger } from "firebase-functions";
 
 import { db } from "../../firebase";
 
@@ -7,6 +7,7 @@ import { GameEventTransactionService } from "./transaction/gameEventTransactionS
 import { PlayerTransactionService } from "./transaction/playerTransactionService";
 
 import { GameEventUtility } from "../../../stroll-utilities/gameEventUtility";
+import { PlayerUtility } from "../utilities/playerUtility";
 
 import { gameConverter, IGame } from "../../../stroll-models/game";
 import { matchupConverter } from "../../../stroll-models/matchup";
@@ -15,6 +16,7 @@ import { IPlayer, playerConverter } from "../../../stroll-models/player";
 interface IPlayerService {
   getByGame: (id: string) => Promise<IPlayer[]>;
   onCreate: (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext) => Promise<void>;  
+  onUpdate: (change: Change<firebase.firestore.QueryDocumentSnapshot<IPlayer>>, context: EventContext) => Promise<void>;
 }
 
 export const PlayerService: IPlayerService = {
@@ -66,6 +68,18 @@ export const PlayerService: IPlayerService = {
       });
       
       logger.info(`Successfully completed onCreate function for player [${player.id}] in game [${player.ref.game}].`);
+    } catch (err) {
+      logger.error(err);
+    }
+  },
+  onUpdate: async (change: Change<firebase.firestore.QueryDocumentSnapshot<IPlayer>>, context: EventContext): Promise<void> => {
+    const before: IPlayer = change.before.data(),
+      after: IPlayer = change.after.data();
+  
+    try {
+      if(PlayerUtility.hasProfileChanged(before, after)) {
+        await GameEventTransactionService.updatePlayerProfile(context.params.gameID, context.params.id, after.profile);
+      }
     } catch (err) {
       logger.error(err);
     }
