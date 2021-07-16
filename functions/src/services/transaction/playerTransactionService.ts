@@ -89,7 +89,7 @@ export const PlayerTransactionService: IPlayerTransactionService = {
           playerSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>) => {
             const update: IMatchupSideStepUpdate = MatchupUtility.findStepUpdate(doc.id, updates);
 
-            const player: IPlayer = PointsUtility.updatePointsForSteps(doc.data(), update);
+            const player: IPlayer = PointsUtility.mapPointsForSteps(doc.data(), update);
           
             const availablePoints: number = PredictionUtility.determineNewAvailablePoints(player, matchups, predictions),
               totalPointsAdded: number = PredictionUtility.determineTotalPointsAdded(player.id, matchups, predictions);
@@ -136,7 +136,7 @@ export const PlayerTransactionService: IPlayerTransactionService = {
             const update: IMatchupSideStepUpdate = MatchupUtility.findStepUpdate(doc.id, updates);
 
             if(update.steps > 0) {
-              const player: IPlayer = PointsUtility.updatePointsForSteps(doc.data(), update);
+              const player: IPlayer = PointsUtility.mapPointsForSteps(doc.data(), update);
 
               const updatedAt: firebase.firestore.FieldValue = firebase.firestore.FieldValue.serverTimestamp();
 

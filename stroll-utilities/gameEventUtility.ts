@@ -202,6 +202,12 @@ export const GameEventUtility: IGameEventUtility = {
       const event: IDayCompletedEvent = unidentifiedEvent;
 
       to.day = event.day;
+    } else if (unidentifiedEvent.type === GameEventType.PlayerDayCompletedSummary) {
+      const event: IPlayerDayCompletedSummaryEvent = unidentifiedEvent;
+
+      to.day = event.day;
+      to.points = event.points;
+      to.steps = event.steps;
     }
 
     return to;
