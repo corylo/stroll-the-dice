@@ -1,0 +1,118 @@
+.game-matchup {
+  .game-matchup-side {
+    &.left {
+      .game-matchup-side-content {
+        margin-left: 5px;
+
+        .game-matchup-side-stats {
+          margin-left: 5px;
+          
+          .game-matchup-side-stats-content {
+            background: linear-gradient(to right, rgba(white, 0.1), transparent 60%);
+            margin-left: 5px;
+
+            .game-matchup-side-stat {        
+              justify-content: flex-start;
+
+              h1 {
+                margin-left: 10px;
+              }
+
+              .tooltip {
+                right: -4px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    &.right {
+      .game-matchup-side-content {
+        margin-right: 5px;
+
+        .game-matchup-side-stats {
+          margin-right: 5px;
+
+          .game-matchup-side-stats-content {
+            background: linear-gradient(to left, rgba(white, 0.1), transparent 60%);
+            margin-right: 5px;
+
+            .game-matchup-side-stat {
+              justify-content: flex-end;
+              
+              h1 {
+                margin-right: 10px;
+              }
+
+              .tooltip {
+                left: -4px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .game-matchup-side-content {
+      border-radius: 4px;
+      padding: 10px 0px;
+
+      .game-matchup-side-stats {
+        display: flex;
+        margin-top: 5px;
+
+        .game-matchup-side-stats-border {     
+          background-color: gray(230);
+          border-radius: 10px;
+          flex-shrink: 0;
+          width: 4px;
+        }
+        
+        .game-matchup-side-stats-content {
+          border-radius: 4px;
+          flex-grow: 1;
+          padding: 10px;
+          
+          .game-matchup-side-stat {
+            align-items: center;
+            display: flex;
+            white-space: nowrap;
+
+            &:nth-of-type(n + 2) {        
+              margin-top: 5px;
+            }
+
+            i, h1 {
+              color: white;
+            }
+
+            i {
+              font-size: 0.8em;
+              justify-content: center;
+              width: 20px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include medium-phone-or-smaller {
+  .game-matchup {
+    .game-matchup-side {
+      .game-matchup-side-content {
+        .game-matchup-side-stats {
+          .game-matchup-side-stats-content {
+            .game-matchup-side-stat {
+              i {
+                font-size: 0.8em;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

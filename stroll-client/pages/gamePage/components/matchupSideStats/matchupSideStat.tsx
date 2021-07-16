@@ -1,8 +1,8 @@
 import React from "react";
 
 import { Label } from "../../../../components/label/label";
+import { MatchupSideAlignment } from "../matchupSide/matchupSide";
 import { TooltipSide } from "../../../../components/tooltip/tooltip";
-import { MatchupSideAlignment } from "./matchupSide";
 
 interface MatchupSideStatProps {  
   alignment: MatchupSideAlignment;

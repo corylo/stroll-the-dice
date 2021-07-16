@@ -3,20 +3,18 @@ import classNames from "classnames";
 
 import { Label } from "../../../../components/label/label";
 import { MatchupSidePrediction } from "../matchupSidePrediction/matchupSidePrediction";
-import { MatchupSideStat } from "./matchupSideStat";
 import { ProfileIcon } from "../../../../components/profileIcon/profileIcon";
 
 import { GamePageContext } from "../../gamePage";
 
 import { MatchupUtility } from "../../../../utilities/matchupUtility";
-import { NumberUtility } from "../../../../../stroll-utilities/numberUtility";
 import { PredictionUtility } from "../../../../utilities/predictionUtility";
 
 import { IMatchup, IMatchupSide } from "../../../../../stroll-models/matchup";
 import { IPrediction } from "../../../../../stroll-models/prediction";
 
 import { GameStatus } from "../../../../../stroll-enums/gameStatus";
-import { Icon } from "../../../../../stroll-enums/icon";
+import { MatchupSideStats } from "../matchupSideStats/matchupSideStats";
 
 export enum MatchupSideAlignment {
   Left = "left",
@@ -54,19 +52,23 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
     }
 
     const getLeaderLabel = (): JSX.Element => {
-      if(leader) {
-        const text: string = dayStatus === GameStatus.Completed
-          ? "Winner"
-          : "Leader";
-
+      if(leader) {        
         return (
           <Label 
             className="game-matchup-side-leader-label" 
             icon="fal fa-trophy" 
             styles={{ color: `rgb(${side.profile.color})`}}
-            text={text}
+            text={dayStatus === GameStatus.Completed ? "Winner" : "Leader"}
           />
         )
+      }
+    }
+
+    const getBorderStyles = (): React.CSSProperties => {
+      if(leader) {
+        return {
+          backgroundColor: `rgb(${side.profile.color})`
+        }
       }
     }
 
@@ -80,66 +82,36 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
 
         const styles: React.CSSProperties = { background };
 
-        if(alignment === MatchupSideAlignment.Left) {
-          styles.borderLeft = `2px solid rgb(${color})`;
-        } else {
-          styles.borderRight = `2px solid rgb(${color})`;
-        }
-
         return styles;
       }
     }
 
+    const getBorder = (): JSX.Element => <div className="game-matchup-side-border" style={getBorderStyles()} />;
+
     return (
-      <div className={classNames("game-matchup-side", props.alignment)} style={getStyles()}>
-        <ProfileIcon 
-          color={side.profile.color}
-          icon={side.profile.icon}
-        />
-        <h1 className="game-matchup-side-username passion-one-font" style={{ color: `rgb(${side.profile.color})` }}>{side.profile.username}</h1>     
-        <div className="game-matchup-side-stats">
-          <MatchupSideStat 
-            alignment={props.alignment}
-            icon="fal fa-shoe-prints" 
-            tooltip="Steps"
-            value={side.steps ? side.steps.toLocaleString() : "0"} 
+      <div className={classNames("game-matchup-side", props.alignment)}>
+        {props.alignment === MatchupSideAlignment.Left ? getBorder() : null}
+        <div className="game-matchup-side-content" style={getStyles()}>
+          <ProfileIcon 
+            color={side.profile.color}
+            icon={side.profile.icon}
           />
-          <MatchupSideStat 
+          <h1 className="game-matchup-side-username passion-one-font" style={{ color: `rgb(${side.profile.color})` }}>{side.profile.username}</h1>     
+          <MatchupSideStats 
             alignment={props.alignment}
-            icon={Icon.Points}
-            tooltip="Total Wagered"
-            value={side.total.wagered ? NumberUtility.shorten(side.total.wagered) : "-"} 
+            odds={odds}
+            side={side}
           />
-          <MatchupSideStat 
-            alignment={props.alignment}
-            icon="fal fa-dice" 
-            tooltip="Return Ratio"
-            value={`1 : ${new Intl.NumberFormat("en-IN", { maximumFractionDigits: 2 }).format(odds)}`} 
-          />
-          <MatchupSideStat 
-            alignment={props.alignment}
-            icon="fal fa-user-friends" 
-            tooltip="Participants"
-            value={side.total.participants} 
-          />
-        </div>   
-        {getLeaderLabel()}
-        {getMatchupSidePrediction()}
+          {getLeaderLabel()}
+          {getMatchupSidePrediction()}
+        </div>
+        {props.alignment === MatchupSideAlignment.Right ? getBorder() : null}
       </div>
     )
   }
 
-  const getText = (): string => {
-    return game.status === GameStatus.Upcoming
-      ? "Undetermined"
-      : "Bye";
-  }
-
-  const getIcon = (): string => {
-    return game.status === GameStatus.Upcoming
-      ? "fal fa-question"
-      : "fal fa-hand-scissors";
-  }
+  const getText = (): string => game.status === GameStatus.Upcoming ? "Undetermined" : "Bye",
+    getIcon = (): string => game.status === GameStatus.Upcoming ? "fal fa-question" : "fal fa-hand-scissors";  
 
   return (
     <div className="game-matchup-side undetermined">
