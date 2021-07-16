@@ -62,7 +62,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
       } else {
         const players: IPlayer[] = _orderBy(
           props.players, 
-          ["points.total", (player: IPlayer) => player.profile.username.toLowerCase()], 
+          ["points.total", "createdAt"], 
           ["desc", "asc"]
         ).slice(0, limit);
 
