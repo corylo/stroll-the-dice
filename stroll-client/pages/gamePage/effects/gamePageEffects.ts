@@ -27,7 +27,7 @@ export const useUpdateCurrentDayEffect = (state: IGamePageState, setState: (stat
 
       return () => clearInterval(interval);
     }
-  }, [state.game, state.day]);
+  }, [state]);
 }
 
 export const useGameInviteEffect = (
