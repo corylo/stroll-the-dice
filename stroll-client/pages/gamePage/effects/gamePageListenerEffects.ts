@@ -166,7 +166,7 @@ export const useMatchupListenerEffect = (
 export const useGameListenersEffect = (id: string, appState: IAppState, state: IGamePageState, setState: (state: IGamePageState) => void): void => {
   const [game, setGame] = useState<IGame>(defaultGame()),
     [players, setPlayers] = useState<IPlayer[]>([]);
-  
+
   useEffect(() => {    
     const updates: IGamePageState = { ...state };
     

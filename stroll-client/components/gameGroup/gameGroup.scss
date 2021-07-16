@@ -4,27 +4,28 @@
   }
 
   .game-group-title {
-    margin-bottom: 20px;
+    display: flex;
     position: relative;
 
-    &:after {
+    .game-group-title-border {
       background-color: $themeMain;
-      bottom: -4px;
-      content: "";
-      height: 2px;
-      left: 0px;
-      position: absolute;
-      width: 50px;
+      border-radius: 10px;
+      width: 4px;
     }
 
     h1 {
+      background: linear-gradient(to right, rgba(white, 0.05), transparent);      
+      border-radius: 4px;
       color: gray(230);
       font-size: 2em;
+      margin-left: 5px;
+      padding: 5px 10px;
       text-align: left;
     }
   }
 
   .game-group-lists {
+    margin-top: 10px;
     position: relative;
 
     .game-list { 

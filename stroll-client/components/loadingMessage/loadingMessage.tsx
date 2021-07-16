@@ -11,10 +11,21 @@ interface LoadingMessageProps {
 export const LoadingMessage: React.FC<LoadingMessageProps> = (props: LoadingMessageProps) => {  
   const borderless: boolean = props.borderless !== undefined && props.borderless === true;
 
+  const getBorder = (): JSX.Element => {
+    if(!borderless) {
+      return (
+        <div className="loading-message-border" />  
+      )
+    }
+  }
+
   return (    
     <div className={classNames("loading-message", { borderless })}>
-      <LoadingIcon />
-      <h1 className="passion-one-font">{props.text}</h1>
+      {getBorder()}
+      <div className="loading-message-content">
+        <LoadingIcon />
+        <h1 className="passion-one-font">{props.text}</h1>
+      </div>
     </div>
   );
 }

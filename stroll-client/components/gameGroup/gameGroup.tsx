@@ -74,6 +74,7 @@ export const GameGroup: React.FC<GameGroupProps> = (props: GameGroupProps) => {
   return (
     <div className={classNames("game-group", { loading: state.status === RequestStatus.Loading })}>
       <div className="game-group-title">
+        <div className="game-group-title-border" />
         <h1 className="passion-one-font">{props.status}</h1>
       </div>
       <div className="game-group-lists">
