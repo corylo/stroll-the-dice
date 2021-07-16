@@ -21,6 +21,8 @@
       border-radius: 4px;
       color: gray(230);
       font-size: 2em;
+      height: 36px;
+      line-height: 36px;
       padding: 5px;
       text-align: center;
     }
@@ -30,7 +32,8 @@
       border-top: 1px solid rgba(white, 0.2);
       display: flex;
       justify-content: space-between;
-      margin-top: 20px;
+      margin-top: 10px;
+      padding-bottom: 20px;
       padding-top: 5px;
 
       .game-matchups-title-date {
@@ -81,6 +84,27 @@
     &:focus {
       background-color: rgba(white, 0.2);
       color: $themeMain;
+    }
+  }
+}
+
+@include phone-or-smaller {
+  .game-matchups {    
+    .game-matchups-title {
+      .game-matchups-title-text {
+        font-size: 1.75em;
+        text-align: left;
+      }
+    }
+  }
+}
+
+@include small-phone-or-smaller {
+  .game-matchups {    
+    .game-matchups-title {
+      .game-matchups-title-text {
+        font-size: 1.5em;
+      }
     }
   }
 }
