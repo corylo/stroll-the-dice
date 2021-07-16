@@ -13,12 +13,6 @@ import { IPlayer } from "../../../stroll-models/player";
 import { GameStatus } from "../../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../../stroll-enums/requestStatus";
 
-export enum LeaderboardSort {
-  Alphabetical = "Alphabetical",
-  Points = "Points",
-  Steps = "Steps"
-}
-
 interface LeaderboardProps {  
   limit?: number;
   players: IPlayer[];
@@ -62,7 +56,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
   
     const getRows = (): JSX.Element => {
       if(props.gameStatus === GameStatus.Upcoming) {
-        const players: IPlayer[] = _orderBy(props.players, (player: IPlayer) => player.profile.username.toLowerCase(), "asc");
+        const players: IPlayer[] = _orderBy(props.players, (player: IPlayer) => player.createdAt, "asc");
 
         return getRemainingRows(players);
       } else {
