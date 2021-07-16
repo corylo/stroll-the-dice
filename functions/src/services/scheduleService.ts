@@ -10,56 +10,56 @@ import { IGame } from "../../../stroll-models/game";
 import { GameStatus } from "../../../stroll-enums/gameStatus";
 
 interface IScheduleService {  
-  handleInProgress: () => Promise<void>;
-  handleInProgressToCompleted: () => Promise<void>;
-  handleUpcomingToInProgress: () => Promise<void>;  
+  handleInProgress: (snap: firebase.firestore.QuerySnapshot) => Promise<void>;
+  handleInProgressToCompleted: (snap: firebase.firestore.QuerySnapshot) => Promise<void>;
+  handleUpcomingToInProgress: (snap: firebase.firestore.QuerySnapshot) => Promise<void>;  
   scheduledGameUpdate: (context: EventContext) => Promise<void>;
 }
 
 export const ScheduleService: IScheduleService = {
-  handleInProgress: async (): Promise<void> => {    
-    const inProgressGamesSnap: firebase.firestore.QuerySnapshot = await db.collection("games")     
-      .where("endsAt", ">", firebase.firestore.Timestamp.now())  
-      .where("status", "==", GameStatus.InProgress)
-      .get();
+  handleInProgress: async (snap: firebase.firestore.QuerySnapshot): Promise<void> => {  
+    if(!snap.empty) {
+      logger.info(`Updating progress of [${snap.size}] games.`);
 
-    if(!inProgressGamesSnap.empty) {
-      logger.info(`Updating progress of [${inProgressGamesSnap.size}] games.`);
-
-      await GameBatchService.handleInProgress(inProgressGamesSnap);
+      await GameBatchService.handleInProgress(snap);
     }
   },
-  handleInProgressToCompleted: async (): Promise<void> => {
-    const completedGamesSnap: firebase.firestore.QuerySnapshot = await db.collection("games")     
-      .where("endsAt", "<=", firebase.firestore.Timestamp.now())  
-      .where("status", "==", GameStatus.InProgress)
-      .get();
+  handleInProgressToCompleted: async (snap: firebase.firestore.QuerySnapshot): Promise<void> => {
+    if(!snap.empty) {
+      logger.info(`Updating [${snap.size}] games from [${GameStatus.InProgress}] to [${GameStatus.Completed}]`);
 
-    if(!completedGamesSnap.empty) {
-      logger.info(`Updating [${completedGamesSnap.size}] games from [${GameStatus.InProgress}] to [${GameStatus.Completed}]`);
-
-      await GameBatchService.handleInProgressToCompleted(completedGamesSnap);
+      await GameBatchService.handleInProgressToCompleted(snap);
     }      
   },
-  handleUpcomingToInProgress: async (): Promise<void> => {
-    const upcomingGamesSnap: firebase.firestore.QuerySnapshot = await db.collection("games")
-      .where("startsAt", "<=", firebase.firestore.Timestamp.now())
-      .where("status", "==", GameStatus.Upcoming)
-      .get();
+  handleUpcomingToInProgress: async (snap: firebase.firestore.QuerySnapshot): Promise<void> => {
+    if(!snap.empty) {
+      logger.info(`Updating [${snap.size}] games from [${GameStatus.Upcoming}] to [${GameStatus.InProgress}]`);
 
-    if(!upcomingGamesSnap.empty) {
-      logger.info(`Updating [${upcomingGamesSnap.size}] games from [${GameStatus.Upcoming}] to [${GameStatus.InProgress}]`);
-
-      await GameBatchService.handleUpcomingToInProgress(upcomingGamesSnap);
+      await GameBatchService.handleUpcomingToInProgress(snap);
     }
   },
   scheduledGameUpdate: async (context: EventContext): Promise<void> => {
-    try {
-      await ScheduleService.handleUpcomingToInProgress();
-      
-      await ScheduleService.handleInProgress();
+    try {  
+      const upcomingGamesSnap: firebase.firestore.QuerySnapshot = await db.collection("games")
+        .where("startsAt", "<=", firebase.firestore.Timestamp.now())
+        .where("status", "==", GameStatus.Upcoming)
+        .get();
 
-      await ScheduleService.handleInProgressToCompleted();
+      const inProgressGamesSnap: firebase.firestore.QuerySnapshot = await db.collection("games")     
+        .where("endsAt", ">", firebase.firestore.Timestamp.now())  
+        .where("status", "==", GameStatus.InProgress)
+        .get();
+
+      const completedGamesSnap: firebase.firestore.QuerySnapshot = await db.collection("games")     
+        .where("endsAt", "<=", firebase.firestore.Timestamp.now())  
+        .where("status", "==", GameStatus.InProgress)
+        .get();
+
+      await Promise.all([
+        ScheduleService.handleUpcomingToInProgress(upcomingGamesSnap),
+        ScheduleService.handleInProgress(inProgressGamesSnap),
+        ScheduleService.handleInProgressToCompleted(completedGamesSnap)
+      ]);
     } catch (err) {
       logger.error(err);
     }
