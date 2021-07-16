@@ -10,6 +10,7 @@ import { GamePageContext } from "../../pages/gamePage/gamePage";
 
 import { IPlayer } from "../../../stroll-models/player";
 
+import { GameStatus } from "../../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../../stroll-enums/requestStatus";
 
 export enum LeaderboardSort {
@@ -21,8 +22,7 @@ export enum LeaderboardSort {
 interface LeaderboardProps {  
   limit?: number;
   players: IPlayer[];
-  showTitle?: boolean;
-  sort: LeaderboardSort;
+  gameStatus: GameStatus;
   toggleView?: () => void;
 }
 
@@ -59,7 +59,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
     }
   
     const getRows = (): JSX.Element => {
-      if(props.sort === LeaderboardSort.Alphabetical || props.players.length < 4) {
+      if(props.gameStatus === GameStatus.Upcoming) {
         const players: IPlayer[] = _orderBy(props.players, (player: IPlayer) => player.profile.username.toLowerCase(), "asc");
 
         return getRemainingRows(players);
@@ -83,27 +83,27 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
       }
     }
 
-    const getTitle = (): JSX.Element => {
-      if(props.showTitle) {
-        return (
-          <h1 className="leaderboard-title passion-one-font">Leaderboard</h1>
-        )
-      }
-    }
-
     const getViewButton = (): JSX.Element => {
       if(props.toggleView) {
+        const text: string = props.gameStatus === GameStatus.Upcoming
+        ? "Roster"
+        : "Leaderboard";
+        
         return (
-          <Button className="view-leaderboard-button passion-one-font" handleOnClick={props.toggleView}>View Full Leaderboard</Button>
+          <Button className="view-leaderboard-button passion-one-font" handleOnClick={props.toggleView}>View Full {text}</Button>
         )
       }
     }
 
     const getLeaderboardContent = (): JSX.Element => {
       if(statuses.players === RequestStatus.Success) {
+        const title: string = props.gameStatus === GameStatus.Upcoming
+          ? "Roster"
+          : "Leaderboard";
+
         return (
           <React.Fragment>
-            {getTitle()}
+            <h1 className="leaderboard-title passion-one-font">{title}</h1>
             <div className="leaderboard-rows">
               {getRows()}
             </div>

@@ -6,7 +6,7 @@ import { GameDateStatus } from "../../../../components/gameDateStatus/gameDateSt
 import { GameDetails } from "../../../../components/gameDetails/gameDetails";
 import { InvitePlayersModal } from "../invitePlayersModal/invitePlayersModal";
 import { Label } from "../../../../components/label/label";
-import { Leaderboard, LeaderboardSort } from "../../../../components/leaderboard/leaderboard";
+import { Leaderboard } from "../../../../components/leaderboard/leaderboard";
 import { MatchupGroup } from "../matchupGroup/matchupGroup";
 import { MyPoints } from "../myPoints/myPoints";
 import { UpdateGameModal } from "../updateGameModal/updateGameModal";
@@ -61,20 +61,6 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
 
     const getGamePageContentForPlayer = (): JSX.Element => {
       if(player.id !== "") {
-        const getLeaderboard = (): JSX.Element => {
-          if(game.status !== GameStatus.Upcoming && players.length > 3) {
-            return (
-              <Leaderboard 
-                limit={4}
-                players={players} 
-                showTitle
-                sort={LeaderboardSort.Points} 
-                toggleView={() => toggle({ players: true })}
-              />
-            )
-          }
-        }
-
         const getMaxDay = (): number => {          
           if(state.game.status === GameStatus.InProgress) {
             return Math.min(state.day + 1, state.game.duration);
@@ -101,7 +87,12 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
 
         return (
           <React.Fragment>
-            {getLeaderboard()}
+            <Leaderboard 
+              limit={4}
+              players={players} 
+              gameStatus={game.status} 
+              toggleView={() => toggle({ players: true })}
+            />
             {getMatchups()}
           </React.Fragment>
         )

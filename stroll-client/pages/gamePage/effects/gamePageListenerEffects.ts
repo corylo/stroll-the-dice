@@ -263,5 +263,5 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
         unsubToPlayers();
       }
     }
-  }, [state.game.id, state.player.id, state.day]);
+  }, [state.game.id, state.player.id]);
 }

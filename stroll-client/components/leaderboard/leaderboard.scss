@@ -25,11 +25,12 @@
     .leaderboard-title {
       color: gray(230);
       font-size: 2em;
-      margin-top: 5px;
       text-align: center;
     }
 
     .leaderboard-rows {
+      margin-top: 10px;
+
       .leaderboard-top-rows {
         align-items: center;
         display: flex;
