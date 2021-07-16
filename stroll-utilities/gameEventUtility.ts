@@ -1,7 +1,5 @@
 import firebase from "firebase/app";
 
-import { DateUtility } from "./dateUtility";
-import { FirestoreDateUtility } from "./firestoreDateUtility";
 import { GameUtility } from "../functions/src/utilities/gameUtility";
 
 import { IDayCompletedEvent } from "../stroll-models/gameEvent/dayCompletedEvent";
@@ -11,6 +9,7 @@ import { IGameUpdateEvent } from "../stroll-models/gameEvent/gameUpdateEvent";
 import { IMatchupProfileReference } from "../stroll-models/matchupProfileReference";
 import { IPlayerCreatedEvent } from "../stroll-models/gameEvent/playerCreatedEvent";
 import { IPlayerCreatedPredictionEvent } from "../stroll-models/gameEvent/playerCreatedPredictionEvent";
+import { IPlayerDayCompletedSummaryEvent } from "../stroll-models/gameEvent/playerDayCompletedSummaryEvent";
 import { IPlayerEarnedPointsFromStepsEvent } from "../stroll-models/gameEvent/playerEarnedPointsFromStepsEvent";
 import { IPlayerUpdatedPredictionEvent } from "../stroll-models/gameEvent/playerUpdatedPredictionEvent";
 import { IProfileReference } from "../stroll-models/profileReference";
@@ -29,6 +28,7 @@ interface IGameEventUtility {
   mapGeneralEvent: (occurredAt: firebase.firestore.FieldValue, type: GameEventType) => IGameEvent;  
   mapPlayerCreatedEvent: (occurredAt: firebase.firestore.FieldValue, profile: IProfileReference) => IPlayerCreatedEvent;
   mapPlayerCreatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, matchup: IMatchupProfileReference, amount: number) => IPlayerCreatedPredictionEvent;
+  mapPlayerDayCompletedSummaryEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, day: number, points: number, steps: number) => IPlayerDayCompletedSummaryEvent
   mapPlayerEarnedPointsFromStepsEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, points: number) => IPlayerEarnedPointsFromStepsEvent;
   mapPlayerEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, type: GameEventType) => IGameEvent;
   mapPlayerUpdatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, matchup: IMatchupProfileReference, beforeAmount: number, afterAmount: number) => IPlayerUpdatedPredictionEvent;
@@ -126,6 +126,16 @@ export const GameEventUtility: IGameEventUtility = {
       amount,
       matchup,
       playerID
+    }
+  },
+  mapPlayerDayCompletedSummaryEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, day: number, points: number, steps: number): IPlayerDayCompletedSummaryEvent => {
+    const event: IGameEvent = GameEventUtility.mapPlayerEvent(playerID, occurredAt, GameEventType.PlayerDayCompletedSummary);
+
+    return {
+      ...event,
+      day,
+      points,
+      steps
     }
   },
   mapPlayerEarnedPointsFromStepsEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, points: number): IPlayerEarnedPointsFromStepsEvent => {

@@ -10,10 +10,10 @@ import { InitialValue } from "../../../stroll-enums/initialValue";
 import { MatchupLeader } from "../../../stroll-enums/matchupLeader";
 
 interface IPredictionUtility {    
-  adjustForInitialSelfPrediction: (playerID: string, predictions: IPrediction[]) => IPrediction[];
-  determineIfCorrect: (prediction: IPrediction, matchups: IMatchup[]) => boolean;        
+  adjustForInitialSelfPrediction: (playerID: string, predictions: IPrediction[]) => IPrediction[];  
+  determineIfCorrect: (prediction: IPrediction, matchups: IMatchup[]) => boolean;          
   determineNewAvailablePoints: (player: IPlayer, matchups: IMatchup[], allPredictions: IPrediction[]) => number;
-  determineNewTotalPoints: (player: IPlayer, matchups: IMatchup[], allPredictions: IPrediction[]) => number;
+  determineTotalPointsAdded: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]) => number;
   getByPlayer: (playerID: string, predictions: IPrediction[]) => IPrediction[];
   getCorrectPredictions: (predictions: IPrediction[], matchups: IMatchup[]) => IPrediction[];
   getIncorrectPredictions: (predictions: IPrediction[], matchups: IMatchup[]) => IPrediction[];  
@@ -49,14 +49,14 @@ export const PredictionUtility: IPredictionUtility = {
 
     return player.points.available + grossPayout;
   },
-  determineNewTotalPoints: (player: IPlayer, matchups: IMatchup[], allPredictions: IPrediction[]): number => {
-    const grossPayout: number = PredictionUtility.sumCorrectPredictionsWithOdds(player.id, matchups, allPredictions),
-      correctlyWagered: number = PredictionUtility.sumCorrectPredictions(player.id, matchups, allPredictions),
-      incorrectlyWagered: number = PredictionUtility.sumIncorrectPredictions(player.id, matchups, allPredictions);
+  determineTotalPointsAdded: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]): number => {
+    const grossPayout: number = PredictionUtility.sumCorrectPredictionsWithOdds(playerID, matchups, allPredictions),
+      correctlyWagered: number = PredictionUtility.sumCorrectPredictions(playerID, matchups, allPredictions),
+      incorrectlyWagered: number = PredictionUtility.sumIncorrectPredictions(playerID, matchups, allPredictions);
     
     const netPayout: number = grossPayout - correctlyWagered;
 
-    return player.points.total + netPayout - incorrectlyWagered;
+    return netPayout - incorrectlyWagered;
   },
   getByPlayer: (playerID: string, predictions: IPrediction[]): IPrediction[] => {
     return predictions.filter((prediction: IPrediction) => prediction.ref.creator === playerID);
