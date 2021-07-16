@@ -116,8 +116,10 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
   return (
     <div className="game-matchup-side undetermined">
       <div className="game-matchup-side-undetermined">
-        <ProfileIcon color="230, 230, 230" icon={getIcon()} />
-        <h1 className="game-matchup-side-username passion-one-font" style={{ color: "rgb(230, 230, 230)" }}>{getText()}</h1>     
+        <div className="game-matchup-side-content">
+          <ProfileIcon color="230, 230, 230" icon={getIcon()} />
+          <h1 className="game-matchup-side-username passion-one-font" style={{ color: "rgb(230, 230, 230)" }}>{getText()}</h1>     
+        </div>
       </div>
     </div>
   );
