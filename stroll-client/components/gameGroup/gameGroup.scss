@@ -67,6 +67,16 @@
             }
           }
         }
+
+        .empty-message {
+          .empty-message-border {
+            display: none;
+          }
+
+          .empty-message-content {
+            background: transparent;
+          }
+        }
       }
     }
   }

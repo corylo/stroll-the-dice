@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 
 import { AcceptInviteModal } from "../acceptInviteModal/acceptInviteModal";
+import { EmptyMessage } from "../../../../components/emptyMessage/emptyMessage";
 import { GameActions } from "../gameActions/gameActions";
 import { GameDateStatus } from "../../../../components/gameDateStatus/gameDateStatus";
 import { GameDetails } from "../../../../components/gameDetails/gameDetails";
@@ -15,8 +16,10 @@ import { StartingSoonMessage } from "../startingSoonMessage/startingSoonMessage"
 import { ViewPlayersModal } from "../viewPlayersModal/viewPlayersModal";
 import { ViewEventsModalWrapper } from "../viewEventsModal/viewEventsModalWrapper";
 
+import { AppContext } from "../../../../components/app/contexts/appContext";
 import { GamePageContext } from "../../gamePage";
 
+import { AppStatus } from "../../../../enums/appStatus";
 import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
 
@@ -25,6 +28,8 @@ interface GamePageContentProps {
 }
 
 export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageContentProps) => {
+  const { appState, dispatchToApp } = useContext(AppContext);
+
   const { state, setState } = useContext(GamePageContext);
 
   const { 
@@ -102,6 +107,13 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
             />
             {getMatchups()}
           </React.Fragment>
+        )
+      } else if (
+        appState.status === AppStatus.SignedOut || 
+        (game.id !== "" && player.id === "" && statuses.players !== RequestStatus.Loading)
+      ) {
+        return (
+          <EmptyMessage text="Sign in or request an invite from the creator to gain access to this game!" />
         )
       }
     }

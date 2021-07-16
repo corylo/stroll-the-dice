@@ -17,10 +17,12 @@ interface StartingSoonMessageProps {
 
 export const StartingSoonMessage: React.FC<StartingSoonMessageProps> = (props: StartingSoonMessageProps) => {    
   useCurrentDateEffect();
+
+  const withinLimit: boolean = FirestoreDateUtility.timestampToRelativeOfUnit(props.startsAt, "M") <= props.limit;
      
-  if(props.status === GameStatus.Upcoming) {
+  if(props.status === GameStatus.Upcoming && withinLimit) {
     const getText = (): string => {
-      if(props.day === 0 && FirestoreDateUtility.timestampToRelativeOfUnit(props.startsAt, "M") <= props.limit) {
+      if(props.day === 0) {
         const timeRemaining: string = FirestoreDateUtility.timestampToRelative(props.startsAt);    
         
         return `Game starting in ${timeRemaining}`;
