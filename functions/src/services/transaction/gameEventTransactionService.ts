@@ -27,8 +27,8 @@ export const GameEventTransactionService: IGameEventTransactionService = {
       const eventsRef: firebase.firestore.Query = db.collection("games")
         .doc(gameID)
         .collection("events") 
-        .where("referenceID", "==", playerID)    
         .where("type", "==", GameEventType.PlayerCreated)
+        .where("profile.uid", "==", playerID)    
         .withConverter(gameEventConverter);
 
       const eventSnap: firebase.firestore.QuerySnapshot = await transaction.get(eventsRef);

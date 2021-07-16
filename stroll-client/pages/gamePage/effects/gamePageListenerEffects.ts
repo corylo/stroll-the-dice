@@ -167,7 +167,7 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
   const [game, setGame] = useState<IGame>(defaultGame()),
     [players, setPlayers] = useState<IPlayer[]>([]);
 
-  useEffect(() => {    
+  useEffect(() => {  
     const updates: IGamePageState = { ...state };
     
     if(game.id !== "") {
@@ -244,7 +244,7 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
   }, [appState.status, state.game.id]);
 
   useEffect(() => {        
-    if(state.game.id !== "" && state.player.id !== "") {  
+    if(state.game.id !== "" && state.player.id !== "") {    
       const unsubToPlayers = db.collection("games")
         .doc(state.game.id)
         .collection("players")
