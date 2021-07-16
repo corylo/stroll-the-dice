@@ -23,7 +23,7 @@ export const LoadingMessage: React.FC<LoadingMessageProps> = (props: LoadingMess
     <div className={classNames("loading-message", { borderless })}>
       {getBorder()}
       <div className="loading-message-content">
-        <LoadingIcon />
+        <LoadingIcon animation="blink" />
         <h1 className="passion-one-font">{props.text}</h1>
       </div>
     </div>

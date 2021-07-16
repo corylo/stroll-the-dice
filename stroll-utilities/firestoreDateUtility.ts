@@ -15,6 +15,7 @@ interface IFirestoreDateUtility {
   timestampToLocaleDateTime: (value: firebase.firestore.FieldValue) => string;
   timestampToLocaleTime: (value: firebase.firestore.FieldValue) => string;
   timestampToRelative: (value: firebase.firestore.FieldValue) => string;
+  timestampToRelativeOfUnit: (value: firebase.firestore.FieldValue, unit: "H" | "M" | "S") => number;
   stringToOffsetTimestamp: (value: string, hour?: number) => firebase.firestore.Timestamp;
   stringToTimestamp: (value: string) => firebase.firestore.Timestamp;
 }
@@ -64,6 +65,11 @@ export const FirestoreDateUtility: IFirestoreDateUtility = {
     const date: IFirestoreTimestamp = value as any;
 
     return DateUtility.secondsToRelative(date.seconds);
+  },
+  timestampToRelativeOfUnit: (value: firebase.firestore.FieldValue, unit: "H" | "M" | "S"): number => {
+    const date: IFirestoreTimestamp = value as any;
+
+    return DateUtility.getRelativeOfUnit(date.seconds, unit);
   },
   stringToOffsetTimestamp: (value: string, hour?: number): firebase.firestore.Timestamp => {
     return FirestoreDateUtility.dateToTimestamp(DateUtility.stringToOffsetDate(value, hour));

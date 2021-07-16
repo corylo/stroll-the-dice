@@ -7,11 +7,11 @@ import { GameDetails } from "../../../../components/gameDetails/gameDetails";
 import { InvitePlayersModal } from "../invitePlayersModal/invitePlayersModal";
 import { Label } from "../../../../components/label/label";
 import { Leaderboard } from "../../../../components/leaderboard/leaderboard";
-import { LoadingMessage } from "../../../../components/loadingMessage/loadingMessage";
 import { MatchupGroup } from "../matchupGroup/matchupGroup";
 import { MyPoints } from "../myPoints/myPoints";
 import { UpdateGameModal } from "../updateGameModal/updateGameModal";
 import { UserLink } from "../../../../components/userLink/userLink";
+import { StartingSoonMessage } from "../startingSoonMessage/startingSoonMessage";
 import { ViewPlayersModal } from "../viewPlayersModal/viewPlayersModal";
 import { ViewEventsModalWrapper } from "../viewEventsModal/viewEventsModalWrapper";
 
@@ -62,51 +62,47 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
 
     const getGamePageContentForPlayer = (): JSX.Element => {
       if(player.id !== "") {
-        const getInProgressContent = (): JSX.Element => {
-          const getMaxDay = (): number => {          
-            if(state.game.status === GameStatus.InProgress) {
-              return Math.min(state.day + 1, state.game.duration);
-            } else if (state.game.status === GameStatus.Completed) {
-              return state.game.duration;
-            }
-
-            return 1;
+        const getMaxDay = (): number => {          
+          if(game.status === GameStatus.InProgress) {
+            return Math.min(state.day + 1, game.duration);
+          } else if (game.status === GameStatus.Completed) {
+            return game.duration;
           }
 
-          const getMatchups = (): JSX.Element[] => {    
-            const max: number = getMaxDay();
-            
-            const matchupGroups: JSX.Element[] = [];
-    
-            for(let i: number = max; i > 0; i--) {
-              matchupGroups.push(
-                <MatchupGroup key={i} day={i} />
-              )
-            }      
-    
-            return matchupGroups;
-          }
-
-          return (
-            <React.Fragment>
-              <Leaderboard 
-                limit={4}
-                players={players} 
-                gameStatus={game.status} 
-                toggleView={() => toggle({ players: true })}
-              />
-              {getMatchups()}
-            </React.Fragment>
-          )
+          return 1;
         }
 
-        if(state.day === 1 && game.status === GameStatus.Upcoming) {
-          return (
-            <LoadingMessage text="Starting game" />
-          )
-        } 
-        
-        return getInProgressContent();
+        const getMatchups = (): JSX.Element[] => {    
+          const max: number = getMaxDay();
+          
+          const matchupGroups: JSX.Element[] = [];
+  
+          for(let i: number = max; i > 0; i--) {
+            matchupGroups.push(
+              <MatchupGroup key={i} day={i} />
+            )
+          }      
+  
+          return matchupGroups;
+        }
+
+        return (
+          <React.Fragment>
+            <StartingSoonMessage 
+              day={state.day} 
+              limit={59} 
+              startsAt={game.startsAt}                 
+              status={game.status}
+            />
+            <Leaderboard 
+              limit={4}
+              players={players} 
+              gameStatus={game.status} 
+              toggleView={() => toggle({ players: true })}
+            />
+            {getMatchups()}
+          </React.Fragment>
+        )
       }
     }
 

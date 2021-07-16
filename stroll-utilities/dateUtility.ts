@@ -2,6 +2,7 @@ interface IDateUtility {
   dateToInput: (date: Date) => string;
   daysToMillis: (days: number) => number;  
   diffInDays: (value: string, hour?: number) => number;
+  getRelativeOfUnit: (seconds: number, unit: "H" | "M" | "S") => number;
   getTimeUntilInterval: (interval: number) => string;
   getTomorrow: () => Date;
   lessThanOrEqualToNow: (seconds: number) => boolean;
@@ -43,6 +44,23 @@ export const DateUtility: IDateUtility = {
     
     return diff / (24 * 3600 * 1000);
   },
+  getRelativeOfUnit: (seconds: number, unit: "H" | "M" | "S"): number => {     
+    const relativeMillis: number = Math.abs(seconds * 1000 - new Date().getTime()),
+      relativeSeconds: number = Math.round(relativeMillis / 1000),
+      relativeMinutes: number = Math.ceil(relativeSeconds / 60),
+      relativeHours: number = Math.floor(relativeMinutes / 60);
+
+    switch(unit) {
+      case "S":
+        return relativeSeconds;
+      case "M":
+        return relativeMinutes;
+      case "H":
+        return relativeHours;
+      default:
+        return null;
+    }
+  },
   getTimeUntilInterval: (interval: number): string => {
     const date: Date = new Date();
 
@@ -69,9 +87,7 @@ export const DateUtility: IDateUtility = {
     return (seconds * 1000) <= Date.now();
   },
   secondsToRelative: (seconds: number): string => {        
-    const relativeMillis: number = Math.abs(
-        seconds * 1000 - new Date().getTime()
-      ),
+    const relativeMillis: number = seconds * 1000 - new Date().getTime(),
       relativeSeconds: number = Math.round(relativeMillis / 1000);
           
     if (relativeSeconds < 60) {
