@@ -45,7 +45,7 @@ export const GameDateStatus: React.FC<GameDateStatusProps> = (props: GameDateSta
       icon="fal fa-clock"
       text={getText()}
       tooltip={getTooltip()}
-      tooltipSide={TooltipSide.Bottom}
+      tooltipSide={TooltipSide.BottomRight}
     />
   );
 }

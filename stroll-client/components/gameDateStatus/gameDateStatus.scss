@@ -2,6 +2,8 @@
   align-items: center;
   color: gray(200);
   display: flex;
+  position: relative;
+  z-index: 4;
 
   i { 
     font-size: 0.8em;
