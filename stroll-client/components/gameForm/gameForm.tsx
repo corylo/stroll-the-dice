@@ -28,6 +28,7 @@ import { GameDuration } from "../../../stroll-enums/gameDuration";
 import { GameFormAction } from "./enums/gameFormAction";
 import { GameMode } from "../../../stroll-enums/gameMode";
 import { GameStatus } from "../../../stroll-enums/gameStatus";
+import { HourSelector } from "./components/hourSelector/hourSelector";
 
 interface GameFormProps {  
   forwarding?: boolean;
@@ -160,6 +161,12 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
     }
   }
   
+  const getStartTimeErrorMessage = (): string => {
+    if (errors.startsAtHour === FormError.LowerDateLimitExceeded) {
+      return "Time must be in the future."
+    }
+  }
+  
   return (
     <Form     
       errors={errors}
@@ -204,7 +211,7 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
             select={(mode: GameMode) => handleOnChange(GameFormAction.SetMode, mode)} 
           />
         </InputWrapper>
-        <FormBodySection>
+        <FormBodySection className="start-date-section">
           <InputWrapper
             label="Start Date"
             error={errors.startsAt}
@@ -217,9 +224,13 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
               onChange={(e: any) => handleOnChange(GameFormAction.SetStartsAt, e.target.value)}
             />
           </InputWrapper>
-          <h1 className="start-date-label passion-one-font">
-            Games run from <span className="highlight-main">12:00:00 AM</span> on the selected date to <span className="highlight-main">11:59:59 PM</span> on the last day.
-          </h1>
+          <InputWrapper
+            label="Start Time"
+            error={errors.startsAtHour}
+            errorMessage={getStartTimeErrorMessage()}
+          >
+            <HourSelector hour={fields.startsAtHour} select={(hour: number) => handleOnChange(GameFormAction.SetStartsAtHour, hour)} />
+          </InputWrapper>
         </FormBodySection>
         {getLockGameSection()}
       </FormBody>

@@ -32,6 +32,8 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
   const { statuses } = state;
   
   if(statuses.players !== RequestStatus.Idle) {
+    const limit: number = props.limit || props.players.length;
+
     const getTopRows = (players: IPlayer[]): JSX.Element => {
       const first: IPlayer = players[0],
         second: IPlayer = players[1],
@@ -68,7 +70,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
           props.players, 
           ["points.total", (player: IPlayer) => player.profile.username.toLowerCase()], 
           ["desc", "asc"]
-        ).slice(0, props.limit || props.players.length);
+        ).slice(0, limit);
 
         const remainingRows: JSX.Element = players.length > 3
           ? getRemainingRows(players.slice(3), 4)
@@ -84,7 +86,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
     }
 
     const getViewButton = (): JSX.Element => {
-      if(props.toggleView) {
+      if(props.toggleView && props.players.length > limit) {
         const text: string = props.gameStatus === GameStatus.Upcoming
         ? "Roster"
         : "Leaderboard";

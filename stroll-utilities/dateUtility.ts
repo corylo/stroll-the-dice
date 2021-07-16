@@ -1,16 +1,15 @@
 interface IDateUtility {
   dateToInput: (date: Date) => string;
   daysToMillis: (days: number) => number;  
-  diffInDays: (value: string) => number;
+  diffInDays: (value: string, hour?: number) => number;
   getTimeUntilInterval: (interval: number) => string;
   getTomorrow: () => Date;
   lessThanOrEqualToNow: (seconds: number) => boolean;
-  secondsToLocale: (seconds: number) => string;
   secondsToRelative: (seconds: number) => string;  
-  stringToOffsetDate: (value: string) => Date;
+  stringToOffsetDate: (value: string, hour?: number) => Date;
   valid: (value: string) => boolean;  
-  withinDaysLower: (value: string, limit: number) => boolean;
-  withinDaysUpper: (value: string, limit: number) => boolean;
+  withinDaysLower: (limit: number, value: string, hour?: number) => boolean;
+  withinDaysUpper: (limit: number, value: string) => boolean;
 }
 
 export const DateUtility: IDateUtility = {
@@ -32,9 +31,13 @@ export const DateUtility: IDateUtility = {
   daysToMillis: (days: number): number => {
     return days * 24 * 3600 * 1000;
   },
-  diffInDays: (value: string): number => {
+  diffInDays: (value: string, hour?: number): number => {
     const current: Date = new Date(),
       date: Date = DateUtility.stringToOffsetDate(value);
+
+    if(hour) {
+      date.setHours(hour);
+    }
 
     const diff: number = date.getTime() - current.getTime();
     
@@ -65,11 +68,6 @@ export const DateUtility: IDateUtility = {
   lessThanOrEqualToNow: (seconds: number): boolean => {  
     return (seconds * 1000) <= Date.now();
   },
-  secondsToLocale: (seconds: number): string => {
-    const date: Date = new Date(seconds * 1000);
-
-    return date.toDateString();
-  },
   secondsToRelative: (seconds: number): string => {        
     const relativeMillis: number = Math.abs(
         seconds * 1000 - new Date().getTime()
@@ -96,10 +94,14 @@ export const DateUtility: IDateUtility = {
 
     return `${relativeDays}d ${relativeHours - (relativeDays * 24)}h`;
   },
-  stringToOffsetDate: (value: string): Date => {
+  stringToOffsetDate: (value: string, hour?: number): Date => {
     const date: Date = new Date(value);
-    
+
     date.setTime(date.getTime() + date.getTimezoneOffset() * 60000);
+
+    if(hour) {
+      date.setHours(hour);
+    }
 
     return date;
   },
@@ -108,10 +110,10 @@ export const DateUtility: IDateUtility = {
 
     return !isNaN(date.valueOf());
   },
-  withinDaysLower: (value: string, limit: number): boolean => {
-    return DateUtility.diffInDays(value) >= limit;
+  withinDaysLower: (limit: number, value: string, hour?: number): boolean => {
+    return DateUtility.diffInDays(value, hour) >= limit;
   },
-  withinDaysUpper: (value: string, limit: number): boolean => {
+  withinDaysUpper: (limit: number, value: string): boolean => {
     return DateUtility.diffInDays(value) <= limit;
   },
 };

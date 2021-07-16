@@ -33,7 +33,7 @@ export const CreateGamePage: React.FC<CreateGamePageProps> = (props: CreateGameP
     const game: IGame = GameFormUtility.mapCreate(fields, user),
       invite: IInvite = InviteUtility.mapCreate(game.creator.uid),
       player: IPlayer = PlayerUtility.mapCreate(user.profile, game, invite);
-
+    console.log(fields, game);
     await CreateGameService.createGame(game, player, invite);
 
     history.push(`/game/${game.id}`);

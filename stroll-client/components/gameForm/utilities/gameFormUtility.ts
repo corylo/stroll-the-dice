@@ -28,7 +28,8 @@ export const GameFormUtility: IGameFormUtility = {
         game.locked !== fields.locked ||
         game.mode !== fields.mode || 
         game.name !== fields.name ||
-        FirestoreDateUtility.timestampToDateInput(game.startsAt) !== fields.startsAt
+        FirestoreDateUtility.timestampToDateInput(game.startsAt) !== fields.startsAt ||
+        FirestoreDateUtility.timestampToDate(game.startsAt).getHours() !== fields.startsAtHour
       )
     }
 
@@ -38,7 +39,7 @@ export const GameFormUtility: IGameFormUtility = {
     return gameStatus === undefined || gameStatus === GameStatus.Upcoming;
   },
   mapCreate: (fields: IGameFormStateFields, user: IUser): IGame => {    
-    const startsAt: firebase.firestore.FieldValue = FirestoreDateUtility.stringToOffsetTimestamp(fields.startsAt),
+    const startsAt: firebase.firestore.FieldValue = FirestoreDateUtility.stringToOffsetTimestamp(fields.startsAt, fields.startsAtHour),
       endsAt: firebase.firestore.FieldValue = FirestoreDateUtility.dateToTimestamp(new Date(GameDurationUtility.getEndsAt(startsAt, fields.duration) * 1000));
     
     return {
@@ -78,14 +79,15 @@ export const GameFormUtility: IGameFormUtility = {
         locked: game.locked,
         mode: game.mode,
         name: game.name,
-        startsAt: FirestoreDateUtility.timestampToDateInput(game.startsAt)
+        startsAt: FirestoreDateUtility.timestampToDateInput(game.startsAt),
+        startsAtHour: FirestoreDateUtility.timestampToDate(game.startsAt).getHours()
       }
     }
 
     return state;
   },
   mapUpdate: (fields: IGameFormStateFields): IGameUpdate => {
-    const startsAt: firebase.firestore.FieldValue = FirestoreDateUtility.stringToOffsetTimestamp(fields.startsAt),
+    const startsAt: firebase.firestore.FieldValue = FirestoreDateUtility.stringToOffsetTimestamp(fields.startsAt, fields.startsAtHour),
       endsAt: firebase.firestore.FieldValue = FirestoreDateUtility.dateToTimestamp(new Date(GameDurationUtility.getEndsAt(startsAt, fields.duration) * 1000));
 
     return {

@@ -34,8 +34,11 @@ export const UpdateEventDescription: React.FC<UpdateEventDescriptionProps> = (pr
   }
 
   if(before.startsAt) {
-    const beforeClause: JSX.Element = <span className="highlight-custom">{FirestoreDateUtility.timestampToDate(before.startsAt).toDateString()}</span>,
-      afterClause: JSX.Element = <span className="highlight-custom">{FirestoreDateUtility.timestampToDate(after.startsAt).toDateString()}</span>;
+    const beforeDateTime: string = FirestoreDateUtility.timestampToLocaleDateTime(before.startsAt),
+      afterDateTime: string = FirestoreDateUtility.timestampToLocaleDateTime(after.startsAt);
+
+    const beforeClause: JSX.Element = <span className="highlight-custom">{beforeDateTime}</span>,
+      afterClause: JSX.Element = <span className="highlight-custom">{afterDateTime}</span>;
 
     updates.push(
       <h1 key="starts-at" className="game-event-description-clause passion-one-font">Start date changed from {beforeClause} <i className="clause-arrow fal fa-long-arrow-right" /> {afterClause}</h1>
@@ -43,8 +46,11 @@ export const UpdateEventDescription: React.FC<UpdateEventDescriptionProps> = (pr
   }
 
   if(before.endsAt) {
-    const beforeClause: JSX.Element = <span className="highlight-custom">{FirestoreDateUtility.timestampToDate(before.endsAt).toDateString()}</span>,
-      afterClause: JSX.Element = <span className="highlight-custom">{FirestoreDateUtility.timestampToDate(after.endsAt).toDateString()}</span>;
+    const beforeDateTime: string = FirestoreDateUtility.timestampToLocaleDateTime(before.endsAt),
+      afterDateTime: string = FirestoreDateUtility.timestampToLocaleDateTime(after.endsAt);
+
+    const beforeClause: JSX.Element = <span className="highlight-custom">{beforeDateTime}</span>,
+      afterClause: JSX.Element = <span className="highlight-custom">{afterDateTime}</span>;
 
     updates.push(
       <h1 key="ends-at" className="game-event-description-clause passion-one-font">End date changed from {beforeClause} <i className="clause-arrow fal fa-long-arrow-right" /> {afterClause}</h1>

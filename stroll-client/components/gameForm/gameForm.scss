@@ -3,8 +3,21 @@
 @import "./components/modeSelector/modeSelector.scss";
 
 #game-form {
-  .start-date-label {
-    color: gray(200);
-    margin-top: 10px;
+  .start-date-section {
+    display: grid;
+    grid-gap: 1em;
+    grid-template-columns: repeat(auto-fill, minmax(calc(50% - 1em), 1fr)); 
+
+    .input-wrapper {
+      margin-top: 0px;
+    }
+  }
+}
+
+@include phone-or-smaller {
+  #game-form {
+    .start-date-section {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));    
+    }
   }
 }

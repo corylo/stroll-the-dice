@@ -5,11 +5,13 @@ export interface IGameFormStateErrors {
   mode: FormError;
   name: FormError;
   startsAt: FormError;
+  startsAtHour: FormError;
 }
 
 export const defaultGameFormStateErrors = (): IGameFormStateErrors => ({
   duration: FormError.None,
   mode: FormError.None,
   name: FormError.None,
-  startsAt: FormError.None
+  startsAt: FormError.None,
+  startsAtHour: FormError.None
 });

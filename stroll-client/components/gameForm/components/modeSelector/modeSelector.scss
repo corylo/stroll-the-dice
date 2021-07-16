@@ -4,8 +4,8 @@
   grid-template-columns: repeat(auto-fill, minmax(30%, 1fr)); 
 }
 
-@include phone-or-smaller {
+@include small-phone-or-smaller {
   .mode-selector {
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));    
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));    
   }
 }
