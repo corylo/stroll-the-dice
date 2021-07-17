@@ -1,4 +1,5 @@
 import firebase from "firebase-admin";
+import { logger } from "firebase-functions";
 
 import { db } from "../../../firebase";
 
@@ -59,9 +60,14 @@ export const GameEventBatchService: IGameEventBatchService = {
         .getPredictionMatchupQuery(gameID, playerID, GameEventType.PlayerUpdatedPrediction, "matchup.left.uid")
         .get();
 
+    let loopIndex: number = 1;
+
     for(let i: number = 0; i < predictionUpdatedMatchupLeftSnap.docs.length; i += 500) {
       const min: number = i,
-        max: number = i + 500;
+        max: number = i + 500,
+        adjustedMax: number = Math.min(max, length);
+
+      logger.info(`Loop [${loopIndex++}]: Updating [matchup left] profile of player [${playerID}] in [${GameEventType.PlayerUpdatedPrediction}] events [${min + 1} - ${adjustedMax}].`);
 
       await GameEventBatchService.updatePlayerProfileInPredictionUpdatedEventsLoop(
         predictionUpdatedMatchupLeftSnap.docs.slice(min, max), 
@@ -75,9 +81,14 @@ export const GameEventBatchService: IGameEventBatchService = {
         .getPredictionMatchupQuery(gameID, playerID, GameEventType.PlayerUpdatedPrediction, "matchup.right.uid")
         .get();
         
+    loopIndex = 0;
+
     for(let i: number = 0; i < predictionUpdatedMatchupRightSnap.docs.length; i += 500) {
       const min: number = i,
-        max: number = i + 500;
+        max: number = i + 500,
+        adjustedMax: number = Math.min(max, length);
+
+      logger.info(`Loop [${loopIndex++}]: Updating [matchup right] profile of player [${playerID}] in [${GameEventType.PlayerUpdatedPrediction}] events [${min + 1} - ${adjustedMax}].`);
 
       await GameEventBatchService.updatePlayerProfileInPredictionUpdatedEventsLoop(
         predictionUpdatedMatchupRightSnap.docs.slice(min, max), 
