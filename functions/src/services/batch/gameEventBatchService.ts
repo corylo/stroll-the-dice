@@ -60,20 +60,22 @@ export const GameEventBatchService: IGameEventBatchService = {
         .getPredictionMatchupQuery(gameID, playerID, GameEventType.PlayerUpdatedPrediction, "matchup.left.uid")
         .get();
 
-    let loopIndex: number = 1;
+    if(!predictionUpdatedMatchupLeftSnap.empty) {
+      let loopIndex: number = 1;
 
-    for(let i: number = 0; i < predictionUpdatedMatchupLeftSnap.docs.length; i += 500) {
-      const min: number = i,
-        max: number = i + 500,
-        adjustedMax: number = Math.min(max, length);
+      for(let i: number = 0; i < predictionUpdatedMatchupLeftSnap.docs.length; i += 500) {
+        const min: number = i,
+          max: number = i + 500,
+          adjustedMax: number = Math.min(max, length);
 
-      logger.info(`Loop [${loopIndex++}]: Updating [matchup left] profile of player [${playerID}] in [${GameEventType.PlayerUpdatedPrediction}] events [${min + 1} - ${adjustedMax}].`);
+        logger.info(`Loop [${loopIndex++}]: Updating [matchup left] profile of player [${playerID}] in [${GameEventType.PlayerUpdatedPrediction}] events [${min + 1} - ${adjustedMax}].`);
 
-      await GameEventBatchService.updatePlayerProfileInPredictionUpdatedEventsLoop(
-        predictionUpdatedMatchupLeftSnap.docs.slice(min, max), 
-        "matchup.left", 
-        profile
-      );      
+        await GameEventBatchService.updatePlayerProfileInPredictionUpdatedEventsLoop(
+          predictionUpdatedMatchupLeftSnap.docs.slice(min, max), 
+          "matchup.left", 
+          profile
+        );      
+      }
     }
     
     const predictionUpdatedMatchupRightSnap: firebase.firestore.QuerySnapshot =
@@ -81,21 +83,23 @@ export const GameEventBatchService: IGameEventBatchService = {
         .getPredictionMatchupQuery(gameID, playerID, GameEventType.PlayerUpdatedPrediction, "matchup.right.uid")
         .get();
         
-    loopIndex = 0;
+    if(!predictionUpdatedMatchupRightSnap.empty) {
+      let loopIndex: number = 1;
 
-    for(let i: number = 0; i < predictionUpdatedMatchupRightSnap.docs.length; i += 500) {
-      const min: number = i,
-        max: number = i + 500,
-        adjustedMax: number = Math.min(max, length);
+      for(let i: number = 0; i < predictionUpdatedMatchupRightSnap.docs.length; i += 500) {
+        const min: number = i,
+          max: number = i + 500,
+          adjustedMax: number = Math.min(max, length);
 
-      logger.info(`Loop [${loopIndex++}]: Updating [matchup right] profile of player [${playerID}] in [${GameEventType.PlayerUpdatedPrediction}] events [${min + 1} - ${adjustedMax}].`);
+        logger.info(`Loop [${loopIndex++}]: Updating [matchup right] profile of player [${playerID}] in [${GameEventType.PlayerUpdatedPrediction}] events [${min + 1} - ${adjustedMax}].`);
 
-      await GameEventBatchService.updatePlayerProfileInPredictionUpdatedEventsLoop(
-        predictionUpdatedMatchupRightSnap.docs.slice(min, max), 
-        "matchup.right", 
-        profile
-      );      
-    }    
+        await GameEventBatchService.updatePlayerProfileInPredictionUpdatedEventsLoop(
+          predictionUpdatedMatchupRightSnap.docs.slice(min, max), 
+          "matchup.right", 
+          profile
+        );      
+      }    
+    }
   },
   updatePlayerProfileInPredictionUpdatedEventsLoop: async (docs: FirebaseFirestore.QueryDocumentSnapshot[], property: string, profile: IProfileReference): Promise<void> => {
     const batch: firebase.firestore.WriteBatch = db.batch();
