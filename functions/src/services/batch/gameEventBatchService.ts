@@ -56,7 +56,7 @@ export const GameEventBatchService: IGameEventBatchService = {
   updatePlayerProfileInPredictionUpdatedEvents: async (gameID: string, playerID: string, profile: IProfileReference): Promise<void> => {
     const predictionUpdatedMatchupLeftSnap: firebase.firestore.QuerySnapshot = 
       await GameEventUtility
-        .getPredictionMatchupQuery(gameID, playerID, GameEventType.PlayerUpdatedPrediction, "left.profile.uid")
+        .getPredictionMatchupQuery(gameID, playerID, GameEventType.PlayerUpdatedPrediction, "matchup.left.uid")
         .get();
 
     for(let i: number = 0; i < predictionUpdatedMatchupLeftSnap.docs.length; i += 500) {
@@ -72,7 +72,7 @@ export const GameEventBatchService: IGameEventBatchService = {
     
     const predictionUpdatedMatchupRightSnap: firebase.firestore.QuerySnapshot =
       await GameEventUtility
-        .getPredictionMatchupQuery(gameID, playerID, GameEventType.PlayerUpdatedPrediction, "right.profile.uid")
+        .getPredictionMatchupQuery(gameID, playerID, GameEventType.PlayerUpdatedPrediction, "matchup.right.uid")
         .get();
         
     for(let i: number = 0; i < predictionUpdatedMatchupRightSnap.docs.length; i += 500) {
