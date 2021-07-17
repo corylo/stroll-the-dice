@@ -34,11 +34,13 @@
     .player-prediction-amount-statement,
     .player-prediction-matchup-statement,
     .day-completed-statement,
-    .player-day-completed-summary-statement {
+    .player-day-completed-steps-statement,
+    .player-day-completed-predictions-statement {
       color: gray(230);
     }
 
-    .player-prediction-amount-statement {
+    .player-prediction-amount-statement,
+    .player-day-completed-predictions-statement {
       margin-top: 5px;
     }
   }

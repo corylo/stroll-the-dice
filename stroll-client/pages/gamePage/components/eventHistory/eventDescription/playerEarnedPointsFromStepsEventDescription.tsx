@@ -15,7 +15,7 @@ export const PlayerEarnedPointsFromStepsEventDescription: React.FC<PlayerEarnedP
 
   return (
     <EventDescriptionWrapper>
-      <h1 className="player-earned-points-from-steps-statement passion-one-font">You earned {pointStatement} from taking {props.event.points.toLocaleString()} steps!</h1>
+      <h1 className="player-earned-points-from-steps-statement passion-one-font">You earned {pointStatement} from taking <span className="highlight-main">{props.event.points.toLocaleString()}</span> steps!</h1>
     </EventDescriptionWrapper>
   )
 }
