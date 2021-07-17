@@ -17,7 +17,7 @@ import { PredictionService } from "./predictionService";
 import { StepTrackerService } from "./stepTrackerService";
 
 import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtility";
-import { GameEventUtility } from "../../../stroll-utilities/gameEventUtility";
+import { GameEventUtility } from "../utilities/gameEventUtility";
 import { MatchupUtility } from "../utilities/matchupUtility";
 
 import { IGame } from "../../../stroll-models/game";

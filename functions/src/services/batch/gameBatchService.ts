@@ -5,7 +5,7 @@ import { db } from "../../../firebase";
 
 import { GameEventBatchService } from "./gameEventBatchService";
 
-import { GameEventUtility } from "../../../../stroll-utilities/gameEventUtility";
+import { GameEventUtility } from "../../utilities/gameEventUtility";
 import { ProfileUtility } from "../../utilities/profileUtility";
 
 import { IGame } from "../../../../stroll-models/game";

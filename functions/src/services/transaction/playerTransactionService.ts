@@ -7,7 +7,7 @@ import { GameEventTransactionService } from "./gameEventTransactionService";
 import { MatchupTransactionService } from "./matchupTransactionService";
 import { PredictionTransactionService } from "./predictionTransactionService";
 
-import { GameEventUtility } from "../../../../stroll-utilities/gameEventUtility";
+import { GameEventUtility } from "../../utilities/gameEventUtility";
 import { MatchupUtility } from "../../utilities/matchupUtility";
 import { PlayerUtility } from "../../utilities/playerUtility";
 import { PointsUtility } from "../../utilities/pointsUtility";

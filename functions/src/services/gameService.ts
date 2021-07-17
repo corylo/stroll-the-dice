@@ -6,7 +6,7 @@ import { GameUpdateService } from "./gameUpdateService";
 import { PlayingInBatchService } from "./batch/playingInBatchService";
 
 import { GameUtility } from "../utilities/gameUtility";
-import { GameEventUtility } from "../../../stroll-utilities/gameEventUtility";
+import { GameEventUtility } from "../utilities/gameEventUtility";
 
 import { IGame } from "../../../stroll-models/game";
 

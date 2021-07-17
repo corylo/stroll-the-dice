@@ -5,7 +5,7 @@ import { db } from "../../firebase";
 
 import { GameEventTransactionService } from "./transaction/gameEventTransactionService";
 
-import { GameEventUtility } from "../../../stroll-utilities/gameEventUtility";
+import { GameEventUtility } from "../utilities/gameEventUtility";
 import { MatchupUtility } from "../utilities/matchupUtility";
 
 import { IMatchup, IMatchupSide, matchupConverter } from "../../../stroll-models/matchup";

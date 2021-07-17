@@ -6,7 +6,7 @@ import { db } from "../../firebase";
 import { GameEventTransactionService } from "./transaction/gameEventTransactionService";
 import { PlayerTransactionService } from "./transaction/playerTransactionService";
 
-import { GameEventUtility } from "../../../stroll-utilities/gameEventUtility";
+import { GameEventUtility } from "../utilities/gameEventUtility";
 import { PlayerUtility } from "../utilities/playerUtility";
 
 import { gameConverter, IGame } from "../../../stroll-models/game";
