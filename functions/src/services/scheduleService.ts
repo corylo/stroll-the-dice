@@ -5,8 +5,6 @@ import { db } from "../../firebase";
 
 import { GameBatchService } from "./batch/gameBatchService";
 
-import { IGame } from "../../../stroll-models/game";
-
 import { GameStatus } from "../../../stroll-enums/gameStatus";
 
 interface IScheduleService {  

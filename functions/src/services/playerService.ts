@@ -3,6 +3,7 @@ import { Change, EventContext, logger } from "firebase-functions";
 
 import { db } from "../../firebase";
 
+import { GameEventBatchService } from "./batch/gameEventBatchService";
 import { GameEventTransactionService } from "./transaction/gameEventTransactionService";
 import { PlayerTransactionService } from "./transaction/playerTransactionService";
 
@@ -78,7 +79,9 @@ export const PlayerService: IPlayerService = {
   
     try {
       if(PlayerUtility.hasProfileChanged(before, after)) {
-        await GameEventTransactionService.updatePlayerProfile(context.params.gameID, context.params.id, after.profile);
+        await GameEventTransactionService.updatePlayerProfileInMatchupsAndPlayerCreatedEvents(context.params.gameID, context.params.id, after.profile);
+
+        await GameEventBatchService.updatePlayerProfileInPredictionEvents(context.params.gameID, context.params.id, after.profile);
       }
     } catch (err) {
       logger.error(err);

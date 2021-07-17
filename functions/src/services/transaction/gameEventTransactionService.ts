@@ -9,8 +9,8 @@ import { IProfileReference } from "../../../../stroll-models/profileReference";
 import { GameEventType } from "../../../../stroll-enums/gameEventType";
 
 interface IGameEventTransactionService {
-  create: (transaction: firebase.firestore.Transaction, gameID: string, event: IGameEvent) => void;
-  updatePlayerProfile: (gameID: string, playerID: string, profile: IProfileReference) => Promise<void>;
+  create: (transaction: firebase.firestore.Transaction, gameID: string, event: IGameEvent) => void;  
+  updatePlayerProfileInMatchupsAndPlayerCreatedEvents: (gameID: string, playerID: string, profile: IProfileReference) => Promise<void>;
 }
 
 export const GameEventTransactionService: IGameEventTransactionService = {
@@ -23,14 +23,14 @@ export const GameEventTransactionService: IGameEventTransactionService = {
 
     transaction.create(eventRef, event);
   },
-  updatePlayerProfile: async (gameID: string, playerID: string, profile: IProfileReference): Promise<void> => {    
+  updatePlayerProfileInMatchupsAndPlayerCreatedEvents: async (gameID: string, playerID: string, profile: IProfileReference): Promise<void> => {
     await db.runTransaction(async (transaction: firebase.firestore.Transaction) => {
       const matchupRef: firebase.firestore.Query = db.collection("games")
         .doc(gameID)
         .collection("matchups")
         .withConverter<IMatchup>(matchupConverter);
 
-      const eventsRef: firebase.firestore.Query = db.collection("games")
+      const playerCreatedEventsRef: firebase.firestore.Query = db.collection("games")
         .doc(gameID)
         .collection("events") 
         .where("type", "==", GameEventType.PlayerCreated)
@@ -38,7 +38,7 @@ export const GameEventTransactionService: IGameEventTransactionService = {
         .withConverter(gameEventConverter);
 
       const matchupSnap: firebase.firestore.QuerySnapshot = await transaction.get(matchupRef),
-        eventSnap: firebase.firestore.QuerySnapshot = await transaction.get(eventsRef);
+        playerCreatedEventsSnap: firebase.firestore.QuerySnapshot = await transaction.get(playerCreatedEventsRef);
 
       if(!matchupSnap.empty) {
         matchupSnap.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IMatchup>) => {
@@ -52,8 +52,8 @@ export const GameEventTransactionService: IGameEventTransactionService = {
         });
       }
 
-      if(!eventSnap.empty) {   
-        eventSnap.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGameEvent>) => 
+      if(!playerCreatedEventsSnap.empty) {   
+        playerCreatedEventsSnap.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGameEvent>) => 
           transaction.update(doc.ref, { profile }));
       }
     });

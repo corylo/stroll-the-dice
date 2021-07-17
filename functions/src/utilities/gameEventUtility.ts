@@ -1,11 +1,13 @@
-import firebase from "firebase/app";
+import firebase from "firebase-admin";
+
+import { db } from "../../firebase";
 
 import { FirestoreDateUtility } from "./firestoreDateUtility";
 import { GameUtility } from "./gameUtility";
 
 import { IDayCompletedEvent } from "../../../stroll-models/gameEvent/dayCompletedEvent";
 import { IGame } from "../../../stroll-models/game";
-import { IGameEvent } from "../../../stroll-models/gameEvent/gameEvent";
+import { gameEventConverter, IGameEvent } from "../../../stroll-models/gameEvent/gameEvent";
 import { IGameUpdateEvent } from "../../../stroll-models/gameEvent/gameUpdateEvent";
 import { IMatchupProfileReference } from "../../../stroll-models/matchupProfileReference";
 import { IPlayerCreatedEvent } from "../../../stroll-models/gameEvent/playerCreatedEvent";
@@ -19,6 +21,7 @@ import { GameEventReferenceID } from "../../../stroll-enums/gameEventReferenceID
 import { GameEventType } from "../../../stroll-enums/gameEventType";
 
 interface IGameEventUtility {
+  getPredictionMatchupQuery: (gameID: string, playerID: string, eventType: GameEventType, profileWhereClause: string) => firebase.firestore.Query;
   mapDayCompletedEvent: (occurredAt: firebase.firestore.FieldValue, day: number) => IDayCompletedEvent;  
   mapGeneralEvent: (occurredAt: firebase.firestore.FieldValue, type: GameEventType) => IGameEvent;  
   mapPlayerCreatedEvent: (occurredAt: firebase.firestore.FieldValue, profile: IProfileReference) => IPlayerCreatedEvent;
@@ -31,6 +34,14 @@ interface IGameEventUtility {
 }
 
 export const GameEventUtility: IGameEventUtility = {  
+  getPredictionMatchupQuery: (gameID: string, playerID: string, eventType: GameEventType, profileWhereClause: string): firebase.firestore.Query => {
+    return db.collection("games")
+      .doc(gameID)
+      .collection("events")
+      .where("type", "==", eventType)
+      .where(profileWhereClause, "==", playerID)
+      .withConverter<IGameEvent>(gameEventConverter);
+  },
   mapDayCompletedEvent: (occurredAt: firebase.firestore.FieldValue, day: number): IDayCompletedEvent => {
     const event: IGameEvent = GameEventUtility.mapGeneralEvent(occurredAt, GameEventType.DayCompleted);
 
