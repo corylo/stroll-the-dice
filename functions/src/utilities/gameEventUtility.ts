@@ -87,11 +87,7 @@ export const GameEventUtility: IGameEventUtility = {
     }
   },
   mapPlayerEarnedPointsFromStepsEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, points: number): IPlayerEarnedPointsFromStepsEvent => {
-    const date: Date = FirestoreDateUtility.timestampToDate(occurredAt);
-
-    date.setSeconds(0, 0);
-
-    const event: IGameEvent = GameEventUtility.mapPlayerEvent(playerID, FirestoreDateUtility.dateToTimestamp(date), GameEventType.PlayerEarnedPointsFromSteps);
+    const event: IGameEvent = GameEventUtility.mapPlayerEvent(playerID, occurredAt, GameEventType.PlayerEarnedPointsFromSteps);
 
     return {
       ...event,

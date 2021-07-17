@@ -23,7 +23,7 @@ export const FirestoreDateUtility: IFirestoreDateUtility = {
     return days * 24 * 3600 * 1000;
   },
   endOfDay: (day: number, startsAt: firebase.firestore.Timestamp): firebase.firestore.Timestamp => {
-    return FirestoreDateUtility.dateToTimestamp(new Date(FirestoreDateUtility.add(startsAt, FirestoreDateUtility.daysToMillis(day) / 1000)))
+    return FirestoreDateUtility.dateToTimestamp(new Date(FirestoreDateUtility.add(startsAt, FirestoreDateUtility.daysToMillis(day) / 1000)));
   },
   timestampToDate: (value: firebase.firestore.FieldValue): Date => {
     const date: IFirestoreTimestamp = value as any;
