@@ -66,7 +66,7 @@ export const GameEventBatchService: IGameEventBatchService = {
       for(let i: number = 0; i < predictionUpdatedMatchupLeftSnap.docs.length; i += 500) {
         const min: number = i,
           max: number = i + 500,
-          adjustedMax: number = Math.min(max, length);
+          adjustedMax: number = Math.min(max, predictionUpdatedMatchupLeftSnap.docs.length);
 
         logger.info(`Loop [${loopIndex++}]: Updating [matchup left] profile of player [${playerID}] in [${GameEventType.PlayerUpdatedPrediction}] events [${min + 1} - ${adjustedMax}].`);
 
@@ -89,7 +89,7 @@ export const GameEventBatchService: IGameEventBatchService = {
       for(let i: number = 0; i < predictionUpdatedMatchupRightSnap.docs.length; i += 500) {
         const min: number = i,
           max: number = i + 500,
-          adjustedMax: number = Math.min(max, length);
+          adjustedMax: number = Math.min(max, predictionUpdatedMatchupRightSnap.docs.length);
 
         logger.info(`Loop [${loopIndex++}]: Updating [matchup right] profile of player [${playerID}] in [${GameEventType.PlayerUpdatedPrediction}] events [${min + 1} - ${adjustedMax}].`);
 
