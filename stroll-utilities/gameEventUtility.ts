@@ -6,6 +6,8 @@ import { IPlayerDayCompletedSummaryEvent } from "../stroll-models/gameEvent/play
 import { IPlayerEarnedPointsFromStepsEvent } from "../stroll-models/gameEvent/playerEarnedPointsFromStepsEvent";
 import { IPlayerUpdatedPredictionEvent } from "../stroll-models/gameEvent/playerUpdatedPredictionEvent";
 
+import { IGameEvent } from "../stroll-models/gameEvent/gameEvent";
+
 import { Color } from "../stroll-enums/color";
 import { GameEventType } from "../stroll-enums/gameEventType";
 import { Icon } from "../stroll-enums/icon";
@@ -13,7 +15,7 @@ import { Icon } from "../stroll-enums/icon";
 interface IGameEventUtility {
   getColor: (type: GameEventType, playerColor: Color) => Color;
   getIcon: (type: GameEventType) => Icon;
-  getLabel: (type: GameEventType) => string;
+  getLabel: (event: IGameEvent) => string;
   mapFromFirestore: (id: string, event: any) => any;
   mapToFirestore: (event: any) => any;
 }
@@ -31,6 +33,7 @@ export const GameEventUtility: IGameEventUtility = {
       case GameEventType.PlayerCreatedPrediction:
       case GameEventType.PlayerEarnedPointsFromSteps:
       case GameEventType.PlayerUpdatedPrediction:
+      case GameEventType.PlayerDayCompletedSummary:
         return playerColor;
       default:
         return Color.Gray5;
@@ -45,6 +48,7 @@ export const GameEventUtility: IGameEventUtility = {
       case GameEventType.Updated:
         return Icon.Dice;
       case GameEventType.PlayerCreated:
+      case GameEventType.PlayerDayCompletedSummary:
         return Icon.User;
       case GameEventType.PlayerEarnedPointsFromSteps:
         return Icon.Steps;
@@ -55,18 +59,28 @@ export const GameEventUtility: IGameEventUtility = {
         return Icon.None;
     }
   },
-  getLabel: (type: GameEventType): string => {
-    switch(type) {
+  getLabel: (event: IGameEvent): string => {
+    switch(event.type) {
+      case GameEventType.DayCompleted: {
+        const e: IDayCompletedEvent = event as IDayCompletedEvent;
+
+        return `Day ${e.day} Complete`;
+      }
       case GameEventType.PlayerCreated:
         return "Player Joined";
       case GameEventType.PlayerCreatedPrediction:
         return "Prediction Created";
+      case GameEventType.PlayerDayCompletedSummary: {
+        const e: IPlayerDayCompletedSummaryEvent = event as IPlayerDayCompletedSummaryEvent;
+
+        return `Day ${e.day} Final Update`;
+      }
       case GameEventType.PlayerEarnedPointsFromSteps:
         return "Points Earned From Stepping";
       case GameEventType.PlayerUpdatedPrediction:
         return "Prediction Updated";
       default:
-        return type;
+        return event.type;
     }
   },
   mapFromFirestore: (id: string, event: any): any => {

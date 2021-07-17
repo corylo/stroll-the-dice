@@ -2,14 +2,14 @@ import React from "react";
 
 import { GameEventUtility } from "../../../../../../stroll-utilities/gameEventUtility";
 
-import { GameEventType } from "../../../../../../stroll-enums/gameEventType";
+import { IGameEvent } from "../../../../../../stroll-models/gameEvent/gameEvent";
 
 interface EventTypeProps {  
-  type: GameEventType;
+  event: IGameEvent;
 }
 
 export const EventType: React.FC<EventTypeProps> = (props: EventTypeProps) => {        
-  const label: string = GameEventUtility.getLabel(props.type);
+  const label: string = GameEventUtility.getLabel(props.event);
 
   return (
     <div className="game-event-type">

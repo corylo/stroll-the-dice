@@ -3,6 +3,7 @@ import { logger } from "firebase-functions";
 
 import { db } from "../../../firebase";
 
+import { FirestoreDateUtility } from "../../utilities/firestoreDateUtility";
 import { GameEventTransactionService } from "./gameEventTransactionService";
 import { MatchupTransactionService } from "./matchupTransactionService";
 import { PredictionTransactionService } from "./predictionTransactionService";
@@ -148,7 +149,11 @@ export const PlayerTransactionService: IPlayerTransactionService = {
               GameEventTransactionService.create(
                 transaction, 
                 gameID, 
-                GameEventUtility.mapPlayerEarnedPointsFromStepsEvent(player.id, updatedAt, update.steps)
+                GameEventUtility.mapPlayerEarnedPointsFromStepsEvent(
+                  player.id, 
+                  FirestoreDateUtility.beginningOfHour(firebase.firestore.Timestamp.now()), 
+                  update.steps
+                )
               );
             }
           }); 

@@ -56,7 +56,7 @@ export const Event: React.FC<EventProps> = (props: EventProps) => {
       <div className="game-event-color-indicator" style={{ backgroundColor: `rgb(${color})` }} />
       <div className="game-event-content" style={{ background }}>
         <div className="game-event-header">
-          <EventType type={event.type} />
+          <EventType event={event} />
           <div className="game-event-time">
             <h1 className="passion-one-font">{FirestoreDateUtility.timestampToDate(event.occurredAt).toLocaleTimeString()}</h1>      
           </div>

@@ -1,8 +1,8 @@
 import React from "react";
 
-import { DayCompletedEventDescription } from "./dayCompletedEventDescription";
 import { PlayerCreatedEventDescription } from "./playerCreatedEventDescription";
 import { PlayerCreatedPredictionEventDescription } from "./playerCreatedPredictionEventDescription";
+import { PlayerDayCompletedSummaryEventDescription } from "./playerDayCompletedSummaryEventDescription";
 import { PlayerEarnedPointsFromStepsEventDescription } from "./playerEarnedPointsFromStepsEventDescription";
 import { PlayerUpdatedPredictionEventDescription } from "./playerUpdatedPredictionEventDescription";
 import { UpdateEventDescription } from "./updateEventDescription";
@@ -16,6 +16,7 @@ import { IPlayerEarnedPointsFromStepsEvent } from "../../../../../../stroll-mode
 import { IPlayerUpdatedPredictionEvent } from "../../../../../../stroll-models/gameEvent/playerUpdatedPredictionEvent";
 
 import { GameEventType } from "../../../../../../stroll-enums/gameEventType";
+import { IPlayerDayCompletedSummaryEvent } from "../../../../../../stroll-models/gameEvent/playerDayCompletedSummaryEvent";
 
 interface EventDescriptionProps {  
   event: IGameEvent;
@@ -45,9 +46,9 @@ export const EventDescription: React.FC<EventDescriptionProps> = (props: EventDe
       return (
         <PlayerUpdatedPredictionEventDescription event={event as IPlayerUpdatedPredictionEvent} />
       );
-    case GameEventType.DayCompleted:
+    case GameEventType.PlayerDayCompletedSummary:
       return (
-        <DayCompletedEventDescription event={event as IDayCompletedEvent} />
+        <PlayerDayCompletedSummaryEventDescription event={event as IPlayerDayCompletedSummaryEvent} />
       )
     default:
       return null;
