@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 
 import { AcceptInviteModal } from "../acceptInviteModal/acceptInviteModal";
+import { Button } from "../../../../components/buttons/button";
 import { EmptyMessage } from "../../../../components/emptyMessage/emptyMessage";
 import { GameActions } from "../gameActions/gameActions";
 import { GameDateStatus } from "../../../../components/gameDateStatus/gameDateStatus";
 import { GameDetails } from "../../../../components/gameDetails/gameDetails";
 import { InvitePlayersModal } from "../invitePlayersModal/invitePlayersModal";
-import { Label } from "../../../../components/label/label";
 import { Leaderboard } from "../../../../components/leaderboard/leaderboard";
 import { MatchupGroup } from "../matchupGroup/matchupGroup";
 import { MyPoints } from "../myPoints/myPoints";
@@ -19,6 +19,8 @@ import { ViewPlayersModal } from "../viewPlayersModal/viewPlayersModal";
 import { AppContext } from "../../../../components/app/contexts/appContext";
 import { GamePageContext } from "../../gamePage";
 
+import { GameEventUtility } from "../../../../../stroll-utilities/gameEventUtility";
+
 import { AppStatus } from "../../../../enums/appStatus";
 import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
@@ -28,11 +30,12 @@ interface GamePageContentProps {
 }
 
 export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageContentProps) => {
-  const { appState, dispatchToApp } = useContext(AppContext);
+  const { appState } = useContext(AppContext);
 
   const { state, setState } = useContext(GamePageContext);
 
   const { 
+    events,
     game, 
     invite, 
     player, 
@@ -51,16 +54,26 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
         return () => toggle({ players: true });
       }
     }
-
+    
     const getEventHistoryToggle = (): JSX.Element => {      
       if(player.id !== "") {
+        const getNumberOfUnviewed = (): JSX.Element => {
+          const unviewed: number = GameEventUtility.getNumberOfUnviewedEvents(events);
+
+          if(unviewed > 0) {
+            const icon: JSX.Element = unviewed >= 5 ? <i className="fas fa-plus" /> : null;
+
+            return (
+              <span className="highlight-main">{unviewed} {icon}</span>
+            )
+          }
+        }
+
         return (
-          <Label 
-            className="events-button passion-one-font" 
-            icon="fal fa-history"
-            text="Timeline"
-            handleOnClick={() => toggle({ events: true })}
-          />
+          <Button className="events-button" handleOnClick={() => toggle({ events: true })}>
+            <i className="fal fa-history" />
+            <h1 className="passion-one-font">Timeline {getNumberOfUnviewed()}</h1>                   
+          </Button>
         )
       }
     }
@@ -118,6 +131,12 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
       }
     }
 
+    const handleViewEventsToggle = (): void => {
+      toggle({ events: false });
+
+      GameEventUtility.setLastViewedAt();
+    }
+
     return (
       <div className="game-page-content">
         <div className="game-page-header">
@@ -143,7 +162,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
         <AcceptInviteModal back={() => toggle({ accept: false })} />
         <InvitePlayersModal back={() => toggle({ invite: false })} />
         <ViewPlayersModal back={() => toggle({ players: false })} />
-        <ViewEventsModal back={() => toggle({ events: false })} />
+        <ViewEventsModal back={handleViewEventsToggle} />
       </div>
     )
   }

@@ -11,13 +11,17 @@ import { IGameEvent } from "../stroll-models/gameEvent/gameEvent";
 import { Color } from "../stroll-enums/color";
 import { GameEventType } from "../stroll-enums/gameEventType";
 import { Icon } from "../stroll-enums/icon";
+import { FirestoreDateUtility } from "./firestoreDateUtility";
 
 interface IGameEventUtility {
   getColor: (type: GameEventType, playerColor: Color) => Color;
   getIcon: (type: GameEventType) => Icon;
   getLabel: (event: IGameEvent) => string;
+  getLastViewedAt: () => string;
+  getNumberOfUnviewedEvents: (events: IGameEvent[]) => number;
   mapFromFirestore: (id: string, event: any) => any;
   mapToFirestore: (event: any) => any;
+  setLastViewedAt: () => void;
 }
 
 export const GameEventUtility: IGameEventUtility = {  
@@ -83,6 +87,25 @@ export const GameEventUtility: IGameEventUtility = {
         return event.type;
     }
   },
+  getLastViewedAt: (): string => {
+    return localStorage.getItem("last-viewed-events-at");
+  },
+  getNumberOfUnviewedEvents: (events: IGameEvent[]): number => {
+    const lastViewedAt: string = GameEventUtility.getLastViewedAt();
+
+    if(lastViewedAt) {
+      const unviewed: IGameEvent[] = events.filter((event: IGameEvent) => {
+        const occurredAt: Date = FirestoreDateUtility.timestampToDate(event.occurredAt),
+          lastViewedAtDate: Date = new Date(parseInt(lastViewedAt));
+        
+        return occurredAt > lastViewedAtDate;
+      });
+
+      return unviewed.length;
+    }
+
+    return events.length;
+  },
   mapFromFirestore: (id: string, event: any): any => {
     const from: any = GameEventUtility.mapToFirestore(event);
     
@@ -136,5 +159,8 @@ export const GameEventUtility: IGameEventUtility = {
     }
 
     return to;
+  },
+  setLastViewedAt: (): void => {
+    localStorage.setItem("last-viewed-events-at", new Date().getTime().toString());
   }
 }

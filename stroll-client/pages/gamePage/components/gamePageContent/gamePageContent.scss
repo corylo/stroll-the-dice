@@ -29,15 +29,44 @@
       display: flex;
       margin-top: 10px;
 
-      .events-button {        
+      .events-button {       
+        align-items: center;
+        background-color: transparent; 
         border: 1px solid rgba(white, 0.25);
         border-radius: 100px;
-        height: 20px;
+        display: flex;
         padding: 5px 15px;
 
-        .label-text-wrapper > h1 {             
+        &:hover,
+        &:focus {
+          background-color: rgba($themeMain, 0.1);
+        }
+
+        > i {
+          font-size: 0.8em;
+        }
+
+        h1 {
+          color: gray(230);
           height: 20px;
           line-height: 20px;
+          margin-left: 5px;
+        }
+
+        span {
+          align-items: center;
+          display: inline-flex;
+          font-size: 0.9em;
+          height: 20px;
+          line-height: 20px;
+          margin-left: 5px;
+
+          i {
+            font-size: 0.6em;
+            height: 20px;
+            line-height: 20px;
+            margin-left: 4px;
+          }
         }
       }
     }
