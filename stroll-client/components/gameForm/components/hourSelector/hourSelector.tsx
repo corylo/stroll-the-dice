@@ -9,7 +9,7 @@ export const HourSelector: React.FC<HourSelectorProps> = (props: HourSelectorPro
   const getAvailableHours = (): number[] => {
     let hours: number[] = [];
 
-    for(let i: number = 0; i < 23; i++) {
+    for(let i: number = 0; i < 24; i++) {
       hours.push(i);
     }
 
