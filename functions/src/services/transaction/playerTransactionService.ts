@@ -4,6 +4,7 @@ import { logger } from "firebase-functions";
 import { db } from "../../../firebase";
 
 import { FirestoreDateUtility } from "../../utilities/firestoreDateUtility";
+import { GameEventService } from "../gameEventService";
 import { GameEventTransactionService } from "./gameEventTransactionService";
 import { MatchupTransactionService } from "./matchupTransactionService";
 import { PredictionTransactionService } from "./predictionTransactionService";
@@ -28,7 +29,7 @@ interface IPlayerTransactionService {
   handleMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, game: IGame, player: IPlayer) => void;
   completeDayOneMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, player: IPlayer) => IMatchup;
   createDayOneMatchup: (transaction: firebase.firestore.Transaction, player: IPlayer) => void;    
-  distributePayoutsAndFinalizeSteps: (gameID: string, day: number, dayCompletedAt: firebase.firestore.FieldValue, matchups: IMatchup[], updates: IMatchupSideStepUpdate[], predictions: IPrediction[]) => Promise<void>;
+  distributePayoutsAndFinalizeSteps: (gameID: string, day: number, startsAt: firebase.firestore.FieldValue, matchups: IMatchup[], updates: IMatchupSideStepUpdate[], predictions: IPrediction[]) => Promise<void>;
   distributePointsAndUpdateSteps: (gameID: string, matchups: IMatchup[], updates: IMatchupSideStepUpdate[]) => Promise<void>;
   updateCounts: (transaction: firebase.firestore.Transaction, gameRef: firebase.firestore.DocumentReference, game: IGame, player: IPlayer) => void;  
 }
@@ -75,7 +76,9 @@ export const PlayerTransactionService: IPlayerTransactionService = {
 
     transaction.set(matchupRef, MatchupUtility.mapCreate(player.profile, defaultProfileReference(), 1));
   },
-  distributePayoutsAndFinalizeSteps: async (gameID: string, day: number, dayCompletedAt: firebase.firestore.FieldValue, matchups: IMatchup[], updates: IMatchupSideStepUpdate[], predictions: IPrediction[]): Promise<void> => {
+  distributePayoutsAndFinalizeSteps: async (gameID: string, day: number, startsAt: firebase.firestore.FieldValue, matchups: IMatchup[], updates: IMatchupSideStepUpdate[], predictions: IPrediction[]): Promise<void> => {
+    const dayCompletedAt: firebase.firestore.FieldValue = FirestoreDateUtility.endOfDay(day, startsAt);
+
     try {
       const playersRef: firebase.firestore.Query = PlayerUtility.getPlayersRef(gameID);
 
@@ -119,6 +122,8 @@ export const PlayerTransactionService: IPlayerTransactionService = {
           MatchupTransactionService.updateAll(transaction, gameID, matchups);          
         }
       });
+      
+      await GameEventService.create(gameID, GameEventUtility.mapDayCompletedEvent(FirestoreDateUtility.addMillis(dayCompletedAt, 1), day));        
     } catch (err) {
       logger.error(err);
     }

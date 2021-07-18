@@ -4,6 +4,7 @@ import { IFirestoreTimestamp } from "../../../stroll-models/firestoreTimestamp";
 
 interface IFirestoreDateUtility {
   add: (value: firebase.firestore.FieldValue, seconds: number) => number;
+  addMillis: (value: firebase.firestore.FieldValue, millis: number) => firebase.firestore.FieldValue;
   beginningOfHour: (occurredAt: firebase.firestore.FieldValue) => firebase.firestore.FieldValue;
   dateToTimestamp: (date: Date) => firebase.firestore.Timestamp;
   daysToMillis: (days: number) => number;  
@@ -16,6 +17,13 @@ export const FirestoreDateUtility: IFirestoreDateUtility = {
     const date: IFirestoreTimestamp = value as any;
     
     return date.seconds + seconds;
+  },
+  addMillis: (value: firebase.firestore.FieldValue, millis: number): firebase.firestore.FieldValue => {
+    const date: Date = FirestoreDateUtility.timestampToDate(value); 
+
+    date.setMilliseconds(date.getMilliseconds() + millis);
+
+    return FirestoreDateUtility.dateToTimestamp(date);
   },
   beginningOfHour: (occurredAt: firebase.firestore.FieldValue): firebase.firestore.FieldValue => {
     const date: Date = FirestoreDateUtility.timestampToDate(occurredAt);

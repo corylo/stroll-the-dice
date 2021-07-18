@@ -4,7 +4,6 @@ import { logger } from "firebase-functions";
 
 import { db } from "../../firebase";
 
-import { FirestoreDateUtility } from "../utilities/firestoreDateUtility";
 import { GameEventService } from "./gameEventService";
 import { MatchupBatchService } from "./batch/matchupBatchService";
 import { MatchupService } from "./matchupService";
@@ -41,16 +40,12 @@ export const GameUpdateService: IGameUpdateService = {
   handleDayPassing: async (gameID: string, day: number, startsAt: firebase.firestore.FieldValue, matchups: IMatchup[], updates: IMatchupSideStepUpdate[]): Promise<void> => {     
     logger.info(`Day [${day}] complete for game [${gameID}]. Completing matchups and distributing prediction winnings.`);
     
-    const dayCompletedAt: firebase.firestore.FieldValue = FirestoreDateUtility.endOfDay(day, startsAt);
-
-    await GameEventService.create(gameID, GameEventUtility.mapDayCompletedEvent(dayCompletedAt, day));
-         
     const predictions: IPrediction[] = await PredictionService.getAllForMatchups(gameID, matchups);   
 
     await PlayerTransactionService.distributePayoutsAndFinalizeSteps(
       gameID, 
       day, 
-      dayCompletedAt,
+      startsAt,
       matchups, 
       updates, 
       predictions
