@@ -34,14 +34,14 @@ export const MatchupGroup: React.FC<MatchupGroupProps> = (props: MatchupGroupPro
 
     date.setDate(date.getDate() + (props.day - 1));
 
-    return `${date.toDateString()} ${date.toLocaleTimeString([], { hour: "numeric" })}`;
+    return `${date.toLocaleDateString([], { weekday: "short", month: "short", day: "numeric" })} ${date.toLocaleTimeString([], { hour: "numeric" })}`;
   }
 
   const getDayLabel = (): JSX.Element => {
     if(dayStatus === GameStatus.InProgress) {
-      return <span className="highlight-main">Today</span>;
+      return <span className="highlight-main">In Progress</span>;
     } else if (game.status === GameStatus.InProgress && dayStatus === GameStatus.Upcoming) {
-      return <span className="highlight-main">Tomorrow</span>;
+      return <span className="highlight-main">Up Next</span>;
     }
   }
 
@@ -64,7 +64,7 @@ export const MatchupGroup: React.FC<MatchupGroupProps> = (props: MatchupGroupPro
   const getViewButton = (): JSX.Element => {
     if(!expanded) {
       const text: string = gameState.day !== 0 && gameState.day + 1 === props.day
-        ? "Click to predict tomorrow's matchups!"
+        ? "Click to predict upcoming matchups!"
         : "View Matchups";
 
       return (
