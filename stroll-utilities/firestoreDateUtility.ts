@@ -59,7 +59,7 @@ export const FirestoreDateUtility: IFirestoreDateUtility = {
     return `${date} ${time}`;
   },
   timestampToLocaleTime: (value: firebase.firestore.FieldValue): string => {
-    return FirestoreDateUtility.timestampToDate(value).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    return FirestoreDateUtility.timestampToDate(value).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
   },
   timestampToRelative: (value: firebase.firestore.FieldValue): string => {
     const date: IFirestoreTimestamp = value as any;

@@ -34,7 +34,7 @@ export const MatchupGroup: React.FC<MatchupGroupProps> = (props: MatchupGroupPro
 
     date.setDate(date.getDate() + (props.day - 1));
 
-    return date.toDateString();
+    return `${date.toDateString()} ${date.toLocaleTimeString([], { hour: "numeric" })}`;
   }
 
   const getDayLabel = (): JSX.Element => {
