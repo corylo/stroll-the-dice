@@ -73,7 +73,7 @@ export const GameEventUtility: IGameEventUtility = {
       case GameEventType.PlayerDayCompletedSummary: {
         const e: IPlayerDayCompletedSummaryEvent = event as IPlayerDayCompletedSummaryEvent;
 
-        return `Your Day ${e.day} Summary`;
+        return `Day ${e.day} Summary`;
       }
       case GameEventType.PlayerEarnedPointsFromSteps:
         return "Points Earned From Stepping";

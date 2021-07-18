@@ -12,7 +12,7 @@ export const NumberUtility: INumberUtility = {
     if (value < 10000) {
       return value.toLocaleString();
     } else if (value < 100000) {
-      return `${NumberUtility.format(value, 1000)}K`;      
+      return `${NumberUtility.format(value, 1000, 3)}K`;      
     } else if (value < 1000000) {
       return `${NumberUtility.format(value, 1000, 4)}K`;    
     } else if (value < 10000000) {
