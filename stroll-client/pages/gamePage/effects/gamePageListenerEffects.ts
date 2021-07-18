@@ -17,59 +17,11 @@ import { IMatchup, matchupConverter } from "../../../../stroll-models/matchup";
 import { IMatchupListState } from "../models/matchupListState";
 import { IPlayer, playerConverter } from "../../../../stroll-models/player";
 import { IPrediction, predictionConverter } from "../../../../stroll-models/prediction";
-import { IViewEventsModalState } from "../models/viewEventsModalState";
 
 import { AppStatus } from "../../../enums/appStatus";
 import { GameEventReferenceID } from "../../../../stroll-enums/gameEventReferenceID";
 import { GameStatus } from "../../../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
-
-export const useEventListenerEffect = (
-  gameID: string,
-  playerID: string,
-  state: IViewEventsModalState,  
-  setState: (state: IViewEventsModalState) => void
-): void => {
-  const [events, setEvents] = useState<IGameEvent[]>([]);
-
-  useEffect(() => {    
-    const updates: IViewEventsModalState = { ...state };
-    
-    if(events.length > 0) {
-      updates.events = events;
-
-      if(updates.status === RequestStatus.Loading) {
-        updates.status = RequestStatus.Success;
-      }
-    }
-
-    setState(updates);
-  }, [events]);
-  
-  useEffect(() => {
-    if(playerID !== "") {
-      const unsubToEvents = db.collection("games")
-        .doc(gameID)
-        .collection("events") 
-        .where("referenceID", "in", [playerID, GameEventReferenceID.General])    
-        .orderBy("occurredAt", "desc")        
-        .limit(5)
-        .withConverter(gameEventConverter)
-        .onSnapshot((snap: firebase.firestore.QuerySnapshot) => {
-          let updates: IGameEvent[] = [];
-
-          snap.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGameEvent>) =>
-            updates.push(doc.data()));
-  
-            setEvents(updates);
-        });
-
-      return () => {
-        unsubToEvents();
-      }
-    }
-  }, [playerID]);
-}
 
 export const useMatchupListenerEffect = (
   gameState: IGamePageState, 
@@ -165,7 +117,8 @@ export const useMatchupListenerEffect = (
 
 export const useGameListenersEffect = (id: string, appState: IAppState, state: IGamePageState, setState: (state: IGamePageState) => void): void => {
   const [game, setGame] = useState<IGame>(defaultGame()),
-    [players, setPlayers] = useState<IPlayer[]>([]);
+    [players, setPlayers] = useState<IPlayer[]>([]),
+    [events, setEvents] = useState<IGameEvent[]>([]);
 
   useEffect(() => {  
     const updates: IGamePageState = { ...state };
@@ -196,8 +149,16 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
       }
     }
 
+    if(events.length > 0) {
+      updates.events = events;
+
+      if(updates.statuses.events === RequestStatus.Loading) {
+        updates.statuses.events = RequestStatus.Success;
+      }
+    }
+
     setState(updates);
-  }, [appState.user, game, players]);
+  }, [appState.user, game, players, events]);
 
   useEffect(() => {   
     if(id.trim() !== "" && appState.status !== AppStatus.Loading) {     
@@ -259,8 +220,25 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
           setPlayers(updates);
         });
 
+      const unsubToEvents = db.collection("games")
+        .doc(state.game.id)
+        .collection("events") 
+        .where("referenceID", "in", [state.player.id, GameEventReferenceID.General])    
+        .orderBy("occurredAt", "desc")        
+        .limit(5)
+        .withConverter(gameEventConverter)
+        .onSnapshot((snap: firebase.firestore.QuerySnapshot) => {
+          let updates: IGameEvent[] = [];
+
+          snap.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGameEvent>) =>
+            updates.push(doc.data()));
+  
+            setEvents(updates);
+        });
+
       return () => {
         unsubToPlayers();
+        unsubToEvents();
       }
     }
   }, [state.game.id, state.player.id]);

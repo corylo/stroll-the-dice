@@ -13,8 +13,8 @@ import { MyPoints } from "../myPoints/myPoints";
 import { UpdateGameModal } from "../updateGameModal/updateGameModal";
 import { UserLink } from "../../../../components/userLink/userLink";
 import { StartingSoonMessage } from "../startingSoonMessage/startingSoonMessage";
+import { ViewEventsModal } from "../viewEventsModal/viewEventsModal";
 import { ViewPlayersModal } from "../viewPlayersModal/viewPlayersModal";
-import { ViewEventsModalWrapper } from "../viewEventsModal/viewEventsModalWrapper";
 
 import { AppContext } from "../../../../components/app/contexts/appContext";
 import { GamePageContext } from "../../gamePage";
@@ -143,7 +143,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
         <AcceptInviteModal back={() => toggle({ accept: false })} />
         <InvitePlayersModal back={() => toggle({ invite: false })} />
         <ViewPlayersModal back={() => toggle({ players: false })} />
-        <ViewEventsModalWrapper back={() => toggle({ events: false })} />
+        <ViewEventsModal back={() => toggle({ events: false })} />
       </div>
     )
   }

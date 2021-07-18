@@ -1,16 +1,19 @@
 import { defaultGame, IGame } from "../../../../stroll-models/game";
+import { IGameEvent } from "../../../../stroll-models/gameEvent/gameEvent";
 import { IInvite } from "../../../../stroll-models/invite";
 import { defaultPlayer, IPlayer } from "../../../../stroll-models/player";
 
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
 
 export interface IGamePageStateStatuses {
+  events: RequestStatus;
   game: RequestStatus;
   players: RequestStatus;
 }
 
 export const defaultGamePageStateStatuses = (): IGamePageStateStatuses => ({ 
-  game: RequestStatus.Loading,
+  events: RequestStatus.Loading,
+  game: RequestStatus.Loading,  
   players: RequestStatus.Idle
 });
 
@@ -32,6 +35,7 @@ export const defaultGamePageStateToggles = (): IGamePageStateToggles => ({
 
 export interface IGamePageState {
   day: number;
+  events: IGameEvent[];
   game: IGame;
   invite: IInvite;
   message: string;
@@ -43,6 +47,7 @@ export interface IGamePageState {
 
 export const defaultGamePageState = (): IGamePageState => ({ 
   day: 0,
+  events: [],
   game: defaultGame(),
   invite: null,
   message: "",
