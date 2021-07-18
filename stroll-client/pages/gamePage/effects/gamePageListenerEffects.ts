@@ -118,7 +118,8 @@ export const useMatchupListenerEffect = (
 export const useGameListenersEffect = (id: string, appState: IAppState, state: IGamePageState, setState: (state: IGamePageState) => void): void => {
   const [game, setGame] = useState<IGame>(defaultGame()),
     [players, setPlayers] = useState<IPlayer[]>([]),
-    [events, setEvents] = useState<IGameEvent[]>([]);
+    [events, setEvents] = useState<IGameEvent[]>([]),
+    [eventsLimit, setEventsLimit] = useState<number>(5);
 
   useEffect(() => {  
     const updates: IGamePageState = { ...state };
@@ -225,7 +226,7 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
         .collection("events") 
         .where("referenceID", "in", [state.player.id, GameEventReferenceID.General])    
         .orderBy("occurredAt", "desc")        
-        .limit(5)
+        .limit(eventsLimit)
         .withConverter(gameEventConverter)
         .onSnapshot((snap: firebase.firestore.QuerySnapshot) => {
           let updates: IGameEvent[] = [];
@@ -241,5 +242,11 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
         unsubToEvents();
       }
     }
-  }, [state.game.id, state.player.id]);
+  }, [state.game.id, state.player.id, eventsLimit]);
+
+  useEffect(() => {
+    if(state.toggles.events && eventsLimit !== 20) {
+      setEventsLimit(20);
+    }
+  }, [state.toggles.events, eventsLimit]);
 }
