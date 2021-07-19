@@ -7,6 +7,7 @@ import { FirestoreDateUtility } from "../../utilities/firestoreDateUtility";
 import { GameEventService } from "../gameEventService";
 import { GameEventTransactionService } from "./gameEventTransactionService";
 import { MatchupTransactionService } from "./matchupTransactionService";
+import { PredictionService } from "../predictionService";
 import { PredictionTransactionService } from "./predictionTransactionService";
 
 import { GameEventUtility } from "../../utilities/gameEventUtility";
@@ -15,11 +16,13 @@ import { PlayerUtility } from "../../utilities/playerUtility";
 import { PointsUtility } from "../../utilities/pointsUtility";
 import { PredictionUtility } from "../../utilities/predictionUtility";
 
+import { IDayCompletedEvent } from "../../../../stroll-models/gameEvent/dayCompletedEvent";
 import { IGame } from "../../../../stroll-models/game";
 import { IGameEvent } from "../../../../stroll-models/gameEvent/gameEvent";
 import { IMatchup, IMatchupSideTotal } from "../../../../stroll-models/matchup";
 import { IMatchupSideStepUpdate } from "../../../../stroll-models/matchupSideStepUpdate";
 import { IPlayer } from "../../../../stroll-models/player";
+import { IPlayerEarnedPointsFromStepsEvent } from "../../../../stroll-models/gameEvent/playerEarnedPointsFromStepsEvent";
 import { IPrediction } from "../../../../stroll-models/prediction";
 import { defaultProfileReference } from "../../../../stroll-models/profileReference";
 
@@ -29,7 +32,7 @@ interface IPlayerTransactionService {
   handleMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, game: IGame, player: IPlayer) => void;
   completeDayOneMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, player: IPlayer) => IMatchup;
   createDayOneMatchup: (transaction: firebase.firestore.Transaction, player: IPlayer) => void;    
-  distributePayoutsAndFinalizeSteps: (gameID: string, day: number, startsAt: firebase.firestore.FieldValue, matchups: IMatchup[], updates: IMatchupSideStepUpdate[], predictions: IPrediction[]) => Promise<void>;
+  distributePayoutsAndFinalizeSteps: (gameID: string, day: number, startsAt: firebase.firestore.FieldValue, matchups: IMatchup[], updates: IMatchupSideStepUpdate[]) => Promise<void>;
   distributePointsAndUpdateSteps: (gameID: string, matchups: IMatchup[], updates: IMatchupSideStepUpdate[]) => Promise<void>;
   updateCounts: (transaction: firebase.firestore.Transaction, gameRef: firebase.firestore.DocumentReference, game: IGame, player: IPlayer) => void;  
 }
@@ -76,8 +79,10 @@ export const PlayerTransactionService: IPlayerTransactionService = {
 
     transaction.set(matchupRef, MatchupUtility.mapCreate(player.profile, defaultProfileReference(), 1));
   },
-  distributePayoutsAndFinalizeSteps: async (gameID: string, day: number, startsAt: firebase.firestore.FieldValue, matchups: IMatchup[], updates: IMatchupSideStepUpdate[], predictions: IPrediction[]): Promise<void> => {
+  distributePayoutsAndFinalizeSteps: async (gameID: string, day: number, startsAt: firebase.firestore.FieldValue, matchups: IMatchup[], updates: IMatchupSideStepUpdate[]): Promise<void> => {
     const dayCompletedAt: firebase.firestore.FieldValue = FirestoreDateUtility.endOfDay(day, startsAt);
+
+    const predictions: IPrediction[] = await PredictionService.getAllForMatchups(gameID, matchups);   
 
     try {
       const playersRef: firebase.firestore.Query = PlayerUtility.getPlayersRef(gameID);
@@ -91,39 +96,63 @@ export const PlayerTransactionService: IPlayerTransactionService = {
           matchups = MatchupUtility.setWinners(matchups);
            
           playerSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>) => {
-            const update: IMatchupSideStepUpdate = MatchupUtility.findStepUpdate(doc.id, updates);
-
-            const player: IPlayer = PointsUtility.mapPointsForSteps(doc.data(), update);
+            const update: IMatchupSideStepUpdate = MatchupUtility.findStepUpdate(doc.id, updates),
+              player: IPlayer = PointsUtility.mapPointsForSteps(doc.data(), update),
+              matchup: IMatchup = MatchupUtility.getByPlayer(player.id, matchups);
           
-            const availablePoints: number = PredictionUtility.determineNewAvailablePoints(player, matchups, predictions),
-              totalPointsAdded: number = PredictionUtility.determineTotalPointsAdded(player.id, matchups, predictions);
+            const playerEarnedPointsFromStepsEvent: IPlayerEarnedPointsFromStepsEvent = GameEventUtility.mapPlayerEarnedPointsFromStepsEvent(
+              player.id, 
+              dayCompletedAt, 
+              update.steps
+            );
 
+            GameEventTransactionService.create(transaction, gameID, playerEarnedPointsFromStepsEvent);
+
+            const received: number = PredictionUtility.sumCorrectPredictionsWithOdds(player.id, matchups, predictions),
+              correctlyWagered: number = PredictionUtility.sumCorrectPredictions(player.id, matchups, predictions),
+              lost: number = PredictionUtility.sumIncorrectPredictions(player.id, matchups, predictions),
+              wagered: number = correctlyWagered + lost,
+              gained: number = received - correctlyWagered,
+              net: number = gained - lost;
+              
             const updatedAt: firebase.firestore.FieldValue = firebase.firestore.FieldValue.serverTimestamp();
 
             transaction.update(doc.ref, { 
               points: {
-                available: availablePoints,
-                total: player.points.total + totalPointsAdded
+                available: player.points.available + received,
+                total: player.points.total + net
               },
               updatedAt
             });
 
-            const event: IGameEvent = GameEventUtility.mapPlayerDayCompletedSummaryEvent(
+            const steps: number = MatchupUtility.getPlayerSteps(player.id, matchup),
+              overall: number = steps + net;
+
+            const playerDayCompletedSummaryEvent: IGameEvent = GameEventUtility.mapPlayerDayCompletedSummaryEvent(
               player.id,                 
-              dayCompletedAt,
+              FirestoreDateUtility.addMillis(dayCompletedAt, 1),
               day,
-              totalPointsAdded,
-              update.steps
+              gained,
+              lost,
+              overall,
+              received,
+              steps,
+              wagered
             )
 
-            GameEventTransactionService.create(transaction, gameID, event)
+            GameEventTransactionService.create(transaction, gameID, playerDayCompletedSummaryEvent)
           });
 
           MatchupTransactionService.updateAll(transaction, gameID, matchups);          
         }
       });
+
+      const dayCompletedEvent: IDayCompletedEvent = GameEventUtility.mapDayCompletedEvent(
+        FirestoreDateUtility.addMillis(dayCompletedAt, 2), 
+        day
+      );
       
-      await GameEventService.create(gameID, GameEventUtility.mapDayCompletedEvent(FirestoreDateUtility.addMillis(dayCompletedAt, 1), day));        
+      await GameEventService.create(gameID, dayCompletedEvent);        
     } catch (err) {
       logger.error(err);
     }
@@ -151,15 +180,13 @@ export const PlayerTransactionService: IPlayerTransactionService = {
                 updatedAt
               });
 
-              GameEventTransactionService.create(
-                transaction, 
-                gameID, 
-                GameEventUtility.mapPlayerEarnedPointsFromStepsEvent(
-                  player.id, 
-                  FirestoreDateUtility.beginningOfHour(firebase.firestore.Timestamp.now()), 
-                  update.steps
-                )
+              const event: IPlayerEarnedPointsFromStepsEvent = GameEventUtility.mapPlayerEarnedPointsFromStepsEvent(
+                player.id, 
+                FirestoreDateUtility.beginningOfHour(firebase.firestore.Timestamp.now()), 
+                update.steps
               );
+
+              GameEventTransactionService.create(transaction, gameID, event);
             }
           }); 
 

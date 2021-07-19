@@ -154,8 +154,12 @@ export const GameEventUtility: IGameEventUtility = {
       const event: IPlayerDayCompletedSummaryEvent = unidentifiedEvent;
 
       to.day = event.day;
-      to.points = event.points;
+      to.gained = event.gained;
+      to.lost = event.lost;
+      to.overall = event.overall;
+      to.received = event.received;
       to.steps = event.steps;
+      to.wagered = event.wagered;
     }
 
     return to;

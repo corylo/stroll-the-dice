@@ -26,9 +26,11 @@ interface IMatchupUtility {
   generatePairGroups: (numberOfDays: number, numberOfPlayers: number) => IMatchupPairGroup[];
   getAdjustedPlayerCount: (numberOfPlayers: number) => number;
   getByID: (id: string, matchups: IMatchup[]) => IMatchup;
+  getByPlayer: (playerID: string, matchups: IMatchup[]) => IMatchup;
   getCombinationsOfPair: (pair: IMatchupPair, list: IMatchupPair[]) => IMatchupPair[];
   getLeader: (matchup: IMatchup) => string;
   getMatchupRef: (gameID: string, matchupID?: string) => firebase.firestore.DocumentReference;
+  getPlayerSteps: (playerID: string, matchup: IMatchup) => number;
   getWinnerOdds: (matchup: IMatchup) => number;
   mapCreate: (leftProfile: IProfileReference, rightProfile: IProfileReference, day: number, total?: IMatchupSideTotal) => IMatchup;
   mapMatchupsFromPairGroups: (groups: IMatchupPairGroup[], players: IPlayer[]) => IMatchup[];
@@ -140,6 +142,9 @@ export const MatchupUtility: IMatchupUtility = {
   getByID: (id: string, matchups: IMatchup[]): IMatchup => {
     return matchups.find((matchup: IMatchup) => matchup.id === id);
   },
+  getByPlayer: (playerID: string, matchups: IMatchup[]): IMatchup => {
+    return matchups.find((matchup: IMatchup) => matchup.left.profile.uid === playerID || matchup.right.profile.uid === playerID);
+  },
   getCombinationsOfPair: (pair: IMatchupPair, list: IMatchupPair[]): IMatchupPair[] => {
     return list.filter((listPair: IMatchupPair) => (
       listPair.left === pair.left ||
@@ -173,6 +178,15 @@ export const MatchupUtility: IMatchupUtility = {
       .collection("matchups")
       .withConverter<IMatchup>(matchupConverter)
       .doc();
+  },
+  getPlayerSteps: (playerID: string, matchup: IMatchup): number => {
+    if(playerID === matchup.left.profile.uid) {
+      return matchup.left.steps;
+    } else if (playerID === matchup.right.profile.uid) {
+      return matchup.right.steps;
+    }
+
+    throw new Error(`Player [${playerID}] not found in matchup [${matchup.id}]. Left was [${matchup.left.profile.uid}], right was [${matchup.right.profile.uid}]`);
   },
   getWinnerOdds: (matchup: IMatchup): number => {
     if(matchup.winner !== "" && matchup.winner !== MatchupLeader.Tie) {

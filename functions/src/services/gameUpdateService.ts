@@ -40,15 +40,12 @@ export const GameUpdateService: IGameUpdateService = {
   handleDayPassing: async (gameID: string, day: number, startsAt: firebase.firestore.FieldValue, matchups: IMatchup[], updates: IMatchupSideStepUpdate[]): Promise<void> => {     
     logger.info(`Day [${day}] complete for game [${gameID}]. Completing matchups and distributing prediction winnings.`);
     
-    const predictions: IPrediction[] = await PredictionService.getAllForMatchups(gameID, matchups);   
-
     await PlayerTransactionService.distributePayoutsAndFinalizeSteps(
       gameID, 
       day, 
       startsAt,
       matchups, 
-      updates, 
-      predictions
+      updates
     );
   },
   handleInProgressToCompleted: async (gameID: string, game: IGame): Promise<void> => {
