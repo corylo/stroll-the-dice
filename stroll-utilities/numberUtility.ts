@@ -1,13 +1,9 @@
 interface INumberUtility {
-  format: (value: number, divisor: number, maxSig?: number) => string;
   shorten: (value: number) => string;
   random: (min: number, max: number) => number;
 }
 
 export const NumberUtility: INumberUtility = {
-  format: (value: number, divisor: number, maxSig?: number): string => {
-    return new Intl.NumberFormat("en-IN", { maximumSignificantDigits: maxSig || 4 }).format(value / divisor);
-  },
   shorten: (value: number): string => {
     if (value < 10000) {
       return value.toLocaleString();
@@ -21,7 +17,6 @@ export const NumberUtility: INumberUtility = {
       return `${Math.floor(value / 1000000)}M`;
     } else if (value < 20000000000) {
       return `${Math.floor(value / 100000000) / 10}B`;
-      // return `${NumberUtility.format(value, 1000000000, 3)}B`; 
     } else {
       return "∞";
     }
