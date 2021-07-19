@@ -5,6 +5,19 @@ import { PointStatement } from "../../../../../components/pointStatement/pointSt
 
 import { IPlayerDayCompletedSummaryEvent } from "../../../../../../stroll-models/gameEvent/playerDayCompletedSummaryEvent";
 
+interface SummaryRowProps {
+  children: any;
+  label: string;
+}
+
+const SummaryRow: React.FC<SummaryRowProps> = (props: SummaryRowProps) => {
+  return (
+    <div className="player-day-completed-summary-table-row">
+      <h1 className="player-day-completed-summary-table-row-label passion-one-font">{props.label}</h1>
+      <div className="player-day-completed-summary-table-row-value">{props.children}</div>
+    </div>
+  )
+}
 
 interface PlayerDayCompletedSummaryEventDescriptionProps {  
   event: IPlayerDayCompletedSummaryEvent;
@@ -13,16 +26,31 @@ interface PlayerDayCompletedSummaryEventDescriptionProps {
 export const PlayerDayCompletedSummaryEventDescription: React.FC<PlayerDayCompletedSummaryEventDescriptionProps> = (props: PlayerDayCompletedSummaryEventDescriptionProps) => {      
   const { event } = props;
 
-  // const pointsText: string = event.points >= 0 ? "earned" : "lost",
-  //   stepsPointStatement: JSX.Element = <PointStatement amount={event.steps.toLocaleString()} />,
-  //   predictionsPointStatement: JSX.Element = <PointStatement amount={Math.abs(event.points).toLocaleString()} />,
-  //   sentimentStatement: string = event.points > 0 ? "Great job!" : "Better luck next time!";
+  if(event.overall !== undefined) {
+    const overallLabel: string = event.overall >= 0 ? "Gain of " : "Loss of ";
 
+    return (
+      <EventDescriptionWrapper>
+        <div className="player-day-completed-summary-table">
+          <SummaryRow label="Total Points From Stepping">
+            <h1 className="passion-one-font"><PointStatement amount={event.steps.toLocaleString()} /></h1>
+          </SummaryRow>
+          <SummaryRow label="Total Wagered">
+            <h1 className="passion-one-font"><PointStatement amount={event.wagered.toLocaleString()} /></h1>
+          </SummaryRow>
+          <SummaryRow label="Total Gained">
+            <h1 className="passion-one-font"><PointStatement amount={event.gained.toLocaleString()} /></h1>
+          </SummaryRow>
+          <SummaryRow label="Total Lost">
+            <h1 className="passion-one-font"><PointStatement amount={event.lost.toLocaleString()} /></h1>
+          </SummaryRow>
+          <SummaryRow label="Overall">
+            <h1 className="passion-one-font">{overallLabel} <PointStatement amount={Math.abs(event.overall).toLocaleString()} /></h1>
+          </SummaryRow>
+        </div>
+      </EventDescriptionWrapper>
+    )
+  }
 
-  return (
-    <EventDescriptionWrapper>
-      {/* <h1 className="player-day-completed-steps-statement passion-one-font">You earned {stepsPointStatement} from taking <span className="highlight-main">{event.steps.toLocaleString()}</span> steps at the end of the day!</h1>
-      <h1 className="player-day-completed-predictions-statement passion-one-font">Your day {event.day} predictions {pointsText} you {predictionsPointStatement}. {sentimentStatement}</h1> */}
-    </EventDescriptionWrapper>
-  )
+  return null;
 }

@@ -81,7 +81,7 @@ export const GameEventUtility: IGameEventUtility = {
         return `Day ${e.day} Summary`;
       }
       case GameEventType.PlayerEarnedPointsFromSteps:
-        return "Points Earned From Stepping";
+        return "Points From Stepping";
       case GameEventType.PlayerUpdatedPrediction:
         return "Prediction Updated";
       default:
