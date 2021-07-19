@@ -87,8 +87,6 @@ export const useMatchupListenerEffect = (
           snap.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IMatchup>) =>
             updates.push(doc.data()));
 
-          console.log(updates);
-  
           setMatchups(updates);
 
           setMatchupsSynced(true);

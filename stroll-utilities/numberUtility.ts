@@ -12,17 +12,16 @@ export const NumberUtility: INumberUtility = {
     if (value < 10000) {
       return value.toLocaleString();
     } else if (value < 100000) {
-      return `${NumberUtility.format(value, 1000, 3)}K`;      
+      return `${Math.floor(value / 100) / 10}K`;
     } else if (value < 1000000) {
-      return `${NumberUtility.format(value, 1000, 4)}K`;    
-    } else if (value < 10000000) {
-      return `${NumberUtility.format(value, 1000000, 3)}M`;    
+      return `${Math.floor(value / 1000)}K`;
     } else if (value < 100000000) {
-      return `${NumberUtility.format(value, 1000000, 4)}M`;  
+      return `${Math.floor(value / 100000) / 10}M`;
     } else if (value < 1000000000) {
-      return `${NumberUtility.format(value, 1000000, 4)}M`;  
+      return `${Math.floor(value / 1000000)}M`;
     } else if (value < 20000000000) {
-      return `${NumberUtility.format(value, 1000000000, 3)}B`; 
+      return `${Math.floor(value / 100000000) / 10}B`;
+      // return `${NumberUtility.format(value, 1000000000, 3)}B`; 
     } else {
       return "∞";
     }
