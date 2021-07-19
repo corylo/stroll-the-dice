@@ -13,6 +13,7 @@ import { IProfileUpdate } from "../../../../stroll-models/profileUpdate";
 
 import { GameEventType } from "../../../../stroll-enums/gameEventType";
 import { GameStatus } from "../../../../stroll-enums/gameStatus";
+import { FirestoreDateUtility } from "../../utilities/firestoreDateUtility";
 
 interface IGameBatchService {
   handleInProgress: (inProgressGamesSnap: firebase.firestore.QuerySnapshot) => Promise<void>;
@@ -81,7 +82,7 @@ export const GameBatchService: IGameBatchService = {
         status: GameStatus.Completed
       });
 
-      GameEventBatchService.create(batch, doc.id, GameEventUtility.mapGeneralEvent(game.endsAt, GameEventType.Completed));
+      GameEventBatchService.create(batch, doc.id, GameEventUtility.mapGeneralEvent(FirestoreDateUtility.addMillis(game.endsAt, 3), GameEventType.Completed));
     });
 
     await batch.commit();

@@ -12,7 +12,6 @@ import { PlayerService } from "./playerService";
 import { PlayerTransactionService } from "./transaction/playerTransactionService";
 import { PlayingInBatchService } from "./batch/playingInBatchService";
 import { PredictionBatchService } from "./batch/predictionBatchService";
-import { PredictionService } from "./predictionService";
 import { StepTrackerService } from "./stepTrackerService";
 
 import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtility";
@@ -24,7 +23,6 @@ import { IMatchup } from "../../../stroll-models/matchup";
 import { IMatchupPairGroup } from "../../../stroll-models/matchupPairGroup";
 import { IMatchupSideStepUpdate } from "../../../stroll-models/matchupSideStepUpdate";
 import { IPlayer } from "../../../stroll-models/player";
-import { IPrediction } from "../../../stroll-models/prediction";
 
 interface IGameUpdateService {
   handleDayPassing: (gameID: string, day: number, startsAt: firebase.firestore.FieldValue, matchups: IMatchup[], updates: IMatchupSideStepUpdate[]) => Promise<void>;

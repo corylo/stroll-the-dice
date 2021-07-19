@@ -18,14 +18,7 @@ interface MyPointsUpdateProps {
 export const MyPointsUpdate: React.FC<MyPointsUpdateProps> = (props: MyPointsUpdateProps) => {    
   const { playerSteps } = useContext(GamePageContext).state;
 
-  const getLastViewedStepCount = (): number => {
-    const count: string = GameEventUtility.getLastViewedStepCount();
-
-    return count ? parseInt(count) : 0;
-  }
-
-  const [lastViewedStepCount, setLastViewedStepCount] = useState<number>(getLastViewedStepCount()),
-    [lastViewedAt, setLastViewedAt] = useState<Date>(null);
+  const [lastViewedAt, setLastViewedAt] = useState<Date>(null);
 
   useCurrentDateEffect();
 
@@ -58,7 +51,7 @@ export const MyPointsUpdate: React.FC<MyPointsUpdateProps> = (props: MyPointsUpd
           <div className="my-points-update-border" />
           <div className="my-points-update-content">
             <i className={Icon.Steps} />
-            <h1 className="passion-one-font">You earned <PointStatement amount={(playerSteps).toLocaleString()} /> from steps!</h1>
+            <h1 className="passion-one-font">You've earned a total of <PointStatement amount={(playerSteps).toLocaleString()} /> from steps today!</h1>
           </div>              
         </React.Fragment>
       );
