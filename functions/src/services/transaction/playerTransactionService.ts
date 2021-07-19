@@ -14,14 +14,13 @@ import { GameEventUtility } from "../../utilities/gameEventUtility";
 import { MatchupUtility } from "../../utilities/matchupUtility";
 import { PlayerUtility } from "../../utilities/playerUtility";
 import { PointsUtility } from "../../utilities/pointsUtility";
-import { PredictionUtility } from "../../utilities/predictionUtility";
 
 import { IDayCompletedEvent } from "../../../../stroll-models/gameEvent/dayCompletedEvent";
 import { IGame } from "../../../../stroll-models/game";
-import { IGameEvent } from "../../../../stroll-models/gameEvent/gameEvent";
 import { IMatchup, IMatchupSideTotal } from "../../../../stroll-models/matchup";
 import { IMatchupSideStepUpdate } from "../../../../stroll-models/matchupSideStepUpdate";
 import { IPlayer } from "../../../../stroll-models/player";
+import { IPlayerDayCompletedSummaryEvent } from "../../../../stroll-models/gameEvent/playerDayCompletedSummaryEvent";
 import { IPlayerEarnedPointsFromStepsEvent } from "../../../../stroll-models/gameEvent/playerEarnedPointsFromStepsEvent";
 import { IPrediction } from "../../../../stroll-models/prediction";
 import { defaultProfileReference } from "../../../../stroll-models/profileReference";
@@ -97,8 +96,7 @@ export const PlayerTransactionService: IPlayerTransactionService = {
            
           playerSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>) => {
             const update: IMatchupSideStepUpdate = MatchupUtility.findStepUpdate(doc.id, updates),
-              player: IPlayer = PointsUtility.mapPointsForSteps(doc.data(), update),
-              matchup: IMatchup = MatchupUtility.getByPlayer(player.id, matchups);
+              player: IPlayer = PointsUtility.mapPointsForSteps(doc.data(), update);
           
             const playerEarnedPointsFromStepsEvent: IPlayerEarnedPointsFromStepsEvent = GameEventUtility.mapPlayerEarnedPointsFromStepsEvent(
               player.id, 
@@ -108,37 +106,25 @@ export const PlayerTransactionService: IPlayerTransactionService = {
 
             GameEventTransactionService.create(transaction, gameID, playerEarnedPointsFromStepsEvent);
 
-            const received: number = PredictionUtility.sumCorrectPredictionsWithOdds(player.id, matchups, predictions),
-              correctlyWagered: number = PredictionUtility.sumCorrectPredictions(player.id, matchups, predictions),
-              lost: number = PredictionUtility.sumIncorrectPredictions(player.id, matchups, predictions),
-              wagered: number = correctlyWagered + lost,
-              gained: number = received - correctlyWagered,
-              net: number = gained - lost;
-              
+            const playerDayCompletedSummaryEvent: IPlayerDayCompletedSummaryEvent = GameEventUtility.derivePlayerDayCompletedSummaryEvent(
+              player.id,
+              dayCompletedAt,
+              day,
+              matchups,
+              predictions
+            );
+
+            const net: number = playerDayCompletedSummaryEvent.gained - playerDayCompletedSummaryEvent.lost;
+
             const updatedAt: firebase.firestore.FieldValue = firebase.firestore.FieldValue.serverTimestamp();
 
             transaction.update(doc.ref, { 
               points: {
-                available: player.points.available + received,
+                available: player.points.available + playerDayCompletedSummaryEvent.received,
                 total: player.points.total + net
               },
               updatedAt
             });
-
-            const steps: number = MatchupUtility.getPlayerSteps(player.id, matchup),
-              overall: number = steps + net;
-
-            const playerDayCompletedSummaryEvent: IGameEvent = GameEventUtility.mapPlayerDayCompletedSummaryEvent(
-              player.id,                 
-              FirestoreDateUtility.addMillis(dayCompletedAt, 1),
-              day,
-              gained,
-              lost,
-              overall,
-              received,
-              steps,
-              wagered
-            )
 
             GameEventTransactionService.create(transaction, gameID, playerDayCompletedSummaryEvent)
           });
