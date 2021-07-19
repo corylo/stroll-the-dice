@@ -3,24 +3,26 @@ import { IPrediction } from "../../../../stroll-models/prediction";
 
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
 
-export interface IMatchupListStateStatuses {
+export interface IMatchupGroupStateStatuses {
   matchups: RequestStatus;
   predictions: RequestStatus;
 }
 
-export const defaultMatchupListStateStatuses = (): IMatchupListStateStatuses => ({  
+export const defaultMatchupGroupStateStatuses = (): IMatchupGroupStateStatuses => ({  
   matchups: RequestStatus.Loading,
   predictions: RequestStatus.Loading
 });
 
-export interface IMatchupListState {
+export interface IMatchupGroupState {
+  expanded: boolean;
   matchups: IMatchup[];
   predictions: IPrediction[];
-  statuses: IMatchupListStateStatuses;
+  statuses: IMatchupGroupStateStatuses;
 }
 
-export const defaultMatchupListState = (): IMatchupListState => ({  
+export const defaultMatchupGroupState = (): IMatchupGroupState => ({  
+  expanded: false,
   matchups: [],
   predictions: [],
-  statuses: defaultMatchupListStateStatuses()
+  statuses: defaultMatchupGroupStateStatuses()
 });

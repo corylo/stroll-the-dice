@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import classNames from "classnames";
 
 import { Button } from "../../../../components/buttons/button";
@@ -10,12 +10,23 @@ import { UpdateTimer } from "../../../../components/updateTimer/updateTimer";
 
 import { GamePageContext } from "../../gamePage";
 
+import { useMatchupListenerEffect } from "../../effects/gamePageListenerEffects";
+
 import { FirestoreDateUtility } from "../../../../../stroll-utilities/firestoreDateUtility";
 import { GameDurationUtility } from "../../../../../stroll-utilities/gameDurationUtility";
 import { GamePageUtility } from "../../utilities/gamePageUtility";
 import { UrlUtility } from "../../../../utilities/urlUtility";
 
+import { defaultMatchupGroupState, IMatchupGroupState } from "../../models/matchupGroupState";
+
 import { GameStatus } from "../../../../../stroll-enums/gameStatus";
+
+interface IMatchupGroupContext {
+  state: IMatchupGroupState;
+  setState: (state: IMatchupGroupState) => void;
+}
+
+export const MatchupGroupContext = createContext<IMatchupGroupContext>(null);
 
 interface MatchupGroupProps {  
   day: number;
@@ -27,7 +38,19 @@ export const MatchupGroup: React.FC<MatchupGroupProps> = (props: MatchupGroupPro
   const { game } = gameState,
     dayStatus: GameStatus = GameDurationUtility.getDayStatus(props.day, gameState.day);
 
-  const [expanded, setExpanded] = useState<boolean>(GamePageUtility.expandMatchupGroup(game.status, props.day, gameState.day, game.duration));
+  const [state, setState] = useState<IMatchupGroupState>({ 
+    ...defaultMatchupGroupState(), 
+    expanded: GamePageUtility.expandMatchupGroup(game.status, props.day, gameState.day, game.duration)
+  });
+
+  const setExpanded = (expanded: boolean) => setState({ ...state, expanded });
+
+  useMatchupListenerEffect(
+    gameState,
+    state,
+    props.day,
+    setState
+  );
 
   const getDate = (): string => {
     const date: Date = FirestoreDateUtility.timestampToDate(game.startsAt);
@@ -54,7 +77,7 @@ export const MatchupGroup: React.FC<MatchupGroupProps> = (props: MatchupGroupPro
   }
 
   const getMatchupsList = (): JSX.Element => {
-    if(expanded) {
+    if(state.expanded) {
       return (
         <MatchupList day={props.day} />
       )
@@ -62,7 +85,7 @@ export const MatchupGroup: React.FC<MatchupGroupProps> = (props: MatchupGroupPro
   }
 
   const getViewButton = (): JSX.Element => {
-    if(!expanded) {
+    if(!state.expanded) {
       const text: string = gameState.day !== 0 && gameState.day + 1 === props.day
         ? "Click to predict upcoming matchups!"
         : "View Matchups";
@@ -74,7 +97,7 @@ export const MatchupGroup: React.FC<MatchupGroupProps> = (props: MatchupGroupPro
   }
 
   const getHideButton = (): JSX.Element => {
-    if(expanded) {        
+    if(state.expanded) {        
       return (
         <IconButton 
           className="hide-matchups-button"
@@ -88,23 +111,25 @@ export const MatchupGroup: React.FC<MatchupGroupProps> = (props: MatchupGroupPro
   }
 
   return (
-    <div className={classNames("game-matchups", UrlUtility.format(dayStatus))}>      
-     <div className="game-matchups-border" />
-      <div className="game-matchups-title">
-        <h1 className="game-matchups-title-text passion-one-font">Day {props.day} of {gameState.game.duration} {getDayLabel()}</h1>
-        <div className="game-matchups-title-date-and-game-status">
-          <h1 className="game-matchups-title-date passion-one-font">{getDate()}</h1>
-          <GameDayStatus 
-            day={gameState.day} 
-            game={game} 
-            dayStatus={dayStatus} 
-          />
+    <MatchupGroupContext.Provider value={{ state, setState }}>
+      <div className={classNames("game-matchups", UrlUtility.format(dayStatus))}>      
+      <div className="game-matchups-border" />
+        <div className="game-matchups-title">
+          <h1 className="game-matchups-title-text passion-one-font">Day {props.day} of {gameState.game.duration} {getDayLabel()}</h1>
+          <div className="game-matchups-title-date-and-game-status">
+            <h1 className="game-matchups-title-date passion-one-font">{getDate()}</h1>
+            <GameDayStatus 
+              day={gameState.day} 
+              game={game} 
+              dayStatus={dayStatus} 
+            />
+          </div>
+          {getUpdateTimer()}          
+          {getHideButton()}
         </div>
-        {getUpdateTimer()}          
-        {getHideButton()}
+        {getMatchupsList()}
+        {getViewButton()}
       </div>
-      {getMatchupsList()}
-      {getViewButton()}
-    </div>
+    </MatchupGroupContext.Provider>
   );
 }

@@ -14,7 +14,7 @@ import { defaultGame, gameConverter, IGame } from "../../../../stroll-models/gam
 import { gameEventConverter, IGameEvent } from "../../../../stroll-models/gameEvent/gameEvent";
 import { IGamePageState } from "../models/gamePageState";
 import { IMatchup, matchupConverter } from "../../../../stroll-models/matchup";
-import { IMatchupListState } from "../models/matchupListState";
+import { IMatchupGroupState } from "../models/matchupGroupState";
 import { IPlayer, playerConverter } from "../../../../stroll-models/player";
 import { IPrediction, predictionConverter } from "../../../../stroll-models/prediction";
 
@@ -26,20 +26,27 @@ import { RequestStatus } from "../../../../stroll-enums/requestStatus";
 
 export const useMatchupListenerEffect = (
   gameState: IGamePageState, 
-  state: IMatchupListState,
+  state: IMatchupGroupState,
   day: number,
-  setState: (state: IMatchupListState) => void
+  setState: (state: IMatchupGroupState) => void
 ): void => {
   const { game, player, players } = gameState;
 
   const [matchups, setMatchups] = useState<IMatchup[]>([]),
     [predictions, setPredictions] = useState<IPrediction[]>([]);
 
-  const [matchupsSynced, setMatchupsSynced] = useState<boolean>(false),
+  const [matchupsInitiated, setMatchupsInitiated] = useState<boolean>(false),
+    [matchupsSynced, setMatchupsSynced] = useState<boolean>(false),
     [predictionsSynced, setPredictionsSynced] = useState<boolean>(false);
 
   useEffect(() => {
-    const updates: IMatchupListState = { ...state };
+    if(state.expanded) {
+      setMatchupsInitiated(true);
+    }
+  }, [state.expanded]);
+
+  useEffect(() => {
+    const updates: IMatchupGroupState = { ...state };
 
     if(matchupsSynced && state.statuses.matchups === RequestStatus.Loading) {
       updates.statuses.matchups = RequestStatus.Success;
@@ -53,7 +60,7 @@ export const useMatchupListenerEffect = (
   }, [matchupsSynced, predictionsSynced]);
 
   useEffect(() => {    
-    const updates: IMatchupListState = { ...state };
+    const updates: IMatchupGroupState = { ...state };
     
     if(matchups.length > 0) {
       updates.matchups = matchups;
@@ -67,7 +74,7 @@ export const useMatchupListenerEffect = (
   }, [matchups, predictions]);
   
   useEffect(() => {
-    if(players.length > 0) {
+    if(matchupsInitiated && players.length > 0) {
       const unsubToMatchups = db.collection("games")
         .doc(game.id)
         .collection("matchups")
@@ -79,6 +86,8 @@ export const useMatchupListenerEffect = (
 
           snap.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IMatchup>) =>
             updates.push(doc.data()));
+
+          console.log(updates);
   
           setMatchups(updates);
 
@@ -89,7 +98,7 @@ export const useMatchupListenerEffect = (
         unsubToMatchups();
       }
     }
-  }, [day, players]);
+  }, [day, players, matchupsInitiated]);
   
   useEffect(() => {
     if(matchups.length > 0) {
