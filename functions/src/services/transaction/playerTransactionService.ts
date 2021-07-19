@@ -98,13 +98,15 @@ export const PlayerTransactionService: IPlayerTransactionService = {
             const update: IMatchupSideStepUpdate = MatchupUtility.findStepUpdate(doc.id, updates),
               player: IPlayer = PointsUtility.mapPointsForSteps(doc.data(), update);
           
-            const playerEarnedPointsFromStepsEvent: IPlayerEarnedPointsFromStepsEvent = GameEventUtility.mapPlayerEarnedPointsFromStepsEvent(
-              player.id, 
-              dayCompletedAt, 
-              update.steps
-            );
+            if(update.steps > 0) {
+              const playerEarnedPointsFromStepsEvent: IPlayerEarnedPointsFromStepsEvent = GameEventUtility.mapPlayerEarnedPointsFromStepsEvent(
+                player.id, 
+                dayCompletedAt, 
+                update.steps
+              );
 
-            GameEventTransactionService.create(transaction, gameID, playerEarnedPointsFromStepsEvent);
+              GameEventTransactionService.create(transaction, gameID, playerEarnedPointsFromStepsEvent);
+            }
 
             const playerDayCompletedSummaryEvent: IPlayerDayCompletedSummaryEvent = GameEventUtility.derivePlayerDayCompletedSummaryEvent(
               player.id,
