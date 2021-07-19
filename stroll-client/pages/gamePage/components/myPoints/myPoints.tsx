@@ -1,22 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 import ReactDOM from "react-dom";
 import classNames from "classnames";
 
 import { Label } from "../../../../components/label/label";
 
-import { NumberUtility } from "../../../../../stroll-utilities/numberUtility";
+import { GamePageContext } from "../../gamePage";
 
-import { IPlayer } from "../../../../../stroll-models/player";
+import { NumberUtility } from "../../../../../stroll-utilities/numberUtility";
 
 import { Icon } from "../../../../../stroll-enums/icon";
 
 interface MyPointsProps {  
-  player: IPlayer;
+  
 }
 
 export const MyPoints: React.FC<MyPointsProps> = (props: MyPointsProps) => {    
-  if(props.player.id !== "") {
-    const { points } = props.player;
+  const { player } = useContext(GamePageContext).state;
+
+  if(player.id !== "") {
+    const { points } = player;
 
     return ReactDOM.createPortal(
       <div className="my-points-modal">

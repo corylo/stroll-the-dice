@@ -11,7 +11,7 @@ export interface IGamePageStateFilters {
 }
 
 export const defaultGamePageStateFilters = (): IGamePageStateFilters => ({ 
-  eventCategory: GameEventCategory.Game
+  eventCategory: GameEventCategory.Unknown
 });
 
 export interface IGamePageStateStatuses {

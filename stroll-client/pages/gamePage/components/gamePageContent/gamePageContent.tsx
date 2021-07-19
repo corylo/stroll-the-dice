@@ -141,7 +141,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
           </div>
           {getGamePageContentForPlayer()}
         </div>
-        <MyPoints player={player} />
+        <MyPoints />
         <UpdateGameModal back={() => toggle({ update: false })} />
         <AcceptInviteModal back={() => toggle({ accept: false })} />
         <InvitePlayersModal back={() => toggle({ invite: false })} />
