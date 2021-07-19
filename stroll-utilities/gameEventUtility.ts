@@ -48,17 +48,15 @@ export const GameEventUtility: IGameEventUtility = {
       case GameEventType.Completed:
       case GameEventType.Created:
       case GameEventType.DayCompleted:
+      case GameEventType.PlayerCreated:
+      case GameEventType.PlayerCreatedPrediction:
+      case GameEventType.PlayerDayCompletedSummary:
+      case GameEventType.PlayerUpdatedPrediction:
       case GameEventType.Started:
       case GameEventType.Updated:
         return Icon.Dice;
-      case GameEventType.PlayerCreated:
-      case GameEventType.PlayerDayCompletedSummary:
-        return Icon.User;
       case GameEventType.PlayerEarnedPointsFromSteps:
         return Icon.Steps;
-      case GameEventType.PlayerCreatedPrediction:
-      case GameEventType.PlayerUpdatedPrediction:
-        return Icon.Dice;
       default:
         return Icon.None;
     }
@@ -115,6 +113,7 @@ export const GameEventUtility: IGameEventUtility = {
   },
   mapToFirestore: (unidentifiedEvent: any): any => {
     const to: any = {      
+      category: unidentifiedEvent.category,
       occurredAt: unidentifiedEvent.occurredAt,
       referenceID: unidentifiedEvent.referenceID,
       type: unidentifiedEvent.type

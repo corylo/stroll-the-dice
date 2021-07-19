@@ -21,6 +21,7 @@ import { IPlayerUpdatedPredictionEvent } from "../../../stroll-models/gameEvent/
 import { IPrediction } from "../../../stroll-models/prediction";
 import { IProfileReference } from "../../../stroll-models/profileReference";
 
+import { GameEventCategory } from "../../../stroll-enums/gameEventCategory";
 import { GameEventReferenceID } from "../../../stroll-enums/gameEventReferenceID";
 import { GameEventType } from "../../../stroll-enums/gameEventType";
 
@@ -33,7 +34,7 @@ interface IGameEventUtility {
   mapPlayerCreatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, matchup: IMatchupProfileReference, amount: number) => IPlayerCreatedPredictionEvent;
   mapPlayerDayCompletedSummaryEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, day: number, gained: number, lost: number, overall: number, received: number, steps: number, wagered: number) => IPlayerDayCompletedSummaryEvent
   mapPlayerEarnedPointsFromStepsEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, points: number) => IPlayerEarnedPointsFromStepsEvent;
-  mapPlayerEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, type: GameEventType) => IGameEvent;
+  mapPlayerEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, category: GameEventCategory, type: GameEventType) => IGameEvent;
   mapPlayerUpdatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, matchup: IMatchupProfileReference, beforeAmount: number, afterAmount: number) => IPlayerUpdatedPredictionEvent;  
   mapUpdateEvent: (occurredAt: firebase.firestore.FieldValue, before: IGame, after: IGame) => IGameUpdateEvent;  
 }
@@ -81,6 +82,7 @@ export const GameEventUtility: IGameEventUtility = {
   },
   mapGeneralEvent: (occurredAt: firebase.firestore.FieldValue, type: GameEventType): IGameEvent => {
     return {
+      category: GameEventCategory.Game,
       id: "",
       occurredAt,
       referenceID: GameEventReferenceID.General,
@@ -96,7 +98,7 @@ export const GameEventUtility: IGameEventUtility = {
     }
   },
   mapPlayerCreatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, matchup: IMatchupProfileReference, amount: number): IPlayerCreatedPredictionEvent => {
-    const event: IGameEvent = GameEventUtility.mapPlayerEvent(creatorID, occurredAt, GameEventType.PlayerCreatedPrediction);
+    const event: IGameEvent = GameEventUtility.mapPlayerEvent(creatorID, occurredAt, GameEventCategory.Game, GameEventType.PlayerCreatedPrediction);
 
     return {
       ...event,
@@ -106,7 +108,7 @@ export const GameEventUtility: IGameEventUtility = {
     }
   },
   mapPlayerDayCompletedSummaryEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, day: number, gained: number, lost: number, overall: number, received: number, steps: number, wagered: number): IPlayerDayCompletedSummaryEvent => {
-    const event: IGameEvent = GameEventUtility.mapPlayerEvent(playerID, occurredAt, GameEventType.PlayerDayCompletedSummary);
+    const event: IGameEvent = GameEventUtility.mapPlayerEvent(playerID, occurredAt, GameEventCategory.Game, GameEventType.PlayerDayCompletedSummary);
 
     return {
       ...event,
@@ -120,7 +122,7 @@ export const GameEventUtility: IGameEventUtility = {
     }
   },
   mapPlayerEarnedPointsFromStepsEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, points: number): IPlayerEarnedPointsFromStepsEvent => {
-    const event: IGameEvent = GameEventUtility.mapPlayerEvent(playerID, occurredAt, GameEventType.PlayerEarnedPointsFromSteps);
+    const event: IGameEvent = GameEventUtility.mapPlayerEvent(playerID, occurredAt, GameEventCategory.Steps, GameEventType.PlayerEarnedPointsFromSteps);
 
     return {
       ...event,
@@ -128,7 +130,7 @@ export const GameEventUtility: IGameEventUtility = {
     }
   },
   mapPlayerUpdatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, matchup: IMatchupProfileReference, beforeAmount: number, afterAmount: number): IPlayerUpdatedPredictionEvent => {
-    const event: IGameEvent = GameEventUtility.mapPlayerEvent(creatorID, occurredAt, GameEventType.PlayerUpdatedPrediction);
+    const event: IGameEvent = GameEventUtility.mapPlayerEvent(creatorID, occurredAt, GameEventCategory.Game, GameEventType.PlayerUpdatedPrediction);
 
     return {
       ...event,
@@ -138,8 +140,9 @@ export const GameEventUtility: IGameEventUtility = {
       playerID
     }
   },
-  mapPlayerEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, type: GameEventType): IGameEvent => {
+  mapPlayerEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, category: GameEventCategory, type: GameEventType): IGameEvent => {
     return {
+      category,
       id: "",
       occurredAt,
       referenceID: playerID,

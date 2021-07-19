@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 
 import { AcceptInviteModal } from "../acceptInviteModal/acceptInviteModal";
-import { Button } from "../../../../components/buttons/button";
 import { EmptyMessage } from "../../../../components/emptyMessage/emptyMessage";
+import { EventHistoryToggle } from "../eventHistory/eventHistoryToggle/eventHistoryToggle";
 import { GameActions } from "../gameActions/gameActions";
 import { GameDateStatus } from "../../../../components/gameDateStatus/gameDateStatus";
 import { GameDetails } from "../../../../components/gameDetails/gameDetails";
@@ -35,7 +35,6 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
   const { state, setState } = useContext(GamePageContext);
 
   const { 
-    events,
     game, 
     invite, 
     player, 
@@ -57,24 +56,9 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
     
     const getEventHistoryToggle = (): JSX.Element => {      
       if(player.id !== "") {
-        const getNumberOfUnviewed = (): JSX.Element => {
-          const unviewed: number = GameEventUtility.getNumberOfUnviewedEvents(events);
-
-          if(unviewed > 0) {
-            const icon: JSX.Element = unviewed >= 5 ? <i className="fas fa-plus" /> : null;
-
-            return (
-              <span className="highlight-main">{unviewed} {icon}</span>
-            )
-          }
-        }
-
         return (
-          <Button className="events-button" handleOnClick={() => toggle({ events: true })}>
-            <i className="fal fa-history" />
-            <h1 className="passion-one-font">Timeline {getNumberOfUnviewed()}</h1>                   
-          </Button>
-        )
+          <EventHistoryToggle toggle={toggle} />
+        );
       }
     }
 

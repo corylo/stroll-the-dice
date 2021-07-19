@@ -19,6 +19,7 @@ import { IPlayer, playerConverter } from "../../../../stroll-models/player";
 import { IPrediction, predictionConverter } from "../../../../stroll-models/prediction";
 
 import { AppStatus } from "../../../enums/appStatus";
+import { GameEventCategory } from "../../../../stroll-enums/gameEventCategory";
 import { GameEventReferenceID } from "../../../../stroll-enums/gameEventReferenceID";
 import { GameStatus } from "../../../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
@@ -221,10 +222,16 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
           setPlayers(updates);
         });
 
-      const unsubToEvents = db.collection("games")
+      let query: firebase.firestore.Query = db.collection("games")
         .doc(state.game.id)
-        .collection("events") 
-        .where("referenceID", "in", [state.player.id, GameEventReferenceID.General])    
+        .collection("events");
+
+      if(state.filters.eventCategory !== GameEventCategory.Unknown) {        
+        query = query.where("category", "==", state.filters.eventCategory);
+      }
+        
+      const unsubToEvents = query
+        .where("referenceID", "in", [GameEventReferenceID.General, state.player.id])   
         .orderBy("occurredAt", "desc")        
         .limit(eventsLimit)
         .withConverter(gameEventConverter)
@@ -233,8 +240,8 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
 
           snap.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGameEvent>) =>
             updates.push(doc.data()));
-  
-            setEvents(updates);
+          
+          setEvents(updates);
         });
 
       return () => {
@@ -242,11 +249,17 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
         unsubToEvents();
       }
     }
-  }, [state.game.id, state.player.id, eventsLimit]);
+  }, [state.game.id, state.player.id, eventsLimit, state.filters.eventCategory]);
 
   useEffect(() => {
     if(state.toggles.events && eventsLimit !== 20) {
       setEventsLimit(20);
     }
   }, [state.toggles.events, eventsLimit]);
+
+  useEffect(() => {
+    if(state.statuses.events === RequestStatus.Success) {
+      state.statuses.events = RequestStatus.Loading;
+    }
+  }, [state.filters.eventCategory]);
 }

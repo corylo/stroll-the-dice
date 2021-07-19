@@ -2,9 +2,11 @@ import firebase from "firebase/app";
 
 import { GameEventUtility } from "../../stroll-utilities/gameEventUtility";
 
+import { GameEventCategory } from "../../stroll-enums/gameEventCategory";
 import { GameEventType } from "../../stroll-enums/gameEventType";
 
 export interface IGameEvent {  
+  category: GameEventCategory;
   id: string;
   occurredAt: firebase.firestore.FieldValue;
   referenceID: string;
@@ -12,6 +14,7 @@ export interface IGameEvent {
 }
 
 export const defaultGameEvent = (): IGameEvent => ({    
+  category: GameEventCategory.Game,
   id: "",
   occurredAt: firebase.firestore.FieldValue.serverTimestamp(),
   referenceID: "",

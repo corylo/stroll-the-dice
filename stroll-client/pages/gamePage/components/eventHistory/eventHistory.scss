@@ -1,8 +1,12 @@
 @import "./event/event.scss";
 @import "./eventDescription/eventDescription.scss";
+@import "./eventFilters/eventFilters.scss";
+@import "./eventHistoryToggle/eventHistoryToggle.scss";
 @import "./eventType/eventType.scss";
 
 .game-event-history {
+  margin-top: 20px;
+  
   .game-event-group {
     &:nth-of-type(n + 2) {
       margin-top: 10px;  

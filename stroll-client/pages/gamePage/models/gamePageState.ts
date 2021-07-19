@@ -3,7 +3,16 @@ import { IGameEvent } from "../../../../stroll-models/gameEvent/gameEvent";
 import { IInvite } from "../../../../stroll-models/invite";
 import { defaultPlayer, IPlayer } from "../../../../stroll-models/player";
 
+import { GameEventCategory } from "../../../../stroll-enums/gameEventCategory";
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
+
+export interface IGamePageStateFilters {
+  eventCategory: GameEventCategory;
+}
+
+export const defaultGamePageStateFilters = (): IGamePageStateFilters => ({ 
+  eventCategory: GameEventCategory.Game
+});
 
 export interface IGamePageStateStatuses {
   events: RequestStatus;
@@ -36,6 +45,7 @@ export const defaultGamePageStateToggles = (): IGamePageStateToggles => ({
 export interface IGamePageState {
   day: number;
   events: IGameEvent[];
+  filters: IGamePageStateFilters;
   game: IGame;
   invite: IInvite;
   message: string;
@@ -48,6 +58,7 @@ export interface IGamePageState {
 export const defaultGamePageState = (): IGamePageState => ({ 
   day: 0,
   events: [],
+  filters: defaultGamePageStateFilters(),
   game: defaultGame(),
   invite: null,
   message: "",
