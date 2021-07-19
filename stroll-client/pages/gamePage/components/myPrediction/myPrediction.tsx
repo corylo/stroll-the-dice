@@ -27,10 +27,17 @@ export const MyPrediction: React.FC<MyPredictionProps> = (props: MyPredictionPro
     playerStatement: JSX.Element = <PlayerStatement profile={profile} />;
 
   if(matchup.winner === "") {
-    const text: string = myPrediction.amount === InitialValue.InitialPredictionPoints ? "automatically" : "";
+    
+    const initialPrediction: boolean = myPrediction.ref.creator === myPrediction.ref.player && myPrediction.amount === InitialValue.InitialPredictionPoints;
+
+    if(initialPrediction) {
+      return (        
+        <h1 className="my-prediction passion-one-font">The game predicted {playerStatement} with {pointStatement} on your behalf. Add some of your own <PointStatement /> if you're feeling confident!</h1>        
+      )
+    }
 
     return (        
-      <h1 className="my-prediction passion-one-font">You {text} predicted {playerStatement} with {pointStatement}</h1>
+      <h1 className="my-prediction passion-one-font">You predicted {playerStatement} with {pointStatement}</h1>
     )
   } else if(myPrediction.ref.player === matchup.winner) {     
     const payoutPointStatement: JSX.Element = <PointStatement amount={PredictionUtility.getPayoutAmount(myPrediction.amount, matchup).toLocaleString()} />;
