@@ -46,7 +46,6 @@ export const MatchupGroup: React.FC<MatchupGroupProps> = (props: MatchupGroupPro
   const setExpanded = (expanded: boolean) => setState({ ...state, expanded });
 
   useMatchupListenerEffect(
-    gameState,
     state,
     props.day,
     setState

@@ -8,7 +8,9 @@ import { MatchupLeader } from "../../stroll-enums/matchupLeader";
 
 interface IMatchupUtility {  
   calculateOdds: (left: IMatchupSide, right: IMatchupSide) => number;      
+  getByPlayer: (playerID: string, matchups: IMatchup[]) => IMatchup;
   getLeader: (matchup: IMatchup) => string;
+  getPlayerSteps: (playerID: string, matchup: IMatchup) => number;
   getWinnerOdds: (matchup: IMatchup) => number;
   playerIsInMatchup: (player: IPlayer, matchup: IMatchup) => boolean;
 }
@@ -21,6 +23,9 @@ export const MatchupUtility: IMatchupUtility = {
 
     return 1;
   },
+  getByPlayer: (playerID: string, matchups: IMatchup[]): IMatchup => {
+    return matchups.find((matchup: IMatchup) => matchup.left.profile.uid === playerID || matchup.right.profile.uid === playerID);
+  },
   getLeader: (matchup: IMatchup): string => {
     let leader: string = MatchupLeader.Tie;
 
@@ -31,6 +36,15 @@ export const MatchupUtility: IMatchupUtility = {
     }
 
     return leader;
+  },
+  getPlayerSteps: (playerID: string, matchup: IMatchup): number => {
+    if(playerID === matchup.left.profile.uid) {
+      return matchup.left.steps;
+    } else if (playerID === matchup.right.profile.uid) {
+      return matchup.right.steps;
+    }
+
+    throw new Error(`Player [${playerID}] not found in matchup [${matchup.id}]. Left was [${matchup.left.profile.uid}], right was [${matchup.right.profile.uid}]`);
   },
   getWinnerOdds: (matchup: IMatchup): number => {
     if(matchup.winner !== "" && matchup.winner !== MatchupLeader.Tie) {

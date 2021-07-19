@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import firebase from "firebase/app";
 
 import { db } from "../../../firebase";
@@ -7,6 +7,7 @@ import { InviteService } from "../../../services/inviteService";
 import { PlayerService } from "../../../services/playerService";
 
 import { GameDurationUtility } from "../../../../stroll-utilities/gameDurationUtility";
+import { MatchupUtility } from "../../../utilities/matchupUtility";
 import { PlayerUtility } from "../../../utilities/playerUtility";
 
 import { IAppState } from "../../../components/app/models/appState";
@@ -24,12 +25,15 @@ import { GameEventReferenceID } from "../../../../stroll-enums/gameEventReferenc
 import { GameStatus } from "../../../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
 
+import { GamePageContext } from "../gamePage";
+
 export const useMatchupListenerEffect = (
-  gameState: IGamePageState, 
   state: IMatchupGroupState,
   day: number,
   setState: (state: IMatchupGroupState) => void
 ): void => {
+  const { state: gameState, setState: setGameState } = useContext(GamePageContext);
+
   const { game, player, players } = gameState;
 
   const [matchups, setMatchups] = useState<IMatchup[]>([]),
@@ -72,6 +76,18 @@ export const useMatchupListenerEffect = (
 
     setState(updates);
   }, [matchups, predictions]);
+
+  useEffect(() => {
+    if(player.id && matchups.length > 0) {
+      const matchup: IMatchup = MatchupUtility.getByPlayer(player.id, matchups);
+
+      if(matchup) {
+        const steps: number = MatchupUtility.getPlayerSteps(player.id, matchup);
+
+        setGameState({ ...gameState, playerSteps: steps });
+      }
+    }
+  }, [player.id, matchups]);
   
   useEffect(() => {
     if(matchupsInitiated && players.length > 0) {
