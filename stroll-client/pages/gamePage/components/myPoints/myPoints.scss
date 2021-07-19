@@ -18,11 +18,15 @@
       display: inline-block;
       margin-left: 270px;
       padding: 4px;
+      position: relative;
 
       .my-points-content-wrapper {
+        background-color: gray(30);
         border: 1px solid gray(60);
         border-radius: 10px;
         padding: 10px 20px;
+        position: relative;
+        z-index: 2;
 
         .my-points-content {    
           align-items: center;
