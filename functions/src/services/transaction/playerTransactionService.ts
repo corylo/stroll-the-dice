@@ -37,7 +37,7 @@ interface IPlayerTransactionService {
 
 export const PlayerTransactionService: IPlayerTransactionService = {
   handleMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, game: IGame, player: IPlayer): void => {
-    if(matchupSnap.empty || game.counts.players % 2 === 0) {    
+    if(game.counts.players % 2 !== 0) {    
       PlayerTransactionService.createDayOneMatchup(transaction, player);
     } else {
       const matchup: IMatchup = PlayerTransactionService.completeDayOneMatchup(transaction, matchupSnap, player);

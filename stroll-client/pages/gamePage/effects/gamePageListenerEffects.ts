@@ -180,6 +180,10 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
       if(updates.statuses.events === RequestStatus.Loading) {
         updates.statuses.events = RequestStatus.Success;
       }
+    } else if(updates.events.length > 0 && events.length === 0) {
+      updates.events = [];
+
+      updates.statuses.events = RequestStatus.Success;
     }
 
     setState(updates);
@@ -249,7 +253,7 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
         .doc(state.game.id)
         .collection("events");
 
-      if(state.filters.eventCategory !== GameEventCategory.Unknown) {        
+      if(state.filters.eventCategory !== GameEventCategory.Unknown) {                
         query = query.where("category", "==", state.filters.eventCategory);
       }
         
@@ -281,8 +285,12 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
   }, [state.toggles.events, eventsLimit]);
 
   useEffect(() => {
+    const updates: IGamePageState = { ...state };
+
     if(state.statuses.events === RequestStatus.Success) {
-      state.statuses.events = RequestStatus.Loading;
+      updates.statuses.events = RequestStatus.Loading;
     }
+
+    setState(updates);
   }, [state.filters.eventCategory]);
 }

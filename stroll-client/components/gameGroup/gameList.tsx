@@ -1,6 +1,5 @@
 import React from "react";
 
-import { EmptyMessage } from "../emptyMessage/emptyMessage";
 import { GameLink } from "../gameLink/gameLink";
 
 import { IGame } from "../../../stroll-models/game";
@@ -35,22 +34,17 @@ export const GameList: React.FC<GameListProps> = (props: GameListProps) => {
     )
   }
 
-  const getEmptyMessage = (): JSX.Element => {
-    if(games.length === 0) {
-      return (
-        <EmptyMessage text={props.emptyMessage} />
-      )
-    }
+  if(games.length !== 0) {
+    return (
+      <div className="game-list">      
+        <div className="game-list-border" />      
+        <div className="game-list-content">
+          {getTitle()}
+          {getLinks()}          
+        </div>
+      </div>
+    )
   }
 
-  return (
-    <div className="game-list">      
-      <div className="game-list-border" />      
-      <div className="game-list-content">
-        {getTitle()}
-        {getLinks()}
-        {getEmptyMessage()}
-      </div>
-    </div>
-  )
+  return null;
 }
