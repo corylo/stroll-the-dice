@@ -5,6 +5,8 @@ import { db } from "../../firebase";
 
 import { GameBatchService } from "./batch/gameBatchService";
 
+import { gameConverter } from "../../../stroll-models/game";
+
 import { GameStatus } from "../../../stroll-enums/gameStatus";
 
 interface IScheduleService {  
@@ -41,16 +43,19 @@ export const ScheduleService: IScheduleService = {
       const upcomingGamesSnap: firebase.firestore.QuerySnapshot = await db.collection("games")
         .where("startsAt", "<=", firebase.firestore.Timestamp.now())
         .where("status", "==", GameStatus.Upcoming)
+        .withConverter(gameConverter)
         .get();
 
       const inProgressGamesSnap: firebase.firestore.QuerySnapshot = await db.collection("games")     
         .where("endsAt", ">", firebase.firestore.Timestamp.now())  
         .where("status", "==", GameStatus.InProgress)
+        .withConverter(gameConverter)
         .get();
 
       const completedGamesSnap: firebase.firestore.QuerySnapshot = await db.collection("games")     
         .where("endsAt", "<=", firebase.firestore.Timestamp.now())  
         .where("status", "==", GameStatus.InProgress)
+        .withConverter(gameConverter)
         .get();
 
       await Promise.all([

@@ -9,7 +9,10 @@ interface PageMessageProps {
 export const PageMessage: React.FC<PageMessageProps> = (props: PageMessageProps) => {  
   return (
     <div className={classNames("page-message", props.className)}>
-      {props.children}
+      <div className="page-message-border" />
+      <div className="page-message-content">
+        {props.children}
+      </div>
     </div>
   );
 }

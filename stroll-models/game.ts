@@ -3,6 +3,7 @@ import firebase from "firebase/app";
 import { defaultProfileReference, IProfileReference } from "./profileReference";
 
 import { GameDuration } from "../stroll-enums/gameDuration";
+import { GameError } from "../stroll-enums/gameError";
 import { GameMode } from "../stroll-enums/gameMode";
 import { GameStatus } from "../stroll-enums/gameStatus";
 
@@ -30,6 +31,7 @@ export interface IGame {
   creator: IProfileReference;  
   duration: GameDuration;
   endsAt: firebase.firestore.FieldValue;
+  error: GameError;
   id: string;  
   locked: boolean;
   mode: GameMode;
@@ -47,6 +49,7 @@ export const defaultGame = (): IGame => ({
   creator: defaultProfileReference(),  
   duration: GameDuration.None,
   endsAt: null,
+  error: GameError.None,
   id: "",
   locked: false,
   mode: GameMode.None,
@@ -66,6 +69,7 @@ export const gameConverter: any = {
       creator: game.creator,
       duration: game.duration,
       endsAt: game.endsAt,
+      error: game.error,
       locked: game.locked,
       mode: game.mode,
       name: game.name,
@@ -87,6 +91,7 @@ export const gameConverter: any = {
       creator: data.creator,  
       duration: data.duration,    
       endsAt: data.endsAt,
+      error: data.error,
       id: snapshot.id,
       locked: data.locked,
       mode: data.mode,

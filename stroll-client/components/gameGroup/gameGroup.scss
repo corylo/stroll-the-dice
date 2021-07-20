@@ -28,6 +28,22 @@
     margin-top: 10px;
     position: relative;
 
+    .empty-message {
+      display: flex;
+
+      .empty-message-border {
+        height: auto;
+        width: 4px;
+      }
+
+      .empty-message-content {
+        background: linear-gradient(to right, rgba(white, 0.05), transparent);
+        flex-grow: 1;
+        margin-left: 5px;
+        margin-top: 0px;
+      }
+    }
+
     .game-list { 
       display: flex;
 

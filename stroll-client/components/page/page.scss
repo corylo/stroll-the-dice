@@ -57,25 +57,35 @@
 
       .page-message {
         animation: fadeIn 400ms ease-in;
-        background-color: rgba(white, 0.03);
-        border: 1px solid rgba(white, 0.2);
-        border-radius: 10px;
-        padding: 40px 20px;
         z-index: 2;
     
-        h1 {
-          color: rgba(white, 0.8);
-          font-size: 1.25em;
-          text-align: center;
+        .page-message-border {
+          background-color: gray(230);
+          border-radius: 10px;
+          height: 4px;
+          width: 100%;
         }
-    
-        .page-message-action {
-          display: block;
-          font-size: 2em;
-          margin: auto;
-          margin-top: 10px;
-          text-align: center;
-          width: 200px;
+
+        .page-message-content {
+          background: linear-gradient(to bottom, rgba(white, 0.05), transparent);
+          border-radius: 4px;
+          margin-top: 5px;
+          padding: 40px 10px;
+
+          h1 {
+            color: rgba(white, 0.8);
+            font-size: 1.25em;
+            text-align: center;
+          }
+      
+          .page-message-action {
+            display: block;
+            font-size: 2em;
+            margin: auto;
+            margin-top: 10px;
+            text-align: center;
+            width: 200px;
+          }
         }
       }
 

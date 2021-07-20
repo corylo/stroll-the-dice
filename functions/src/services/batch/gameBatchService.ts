@@ -6,8 +6,10 @@ import { db } from "../../../firebase";
 import { ProfileUtility } from "../../utilities/profileUtility";
 
 import { IGame } from "../../../../stroll-models/game";
+import { IGameUpdate } from "../../../../stroll-models/gameUpdate";
 import { IProfileUpdate } from "../../../../stroll-models/profileUpdate";
 
+import { GameError } from "../../../../stroll-enums/gameError";
 import { GameStatus } from "../../../../stroll-enums/gameStatus";
 
 interface IGameBatchService {
@@ -98,12 +100,24 @@ export const GameBatchService: IGameBatchService = {
   handleUpcomingToInProgressLoop: async (docs: FirebaseFirestore.QueryDocumentSnapshot[]): Promise<void> => {
     const batch: firebase.firestore.WriteBatch = db.batch();
 
+    const getUpdate = (playerCount: number): IGameUpdate => {
+      if(playerCount >= 4) {
+        return {       
+          locked: true, 
+          progressUpdateAt: firebase.firestore.FieldValue.serverTimestamp(),
+          status: GameStatus.InProgress 
+        }
+      }
+
+      return { 
+        error: GameError.PlayerMinimumNotMet 
+      }
+    }
+
     docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => {      
-      batch.update(doc.ref, {             
-        locked: true, 
-        progressUpdateAt: firebase.firestore.FieldValue.serverTimestamp(),
-        status: GameStatus.InProgress 
-      });
+      const game: IGame = doc.data();
+
+      batch.update(doc.ref, getUpdate(game.counts.players));
     });
 
     await batch.commit();

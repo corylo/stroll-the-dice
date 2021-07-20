@@ -33,7 +33,6 @@ interface IPlayerTransactionService {
   createDayOneMatchup: (transaction: firebase.firestore.Transaction, player: IPlayer) => void;    
   distributePayoutsAndFinalizeSteps: (gameID: string, day: number, startsAt: firebase.firestore.FieldValue, matchups: IMatchup[], updates: IMatchupSideStepUpdate[]) => Promise<void>;
   distributePointsAndUpdateSteps: (gameID: string, matchups: IMatchup[], updates: IMatchupSideStepUpdate[]) => Promise<void>;
-  updateCounts: (transaction: firebase.firestore.Transaction, gameRef: firebase.firestore.DocumentReference, game: IGame, player: IPlayer) => void;  
 }
 
 export const PlayerTransactionService: IPlayerTransactionService = {
@@ -183,18 +182,6 @@ export const PlayerTransactionService: IPlayerTransactionService = {
       });
     } catch (err) {
       logger.error(err);
-    }
-  },
-  updateCounts: (transaction: firebase.firestore.Transaction, gameRef: firebase.firestore.DocumentReference, game: IGame, player: IPlayer): void => {      
-    if(player.id !== game.creator.uid) { 
-      transaction.update(gameRef, { ["counts.players"]: firebase.firestore.FieldValue.increment(1) });
-
-      const inviteRef: firebase.firestore.DocumentReference = db.collection("games")
-        .doc(player.ref.game)
-        .collection("invites")
-        .doc(player.ref.invite);
-        
-      transaction.update(inviteRef, { ["uses.current"]: firebase.firestore.FieldValue.increment(1) });
     }
   }
 }

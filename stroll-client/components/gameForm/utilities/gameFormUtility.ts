@@ -10,6 +10,7 @@ import { IGameFormStateFields } from "../models/gameFormStateFields";
 import { IGameUpdate } from "../../../../stroll-models/gameUpdate";
 import { IUser } from "../../../models/user";
 
+import { GameError } from "../../../../stroll-enums/gameError";
 import { GameStatus } from "../../../../stroll-enums/gameStatus";
 
 interface IGameFormUtility {
@@ -56,6 +57,7 @@ export const GameFormUtility: IGameFormUtility = {
       },
       duration: fields.duration,
       endsAt,
+      error: GameError.None,
       id: Nano.generate(),
       locked: false,
       mode: fields.mode,

@@ -58,8 +58,6 @@ export const PlayerService: IPlayerService = {
         if(gameDoc.exists) {
           const game: IGame = gameDoc.data(); 
 
-          PlayerTransactionService.updateCounts(transaction, gameRef, game, player);
-        
           PlayerTransactionService.handleMatchup(transaction, matchupSnap, game, player);
 
           if(game.creator.uid !== player.profile.uid) {          
