@@ -28,6 +28,21 @@
       text-align: center;
     }
 
+    .leaderboard-congratulations {
+      color: gray(230);      
+      margin-top: 5px;
+      font-size: 1.5em;
+      text-align: center;
+
+      .player-statement {
+        display: inline-block;
+
+        i, span {
+          line-height: 26px;
+        }
+      }
+    }
+
     .leaderboard-rows {
       margin-top: 10px;
 

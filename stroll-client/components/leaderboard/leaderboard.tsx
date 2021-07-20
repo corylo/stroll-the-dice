@@ -12,6 +12,7 @@ import { IPlayer } from "../../../stroll-models/player";
 
 import { GameStatus } from "../../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../../stroll-enums/requestStatus";
+import { PlayerStatement } from "../playerStatement/playerStatement";
 
 interface LeaderboardProps {  
   limit?: number;
@@ -27,6 +28,24 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
   
   if(statuses.players !== RequestStatus.Idle) {
     const limit: number = props.limit || props.players.length;
+
+    const getPlayers = (): IPlayer[] => {
+      if(props.gameStatus === GameStatus.Upcoming) {
+        const players: IPlayer[] = _orderBy(props.players, (player: IPlayer) => player.createdAt, "asc");
+
+        return players;
+      }
+      
+      const players: IPlayer[] = _orderBy(
+        props.players, 
+        ["points.total", "createdAt"], 
+        ["desc", "asc"]
+      ).slice(0, limit);
+
+      return players;
+    }
+
+    const players: IPlayer[] = getPlayers();
 
     const getTopRows = (players: IPlayer[]): JSX.Element => {
       const first: IPlayer = players[0],
@@ -56,16 +75,8 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
   
     const getRows = (): JSX.Element => {
       if(props.gameStatus === GameStatus.Upcoming) {
-        const players: IPlayer[] = _orderBy(props.players, (player: IPlayer) => player.createdAt, "asc");
-
-        return getRemainingRows(players);
+        return getRemainingRows(_orderBy(players, (player: IPlayer) => player.createdAt, "asc"));
       } else {
-        const players: IPlayer[] = _orderBy(
-          props.players, 
-          ["points.total", "createdAt"], 
-          ["desc", "asc"]
-        ).slice(0, limit);
-
         const remainingRows: JSX.Element = players.length > 3
           ? getRemainingRows(players.slice(3), 4)
           : null;
@@ -93,13 +104,28 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
 
     const getLeaderboardContent = (): JSX.Element => {
       if(statuses.players === RequestStatus.Success) {
-        const title: string = props.gameStatus === GameStatus.Upcoming
-          ? "Roster"
-          : "Leaderboard";
+        const getTitle = (): string => {
+          if(props.gameStatus === GameStatus.Upcoming) {
+            return "Roster";
+          } else if(props.gameStatus === GameStatus.InProgress) {
+            return "Leaderboard";
+          } else if (props.gameStatus === GameStatus.Completed) {
+            return "Final Leaderboard";
+          }
+        }
 
+        const getCongratulations = (): JSX.Element => {
+          if(props.gameStatus === GameStatus.Completed) {
+            return (
+              <h1 className="leaderboard-congratulations passion-one-font">Congratulations to <PlayerStatement profile={players[0].profile} />!</h1>
+            );
+          }
+        }
+        
         return (
           <React.Fragment>
-            <h1 className="leaderboard-title passion-one-font">{title}</h1>
+            <h1 className="leaderboard-title passion-one-font">{getTitle()}</h1>
+            {getCongratulations()}
             <div className="leaderboard-rows">
               {getRows()}
             </div>
