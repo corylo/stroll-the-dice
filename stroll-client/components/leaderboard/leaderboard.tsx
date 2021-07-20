@@ -64,7 +64,6 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
     }
 
     const getRemainingRows = (players: IPlayer[], start?: number): JSX.Element => {
-      console.log(players)
       const rows: JSX.Element[] = players.map((player: IPlayer, index: number) =>
         <LeaderboardRow key={player.id} place={index + (start || 1)} player={player} />
       );
