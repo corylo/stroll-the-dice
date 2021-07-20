@@ -32,16 +32,16 @@ export const PlayerDayCompletedSummaryEventDescription: React.FC<PlayerDayComple
     return (
       <EventDescriptionWrapper>
         <div className="player-day-completed-summary-table">
-          <SummaryRow label="Total Points From Stepping">
+          <SummaryRow label="Points From Stepping">
             <h1 className="passion-one-font"><PointStatement amount={event.steps.toLocaleString()} /></h1>
           </SummaryRow>
-          <SummaryRow label="Total Wagered">
+          <SummaryRow label="Wagered">
             <h1 className="passion-one-font"><PointStatement amount={event.wagered.toLocaleString()} /></h1>
           </SummaryRow>
-          <SummaryRow label="Total Gained">
+          <SummaryRow label="Gained">
             <h1 className="passion-one-font"><PointStatement amount={event.gained.toLocaleString()} /></h1>
           </SummaryRow>
-          <SummaryRow label="Total Lost">
+          <SummaryRow label="Lost">
             <h1 className="passion-one-font"><PointStatement amount={event.lost.toLocaleString()} /></h1>
           </SummaryRow>
           <SummaryRow label="Overall">
