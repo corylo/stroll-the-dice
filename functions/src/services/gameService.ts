@@ -42,7 +42,7 @@ export const GameService: IGameService = {
     const before: IGame = change.before.data(),
       after: IGame = change.after.data();
   
-    if(before.id !== FirebaseDocumentID.WarmUp) {
+    if(context.params.id !== FirebaseDocumentID.WarmUp) {
       try {
         if(GameUtility.hasReferenceFieldChanged(before, after)) {
           await GameUpdateService.handleReferenceFieldChange(context.params.id, after);

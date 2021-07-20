@@ -43,7 +43,7 @@ export const ScheduleService: IScheduleService = {
     const date: Date = new Date(context.timestamp),
       isWarmupRun: boolean = date.getMinutes() !== 0;
 
-    if(isWarmupRun) {
+    if(!isWarmupRun) {
       try {  
         const upcomingGamesSnap: firebase.firestore.QuerySnapshot = await db.collection("games")
           .where("startsAt", "<=", firebase.firestore.Timestamp.now())
