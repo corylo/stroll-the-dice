@@ -39,7 +39,6 @@ export const StartingSoonMessage: React.FC<StartingSoonMessageProps> = (props: S
       <div className="starting-soon-message">
         <div className="starting-soon-message-border" />
         <LoadingMessage animation={getAnimation()} text={getText()} />
-        <div className="starting-soon-message-border" />
       </div>
     )
   }

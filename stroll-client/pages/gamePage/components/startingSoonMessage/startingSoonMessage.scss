@@ -1,18 +1,16 @@
 .starting-soon-message {
-  display: flex;
   margin-top: 10px;
 
   .starting-soon-message-border {
     background-color: $themeMain;
     border-radius: 4px;
-    width: 4px;
+    height: 4px;
   }
 
   .loading-message {
-    background: linear-gradient(to right, rgba($themeMain, 0.05) 2%, transparent 50%, rgba($themeMain, 0.05) 98%);     
+    background: linear-gradient(to bottom, rgba($themeMain, 0.05), transparent);   
     border-radius: 4px;
-    flex-grow: 1;
-    margin: 0px 5px;
+    margin-top: 5px;
 
     .loading-message-border {
       display: none;
