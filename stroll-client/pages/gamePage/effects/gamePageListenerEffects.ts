@@ -267,7 +267,7 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
 
           snap.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGameEvent>) =>
             updates.push(doc.data()));
-          console.log(updates);
+          
           setEvents(updates);
         });
 
