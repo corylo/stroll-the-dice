@@ -29,7 +29,7 @@ import { InitialValue } from "../../../../stroll-enums/initialValue";
 
 interface IPlayerTransactionService {
   handleMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, game: IGame, player: IPlayer) => void;
-  completeDayOneMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, player: IPlayer) => IMatchup;
+  completeDayOneMatchup: (transaction: firebase.firestore.Transaction, matchup: IMatchup, player: IPlayer) => IMatchup;
   createDayOneMatchup: (transaction: firebase.firestore.Transaction, player: IPlayer) => void;    
   distributePayoutsAndFinalizeSteps: (gameID: string, day: number, startsAt: firebase.firestore.FieldValue, matchups: IMatchup[], updates: IMatchupSideStepUpdate[]) => Promise<void>;
   distributePointsAndUpdateSteps: (gameID: string, matchups: IMatchup[], updates: IMatchupSideStepUpdate[]) => Promise<void>;
@@ -37,22 +37,22 @@ interface IPlayerTransactionService {
 
 export const PlayerTransactionService: IPlayerTransactionService = {
   handleMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, game: IGame, player: IPlayer): void => {
-    if(game.counts.players % 2 !== 0) {    
+    const matchups: IMatchup[] = [];
+
+    if(!matchupSnap.empty) {
+      matchupSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IMatchup>) => 
+        matchups.push(doc.data()));
+    }
+
+    if(matchups.length === 0 || matchups[0].right.profile.uid !== "") {    
       PlayerTransactionService.createDayOneMatchup(transaction, player);
     } else {
-      const matchup: IMatchup = PlayerTransactionService.completeDayOneMatchup(transaction, matchupSnap, player);
+      const matchup: IMatchup = PlayerTransactionService.completeDayOneMatchup(transaction, matchups[0], player);
 
       PredictionTransactionService.createInitialPredictions(transaction, game.id, matchup.id, matchup.left.profile.uid, player.id);
     }
   },
-  completeDayOneMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, player: IPlayer): IMatchup => {      
-    const matchups: IMatchup[] = [];
-
-    matchupSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IMatchup>) => 
-      matchups.push(doc.data()));
-
-    const matchup: IMatchup = matchups[0];
-
+  completeDayOneMatchup: (transaction: firebase.firestore.Transaction, matchup: IMatchup, player: IPlayer): IMatchup => {    
     logger.info(`Completing matchup [${matchup.id}] for player [${player.id}] in game [${player.ref.game}].`);
 
     const matchupRef: firebase.firestore.DocumentReference = MatchupUtility.getMatchupRef(player.ref.game, matchup.id);

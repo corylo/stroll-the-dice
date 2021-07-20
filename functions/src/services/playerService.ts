@@ -48,7 +48,6 @@ export const PlayerService: IPlayerService = {
         .doc(player.ref.game)
         .collection("matchups")
         .orderBy("createdAt", "desc")
-        .limit(1)
         .withConverter(matchupConverter);
 
       await db.runTransaction(async (transaction: firebase.firestore.Transaction) => {
