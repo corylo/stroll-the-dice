@@ -76,7 +76,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
     }
   
     const getRows = (): JSX.Element => {
-      if(props.gameStatus === GameStatus.Upcoming) {
+      if(props.gameStatus === GameStatus.Upcoming || players.length < 3) {
         return getRemainingRows(_orderBy(players, (player: IPlayer) => player.createdAt, "asc"));
       } else {
         const remainingRows: JSX.Element = players.length > 3

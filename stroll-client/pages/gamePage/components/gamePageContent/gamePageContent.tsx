@@ -91,7 +91,6 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
         return (
           <React.Fragment>
             <StartingSoonMessage 
-              day={state.day} 
               limit={59} 
               startsAt={game.startsAt}                 
               status={game.status}

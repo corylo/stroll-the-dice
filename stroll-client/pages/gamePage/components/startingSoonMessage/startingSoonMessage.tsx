@@ -6,10 +6,10 @@ import { LoadingMessage } from "../../../../components/loadingMessage/loadingMes
 import { useCurrentDateEffect } from "../../../../effects/appEffects";
 
 import { FirestoreDateUtility } from "../../../../../stroll-utilities/firestoreDateUtility";
+
 import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 
 interface StartingSoonMessageProps { 
-  day: number;
   limit: number;
   startsAt: firebase.firestore.FieldValue;
   status: GameStatus;
@@ -22,11 +22,11 @@ export const StartingSoonMessage: React.FC<StartingSoonMessageProps> = (props: S
      
   if(props.status === GameStatus.Upcoming && withinLimit) {
     const getText = (): string => {
-      if(props.day === 0) {
+      if(!FirestoreDateUtility.lessThanOrEqualToNow(props.startsAt)) {
         const timeRemaining: string = FirestoreDateUtility.timestampToRelative(props.startsAt);    
         
         return `Game starting in ${timeRemaining}`;
-      } else if(props.day === 1) {
+      } else {
         return "Starting game";
       }
     }
