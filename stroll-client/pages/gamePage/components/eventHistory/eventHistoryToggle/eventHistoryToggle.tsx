@@ -13,6 +13,12 @@ interface EventHistoryToggleProps {
 export const EventHistoryToggle: React.FC<EventHistoryToggleProps> = (props: EventHistoryToggleProps) => {  
   const { state } = useContext(GamePageContext);
 
+  const handleOnClick = (): void => {
+    props.toggle({ events: true });
+
+    GameEventUtility.setLastViewedEventsAt();
+  }
+
   const getNumberOfUnviewed = (): JSX.Element => {
     const unviewed: number = GameEventUtility.getNumberOfUnviewedEvents(state.events);
 
@@ -26,7 +32,7 @@ export const EventHistoryToggle: React.FC<EventHistoryToggleProps> = (props: Eve
   }
 
   return (
-    <Button className="event-history-toggle" handleOnClick={() => props.toggle({ events: true })}>
+    <Button className="event-history-toggle" handleOnClick={handleOnClick}>
       <i className="fal fa-history" />
       <h1 className="passion-one-font">Timeline {getNumberOfUnviewed()}</h1>                   
     </Button>
