@@ -118,7 +118,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
     const handleViewEventsToggle = (): void => {
       toggle({ events: false });
 
-      GameEventUtility.setLastViewedEventsAt();
+      GameEventUtility.setLastViewedEventsAt(game.id);
     }
 
     return (

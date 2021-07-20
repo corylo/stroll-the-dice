@@ -18,13 +18,13 @@ interface IGameEventUtility {
   getColor: (type: GameEventType, playerColor: Color) => Color;
   getIcon: (type: GameEventType) => Icon;
   getLabel: (event: IGameEvent) => string;
-  getLastViewedEventsAt: () => string;
-  getLastViewedStepCount: () => string;
-  getNumberOfUnviewedEvents: (events: IGameEvent[]) => number;
+  getLastViewedEventsAt: (id: string) => string;
+  getLastViewedStepCount: (id: string) => string;
+  getNumberOfUnviewedEvents: (id: string, events: IGameEvent[]) => number;
   mapFromFirestore: (id: string, event: any) => any;
   mapToFirestore: (event: any) => any;
-  setLastViewedEventsAt: () => void;
-  setLastViewedStepCount: (steps: number) => void;
+  setLastViewedEventsAt: (id: string) => void;
+  setLastViewedStepCount: (id: string, steps: number) => void;
 }
 
 export const GameEventUtility: IGameEventUtility = {  
@@ -88,14 +88,14 @@ export const GameEventUtility: IGameEventUtility = {
         return event.type;
     }
   },
-  getLastViewedEventsAt: (): string => {
-    return localStorage.getItem("last-viewed-events-at");
+  getLastViewedEventsAt: (id: string): string => {
+    return localStorage.getItem(`last-viewed-events-at-${id}`);
   },
-  getLastViewedStepCount: (): string => {
-    return localStorage.getItem("last-viewed-step-count");
+  getLastViewedStepCount: (id: string): string => {
+    return localStorage.getItem(`last-viewed-step-count-${id}`);
   },
-  getNumberOfUnviewedEvents: (events: IGameEvent[]): number => {
-    const lastViewedAt: string = GameEventUtility.getLastViewedEventsAt();
+  getNumberOfUnviewedEvents: (id: string, events: IGameEvent[]): number => {
+    const lastViewedAt: string = GameEventUtility.getLastViewedEventsAt(id);
 
     if(lastViewedAt) {
       const unviewed: IGameEvent[] = events.filter((event: IGameEvent) => {
@@ -169,10 +169,10 @@ export const GameEventUtility: IGameEventUtility = {
 
     return to;
   },
-  setLastViewedEventsAt: (): void => {
-    localStorage.setItem("last-viewed-events-at", new Date().getTime().toString());
+  setLastViewedEventsAt: (id: string): void => {
+    localStorage.setItem(`last-viewed-events-at-${id}`, new Date().getTime().toString());
   },
-  setLastViewedStepCount: (steps: number): void => {
-    localStorage.setItem("last-viewed-step-count", steps.toString());
+  setLastViewedStepCount: (id: string, steps: number): void => {
+    localStorage.setItem(`last-viewed-step-count-${id}`, steps.toString());
   }
 }

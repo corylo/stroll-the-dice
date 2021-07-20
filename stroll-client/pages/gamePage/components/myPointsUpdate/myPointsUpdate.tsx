@@ -16,17 +16,17 @@ interface MyPointsUpdateProps {
 }
 
 export const MyPointsUpdate: React.FC<MyPointsUpdateProps> = (props: MyPointsUpdateProps) => {    
-  const { playerSteps } = useContext(GamePageContext).state;
+  const { game, playerSteps } = useContext(GamePageContext).state;
 
   const [lastViewedAt, setLastViewedAt] = useState<Date>(null);
 
   useCurrentDateEffect();
 
   useEffect(() => {   
-    const count: string = GameEventUtility.getLastViewedStepCount();
+    const count: string = GameEventUtility.getLastViewedStepCount(game.id);
 
     if(playerSteps > 0 && (count === null || parseInt(count) < playerSteps)) {
-      GameEventUtility.setLastViewedStepCount(playerSteps);      
+      GameEventUtility.setLastViewedStepCount(game.id, playerSteps);      
 
       setLastViewedAt(new Date());
     }
