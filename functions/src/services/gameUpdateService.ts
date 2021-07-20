@@ -4,6 +4,7 @@ import { logger } from "firebase-functions";
 
 import { db } from "../../firebase";
 
+import { GameEventBatchService } from "./batch/gameEventBatchService";
 import { GameEventService } from "./gameEventService";
 import { MatchupBatchService } from "./batch/matchupBatchService";
 import { MatchupService } from "./matchupService";
@@ -14,6 +15,7 @@ import { PlayingInBatchService } from "./batch/playingInBatchService";
 import { PredictionBatchService } from "./batch/predictionBatchService";
 import { StepTrackerService } from "./stepTrackerService";
 
+import { FirestoreDateUtility } from "../utilities/firestoreDateUtility";
 import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtility";
 import { GameEventUtility } from "../utilities/gameEventUtility";
 import { MatchupUtility } from "../utilities/matchupUtility";
@@ -23,6 +25,8 @@ import { IMatchup } from "../../../stroll-models/matchup";
 import { IMatchupPairGroup } from "../../../stroll-models/matchupPairGroup";
 import { IMatchupSideStepUpdate } from "../../../stroll-models/matchupSideStepUpdate";
 import { IPlayer } from "../../../stroll-models/player";
+
+import { GameEventType } from "../../../stroll-enums/gameEventType";
 
 interface IGameUpdateService {
   handleDayPassing: (gameID: string, day: number, startsAt: firebase.firestore.FieldValue, matchups: IMatchup[], updates: IMatchupSideStepUpdate[]) => Promise<void>;
@@ -56,6 +60,8 @@ export const GameUpdateService: IGameUpdateService = {
     const players: IPlayer[] = await PlayerService.getByGame(gameID);
 
     PlayerBatchService.updateGameStatus(batch, players, game.status);
+
+    GameEventBatchService.create(batch, gameID, GameEventUtility.mapGeneralEvent(FirestoreDateUtility.addMillis(game.endsAt, 3), GameEventType.Completed));
 
     await batch.commit();
   },
@@ -105,6 +111,8 @@ export const GameUpdateService: IGameUpdateService = {
       MatchupBatchService.createRemainingMatchups(batch, gameID, matchups);
   
       PredictionBatchService.createInitialPredictions(batch, gameID, matchups);
+
+      GameEventBatchService.create(batch, gameID, GameEventUtility.mapGeneralEvent(game.startsAt, GameEventType.Started));
     }
 
     PlayerBatchService.updateGameStatus(batch, players, game.status);

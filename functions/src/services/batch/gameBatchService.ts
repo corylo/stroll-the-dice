@@ -3,17 +3,12 @@ import { logger } from "firebase-functions";
 
 import { db } from "../../../firebase";
 
-import { GameEventBatchService } from "./gameEventBatchService";
-
-import { GameEventUtility } from "../../utilities/gameEventUtility";
 import { ProfileUtility } from "../../utilities/profileUtility";
 
 import { IGame } from "../../../../stroll-models/game";
 import { IProfileUpdate } from "../../../../stroll-models/profileUpdate";
 
-import { GameEventType } from "../../../../stroll-enums/gameEventType";
 import { GameStatus } from "../../../../stroll-enums/gameStatus";
-import { FirestoreDateUtility } from "../../utilities/firestoreDateUtility";
 
 interface IGameBatchService {
   handleInProgress: (inProgressGamesSnap: firebase.firestore.QuerySnapshot) => Promise<void>;
@@ -74,15 +69,11 @@ export const GameBatchService: IGameBatchService = {
   handleInProgressToCompletedLoop: async (docs: FirebaseFirestore.QueryDocumentSnapshot[]): Promise<void> => {
     const batch: firebase.firestore.WriteBatch = db.batch();
 
-    docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => {            
-      const game: IGame = doc.data();
-
+    docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => {   
       batch.update(doc.ref, {
         progressUpdateAt: firebase.firestore.FieldValue.serverTimestamp(),
         status: GameStatus.Completed
       });
-
-      GameEventBatchService.create(batch, doc.id, GameEventUtility.mapGeneralEvent(FirestoreDateUtility.addMillis(game.endsAt, 3), GameEventType.Completed));
     });
 
     await batch.commit();
@@ -107,16 +98,12 @@ export const GameBatchService: IGameBatchService = {
   handleUpcomingToInProgressLoop: async (docs: FirebaseFirestore.QueryDocumentSnapshot[]): Promise<void> => {
     const batch: firebase.firestore.WriteBatch = db.batch();
 
-    docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => {          
-      const game: IGame = doc.data();
-
+    docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => {      
       batch.update(doc.ref, {             
         locked: true, 
         progressUpdateAt: firebase.firestore.FieldValue.serverTimestamp(),
         status: GameStatus.InProgress 
       });
-
-      GameEventBatchService.create(batch, doc.id, GameEventUtility.mapGeneralEvent(game.startsAt, GameEventType.Started));
     });
 
     await batch.commit();
