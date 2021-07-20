@@ -19,6 +19,7 @@ import { ViewPlayersModal } from "../viewPlayersModal/viewPlayersModal";
 import { AppContext } from "../../../../components/app/contexts/appContext";
 import { GamePageContext } from "../../gamePage";
 
+import { FirestoreDateUtility } from "../../../../../stroll-utilities/firestoreDateUtility";
 import { GameEventUtility } from "../../../../../stroll-utilities/gameEventUtility";
 
 import { AppStatus } from "../../../../enums/appStatus";
@@ -88,6 +89,29 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
           return matchupGroups;
         }
 
+        const getContent = (): JSX.Element => {          
+          const startsAtPassed: boolean = FirestoreDateUtility.lessThanOrEqualToNow(game.startsAt);
+
+          if(
+            game.status === GameStatus.Upcoming && !startsAtPassed ||
+            game.status === GameStatus.InProgress && startsAtPassed ||
+            game.status === GameStatus.Completed
+          ) {
+            return (
+              <React.Fragment>
+                <Leaderboard 
+                  id="game-page-content-leaderboard"
+                  limit={4}
+                  players={players} 
+                  gameStatus={game.status} 
+                  toggleView={() => toggle({ players: true })}
+                />
+                {getMatchups()}
+              </React.Fragment>
+            )
+          }
+        }
+
         return (
           <React.Fragment>
             <StartingSoonMessage 
@@ -95,14 +119,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
               startsAt={game.startsAt}                 
               status={game.status}
             />
-            <Leaderboard 
-              id="game-page-content-leaderboard"
-              limit={4}
-              players={players} 
-              gameStatus={game.status} 
-              toggleView={() => toggle({ players: true })}
-            />
-            {getMatchups()}
+            {getContent()}
           </React.Fragment>
         )
       } else if (

@@ -21,8 +21,10 @@ export const StartingSoonMessage: React.FC<StartingSoonMessageProps> = (props: S
   const withinLimit: boolean = FirestoreDateUtility.timestampToRelativeOfUnit(props.startsAt, "M") <= props.limit;
      
   if(props.status === GameStatus.Upcoming && withinLimit) {
+    const startsAtPassed: boolean = FirestoreDateUtility.lessThanOrEqualToNow(props.startsAt); 
+
     const getText = (): string => {
-      if(!FirestoreDateUtility.lessThanOrEqualToNow(props.startsAt)) {
+      if(!startsAtPassed) {
         const timeRemaining: string = FirestoreDateUtility.timestampToRelative(props.startsAt);    
         
         return `Game starting in ${timeRemaining}`;
@@ -31,10 +33,12 @@ export const StartingSoonMessage: React.FC<StartingSoonMessageProps> = (props: S
       }
     }
 
+    const getAnimation = (): "spin" | "blink" => startsAtPassed ? "spin" : "blink";
+
     return (   
       <div className="starting-soon-message">
         <div className="starting-soon-message-border" />
-        <LoadingMessage animation="blink" text={getText()} />
+        <LoadingMessage animation={getAnimation()} text={getText()} />
         <div className="starting-soon-message-border" />
       </div>
     )
