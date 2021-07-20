@@ -81,13 +81,13 @@ export const useMatchupListenerEffect = (
     if(player.id && matchups.length > 0) {
       const matchup: IMatchup = MatchupUtility.getByPlayer(player.id, matchups);
 
-      if(matchup) {
+      if(matchup && matchup.day === gameState.day) {
         const steps: number = MatchupUtility.getPlayerSteps(player.id, matchup);
 
         setGameState({ ...gameState, playerSteps: steps });
       }
     }
-  }, [player.id, matchups]);
+  }, [player.id, gameState.day, matchups]);
   
   useEffect(() => {
     if(matchupsInitiated && players.length > 0) {
