@@ -33,7 +33,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
 
     const getPlayers = (): IPlayer[] => {
       if(props.gameStatus === GameStatus.Upcoming) {
-        const players: IPlayer[] = _orderBy(props.players, (player: IPlayer) => player.createdAt, "asc");
+        const players: IPlayer[] = _orderBy(props.players, (player: IPlayer) => player.createdAt, "asc").slice(0, limit);
 
         return players;
       }
@@ -64,6 +64,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
     }
 
     const getRemainingRows = (players: IPlayer[], start?: number): JSX.Element => {
+      console.log(players)
       const rows: JSX.Element[] = players.map((player: IPlayer, index: number) =>
         <LeaderboardRow key={player.id} place={index + (start || 1)} player={player} />
       );
