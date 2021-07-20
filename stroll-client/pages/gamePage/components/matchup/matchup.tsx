@@ -29,7 +29,7 @@ export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => {
   const getMyPrediction = (): JSX.Element => {
     if(myPrediction) {      
       return (
-        <MyPrediction matchup={matchup} myPrediction={myPrediction} />
+        <MyPrediction dayStatus={dayStatus} matchup={matchup} myPrediction={myPrediction} />
       )
     }
   }

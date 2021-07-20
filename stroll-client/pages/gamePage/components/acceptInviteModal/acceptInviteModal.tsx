@@ -61,10 +61,13 @@ export const AcceptInviteModal: React.FC<AcceptInviteModalProps> = (props: Accep
         <ModalBody>
           <Form status={status} statusMessage="Whoops! Looks like this game is locked.">
             <FormBody>
-              <UserLink profile={state.game.creator} />
-              <GameDateStatus game={state.game} />
-              <h1 className="game-name passion-one-font">{state.game.name}</h1>
-              <GameDetails game={state.game} />
+              <div className="accept-invite-details-border" />
+              <div className="accept-invite-details-content">
+                <UserLink profile={state.game.creator} />
+                <GameDateStatus game={state.game} />
+                <h1 className="game-name passion-one-font">{state.game.name}</h1>
+                <GameDetails game={state.game} />
+              </div>
             </FormBody>
             <FormActions>    
               <Button

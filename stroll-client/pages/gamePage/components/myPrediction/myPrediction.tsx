@@ -9,15 +9,17 @@ import { IMatchup } from "../../../../../stroll-models/matchup";
 import { IPrediction } from "../../../../../stroll-models/prediction";
 import { IProfileReference } from "../../../../../stroll-models/profileReference";
 
+import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 import { InitialValue } from "../../../../../stroll-enums/initialValue";
 
 interface MyPredictionProps {  
+  dayStatus: GameStatus;
   matchup: IMatchup;
   myPrediction: IPrediction;
 }
 
 export const MyPrediction: React.FC<MyPredictionProps> = (props: MyPredictionProps) => {   
-  const { matchup, myPrediction } = props;
+  const { dayStatus, matchup, myPrediction } = props;
 
   const profile: IProfileReference = myPrediction.ref.player === matchup.left.profile.uid
     ? matchup.left.profile
@@ -31,8 +33,12 @@ export const MyPrediction: React.FC<MyPredictionProps> = (props: MyPredictionPro
     const initialPrediction: boolean = myPrediction.ref.creator === myPrediction.ref.player && myPrediction.amount === InitialValue.InitialPredictionPoints;
 
     if(initialPrediction) {
+      const addSomeOfYourOwnClause: JSX.Element = dayStatus === GameStatus.Upcoming 
+        ? <span>Add some of your own <PointStatement amount="points" /> if you're feeling confident!</span>
+        : null;
+
       return (        
-        <h1 className="my-prediction passion-one-font">The game predicted {playerStatement} with {pointStatement} on your behalf. Add some of your own <PointStatement /> if you're feeling confident!</h1>        
+        <h1 className="my-prediction passion-one-font">The game predicted {playerStatement} with {pointStatement} on your behalf. {addSomeOfYourOwnClause}</h1>        
       )
     }
 
