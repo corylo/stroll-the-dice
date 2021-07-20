@@ -127,7 +127,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
         const getConfetti = (): JSX.Element => {
           if(props.gameStatus === GameStatus.Completed) {
             return (
-              <Confetti id={props.id} />
+              <Confetti id={`${props.id}-confetti`} />
             );
           }
         }

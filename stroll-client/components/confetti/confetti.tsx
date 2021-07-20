@@ -22,7 +22,7 @@ export const Confetti: React.FC<ConfettiProps> = (props: ConfettiProps) => {
             animationDelay: `${NumberUtility.random(0, 30) / 10}s`,
             height: `${NumberUtility.random(3, 4)}px`,
             left: `${NumberUtility.random(0, 100)}%`,
-            top: `${NumberUtility.random(40, 50)}%`,
+            top: `${NumberUtility.random(20, 40)}%`,
             width: `${NumberUtility.random(6, 8)}px`            
           }
         }
