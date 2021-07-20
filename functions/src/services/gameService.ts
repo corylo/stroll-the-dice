@@ -10,6 +10,7 @@ import { GameEventUtility } from "../utilities/gameEventUtility";
 
 import { IGame } from "../../../stroll-models/game";
 
+import { FirebaseDocumentID } from "../../../stroll-enums/firebaseDocumentID";
 import { GameEventType } from "../../../stroll-enums/gameEventType";
 
 interface IGameService {
@@ -41,24 +42,26 @@ export const GameService: IGameService = {
     const before: IGame = change.before.data(),
       after: IGame = change.after.data();
   
-    try {
-      if(GameUtility.hasReferenceFieldChanged(before, after)) {
-        await GameUpdateService.handleReferenceFieldChange(context.params.id, after);
-      }
+    if(before.id !== FirebaseDocumentID.WarmUp) {
+      try {
+        if(GameUtility.hasReferenceFieldChanged(before, after)) {
+          await GameUpdateService.handleReferenceFieldChange(context.params.id, after);
+        }
 
-      if(GameUtility.hasUpdateEventOccurred(before, after)) {      
-        await GameUpdateService.handleUpdateEvent(context.params.id, before, after);
+        if(GameUtility.hasUpdateEventOccurred(before, after)) {      
+          await GameUpdateService.handleUpdateEvent(context.params.id, before, after);
+        }
+        
+        if (GameUtility.upcomingToInProgress(before, after)) {
+          await GameUpdateService.handleUpcomingToInProgress(context.params.id, after);
+        }  else if (GameUtility.inProgressToCompleted(before, after)) {        
+          await GameUpdateService.handleInProgressToCompleted(context.params.id, after);
+        } else if (GameUtility.stillInProgress(before, after)) {
+          await GameUpdateService.handleStillInProgress(context.params.id, after);
+        }
+      } catch (err) {
+        logger.error(err);
       }
-      
-      if (GameUtility.upcomingToInProgress(before, after)) {
-        await GameUpdateService.handleUpcomingToInProgress(context.params.id, after);
-      }  else if (GameUtility.inProgressToCompleted(before, after)) {        
-        await GameUpdateService.handleInProgressToCompleted(context.params.id, after);
-      } else if (GameUtility.stillInProgress(before, after)) {
-        await GameUpdateService.handleStillInProgress(context.params.id, after);
-      }
-    } catch (err) {
-      logger.error(err);
     }
   },
 }

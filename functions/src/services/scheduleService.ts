@@ -5,8 +5,9 @@ import { db } from "../../firebase";
 
 import { GameBatchService } from "./batch/gameBatchService";
 
-import { gameConverter } from "../../../stroll-models/game";
+import { gameConverter, IGame } from "../../../stroll-models/game";
 
+import { FirebaseDocumentID } from "../../../stroll-enums/firebaseDocumentID";
 import { GameStatus } from "../../../stroll-enums/gameStatus";
 
 interface IScheduleService {  
@@ -39,32 +40,42 @@ export const ScheduleService: IScheduleService = {
     }
   },
   scheduledGameUpdate: async (context: EventContext): Promise<void> => {
-    try {  
-      const upcomingGamesSnap: firebase.firestore.QuerySnapshot = await db.collection("games")
-        .where("startsAt", "<=", firebase.firestore.Timestamp.now())
-        .where("status", "==", GameStatus.Upcoming)
-        .withConverter(gameConverter)
-        .get();
+    const date: Date = new Date(context.timestamp),
+      isWarmupRun: boolean = date.getMinutes() !== 0;
 
-      const inProgressGamesSnap: firebase.firestore.QuerySnapshot = await db.collection("games")     
-        .where("endsAt", ">", firebase.firestore.Timestamp.now())  
-        .where("status", "==", GameStatus.InProgress)
-        .withConverter(gameConverter)
-        .get();
+    if(isWarmupRun) {
+      try {  
+        const upcomingGamesSnap: firebase.firestore.QuerySnapshot = await db.collection("games")
+          .where("startsAt", "<=", firebase.firestore.Timestamp.now())
+          .where("status", "==", GameStatus.Upcoming)
+          .withConverter(gameConverter)
+          .get();
 
-      const completedGamesSnap: firebase.firestore.QuerySnapshot = await db.collection("games")     
-        .where("endsAt", "<=", firebase.firestore.Timestamp.now())  
-        .where("status", "==", GameStatus.InProgress)
-        .withConverter(gameConverter)
-        .get();
+        const inProgressGamesSnap: firebase.firestore.QuerySnapshot = await db.collection("games")     
+          .where("endsAt", ">", firebase.firestore.Timestamp.now())  
+          .where("status", "==", GameStatus.InProgress)
+          .withConverter(gameConverter)
+          .get();
 
-      await Promise.all([
-        ScheduleService.handleUpcomingToInProgress(upcomingGamesSnap),
-        ScheduleService.handleInProgress(inProgressGamesSnap),
-        ScheduleService.handleInProgressToCompleted(completedGamesSnap)
-      ]);
-    } catch (err) {
-      logger.error(err);
+        const completedGamesSnap: firebase.firestore.QuerySnapshot = await db.collection("games")     
+          .where("endsAt", "<=", firebase.firestore.Timestamp.now())  
+          .where("status", "==", GameStatus.InProgress)
+          .withConverter(gameConverter)
+          .get();
+
+        await Promise.all([
+          ScheduleService.handleUpcomingToInProgress(upcomingGamesSnap),
+          ScheduleService.handleInProgress(inProgressGamesSnap),
+          ScheduleService.handleInProgressToCompleted(completedGamesSnap)
+        ]);
+      } catch (err) {
+        logger.error(err);
+      }
+    } else {   
+      await db.collection("games")
+        .doc(FirebaseDocumentID.WarmUp)
+        .withConverter<IGame>(gameConverter)
+        .update({ updatedAt: firebase.firestore.Timestamp.now() });
     }
   }
 }

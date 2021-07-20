@@ -40,7 +40,7 @@ exports.onPredictionUpdate = firestore
   .onUpdate(PredictionService.onUpdate);
 
 exports.scheduledGameUpdate = pubsub
-  .schedule("0 0-23 * * *")
+  .schedule("0,56,57,58,59 0-23 * * *")
   .onRun(ScheduleService.scheduledGameUpdate);
 
 /* -- Https Callable -- */
