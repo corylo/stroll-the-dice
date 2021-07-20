@@ -60,11 +60,34 @@
 
         .player-day-completed-summary-table-row-label {
           color: gray(230);
+          line-height: 17px;
         }
 
         .player-day-completed-summary-table-row-value {
+          white-space: nowrap;
+
           h1 {
             color: gray(230);
+          }
+        }
+      }
+    }
+  }
+}
+
+@include small-phone-or-smaller {
+  .game-event-description {
+    .player-day-completed-summary-table {    
+      .player-day-completed-summary-table-row {
+        .player-day-completed-summary-table-row-label {
+          font-size: 0.9em;
+        }
+
+        .player-day-completed-summary-table-row-value {
+          white-space: nowrap;
+          
+          h1 {
+            font-size: 0.9em;
           }
         }
       }
