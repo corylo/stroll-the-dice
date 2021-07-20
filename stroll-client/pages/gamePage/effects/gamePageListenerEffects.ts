@@ -207,7 +207,7 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
 
       return () => unsubToGame();
     }
-  }, [id, appState.status]);
+  }, [id, appState.status, state.player.id]);
 
   useEffect(() => {    
     if(appState.status === AppStatus.SignedIn && state.game.id !== "") {
@@ -281,7 +281,7 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
   useEffect(() => {
     if(state.toggles.events && eventsLimit !== 20) {
       setEventsLimit(20);
-    } else if (!state.toggles.events) {
+    } else if (!state.toggles.events) {      
       setState({ ...state, filters: { 
         ...state.filters, 
         eventCategory: GameEventCategory.Game 
@@ -295,7 +295,7 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
     if(state.statuses.events === RequestStatus.Success) {
       updates.statuses.events = RequestStatus.Loading;
     }
-
+    
     setState(updates);
   }, [state.filters.eventCategory]);
 }
