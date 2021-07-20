@@ -21,6 +21,7 @@
     border-radius: 4px;
     flex-grow: 1;
     margin-top: 10px;
+    position: relative;
 
     .leaderboard-title {
       color: gray(230);
@@ -31,14 +32,14 @@
     .leaderboard-congratulations {
       color: gray(230);      
       margin-top: 5px;
-      font-size: 1.5em;
+      font-size: 1.25em;
       text-align: center;
 
       .player-statement {
         display: inline-block;
 
         i, span {
-          line-height: 26px;
+          line-height: 22px;
         }
       }
     }

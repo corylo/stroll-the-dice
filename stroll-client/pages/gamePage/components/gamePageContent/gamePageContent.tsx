@@ -97,6 +97,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
               status={game.status}
             />
             <Leaderboard 
+              id="game-page-content-leaderboard"
               limit={4}
               players={players} 
               gameStatus={game.status} 

@@ -2,9 +2,11 @@ import React, { useContext } from "react";
 import _orderBy from "lodash.orderby";
 
 import { Button } from "../buttons/button";
+import { Confetti } from "../confetti/confetti";
 import { LeaderboardRow } from "./leaderboardRow/leaderboardRow";
 import { LeaderboardTopRow } from "./leaderboardTopRow/leaderboardTopRow";
 import { LoadingMessage } from "../loadingMessage/loadingMessage";
+import { PlayerStatement } from "../playerStatement/playerStatement";
 
 import { GamePageContext } from "../../pages/gamePage/gamePage";
 
@@ -12,9 +14,9 @@ import { IPlayer } from "../../../stroll-models/player";
 
 import { GameStatus } from "../../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../../stroll-enums/requestStatus";
-import { PlayerStatement } from "../playerStatement/playerStatement";
 
 interface LeaderboardProps {  
+  id: string;
   limit?: number;
   players: IPlayer[];
   gameStatus: GameStatus;
@@ -117,7 +119,15 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
         const getCongratulations = (): JSX.Element => {
           if(props.gameStatus === GameStatus.Completed) {
             return (
-              <h1 className="leaderboard-congratulations passion-one-font">Congratulations to <PlayerStatement profile={players[0].profile} />!</h1>
+              <h1 className="leaderboard-congratulations passion-one-font">Congratulations <PlayerStatement profile={players[0].profile} />!</h1>
+            );
+          }
+        }
+        
+        const getConfetti = (): JSX.Element => {
+          if(props.gameStatus === GameStatus.Completed) {
+            return (
+              <Confetti id={props.id} />
             );
           }
         }
@@ -126,10 +136,11 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
           <React.Fragment>
             <h1 className="leaderboard-title passion-one-font">{getTitle()}</h1>
             {getCongratulations()}
+            {getConfetti()}
             <div className="leaderboard-rows">
               {getRows()}
             </div>
-            {getViewButton()}
+            {getViewButton()}            
           </React.Fragment>
         );
       }

@@ -1,0 +1,48 @@
+import React, { useRef } from "react";
+import classNames from "classnames";
+
+import { NumberUtility } from "../../../stroll-utilities/numberUtility";
+
+interface ConfettiProps {  
+  id: string;
+}
+
+export const Confetti: React.FC<ConfettiProps> = (props: ConfettiProps) => {  
+  const ref: React.MutableRefObject<HTMLDivElement> = useRef(null);
+
+  const getConfettiParticles = (): JSX.Element[] => {
+    if(ref.current) {
+      const count: number = (ref.current.clientWidth / 50) * 10;
+
+      let particles: JSX.Element[] = [];
+
+      for(let i: number = 0; i <= count; i++) {
+        const getStyles = (): React.CSSProperties => {          
+          return {
+            animationDelay: `${NumberUtility.random(0, 30) / 10}s`,
+            height: `${NumberUtility.random(3, 4)}px`,
+            left: `${NumberUtility.random(0, 100)}%`,
+            top: `${NumberUtility.random(40, 50)}%`,
+            width: `${NumberUtility.random(6, 8)}px`            
+          }
+        }
+
+        particles.push(
+          <span 
+            key={i}
+            className={classNames("confetti-particle", `confetti-particle-${NumberUtility.random(1, 4)}`)}
+            style={getStyles()}
+          />
+        );
+      }
+
+      return particles;
+    }
+  }
+
+  return (
+    <div id={props.id} ref={ref} className="confetti-effect">
+      {getConfettiParticles()}
+    </div>
+  );
+}

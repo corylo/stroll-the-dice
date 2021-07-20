@@ -1,0 +1,32 @@
+.confetti-effect {
+  height: 100%;
+  left: 0px;
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  z-index: 10;
+
+  .confetti-particle {
+    animation: confetti 3s ease-in infinite;
+    opacity: 0;
+    position: absolute;    
+
+    &.confetti-particle-1 {
+      background-color:rgba($red, 0.5);
+    }
+    
+    &.confetti-particle-2 {
+      background-color:rgba($violet, 0.5);
+    }
+
+    &.confetti-particle-3 {
+      background-color:rgba($green, 0.5);
+    }
+    
+    &.confetti-particle-4 {
+      background-color:rgba($blue, 0.5);
+    }
+  }
+}
