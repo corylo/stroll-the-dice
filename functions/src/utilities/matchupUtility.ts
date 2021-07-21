@@ -220,10 +220,14 @@ export const MatchupUtility: IMatchupUtility = {
 
     let matchups: IMatchup[] = [];
 
-    const total: IMatchupSideTotal = {
-      participants: 1,
-      wagered: InitialValue.InitialPredictionPoints
-    };
+    const getTotal = (leftProfile: IProfileReference, rightProfile: IProfileReference): IMatchupSideTotal => {
+      if(leftProfile.uid !== "" && rightProfile.uid !== "") {
+        return {
+          participants: 1,
+          wagered: InitialValue.InitialPredictionPoints
+        };
+      }
+    }
     
     groups.forEach((group: IMatchupPairGroup) => {
       group.pairs.forEach((pair: IMatchupPair) => {
@@ -233,7 +237,7 @@ export const MatchupUtility: IMatchupUtility = {
           rightProfile: IProfileReference = right ? right.profile : defaultProfileReference();
 
 
-        matchups.push(MatchupUtility.mapCreate(leftProfile, rightProfile, group.day, total));
+        matchups.push(MatchupUtility.mapCreate(leftProfile, rightProfile, group.day, getTotal(leftProfile, rightProfile)));
       });
     });
 
