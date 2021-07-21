@@ -29,10 +29,12 @@ export const MatchupUtility: IMatchupUtility = {
   getLeader: (matchup: IMatchup): string => {
     let leader: string = MatchupLeader.Tie;
 
-    if(matchup.left.steps > matchup.right.steps) {
-      leader = matchup.left.profile.uid;
-    } else if (matchup.left.steps < matchup.right.steps) {
-      leader = matchup.right.profile.uid;
+    if(matchup.left.profile.uid !== "" && matchup.right.profile.uid !== "") {
+      if(matchup.left.steps > matchup.right.steps) {
+        leader = matchup.left.profile.uid;
+      } else if (matchup.left.steps < matchup.right.steps) {
+        leader = matchup.right.profile.uid;
+      }
     }
 
     return leader;
