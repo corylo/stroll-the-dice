@@ -38,7 +38,7 @@ export const HowToPlayPage: React.FC<HowToPlayPageProps> = (props: HowToPlayPage
       <PageTitle text="Huh?" />
       <div className="how-to-play-page-sections">
         <HowToPlaySection title="What is this?">
-          <HowToPlaySectionText text="Stroll The Dice is the combination of a stepping (walking / running) and a prediction game rolled into one." />
+          <HowToPlaySectionText text="Stroll The Dice is the combination of a stepping (walking / running) competition and a prediction game rolled into one." />
         </HowToPlaySection>
         <HowToPlaySection title="What is the goal of the game?">
           <HowToPlaySectionText text="Ultimately, your goal as a player is to have the most points at the end of the game." />
@@ -98,7 +98,7 @@ export const HowToPlayPage: React.FC<HowToPlayPageProps> = (props: HowToPlayPage
         <HowToPlaySection title="Good luck!">
           <HowToPlaySectionText text="Should you use your steps and predictive abilities wisely, you may just end up with enough points to win!" />                  
         </HowToPlaySection>
-        <HowToPlaySection title="Thanks for playing and I hope you have fun!" />
+        <HowToPlaySection title="Now it's time to get strolling!" />
       </div>
     </Page>
   )
