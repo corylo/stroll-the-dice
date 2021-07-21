@@ -13,6 +13,7 @@ interface IStepTrackerUtility {
   getAccessTokenRequestHeaders: () => any;
   getOAuthUrl: (tracker: StepTracker) => string;
   getRefreshTokenRequestData: (refreshToken: string) => string;
+  getOAuthRevokeUrl: (tracker: StepTracker) => string;
   getStepDataRequestBody: (tracker: StepTracker, startsAt: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean) => any;
   getStepDataRequestHeaders: (accessToken: string) => any;
   getStepDataRequestUrl: (tracker: StepTracker) => string;
@@ -40,6 +41,14 @@ export const StepTrackerUtility: IStepTrackerUtility = {
   },
   getRefreshTokenRequestData: (refreshToken: string): string => {
     return `client_id=${GoogleFitConfig.ClientID}&client_secret=${GoogleFitConfig.ClientSecret}&grant_type=refresh_token&refresh_token=${refreshToken}`;
+  },
+  getOAuthRevokeUrl: (tracker: StepTracker): string => {
+    switch(tracker) {
+      case StepTracker.GoogleFit:
+        return "https://oauth2.googleapis.com/revoke?token=";
+      default:
+        throw new Error(`Unknown step tracker: ${tracker}`);
+    }
   },
   getStepDataRequestBody: (tracker: StepTracker, startsAt: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean): any => {
     switch(tracker) {

@@ -46,6 +46,8 @@ export const useConnectStepTrackerEffect = (
         state.authorizationCode !== "" &&
         state.tracker.name !== StepTracker.Unknown
       ) {
+        history.replace("/profile");
+
         dispatch(AppAction.InitiateStepTrackerConnection, state.tracker.name);
 
         try {  
@@ -63,8 +65,6 @@ export const useConnectStepTrackerEffect = (
 
           dispatch(AppAction.FailedStepTrackerConnection);
         }
-
-        history.replace("/profile");
       }
     }
 

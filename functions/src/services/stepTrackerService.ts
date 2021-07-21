@@ -19,6 +19,7 @@ import { StepTracker } from "../../../stroll-enums/stepTracker";
 
 interface IStepTrackerService {
   connectStepTracker: (request: IConnectStepTrackerRequest, context: https.CallableContext) => Promise<void>;
+  disconnectStepTracker: (data: any, context: https.CallableContext) => Promise<void>;
   get: (uid: string) => Promise<IStepTracker>;
   getAccessTokenFromRefreshToken: (tracker: StepTracker, refreshToken: string) => Promise<string>;
   getStepCountUpdate: (game: IGame, playerID: string, steps: number) => Promise<IMatchupSideStepUpdate>;
@@ -27,8 +28,13 @@ interface IStepTrackerService {
 
 export const StepTrackerService: IStepTrackerService = {
   connectStepTracker: async (request: IConnectStepTrackerRequest, context: https.CallableContext): Promise<void> => {
-    if(context.auth.uid === request.uid && request.authorizationCode.trim() !== "") {
-      logger.info(`Adding step tracker [${request.tracker.name}] for user [${request.uid}]`);
+    if(
+      context.auth !== null && 
+      context.auth.uid === request.uid && 
+      request.authorizationCode && 
+      request.authorizationCode.trim() !== ""
+    ) {
+      logger.info(`Connecting step tracker [${request.tracker.name}] for user [${request.uid}]`);
 
       try {
         const res: any = await axios.post(
@@ -42,23 +48,78 @@ export const StepTrackerService: IStepTrackerService = {
           refreshToken: res.data.refresh_token
         }
 
-        await db.collection("profiles")
+        const batch: firebase.firestore.WriteBatch = db.batch();
+
+        const trackerRef: firebase.firestore.DocumentReference = db.collection("profiles")
           .doc(request.uid)
           .collection("trackers")
           .doc(request.tracker.name)
-          .withConverter(stepTrackerConverter)
-          .set(tracker);
+          .withConverter(stepTrackerConverter);
 
-        await db.collection("profiles")
+        batch.set(trackerRef, tracker);
+
+        const profileRef: firebase.firestore.DocumentReference = db.collection("profiles")
           .doc(request.uid)
-          .withConverter(profileConverter)
-          .update({ tracker: tracker.name });
+          .withConverter(profileConverter);
+
+        batch.update(profileRef, { tracker: tracker.name });
+
+        await batch.commit();
       } catch (err) {
         logger.error(err);
     
         throw new https.HttpsError(
           "internal",
           "Connecting of step tracker failed due to an internal error."
+        );
+      }
+    } else {
+      throw new https.HttpsError(
+        "permission-denied",
+        "User does not have permission to perform this action."
+      );
+    }
+  },
+  disconnectStepTracker: async (data: any, context: https.CallableContext): Promise<void> => {
+    if(context.auth !== null) {
+      const userID: string = context.auth.uid;
+
+      logger.info(`Disconnecting step tracker for user [${userID}]`);
+      
+      try {
+        const tracker: IStepTracker = await StepTrackerService.get(userID);
+
+        if(tracker) {
+          await axios.post(
+            `${StepTrackerUtility.getOAuthRevokeUrl(tracker.name)}${tracker.refreshToken}`,
+            {},
+            StepTrackerUtility.getAccessTokenRequestHeaders()
+          );
+
+          const batch: firebase.firestore.WriteBatch = db.batch();
+
+          const profileRef: firebase.firestore.DocumentReference = db.collection("profiles")
+            .doc(userID);
+
+          batch.update(profileRef, { tracker: "" });
+
+          const trackerRef: firebase.firestore.DocumentReference = db.collection("profiles")
+            .doc(userID)
+            .collection("trackers")
+            .doc(tracker.name);
+
+          batch.delete(trackerRef);
+            
+          await batch.commit();
+        } else {
+          throw new Error(`Tracker for user [${context.auth.uid}] does not exist`);
+        }
+      } catch (err) {
+        logger.error(err);
+    
+        throw new https.HttpsError(
+          "internal",
+          "Disconnecting of step tracker failed due to an internal error."
         );
       }
     } else {

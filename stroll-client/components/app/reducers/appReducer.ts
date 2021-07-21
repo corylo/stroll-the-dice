@@ -4,6 +4,7 @@ import { IAppState } from "../models/appState";
 import { AppAction } from "../../../enums/appAction";
 import { AppStatus } from "../../../enums/appStatus";
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
+import { StepTracker } from "../../../../stroll-enums/stepTracker";
 
 export const appReducer = (state: IAppState, action: IAction): IAppState => {  
   switch (action.type) {    
@@ -15,6 +16,24 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
           tracker: {
             ...state.statuses.tracker,
             is: RequestStatus.Success
+          }
+        }
+      }   
+    case AppAction.CompleteStepTrackerDisconnection:
+      return {
+        ...state,              
+        statuses: {
+          ...state.statuses,
+          tracker: {
+            ...state.statuses.tracker,
+            is: RequestStatus.Idle
+          }
+        },
+        user: {
+          ...state.user,
+          profile: {
+            ...state.user.profile,
+            tracker: StepTracker.Unknown
           }
         }
       } 
@@ -57,6 +76,17 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
           profile: {
             ...state.user.profile,
             tracker: action.payload
+          }
+        }
+      }
+    case AppAction.InitiateStepTrackerDisconnection:
+      return {
+        ...state,              
+        statuses: {
+          ...state.statuses,
+          tracker: {
+            ...state.statuses.tracker,
+            is: RequestStatus.Loading
           }
         }
       }

@@ -4,6 +4,7 @@ import { IStepTracker } from "../../stroll-models/stepTracker";
 
 interface IStepTrackerService {
   connect: (authorizationCode: string, uid: string, tracker: IStepTracker) => Promise<void>;
+  disconnect: () => Promise<void>;
 }
 
 export const StepTrackerService: IStepTrackerService = {
@@ -15,6 +16,13 @@ export const StepTrackerService: IStepTrackerService = {
         tracker,
         origin: window.location.origin
       });
+    } catch (err) {
+      console.error(err);
+    }
+  },
+  disconnect: async (): Promise<void> => {
+    try {
+      await functions.httpsCallable("disconnectStepTracker")();
     } catch (err) {
       console.error(err);
     }
