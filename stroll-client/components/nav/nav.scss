@@ -148,3 +148,21 @@
     }
   }
 }
+
+@include small-phone-or-smaller {
+  #nav-menu-wrapper {
+    #nav-menu {  
+      .nav-menu-content {
+        .nav-menu-button-wrapper {
+          &.center {
+            .nav-menu-button {
+              height: 50px;
+              top: -15px;
+              width: 50px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
