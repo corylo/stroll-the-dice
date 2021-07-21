@@ -38,7 +38,7 @@
         height: 50px;
       }
 
-      h1 {
+      > h1 {
         color: gray(230);
         font-size: 1.5em;
         height: 20px;
@@ -85,26 +85,32 @@
         }
       }
 
-      .disconnect-step-tracker-button {   
-        background-color: transparent;     
-        margin: 10px;
+      .step-tracker-disconnection-buttons {
         position: absolute;
         right: 0px;
 
-        &:hover,
-        &:focus {
-          background-color: rgba(white, 0.1);
-          
-          i {
-            color: $themeMain;
-          }
-        }
+        .disconnect-step-tracker-button,
+        .cancel-disconnect-step-tracker-button,
+        .confirm-disconnect-step-tracker-button {  
+          background-color: rgba(white, 0.05);
+          margin: 10px;
+          margin-left: 0px;
 
-        i {
-          font-size: 1.5em;
-          height: 40px;
-          line-height: 40px;
-          width: 40px;
+          &:hover,
+          &:focus {
+            background-color: rgba(white, 0.1);
+            
+            i {
+              color: $themeMain;
+            }
+          }
+
+          i {
+            font-size: 1.5em;
+            height: 40px;
+            line-height: 40px;
+            width: 40px;
+          }
         }
       }
     }
@@ -140,6 +146,17 @@
         h1 {
           span {
             font-size: 0.9em;
+          }
+        }
+
+        .step-tracker-disconnection-buttons {
+          .button {
+            i {
+              font-size: 1em;
+              height: 30px;
+              line-height: 30px;
+              width: 30px;
+            }
           }
         }
       }

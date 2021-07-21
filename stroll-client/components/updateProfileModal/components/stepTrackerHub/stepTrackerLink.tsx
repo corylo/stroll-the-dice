@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import { Button } from "../../../buttons/button";
 import { IconButton } from "../../../buttons/iconButton";
@@ -12,6 +12,7 @@ import { StepTrackerUtility } from "../../../../utilities/stepTrackerUtility";
 import { AppAction } from "../../../../enums/appAction";
 import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
 import { StepTracker } from "../../../../../stroll-enums/stepTracker";
+import { TooltipSide } from "../../../tooltip/tooltip";
 
 interface StepTrackerLinkProps {    
   img: string;
@@ -24,6 +25,8 @@ export const StepTrackerLink: React.FC<StepTrackerLinkProps> = (props: StepTrack
   const { dispatchToApp } = useContext(AppContext);
 
   const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
+
+  const [confirm, setConfirm] = useState<boolean>(false);
 
   if(props.status === RequestStatus.Idle) {    
     return (
@@ -45,6 +48,8 @@ export const StepTrackerLink: React.FC<StepTrackerLinkProps> = (props: StepTrack
     } else if (props.status === RequestStatus.Success) {
       const handleDisconnect = async (): Promise<void> => {
         try {
+          setConfirm(false);
+
           dispatch(AppAction.InitiateStepTrackerDisconnection);
 
           await StepTrackerService.disconnect();
@@ -55,10 +60,45 @@ export const StepTrackerLink: React.FC<StepTrackerLinkProps> = (props: StepTrack
         }
       }
 
+      const getButtons = (): JSX.Element => {
+        if(confirm) {
+          return (
+            <div className="step-tracker-disconnection-buttons">
+              <IconButton 
+                className="confirm-disconnect-step-tracker-button" 
+                icon="fal fa-check" 
+                tooltip="Confirm"
+                tooltipSide={TooltipSide.Left}
+                handleOnClick={handleDisconnect} 
+              />
+              <IconButton 
+                className="cancel-disconnect-step-tracker-button" 
+                icon="fal fa-times" 
+                tooltip="Cancel"
+                tooltipSide={TooltipSide.Left}
+                handleOnClick={() => setConfirm(false)} 
+              />
+            </div>
+          )
+        }
+
+        return (
+          <div className="step-tracker-disconnection-buttons">
+            <IconButton 
+              className="disconnect-step-tracker-button" 
+              icon="fal fa-times"               
+              tooltip="Disconnect"
+              tooltipSide={TooltipSide.Left}
+              handleOnClick={() => setConfirm(true)} 
+            />
+          </div>
+        )
+      }
+
       return (
         <React.Fragment>
           <h1 className="passion-one-font">{props.tracker}<span className="highlight-main">Connected</span></h1>
-          <IconButton className="disconnect-step-tracker-button" icon="fal fa-times" handleOnClick={handleDisconnect} />
+          {getButtons()}
         </React.Fragment>
       )
     }
