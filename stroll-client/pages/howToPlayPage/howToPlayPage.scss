@@ -1,0 +1,23 @@
+@import "./components/howToPlaySection/howToPlaySection.scss";
+
+#how-to-play-page {
+  .game-matchup {
+    border: 1px solid rgba(white, 0.25);
+    border-radius: 10px;
+    margin-top: 40px;
+  }
+
+  .example-matchup-side-stat {
+    border: 1px solid rgba(white, 0.25);
+    border-radius: 6px;
+    display: inline-block;
+    font-size: 1.25em;
+    padding: 10px 20px;
+
+    .icon-statement {
+      span {
+        font-size: 1.25em;
+      }
+    }
+  }
+}

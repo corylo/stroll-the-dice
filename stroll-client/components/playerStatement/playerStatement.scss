@@ -1,14 +1,15 @@
 .player-statement {
+  align-items: center;
+  display: inline-flex;
+  margin-left: 2px;
+  vertical-align: top;
   white-space: nowrap;
   
-  i, span {
-    height: 17px;
-    line-height: 17px;
-    vertical-align: top;
-  }
-
   i {
     font-size: 0.8em;
-    margin-left: 2px;
+  }
+
+  span {
+    margin-left: 4px;
   }
 }

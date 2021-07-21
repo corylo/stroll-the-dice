@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 
 import { MatchupSide, MatchupSideAlignment } from "../matchupSide/matchupSide";
+import { MyPrediction } from "../myPrediction/myPrediction";
 
 import { GamePageContext } from "../../gamePage";
 
@@ -11,7 +12,6 @@ import { IMatchup } from "../../../../../stroll-models/matchup";
 import { IPrediction } from "../../../../../stroll-models/prediction";
 
 import { GameStatus } from "../../../../../stroll-enums/gameStatus";
-import { MyPrediction } from "../myPrediction/myPrediction";
 
 interface MatchupProps {  
   dayStatus: GameStatus;

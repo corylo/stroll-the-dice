@@ -4,6 +4,7 @@ import { Route, Switch, useLocation } from "react-router";
 import { CreateGamePage } from "../../pages/createGamePage/createGamePage";
 import { GamePage } from "../../pages/gamePage/gamePage";
 import { HomePage } from "../../pages/homePage/homePage";
+import { HowToPlayPage } from "../../pages/howToPlayPage/howToPlayPage";
 import { MyGamesPage } from "../../pages/myGamesPage/myGamesPage";
 import { NotificationsPage } from "../../pages/notificationsPage/notificationsPage";
 import { ProfilePage } from "../../pages/profilePage/profilePage";
@@ -68,6 +69,9 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
           </Route>
           <Route exact path="/notifications">
             <NotificationsPage />
+          </Route>
+          <Route exact path="/huh">
+            <HowToPlayPage />
           </Route>
         </Switch>
       </div>

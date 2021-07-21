@@ -1,14 +1,16 @@
 .point-statement {
+  align-items: center;
+  display: inline-flex;
+  margin-left: 2px;
+  vertical-align: top;
   white-space: nowrap;
   
-  i, span {
-    height: 17px;
-    line-height: 17px;
-    vertical-align: top;
-  }
-
   i {
     color: $themeMain;
     font-size: 0.6em;
+  }
+
+  span {
+    margin-left: 4px;
   }
 }

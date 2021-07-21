@@ -23,8 +23,9 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
     if(appState.status === AppStatus.SignedIn) {
       return (
         <React.Fragment>
-          <GameGroup limit={2} status={GameStatus.InProgress} />
-          <GameGroup limit={2} status={GameStatus.Upcoming} />
+          <GameGroup limit={10} status={GameStatus.InProgress} />
+          <GameGroup limit={10} status={GameStatus.Upcoming} />
+          <GameGroup limit={10} status={GameStatus.Completed} />
         </React.Fragment>
       )
     } else {
