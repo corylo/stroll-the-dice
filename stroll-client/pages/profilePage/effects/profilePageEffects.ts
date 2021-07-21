@@ -63,11 +63,30 @@ export const useConnectStepTrackerEffect = (
 
           dispatch(AppAction.FailedStepTrackerConnection);
         }
-      }
 
-      history.replace("/profile");
+        history.replace("/profile");
+      }
     }
 
     load();
   }, [appState.status, state]);
+}
+
+export const useToggleUpdateProfileEffect = (
+  appState: IAppState, 
+  dispatch: (type: AppAction, payload?: any) => void
+): void => {  
+  const history: any = useHistory();
+
+  useEffect(() => {
+    if(appState.status === AppStatus.SignedIn) {
+      const update: string = UrlUtility.getQueryParam("update");
+
+      if(update) {
+        dispatch(AppAction.ToggleUpdateProfile, true);
+
+        history.replace("/profile");
+      }
+    }
+  }, [appState.status]);
 }

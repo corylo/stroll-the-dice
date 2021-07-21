@@ -5,7 +5,7 @@ import { ProfileHeader } from "../../components/profileHeader/profileHeader";
 
 import { AppContext } from "../../components/app/contexts/appContext";
 
-import { useConnectStepTrackerEffect } from "./effects/profilePageEffects";
+import { useConnectStepTrackerEffect, useToggleUpdateProfileEffect } from "./effects/profilePageEffects";
 
 import { ImageUtility } from "../../utilities/imageUtility";
 
@@ -25,6 +25,8 @@ export const ProfilePage: React.FC<ProfilePageProps> = (props: ProfilePageProps)
   const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
 
   useConnectStepTrackerEffect(appState, dispatch);
+
+  useToggleUpdateProfileEffect(appState, dispatch);
 
   const getContent = (): JSX.Element => {
     if(status === AppStatus.SignedIn) {

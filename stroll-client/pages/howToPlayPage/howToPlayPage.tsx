@@ -1,5 +1,6 @@
 import React from "react";
 
+import { Button } from "../../components/buttons/button";
 import { HowToPlaySection } from "./components/howToPlaySection/howToPlaySection";
 import { HowToPlaySectionText } from "./components/howToPlaySection/howToPlaySectionText";
 import { HowToPlaySubSection } from "./components/howToPlaySection/howToPlaySubSection";
@@ -43,6 +44,14 @@ export const HowToPlayPage: React.FC<HowToPlayPageProps> = (props: HowToPlayPage
         <HowToPlaySection title="What is the goal of the game?">
           <HowToPlaySectionText text="Ultimately, your goal as a player is to have the most points at the end of the game." />
           <HowToPlaySectionText text="You are not only trying to gain points through stepping, but also attempting to gain additional points by predicting how well your fellow competitors will do against each other." />
+        </HowToPlaySection>
+        <HowToPlaySection title="Prerequisites">
+          <HowToPlaySectionText text="In order for the game to be able to track your steps you must connect a valid step tracker." />
+          <HowToPlaySectionText text="As of right now the only available step tracker is via Google Fit. Fortunately Google Fit can be linked to a number of different step tracking devices including Samsung and Apple Watches." />
+          <HowToPlaySectionText text="You can connect your step tracker on the profile page by clicking the update profile icon next to your username." />
+          <Button className="go-to-update-profile-button fancy-button white passion-one-font" url="/profile?update=true">
+            Go to update profile
+          </Button>
         </HowToPlaySection>
         <HowToPlaySection title="How does the game work exactly?">
           <HowToPlaySectionText text="Games last between 1 and 7 days and can start at any hour of day." />
