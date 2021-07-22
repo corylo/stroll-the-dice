@@ -42,6 +42,12 @@
       .game-matchup-side-name {
         color: gray(230);
         font-size: 0.9em;
+        overflow: hidden;
+        margin: auto;
+        max-width: 160px;
+        text-align: center;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       .game-matchup-side-leader-label {
@@ -78,9 +84,10 @@
           width: 60px;
         }
         
-      .game-matchup-side-name {
-        font-size: 0.8em;
-      }
+        .game-matchup-side-name {
+          font-size: 0.8em;
+          max-width: 120px;
+        }
 
         .game-matchup-side-username {
           font-size: 1em;
@@ -103,6 +110,11 @@
           width: 40px;
         }
         
+        .game-matchup-side-name {
+          font-size: 0.8em;
+          max-width: 100px;
+        }
+
         .game-matchup-side-username {
           font-size: 0.8em;
           max-width: 100px;
