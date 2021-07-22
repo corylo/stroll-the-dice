@@ -3,44 +3,51 @@
   display: flex;
   position: relative;
 
-  .profile-icon {
-    height: 34px;
-    width: 34px;
-
-    i {
-      font-size: 0.9em;
-      height: 20px;
-      line-height: 20px;
-      text-align: center;
-      width: 20px;
-    }
-  }
-
-  .username-wrapper {
-    align-items: center;
-    display: flex;
-    height: 100%;
+  .user-link-content {
     margin-left: 5px;
-    position: relative;
 
-    &:hover {
-      .tooltip {
-        opacity: 1;
+    .profile-icon {
+      height: 34px;
+      width: 34px;
+
+      i {
+        font-size: 0.9em;
+        height: 20px;
+        line-height: 20px;
+        text-align: center;
+        width: 20px;
       }
     }
 
-    .username {
-      color: gray(230);
-      display: inline-block;
-      font-size: 1em;
-      font-weight: bolder;
-      outline: none;
-      overflow: hidden;
+    .user-link-username-wrapper {
+      align-items: center;
+      display: flex;
+      height: 100%;
       position: relative;
-      text-decoration: none;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      width: 100%;
+
+      &:hover {
+        .tooltip {
+          opacity: 1;
+        }
+      }
+
+      .user-link-username {
+        display: inline-block;
+        font-size: 1em;
+        font-weight: bolder;
+        outline: none;
+        overflow: hidden;
+        position: relative;
+        text-decoration: none;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100%;
+      }
+    }
+
+    .user-link-name {
+      color: gray(230);
+      font-size: 0.8em;
     }
   }
 }

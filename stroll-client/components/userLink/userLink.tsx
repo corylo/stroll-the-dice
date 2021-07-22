@@ -20,15 +20,28 @@ export const UserLink: React.FC<UserLinkProps> = (props: UserLinkProps) => {
       )
     }
   }
+
+  const getName = (): JSX.Element => {
+    if(profile.name) {
+      return (        
+        <h1 className="user-link-name passion-one-font">
+          {profile.name}
+        </h1>  
+      )
+    }
+  }
   
   return (
     <div className="user-link">
       <ProfileIcon color={profile.color} icon={profile.icon} />
-      <div className="username-wrapper">
-        <h1 className="username passion-one-font">
-          {profile.username}
-        </h1>      
-        {getTooltip()}
+      <div className="user-link-content">
+        <div className="user-link-username-wrapper">
+          <h1 className="user-link-username passion-one-font" style={{ color: `rgb(${profile.color})` }}>
+            {profile.username}
+          </h1>    
+          {getTooltip()}
+        </div> 
+        {getName()}     
       </div>
     </div>
   );
