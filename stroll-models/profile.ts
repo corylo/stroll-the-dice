@@ -9,6 +9,7 @@ export interface IProfile {
   createdAt?: firebase.firestore.FieldValue; 
   icon: Icon;
   id: string;
+  name: string;
   tracker?: StepTracker;
   uid: string;
   username: string;
@@ -18,6 +19,7 @@ export const defaultProfile = (): IProfile => ({
   color: Color.None,
   icon: Icon.None,
   id: "",
+  name: "",
   tracker: StepTracker.Unknown,
   uid: "",
   username: ""
@@ -30,6 +32,7 @@ export const profileConverter: any = {
       createdAt: profile.createdAt,
       icon: profile.icon,
       id: profile.id,
+      name: profile.name,
       tracker: profile.tracker,
       username: profile.username
     }
@@ -44,6 +47,7 @@ export const profileConverter: any = {
       createdAt: data.createdAt,
       icon: data.icon,
       id: snapshot.id,
+      name: data.name,
       tracker: data.tracker,
       uid: snapshot.id,
       username: data.username  

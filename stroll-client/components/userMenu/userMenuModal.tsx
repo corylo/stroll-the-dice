@@ -58,7 +58,6 @@ export const UserMenuModal: React.FC<UserMenuModalProps> = (props: UserMenuModal
         return (
           <React.Fragment>       
             <h1 className="profile-username passion-one-font" style={{ color: `rgb(${user.profile.color})` }}>{user.profile.username}</h1>     
-            <h1 className="profile-full-name passion-one-font">{user.name}</h1>
             <h1 className="profile-email passion-one-font">{user.email}</h1>
           </React.Fragment>
         )

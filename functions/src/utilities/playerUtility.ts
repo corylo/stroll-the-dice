@@ -20,6 +20,7 @@ export const PlayerUtility: IPlayerUtility = {
     return (
       before.profile.color !== after.profile.color ||
       before.profile.icon !== after.profile.icon ||
+      before.profile.name !== after.profile.name ||
       before.profile.username !== after.profile.username
     )
   }

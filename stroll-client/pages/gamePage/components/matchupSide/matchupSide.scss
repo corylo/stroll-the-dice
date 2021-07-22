@@ -39,6 +39,11 @@
         white-space: nowrap;
       }
 
+      .game-matchup-side-name {
+        color: gray(230);
+        font-size: 0.9em;
+      }
+
       .game-matchup-side-leader-label {
         margin-top: 10px;
         justify-content: center;
@@ -73,6 +78,10 @@
           width: 60px;
         }
         
+      .game-matchup-side-name {
+        font-size: 0.8em;
+      }
+
         .game-matchup-side-username {
           font-size: 1em;
           max-width: 120px;

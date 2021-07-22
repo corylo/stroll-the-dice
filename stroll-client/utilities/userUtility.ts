@@ -20,8 +20,7 @@ export const UserUtility: IUserUtility = {
   },
   mapUser: (firebaseUser: firebase.User): IUser => {
     return {            
-      email: firebaseUser.email || "",      
-      name: firebaseUser.displayName,
+      email: firebaseUser.email || "",
       profile: UserUtility.mapProfile(firebaseUser)
     }
   }

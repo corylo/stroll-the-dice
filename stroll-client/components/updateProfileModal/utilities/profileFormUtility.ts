@@ -21,6 +21,7 @@ export const ProfileFormUtility: IProfileFormUtility = {
       return (
         profile.color !== fields.color ||
         profile.icon !== fields.icon || 
+        profile.name !== fields.name || 
         profile.username !== fields.username
       )
     }
@@ -33,6 +34,7 @@ export const ProfileFormUtility: IProfileFormUtility = {
       createdAt: user.profile.createdAt,
       icon: fields.icon,
       id: Nano.generate(),
+      name: fields.name,
       tracker: StepTracker.Unknown,
       uid: user.profile.uid,
       username: fields.username
@@ -44,6 +46,7 @@ export const ProfileFormUtility: IProfileFormUtility = {
     if(profile) {
       state.fields.color = profile.color;
       state.fields.icon = profile.icon;
+      state.fields.name = profile.name || "";
       state.fields.username = profile.username;
     }
 
@@ -53,6 +56,7 @@ export const ProfileFormUtility: IProfileFormUtility = {
     return {
       color: fields.color,
       icon: fields.icon,
+      name: fields.name,
       username: fields.username
     }
   }

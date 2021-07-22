@@ -31,6 +31,7 @@ export const HowToPlayUtility: IHowToPlayUtility = {
         profile: {
           color: Color.Orange3,
           icon: Icon.Dog,
+          name: "",
           uid: "123",
           username: "Player 1"
         },
@@ -46,6 +47,7 @@ export const HowToPlayUtility: IHowToPlayUtility = {
       profile: {
         color: Color.Yellow2,
         icon: Icon.Squirrel,
+        name: "",
         uid: "234",
         username: "Player 2"
       },
@@ -68,6 +70,7 @@ export const HowToPlayUtility: IHowToPlayUtility = {
       profile: {
         color: Color.Purple3,
         icon: Icon.Rudolph,
+        name: "",
         uid: "",
         username: "Player 1"
       },

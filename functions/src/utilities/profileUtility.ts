@@ -14,6 +14,7 @@ export const ProfileUtility: IProfileUtility = {
       ...profile,
       color: update.color,
       icon: update.icon,
+      name: update.name,
       username: update.username
     }
   },
@@ -21,6 +22,7 @@ export const ProfileUtility: IProfileUtility = {
     return (
       before.color !== after.color || 
       before.icon !== after.icon ||
+      before.name !== after.name ||
       before.username !== after.username
     )
   },
@@ -28,6 +30,7 @@ export const ProfileUtility: IProfileUtility = {
     return {
       color: profile.color,
       icon: profile.icon,
+      name: profile.name,
       username: profile.username
     }
   }

@@ -42,6 +42,14 @@ export const profileFormReducer = (state: IProfileFormState, action: IAction): I
         },
         errors: updatedErrors
       }
+    case ProfileFormAction.SetName:
+      return {
+        ...state,
+        fields: {
+          ...fields,
+          name: action.payload
+        }
+      }
     case ProfileFormAction.SetUsername:
       if(errors.username === FormError.MissingValue && action.payload.trim() !== "") {
         updatedErrors.username = FormError.None;

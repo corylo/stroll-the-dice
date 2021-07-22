@@ -1,14 +1,11 @@
 import React, { useContext } from "react";
 
-import { CopyButton } from "../copyButton/copyButton";
 import { Dot } from "../dot/dot";
 import { IconButton } from "../buttons/iconButton";
 import { ProfileIcon } from "../profileIcon/profileIcon";
 import { TooltipSide } from "../tooltip/tooltip";
 
 import { AppContext } from "../app/contexts/appContext";
-
-import { UrlUtility } from "../../utilities/urlUtility";
 
 import { IProfile } from "../../../stroll-models/profile";
 
@@ -26,18 +23,14 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (props: ProfileHeader
   
   const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
 
-  const getFullName = (): JSX.Element => {
+  const getEmail = (): JSX.Element => {
     if(user && user.profile.uid === profile.uid) {
       return (
-        <React.Fragment>
-          <h1 className="profile-full-name passion-one-font">{user.name}</h1>
-          <h1 className="profile-email passion-one-font">{user.email}</h1>
-        </React.Fragment>
+        <h1 className="profile-email passion-one-font">{user.email}</h1>
       )
     }
   }
 
-  
   const getUpdateButton = (): JSX.Element => {
     if(user && user.profile.uid === profile.uid) {
       return (
@@ -75,7 +68,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (props: ProfileHeader
     <div className="profile-header">
       <ProfileIcon color={profile.color} icon={profile.icon} />
       {getUsername()}
-      {getFullName()}
+      {getEmail()}
     </div>
   );
 }

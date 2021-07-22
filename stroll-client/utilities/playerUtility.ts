@@ -37,6 +37,7 @@ export const PlayerUtility: IPlayerUtility = {
       profile: {
         color: profile.color,
         icon: profile.icon,
+        name: profile.name,
         uid: profile.uid,
         username: profile.username
       },

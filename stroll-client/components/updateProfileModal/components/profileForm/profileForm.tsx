@@ -88,7 +88,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props: ProfileFormProps)
       )
     }
   }
-
+  
   return (    
     <Form     
       errors={errors}
@@ -113,6 +113,22 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props: ProfileFormProps)
             placeholder="Flying Ninja Monkey"
             value={fields.username}
             onChange={(e: any) => dispatch(ProfileFormAction.SetUsername, e.target.value.replace(/[^a-z0-9 ]/gi, ""))}
+            onKeyDown={handleOnKeyDown}
+          />
+        </InputWrapper>
+        <InputWrapper
+          id="name-input" 
+          label="Name (Optional)" 
+          maxLength={100}
+          value={fields.name}
+        >
+          <input 
+            type="text"
+            className="passion-one-font"
+            maxLength={100}
+            placeholder="Name"
+            value={fields.name}
+            onChange={(e: any) => dispatch(ProfileFormAction.SetName, e.target.value.replace(/[^a-z0-9 ]/gi, ""))}
             onKeyDown={handleOnKeyDown}
           />
         </InputWrapper>

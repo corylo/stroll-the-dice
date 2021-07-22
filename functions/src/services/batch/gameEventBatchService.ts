@@ -31,12 +31,12 @@ export const GameEventBatchService: IGameEventBatchService = {
   updatePlayerProfileInPredictionCreatedEvents: async (gameID: string, playerID: string, profile: IProfileReference): Promise<void> => {
     const predictionCreatedMatchupLeftSnap: firebase.firestore.QuerySnapshot = 
       await GameEventUtility
-        .getPredictionMatchupQuery(gameID, playerID, GameEventType.PlayerCreated, "left.profile.uid")
+        .getPredictionMatchupQuery(gameID, playerID, GameEventType.PlayerCreatedPrediction, "matchup.left.uid")
         .get();
     
     const predictionCreatedMatchupRightSnap: firebase.firestore.QuerySnapshot = 
       await GameEventUtility
-        .getPredictionMatchupQuery(gameID, playerID, GameEventType.PlayerCreated, "right.profile.uid")
+        .getPredictionMatchupQuery(gameID, playerID, GameEventType.PlayerCreatedPrediction, "matchup.right.uid")
         .get();
 
     const batch: firebase.firestore.WriteBatch = db.batch();

@@ -86,6 +86,14 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
       }
     }
 
+    const getName = (): JSX.Element => {
+      if(side.profile.name) {
+        return (
+          <h1 className="game-matchup-side-name passion-one-font">{side.profile.name}</h1>     
+        )
+      }
+    }
+
     const getBorder = (): JSX.Element => <div className="game-matchup-side-border" style={getBorderStyles()} />;
 
     return (
@@ -97,6 +105,7 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
             icon={side.profile.icon}
           />
           <h1 className="game-matchup-side-username passion-one-font" style={{ color: `rgb(${side.profile.color})` }}>{side.profile.username}</h1>     
+          {getName()}
           <MatchupSideStats 
             alignment={props.alignment}
             odds={odds}
