@@ -53,7 +53,7 @@ export const InviteService: IInviteService = {
       
           throw new Error(ErrorUtility.doesNotExist(DocumentType.Invite));
         } catch (err) {
-          if(err.message === FirebaseErrorCode.MissingPermissions) {
+          if(err.code === FirebaseErrorCode.PermissionDenied) {
             return null;
           }
 

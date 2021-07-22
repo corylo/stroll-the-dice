@@ -2,7 +2,8 @@ export enum ProfileFormAction {
   SetColor = "Set Color",
   SetErrors = "Set Errors",
   SetIcon = "Set Icon",
-  SetName = "Set Name",
+  SetName = "Set Name",  
   SetStatus = "Set Status",
-  SetUsername = "Set Username"
+  SetUsername = "Set Username",
+  UpdatingProfileTooSoonError = "Updating Profile Too Soon Error"
 }

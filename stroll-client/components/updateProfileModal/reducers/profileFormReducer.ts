@@ -3,6 +3,7 @@ import { IProfileFormState } from "../models/profileFormState";
 import { IProfileFormStateErrors } from "../models/profileFormStateErrors";
 
 import { FormError } from "../../../enums/formError";
+import { FormStatus } from "../../../enums/formStatus";
 import { ProfileFormAction } from "../enums/profileFormAction";
 
 export const profileFormReducer = (state: IProfileFormState, action: IAction): IProfileFormState => {  
@@ -66,7 +67,14 @@ export const profileFormReducer = (state: IProfileFormState, action: IAction): I
     case ProfileFormAction.SetStatus:
       return {
         ...state,
-        status: action.payload
+        status: action.payload,
+        statusMessage: ""
+      }
+    case ProfileFormAction.UpdatingProfileTooSoonError:
+      return {
+        ...state,
+        status: FormStatus.SubmitError,
+        statusMessage: "You can only update your profile once every 10 minutes!"
       }
     default:
       throw new Error(`Unknown action type in profileFormReducer: ${action.type}`);

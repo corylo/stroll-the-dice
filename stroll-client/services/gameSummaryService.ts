@@ -22,7 +22,7 @@ export const GameSummaryService: IGameSummaryService = {
 
       return doc.exists ? doc.data() : null;
     } catch (err) {
-      if(err.message === FirebaseErrorCode.MissingPermissions) {
+      if(err.code === FirebaseErrorCode.PermissionDenied) {
         return null;
       }
 

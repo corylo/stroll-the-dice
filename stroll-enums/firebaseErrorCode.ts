@@ -1,3 +1,3 @@
 export enum FirebaseErrorCode {
-  MissingPermissions = "Missing or insufficient permissions."
+  PermissionDenied = "permission-denied"
 }

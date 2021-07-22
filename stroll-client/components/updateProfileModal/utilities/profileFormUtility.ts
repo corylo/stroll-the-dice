@@ -1,3 +1,5 @@
+import firebase from "firebase/app";
+
 import { Nano } from "../../../../stroll-utilities/nanoUtility";
 
 import { IProfile } from "../../../../stroll-models/profile";
@@ -31,12 +33,13 @@ export const ProfileFormUtility: IProfileFormUtility = {
   mapCreate: (fields: IProfileFormStateFields, user: IUser): IProfile => {
     return {
       color: fields.color,
-      createdAt: user.profile.createdAt,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       icon: fields.icon,
       id: Nano.generate(),
       name: fields.name,
       tracker: StepTracker.Unknown,
       uid: user.profile.uid,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
       username: fields.username
     }
   },

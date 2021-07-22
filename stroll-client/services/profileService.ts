@@ -67,6 +67,9 @@ export const ProfileService: IProfileService = {
   update: async (id: string, update: IProfileUpdate): Promise<void> => {
     return await db.collection("profiles")
       .doc(id)
-      .update(update);
+      .update({ 
+        ...update, 
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp(), 
+      });
   },
 }

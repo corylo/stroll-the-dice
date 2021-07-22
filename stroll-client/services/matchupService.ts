@@ -38,7 +38,7 @@ export const MatchupService: IMatchupService = {
       
           return matchups;
         } catch (err) {
-          if(err.message === FirebaseErrorCode.MissingPermissions) {
+          if(err.code === FirebaseErrorCode.PermissionDenied) {
             return [];
           }
 

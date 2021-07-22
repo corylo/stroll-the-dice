@@ -51,7 +51,7 @@ export const PlayerService: IPlayerService = {
           
           return players;
         } catch (err) {
-          if(err.message === FirebaseErrorCode.MissingPermissions) {
+          if(err.code === FirebaseErrorCode.PermissionDenied) {
             return [];
           }
 

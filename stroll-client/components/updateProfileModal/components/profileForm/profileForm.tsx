@@ -24,6 +24,7 @@ import { ElementID } from "../../../../enums/elementId";
 import { FormStatus } from "../../../../enums/formStatus";
 import { Icon } from "../../../../../stroll-enums/icon";
 import { ProfileFormAction } from "../../enums/profileFormAction";
+import { FirebaseErrorCode } from "../../../../../stroll-enums/firebaseErrorCode";
 
 interface ProfileFormProps {  
   profile?: IProfile;
@@ -54,8 +55,12 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props: ProfileFormProps)
         dispatch(ProfileFormAction.SetStatus, FormStatus.SubmitSuccess);
       } catch (err) {
         console.error(err);
-
-        dispatch(ProfileFormAction.SetStatus, FormStatus.SubmitError);
+        
+        if(err.code === FirebaseErrorCode.PermissionDenied) {
+          dispatch(ProfileFormAction.UpdatingProfileTooSoonError);
+        } else {
+          dispatch(ProfileFormAction.SetStatus, FormStatus.SubmitError);
+        }
       }
 
       DomUtility.scrollToBottom(ElementID.UpdateProfileModal);
@@ -72,7 +77,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props: ProfileFormProps)
     if(profileFormState.status === FormStatus.SubmitSuccess) {
       return "Profile saved successfully!";
     } else if(profileFormState.status === FormStatus.SubmitError) {
-      return "There was an issue saving your profile. Please refresh and try again!";
+      return profileFormState.statusMessage || "There was an issue saving your profile. Please refresh and try again!";        
     }
   }
 

@@ -1,7 +1,5 @@
 import firebase from "firebase/app";
 
-import { FirestoreDateUtility } from "../../stroll-utilities/firestoreDateUtility";
-
 import { defaultProfile, IProfile } from "../../stroll-models/profile";
 import { IUser } from "../models/user";
 
@@ -13,8 +11,7 @@ interface IUserUtility {
 export const UserUtility: IUserUtility = {
   mapProfile: (firebaseUser: firebase.User): IProfile => {
     return {
-      ...defaultProfile(),
-      createdAt: FirestoreDateUtility.stringToTimestamp(firebaseUser.metadata.creationTime),      
+      ...defaultProfile(),      
       uid: firebaseUser.uid
     }
   },

@@ -6,22 +6,25 @@ import { StepTracker } from "../stroll-enums/stepTracker";
 
 export interface IProfile {
   color: Color;
-  createdAt?: firebase.firestore.FieldValue; 
+  createdAt: firebase.firestore.FieldValue; 
   icon: Icon;
   id: string;
   name: string;
   tracker?: StepTracker;
   uid: string;
+  updatedAt: firebase.firestore.FieldValue;
   username: string;
 }
 
 export const defaultProfile = (): IProfile => ({
+  createdAt: firebase.firestore.FieldValue.serverTimestamp(),
   color: Color.None,
   icon: Icon.None,
   id: "",
   name: "",
   tracker: StepTracker.Unknown,
   uid: "",
+  updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
   username: ""
 });
 
@@ -34,6 +37,7 @@ export const profileConverter: any = {
       id: profile.id,
       name: profile.name,
       tracker: profile.tracker,
+      updatedAt: profile.updatedAt,
       username: profile.username
     }
   },
@@ -50,6 +54,7 @@ export const profileConverter: any = {
       name: data.name,
       tracker: data.tracker,
       uid: snapshot.id,
+      updatedAt: data.updatedAt,
       username: data.username  
     }
   }

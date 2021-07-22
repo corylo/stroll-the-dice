@@ -7,10 +7,12 @@ export interface IProfileFormState {
   errors: IProfileFormStateErrors;
   fields: IProfileFormStateFields;
   status: FormStatus;
+  statusMessage: string;
 }
 
 export const defaultProfileFormState = (): IProfileFormState => ({
   errors: defaultProfileFormStateErrors(),
   fields: defaultProfileFormStateFields(),
-  status: FormStatus.InProgress
+  status: FormStatus.InProgress,
+  statusMessage: ""
 });
