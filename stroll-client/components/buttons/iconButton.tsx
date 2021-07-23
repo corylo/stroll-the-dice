@@ -7,6 +7,7 @@ import { TooltipSide } from "../tooltip/tooltip";
 interface IconButtonProps {
   id?: string;
   className?: string;
+  disabled?: boolean;
   icon: string;
   styles?: React.CSSProperties;
   tooltip?: string;
@@ -21,6 +22,7 @@ export const IconButton: React.FC<IconButtonProps> = (
     <Button 
       id={props.id} 
       className={classNames("icon-button", props.className)} 
+      disabled={props.disabled}
       styles={props.styles}
       tooltip={props.tooltip}
       tooltipSide={props.tooltipSide}

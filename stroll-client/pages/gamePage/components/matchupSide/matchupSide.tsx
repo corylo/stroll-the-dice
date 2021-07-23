@@ -2,16 +2,14 @@ import React, { useContext } from "react";
 import classNames from "classnames";
 
 import { Label } from "../../../../components/label/label";
-import { MatchupSidePrediction } from "../matchupSidePrediction/matchupSidePrediction";
 import { ProfileIcon } from "../../../../components/profileIcon/profileIcon";
 
 import { GamePageContext } from "../../gamePage";
 
+import { GameDurationUtility } from "../../../../../stroll-utilities/gameDurationUtility";
 import { MatchupUtility } from "../../../../utilities/matchupUtility";
-import { PredictionUtility } from "../../../../utilities/predictionUtility";
 
 import { IMatchup, IMatchupSide } from "../../../../../stroll-models/matchup";
-import { IPrediction } from "../../../../../stroll-models/prediction";
 
 import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 import { MatchupSideStats } from "../matchupSideStats/matchupSideStats";
@@ -23,34 +21,22 @@ export enum MatchupSideAlignment {
 
 interface MatchupSideProps {  
   alignment: MatchupSideAlignment;
-  dayStatus: GameStatus;
   matchup: IMatchup;
-  myPrediction: IPrediction;
   odds: number;
 }
 
 export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps) => {  
-  const { day, game, player } = useContext(GamePageContext).state;
+  const { day, game } = useContext(GamePageContext).state;
 
-  const { alignment, dayStatus, matchup, myPrediction, odds } = props;
+  const { alignment, matchup, odds } = props;
   
-  const side: IMatchupSide = matchup[alignment];
+  const side: IMatchupSide = matchup[alignment],
+    dayStatus: GameStatus = GameDurationUtility.getDayStatus(matchup.day, day);
+
 
   if(side.profile.uid !== "") {
     const leader: boolean = MatchupUtility.getLeader(matchup) === side.profile.uid;
     
-    const getMatchupSidePrediction = (): JSX.Element => {      
-      if(PredictionUtility.available(matchup, side, player, myPrediction, day)) {
-        return (
-          <MatchupSidePrediction 
-            matchup={matchup}
-            myPrediction={myPrediction}
-            playerID={side.profile.uid}
-          />
-        )
-      }
-    }
-
     const getLeaderLabel = (): JSX.Element => {
       if(leader) {        
         return (
@@ -112,7 +98,6 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
             side={side}
           />
           {getLeaderLabel()}
-          {getMatchupSidePrediction()}
         </div>
         {props.alignment === MatchupSideAlignment.Right ? getBorder() : null}
       </div>

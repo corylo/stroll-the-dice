@@ -25,11 +25,7 @@ export const HowToPlayPage: React.FC<HowToPlayPageProps> = (props: HowToPlayPage
   const getExampleMatchup = (): JSX.Element => {
     return (      
       <GamePageContext.Provider value={{ state: defaultGamePageState(), setState: () => {}}}>
-        <Matchup 
-          dayStatus={null} 
-          matchup={HowToPlayUtility.getExampleMatchup()} 
-          predictions={[]}
-        />
+        <Matchup matchup={HowToPlayUtility.getExampleMatchup()} predictions={[]} />
       </GamePageContext.Provider>
     )
   }

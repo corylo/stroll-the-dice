@@ -38,7 +38,7 @@ export const defaultGamePageStateToggles = (): IGamePageStateToggles => ({
   accept: false,
   events: false,
   invite: false,
-  players: false,
+  players: false, 
   update: false
 });
 

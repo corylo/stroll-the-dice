@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { PlayerStatement } from "../../../../components/playerStatement/playerStatement";
 import { PointStatement } from "../../../../components/pointStatement/pointStatement";
 
+import { GamePageContext } from "../../gamePage";
+
+import { GameDurationUtility } from "../../../../../stroll-utilities/gameDurationUtility";
 import { PredictionUtility } from "../../../../utilities/predictionUtility";
 
 import { IMatchup } from "../../../../../stroll-models/matchup";
@@ -13,13 +16,14 @@ import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 import { InitialValue } from "../../../../../stroll-enums/initialValue";
 
 interface MyPredictionProps {  
-  dayStatus: GameStatus;
   matchup: IMatchup;
   myPrediction: IPrediction;
 }
 
 export const MyPrediction: React.FC<MyPredictionProps> = (props: MyPredictionProps) => {   
-  const { dayStatus, matchup, myPrediction } = props;
+  const { state } = useContext(GamePageContext);
+
+  const { matchup, myPrediction } = props;
 
   const profile: IProfileReference = myPrediction.ref.player === matchup.left.profile.uid
     ? matchup.left.profile
@@ -28,9 +32,10 @@ export const MyPrediction: React.FC<MyPredictionProps> = (props: MyPredictionPro
   const pointStatement: JSX.Element = <PointStatement amount={myPrediction.amount.toLocaleString()} />,
     playerStatement: JSX.Element = <PlayerStatement profile={profile} />;
 
-  if(matchup.winner === "") {
-    
+  if(matchup.winner === "") {    
     const initialPrediction: boolean = myPrediction.ref.creator === myPrediction.ref.player && myPrediction.amount === InitialValue.InitialPredictionPoints;
+
+    const dayStatus: GameStatus = GameDurationUtility.getDayStatus(matchup.day, state.day);
 
     if(initialPrediction) {
       const addSomeOfYourOwnClause: JSX.Element = dayStatus === GameStatus.Upcoming 

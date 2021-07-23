@@ -64,7 +64,7 @@ export const Button: React.FC<ButtonProps> = (
     return (
       <button 
         type="button" 
-        disabled={props.disabled}
+        disabled={props.disabled !== undefined && props.disabled === true}
         id={props.id} 
         className={classNames("button", props.className)} 
         style={getStyles()}

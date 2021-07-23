@@ -33,14 +33,13 @@ interface MatchupGroupProps {
 }
 
 export const MatchupGroup: React.FC<MatchupGroupProps> = (props: MatchupGroupProps) => {  
-  const { state: gameState } = useContext(GamePageContext);
+  const { day, game } = useContext(GamePageContext).state;
 
-  const { game } = gameState,
-    dayStatus: GameStatus = GameDurationUtility.getDayStatus(props.day, gameState.day);
+  const dayStatus: GameStatus = GameDurationUtility.getDayStatus(props.day, day);
 
   const [state, setState] = useState<IMatchupGroupState>({ 
     ...defaultMatchupGroupState(), 
-    expanded: GamePageUtility.expandMatchupGroup(game.status, props.day, gameState.day, game.duration)
+    expanded: GamePageUtility.expandMatchupGroup(game.status, props.day, day, game.duration)
   });
 
   const setExpanded = (expanded: boolean) => setState({ ...state, expanded });
@@ -85,7 +84,7 @@ export const MatchupGroup: React.FC<MatchupGroupProps> = (props: MatchupGroupPro
 
   const getViewButton = (): JSX.Element => {
     if(!state.expanded) {
-      const text: string = gameState.day !== 0 && gameState.day + 1 === props.day
+      const text: string = day !== 0 && day + 1 === props.day
         ? "Click to predict upcoming matchups!"
         : "View Matchups";
 
@@ -112,13 +111,13 @@ export const MatchupGroup: React.FC<MatchupGroupProps> = (props: MatchupGroupPro
   return (
     <MatchupGroupContext.Provider value={{ state, setState }}>
       <div className={classNames("game-matchups", UrlUtility.format(dayStatus))}>      
-      <div className="game-matchups-border" />
+        <div className="game-matchups-border" />
         <div className="game-matchups-title">
-          <h1 className="game-matchups-title-text passion-one-font">Day {props.day} of {gameState.game.duration} {getDayLabel()}</h1>
+          <h1 className="game-matchups-title-text passion-one-font">Day {props.day} of {game.duration} {getDayLabel()}</h1>
           <div className="game-matchups-title-date-and-game-status">
             <h1 className="game-matchups-title-date passion-one-font">{getDate()}</h1>
             <GameDayStatus 
-              day={gameState.day} 
+              day={day} 
               game={game} 
               dayStatus={dayStatus} 
             />

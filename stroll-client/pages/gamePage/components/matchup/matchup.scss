@@ -5,27 +5,17 @@
     border-top: 2px solid rgba(white, 0.25);
   }
 
-  .game-matchup-sides {
-    display: flex;
-    justify-content: space-between;
+  .toggle-prediction-button {
+    background-color: rgba(white, 0.1);
+    border: 1px solid rgba(white, 0.2);  
+    margin-top: 10px;
+    padding: 15px 10px;
+    width: 100%;
 
-    .game-matchup-vs-label {
-      align-items: center;
-      color: white;
-      display: flex;
-      font-size: 2em;
-      margin: 0px 20px;
-    }
-  }
-}
-
-@include small-phone-or-smaller {
-  .game-matchup {    
-    .game-matchup-sides {
-      .game-matchup-vs-label {
-        font-size: 1.5em;
-        margin: 0px 10px;
-      }
+    &:hover,
+    &:focus {
+      background-color: rgba(white, 0.2);
+      color: $themeMain;
     }
   }
 }

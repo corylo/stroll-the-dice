@@ -1,124 +1,116 @@
-.game-matchup {
-  .game-matchup-side {
-    border-bottom: 1px solid transparent;
-    border-radius: 10px;
-    border-top: 1px solid transparent;
+.game-matchup-side {
+  border-bottom: 1px solid transparent;
+  border-radius: 10px;
+  border-top: 1px solid transparent;
+  display: flex;
+  position: relative;
+  text-align: center;
+  width: 200px;
+
+  &.undetermined {
+    align-items: center;
     display: flex;
-    position: relative;
-    text-align: center;
-    width: 200px;
+    justify-content: center;
+  }
 
-    &.undetermined {
-      align-items: center;
-      display: flex;
+  .game-matchup-side-border {      
+    border-radius: 10px;
+    flex-shrink: 0;
+    width: 4px;
+  }
+
+  .game-matchup-side-content {
+    flex-grow: 1;
+
+    .profile-icon {
+      font-size: 2em;
+      height: 80px;
+      margin: auto;
+      width: 80px;
+    }
+
+    .game-matchup-side-username {
+      font-size: 1.25em;
+      margin: auto;
+      margin-top: 5px;
+      overflow: hidden;      
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .game-matchup-side-name {
+      color: gray(230);
+      font-size: 0.9em;
+      overflow: hidden;
+      margin: auto;
+      max-width: 160px;
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .game-matchup-side-leader-label {
+      margin-top: 10px;
       justify-content: center;
-    }
 
-    .game-matchup-side-border {      
-      border-radius: 10px;
-      flex-shrink: 0;
-      width: 4px;
-    }
-  
-    .game-matchup-side-content {
-      flex-grow: 1;
-
-      .profile-icon {
-        font-size: 2em;
-        height: 80px;
-        margin: auto;
-        width: 80px;
+      i {
+        font-size: 0.7em;
       }
 
-      .game-matchup-side-username {
-        font-size: 1.25em;
-        margin: auto;
-        margin-top: 5px;
-        overflow: hidden;      
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-
-      .game-matchup-side-name {
-        color: gray(230);
-        font-size: 0.9em;
-        overflow: hidden;
-        margin: auto;
-        max-width: 160px;
-        text-align: center;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-
-      .game-matchup-side-leader-label {
-        margin-top: 10px;
-        justify-content: center;
-
-        i {
-          font-size: 0.7em;
-        }
-
-        h1 {
-          margin-left: 5px;
-        }
+      h1 {
+        margin-left: 5px;
       }
     }
   }
 }
 
 @include phone-or-smaller {
-  .game-matchup {
-    .game-matchup-side {
-      width: 180px;
-    }
+  .game-matchup-side {
+    width: 180px;
   }
 }
 
 @include medium-phone-or-smaller {
-  .game-matchup {
-    .game-matchup-side {      
-      .game-matchup-side-content {
-        .profile-icon {
-          font-size: 1.5em;
-          height: 60px;
-          width: 60px;
-        }
-        
-        .game-matchup-side-name {
-          font-size: 0.8em;
-          max-width: 120px;
-        }
+  .game-matchup-side {      
+    .game-matchup-side-content {
+      .profile-icon {
+        font-size: 1.5em;
+        height: 60px;
+        width: 60px;
+      }
+      
+      .game-matchup-side-name {
+        font-size: 0.8em;
+        max-width: 120px;
+      }
 
-        .game-matchup-side-username {
-          font-size: 1em;
-          max-width: 120px;
-        }
+      .game-matchup-side-username {
+        font-size: 1em;
+        max-width: 120px;
       }
     }
   }
 }
 
 @include small-phone-or-smaller {
-  .game-matchup {
-    .game-matchup-side {
-      padding: 10px 5px;
+  .game-matchup-side {
+    padding: 10px 5px;
 
-      .game-matchup-side-content {
-        .profile-icon {
-          font-size: 1em;
-          height: 40px;
-          width: 40px;
-        }
-        
-        .game-matchup-side-name {
-          font-size: 0.8em;
-          max-width: 100px;
-        }
+    .game-matchup-side-content {
+      .profile-icon {
+        font-size: 1em;
+        height: 40px;
+        width: 40px;
+      }
+      
+      .game-matchup-side-name {
+        font-size: 0.8em;
+        max-width: 100px;
+      }
 
-        .game-matchup-side-username {
-          font-size: 0.8em;
-          max-width: 100px;
-        }
+      .game-matchup-side-username {
+        font-size: 0.8em;
+        max-width: 100px;
       }
     }
   }

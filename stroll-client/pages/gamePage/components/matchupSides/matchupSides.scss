@@ -1,0 +1,21 @@
+.game-matchup-sides {
+  display: flex;
+  justify-content: space-between;
+
+  .game-matchup-vs-label {
+    align-items: center;
+    color: white;
+    display: flex;
+    font-size: 2em;
+    margin: 0px 20px;
+  }
+}
+
+@include small-phone-or-smaller {
+  .game-matchup-sides {
+    .game-matchup-vs-label {
+      font-size: 1.5em;
+      margin: 0px 10px;
+    }
+  }
+}
