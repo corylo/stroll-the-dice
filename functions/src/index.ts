@@ -6,6 +6,7 @@ import { PredictionService } from "./services/predictionService";
 import { ProfileService } from "./services/profileService";
 import { ScheduleService } from "./services/scheduleService";
 import { StepTrackerService } from "./services/stepTrackerService";
+import { UserService } from "./services/userService";
 
 exports.onProfileUpdate = firestore
   .document("profiles/{id}")
@@ -50,3 +51,6 @@ exports.connectStepTracker = https
   
 exports.disconnectStepTracker = https
   .onCall(StepTrackerService.disconnectStepTracker);
+  
+exports.updateUserEmail = https
+  .onCall(UserService.updateEmail);
