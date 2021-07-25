@@ -14,6 +14,21 @@
     z-index: 9999;
   }
 
+  &.closeable {
+    .modal-content-wrapper { 
+      .modal-content {
+        .modal-title {      
+          h1 {
+            color: gray(200);
+            font-size: 2em;
+            text-align: left;
+            width: calc(100% - 60px);
+          }
+        }
+      }
+    }
+  }
+
   .modal-content-wrapper { 
     padding: 20px 0px;
 
@@ -47,7 +62,7 @@
           color: gray(200);
           font-size: 2em;
           text-align: left;
-          width: calc(100% - 60px);
+          width: 100%;
           
           &:after {
             background-color: $themeMain;

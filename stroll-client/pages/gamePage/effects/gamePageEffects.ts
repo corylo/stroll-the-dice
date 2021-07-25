@@ -8,7 +8,7 @@ import { InviteUtility } from "../../../utilities/inviteUtility";
 import { UrlUtility } from "../../../utilities/urlUtility";
 
 import { IAppState } from "../../../components/app/models/appState";
-import { IGamePageState, IGamePageStateToggles } from "../models/gamePageState";
+import { IGamePageState } from "../models/gamePageState";
 import { IInvite } from "../../../../stroll-models/invite";
 
 import { AppAction } from "../../../enums/appAction";
@@ -46,12 +46,9 @@ export const useGameInviteEffect = (
         try {
           const invite: IInvite = await InviteService.get.by.id(state.game, inviteID);
 
-          const toggles: IGamePageStateToggles = {
-            ...state.toggles,
-            accept: true
-          }
+          dispatch(AppAction.ToggleAcceptInvite, true);
 
-          setState({ ...state, invite, toggles });
+          setState({ ...state, invite });
         } catch (err) {
           console.error(err);
         }

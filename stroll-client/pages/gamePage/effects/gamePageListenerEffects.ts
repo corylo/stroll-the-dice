@@ -3,6 +3,8 @@ import firebase from "firebase/app";
 
 import { db } from "../../../firebase";
 
+import { GamePageContext } from "../gamePage";
+
 import { InviteService } from "../../../services/inviteService";
 import { PlayerService } from "../../../services/playerService";
 
@@ -23,9 +25,8 @@ import { AppStatus } from "../../../enums/appStatus";
 import { GameEventCategory } from "../../../../stroll-enums/gameEventCategory";
 import { GameEventReferenceID } from "../../../../stroll-enums/gameEventReferenceID";
 import { GameStatus } from "../../../../stroll-enums/gameStatus";
+import { PlayerStatus } from "../../../../stroll-enums/playerStatus";
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
-
-import { GamePageContext } from "../gamePage";
 
 export const useMatchupListenerEffect = (
   state: IMatchupGroupState,
@@ -190,7 +191,10 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
   }, [appState.user, game, players, events]);
 
   useEffect(() => {   
-    if(id.trim() !== "" && appState.status !== AppStatus.Loading) {     
+    if(
+      id.trim() !== "" && 
+      appState.status !== AppStatus.Loading
+    ) {     
       const unsubToGame = db.collection("games")
         .doc(id)
         .withConverter(gameConverter)
@@ -198,16 +202,18 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
           if(doc.exists) {
             setGame(doc.data());
           } else {
-            setState({ ...state, statuses: {
-              ...state.statuses,
-              game: RequestStatus.Error 
+            setState({ ...state, 
+              game: defaultGame(),
+              statuses: {
+                ...state.statuses,
+                game: RequestStatus.Error 
             }});
           }
         });
 
       return () => unsubToGame();
     }
-  }, [id, appState.status, state.player.id]);
+  }, [id, appState.status]);
 
   useEffect(() => {    
     if(appState.status === AppStatus.SignedIn && state.game.id !== "") {
@@ -221,9 +227,13 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
         if(player) {
           updates.player = player;
 
+          updates.statuses.player = PlayerStatus.Playing;
+
           if(state.game.status === GameStatus.Upcoming) {
             updates.invite = await InviteService.get.by.game(game);
           }
+        } else {
+          updates.statuses.player = PlayerStatus.NotPlaying;
         }
 
         setState(updates);
@@ -234,7 +244,7 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
   }, [appState.status, state.game.id]);
 
   useEffect(() => {        
-    if(state.game.id !== "" && state.player.id !== "") {    
+    if(state.game.id !== "" && state.statuses.player === PlayerStatus.Playing) {    
       const unsubToPlayers = db.collection("games")
         .doc(state.game.id)
         .collection("players")
@@ -267,7 +277,7 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
 
           snap.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGameEvent>) =>
             updates.push(doc.data()));
-          
+ 
           setEvents(updates);
         });
 
@@ -276,7 +286,7 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
         unsubToEvents();
       }
     }
-  }, [state.game.id, state.player.id, eventsLimit, state.filters.eventCategory]);
+  }, [state.game.id, state.statuses.player, eventsLimit, state.filters.eventCategory]);
 
   useEffect(() => {
     if(state.toggles.events && eventsLimit !== 20) {

@@ -52,7 +52,11 @@ export const UpdateProfileModal: React.FC<UpdateProfileModalProps> = (props: Upd
 
         await ProfileService.create(profile);
 
-        dispatch(AppAction.SetProfile, profile);
+        const action: AppAction = toggles.acceptInvite 
+          ? AppAction.SetProfileAndClose 
+          : AppAction.SetProfile;
+
+        dispatch(action, profile);
       } else {
         const update: IProfileUpdate = ProfileFormUtility.mapUpdate(fields);
 
@@ -65,8 +69,16 @@ export const UpdateProfileModal: React.FC<UpdateProfileModalProps> = (props: Upd
 
     const getTitle = (): JSX.Element => {
       if(user.profile.username === "") {
+        const getText = (): string => {
+          if(toggles.acceptInvite) {
+            return "Create Your Profile Before Continuing";
+          }
+
+          return "Create Your Profile";
+        }
+
         return (
-          <ModalTitle text="Update Your Profile" />
+          <ModalTitle text={getText()} />
         )
       }
   
@@ -79,7 +91,12 @@ export const UpdateProfileModal: React.FC<UpdateProfileModalProps> = (props: Upd
       <Modal id={ElementID.UpdateProfileModal} status={statuses.profile.is} priority>
         {getTitle()}
         <ModalBody>   
-          <ProfileForm profile={user.profile} back={cancel} save={save} />
+          <ProfileForm 
+            leaveOnSave={toggles.acceptInvite}
+            profile={user.profile} 
+            back={cancel} 
+            save={save} 
+          />
           <StepTrackerHub />
         </ModalBody>
       </Modal>

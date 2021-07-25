@@ -4,6 +4,7 @@ import { IInvite } from "../../../../stroll-models/invite";
 import { defaultPlayer, IPlayer } from "../../../../stroll-models/player";
 
 import { GameEventCategory } from "../../../../stroll-enums/gameEventCategory";
+import { PlayerStatus } from "../../../../stroll-enums/playerStatus";
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
 
 export interface IGamePageStateFilters {
@@ -17,17 +18,18 @@ export const defaultGamePageStateFilters = (): IGamePageStateFilters => ({
 export interface IGamePageStateStatuses {
   events: RequestStatus;
   game: RequestStatus;
+  player: PlayerStatus;
   players: RequestStatus;
 }
 
 export const defaultGamePageStateStatuses = (): IGamePageStateStatuses => ({ 
   events: RequestStatus.Loading,
-  game: RequestStatus.Loading,  
+  game: RequestStatus.Loading,
+  player: PlayerStatus.Loading,  
   players: RequestStatus.Idle
 });
 
 export interface IGamePageStateToggles {
-  accept: boolean;
   events: boolean;
   invite: boolean;
   players: boolean;
@@ -35,7 +37,6 @@ export interface IGamePageStateToggles {
 }
 
 export const defaultGamePageStateToggles = (): IGamePageStateToggles => ({
-  accept: false,
   events: false,
   invite: false,
   players: false, 

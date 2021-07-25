@@ -21,13 +21,14 @@ import { IProfileFormStateFields } from "../../models/profileFormStateFields";
 
 import { Color } from "../../../../../stroll-enums/color";
 import { ElementID } from "../../../../enums/elementId";
+import { FirebaseErrorCode } from "../../../../../stroll-enums/firebaseErrorCode";
 import { FormStatus } from "../../../../enums/formStatus";
 import { Icon } from "../../../../../stroll-enums/icon";
 import { ProfileFormAction } from "../../enums/profileFormAction";
-import { FirebaseErrorCode } from "../../../../../stroll-enums/firebaseErrorCode";
 
 interface ProfileFormProps {  
-  profile?: IProfile;
+  leaveOnSave?: boolean;
+  profile?: IProfile;  
   back: () => void;
   save: (fields: IProfileFormStateFields) => Promise<void>;
 }
@@ -52,7 +53,9 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props: ProfileFormProps)
 
         await props.save(fields);
 
-        dispatch(ProfileFormAction.SetStatus, FormStatus.SubmitSuccess);
+        if(!props.leaveOnSave) {
+          dispatch(ProfileFormAction.SetStatus, FormStatus.SubmitSuccess);
+        }
       } catch (err) {
         console.error(err);
         
@@ -146,6 +149,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props: ProfileFormProps)
         <InputWrapper
           label="Color"
           error={errors.color}
+          errorMessage="Required"
         >
           <ColorSelector 
             selected={fields.color}
@@ -155,6 +159,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props: ProfileFormProps)
         <InputWrapper
           label="Icon"
           error={errors.icon}
+          errorMessage="Required"
         >
           <IconSelector 
             color={fields.color}

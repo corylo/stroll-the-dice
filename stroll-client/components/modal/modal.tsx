@@ -22,6 +22,7 @@ export const Modal: React.FC<ModalProps> = (props: ModalProps) => {
 
   const getClasses = (): string => {
     const classes: any = { 
+      closeable: props.handleOnClose !== undefined,
       priority: props.priority
     };
 

@@ -20,21 +20,25 @@ import { PlayerUtility } from "../../../../utilities/playerUtility";
 
 import { IPlayer } from "../../../../../stroll-models/player";
 
+import { AppAction } from "../../../../enums/appAction";
 import { FormStatus } from "../../../../enums/formStatus";
+import { PlayerStatus } from "../../../../../stroll-enums/playerStatus";
 
 interface AcceptInviteModalProps {  
   back: () => void;
 }
 
 export const AcceptInviteModal: React.FC<AcceptInviteModalProps> = (props: AcceptInviteModalProps) => {  
-  const { appState } = useContext(AppContext),
+  const { appState, dispatchToApp } = useContext(AppContext),
     { state, setState } = useContext(GamePageContext);
+
+  const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
 
   const [status, setStatus] = useState<FormStatus>(FormStatus.InProgress);
 
   const { user } = appState;
 
-  if(state.toggles.accept) {
+  if(appState.toggles.acceptInvite) {
     const acceptInvite = async (): Promise<void> => {
       if(status !== FormStatus.Submitting) {
         try {
@@ -44,11 +48,9 @@ export const AcceptInviteModal: React.FC<AcceptInviteModalProps> = (props: Accep
 
           await AcceptInviteService.acceptInvite(state.game, player);
           
-          setState({ 
-            ...state, 
-            player,
-            toggles: { ...state.toggles, accept: false }
-          });
+          setState({ ...state, player, statuses: { ...state.statuses, player: PlayerStatus.Playing } });
+
+          dispatch(AppAction.ToggleAcceptInvite, false)
         } catch (err) {
           console.error(err);
 

@@ -1,5 +1,6 @@
 import { IAction } from "../../../models/action";
 import { IAppState } from "../models/appState";
+import { defaultAppToggles } from "../models/appToggles";
 
 import { AppAction } from "../../../enums/appAction";
 import { AppStatus } from "../../../enums/appStatus";
@@ -8,6 +9,11 @@ import { StepTracker } from "../../../../stroll-enums/stepTracker";
 
 export const appReducer = (state: IAppState, action: IAction): IAppState => {  
   switch (action.type) {    
+    case AppAction.CloseModals:
+      return {
+        ...state,
+        toggles: defaultAppToggles()
+      }
     case AppAction.CompleteStepTrackerConnection:
       return {
         ...state,              
@@ -98,6 +104,18 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
           profile: action.payload
         }
       }
+    case AppAction.SetProfileAndClose:
+      return {
+        ...state,
+        toggles: {
+          ...state.toggles,
+          profile: false
+        },
+        user: {
+          ...state.user,
+          profile: action.payload
+        }
+      }
     case AppAction.SetStatus:
       return {
         ...state,
@@ -117,6 +135,15 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
         toggles: {
           ...state.toggles,
           profile: true
+        }
+      }
+    
+    case AppAction.ToggleAcceptInvite:
+      return {
+        ...state,
+        toggles: {
+          ...state.toggles,
+          acceptInvite: action.payload
         }
       }
     case AppAction.ToggleUpdateProfile:
