@@ -8,7 +8,10 @@ interface IFirestoreDateUtility {
   add: (value: firebase.firestore.FieldValue, seconds: number) => number;
   beginningOfHour: (occurredAt: firebase.firestore.FieldValue) => firebase.firestore.FieldValue;
   dateToTimestamp: (date: Date) => firebase.firestore.Timestamp;
+  daysToMillis: (days: number) => number;  
   diffInDays: (value: firebase.firestore.FieldValue) => number;  
+  endOfDay: (day: number, startsAt: firebase.firestore.FieldValue) => firebase.firestore.FieldValue;
+  endOfDayProgressUpdateComplete: (day: number, startsAt: firebase.firestore.FieldValue, progressUpdateAt: firebase.firestore.FieldValue) => boolean;
   lessThanOrEqualToNow: (value: firebase.firestore.FieldValue) => boolean;
   timestampToDate: (value: firebase.firestore.FieldValue) => Date;
   timestampToDateInput: (value: firebase.firestore.FieldValue) => string;
@@ -37,8 +40,26 @@ export const FirestoreDateUtility: IFirestoreDateUtility = {
   dateToTimestamp: (date: Date): firebase.firestore.Timestamp => {
     return firebase.firestore.Timestamp.fromDate(date);
   },
+  daysToMillis: (days: number): number => {
+    return days * 24 * 3600 * 1000;
+  },
   diffInDays: (value: firebase.firestore.FieldValue): number => {
     return DateUtility.diffInDays(FirestoreDateUtility.timestampToDateInput(value));
+  },
+  endOfDay: (day: number, startsAt: firebase.firestore.Timestamp): firebase.firestore.Timestamp => {
+    const dayAsSeconds: number = FirestoreDateUtility.daysToMillis(day) / 1000,
+      seconds: number = FirestoreDateUtility.add(startsAt, dayAsSeconds),
+      date: Date = new Date(seconds * 1000);
+
+    return FirestoreDateUtility.dateToTimestamp(date);
+  },
+  endOfDayProgressUpdateComplete: (day: number, startsAt: firebase.firestore.FieldValue, progressUpdateAt: firebase.firestore.FieldValue): boolean => {
+    const endOfDayTimestamp: firebase.firestore.FieldValue = FirestoreDateUtility.endOfDay(day, startsAt);
+
+    const endOfDayDate: Date = FirestoreDateUtility.timestampToDate(endOfDayTimestamp),
+      progressUpdateAtDate: Date = FirestoreDateUtility.timestampToDate(progressUpdateAt);
+
+    return progressUpdateAtDate.getTime() >= endOfDayDate.getTime();
   },
   lessThanOrEqualToNow: (value: firebase.firestore.FieldValue): boolean => {
     const date: IFirestoreTimestamp = value as any;

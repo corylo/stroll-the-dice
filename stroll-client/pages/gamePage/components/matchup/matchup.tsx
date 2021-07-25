@@ -9,14 +9,11 @@ import { UpdateTimer } from "../../../../components/updateTimer/updateTimer";
 import { GamePageContext } from "../../gamePage";
 
 import { FirestoreDateUtility } from "../../../../../stroll-utilities/firestoreDateUtility";
-import { GameDurationUtility } from "../../../../../stroll-utilities/gameDurationUtility";
 import { PredictionUtility } from "../../../../utilities/predictionUtility";
 
 import { IMatchup } from "../../../../../stroll-models/matchup";
 import { IPrediction } from "../../../../../stroll-models/prediction";
 import { ITimeThreshold } from "../../../../../stroll-models/timeThreshold";
-
-import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 
 interface MatchupProps {  
   matchup: IMatchup;
@@ -29,8 +26,6 @@ export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => {
   const { matchup, predictions } = props;
 
   const myPrediction: IPrediction = PredictionUtility.getById(state.player.id, matchup.id, predictions);
-
-  const dayStatus: GameStatus = GameDurationUtility.getDayStatus(matchup.day, state.day);
 
   const [toggled, setToggled] = useState<boolean>(false);
 
@@ -71,7 +66,7 @@ export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => {
   }
 
   const getUpdateTimer = (): JSX.Element => {
-    if(dayStatus === GameStatus.InProgress) {      
+    if(!FirestoreDateUtility.endOfDayProgressUpdateComplete(matchup.day, state.game.startsAt, state.game.progressUpdateAt)) {      
       const threshold: ITimeThreshold = {
         quantity: 60,
         timestamp: FirestoreDateUtility.beginningOfHour(state.game.progressUpdateAt),

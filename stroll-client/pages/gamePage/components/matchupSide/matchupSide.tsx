@@ -13,6 +13,7 @@ import { IMatchup, IMatchupSide } from "../../../../../stroll-models/matchup";
 
 import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 import { MatchupSideStats } from "../matchupSideStats/matchupSideStats";
+import { FirestoreDateUtility } from "../../../../../stroll-utilities/firestoreDateUtility";
 
 export enum MatchupSideAlignment {
   Left = "left",
@@ -39,12 +40,20 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
     
     const getLeaderLabel = (): JSX.Element => {
       if(leader) {        
+        const getText = (): string => {
+          if(FirestoreDateUtility.endOfDayProgressUpdateComplete(matchup.day, game.startsAt, game.progressUpdateAt)) {
+            return "Winner";
+          }
+
+          return "Leader";
+        }
+
         return (
           <Label 
             className="game-matchup-side-leader-label" 
             icon="fal fa-trophy" 
             styles={{ color: `rgb(${side.profile.color})`}}
-            text={dayStatus === GameStatus.Completed ? "Winner" : "Leader"}
+            text={getText()}
           />
         )
       }
