@@ -8,11 +8,13 @@ import { UpdateTimer } from "../../../../components/updateTimer/updateTimer";
 
 import { GamePageContext } from "../../gamePage";
 
+import { FirestoreDateUtility } from "../../../../../stroll-utilities/firestoreDateUtility";
 import { GameDurationUtility } from "../../../../../stroll-utilities/gameDurationUtility";
 import { PredictionUtility } from "../../../../utilities/predictionUtility";
 
 import { IMatchup } from "../../../../../stroll-models/matchup";
 import { IPrediction } from "../../../../../stroll-models/prediction";
+import { ITimeThreshold } from "../../../../../stroll-models/timeThreshold";
 
 import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 
@@ -69,10 +71,20 @@ export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => {
   }
 
   const getUpdateTimer = (): JSX.Element => {
-    if(dayStatus === GameStatus.InProgress) {
+    if(dayStatus === GameStatus.InProgress) {      
+      const threshold: ITimeThreshold = {
+        quantity: 60,
+        timestamp: FirestoreDateUtility.beginningOfHour(state.game.progressUpdateAt),
+        unit: "M"
+      }
+  
       return (
         <div className="game-matchup-header">
-          <UpdateTimer interval={0} />
+          <UpdateTimer 
+            interval={0} 
+            text="Retrieving step updates"
+            textThreshold={threshold}
+          />
         </div>
       )
     }

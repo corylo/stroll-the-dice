@@ -3,7 +3,7 @@ interface IDateUtility {
   daysToMillis: (days: number) => number;  
   diffInDays: (value: string, hour?: number) => number;
   getRelativeOfUnit: (seconds: number, unit: "H" | "M" | "S") => number;
-  getTimeUntilInterval: (interval: number) => string;
+  getTimeUntilMinuteOfHour: (interval: number) => string;
   getTomorrow: () => Date;
   lessThanOrEqualToNow: (seconds: number) => boolean;
   secondsToRelative: (seconds: number) => string;  
@@ -47,7 +47,7 @@ export const DateUtility: IDateUtility = {
   getRelativeOfUnit: (seconds: number, unit: "H" | "M" | "S"): number => {     
     const relativeMillis: number = Math.abs(seconds * 1000 - new Date().getTime()),
       relativeSeconds: number = Math.round(relativeMillis / 1000),
-      relativeMinutes: number = Math.ceil(relativeSeconds / 60),
+      relativeMinutes: number = Math.floor(relativeSeconds / 60),
       relativeHours: number = Math.floor(relativeMinutes / 60);
 
     switch(unit) {
@@ -61,7 +61,7 @@ export const DateUtility: IDateUtility = {
         return null;
     }
   },
-  getTimeUntilInterval: (interval: number): string => {
+  getTimeUntilMinuteOfHour: (interval: number): string => {
     const date: Date = new Date();
 
     date.setMinutes(interval);
@@ -103,12 +103,19 @@ export const DateUtility: IDateUtility = {
     const relativeHours: number = Math.floor(relativeMinutes / 60);
 
     if (relativeHours < 24) {
-      return `${relativeHours}h ${relativeMinutes - (relativeHours * 60)}m`;
+      const minutes: number = relativeMinutes - (relativeHours * 60),
+        minuteClause: string = minutes > 0 ? ` ${minutes}m` : ""
+
+      return `${relativeHours}h${minuteClause}`;
     }
 
     const relativeDays: number = Math.floor(relativeHours / 24);
 
-    return `${relativeDays}d ${relativeHours - (relativeDays * 24)}h`;
+    const hours: number = relativeHours - (relativeDays * 24),
+      hourClause: string = hours > 0 ? ` ${hours}h` : "";
+
+
+    return `${relativeDays}d${hourClause}`;
   },
   stringToOffsetDate: (value: string, hour?: number): Date => {
     const date: Date = new Date(value);
