@@ -3,15 +3,18 @@ import React, { useContext, useState } from "react";
 import { Button } from "../../../../components/buttons/button";
 import { MatchupSides } from "../matchupSides/matchupSides";
 import { MyPrediction } from "../myPrediction/myPrediction";
+import { PredictionModal } from "../predictionModal/predictionModal";
+import { UpdateTimer } from "../../../../components/updateTimer/updateTimer";
 
 import { GamePageContext } from "../../gamePage";
 
+import { GameDurationUtility } from "../../../../../stroll-utilities/gameDurationUtility";
 import { PredictionUtility } from "../../../../utilities/predictionUtility";
 
 import { IMatchup } from "../../../../../stroll-models/matchup";
 import { IPrediction } from "../../../../../stroll-models/prediction";
 
-import { PredictionModal } from "../predictionModal/predictionModal";
+import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 
 interface MatchupProps {  
   matchup: IMatchup;
@@ -24,6 +27,8 @@ export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => {
   const { matchup, predictions } = props;
 
   const myPrediction: IPrediction = PredictionUtility.getById(state.player.id, matchup.id, predictions);
+
+  const dayStatus: GameStatus = GameDurationUtility.getDayStatus(matchup.day, state.day);
 
   const [toggled, setToggled] = useState<boolean>(false);
 
@@ -63,8 +68,19 @@ export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => {
     }
   }
 
+  const getUpdateTimer = (): JSX.Element => {
+    if(dayStatus === GameStatus.InProgress) {
+      return (
+        <div className="game-matchup-header">
+          <UpdateTimer interval={0} />
+        </div>
+      )
+    }
+  }
+
   return (
     <div className="game-matchup">
+      {getUpdateTimer()}
       <MatchupSides matchup={matchup} />
       {getMyPrediction()}    
       {getPredictionButton()}

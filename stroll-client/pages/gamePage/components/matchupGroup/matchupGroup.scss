@@ -29,23 +29,16 @@
     
     .game-matchups-title-date-and-game-status {
       align-items: center;
-      border-top: 1px solid rgba(white, 0.2);
+      border-bottom: 1px solid rgba(white, 0.2);
       display: flex;
       justify-content: space-between;
-      margin-top: 10px;
-      padding-bottom: 20px;
-      padding-top: 5px;
+      margin-top: 5px;
+      padding: 5px 0px;
 
       .game-matchups-title-date {
         color: gray(230);
         font-size: 1em;
       }
-    }
-
-    .update-timer {
-      bottom: 0px;
-      position: absolute;
-      right: 0px;
     }
 
     .hide-matchups-button {
@@ -69,10 +62,6 @@
     }
   }
 
-  .game-matchups-list {
-    margin-top: 10px;
-  }
-  
   .view-matchups-button {
     background-color: rgba(white, 0.1);
     border: 1px solid rgba(white, 0.2);    

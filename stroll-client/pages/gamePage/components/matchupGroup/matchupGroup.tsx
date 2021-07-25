@@ -51,11 +51,22 @@ export const MatchupGroup: React.FC<MatchupGroupProps> = (props: MatchupGroupPro
   );
 
   const getDate = (): string => {
-    const date: Date = FirestoreDateUtility.timestampToDate(game.startsAt);
+    const startDate: Date = FirestoreDateUtility.timestampToDate(game.startsAt),
+      endDate: Date = new Date(startDate);
 
-    date.setDate(date.getDate() + (props.day - 1));
+    startDate.setDate(startDate.getDate() + (props.day - 1));
 
-    return `${date.toLocaleDateString([], { weekday: "short", month: "short", day: "numeric" })} ${date.toLocaleTimeString([], { hour: "numeric" })}`;
+    endDate.setDate(startDate.getDate() + 1);
+
+    const dateOptions: any = { weekday: "short" },
+      timeOptions: any = { hour: "numeric" };
+
+    const formattedStartDate: string = startDate.toLocaleDateString([], dateOptions),
+      formattedStartTime: string = startDate.toLocaleTimeString([], timeOptions),
+      formattedEndDate: string = endDate.toLocaleDateString([], dateOptions),
+      formattedEndTime: string = endDate.toLocaleTimeString([], timeOptions);
+
+    return `${formattedStartDate} ${formattedStartTime} - ${formattedEndDate} ${formattedEndTime}`;
   }
 
   const getDayLabel = (): JSX.Element => {
@@ -63,14 +74,6 @@ export const MatchupGroup: React.FC<MatchupGroupProps> = (props: MatchupGroupPro
       return <span className="highlight-main">In Progress</span>;
     } else if (game.status === GameStatus.InProgress && dayStatus === GameStatus.Upcoming) {
       return <span className="highlight-main">Up Next</span>;
-    }
-  }
-
-  const getUpdateTimer = (): JSX.Element => {
-    if(dayStatus === GameStatus.InProgress) {
-      return (
-        <UpdateTimer interval={0} />
-      )
     }
   }
 
@@ -83,13 +86,14 @@ export const MatchupGroup: React.FC<MatchupGroupProps> = (props: MatchupGroupPro
   }
 
   const getViewButton = (): JSX.Element => {
-    if(!state.expanded) {
-      const text: string = day !== 0 && day + 1 === props.day
-        ? "Click to predict upcoming matchups!"
-        : "View Matchups";
-
+    if(!state.expanded) {      
       return (
-        <Button className="view-matchups-button passion-one-font" handleOnClick={() => setExpanded(true)}>{text}</Button>
+        <Button 
+          className="view-matchups-button passion-one-font" 
+          handleOnClick={() => setExpanded(true)}
+        >
+          View Matchups
+        </Button>
       )
     }
   }
@@ -121,8 +125,7 @@ export const MatchupGroup: React.FC<MatchupGroupProps> = (props: MatchupGroupPro
               game={game} 
               dayStatus={dayStatus} 
             />
-          </div>
-          {getUpdateTimer()}          
+          </div>     
           {getHideButton()}
         </div>
         {getMatchupsList()}
