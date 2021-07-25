@@ -45,7 +45,7 @@ export const GameBatchService: IGameBatchService = {
 
     docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => {      
       batch.update(doc.ref, {
-        progressUpdateAt: firebase.firestore.FieldValue.serverTimestamp()
+        initializeProgressUpdateAt: firebase.firestore.FieldValue.serverTimestamp()
       });
     });
 
@@ -73,7 +73,7 @@ export const GameBatchService: IGameBatchService = {
 
     docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => {   
       batch.update(doc.ref, {
-        progressUpdateAt: firebase.firestore.FieldValue.serverTimestamp(),
+        initializeProgressUpdateAt: firebase.firestore.FieldValue.serverTimestamp(),
         status: GameStatus.Completed
       });
     });
@@ -104,7 +104,7 @@ export const GameBatchService: IGameBatchService = {
       if(playerCount >= 4) {
         return {       
           locked: true, 
-          progressUpdateAt: firebase.firestore.FieldValue.serverTimestamp(),
+          initializeProgressUpdateAt: firebase.firestore.FieldValue.serverTimestamp(),
           status: GameStatus.InProgress 
         }
       }

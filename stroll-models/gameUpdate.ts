@@ -11,6 +11,7 @@ export interface IGameUpdate {
   duration?: GameDuration;
   endsAt?: firebase.firestore.FieldValue;
   error?: GameError;
+  initializeProgressUpdateAt?: firebase.firestore.FieldValue;
   locked?: boolean;
   mode?: GameMode,
   name?: string;

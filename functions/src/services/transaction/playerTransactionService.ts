@@ -16,7 +16,7 @@ import { PlayerUtility } from "../../utilities/playerUtility";
 import { PointsUtility } from "../../utilities/pointsUtility";
 
 import { IDayCompletedEvent } from "../../../../stroll-models/gameEvent/dayCompletedEvent";
-import { IGame } from "../../../../stroll-models/game";
+import { gameConverter, IGame } from "../../../../stroll-models/game";
 import { IMatchup, IMatchupSideTotal } from "../../../../stroll-models/matchup";
 import { IMatchupSideStepUpdate } from "../../../../stroll-models/matchupSideStepUpdate";
 import { IPlayer } from "../../../../stroll-models/player";
@@ -130,7 +130,13 @@ export const PlayerTransactionService: IPlayerTransactionService = {
             GameEventTransactionService.create(transaction, gameID, playerDayCompletedSummaryEvent)
           });
 
-          MatchupTransactionService.updateAll(transaction, gameID, matchups);          
+          MatchupTransactionService.updateAll(transaction, gameID, matchups);    
+          
+          const gameRef: firebase.firestore.DocumentReference<IGame> = db.collection("games")
+            .doc(gameID)
+            .withConverter<IGame>(gameConverter);
+
+          transaction.update(gameRef, { progressUpdateAt: firebase.firestore.FieldValue.serverTimestamp() });     
         }
       });
 
@@ -178,6 +184,12 @@ export const PlayerTransactionService: IPlayerTransactionService = {
           }); 
 
           MatchupTransactionService.updateAll(transaction, gameID, matchups);    
+
+          const gameRef: firebase.firestore.DocumentReference<IGame> = db.collection("games")
+            .doc(gameID)
+            .withConverter<IGame>(gameConverter);
+
+          transaction.update(gameRef, { progressUpdateAt: firebase.firestore.FieldValue.serverTimestamp() });
         }
       });
     } catch (err) {

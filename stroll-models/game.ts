@@ -33,6 +33,7 @@ export interface IGame {
   endsAt: firebase.firestore.FieldValue;
   error: GameError;
   id: string;  
+  initializeProgressUpdateAt: firebase.firestore.FieldValue;
   locked: boolean;
   mode: GameMode;
   name: string;
@@ -51,6 +52,7 @@ export const defaultGame = (): IGame => ({
   endsAt: null,
   error: GameError.None,
   id: "",
+  initializeProgressUpdateAt: null,
   locked: false,
   mode: GameMode.None,
   name: "",
@@ -70,6 +72,7 @@ export const gameConverter: any = {
       duration: game.duration,
       endsAt: game.endsAt,
       error: game.error,
+      initializeProgressUpdateAt: game.initializeProgressUpdateAt,
       locked: game.locked,
       mode: game.mode,
       name: game.name,
@@ -93,6 +96,7 @@ export const gameConverter: any = {
       endsAt: data.endsAt,
       error: data.error,
       id: snapshot.id,
+      initializeProgressUpdateAt: data.initializeProgressUpdateAt,
       locked: data.locked,
       mode: data.mode,
       name: data.name,

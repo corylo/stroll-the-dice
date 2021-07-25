@@ -57,8 +57,8 @@ export const GameUtility: IGameUtility = {
     return updates;
   },
   stillInProgress: (before: IGame, after: IGame): boolean => {
-    if(before.progressUpdateAt && after.progressUpdateAt) {
-      return !before.progressUpdateAt.isEqual(after.progressUpdateAt);
+    if(before.initializeProgressUpdateAt && after.initializeProgressUpdateAt) {
+      return !before.initializeProgressUpdateAt.isEqual(after.initializeProgressUpdateAt);
     }
 
     return false;

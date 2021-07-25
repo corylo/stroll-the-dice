@@ -14,6 +14,7 @@ import { IPlayer } from "../../../stroll-models/player";
 
 import { GameStatus } from "../../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../../stroll-enums/requestStatus";
+import { FirestoreDateUtility } from "../../../stroll-utilities/firestoreDateUtility";
 
 interface LeaderboardProps {  
   id: string;
@@ -26,7 +27,7 @@ interface LeaderboardProps {
 export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps) => {   
   const { state } = useContext(GamePageContext);
 
-  const { statuses } = state;
+  const { game, statuses } = state;
   
   if(statuses.players !== RequestStatus.Idle) {
     const limit: number = props.limit || props.players.length;
@@ -106,18 +107,22 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
 
     const getLeaderboardContent = (): JSX.Element => {
       if(statuses.players === RequestStatus.Success) {
+        const endOfDayUpdateComplete: boolean = FirestoreDateUtility.endOfDayProgressUpdateComplete(state.day, game.startsAt, game.progressUpdateAt),
+          inProgress: boolean = props.gameStatus === GameStatus.InProgress,
+          completed: boolean = props.gameStatus === GameStatus.Completed;
+
         const getTitle = (): string => {
           if(props.gameStatus === GameStatus.Upcoming) {
             return "Roster";
-          } else if(props.gameStatus === GameStatus.InProgress) {
+          } else if(inProgress || (completed && !endOfDayUpdateComplete)) {
             return "Leaderboard";
-          } else if (props.gameStatus === GameStatus.Completed) {
+          } else if (completed && endOfDayUpdateComplete) {
             return "Final Leaderboard";
           }
         }
 
         const getCongratulations = (): JSX.Element => {
-          if(props.gameStatus === GameStatus.Completed) {
+          if(completed && endOfDayUpdateComplete) {
             return (
               <h1 className="leaderboard-congratulations passion-one-font">Congratulations <PlayerStatement profile={players[0].profile} />!</h1>
             );
@@ -125,7 +130,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
         }
         
         const getConfetti = (): JSX.Element => {
-          if(props.gameStatus === GameStatus.Completed) {
+          if(completed && endOfDayUpdateComplete) {
             return (
               <Confetti id={`${props.id}-confetti`} />
             );

@@ -20,7 +20,7 @@ import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtili
 import { GameEventUtility } from "../utilities/gameEventUtility";
 import { MatchupUtility } from "../utilities/matchupUtility";
 
-import { IGame } from "../../../stroll-models/game";
+import { gameConverter, IGame } from "../../../stroll-models/game";
 import { IMatchup } from "../../../stroll-models/matchup";
 import { IMatchupPairGroup } from "../../../stroll-models/matchupPairGroup";
 import { IMatchupSideStepUpdate } from "../../../stroll-models/matchupSideStepUpdate";
@@ -62,6 +62,12 @@ export const GameUpdateService: IGameUpdateService = {
     PlayerBatchService.updateGameStatus(batch, players, game.status);
 
     GameEventBatchService.create(batch, gameID, GameEventUtility.mapGeneralEvent(FirestoreDateUtility.addMillis(game.endsAt, 3), GameEventType.Completed));
+
+    const gameRef: firebase.firestore.DocumentReference<IGame> = db.collection("games")
+      .doc(gameID)
+      .withConverter<IGame>(gameConverter);
+
+    batch.update(gameRef, { progressUpdateAt: firebase.firestore.FieldValue.serverTimestamp() });   
 
     await batch.commit();
   },
@@ -116,6 +122,12 @@ export const GameUpdateService: IGameUpdateService = {
     }
 
     PlayerBatchService.updateGameStatus(batch, players, game.status);
+
+    const gameRef: firebase.firestore.DocumentReference<IGame> = db.collection("games")
+      .doc(gameID)
+      .withConverter<IGame>(gameConverter);
+
+    batch.update(gameRef, { progressUpdateAt: firebase.firestore.FieldValue.serverTimestamp() });   
 
     await batch.commit();
   },
