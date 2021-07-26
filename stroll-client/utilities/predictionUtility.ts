@@ -7,9 +7,12 @@ import { IPlayer } from "../../stroll-models/player";
 import { IPrediction } from "../../stroll-models/prediction";
 import { IPredictionUpdate } from "../../stroll-models/predictionUpdate";
 
+import { InitialValue } from "../../stroll-enums/initialValue";
+
 interface IPredictionUtility {    
   enabled: (playerID: string, myPrediction: IPrediction) => boolean;
   getById: (creatorID: string, matchupID: string, predictions: IPrediction[]) => IPrediction;
+  getNetAmount: (prediction: IPrediction, matchup: IMatchup) => number;
   getPayoutAmount: (amount: number, matchup: IMatchup) => number;
   mapCreate: (amount: number, creatorID: string, gameID: string, matchupID: string, playerID: string) => IPrediction;
   mapUpdate: (amount: number, prediction: IPrediction) => IPredictionUpdate;
@@ -23,6 +26,15 @@ export const PredictionUtility: IPredictionUtility = {
   },
   getById: (creatorID: string, matchupID: string, predictions: IPrediction[]): IPrediction => {
     return predictions.find((prediction: IPrediction) => prediction.ref.matchup === matchupID && prediction.id === creatorID) || null;
+  },
+  getNetAmount: (prediction: IPrediction, matchup: IMatchup): number => {
+    const payoutAmount: number = PredictionUtility.getPayoutAmount(prediction.amount, matchup);
+
+    if(prediction.ref.player === prediction.ref.creator) {
+      return payoutAmount - prediction.amount + InitialValue.InitialPredictionPoints;
+    }
+
+    return payoutAmount - prediction.amount;
   },
   getPayoutAmount: (amount: number, matchup: IMatchup): number => {
     return Math.round(amount * MatchupUtility.getWinnerOdds(matchup));
