@@ -42,7 +42,7 @@ export const useGameInviteEffect = (
 
   useEffect(() => {
     const load = async (): Promise<void> => {
-      if(InviteUtility.showInvite(inviteID, state.invite, state.game, appState.user)) {
+      if(InviteUtility.showInvite(inviteID, state.statuses.player)) {
         try {
           const invite: IInvite = await InviteService.get.by.id(state.game, inviteID);
 
@@ -60,5 +60,5 @@ export const useGameInviteEffect = (
     }
 
     load();
-  }, [appState.user, appState.status, state.game, state.invite]);
+  }, [appState.status, state.statuses.player]);
 }

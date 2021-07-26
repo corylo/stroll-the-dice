@@ -4,16 +4,15 @@ import { DateUtility } from "../../stroll-utilities/dateUtility";
 import { Nano } from "../../stroll-utilities/nanoUtility";
 import { UrlUtility } from "./urlUtility";
 
-import { IGame } from "../../stroll-models/game";
 import { IInvite } from "../../stroll-models/invite";
-import { IUser } from "../models/user";
 
 import { InitialValue } from "../../stroll-enums/initialValue";
+import { PlayerStatus } from "../../stroll-enums/playerStatus";
 
 interface IInviteUtility {
   getLink: (gameID: string, inviteID: string) => string;
   mapCreate: (uid: string) => IInvite;
-  showInvite: (id: string, invite: IInvite, game: IGame, user: IUser) => boolean;
+  showInvite: (id: string, playerStatus: PlayerStatus) => boolean;
 }
 
 export const InviteUtility: IInviteUtility = {
@@ -35,14 +34,7 @@ export const InviteUtility: IInviteUtility = {
       }
     }
   },
-  showInvite: (id: string, invite: IInvite, game: IGame, user: IUser): boolean => {
-    return (
-      invite === null &&
-      id !== null &&
-      user !== null && 
-      user.profile !== null &&
-      game.id !== "" &&
-      user.profile.uid !== game.creator.uid
-    )
+  showInvite: (id: string, playerStatus: PlayerStatus): boolean => {
+    return id !== null && playerStatus === PlayerStatus.NotPlaying;
   }
 }

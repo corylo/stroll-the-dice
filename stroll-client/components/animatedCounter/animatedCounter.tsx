@@ -20,21 +20,25 @@ export const AnimatedCounter: React.FC<AnimatedCounterProps> = (props: AnimatedC
       return parseFloat((value + 0.01).toFixed(2));
     } else if (diff < 1) {
       return parseFloat((value + 0.1).toFixed(1));
-    } else if (diff <= 100) {
+    } else if (diff <= 20) {
       return value + 1;
-    } else if (diff <= 1000) {
+    } else if (diff <= 200) {
       return value + 10;
-    } else if (diff <= 10000) {
+    } else if (diff <= 2000) {
       return value + 100;
-    } else if (diff <= 100000) {
+    } else if (diff <= 20000) {
       return value + 1000;
-    } else if (diff <= 1000000) {
+    } else if (diff <= 200000) {
       return value + 10000;
-    } else if (diff <= 10000000) {
+    } else if (diff <= 2000000) {
       return value + 100000;
+    } else if (diff <= 20000000) {
+      return value + 1000000;
+    } else if (diff <= 200000000) {
+      return value + 10000000;
     }
   
-    return value + 1000000;
+    return value + 100000000;
   }
   
   const getDecrement = (diff: number): number => {
@@ -44,18 +48,22 @@ export const AnimatedCounter: React.FC<AnimatedCounterProps> = (props: AnimatedC
       return parseFloat((value - 0.01).toFixed(2));
     } else if (diff < 1) {
       return parseFloat((value - 0.1).toFixed(1));
-    } else if (diff <= 100) {
+    } else if (diff <= 20) {
       return value - 1;
-    } else if (diff <= 1000) {
+    } else if (diff <= 200) {
       return value - 10;
-    } else if (diff <= 10000) {
+    } else if (diff <= 2000) {
       return value - 100;
-    } else if (diff <= 100000) {
+    } else if (diff <= 20000) {
       return value - 1000;
-    } else if (diff <= 1000000) {
+    } else if (diff <= 200000) {
       return value - 10000;
-    } else if (diff <= 10000000) {
+    } else if (diff <= 2000000) {
       return value - 100000;
+    } else if (diff <= 20000000) {
+      return value - 1000000;
+    } else if (diff <= 200000000) {
+      return value - 10000000;
     }
   
     return value - 1000000;
@@ -65,6 +73,8 @@ export const AnimatedCounter: React.FC<AnimatedCounterProps> = (props: AnimatedC
     const interval: NodeJS.Timeout = setInterval(() => {
       let diff: number = parseFloat((props.value - value).toFixed(2));
 
+      console.log(diff);
+
       if(diff > 0) {
         setValue(getIncrement(diff));
       } else if (diff < 0) {
@@ -72,7 +82,7 @@ export const AnimatedCounter: React.FC<AnimatedCounterProps> = (props: AnimatedC
       } else {
         clearInterval(interval);
       }
-    }, 2);
+    }, 10);
 
     return () => {
       clearInterval(interval);

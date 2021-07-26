@@ -21,6 +21,7 @@ import { GamePageContext } from "../../gamePage";
 
 import { FirestoreDateUtility } from "../../../../../stroll-utilities/firestoreDateUtility";
 
+import { AppAction } from "../../../../enums/appAction";
 import { AppStatus } from "../../../../enums/appStatus";
 import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
@@ -30,7 +31,9 @@ interface GamePageContentProps {
 }
 
 export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageContentProps) => {
-  const { appState } = useContext(AppContext);
+  const { appState, dispatchToApp } = useContext(AppContext);
+
+  const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
 
   const { state, setState } = useContext(GamePageContext);
 
@@ -154,7 +157,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
         <MyPoints />
         <UpdateGameModal back={() => toggle({ update: false })} />
         <AcceptInviteModal back={() => toggle({ accept: false })} />
-        <InvitePlayersModal back={() => toggle({ invite: false })} />
+        <InvitePlayersModal back={() => dispatch(AppAction.ToggleAcceptInvite, false)} />
         <ViewPlayersModal back={() => toggle({ players: false })} />
         <ViewEventsModal back={() => toggle({ events: false })} />
       </div>
