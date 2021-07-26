@@ -40,6 +40,8 @@ export const PredictionModal: React.FC<PredictionModalProps> = (props: Predictio
 
   const { matchup, myPrediction } = props;
 
+  const predictionsClosed: boolean = !PredictionUtility.predictionsAvailableForDay(matchup, game.startsAt);
+
   const [state, setState] = useState<IMatchupPredictionState>({ 
     ...defaultMatchupPredictionState(),    
     playerID: myPrediction ? myPrediction.ref.player : ""
@@ -155,7 +157,7 @@ export const PredictionModal: React.FC<PredictionModalProps> = (props: Predictio
     return (      
       <IconButton
         className={classNames("prediction-player-selection-button", { selected: state.playerID === side.profile.uid })}
-        disabled={!PredictionUtility.matchupSideAvailable(matchup, side, player, myPrediction)}
+        disabled={!PredictionUtility.matchupSideAvailable(matchup, side, player, myPrediction) || predictionsClosed}
         styles={styles}
         icon="fal fa-check"
         handleOnClick={() => selectPlayer(side.profile.uid)}
@@ -193,7 +195,7 @@ export const PredictionModal: React.FC<PredictionModalProps> = (props: Predictio
               <input 
                 type="text"
                 className="passion-one-font"
-                disabled={state.status === FormStatus.Submitting}
+                disabled={state.status === FormStatus.Submitting || predictionsClosed}
                 placeholder="Enter amount"
                 value={state.amount}
                 onChange={updateAmount}
@@ -204,6 +206,7 @@ export const PredictionModal: React.FC<PredictionModalProps> = (props: Predictio
           <FormActions>
             <Button
               className="submit-button fancy-button passion-one-font" 
+              disabled={predictionsClosed}
               handleOnClick={submit}
             >
               Predict!

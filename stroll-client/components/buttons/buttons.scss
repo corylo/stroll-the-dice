@@ -69,6 +69,10 @@
     background-color: $themeMain;
   }
 
+  &:disabled {
+    opacity: 0.4;
+  }
+
   &.white {
     background: rgba(white, 0.1);
     border: 1px solid rgba(white, 0.5);
