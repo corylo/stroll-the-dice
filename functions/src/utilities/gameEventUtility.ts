@@ -98,7 +98,7 @@ export const GameEventUtility: IGameEventUtility = {
     }
   },
   mapPlayerCreatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, matchup: IMatchupProfileReference, amount: number): IPlayerCreatedPredictionEvent => {
-    const event: IGameEvent = GameEventUtility.mapPlayerEvent(creatorID, occurredAt, GameEventCategory.Game, GameEventType.PlayerCreatedPrediction);
+    const event: IGameEvent = GameEventUtility.mapPlayerEvent(creatorID, occurredAt, GameEventCategory.Prediction, GameEventType.PlayerCreatedPrediction);
 
     return {
       ...event,
@@ -130,7 +130,7 @@ export const GameEventUtility: IGameEventUtility = {
     }
   },
   mapPlayerUpdatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, matchup: IMatchupProfileReference, beforeAmount: number, afterAmount: number): IPlayerUpdatedPredictionEvent => {
-    const event: IGameEvent = GameEventUtility.mapPlayerEvent(creatorID, occurredAt, GameEventCategory.Game, GameEventType.PlayerUpdatedPrediction);
+    const event: IGameEvent = GameEventUtility.mapPlayerEvent(creatorID, occurredAt, GameEventCategory.Prediction, GameEventType.PlayerUpdatedPrediction);
 
     return {
       ...event,

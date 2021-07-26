@@ -27,6 +27,11 @@ export const EventFilters: React.FC<EventFiltersProps> = (props: EventFiltersPro
         icon={Icon.Steps}
         text="Steps"
       />
+      <EventFilter
+        eventCategory={GameEventCategory.Prediction}
+        icon={Icon.Dice}
+        text="Predictions"
+      />
     </div>
   );
 }

@@ -28,7 +28,7 @@ export const GameBatchService: IGameBatchService = {
 
     let loopIndex: number = 1;
 
-    for(let i: number = 0; i < inProgressGamesSnap.docs.length; i += 500) {
+    for(let i: number = 0; i < length; i += 500) {
       const min: number = i,
         max: number = i + 500,
         adjustedMax: number = Math.min(max, length);
