@@ -156,8 +156,8 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
         </div>
         <MyPoints />
         <UpdateGameModal back={() => toggle({ update: false })} />
-        <AcceptInviteModal back={() => toggle({ accept: false })} />
-        <InvitePlayersModal back={() => dispatch(AppAction.ToggleAcceptInvite, false)} />
+        <AcceptInviteModal back={() => dispatch(AppAction.ToggleAcceptInvite, false)} />
+        <InvitePlayersModal back={() => toggle({ invite: false })} />
         <ViewPlayersModal back={() => toggle({ players: false })} />
         <ViewEventsModal back={() => toggle({ events: false })} />
       </div>
