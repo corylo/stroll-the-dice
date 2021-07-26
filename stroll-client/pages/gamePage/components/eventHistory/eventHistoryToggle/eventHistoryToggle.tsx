@@ -15,26 +15,12 @@ export const EventHistoryToggle: React.FC<EventHistoryToggleProps> = (props: Eve
 
   const handleOnClick = (): void => {
     props.toggle({ events: true });
-
-    GameEventUtility.setLastViewedEventsAt(state.game.id);
-  }
-
-  const getNumberOfUnviewed = (): JSX.Element => {
-    const unviewed: number = GameEventUtility.getNumberOfUnviewedEvents(state.game.id, state.events);
-
-    if(unviewed > 0) {
-      const icon: JSX.Element = unviewed >= 5 ? <i className="fas fa-plus" /> : null;
-
-      return (
-        <span className="highlight-main">{unviewed} {icon}</span>
-      )
-    }
   }
 
   return (
     <Button className="event-history-toggle" handleOnClick={handleOnClick}>
       <i className="fal fa-history" />
-      <h1 className="passion-one-font">Timeline {getNumberOfUnviewed()}</h1>                   
+      <h1 className="passion-one-font">Timeline</h1>                   
     </Button>
   )
 }

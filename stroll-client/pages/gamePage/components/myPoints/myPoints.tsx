@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import classNames from "classnames";
 
 import { Label } from "../../../../components/label/label";
-import { MyPointsUpdate } from "../myPointsUpdate/myPointsUpdate";
 
 import { GamePageContext } from "../../gamePage";
 
@@ -24,8 +23,7 @@ export const MyPoints: React.FC<MyPointsProps> = (props: MyPointsProps) => {
     return ReactDOM.createPortal(
       <div className="my-points-modal">
         <div className="my-points-wrapper">
-          <div className="my-points">        
-            <MyPointsUpdate />    
+          <div className="my-points"> 
             <div className="my-points-content-wrapper">
               <div className="my-points-content">
                 <i className={classNames("my-points-icon", Icon.Points)} />

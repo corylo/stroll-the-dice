@@ -1,5 +1,3 @@
-import { FirestoreDateUtility } from "./firestoreDateUtility";
-
 import { IDayCompletedEvent } from "../stroll-models/gameEvent/dayCompletedEvent";
 import { IGameUpdateEvent } from "../stroll-models/gameEvent/gameUpdateEvent";
 import { IPlayerCreatedEvent } from "../stroll-models/gameEvent/playerCreatedEvent";
@@ -18,13 +16,8 @@ interface IGameEventUtility {
   getColor: (type: GameEventType, playerColor: Color) => Color;
   getIcon: (type: GameEventType) => Icon;
   getLabel: (event: IGameEvent) => string;
-  getLastViewedEventsAt: (id: string) => string;
-  getLastViewedStepCount: (id: string) => string;
-  getNumberOfUnviewedEvents: (id: string, events: IGameEvent[]) => number;
   mapFromFirestore: (id: string, event: any) => any;
   mapToFirestore: (event: any) => any;
-  setLastViewedEventsAt: (id: string) => void;
-  setLastViewedStepCount: (id: string, steps: number) => void;
 }
 
 export const GameEventUtility: IGameEventUtility = {  
@@ -88,28 +81,6 @@ export const GameEventUtility: IGameEventUtility = {
         return event.type;
     }
   },
-  getLastViewedEventsAt: (id: string): string => {
-    return localStorage.getItem(`last-viewed-events-at-${id}`);
-  },
-  getLastViewedStepCount: (id: string): string => {
-    return localStorage.getItem(`last-viewed-step-count-${id}`);
-  },
-  getNumberOfUnviewedEvents: (id: string, events: IGameEvent[]): number => {
-    const lastViewedAt: string = GameEventUtility.getLastViewedEventsAt(id);
-
-    if(lastViewedAt) {
-      const unviewed: IGameEvent[] = events.filter((event: IGameEvent) => {
-        const occurredAt: Date = FirestoreDateUtility.timestampToDate(event.occurredAt),
-          lastViewedAtDate: Date = new Date(parseInt(lastViewedAt));
-        
-        return occurredAt > lastViewedAtDate;
-      });
-
-      return unviewed.length;
-    }
-
-    return events.length;
-  },
   mapFromFirestore: (id: string, event: any): any => {
     const from: any = GameEventUtility.mapToFirestore(event);
     
@@ -168,11 +139,5 @@ export const GameEventUtility: IGameEventUtility = {
     }
 
     return to;
-  },
-  setLastViewedEventsAt: (id: string): void => {
-    localStorage.setItem(`last-viewed-events-at-${id}`, new Date().getTime().toString());
-  },
-  setLastViewedStepCount: (id: string, steps: number): void => {
-    localStorage.setItem(`last-viewed-step-count-${id}`, steps.toString());
   }
 }

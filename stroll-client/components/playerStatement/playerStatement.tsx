@@ -12,6 +12,6 @@ export const PlayerStatement: React.FC<PlayerStatementProps> = (props: PlayerSta
   const style: React.CSSProperties = { color: `rgb(${profile.color})` };
       
   return (
-    <span className="player-statement"><i className={profile.icon} style={style} /> <span style={style}> {profile.username}</span></span>
+    <span className="player-statement"><i className={profile.icon} style={style} /><span style={style}>{profile.username}</span></span>
   );
 }

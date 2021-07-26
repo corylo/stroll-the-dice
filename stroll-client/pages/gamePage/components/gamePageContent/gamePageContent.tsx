@@ -20,7 +20,6 @@ import { AppContext } from "../../../../components/app/contexts/appContext";
 import { GamePageContext } from "../../gamePage";
 
 import { FirestoreDateUtility } from "../../../../../stroll-utilities/firestoreDateUtility";
-import { GameEventUtility } from "../../../../../stroll-utilities/gameEventUtility";
 
 import { AppStatus } from "../../../../enums/appStatus";
 import { GameStatus } from "../../../../../stroll-enums/gameStatus";
@@ -132,12 +131,6 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
       }
     }
 
-    const handleViewEventsToggle = (): void => {
-      toggle({ events: false });
-
-      GameEventUtility.setLastViewedEventsAt(game.id);
-    }
-
     return (
       <div className="game-page-content">
         <div className="game-page-header">
@@ -163,7 +156,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
         <AcceptInviteModal back={() => toggle({ accept: false })} />
         <InvitePlayersModal back={() => toggle({ invite: false })} />
         <ViewPlayersModal back={() => toggle({ players: false })} />
-        <ViewEventsModal back={handleViewEventsToggle} />
+        <ViewEventsModal back={() => toggle({ events: false })} />
       </div>
     )
   }
