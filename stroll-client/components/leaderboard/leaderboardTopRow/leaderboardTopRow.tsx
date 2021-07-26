@@ -62,6 +62,7 @@ export const LeaderboardTopRow: React.FC<LeaderboardTopRowProps> = (props: Leade
         <div className="leaderboard-top-row-points">
           <i className={Icon.Points} />                 
           <AnimatedCounter 
+            initialValue={points.total}
             value={points.total} 
             formatValue={(value: number) => value.toLocaleString()} 
           />
