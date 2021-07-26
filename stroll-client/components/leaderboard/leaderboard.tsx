@@ -107,22 +107,22 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
 
     const getLeaderboardContent = (): JSX.Element => {
       if(statuses.players === RequestStatus.Success) {        
-        const endOfDayUpdateComplete: boolean = FirestoreDateUtility.endOfDayProgressUpdateComplete(state.game.duration, game.startsAt, game.progressUpdateAt),
+        const endOfFinalDayUpdateComplete: boolean = FirestoreDateUtility.endOfDayProgressUpdateComplete(state.game.duration, game.startsAt, game.progressUpdateAt),
           inProgress: boolean = props.gameStatus === GameStatus.InProgress,
           completed: boolean = props.gameStatus === GameStatus.Completed;
         
         const getTitle = (): string => {
           if(props.gameStatus === GameStatus.Upcoming) {
             return "Roster";
-          } else if(inProgress || (completed && !endOfDayUpdateComplete)) {
+          } else if(inProgress || (completed && !endOfFinalDayUpdateComplete)) {
             return "Leaderboard";
-          } else if (completed && endOfDayUpdateComplete) {
+          } else if (completed && endOfFinalDayUpdateComplete) {
             return "Final Leaderboard";
           }
         }
 
         const getCongratulations = (): JSX.Element => {
-          if(completed && endOfDayUpdateComplete) {
+          if(completed && endOfFinalDayUpdateComplete) {
             return (
               <h1 className="leaderboard-congratulations passion-one-font">Congratulations <PlayerStatement profile={players[0].profile} />!</h1>
             );
@@ -130,7 +130,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
         }
         
         const getConfetti = (): JSX.Element => {
-          if(completed && endOfDayUpdateComplete) {
+          if(completed && endOfFinalDayUpdateComplete) {
             return (
               <Confetti id={`${props.id}-confetti`} />
             );
