@@ -5,7 +5,7 @@ import { Tooltip, TooltipSide } from "../tooltip/tooltip";
 
 interface AnimatedCounterProps {  
   className?: string;
-  initialValue: number;
+  initialValue?: number;
   tooltip?: string;
   tooltipSide?: TooltipSide;
   value: number;
@@ -13,40 +13,66 @@ interface AnimatedCounterProps {
 }
 
 export const AnimatedCounter: React.FC<AnimatedCounterProps> = (props: AnimatedCounterProps) => {  
-  const [value, setValue] = useState<number>(props.initialValue);
+  const [value, setValue] = useState<number>(props.initialValue || 0);
 
+  const getIncrement = (diff: number): number => {
+    if(diff <= 0.1) {
+      return parseFloat((value + 0.01).toFixed(2));
+    } else if (diff < 1) {
+      return parseFloat((value + 0.1).toFixed(1));
+    } else if (diff <= 100) {
+      return value + 1;
+    } else if (diff <= 1000) {
+      return value + 10;
+    } else if (diff <= 10000) {
+      return value + 100;
+    } else if (diff <= 100000) {
+      return value + 1000;
+    } else if (diff <= 1000000) {
+      return value + 10000;
+    } else if (diff <= 10000000) {
+      return value + 100000;
+    }
+  
+    return value + 1000000;
+  }
+  
+  const getDecrement = (diff: number): number => {
+    diff = Math.abs(diff);
+
+    if(diff <= 0.1) {
+      return parseFloat((value - 0.01).toFixed(2));
+    } else if (diff < 1) {
+      return parseFloat((value - 0.1).toFixed(1));
+    } else if (diff <= 100) {
+      return value - 1;
+    } else if (diff <= 1000) {
+      return value - 10;
+    } else if (diff <= 10000) {
+      return value - 100;
+    } else if (diff <= 100000) {
+      return value - 1000;
+    } else if (diff <= 1000000) {
+      return value - 10000;
+    } else if (diff <= 10000000) {
+      return value - 100000;
+    }
+  
+    return value - 1000000;
+  }
+  
   useEffect(() => {
-    let iter: number = 0;
-
     const interval: NodeJS.Timeout = setInterval(() => {
-      if(value < props.value) {
-        let updatedValue: number = value;
+      let diff: number = parseFloat((props.value - value).toFixed(2));
 
-        if(props.value - value >= 1000000) {
-          updatedValue += 500000;
-        } else if(props.value - value >= 100000) {
-          updatedValue += 50000;
-        } else if(props.value - value >= 1000) {
-          updatedValue += 500;
-        } else if (props.value - value >= 100) {
-          updatedValue += 50;
-        } else if (props.value - value >= 10) {
-          updatedValue += 5;
-        } else if (props.value - value >= 1) {
-          updatedValue += 1;
-        } else if (props.value - value >= 0.1) {
-          updatedValue += 0.1;
-        } else {
-          updatedValue += 0.01;
-        }
-
-        iter = iter + 1;
-
-        setValue(updatedValue);
+      if(diff > 0) {
+        setValue(getIncrement(diff));
+      } else if (diff < 0) {
+        setValue(getDecrement(diff));
       } else {
         clearInterval(interval);
       }
-    }, 5);
+    }, 2);
 
     return () => {
       clearInterval(interval);

@@ -30,7 +30,6 @@ export const MyPoints: React.FC<MyPointsProps> = (props: MyPointsProps) => {
                 <div className="my-available-points-wrapper">
                   <AnimatedCounter 
                     className="my-available-points"
-                    initialValue={points.available} 
                     tooltip={points.available.toLocaleString()}
                     value={points.available} 
                     formatValue={(value: number) => NumberUtility.shorten(value)}
@@ -40,7 +39,6 @@ export const MyPoints: React.FC<MyPointsProps> = (props: MyPointsProps) => {
                 <div className="my-total-points-wrapper">
                   <AnimatedCounter 
                     className="my-total-points"   
-                    initialValue={points.total} 
                     tooltip={points.total.toLocaleString()}
                     value={points.total} 
                     formatValue={(value: number) => NumberUtility.shorten(value)}

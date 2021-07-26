@@ -19,7 +19,6 @@ export const MatchupSideStat: React.FC<MatchupSideStatProps> = (props: MatchupSi
       <div className="game-matchup-side-stat">
         <Label icon={props.icon} tooltip={props.tooltip} />      
         <AnimatedCounter 
-          initialValue={props.value} 
           value={props.value} 
           formatValue={props.formatValue} 
         />
@@ -30,7 +29,6 @@ export const MatchupSideStat: React.FC<MatchupSideStatProps> = (props: MatchupSi
   return (
     <div className="game-matchup-side-stat">      
       <AnimatedCounter 
-        initialValue={props.value} 
         value={props.value} 
         formatValue={props.formatValue} 
       />
