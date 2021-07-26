@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import ReactDOM from "react-dom";
 import classNames from "classnames";
 
-import { Label } from "../../../../components/label/label";
+import { AnimatedCounter } from "../../../../components/animatedCounter/animatedCounter";
 
 import { GamePageContext } from "../../gamePage";
 
@@ -28,18 +28,22 @@ export const MyPoints: React.FC<MyPointsProps> = (props: MyPointsProps) => {
               <div className="my-points-content">
                 <i className={classNames("my-points-icon", Icon.Points)} />
                 <div className="my-available-points-wrapper">
-                  <Label 
-                    className="my-available-points passion-one-font"      
-                    text={NumberUtility.shorten(points.available)} 
+                  <AnimatedCounter 
+                    className="my-available-points"
+                    initialValue={points.available} 
                     tooltip={points.available.toLocaleString()}
+                    value={points.available} 
+                    formatValue={(value: number) => NumberUtility.shorten(value)}
                   />
                   <h1 className="my-available-points-label passion-one-font">Available</h1>
                 </div>
                 <div className="my-total-points-wrapper">
-                  <Label 
-                    className="my-total-points passion-one-font"    
-                    text={NumberUtility.shorten(points.total)} 
+                  <AnimatedCounter 
+                    className="my-total-points"   
+                    initialValue={points.total} 
                     tooltip={points.total.toLocaleString()}
+                    value={points.total} 
+                    formatValue={(value: number) => NumberUtility.shorten(value)}
                   />
                   <h1 className="my-total-points-label passion-one-font">Total Points</h1>
                 </div>

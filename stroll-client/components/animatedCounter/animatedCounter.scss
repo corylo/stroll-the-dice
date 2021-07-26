@@ -1,0 +1,13 @@
+.animated-counter {  
+  display: inline-flex;
+  position: relative;
+
+  &:hover,
+  &:focus {
+    z-index: 2;
+
+    .tooltip {
+      opacity: 1;
+    }
+  }
+}

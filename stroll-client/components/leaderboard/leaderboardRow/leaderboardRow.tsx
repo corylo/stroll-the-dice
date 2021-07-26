@@ -1,7 +1,7 @@
 import React from "react";
 import _orderBy from "lodash.orderby";
 
-import { Label } from "../../label/label";
+import { AnimatedCounter } from "../../animatedCounter/animatedCounter";
 import { UserLink } from "../../userLink/userLink";
 
 import { IPlayer } from "../../../../stroll-models/player";
@@ -24,11 +24,14 @@ export const LeaderboardRow: React.FC<LeaderboardRowProps> = (props: Leaderboard
         <i className="leaderboard-row-icon fal fa-trophy" />      
         <div className="leaderboard-row-player-and-points">
           <UserLink key={player.id} profile={player.profile} />          
-          <Label
-            className="leaderboard-row-points passion-one-font"
-            icon={Icon.Points} 
-            text={player.points.total.toLocaleString()} 
-          />
+          <div className="leaderboard-row-points">
+            <i className={Icon.Points} />                 
+            <AnimatedCounter 
+              initialValue={player.points.total} 
+              value={player.points.total} 
+              formatValue={(value: number) => value.toLocaleString()} 
+            />
+          </div>
         </div>
       </div>
     </div>

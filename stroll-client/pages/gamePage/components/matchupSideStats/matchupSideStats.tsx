@@ -28,19 +28,22 @@ export const MatchupSideStats: React.FC<MatchupSideStatsProps> = (props: Matchup
           alignment={props.alignment}
           icon="fal fa-shoe-prints" 
           tooltip="Steps"
-          value={side.steps ? side.steps.toLocaleString() : "0"} 
+          value={side.steps}
+          formatValue={(value: number) => value.toLocaleString()}
         />
         <MatchupSideStat 
           alignment={props.alignment}
           icon={Icon.Points}
           tooltip="Total Wagered"
-          value={side.total.wagered ? NumberUtility.shorten(side.total.wagered) : "-"} 
+          value={side.total.wagered}
+          formatValue={(value: number) => NumberUtility.shorten(value)}
         />
         <MatchupSideStat 
           alignment={props.alignment}
           icon="fal fa-dice" 
-          tooltip="Return Ratio"
-          value={`1 : ${new Intl.NumberFormat("en-IN", { maximumFractionDigits: 2 }).format(odds)}`} 
+          tooltip="Return Ratio"          
+          value={odds}
+          formatValue={(value: number) => `1 : ${new Intl.NumberFormat("en-IN", { maximumFractionDigits: 2 }).format(value)}`}
         />
         <MatchupSideStat 
           alignment={props.alignment}

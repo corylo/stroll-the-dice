@@ -10,11 +10,12 @@ import { PlayerStatement } from "../playerStatement/playerStatement";
 
 import { GamePageContext } from "../../pages/gamePage/gamePage";
 
+import { FirestoreDateUtility } from "../../../stroll-utilities/firestoreDateUtility";
+
 import { IPlayer } from "../../../stroll-models/player";
 
 import { GameStatus } from "../../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../../stroll-enums/requestStatus";
-import { FirestoreDateUtility } from "../../../stroll-utilities/firestoreDateUtility";
 
 interface LeaderboardProps {  
   id: string;

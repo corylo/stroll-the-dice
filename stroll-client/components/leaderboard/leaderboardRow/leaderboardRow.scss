@@ -45,13 +45,40 @@
       justify-content: space-between;
       margin-left: 10px;
 
-      .leaderboard-row-points {
+      .leaderboard-row-points {  
+        align-items: center;
         color: gray(230);
+        display: flex;
+        justify-content: center;
 
-        .label-text-wrapper > h1 {
-          height: 20px;
-          line-height: 20px;
+        i {
+          font-size: 0.7em;
+        }
+
+        .animated-counter {
           margin-left: 5px;
+
+          h1 {
+            color: gray(230);
+          }
+        }
+      }
+    }
+  }
+}
+
+@include small-phone-or-smaller {
+  .leaderboard-remaining-row {  
+    .leaderboard-remaining-row-content {      
+      .leaderboard-row-player-and-points {
+        .user-link {
+          .user-link-content {
+            .user-link-username-wrapper {
+              .user-link-username {
+                max-width: 90px;
+              }
+            }
+          }
         }
       }
     }

@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import _orderBy from "lodash.orderby";
 
-import { Label } from "../../label/label";
+import { AnimatedCounter } from "../../animatedCounter/animatedCounter";
 import { ProfileIcon } from "../../profileIcon/profileIcon";
 
 import { IPlayer } from "../../../../stroll-models/player";
@@ -27,6 +27,16 @@ export const LeaderboardTopRow: React.FC<LeaderboardTopRowProps> = (props: Leade
     }
   }
 
+  const getName = (): JSX.Element => {
+    if(profile.name) {
+      return (        
+        <h1 className="leaderboard-top-row-player-name passion-one-font">
+          {profile.name}
+        </h1>  
+      )
+    }
+  }
+  
   return (
     <div className={classNames("leaderboard-top-row", `place-${props.place}`)}>
       <div className="leaderboard-top-row-content-border" />
@@ -47,12 +57,16 @@ export const LeaderboardTopRow: React.FC<LeaderboardTopRowProps> = (props: Leade
           >
             {profile.username}
           </h1>     
-        </div>            
-        <Label
-          className="leaderboard-top-row-points passion-one-font"
-          icon={Icon.Points}
-          text={points.total.toLocaleString()} 
-        />
+          {getName()}
+        </div>             
+        <div className="leaderboard-top-row-points">
+          <i className={Icon.Points} />                 
+          <AnimatedCounter 
+            initialValue={points.total}
+            value={points.total} 
+            formatValue={(value: number) => value.toLocaleString()} 
+          />
+        </div>  
       </div>
     </div>
   );

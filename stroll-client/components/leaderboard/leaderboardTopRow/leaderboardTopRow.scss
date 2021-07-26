@@ -137,15 +137,30 @@
         white-space: nowrap;
         width: 140px;
       }
+
+      .leaderboard-top-row-player-name {
+        color: gray(230);
+        font-size: 0.8em;
+      }
     }
 
     .leaderboard-top-row-points {    
+      align-items: center;
       color: gray(230);
+      display: flex;
       justify-content: center;
       margin-top: 5px;
 
-      .label-text-wrapper > h1 {
+      i {
+        font-size: 0.7em;
+      }
+
+      .animated-counter {
         margin-left: 5px;
+
+        h1 {
+          color: gray(230);
+        }
       }
     }
   }

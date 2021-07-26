@@ -66,7 +66,7 @@ export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => {
   }
 
   const getUpdateTimer = (): JSX.Element => {
-    if(!FirestoreDateUtility.endOfDayProgressUpdateComplete(matchup.day, state.game.startsAt, state.game.progressUpdateAt)) {      
+    if(state.game.progressUpdateAt && !FirestoreDateUtility.endOfDayProgressUpdateComplete(matchup.day, state.game.startsAt, state.game.progressUpdateAt)) {      
       const threshold: ITimeThreshold = {
         quantity: 60,
         timestamp: FirestoreDateUtility.beginningOfHour(state.game.progressUpdateAt),
