@@ -35,7 +35,9 @@ export const AnimatedCounter: React.FC<AnimatedCounterProps> = (props: AnimatedC
     updateChange = (change: AnimatedCounterChange): void => setState({ ...state, change });
   
   const getIncrement = (diff: number): number => {
-    if(diff >= 20000000) {
+    if(diff >= 200000000) {
+      return state.value + 100000000 + NumberUtility.random(0, 9999999);
+    } else if(diff >= 20000000) {
       return state.value + 10000000 + NumberUtility.random(0, 999999);
     } else if(diff >= 2000000) {
       return state.value + 1000000 + NumberUtility.random(0, 99999);
@@ -61,7 +63,13 @@ export const AnimatedCounter: React.FC<AnimatedCounterProps> = (props: AnimatedC
   const getDecrement = (diff: number): number => {
     diff = Math.abs(diff);
 
-    if(diff >= 200000) {
+    if(diff >= 200000000) {
+      return state.value - 100000000 - NumberUtility.random(0, 9999999);
+    } if(diff >= 20000000) {
+      return state.value - 10000000 - NumberUtility.random(0, 999999);
+    } else if(diff >= 2000000) {
+      return state.value - 1000000 - NumberUtility.random(0, 99999);
+    } else if(diff >= 200000) {
       return state.value - 100000 - NumberUtility.random(0, 9999);
     } else if(diff >= 20000) {
       return state.value - 10000 - NumberUtility.random(0, 999);
