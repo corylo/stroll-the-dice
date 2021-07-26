@@ -1,23 +1,22 @@
 .app-brand {
-  display: block;
+  align-items: center;
+  display: inline-flex;
   height: 50px;
   outline: none;
   pointer-events: all;
+  position: relative;
+  text-decoration: none;
   white-space: nowrap;
 
   &:hover,
   &:focus {
-    i, h1 {
+    i, .app-brand-name {
       text-shadow: 0px 0px 8px rgba($themeMain, 0.5);
     }
   }
 
-  i, h1 {
+  i, .app-brand-name {
     color: $themeMain;
-    display: inline-block;
-    height: 50px;
-    line-height: 50px;
-    vertical-align: top;
   }
 
   i {
@@ -26,8 +25,23 @@
     width: 30px;
   }
 
-  h1 { 
+  .app-brand-name { 
     font-size: 1.25em;
+    line-height: 20px;
     margin-left: 5px;
+  }
+
+  .app-brand-beta-label {
+    background: linear-gradient(to right, rgba($themeMain, 0.25), rgba($themeSecondary, 0.25));    
+    border: 1px solid $themeMain;
+    border-radius: 100px;    
+    color: gray(230);
+    font-size: 0.8em;
+    padding: 2px 8px;
+    position: absolute;
+    right: -10px;
+    text-align: center;
+    top: 50%;
+    transform: translate(100%, -50%);
   }
 }

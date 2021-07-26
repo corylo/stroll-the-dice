@@ -14,7 +14,7 @@ export const Brand: React.FC<BrandProps> = (props: BrandProps) => {
     }
 
     return (
-      <h1 className="lobster-font">Stroll The Dice</h1>
+      <h1 className="app-brand-name lobster-font">Stroll The Dice</h1>
     );
   }
 
@@ -22,6 +22,7 @@ export const Brand: React.FC<BrandProps> = (props: BrandProps) => {
     <Link className="app-brand" to="/">
       <i className={Icon.AppBrand} />
       {getBrandText()}
+      <h1 className="app-brand-beta-label passion-one-font">BETA</h1>
     </Link>
   )
 }
