@@ -3,6 +3,19 @@ import classNames from "classnames";
 
 import { Tooltip, TooltipSide } from "../tooltip/tooltip";
 
+import { NumberUtility } from "../../../stroll-utilities/numberUtility";
+
+enum AnimatedCounterChange {
+  Decrement = "Decrement",
+  Increment = "Increment",
+  Neutral = ""
+}
+
+interface IAnimatedCounterState {
+  change: AnimatedCounterChange;
+  value: number;
+}
+
 interface AnimatedCounterProps {  
   className?: string;
   initialValue?: number;
@@ -13,88 +26,111 @@ interface AnimatedCounterProps {
 }
 
 export const AnimatedCounter: React.FC<AnimatedCounterProps> = (props: AnimatedCounterProps) => {  
-  const [value, setValue] = useState<number>(props.initialValue || 0);
+  const [state, setState] = useState<IAnimatedCounterState>({ 
+    change: AnimatedCounterChange.Neutral,
+    value: props.initialValue || 0
+  });
 
-  const getIncrement = (diff: number): number => {
-    if(diff <= 0.1) {
-      return parseFloat((value + 0.01).toFixed(2));
-    } else if (diff < 1) {
-      return parseFloat((value + 0.1).toFixed(1));
-    } else if (diff <= 20) {
-      return value + 1;
-    } else if (diff <= 200) {
-      return value + 10;
-    } else if (diff <= 2000) {
-      return value + 100;
-    } else if (diff <= 20000) {
-      return value + 1000;
-    } else if (diff <= 200000) {
-      return value + 10000;
-    } else if (diff <= 2000000) {
-      return value + 100000;
-    } else if (diff <= 20000000) {
-      return value + 1000000;
-    } else if (diff <= 200000000) {
-      return value + 10000000;
-    }
+  const updateValue = (value: number): void => setState({ ...state, value }),
+    updateChange = (change: AnimatedCounterChange): void => setState({ ...state, change });
   
-    return value + 100000000;
+  const getIncrement = (diff: number): number => {
+    if(diff >= 20000000) {
+      return state.value + 10000000 + NumberUtility.random(0, 999999);
+    } else if(diff >= 2000000) {
+      return state.value + 1000000 + NumberUtility.random(0, 99999);
+    } else if(diff >= 200000) {
+      return state.value + 100000 + NumberUtility.random(0, 9999);
+    } else if(diff >= 20000) {
+      return state.value + 10000 + NumberUtility.random(0, 999);
+    } else if (diff >= 2000) {
+      return state.value + 1000 + NumberUtility.random(0, 99);
+    } else if (diff >= 200) {
+      return state.value + 100 + NumberUtility.random(0, 9);
+    } else if (diff >= 20) {
+      return state.value + 10 + NumberUtility.random(0, 9);
+    } else if (diff >= 1) {
+      return state.value + NumberUtility.random(0, 9);
+    } else if (diff >= 0.1) {
+      return state.value + (NumberUtility.random(0, 99) / 100);
+    } else {
+      return state.value + (NumberUtility.random(0, 99) / 100);
+    }
   }
   
   const getDecrement = (diff: number): number => {
     diff = Math.abs(diff);
 
-    if(diff <= 0.1) {
-      return parseFloat((value - 0.01).toFixed(2));
-    } else if (diff < 1) {
-      return parseFloat((value - 0.1).toFixed(1));
-    } else if (diff <= 20) {
-      return value - 1;
-    } else if (diff <= 200) {
-      return value - 10;
-    } else if (diff <= 2000) {
-      return value - 100;
-    } else if (diff <= 20000) {
-      return value - 1000;
-    } else if (diff <= 200000) {
-      return value - 10000;
-    } else if (diff <= 2000000) {
-      return value - 100000;
-    } else if (diff <= 20000000) {
-      return value - 1000000;
-    } else if (diff <= 200000000) {
-      return value - 10000000;
+    if(diff >= 200000) {
+      return state.value - 100000 - NumberUtility.random(0, 9999);
+    } else if(diff >= 20000) {
+      return state.value - 10000 - NumberUtility.random(0, 999);
+    } else if (diff >= 2000) {
+      return state.value - 1000 - NumberUtility.random(0, 99);
+    } else if (diff >= 200) {
+      return state.value - 100 - NumberUtility.random(0, 9);
+    } else if (diff >= 20) {
+      return state.value - 10 - NumberUtility.random(0, 9);
+    } else if (diff >= 1) {
+      return state.value - NumberUtility.random(0, 9);
+    } else if (diff >= 0.1) {
+      return state.value - (NumberUtility.random(0, 99) / 100);
+    } else {
+      return state.value - (NumberUtility.random(0, 99) / 100);
     }
-  
-    return value - 1000000;
   }
+
+  useEffect(() => {
+    const diff: number = parseFloat((props.value - state.value).toFixed(2));
+
+    if(diff > 0) {
+      updateChange(AnimatedCounterChange.Increment);
+    } else if (diff < 0) {
+      updateChange(AnimatedCounterChange.Decrement);
+    }
+  }, [props.value]);
   
   useEffect(() => {
-    const interval: NodeJS.Timeout = setInterval(() => {
-      let diff: number = parseFloat((props.value - value).toFixed(2));
+    const diff: number = parseFloat((props.value - state.value).toFixed(2));
 
-      console.log(diff);
-
-      if(diff > 0) {
-        setValue(getIncrement(diff));
-      } else if (diff < 0) {
-        setValue(getDecrement(diff));
-      } else {
+    if(state.change === AnimatedCounterChange.Increment) {
+      const interval: NodeJS.Timeout = setInterval(() => {        
+        if(diff > 0) {
+          updateValue(getIncrement(diff));
+        } else {
+          setState({ change: AnimatedCounterChange.Neutral, value: props.value });
+  
+          clearInterval(interval);
+        }            
+      }, 10);
+  
+      return () => {
         clearInterval(interval);
       }
-    }, 10);
-
-    return () => {
-      clearInterval(interval);
+    } else if (state.change === AnimatedCounterChange.Decrement) {
+      const interval: NodeJS.Timeout = setInterval(() => {
+        if (diff < 0) {
+          updateValue(getDecrement(diff));
+        } else {
+          setState({ change: AnimatedCounterChange.Neutral, value: props.value });
+  
+          clearInterval(interval);
+        }            
+      }, 10);
+  
+      return () => {
+        clearInterval(interval);
+      }
     }
-  }, [props.value, value]);
+    
+  }, [props.value, state]);
 
   const getValue = (): number | string => {
     if(props.formatValue) {
-      return props.formatValue(value);
+      return props.formatValue(state.value);
     }
 
-    return value;
+    return state.value;
   }
 
   const getTooltip = (): JSX.Element => {
