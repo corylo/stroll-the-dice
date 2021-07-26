@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 
+import { FirestoreDateUtility } from "../../stroll-utilities/firestoreDateUtility";
 import { MatchupUtility } from "./matchupUtility";
 
 import { IMatchup, IMatchupSide } from "../../stroll-models/matchup";
@@ -14,10 +15,12 @@ interface IPredictionUtility {
   getById: (creatorID: string, matchupID: string, predictions: IPrediction[]) => IPrediction;
   getNetAmount: (prediction: IPrediction, matchup: IMatchup) => number;
   getPayoutAmount: (amount: number, matchup: IMatchup) => number;
+  getPredictionsCloseAt: (matchup: IMatchup, startsAt: firebase.firestore.FieldValue) => firebase.firestore.FieldValue;  
   mapCreate: (amount: number, creatorID: string, gameID: string, matchupID: string, playerID: string) => IPrediction;
   mapUpdate: (amount: number, prediction: IPrediction) => IPredictionUpdate;
-  matchupAvailable: (matchup: IMatchup, day: number) => boolean;
+  matchupAvailable: (matchup: IMatchup) => boolean;
   matchupSideAvailable: (matchup: IMatchup, side: IMatchupSide, player: IPlayer, myPrediction: IPrediction) => boolean;
+  predictionsAvailableForDay: (matchup: IMatchup, startsAt: firebase.firestore.FieldValue) => boolean;  
 }
 
 export const PredictionUtility: IPredictionUtility = {  
@@ -39,6 +42,12 @@ export const PredictionUtility: IPredictionUtility = {
   getPayoutAmount: (amount: number, matchup: IMatchup): number => {
     return Math.round(amount * MatchupUtility.getWinnerOdds(matchup));
   },
+  getPredictionsCloseAt: (matchup: IMatchup, startsAt: firebase.firestore.FieldValue): firebase.firestore.FieldValue => {
+    const daysAsMillis: number = FirestoreDateUtility.daysToMillis(matchup.day - 1),
+      oneHourAsMillis: number = 3600 * 1000;
+
+    return FirestoreDateUtility.addMillis(startsAt, daysAsMillis + oneHourAsMillis)
+  },
   mapCreate: (amount: number, creatorID: string, gameID: string, matchupID: string, playerID: string): IPrediction => {
     return {
       amount,
@@ -59,14 +68,8 @@ export const PredictionUtility: IPredictionUtility = {
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     }
   },
-  matchupAvailable: (matchup: IMatchup, day: number): boolean => {    
-    const validDay: boolean = matchup.day > day,
-      validMatchup: boolean = matchup.left.profile.uid !== "" && matchup.right.profile.uid !== "";
-
-    return (
-      validDay &&
-      validMatchup
-    );
+  matchupAvailable: (matchup: IMatchup): boolean => {  
+    return matchup.left.profile.uid !== "" && matchup.right.profile.uid !== "";
   },
   matchupSideAvailable: (matchup: IMatchup, side: IMatchupSide, player: IPlayer, myPrediction: IPrediction): boolean => {
     const isInMatchup: boolean = MatchupUtility.playerIsInMatchup(player, matchup);
@@ -78,5 +81,10 @@ export const PredictionUtility: IPredictionUtility = {
       ifMyMatchupThenOnlyMe && 
       onlyTheSideIvePredicted
     );
+  },
+  predictionsAvailableForDay: (matchup: IMatchup, startsAt: firebase.firestore.FieldValue): boolean => {
+    const predictionsCloseAt: firebase.firestore.FieldValue = PredictionUtility.getPredictionsCloseAt(matchup, startsAt);
+
+    return !FirestoreDateUtility.lessThanOrEqualToNow(predictionsCloseAt);
   }
 }

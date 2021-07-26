@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import firebase from "firebase/app";
 
 import { Button } from "../../../../components/buttons/button";
 import { MatchupSides } from "../matchupSides/matchupSides";
@@ -13,7 +14,6 @@ import { PredictionUtility } from "../../../../utilities/predictionUtility";
 
 import { IMatchup } from "../../../../../stroll-models/matchup";
 import { IPrediction } from "../../../../../stroll-models/prediction";
-import { ITimeThreshold } from "../../../../../stroll-models/timeThreshold";
 
 interface MatchupProps {  
   matchup: IMatchup;
@@ -53,7 +53,10 @@ export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => {
   }
 
   const getPredictionButton = (): JSX.Element => {
-    if(PredictionUtility.matchupAvailable(matchup, state.day)) {
+    if(
+      PredictionUtility.predictionsAvailableForDay(matchup, state.game.startsAt) &&
+      PredictionUtility.matchupAvailable(matchup)
+    ) {
       return (
         <Button 
           className="toggle-prediction-button passion-one-font" 
@@ -66,19 +69,29 @@ export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => {
   }
 
   const getUpdateTimer = (): JSX.Element => {
-    if(state.game.progressUpdateAt && !FirestoreDateUtility.endOfDayProgressUpdateComplete(matchup.day, state.game.startsAt, state.game.progressUpdateAt)) {      
-      const threshold: ITimeThreshold = {
-        quantity: 60,
-        timestamp: FirestoreDateUtility.beginningOfHour(state.game.progressUpdateAt),
-        unit: "M"
+    if(
+      state.day === matchup.day &&
+      state.game.progressUpdateAt && 
+      !FirestoreDateUtility.endOfDayProgressUpdateComplete(matchup.day, state.game.startsAt, state.game.progressUpdateAt)
+    ) {   
+      const getText = (time: string): string => {
+        const beginningOfHour: firebase.firestore.FieldValue = FirestoreDateUtility.beginningOfHour(state.game.progressUpdateAt),
+          predictionsCloseAt: firebase.firestore.FieldValue = PredictionUtility.getPredictionsCloseAt(matchup, state.game.startsAt);
+        
+        if(PredictionUtility.predictionsAvailableForDay(matchup, state.game.startsAt) && FirestoreDateUtility.timestampToRelativeOfUnit(predictionsCloseAt, "M") <= 60) {
+          return `Predictions close in ${time}`;
+        } else if(FirestoreDateUtility.timestampToRelativeOfUnit(beginningOfHour, "M") >= 60) {
+          return "Retrieving step updates";
+        }
+
+        return `Update in ${time}`;
       }
   
       return (
         <div className="game-matchup-header">
           <UpdateTimer 
             interval={0} 
-            text="Retrieving step updates"
-            textThreshold={threshold}
+            getText={getText}
           />
         </div>
       )
