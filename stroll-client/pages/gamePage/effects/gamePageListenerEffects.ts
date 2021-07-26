@@ -181,7 +181,7 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
       if(updates.statuses.events === RequestStatus.Loading) {
         updates.statuses.events = RequestStatus.Success;
       }
-    } else if(updates.events.length > 0 && events.length === 0) {
+    } else if(events.length === 0) {
       updates.events = [];
 
       updates.statuses.events = RequestStatus.Success;
