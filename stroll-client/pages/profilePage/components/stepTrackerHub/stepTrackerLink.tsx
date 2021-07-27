@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 
-import { Button } from "../../../buttons/button";
-import { IconButton } from "../../../buttons/iconButton";
+import { Button } from "../../../../components/buttons/button";
+import { IconButton } from "../../../../components/buttons/iconButton";
 
-import { AppContext } from "../../../app/contexts/appContext";
+import { AppContext } from "../../../../components/app/contexts/appContext";
 
 import { StepTrackerService } from "../../../../services/stepTrackerService";
 
@@ -12,7 +12,7 @@ import { StepTrackerUtility } from "../../../../utilities/stepTrackerUtility";
 import { AppAction } from "../../../../enums/appAction";
 import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
 import { StepTracker } from "../../../../../stroll-enums/stepTracker";
-import { TooltipSide } from "../../../tooltip/tooltip";
+import { TooltipSide } from "../../../../components/tooltip/tooltip";
 
 interface StepTrackerLinkProps {    
   img: string;

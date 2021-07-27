@@ -4,22 +4,25 @@ import { Modal } from "../modal/modal";
 import { ModalBody } from "../modal/modalBody";
 import { ModalTitle } from "../modal/modalTitle";
 import { ProfileForm } from "./components/profileForm/profileForm";
-import { StepTrackerHub } from "./components/stepTrackerHub/stepTrackerHub";
 
 import { AppContext } from "../app/contexts/appContext";
 
 import { ProfileService } from "../../services/profileService";
+import { UpdateProfileService } from "./services/updateProfileService";
 
 import { ProfileFormUtility } from "./utilities/profileFormUtility";
+import { ProfileStatsUtility } from "../../utilities/profileStatsUtility";
 
 import { useOnClickAwayEffect } from "../../effects/appEffects";
 
 import { IProfile } from "../../../stroll-models/profile";
 import { IProfileFormStateFields } from "./models/profileFormStateFields";
+import { IProfileGamePassStats } from "../../../stroll-models/profileStats";
 import { IProfileUpdate } from "../../../stroll-models/profileUpdate";
 
 import { AppAction } from "../../enums/appAction";
 import { ElementID } from "../../enums/elementId";
+import { ProfileStatsID } from "../../../stroll-enums/profileStatsID";
 
 interface UpdateProfileModalProps {  
   
@@ -48,21 +51,24 @@ export const UpdateProfileModal: React.FC<UpdateProfileModalProps> = (props: Upd
   if(toggles.profile) {    
     const save = async (fields: IProfileFormStateFields): Promise<void> => {    
       if(user.profile.username === "") {        
-        const profile: IProfile = ProfileFormUtility.mapCreate(fields, user);
+        const profile: IProfile = ProfileFormUtility.mapCreate(fields, user),
+          stats: IProfileGamePassStats = ProfileStatsUtility.mapCreate(ProfileStatsID.GamePass);
 
-        await ProfileService.create(profile);
+        await UpdateProfileService.createProfile(profile, ProfileStatsID.GamePass, stats);
 
         const action: AppAction = toggles.acceptInvite 
           ? AppAction.SetProfileAndClose 
           : AppAction.SetProfile;
 
-        dispatch(action, profile);
+        dispatch(action, { profile, stats });
       } else {
         const update: IProfileUpdate = ProfileFormUtility.mapUpdate(fields);
 
         await ProfileService.update(user.profile.uid, update);
 
-        dispatch(AppAction.SetProfile, { ...user.profile, ...update });
+        dispatch(AppAction.SetProfile, { 
+          profile: { ...user.profile, ...update }
+        });
       }
     }
 
@@ -97,7 +103,6 @@ export const UpdateProfileModal: React.FC<UpdateProfileModalProps> = (props: Upd
             back={cancel} 
             save={save} 
           />
-          <StepTrackerHub />
         </ModalBody>
       </Modal>
     );

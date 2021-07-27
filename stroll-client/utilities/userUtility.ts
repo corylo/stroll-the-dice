@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 
 import { defaultProfile, IProfile } from "../../stroll-models/profile";
+import { defaultProfileStats } from "../../stroll-models/profileStats";
 import { IUser } from "../models/user";
 
 interface IUserUtility {
@@ -18,7 +19,8 @@ export const UserUtility: IUserUtility = {
   mapUser: (firebaseUser: firebase.User): IUser => {
     return {            
       email: firebaseUser.email || "",
-      profile: UserUtility.mapProfile(firebaseUser)
+      profile: UserUtility.mapProfile(firebaseUser),
+      stats: defaultProfileStats()
     }
   }
 }

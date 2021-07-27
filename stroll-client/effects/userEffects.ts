@@ -5,6 +5,7 @@ import firebase from "firebase/app";
 import { auth } from "../firebase";
 
 import { ProfileService } from "../services/profileService";
+import { ProfileStatsService } from "../services/profileStatsService";
 
 import { ErrorUtility } from "../utilities/errorUtility";
 import { UserUtility } from "../utilities/userUtility";
@@ -15,6 +16,7 @@ import { IUser } from "../models/user";
 import { AppAction } from "../enums/appAction";
 import { AppStatus } from "../enums/appStatus";
 import { DocumentType } from "../../stroll-enums/documentType";
+import { ProfileStatsID } from "../../stroll-enums/profileStatsID";
 
 export const useAuthStateChangedEffect = (appState: IAppState, dispatch: (type: AppAction, payload?: any) => void): void => {
   useEffect(() => {
@@ -24,6 +26,7 @@ export const useAuthStateChangedEffect = (appState: IAppState, dispatch: (type: 
         
         try {
           user.profile = await ProfileService.get.by.uid(user.profile.uid);
+          user.stats.gamePass = await ProfileStatsService.getByUID(user.profile.uid, ProfileStatsID.GamePass);
 
           dispatch(AppAction.SignInUser, user);
         } catch (err) {

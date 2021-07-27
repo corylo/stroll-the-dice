@@ -1,7 +1,10 @@
 import React, { useContext } from "react";
 
+import { GamePassHub } from "./components/gamePassHub/gamePassHub";
 import { Page } from "../../components/page/page";
 import { ProfileHeader } from "../../components/profileHeader/profileHeader";
+import { ProfilePageSection } from "./components/profilePageSection/profilePageSection";
+import { StepTrackerHub } from "./components/stepTrackerHub/stepTrackerHub";
 
 import { AppContext } from "../../components/app/contexts/appContext";
 
@@ -12,6 +15,7 @@ import { ImageUtility } from "../../utilities/imageUtility";
 import { AppAction } from "../../enums/appAction";
 import { AppStatus } from "../../enums/appStatus";
 import { Graphic } from "../../../stroll-enums/graphic";
+import { Icon } from "../../../stroll-enums/icon";
 
 interface ProfilePageProps {
   
@@ -33,6 +37,12 @@ export const ProfilePage: React.FC<ProfilePageProps> = (props: ProfilePageProps)
       return (
         <React.Fragment>
           <ProfileHeader profile={user.profile} />
+          <ProfilePageSection icon={Icon.Steps} title="Connect Step Trackers">
+            <StepTrackerHub />
+          </ProfilePageSection>
+          <ProfilePageSection icon={Icon.GamePass} title="Game Passes">
+            <GamePassHub />
+          </ProfilePageSection>
         </React.Fragment>
       )
     }

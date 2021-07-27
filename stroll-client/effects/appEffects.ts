@@ -39,13 +39,13 @@ export const useClearParamsEffect = (param: string): void => {
 }
 
 export const useCloseModalsEffect = (location: any, appState: IAppState, dispatch: (type: AppAction, payload?: any) => void): void => {  
-  useEffect(() => {
-    const { toggles } = appState;
+  // useEffect(() => {
+  //   const { toggles } = appState;
 
-    if(toggles.acceptInvite || toggles.menu || toggles.profile || toggles.signIn) {
-      dispatch(AppAction.CloseModals);
-    }
-  }, [location.pathname]);
+  //   if(toggles.acceptInvite || toggles.menu || toggles.profile || toggles.signIn) {
+  //     dispatch(AppAction.CloseModals);
+  //   }
+  // }, [location.pathname]);
 }
 
 export const useScrollToTopEffect = (location: any): void => {  

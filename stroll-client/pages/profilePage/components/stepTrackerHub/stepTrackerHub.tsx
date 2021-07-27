@@ -1,9 +1,8 @@
 import React, { useContext } from "react";
 
-import { Label } from "../../../label/label";
 import { StepTrackerLink } from "./stepTrackerLink";
 
-import { AppContext } from "../../../app/contexts/appContext";
+import { AppContext } from "../../../../components/app/contexts/appContext";
 
 import { StepTrackerUtility } from "../../../../utilities/stepTrackerUtility";
 
@@ -33,9 +32,6 @@ export const StepTrackerHub: React.FC<StepTrackerHubProps> = (props: StepTracker
   
   return (
     <div className="step-tracker-hub">
-      <div className="step-tracker-hub-label">
-        <Label className="passion-one-font" text="Connect Step Trackers" />
-      </div>
       <div className="step-tracker-links">
         <StepTrackerLink                     
           img="/img/brands/google-fit-logo.png" 

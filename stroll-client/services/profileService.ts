@@ -19,7 +19,7 @@ interface IProfileServiceGet {
 }
 
 interface IProfileService {
-  create: (user: IProfile) => Promise<void>;
+  create: (profile: IProfile) => Promise<void>;
   get: IProfileServiceGet;
   update: (id: string, update: IProfileUpdate) => Promise<void>;
 }
@@ -51,13 +51,13 @@ export const ProfileService: IProfileService = {
         throw new Error(ErrorUtility.doesNotExist(DocumentType.Profile));
       },
       uid: async (uid: string): Promise<IProfile> => {
-        const doc: firebase.firestore.DocumentData = await db.collection("profiles")
+        const doc: firebase.firestore.DocumentSnapshot<IProfile> = await db.collection("profiles")
           .doc(uid)
-          .withConverter(profileConverter)
+          .withConverter<IProfile>(profileConverter)
           .get();
-
+        
         if(doc.exists) {
-          return doc.data() as IProfile;
+          return doc.data();
         }
 
         throw new Error(ErrorUtility.doesNotExist(DocumentType.Profile));

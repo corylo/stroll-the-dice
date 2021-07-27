@@ -1,0 +1,26 @@
+.profile-page-section {
+  margin-top: 20px;
+
+  .profile-page-section-title {
+    padding: 0px 10px;
+
+    i {
+      font-size: 1em;
+    }
+
+    .label-text-wrapper {
+      > h1 {
+        color: gray(200);
+        font-size: 1.25em;
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  .profile-page-section-content {
+    border: 1px solid rgba(white, 0.25);
+    border-radius: 10px;
+    margin-top: 5px;
+    padding: 10px;
+  }
+}

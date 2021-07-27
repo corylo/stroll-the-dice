@@ -1,28 +1,5 @@
 .step-tracker-hub {
-  border: 1px solid rgba(white, 0.25);
-  border-radius: 10px;
-  margin-top: 30px;
-  padding: 10px;
-  padding-top: 20px;
   position: relative;
-
-  .step-tracker-hub-label {
-    background-color: gray(30);
-    height: 20px;
-    line-height: 20px;
-    left: 0px;
-    margin-left: 20px;
-    padding: 0px 10px;
-    position: absolute;
-    top: -10px;
-
-    .label {
-      > h1 {
-        color: gray(200);
-        text-transform: uppercase;
-      }
-    }
-  }
 
   .step-tracker-links {
     .step-tracker-link,
@@ -119,10 +96,6 @@
 
 @include phone-or-smaller {
   .step-tracker-hub {
-    .step-tracker-hub-label {
-      background-color: gray(20);     
-    }
-    
     .step-tracker-links {
       .step-tracker-link,
       .connected-step-tracker-link {

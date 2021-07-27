@@ -73,10 +73,6 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
             is: RequestStatus.Loading
           }
         },
-        toggles: {
-          ...state.toggles,
-          profile: true
-        },
         user: {
           ...state.user,
           profile: {
@@ -101,7 +97,8 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
         ...state,
         user: {
           ...state.user,
-          profile: action.payload
+          profile: action.payload.profile,
+          stats: action.payload.stats || state.user.stats
         }
       }
     case AppAction.SetProfileAndClose:
