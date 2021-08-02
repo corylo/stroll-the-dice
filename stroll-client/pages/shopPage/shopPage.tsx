@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 
+import { GameDayPurchaseOption } from "./components/gameDayPurchaseOption/gameDayPurchaseOption";
 import { Page } from "../../components/page/page";
 import { PageTitle } from "../../components/page/pageTitle";
-import { GameDayPurchaseOption } from "./components/gameDayPurchaseOption/gameDayPurchaseOption";
+import { ShopSection } from "./components/shopSection/shopSection";
 
 import { AppContext } from "../../components/app/contexts/appContext";
 
@@ -37,9 +38,13 @@ export const ShopPage: React.FC<NotificationsPageProps> = (props: NotificationsP
       requireAuth
     >     
       <PageTitle text="Shop" />      
-      <div className="game-day-purchase-options">
+      <ShopSection 
+        className="game-day-purchase-options"
+        description="In order to create or join a game, you will need to purchase Game Days! The duration of the game you've chosen will determine how many Game Days you will need."
+        title="Game Days"
+      >
         {getGameDayPurchaseOptions()}
-      </div>
+      </ShopSection>
     </Page>
   )
 }

@@ -1,4 +1,5 @@
 .button.fancy-option-button.game-day-purchase-option {  
+  background: $whiteGradient;
   padding: 10px;
   width: 100%;
 
@@ -28,8 +29,8 @@
     }
 
     .game-day-purchase-option-discount-label {
-      background-color: rgba(white, 0.25);
-      border: 1px solid rgba(white, 0.25);
+      background-color: rgba($green, 0.1);
+      border: 1px solid rgba($green, 0.25);
       border-radius: 6px;      
       margin-top: 20px;
       padding: 10px;

@@ -1,7 +1,10 @@
 @import "./components/gameDayPurchaseOption/gameDayPurchaseOption.scss";
+@import "./components/shopSection/shopSection.scss";
 
 #shop-page {
   .game-day-purchase-options {      
+    margin-top: 10px;
+
     .game-day-purchase-option {
       &:first-child {
         border-top-left-radius: 6px;      

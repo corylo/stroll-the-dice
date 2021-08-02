@@ -1,0 +1,16 @@
+.shop-section {
+  border-left: 1px solid white;
+  padding: 10px;
+  padding-right: 0px;
+
+  .shop-section-title {
+    color: white;
+    font-size: 1.25em;
+    margin-bottom: 5px;
+  }
+  
+  .shop-section-description {
+    color: gray(40);
+    margin-bottom: 20px;
+  }
+}

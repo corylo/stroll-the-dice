@@ -20,7 +20,7 @@ export const GameDayPurchaseOption: React.FC<GameDayPurchaseOptionProps> = (prop
 
       return (
         <h1 className="game-day-purchase-option-discount-label passion-one-font">
-          Only ${daily.toFixed(2)} / Game Day <span className="highlight-custom"><span className="percent">{percent}%</span> less!</span>
+          Only ${daily.toFixed(2)} / Day <span className="highlight-custom"><span className="percent">{percent}%</span> less!</span>
         </h1>
       )
     }
