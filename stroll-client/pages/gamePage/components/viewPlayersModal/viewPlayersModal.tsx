@@ -7,12 +7,21 @@ import { ModalTitle } from "../../../../components/modal/modalTitle";
 
 import { GamePageContext } from "../../gamePage";
 
+import { useOnClickAwayEffect } from "../../../../effects/appEffects";
+
 interface ViewPlayersModalProps {  
   back: () => void;
 }
 
 export const ViewPlayersModal: React.FC<ViewPlayersModalProps> = (props: ViewPlayersModalProps) => {  
   const { state } = useContext(GamePageContext);
+
+  useOnClickAwayEffect(
+    state.toggles.players, 
+    ["view-players-modal-content"], 
+    [state.toggles.players], 
+    props.back
+  );
 
   if(state.toggles.players) {
     return (

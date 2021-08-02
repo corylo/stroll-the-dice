@@ -151,7 +151,7 @@
       position: absolute;
 
       .modal-content {
-        background-color: $themeMain;
+        background: $themeMainGradient;
         border-radius: 10px;
         box-shadow: $shadow3;
       }

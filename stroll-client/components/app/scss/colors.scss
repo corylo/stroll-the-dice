@@ -26,10 +26,12 @@ $shadow3: rgba(0, 0, 0, 0.12) 0px 10px 30px, rgba(0, 0, 0, 0.16) 0px 6px 10px;
 $themeColor1: rgb(51, 105, 30);
 $themeColor2: rgb(0, 151, 167);
 
-$themeMain: $themeColor1;
+$themeMain: $themeColor2;
 
+$themeMainGradientPair: rgb(13, 71, 161);
+
+$themeMainGradient: linear-gradient(135deg, $themeMain, $themeMainGradientPair);
 $whiteGradient: linear-gradient(to right, rgba(white, 0.25), rgba(white, 0.05));
 $whiteGradientHover: linear-gradient(to right, rgba(white, 0.25), rgba(white, 0.1));
-$themeMainGradient: linear-gradient(to right, rgba($themeMain, 0.25), rgba($themeMain, 0.05));
 
 $scrollBarColor: gray(90);

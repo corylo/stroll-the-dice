@@ -11,8 +11,8 @@
 
       &:hover,
       &:focus {
-        background: $themeMainGradient;
-        border-color: $themeMain;
+        background: rgba(white, 0.5);
+        border-color: rgba(white, 0.5);
       }
 
       img {
