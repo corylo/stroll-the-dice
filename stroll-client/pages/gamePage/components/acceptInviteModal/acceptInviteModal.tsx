@@ -81,7 +81,7 @@ export const AcceptInviteModal: React.FC<AcceptInviteModalProps> = (props: Accep
                 Accept
               </Button>      
               <Button
-                className="submit-button fancy-button white passion-one-font" 
+                className="submit-button fancy-button passion-one-font" 
                 handleOnClick={props.back}
               >
                 Decline

@@ -8,7 +8,7 @@
     position: relative;
 
     &:after {
-      background-color: $themeMain;
+      background-color: gray(40);
       bottom: -4px;
       content: "";
       height: 2px;
@@ -18,7 +18,7 @@
     }
 
     h1 {
-      color: gray(230);
+      color: white;
       font-size: 2em;
       text-align: left;
     }
@@ -32,7 +32,7 @@
     }
 
     .form-body-section {
-      border: 1px solid gray(90);
+      border: 1px solid rgba(white, 0.5);
       border-radius: 10px;
       margin-top: 10px;
       padding: 10px;

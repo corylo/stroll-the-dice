@@ -27,7 +27,7 @@ export const PlayerDayCompletedSummaryEventDescription: React.FC<PlayerDayComple
   const { event } = props;
 
   if(event.overall !== undefined) {
-    const overallLabel: string = event.overall >= 0 ? "Gain of " : "Loss of ";
+    const overallIcon: string = event.overall >= 0 ? "fal fa-plus" : "fal fa-minus";
 
     return (
       <EventDescriptionWrapper>
@@ -45,7 +45,7 @@ export const PlayerDayCompletedSummaryEventDescription: React.FC<PlayerDayComple
             <h1 className="passion-one-font"><PointStatement amount={event.lost.toLocaleString()} /></h1>
           </SummaryRow>
           <SummaryRow label="Overall">
-            <h1 className="passion-one-font">{overallLabel} <PointStatement amount={Math.abs(event.overall).toLocaleString()} /></h1>
+            <h1 className="passion-one-font"><i className={overallIcon} /> <PointStatement amount={Math.abs(event.overall).toLocaleString()} /></h1>
           </SummaryRow>
         </div>
       </EventDescriptionWrapper>

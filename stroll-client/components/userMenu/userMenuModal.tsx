@@ -77,7 +77,7 @@ export const UserMenuModal: React.FC<UserMenuModalProps> = (props: UserMenuModal
     const getSignOutButton = (): JSX.Element => {
       if(user) {
         return (          
-          <Button id="sign-out-button" className="user-menu-item passion-one-font fancy-button white" handleOnClick={handleSignOut}>
+          <Button id="sign-out-button" className="user-menu-item passion-one-font fancy-button" handleOnClick={handleSignOut}>
             Sign Out
           </Button>
         )

@@ -4,7 +4,7 @@
   }
 
   .how-to-play-section-title {
-    color: gray(230);
+    color: white;
     font-size: 1.5em;
   }
 
@@ -13,14 +13,14 @@
     margin-top: 5px;
 
     .how-to-play-section-content-border {
-      background-color: $themeMain;
+      background-color: gray(40);
       border-radius: 10px;
       flex-shrink: 0;
       width: 2px;
     }
 
     .how-to-play-section-content {
-      background: linear-gradient(to right, rgba(white, 0.05), transparent);
+      background: linear-gradient(to right, rgba(black, 0.05), transparent);
       border-radius: 4px;
       margin-left: 5px;
       padding: 20px 10px;
@@ -33,21 +33,21 @@
         display: flex;
 
         .how-to-play-section-text-border {
-          background-color: gray(200);
+          background-color: white;
           border-radius: 10px;
           flex-shrink: 0;
           width: 2px;
         }
 
         .how-to-play-section-text-content {
-          background: linear-gradient(to right, rgba(white, 0.05), transparent);
+          background: linear-gradient(to right, rgba(white, 0.1), transparent);
           border-radius: 4px;
           margin-left: 5px;
           padding: 5px 10px;
           padding-right: 0px;
 
           p {            
-            color: gray(200);
+            color: white;
             font-size: 1.25em;
           }
         }
@@ -56,12 +56,12 @@
 
     .how-to-play-sub-section {
       .how-to-play-sub-section-title {
-        color: gray(230);
+        color: white;
         font-size: 1.5em;
       }
 
       .how-to-play-sub-section-content {
-        border-left: 2px solid gray(230);
+        border-left: 2px solid white;
         margin-top: 10px;
         padding: 10px;
         padding-right: 0px;

@@ -11,7 +11,7 @@
 
       &:hover,
       &:focus {
-        background-color: rgba($themeMain, 0.3);
+        background: $themeMainGradient;
         border-color: $themeMain;
       }
 

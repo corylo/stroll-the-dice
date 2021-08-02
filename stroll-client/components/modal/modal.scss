@@ -1,5 +1,5 @@
 .modal-wrapper {
-  background-color: rgba(gray(20), 0.8);
+  background-color: rgba(black, 0.8);
   pointer-events: all;
   height: 100vh;
   left: 0px;
@@ -19,7 +19,6 @@
       .modal-content {
         .modal-title {      
           h1 {
-            color: gray(200);
             font-size: 2em;
             text-align: left;
             width: calc(100% - 60px);
@@ -48,7 +47,7 @@
           
           &:hover,
           &:focus {
-            color: $themeMain;
+            color: gray(40);
           }
 
           i {
@@ -59,13 +58,13 @@
         }
 
         h1 {
-          color: gray(200);
+          color: white;
           font-size: 2em;
           text-align: left;
           width: 100%;
           
           &:after {
-            background-color: $themeMain;
+            background-color: gray(40);
             bottom: -4px;
             content: "";
             height: 2px;
@@ -125,7 +124,7 @@
 
 @include phone-or-smaller {
   .modal-wrapper {
-    background-color: rgba(gray(20), 0.98);
+    background-color: rgba($themeMain, 0.98);
 
     .modal-content-wrapper { 
       animation: fadeIn 400ms ease-in;
@@ -152,7 +151,7 @@
       position: absolute;
 
       .modal-content {
-        background-color: gray(30);
+        background-color: $themeMain;
         border-radius: 10px;
         box-shadow: $shadow3;
       }

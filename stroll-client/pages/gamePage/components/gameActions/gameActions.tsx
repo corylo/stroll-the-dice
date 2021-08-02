@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 
-import { Dot } from "../../../../components/dot/dot";
 import { IconButton } from "../../../../components/buttons/iconButton";
 import { UpdateGameButton } from "../updateGameButton/updateGameButton";
 
@@ -31,7 +30,7 @@ export const GameActions: React.FC<GameActionsProps> = (props: GameActionsProps)
       actions.push(
         <IconButton
           key="invite"
-          className="invite-button inline-icon-button"
+          className="invite-button"
           icon="fal fa-user-plus" 
           tooltip="Invite"
           handleOnClick={props.toggleInvite} 
@@ -40,10 +39,6 @@ export const GameActions: React.FC<GameActionsProps> = (props: GameActionsProps)
     }
 
     if(game.creator.uid === appState.user.profile.uid) {
-      if(actions.length === 1) {
-        actions.push(<Dot key="dot" />);
-      }
-
       actions.push(
         <UpdateGameButton 
           key="update"

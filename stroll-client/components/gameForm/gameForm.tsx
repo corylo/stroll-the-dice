@@ -142,7 +142,7 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
     if(props.game && props.back) {
       return (        
         <Button
-          className="submit-button fancy-button white passion-one-font" 
+          className="submit-button fancy-button passion-one-font" 
           handleOnClick={props.back}
         >
           Back

@@ -52,12 +52,10 @@ export const MyPrediction: React.FC<MyPredictionProps> = (props: MyPredictionPro
     )
   } else if(myPrediction.ref.player === matchup.winner) {     
     const payoutAmount: number = PredictionUtility.getPayoutAmount(myPrediction.amount, matchup),
-      netAmount: number = PredictionUtility.getNetAmount(myPrediction, matchup),
-      payoutPointStatement: JSX.Element = <PointStatement amount={payoutAmount.toLocaleString()} />,
-      netPointStatement: JSX.Element = <PointStatement amount={netAmount.toLocaleString()} />;
+      payoutPointStatement: JSX.Element = <PointStatement amount={payoutAmount.toLocaleString()} />;
 
     return (        
-      <h1 className="my-prediction passion-one-font">You received {payoutPointStatement} for correctly predicting {playerStatement} with {pointStatement}. This is a net gain of {netPointStatement}!</h1>
+      <h1 className="my-prediction passion-one-font">You received {payoutPointStatement} for correctly predicting {playerStatement} with {pointStatement}.</h1>
     )
   } else if (myPrediction.ref.player !== matchup.winner) {
     const lostPointAmount: number = myPrediction.ref.player === myPrediction.ref.creator 

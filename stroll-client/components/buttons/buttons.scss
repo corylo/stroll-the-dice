@@ -7,9 +7,9 @@
   padding: 10px;
   position: relative;
 
-  &:not(:disabled):hover,
-  &:not(:disabled):focus {
-    background-color: $themeMain;
+  &:not(:disabled, .selected):hover,
+  &:not(:disabled, .selected):focus {
+    background-color: rgba(white, 0.2);
     color: white;
     cursor: pointer;
     
@@ -36,29 +36,9 @@
   }
 }
 
-.inline-icon-button {       
-  background-color: transparent;
-
-  &:not(:disabled):hover,
-  &:not(:disabled):focus {
-    background-color: transparent;
-    
-    i {
-      color: $themeMain;
-    }
-  }
-  
-  i {
-    font-size: 1em;
-    height: 20px;
-    line-height: 20px;
-    width: 20px;
-  }
-}
-
 .button.fancy-button {
-  background: $themeMainGradient;
-  border: 1px solid rgba($themeMain, 0.5);
+  background: $whiteGradient;
+  border: 1px solid rgba(white, 0.5);
   display: inline-block;
   font-weight: bolder;
   padding: 10px 20px;
@@ -66,26 +46,11 @@
 
   &:not(:disabled):hover,
   &:not(:disabled):focus {
-    background-color: $themeMain;
+    background: $whiteGradientHover;
   }
 
   &:disabled {
     opacity: 0.4;
-  }
-
-  &.white {
-    background: rgba(white, 0.1);
-    border: 1px solid rgba(white, 0.5);
-      
-    &:not(:disabled):hover,
-    &:not(:disabled):focus {
-      background: rgba(white, 0.8);
-      color: gray(60);
-
-      h1 {
-        color: gray(60);
-      }
-    }
   }
 
   &.red {    
@@ -99,7 +64,7 @@
   }
 
   i, h1 {
-    color: white;
+    color: gray(40);
     display: inline-block;
     font-size: 1.25em;
     height: 30px;
@@ -113,7 +78,7 @@
 }
 
 .button.fancy-option-button {
-  border: 1px solid gray(120);
+  border: 1px solid rgba(white, 0.5);
   padding: 15px 10px;
 
   &:not(:disabled):hover,
@@ -122,8 +87,13 @@
   }
 
   &:not(:disabled).selected {
-    background: $themeMainGradient;
-    border: 1px solid rgba($themeMain, 0.5);
+    background: $whiteGradientHover;
+    border: 1px solid rgba(white, 0.5);
+    color: gray(40);
+
+    i, h1 {
+      color: gray(40);
+    }
   }
 
   i {

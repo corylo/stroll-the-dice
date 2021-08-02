@@ -44,9 +44,7 @@
           }
 
           &.active {
-            h1, i {
-              color: $themeMain;
-            }
+            background-color: rgba(white, 0.1);
           }
 
           h1, i {
@@ -111,7 +109,7 @@
       }
 
       .nav-menu-content {
-        background-color: gray(40);
+        background-color: $themeMain;
         border-radius: 0px;
         box-shadow: rgba(0, 0, 0, 0.12) 0px -1px 6px, rgba(0, 0, 0, 0.12) 0px -1px 4px;
         display: grid;
@@ -128,7 +126,7 @@
           &.center {
             .nav-menu-button {
               align-items: center;
-              background-color: gray(40);
+              background-color: $themeMain;
               border-radius: 100px;
               box-shadow: rgba(0, 0, 0, 0.12) 0px -4px 4px;
               height: 60px;

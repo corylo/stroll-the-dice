@@ -11,8 +11,7 @@
 
         &:not(:disabled, .selected):hover,
         &:not(:disabled, .selected):focus {
-          background-color: rgba(white, 0.2);
-          color: $themeMain;
+          background: $whiteGradient;
         }
 
         &:disabled {

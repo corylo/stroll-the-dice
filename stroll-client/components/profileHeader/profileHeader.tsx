@@ -37,7 +37,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (props: ProfileHeader
         <React.Fragment>
           <Dot />
           <IconButton
-            className="update-profile-button inline-icon-button"
+            className="update-profile-button"
             icon="fal fa-pen" 
             tooltip="Update"
             tooltipSide={TooltipSide.Bottom}

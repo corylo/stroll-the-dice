@@ -1,6 +1,6 @@
 #navbar {  
   animation: fadeInDown 400ms ease-in;
-  background: linear-gradient(to bottom, gray(40), transparent);
+  background: linear-gradient(to bottom, $themeMain, transparent);
   height: 50px;
   left: 0px;
   padding: 10px;
@@ -54,13 +54,8 @@
       #sign-in-button {
         padding: 10px;
 
-        &:hover,
-        &:focus {
-          background-color: rgba($themeMain, 0.3);
-          border-color: $themeMain;
-        }
-
         i {
+          color: white;
           width: 30px;
         }
       }

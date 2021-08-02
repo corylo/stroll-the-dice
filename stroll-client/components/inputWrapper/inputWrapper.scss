@@ -13,10 +13,10 @@
     input,
     textarea,
     select {
-      background-color: gray(60);
+      background-color: rgba(white, 0.25);
       border: 2px solid transparent;
       border-radius: 6px;
-      color: gray(220);
+      color: gray(40);
       font-size: 1.25em;
       height: 26px;
       outline: none;
@@ -28,12 +28,12 @@
       }
 
       &:focus {
-        border-color: $themeMain;
+        border-color: rgba(white, 0.5);
       }
     }
 
     option {      
-      color: gray(220);
+      color: gray(40);
     }
 
     textarea {

@@ -31,7 +31,7 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
     } else {
       return (
         <PageMessage className="sign-in-message">
-          <h1 className="passion-one-font">Sign in to <span className="highlight-secondary">get strolling</span></h1>
+          <h1 className="passion-one-font">Sign in to get strolling</h1>
         </PageMessage>
       )
     }

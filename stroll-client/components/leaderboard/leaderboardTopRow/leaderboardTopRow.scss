@@ -139,14 +139,14 @@
       }
 
       .leaderboard-top-row-player-name {
-        color: gray(230);
+        color: white;
         font-size: 0.8em;
       }
     }
 
     .leaderboard-top-row-points {    
       align-items: center;
-      color: gray(230);
+      color: white;
       display: flex;
       justify-content: center;
       margin-top: 5px;
@@ -159,7 +159,7 @@
         margin-left: 5px;
 
         h1 {
-          color: gray(230);
+          color: white;
         }
       }
     }

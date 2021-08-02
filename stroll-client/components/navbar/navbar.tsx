@@ -45,7 +45,7 @@ export const Navbar: React.FC<NavbarProps> = (props: NavbarProps) => {
       return (
         <IconButton 
           id="sign-in-button" 
-          className="fancy-button white"
+          className="fancy-button"
           icon="fad fa-sign-in"          
           handleOnClick={() => dispatch(AppAction.ToggleSignIn, !toggles.signIn)} 
         />        

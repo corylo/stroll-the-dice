@@ -12,6 +12,7 @@ import { PageTitle } from "../../components/page/pageTitle";
 import { GamePageContext } from "../gamePage/gamePage";
 
 import { HowToPlayUtility } from "./utilities/howToPlayUtility";
+import { ImageUtility } from "../../utilities/imageUtility";
 
 import { defaultGamePageState } from "../gamePage/models/gamePageState";
 
@@ -33,7 +34,7 @@ export const HowToPlayPage: React.FC<HowToPlayPageProps> = (props: HowToPlayPage
   }
 
   return(
-    <Page id="how-to-play-page">     
+    <Page id="how-to-play-page" backgroundGraphic={ImageUtility.getGraphic("education")}>     
       <PageTitle text="Huh?" />
       <div className="how-to-play-page-sections">
         <HowToPlaySection title="What is this?">
@@ -47,7 +48,7 @@ export const HowToPlayPage: React.FC<HowToPlayPageProps> = (props: HowToPlayPage
           <HowToPlaySectionText text="In order for the game to be able to track your steps you must connect a valid step tracker." />
           <HowToPlaySectionText text="As of right now the only available step tracker is via Google Fit. Fortunately Google Fit can be linked to a number of different step tracking devices including Android and Apple Watches." />
           <HowToPlaySectionText text="You can connect your step tracker in the Connect Step Trackers section on the profile page." />
-          <Button className="go-to-profile-button fancy-button white passion-one-font" url="/profile">
+          <Button className="go-to-profile-button fancy-button passion-one-font" url="/profile">
             Go to profile
           </Button>
         </HowToPlaySection>

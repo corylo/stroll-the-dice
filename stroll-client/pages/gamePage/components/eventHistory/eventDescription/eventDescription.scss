@@ -4,7 +4,7 @@
   margin-top: 5px;
 
   .game-event-description-indicator {    
-    background-color: gray(230);
+    background-color: white;
     border-radius: 10px;
     width: 2px;
   }
@@ -18,10 +18,10 @@
     text-align: left;
 
     .game-event-description-clause {
-      color: gray(230);
+      color: white;
 
       .highlight-custom {
-        color: $history;
+        color: gray(40);
       }
 
       .clause-arrow {
@@ -35,7 +35,7 @@
     .player-prediction-amount-statement,
     .player-prediction-matchup-statement,
     .day-completed-statement {
-      color: gray(230);
+      color: white;
     }
 
     .player-prediction-amount-statement {
@@ -59,7 +59,7 @@
         }
 
         .player-day-completed-summary-table-row-label {
-          color: gray(230);
+          color: white;
           line-height: 17px;
         }
 
@@ -67,7 +67,13 @@
           white-space: nowrap;
 
           h1 {
-            color: gray(230);
+            color: white;
+
+            .point-statement {
+              i, span {
+                color: white;
+              }
+            }
           }
         }
       }

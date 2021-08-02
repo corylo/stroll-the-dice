@@ -8,7 +8,7 @@ interface PointStatementProps {
 
 export const PointStatement: React.FC<PointStatementProps> = (props: PointStatementProps) => {  
   const amount: JSX.Element = props.amount !== undefined
-    ? <span className="highlight-main">{props.amount}</span>
+    ? <span>{props.amount}</span>
     : null;
     
   return (

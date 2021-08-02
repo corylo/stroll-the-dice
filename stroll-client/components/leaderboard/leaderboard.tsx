@@ -162,7 +162,6 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
 
     return (
       <div className="leaderboard">
-        <div className="leaderboard-border" />
         <div className="leaderboard-content">
           {getLeaderboardContent()}
           {getLoadingMessage()}

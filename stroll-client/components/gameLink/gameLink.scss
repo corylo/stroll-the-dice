@@ -2,21 +2,39 @@
   padding: 15px 20px;
   position: relative;
 
+  &:first-child {
+    .game-link {
+      border-top-left-radius: 6px;      
+      border-top-right-radius: 6px;
+    }
+  }
+
+  &:nth-of-type(n + 2) {
+    .game-link {
+      border-top: 1px solid rgba(white, 0.25);
+    }
+  }
+
+  &:last-child {
+    .game-link {
+      border-bottom-left-radius: 6px;      
+      border-bottom-right-radius: 6px;
+    }
+  }
+
   .game-link { 
-    background: rgba(gray(30), 0.4);
-    border: 1px solid rgba(gray(60), 0.6);
-    border-radius: 10px;
-    height: calc(100% - 2px);
+    background: linear-gradient(to right, rgba(white, 0.1), rgba(white, 0.02));    
+    border-radius: 0px;
+    height: 100%;
     left: 0px;
     padding: 0px;
     position: absolute;
     top: 0px;
-    width: calc(100% - 2px);
+    width: 100%;
 
     &:hover, 
     &:focus {
-      background: linear-gradient(to right, rgba($themeMain, 0.05), rgba($themeMain, 0.01));
-      border-color: rgba($themeMain, 0.25);
+      background: linear-gradient(to right, rgba(white, 0.1), rgba(white, 0.1));
     }
   }
 
@@ -38,7 +56,7 @@
     z-index: 2;
 
     .game-name {
-      color: gray(230);
+      color: white;
       font-size: 2em;
     }
   }

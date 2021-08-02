@@ -1,5 +1,5 @@
 #user-menu {
-  background-color: gray(60);
+  background-color: gray(40);
   border-radius: 6px;
   box-shadow: $shadow3;
   max-height: calc(100vh - 120px);
@@ -43,7 +43,7 @@
     }
 
     .profile-email {
-      color: gray(200);
+      color: white;
       font-size: 1em;  
     }
 

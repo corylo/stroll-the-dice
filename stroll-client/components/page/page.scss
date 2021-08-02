@@ -26,7 +26,7 @@
         position: relative;
 
         &:after {
-          background-color: $themeMain;
+          background-color: gray(40);
           bottom: -4px;
           content: "";
           height: 2px;
@@ -49,7 +49,7 @@
         }
 
         h1 {
-          color: gray(230);
+          color: white;
           font-size: 2em;
           text-align: left;
         }
@@ -60,7 +60,7 @@
         z-index: 2;
     
         .page-message-border {
-          background-color: gray(230);
+          background-color: white;
           border-radius: 10px;
           height: 2px;
           width: 100%;
@@ -99,7 +99,7 @@
 
   .page-background-graphic-image {
     @include centered;
-    opacity: 0.1;
+    opacity: 0.2;
     height: 90vh;
   }
 }

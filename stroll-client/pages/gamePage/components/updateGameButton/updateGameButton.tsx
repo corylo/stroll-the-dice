@@ -21,7 +21,7 @@ export const UpdateGameButton: React.FC<UpdateGameButtonProps> = (props: UpdateG
   if(appState.status === AppStatus.SignedIn && creator.uid === appState.user.profile.uid) {
     return (
       <IconButton
-        className="update-game-button inline-icon-button"
+        className="update-game-button"
         icon="fal fa-pen" 
         tooltip="Update"
         handleOnClick={toggle} 

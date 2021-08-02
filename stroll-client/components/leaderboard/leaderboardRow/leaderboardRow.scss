@@ -24,7 +24,7 @@
 
     .leaderboard-row-place,
     .leaderboard-row-icon {
-      color: gray(230);
+      color: white;
     }
     
     .leaderboard-row-place {    
@@ -47,7 +47,7 @@
 
       .leaderboard-row-points {  
         align-items: center;
-        color: gray(230);
+        color: white;
         display: flex;
         justify-content: center;
 
@@ -59,7 +59,7 @@
           margin-left: 5px;
 
           h1 {
-            color: gray(230);
+            color: white;
           }
         }
       }
