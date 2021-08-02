@@ -1,0 +1,49 @@
+.button.fancy-option-button.game-day-purchase-option {  
+  padding: 10px;
+  width: 100%;
+
+  .game-day-purchase-option-icon {
+    font-size: 5em;
+    height: 100px;
+    line-height: 100px;
+    margin-top: 10px;
+    text-align: center;
+    width: 100px;
+  }
+
+  .game-day-purchase-option-content {    
+    margin-top: 10px;
+
+    h1 {
+      margin-top: 0px;
+    }
+
+    .game-day-purchase-option-label,
+    .game-day-purchase-option-price {       
+      font-size: 1.25em;
+    }
+
+    .game-day-purchase-option-price {      
+      color: $green;
+    }
+
+    .game-day-purchase-option-discount-label {
+      background-color: rgba(white, 0.25);
+      border: 1px solid rgba(white, 0.25);
+      border-radius: 6px;      
+      margin-top: 20px;
+      padding: 10px;
+
+      .highlight-custom {
+        color: $green;
+        font-size: 1.25em;
+        margin-left: 5px;
+
+        .percent {
+          color: $green;
+          font-size: 1.25em;
+        }
+      }
+    }
+  }
+}

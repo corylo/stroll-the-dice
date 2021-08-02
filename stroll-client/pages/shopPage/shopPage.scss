@@ -1,0 +1,21 @@
+@import "./components/gameDayPurchaseOption/gameDayPurchaseOption.scss";
+
+#shop-page {
+  .game-day-purchase-options {      
+    .game-day-purchase-option {
+      &:first-child {
+        border-top-left-radius: 6px;      
+        border-top-right-radius: 6px;
+      }   
+
+      &:nth-of-type(n + 2) {
+        margin-top: 20px;
+      }
+
+      &:last-child {
+        border-bottom-left-radius: 6px;      
+        border-bottom-right-radius: 6px;
+      }
+    }
+  }
+}

@@ -97,7 +97,7 @@ export const StepTrackerLink: React.FC<StepTrackerLinkProps> = (props: StepTrack
 
       return (
         <React.Fragment>
-          <h1 className="passion-one-font">{props.tracker}<span className="highlight-main">Connected</span></h1>
+          <h1 className="passion-one-font">{props.tracker}<span className="highlight-custom">Connected</span></h1>
           {getButtons()}
         </React.Fragment>
       )

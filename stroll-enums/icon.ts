@@ -15,9 +15,14 @@ export enum Icon {
   Squirrel = "far fa-squirrel",
   Turtle = "far fa-turtle",
 
+  OneGameDay = "fal fa-ticket-alt",
+  FiveGameDays = "fal fa-sack",
+  FourteenGameDays = "fal fa-box",
+  TwentyEightGameDays = "fal fa-treasure-chest",
+  OneHundredFourtyGameDays = "fal fa-parachute-box",
+
   AppBrand = "fal fa-running",
   Dice = "fal fa-dice",
-  GameDay = "fal fa-ticket-alt",
   Points = "fal fa-dice-d8",
   ProfileIcon = "profile-icon",
   Steps = "fal fa-shoe-prints",  
