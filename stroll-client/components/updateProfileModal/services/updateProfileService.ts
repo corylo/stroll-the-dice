@@ -3,15 +3,15 @@ import firebase from "firebase/app";
 import { db } from "../../../firebase";
 
 import { IProfile, profileConverter } from "../../../../stroll-models/profile";
-import { IProfileGamePassStats } from "../../../../stroll-models/profileStats";
+import { IProfileGameDayStats } from "../../../../stroll-models/profileStats";
 import { ProfileStatsID } from "../../../../stroll-enums/profileStatsID";
 
 interface IUpdateProfileService {
-  createProfile: (profile: IProfile, profileStatsID: ProfileStatsID, stats: IProfileGamePassStats) => Promise<void>;
+  createProfile: (profile: IProfile, profileStatsID: ProfileStatsID, stats: IProfileGameDayStats) => Promise<void>;
 }
 
 export const UpdateProfileService: IUpdateProfileService = {
-  createProfile: async (profile: IProfile, profileStatsID: ProfileStatsID, stats: IProfileGamePassStats): Promise<void> => {
+  createProfile: async (profile: IProfile, profileStatsID: ProfileStatsID, stats: IProfileGameDayStats): Promise<void> => {
     const batch: firebase.firestore.WriteBatch = db.batch();
 
     const profileRef: firebase.firestore.DocumentReference<IProfile> = db.collection("profiles")

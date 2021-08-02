@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 
-import { EmptyMessage } from "../../components/emptyMessage/emptyMessage";
 import { Page } from "../../components/page/page";
 import { PageTitle } from "../../components/page/pageTitle";
 
@@ -14,17 +13,16 @@ interface NotificationsPageProps {
   
 }
 
-export const NotificationsPage: React.FC<NotificationsPageProps> = (props: NotificationsPageProps) => {
+export const ShopPage: React.FC<NotificationsPageProps> = (props: NotificationsPageProps) => {
   const { appState } = useContext(AppContext);
 
   return(
     <Page 
-      id="notifications-page" 
-      backgroundGraphic={ImageUtility.getGraphic(Graphic.Nature)} 
+      id="shop-page" 
+      backgroundGraphic={ImageUtility.getGraphic(Graphic.Shopping)} 
       requireAuth
     >     
-      <PageTitle text="Notifications" />
-      <EmptyMessage text="You don't have any notifications yet!" />
+      <PageTitle text="Shop" />      
     </Page>
   )
 }

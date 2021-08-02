@@ -1,19 +1,19 @@
-export interface IProfileGamePassStats {
+export interface IProfileGameDayStats {
   available: number;  
   redeemed: number;
   total: number;
 }
 
-export const defaultProfileGamePassStats = (): IProfileGamePassStats => ({
+export const defaultProfileGameDayStats = (): IProfileGameDayStats => ({
   available: 0,  
   redeemed: 0,
   total: 0
 });
 
 export interface IProfileStats {
-  gamePass: IProfileGamePassStats;
+  gameDay: IProfileGameDayStats;
 }
 
 export const defaultProfileStats = (): IProfileStats => ({
-  gamePass: defaultProfileGamePassStats()
+  gameDay: defaultProfileGameDayStats()
 });

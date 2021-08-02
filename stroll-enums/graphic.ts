@@ -4,5 +4,6 @@ export enum Graphic {
   DayAtPark = "day-at-park",
   FinishLine = "finish-line",
   Nature = "nature",
+  Shopping = "shopping",
   WorkingOut = "working-out"
 }

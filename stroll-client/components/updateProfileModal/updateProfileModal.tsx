@@ -17,7 +17,7 @@ import { useOnClickAwayEffect } from "../../effects/appEffects";
 
 import { IProfile } from "../../../stroll-models/profile";
 import { IProfileFormStateFields } from "./models/profileFormStateFields";
-import { IProfileGamePassStats } from "../../../stroll-models/profileStats";
+import { IProfileGameDayStats } from "../../../stroll-models/profileStats";
 import { IProfileUpdate } from "../../../stroll-models/profileUpdate";
 
 import { AppAction } from "../../enums/appAction";
@@ -52,9 +52,9 @@ export const UpdateProfileModal: React.FC<UpdateProfileModalProps> = (props: Upd
     const save = async (fields: IProfileFormStateFields): Promise<void> => {    
       if(user.profile.username === "") {        
         const profile: IProfile = ProfileFormUtility.mapCreate(fields, user),
-          stats: IProfileGamePassStats = ProfileStatsUtility.mapCreate(ProfileStatsID.GamePass);
+          stats: IProfileGameDayStats = ProfileStatsUtility.mapCreate(ProfileStatsID.GameDay);
 
-        await UpdateProfileService.createProfile(profile, ProfileStatsID.GamePass, stats);
+        await UpdateProfileService.createProfile(profile, ProfileStatsID.GameDay, stats);
 
         const action: AppAction = toggles.acceptInvite 
           ? AppAction.SetProfileAndClose 

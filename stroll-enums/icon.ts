@@ -17,7 +17,7 @@ export enum Icon {
 
   AppBrand = "fal fa-running",
   Dice = "fal fa-dice",
-  GamePass = "fal fa-ticket-alt",
+  GameDay = "fal fa-ticket-alt",
   Points = "fal fa-dice-d8",
   ProfileIcon = "profile-icon",
   Steps = "fal fa-shoe-prints",  

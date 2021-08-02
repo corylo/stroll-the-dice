@@ -8,6 +8,7 @@ import { HowToPlayPage } from "../../pages/howToPlayPage/howToPlayPage";
 import { MyGamesPage } from "../../pages/myGamesPage/myGamesPage";
 import { NotificationsPage } from "../../pages/notificationsPage/notificationsPage";
 import { ProfilePage } from "../../pages/profilePage/profilePage";
+import { ShopPage } from "../../pages/shopPage/shopPage";
 import { UserPage } from "../../pages/userPage/userPage";
 
 import { Nav } from "../nav/nav";
@@ -71,6 +72,9 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
           </Route>
           <Route exact path="/notifications">
             <NotificationsPage />
+          </Route>
+          <Route exact path="/shop">
+            <ShopPage />
           </Route>
           <Route exact path="/huh">
             <HowToPlayPage />

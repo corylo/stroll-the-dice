@@ -11,7 +11,13 @@ import { AppStatus } from "../enums/appStatus";
 import { GameStatus } from "../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../stroll-enums/requestStatus";
 
-export const useFetchGameGroups = (appState: IAppState, state: IGameGroupState, gameStatus: GameStatus, setState: (state: IGameGroupState) => void): void => {  
+export const useFetchGameGroups = (
+  appState: IAppState, 
+  state: IGameGroupState, 
+  gameStatus: GameStatus, 
+  limit: number,
+  setState: (state: IGameGroupState) => void
+): void => {  
   const { user } = appState;
 
   useEffect(() => {
@@ -21,7 +27,7 @@ export const useFetchGameGroups = (appState: IAppState, state: IGameGroupState, 
           let updates: IGameGroup[] = [];
 
           for(let group of state.groups) {
-            const games: IGame[] = await GameService.getGrouped(user.profile.uid, gameStatus, group.groupBy, 2);
+            const games: IGame[] = await GameService.getGrouped(user.profile.uid, gameStatus, group.groupBy, limit);
 
             updates.push({ ...group, games });
           }

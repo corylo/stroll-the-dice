@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 
-import { GamePassHub } from "./components/gamePassHub/gamePassHub";
 import { Page } from "../../components/page/page";
 import { ProfileHeader } from "../../components/profileHeader/profileHeader";
 import { ProfilePageSection } from "./components/profilePageSection/profilePageSection";
@@ -39,9 +38,6 @@ export const ProfilePage: React.FC<ProfilePageProps> = (props: ProfilePageProps)
           <ProfileHeader profile={user.profile} />
           <ProfilePageSection icon={Icon.Steps} title="Connect Step Trackers">
             <StepTrackerHub />
-          </ProfilePageSection>
-          <ProfilePageSection icon={Icon.GamePass} title="Game Passes">
-            <GamePassHub />
           </ProfilePageSection>
         </React.Fragment>
       )

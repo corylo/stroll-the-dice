@@ -1,3 +1,3 @@
 export enum ProfileStatsID {
-  GamePass = "Game Pass"
+  GameDay = "Game Day"
 }

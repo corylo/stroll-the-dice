@@ -1,15 +1,15 @@
-import { IProfileGamePassStats } from "../../stroll-models/profileStats";
+import { IProfileGameDayStats } from "../../stroll-models/profileStats";
 
 import { ProfileStatsID } from "../../stroll-enums/profileStatsID";
 
 interface IProfileStatsUtility {
-  mapCreate: (id: string) => IProfileGamePassStats;
+  mapCreate: (id: string) => IProfileGameDayStats;
 }
 
 export const ProfileStatsUtility: IProfileStatsUtility = {
-  mapCreate: (id: string): IProfileGamePassStats => {
+  mapCreate: (id: string): IProfileGameDayStats => {
     switch(id) {
-      case ProfileStatsID.GamePass:
+      case ProfileStatsID.GameDay:
         return {
           available: 0,
           redeemed: 0,

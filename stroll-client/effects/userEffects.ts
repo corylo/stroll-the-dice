@@ -26,7 +26,7 @@ export const useAuthStateChangedEffect = (appState: IAppState, dispatch: (type: 
         
         try {
           user.profile = await ProfileService.get.by.uid(user.profile.uid);
-          user.stats.gamePass = await ProfileStatsService.getByUID(user.profile.uid, ProfileStatsID.GamePass);
+          user.stats.gameDay = await ProfileStatsService.getByUID(user.profile.uid, ProfileStatsID.GameDay);
 
           dispatch(AppAction.SignInUser, user);
         } catch (err) {

@@ -30,7 +30,7 @@ export const GameGroup: React.FC<GameGroupProps> = (props: GameGroupProps) => {
     groups: GameGroupUtility.getInitialGroups() 
   });
 
-  useFetchGameGroups(appState, state, props.status, setState);
+  useFetchGameGroups(appState, state, props.status, props.limit, setState);
   
   const allGroupsEmpty = (): boolean => {
     return state.groups
