@@ -1,10 +1,15 @@
 @import "./components/howToPlaySection/howToPlaySection.scss";
 
 #how-to-play-page {
-  .game-matchup {
+  .example-game-matchup {
     border: 1px solid rgba(white, 0.25);
     border-radius: 10px;
     margin-top: 40px;
+    padding: 10px;
+
+    .game-matchup {
+      margin-top: 40px;
+    }
   }
 
   .example-matchup-side-stat {

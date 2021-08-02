@@ -25,7 +25,9 @@ export const HowToPlayPage: React.FC<HowToPlayPageProps> = (props: HowToPlayPage
   const getExampleMatchup = (): JSX.Element => {
     return (      
       <GamePageContext.Provider value={{ state: defaultGamePageState(), setState: () => {}}}>
-        <Matchup matchup={HowToPlayUtility.getExampleMatchup()} predictions={[]} />
+        <div className="example-game-matchup">
+          <Matchup matchup={HowToPlayUtility.getExampleMatchup()} predictions={[]} />
+        </div>
       </GamePageContext.Provider>
     )
   }
@@ -43,10 +45,10 @@ export const HowToPlayPage: React.FC<HowToPlayPageProps> = (props: HowToPlayPage
         </HowToPlaySection>
         <HowToPlaySection title="Prerequisites">
           <HowToPlaySectionText text="In order for the game to be able to track your steps you must connect a valid step tracker." />
-          <HowToPlaySectionText text="As of right now the only available step tracker is via Google Fit. Fortunately Google Fit can be linked to a number of different step tracking devices including Samsung and Apple Watches." />
-          <HowToPlaySectionText text="You can connect your step tracker on the profile page by clicking the update profile icon next to your username." />
-          <Button className="go-to-update-profile-button fancy-button white passion-one-font" url="/profile?update=true">
-            Go to update profile
+          <HowToPlaySectionText text="As of right now the only available step tracker is via Google Fit. Fortunately Google Fit can be linked to a number of different step tracking devices including Android and Apple Watches." />
+          <HowToPlaySectionText text="You can connect your step tracker in the Connect Step Trackers section on the profile page." />
+          <Button className="go-to-profile-button fancy-button white passion-one-font" url="/profile">
+            Go to profile
           </Button>
         </HowToPlaySection>
         <HowToPlaySection title="How does the game work exactly?">
@@ -65,7 +67,7 @@ export const HowToPlayPage: React.FC<HowToPlayPageProps> = (props: HowToPlayPage
           </HowToPlaySubSection>
           <HowToPlaySubSection title="Predictions">
             <HowToPlaySectionText text="Before each day begins, the matchups for that day will be open for predictions." /> 
-            <HowToPlaySectionText text="Using the prediction input on either the left or right side, the other players are encouraged to use their points to predict which player they believe will out-step their competitor." />        
+            <HowToPlaySectionText text="By clicking the Predict button below any matchup, players can spend their available points to wager on the player they believe will out-step their competitor." />        
             <HowToPlaySectionText text="At the end of the day, players who predicted correctly will earn points based on the displayed return ratio. Players who predicted incorrectly will lose any points wagered." />
           </HowToPlaySubSection>
           <HowToPlaySubSection title="Available Points vs. Total Points">

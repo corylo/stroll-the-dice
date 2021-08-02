@@ -10,7 +10,7 @@
     .game-group-title-border {
       background-color: $themeMain;
       border-radius: 10px;
-      width: 4px;
+      width: 2px;
     }
 
     h1 {
@@ -33,7 +33,7 @@
 
       .empty-message-border {
         height: auto;
-        width: 4px;
+        width: 2px;
       }
 
       .empty-message-content {
@@ -55,7 +55,7 @@
         background-color: gray(230);
         border-radius: 10px;         
         flex-shrink: 0;   
-        width: 4px;
+        width: 2px;
       }
     
       .game-list-content {
