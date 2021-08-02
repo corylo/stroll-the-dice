@@ -109,7 +109,7 @@
       }
 
       .nav-menu-content {
-        background-color: $themeMain;
+        background-color: $themeColor2Dark;
         border-radius: 0px;
         box-shadow: rgba(0, 0, 0, 0.12) 0px -1px 6px, rgba(0, 0, 0, 0.12) 0px -1px 4px;
         display: grid;
@@ -126,7 +126,7 @@
           &.center {
             .nav-menu-button {
               align-items: center;
-              background-color: $themeMain;
+              background-color: $themeColor2Dark;
               border-radius: 100px;
               box-shadow: rgba(0, 0, 0, 0.12) 0px -4px 4px;
               height: 60px;

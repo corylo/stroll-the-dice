@@ -38,15 +38,9 @@
     }
   }
 
-  .user-link {
-    display: inline-flex;
-  }
-
-  .label.game-date-status {
-    margin: 22px 20px;
-    position: absolute;
-    right: 0px;
-    top: 0px;
+  .game-link-header {
+    display: flex;
+    justify-content: space-between;
   }
 
   .game-link-body {
@@ -57,7 +51,7 @@
 
     .game-name {
       color: white;
-      font-size: 2em;
+      font-size: 1.5em;
     }
   }
 
