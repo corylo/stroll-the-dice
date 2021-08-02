@@ -5,6 +5,8 @@ import { Button } from "../../../../components/buttons/button";
 
 import { IGameDayPurchaseOption } from "../../../../../stroll-models/gameDayPurchaseOption";
 
+import { GameDayPurchaseOptionUnit } from "../../../../../stroll-enums/gameDayPurchaseOptionUnit";
+
 interface GameDayPurchaseOptionProps {  
   discount?: boolean;
   option: IGameDayPurchaseOption;
@@ -26,6 +28,14 @@ export const GameDayPurchaseOption: React.FC<GameDayPurchaseOptionProps> = (prop
     }
   }
 
+  const getRecommendationStatement = (): JSX.Element => {
+    if(option.unit === GameDayPurchaseOptionUnit.Fourteen) {
+      return (
+        <h1 className="game-day-purchase-option-recommendation-statement passion-one-font">Recommended for new players!</h1>
+      )
+    }
+  }
+
   return (   
     <Button
       className={classNames("game-day-purchase-option", "fancy-option-button")}     
@@ -35,6 +45,7 @@ export const GameDayPurchaseOption: React.FC<GameDayPurchaseOptionProps> = (prop
       <div className="game-day-purchase-option-content">
         <h1 className="game-day-purchase-option-label passion-one-font">{option.label} ( {option.quantity} )</h1>
         <h1 className="game-day-purchase-option-price passion-one-font">${option.price}</h1>
+        {getRecommendationStatement()}
         {getDiscountLabel()}
       </div>
     </Button>

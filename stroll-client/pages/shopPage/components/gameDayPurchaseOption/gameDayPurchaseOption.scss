@@ -25,14 +25,21 @@
     }
 
     .game-day-purchase-option-price {      
-      color: $green;
+      color: $green;      
+      margin-bottom: 20px;
+    }
+
+    .game-day-purchase-option-recommendation-statement {
+      background-color: gray(40);
+      border-radius: 6px;
+      margin-bottom: 5px;
+      padding: 10px;
     }
 
     .game-day-purchase-option-discount-label {
       background-color: rgba($green, 0.1);
       border: 1px solid rgba($green, 0.25);
-      border-radius: 6px;      
-      margin-top: 20px;
+      border-radius: 6px;
       padding: 10px;
 
       .highlight-custom {
