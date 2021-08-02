@@ -124,7 +124,7 @@
 
 @include phone-or-smaller {
   .modal-wrapper {
-    background-color: rgba($themeMain, 0.98);
+    background: $themeMainGradient;
 
     .modal-content-wrapper { 
       animation: fadeIn 400ms ease-in;
