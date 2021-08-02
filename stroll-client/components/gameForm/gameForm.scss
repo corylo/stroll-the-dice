@@ -14,13 +14,28 @@
   }
 
   .game-day-requirement-section {
+    align-items: center;
     background: linear-gradient(135deg, gray(40), gray(20));
     border: none;
     box-shadow: $shadow1;
-    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    padding-left: 20px;
 
-    h1 {
+    > h1 {
       color: white;
+      padding-right: 10px;
+    }
+
+    .go-to-store-button.button.fancy-button {
+      align-items: center;
+      display: flex;
+      padding: 5px 10px;
+
+      i, h1 {
+        color: white;
+      }
     }
   }
 }

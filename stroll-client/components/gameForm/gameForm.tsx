@@ -7,6 +7,7 @@ import { FormActions } from "../form/formActions";
 import { FormBody } from "../form/formBody";
 import { FormBodySection } from "../form/formBodySection";
 import { FormTitle } from "../form/formTitle";
+import { GameDayStatement } from "../gameDayStatement/gameDayStatement";
 import { HourSelector } from "./components/hourSelector/hourSelector";
 import { InputWrapper } from "../inputWrapper/inputWrapper";
 import { LockGame } from "./components/lockGame/lockGame";
@@ -31,7 +32,7 @@ import { GameDuration } from "../../../stroll-enums/gameDuration";
 import { GameFormAction } from "./enums/gameFormAction";
 import { GameMode } from "../../../stroll-enums/gameMode";
 import { GameStatus } from "../../../stroll-enums/gameStatus";
-import { GameDayStatement } from "../gameDayStatement/gameDayStatement";
+import { Link } from "react-router-dom";
 
 interface GameFormProps {  
   forwarding?: boolean;
@@ -69,7 +70,7 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
     if(
       GameFormUtility.isValidGameStatus(props.gameStatus) &&
       status !== FormStatus.Submitting && 
-      GameFormValidator.validate(errors, fields, dispatch)
+      GameFormValidator.validate(errors, fields, props.game, user, dispatch)
     ) {
       try {
         dispatch(GameFormAction.SetStatus, FormStatus.Submitting);
@@ -141,9 +142,23 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
     }
 
     return (
-      <FormBodySection className="game-day-requirement-section">
-        {getText()}
-      </FormBodySection>
+      <InputWrapper
+        label="Game Day Requirement"
+        error={errors.gameDays}
+        errorMessage="Not Enough Game Days"
+      >
+        <FormBodySection className="game-day-requirement-section">
+          {getText()}
+          <Link
+            className="go-to-store-button button link fancy-button"            
+            to="/shop"
+            target="_blank"
+          >
+            <i className="fal fa-store" />
+            <h1 className="passion-one-font">Shop</h1>
+          </Link>
+        </FormBodySection>
+      </InputWrapper>
     )
   }
 

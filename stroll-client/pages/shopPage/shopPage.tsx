@@ -1,11 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { GameDayPurchaseOption } from "./components/gameDayPurchaseOption/gameDayPurchaseOption";
 import { Page } from "../../components/page/page";
 import { PageTitle } from "../../components/page/pageTitle";
 import { ShopSection } from "./components/shopSection/shopSection";
-
-import { AppContext } from "../../components/app/contexts/appContext";
 
 import { ImageUtility } from "../../utilities/imageUtility";
 import { ShopUtility } from "../../../stroll-utilities/shopUtility";
@@ -19,8 +17,6 @@ interface NotificationsPageProps {
 }
 
 export const ShopPage: React.FC<NotificationsPageProps> = (props: NotificationsPageProps) => {
-  const { appState } = useContext(AppContext);
-
   const getGameDayPurchaseOptions = (): JSX.Element[] => {
     return ShopUtility.getGameDayPurchaseOptions().map((option: IGameDayPurchaseOption, index: number) => (    
       <GameDayPurchaseOption 
@@ -40,7 +36,7 @@ export const ShopPage: React.FC<NotificationsPageProps> = (props: NotificationsP
       <PageTitle text="Shop" />      
       <ShopSection 
         className="game-day-purchase-options"
-        description="In order to create or join a game, you will need to purchase Game Days! The duration of the game you've chosen will determine how many Game Days you will need."
+        description="In order to take part in a game, you will need to purchase Game Days! The number of Game Days required is determined by the duration of the game."
         title="Game Days"
       >
         {getGameDayPurchaseOptions()}
