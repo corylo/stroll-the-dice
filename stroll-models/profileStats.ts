@@ -11,9 +11,9 @@ export const defaultProfileGameDayStats = (): IProfileGameDayStats => ({
 });
 
 export interface IProfileStats {
-  gameDay: IProfileGameDayStats;
+  gameDays: IProfileGameDayStats;
 }
 
 export const defaultProfileStats = (): IProfileStats => ({
-  gameDay: defaultProfileGameDayStats()
+  gameDays: defaultProfileGameDayStats()
 });

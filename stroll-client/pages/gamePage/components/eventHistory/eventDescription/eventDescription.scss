@@ -58,16 +58,47 @@
           border-top: 1px solid rgba(white, 0.25);
         }
 
+        &.gain {
+          .player-day-completed-summary-table-row-value {
+            color: $green;
+
+            .point-statement {
+              i, span {
+                color: $green;
+              }
+            }
+          }
+        }
+
+        &.loss {
+          .player-day-completed-summary-table-row-value {
+            color: $red;
+
+            .point-statement {
+              i, span {
+                color: $red;
+              }
+            }
+          }
+        }
+
         .player-day-completed-summary-table-row-label {
           color: white;
           line-height: 17px;
         }
 
         .player-day-completed-summary-table-row-value {
+          align-items: center;
+          display: flex;
           white-space: nowrap;
+
+          > i {
+            font-size: 0.6em;
+          }
 
           h1 {
             color: white;
+            margin-left: 5px;
 
             .point-statement {
               i, span {

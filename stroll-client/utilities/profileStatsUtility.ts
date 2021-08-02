@@ -9,7 +9,7 @@ interface IProfileStatsUtility {
 export const ProfileStatsUtility: IProfileStatsUtility = {
   mapCreate: (id: string): IProfileGameDayStats => {
     switch(id) {
-      case ProfileStatsID.GameDay:
+      case ProfileStatsID.GameDays:
         return {
           available: 0,
           redeemed: 0,

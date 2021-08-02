@@ -23,7 +23,7 @@ export const ProfileStatsService: IProfileStatsService = {
 
     if(doc.exists) {
       switch(id) {
-        case ProfileStatsID.GameDay:
+        case ProfileStatsID.GameDays:
           return doc.data() as IProfileGameDayStats;
         default:
           throw new Error(`Unknown Profile Stats ID: ${id}`);

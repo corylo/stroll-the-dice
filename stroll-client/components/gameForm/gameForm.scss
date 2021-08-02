@@ -12,6 +12,17 @@
       margin-top: 0px;
     }
   }
+
+  .game-day-requirement-section {
+    background: linear-gradient(135deg, gray(40), gray(20));
+    border: none;
+    box-shadow: $shadow1;
+    padding: 20px;
+
+    h1 {
+      color: white;
+    }
+  }
 }
 
 @include phone-or-smaller {

@@ -40,7 +40,7 @@
   }
 
   .form-actions {
-    margin-top: 20px;
+    margin-top: 10px;
 
     .submit-button {
       font-size: 2em;
@@ -86,7 +86,11 @@
   }
 
   .form-submit-info-message {    
-    background-color: rgba($blue, 0.8);
+    background-color: white;
+
+    h1 {
+      color: gray(40);
+    }
   }  
 
   .form-submit-error-message {    

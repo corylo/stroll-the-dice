@@ -52,9 +52,9 @@ export const UpdateProfileModal: React.FC<UpdateProfileModalProps> = (props: Upd
     const save = async (fields: IProfileFormStateFields): Promise<void> => {    
       if(user.profile.username === "") {        
         const profile: IProfile = ProfileFormUtility.mapCreate(fields, user),
-          stats: IProfileGameDayStats = ProfileStatsUtility.mapCreate(ProfileStatsID.GameDay);
+          stats: IProfileGameDayStats = ProfileStatsUtility.mapCreate(ProfileStatsID.GameDays);
 
-        await UpdateProfileService.createProfile(profile, ProfileStatsID.GameDay, stats);
+        await UpdateProfileService.createProfile(profile, ProfileStatsID.GameDays, stats);
 
         const action: AppAction = toggles.acceptInvite 
           ? AppAction.SetProfileAndClose 

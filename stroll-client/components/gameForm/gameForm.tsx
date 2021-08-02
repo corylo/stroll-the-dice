@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useContext, useEffect, useReducer } from "react";
 
 import { Button } from "../buttons/button";
 import { DurationSelector } from "./components/durationSelector/durationSelector";
@@ -7,9 +7,12 @@ import { FormActions } from "../form/formActions";
 import { FormBody } from "../form/formBody";
 import { FormBodySection } from "../form/formBodySection";
 import { FormTitle } from "../form/formTitle";
+import { HourSelector } from "./components/hourSelector/hourSelector";
 import { InputWrapper } from "../inputWrapper/inputWrapper";
 import { LockGame } from "./components/lockGame/lockGame";
 import { ModeSelector } from "./components/modeSelector/modeSelector";
+
+import { AppContext } from "../app/contexts/appContext";
 
 import { gameFormReducer } from "./reducers/gameFormReducer";
 
@@ -28,7 +31,7 @@ import { GameDuration } from "../../../stroll-enums/gameDuration";
 import { GameFormAction } from "./enums/gameFormAction";
 import { GameMode } from "../../../stroll-enums/gameMode";
 import { GameStatus } from "../../../stroll-enums/gameStatus";
-import { HourSelector } from "./components/hourSelector/hourSelector";
+import { GameDayStatement } from "../gameDayStatement/gameDayStatement";
 
 interface GameFormProps {  
   forwarding?: boolean;
@@ -40,6 +43,10 @@ interface GameFormProps {
 }
 
 export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => { 
+  const { appState } = useContext(AppContext);
+
+  const { user } = appState;
+
   const [gameFormState, dispatchToGameForm] = useReducer(gameFormReducer, GameFormUtility.mapInitialState(props.game));
 
   const { errors, fields, status } = gameFormState;
@@ -113,6 +120,31 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
         </FormBodySection>
       )
     }
+  }
+
+  const getGameDayRequirementSection = (): JSX.Element => {    
+    const getText = (): JSX.Element => {
+      if(props.game) {
+        const costStatement: JSX.Element = <GameDayStatement quantity={props.game.duration} />;
+
+        return (
+          <h1 className="passion-one-font">This game costs {costStatement} for players to join.</h1>
+        );
+      }
+
+      const costStatement: JSX.Element = <GameDayStatement quantity={fields.duration} />,
+        availableStatement: JSX.Element = <GameDayStatement quantity={user.stats.gameDays.available} />;
+
+      return (
+        <h1 className="passion-one-font">This game will cost {costStatement} to create. You currently have {availableStatement} available.</h1>
+      );
+    }
+
+    return (
+      <FormBodySection className="game-day-requirement-section">
+        {getText()}
+      </FormBodySection>
+    )
   }
 
   const getStatusMessage = (): string => {
@@ -233,6 +265,7 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
           </InputWrapper>
         </FormBodySection>
         {getLockGameSection()}
+        {getGameDayRequirementSection()}
       </FormBody>
       <FormActions>
         {getSaveButton()}
