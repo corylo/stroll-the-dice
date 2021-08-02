@@ -11,7 +11,7 @@ import { Leaderboard } from "../../../../components/leaderboard/leaderboard";
 import { MatchupGroup } from "../matchupGroup/matchupGroup";
 import { MyPoints } from "../myPoints/myPoints";
 import { UpdateGameModal } from "../updateGameModal/updateGameModal";
-import { UserLink } from "../../../../components/userLink/userLink";
+import { PlayerStatement } from "../../../../components/playerStatement/playerStatement";
 import { StartingSoonMessage } from "../startingSoonMessage/startingSoonMessage";
 import { ViewEventsModal } from "../viewEventsModal/viewEventsModal";
 import { ViewPlayersModal } from "../viewPlayersModal/viewPlayersModal";
@@ -137,7 +137,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
     return (
       <div className="game-page-content">
         <div className="game-page-header">
-          <UserLink profile={game.creator} tooltip="Creator" />
+          <PlayerStatement profile={game.creator} />
           <GameDateStatus game={game} />
         </div>
         <div className="game-page-body">

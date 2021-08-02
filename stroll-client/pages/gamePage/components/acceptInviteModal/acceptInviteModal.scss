@@ -3,18 +3,16 @@
     max-width: 540px;
 
     .form-body {
-      .accept-invite-details-border {
-        background-color: white;
-        border-radius: 10px;         
-        height: 2px;
+      background: linear-gradient(to bottom, rgba(white, 0.1), transparent);
+      border-radius: 4px;     
+      padding: 10px 20px;
+
+      .accept-invite-details-header {
+        display: flex;
+        justify-content: space-between;
       }
-
-      .accept-invite-details-content {
-        background: linear-gradient(to bottom, rgba(white, 0.1), transparent);
-        border-radius: 4px;        
-        margin-top: 5px;
-        padding: 10px;
-
+    
+      .accept-invite-details-body {
         .label.game-date-status {
           margin: 19px 20px;
           position: absolute;
@@ -24,7 +22,7 @@
 
         .game-name {
           color: white;
-          font-size: 2em;
+          font-size: 1.5em;
           margin-top: 5px;
         }
       }

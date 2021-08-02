@@ -9,7 +9,7 @@ import { GameDateStatus } from "../../../../components/gameDateStatus/gameDateSt
 import { Modal } from "../../../../components/modal/modal";
 import { ModalBody } from "../../../../components/modal/modalBody";
 import { ModalTitle } from "../../../../components/modal/modalTitle";
-import { UserLink } from "../../../../components/userLink/userLink";
+import { PlayerStatement } from "../../../../components/playerStatement/playerStatement";
 
 import { AppContext } from "../../../../components/app/contexts/appContext";
 import { GamePageContext } from "../../gamePage";
@@ -65,10 +65,11 @@ export const AcceptInviteModal: React.FC<AcceptInviteModalProps> = (props: Accep
         <ModalBody>
           <Form status={status} statusMessage="Whoops! Looks like this game is locked.">
             <FormBody>
-              <div className="accept-invite-details-border" />
-              <div className="accept-invite-details-content">
-                <UserLink profile={state.game.creator} />
+              <div className="accept-invite-details-header">
+                <PlayerStatement profile={state.game.creator} />
                 <GameDateStatus game={state.game} />
+              </div>
+              <div className="accept-invite-details-body">
                 <h1 className="game-name passion-one-font">{state.game.name}</h1>
                 <GameDetails game={state.game} />
               </div>

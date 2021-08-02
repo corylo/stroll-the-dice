@@ -3,18 +3,8 @@
   position: relative;
 
   .game-page-header {
-    position: relative;
-    
-    .user-link {
-      display: flex;
-    }
-
-    .label.game-date-status {
-      margin: 8px 0px;
-      position: absolute;
-      right: 0px;
-      top: 0px;
-    }
+    display: flex;
+    justify-content: space-between;
   }
 
   .game-page-body {

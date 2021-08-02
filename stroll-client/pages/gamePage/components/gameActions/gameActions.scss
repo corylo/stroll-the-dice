@@ -1,12 +1,12 @@
 .game-actions {
   align-items: center;
   display: flex;
-  margin-right: 10px;
 
   .button {   
     background-color: transparent; 
     border: 1px solid rgba(white, 0.25);
     border-radius: 100px;
+    margin-right: 10px;
   
     &:hover,
     &:focus {
@@ -27,9 +27,5 @@
       line-height: 20px;
       margin-left: 10px;
     }
-  }
-  
-  .invite-button {
-    margin-right: 10px;
   }
 }
