@@ -5,8 +5,6 @@
 
   .game-day-purchase-option-icon {
     font-size: 5em;
-    height: 100px;
-    line-height: 100px;
     margin-top: 10px;
     text-align: center;
     width: 100px;
@@ -26,7 +24,7 @@
 
     .game-day-purchase-option-price {      
       color: $green;      
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
 
     .game-day-purchase-option-recommendation-statement {
@@ -50,6 +48,31 @@
         .percent {
           color: $green;
           font-size: 1.25em;
+        }
+      }
+    }
+  }
+}
+
+@include phone-or-smaller {
+  .button.fancy-option-button.game-day-purchase-option {  
+    .game-day-purchase-option-icon {
+      font-size: 3em;
+    }
+
+    .game-day-purchase-option-content {  
+      .game-day-purchase-option-label,
+      .game-day-purchase-option-price {       
+        font-size: 1em;
+      }
+
+      .game-day-purchase-option-discount-label {
+        .highlight-custom {
+          font-size: 1em;
+  
+          .percent {
+            font-size: 1.25em;
+          }
         }
       }
     }
