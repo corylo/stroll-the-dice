@@ -10,8 +10,12 @@
   }
   
   .shop-section-description {
-    color: gray(40);
-    margin-bottom: 10px;
+    .shop-section-description-line {
+      border-left: 2px solid gray(40);
+      color: gray(40);
+      margin-bottom: 10px;
+      padding-left: 10px;
+    }
   }
 
   .shop-section-content {

@@ -4,7 +4,7 @@ import classNames from "classnames";
 interface ShopSectionProps {  
   children: any;
   className?: string;
-  description?: string;
+  description?: string[];
   title?: string;
 }
 
@@ -19,8 +19,14 @@ export const ShopSection: React.FC<ShopSectionProps> = (props: ShopSectionProps)
 
   const getDesc = (): JSX.Element => {
     if(props.description) {
+      const lines: JSX.Element[] = props.description.map((line: string) => (
+        <h1 className="shop-section-description-line passion-one-font">{line}</h1>
+      ));
+
       return (
-        <h1 className="shop-section-description passion-one-font">{props.description}</h1>
+        <div className="shop-section-description">
+          {lines}
+        </div>
       )
     }
   }
