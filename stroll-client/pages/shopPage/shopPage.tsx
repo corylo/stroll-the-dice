@@ -7,7 +7,7 @@ import { PageTitle } from "../../components/page/pageTitle";
 import { ShopSection } from "./components/shopSection/shopSection";
 
 import { ImageUtility } from "../../utilities/imageUtility";
-import { ShopUtility } from "../../../stroll-utilities/shopUtility";
+import { GameDayUtility } from "../../../stroll-utilities/gameDayUtility";
 
 import { IGameDayPurchaseOption } from "../../../stroll-models/gameDayPurchaseOption";
 
@@ -22,7 +22,7 @@ export const ShopPage: React.FC<NotificationsPageProps> = (props: NotificationsP
   const [option, setOption] = useState<IGameDayPurchaseOption>(null);
 
   const getGameDayPurchaseOptions = (): JSX.Element[] => {
-    return ShopUtility.getGameDayPurchaseOptions().map((option: IGameDayPurchaseOption, index: number) => (    
+    return GameDayUtility.getGameDayPurchaseOptions().map((option: IGameDayPurchaseOption, index: number) => (    
       <GameDayPurchaseOption 
         key={option.unit} 
         discount={option.unit !== GameDayPurchaseOptionUnit.One}

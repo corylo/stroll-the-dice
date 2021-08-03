@@ -1,10 +1,27 @@
 import { PaymentItemID } from "../stroll-enums/paymentItemID";
 
 interface IPaymentUtility {
-  getPrice: (itemID: PaymentItemID) => number;
+  getItemID: (itemID: string) => PaymentItemID;
+  getPrice: (itemID: PaymentItemID) => number; 
 }
 
 export const PaymentUtility: IPaymentUtility = {
+  getItemID: (itemID: string): PaymentItemID => {
+    switch(itemID) {
+      case PaymentItemID.OneGameDay:
+        return PaymentItemID.OneGameDay;
+      case PaymentItemID.FiveGameDays:
+        return PaymentItemID.FiveGameDays;
+      case PaymentItemID.FourteenGameDays:
+        return PaymentItemID.FourteenGameDays;        
+      case PaymentItemID.TwentyEightGameDays:
+        return PaymentItemID.TwentyEightGameDays;        
+      case PaymentItemID.OneHundredFourtyGameDays:
+        return PaymentItemID.OneHundredFourtyGameDays;
+      default:
+        throw new Error(`Unknown Payment Item ID: ${itemID}`);
+    }
+  },
   getPrice: (itemID: PaymentItemID): number => {
     switch(itemID) {
       case PaymentItemID.OneGameDay:

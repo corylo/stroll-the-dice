@@ -6,7 +6,7 @@ import { Modal } from "../../../../components/modal/modal";
 import { ModalBody } from "../../../../components/modal/modalBody";
 import { ModalTitle } from "../../../../components/modal/modalTitle";
 
-import { ShopUtility } from "../../../../../stroll-utilities/shopUtility";
+import { GameDayUtility } from "../../../../../stroll-utilities/gameDayUtility";
 
 import { IGameDayPurchaseOption } from "../../../../../stroll-models/gameDayPurchaseOption";
 import { defaultGameDayPurchaseState, IGameDayPurchaseState } from "../../models/gameDayPurchaseState";
@@ -45,7 +45,7 @@ export const GameDayPurchaseModal: React.FC<GameDayPurchaseModalProps> = (props:
         <ModalTitle text="Purchase Game Days" handleOnClose={handleBack} />
         <ModalBody>       
           <GameDayPaymentForm 
-            itemID={ShopUtility.getGameDayPaymentItemID(props.option.unit)} 
+            itemID={GameDayUtility.getGameDayPaymentItemID(props.option.unit)} 
             quantity={props.option.quantity}
           >
             <GameDayPurchaseOption 

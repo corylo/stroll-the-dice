@@ -8,3 +8,11 @@ export interface IGameDayPurchaseOption {
   quantity: number;
   unit: GameDayPurchaseOptionUnit;
 }
+
+export const defaultGameDayPurchaseOption = (): IGameDayPurchaseOption => ({
+  icon: Icon.OneGameDay,
+  label: "",
+  price: 0,
+  quantity: 0,
+  unit: GameDayPurchaseOptionUnit.One
+});
