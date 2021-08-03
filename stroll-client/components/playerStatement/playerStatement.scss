@@ -1,7 +1,4 @@
 .player-statement {
-  align-items: center;
-  display: inline-flex;
-  vertical-align: top;
   text-shadow: 0px 0px 2px rgba(black, 0.25);
   white-space: nowrap;
   
@@ -10,7 +7,6 @@
   }
 
   span {
-    font-weight: 700;
-    margin-left: 3px;
+    margin-left: 2px;
   }
 }

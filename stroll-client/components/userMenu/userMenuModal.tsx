@@ -5,6 +5,7 @@ import classNames from "classnames";
 import { auth } from "../../config/firebase";
 
 import { Button } from "../buttons/button";
+import { GameDayStatement } from "../gameDayStatement/gameDayStatement";
 import { ProfileIcon } from "../profileIcon/profileIcon";
 
 import { AppContext } from "../app/contexts/appContext";
@@ -59,6 +60,9 @@ export const UserMenuModal: React.FC<UserMenuModalProps> = (props: UserMenuModal
           <React.Fragment>       
             <h1 className="profile-username passion-one-font" style={{ color: `rgb(${user.profile.color})` }}>{user.profile.username}</h1>     
             <h1 className="profile-email passion-one-font">{user.email}</h1>
+            <div className="available-game-days">
+              <h1 className="passion-one-font">You have <GameDayStatement quantity={user.stats.gameDays.available} /></h1>
+            </div>
           </React.Fragment>
         )
       }

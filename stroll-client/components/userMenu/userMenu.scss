@@ -31,7 +31,8 @@
     width: 300px;
     
     .profile-username,
-    .profile-email {
+    .profile-email,
+    .available-game-days {
       text-align: center;
     }
 
@@ -45,6 +46,18 @@
     .profile-email {
       color: white;
       font-size: 1em;  
+    }
+
+    .available-game-days {
+      margin-top: 8px;
+
+      h1 {
+        border-top: 1px solid gray(90);
+        color: white;
+        display: inline-block;
+        font-size: 0.9em;
+        padding: 4px 8px;
+      }
     }
 
     .user-menu-item {

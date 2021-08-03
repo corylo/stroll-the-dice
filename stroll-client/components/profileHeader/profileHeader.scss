@@ -38,6 +38,18 @@
     font-size: 1em;  
     margin-top: 2px;
   }
+  
+  .available-game-days {
+    margin-top: 12px;
+
+    h1 {
+      border-top: 1px solid rgba(white, 0.5);
+      color: white;
+      display: inline-block;
+      font-size: 1.25em;
+      padding: 4px 16px;
+    }
+  }
 }
 
 @include phone-or-smaller {

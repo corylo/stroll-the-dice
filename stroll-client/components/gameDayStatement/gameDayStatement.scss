@@ -1,13 +1,10 @@
 .game-day-statement {
-  align-items: center;
   color: $green;
-  display: inline-flex;
   margin: 0px 2px;
-  vertical-align: top;
   white-space: nowrap;
 
   i {
-    font-size: 0.8em;
-    margin-right: 6px;
+    font-size: 0.9em;
+    margin-right: 2px;
   }
 }
