@@ -19,7 +19,7 @@ export const GameDayRequirement: React.FC<GameDayRequirementProps> = (props: Gam
       const costStatement: JSX.Element = <GameDayStatement quantity={props.game.duration} />;
 
       return (
-        <h1 className="passion-one-font">This game costs {costStatement} for players to {props.type}.</h1>
+        <h1 className="passion-one-font">This game costs {costStatement} for players to join.</h1>
       );
     } else if (props.duration !== undefined) {
 

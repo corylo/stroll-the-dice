@@ -81,12 +81,12 @@
   border: 1px solid rgba(white, 0.5);
   padding: 15px 10px;
 
-  &:not(:disabled):hover,
-  &:not(:disabled):focus {
+  &:not(:disabled, .selected):hover,
+  &:not(:disabled, .selected):focus {
     background: rgba(white, 0.25);
   }
 
-  &:not(:disabled).selected {
+  &.selected {
     background: $whiteGradientHover;
     border: 1px solid rgba(white, 0.5);
     color: gray(40);

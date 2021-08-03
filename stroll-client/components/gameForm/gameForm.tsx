@@ -222,6 +222,7 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
           error={errors.duration}
         >
           <DurationSelector
+            disabled={props.game !== undefined}
             selected={fields.duration}
             select={(duration: GameDuration) => handleOnChange(GameFormAction.SetDuration, duration)} 
           />
@@ -231,6 +232,7 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
           error={errors.mode}
         >
           <ModeSelector
+            disabled={props.game !== undefined}
             selected={fields.mode}
             select={(mode: GameMode) => handleOnChange(GameFormAction.SetMode, mode)} 
           />

@@ -95,10 +95,8 @@ export const GameFormUtility: IGameFormUtility = {
       endsAt: firebase.firestore.FieldValue = FirestoreDateUtility.dateToTimestamp(new Date(GameDurationUtility.getEndsAt(startsAt, fields.duration) * 1000));
 
     return {
-      duration: fields.duration,
       endsAt,
-      locked: fields.locked,
-      mode: fields.mode,
+      locked: fields.locked,      
       name: fields.name,
       sortable: {
         name: fields.name.toLowerCase(),

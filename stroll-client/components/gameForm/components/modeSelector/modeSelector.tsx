@@ -8,6 +8,7 @@ import { GameModeUtility } from "../../../../utilities/gameModeUtility";
 import { GameMode } from "../../../../../stroll-enums/gameMode";
 
 interface ModeSelectorProps {  
+  disabled?: boolean;
   selected: GameMode;
   select: (mode: GameMode) => void;
 }
@@ -21,7 +22,7 @@ export const ModeSelector: React.FC<ModeSelectorProps> = (props: ModeSelectorPro
         <Button 
           key={mode}
           className={classNames("mode-selector-option", "fancy-option-button", { selected })}     
-          disabled={!GameModeUtility.available(mode)}     
+          disabled={props.disabled || !GameModeUtility.available(mode)}     
           handleOnClick={() => props.select(mode)} 
         >
           <i className={GameModeUtility.getIcon(mode)} />

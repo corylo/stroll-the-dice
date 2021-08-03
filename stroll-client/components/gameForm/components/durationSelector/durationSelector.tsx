@@ -8,6 +8,7 @@ import { GameDurationUtility } from "../../../../../stroll-utilities/gameDuratio
 import { GameDuration } from "../../../../../stroll-enums/gameDuration";
 
 interface DurationSelectorProps {  
+  disabled?: boolean;
   selected: GameDuration;
   select: (duration: GameDuration) => void;
 }
@@ -21,6 +22,7 @@ export const DurationSelector: React.FC<DurationSelectorProps> = (props: Duratio
         <Button 
           key={duration}
           className={classNames("duration-selector-option", "fancy-option-button", "passion-one-font", { selected })}          
+          disabled={props.disabled}
           handleOnClick={() => props.select(duration)} 
         >
           {GameDurationUtility.getLabel(duration)}
