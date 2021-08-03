@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 
+import { GameDayPurchaseModal } from "./components/gameDayPurchaseModal/gameDayPurchaseModal";
 import { GameDayPurchaseOption } from "./components/gameDayPurchaseOption/gameDayPurchaseOption";
 import { Page } from "../../components/page/page";
 import { PageTitle } from "../../components/page/pageTitle";
@@ -10,6 +11,7 @@ import { ShopUtility } from "../../../stroll-utilities/shopUtility";
 
 import { IGameDayPurchaseOption } from "../../../stroll-models/gameDayPurchaseOption";
 
+import { GameDayPurchaseOptionUnit } from "../../../stroll-enums/gameDayPurchaseOptionUnit";
 import { Graphic } from "../../../stroll-enums/graphic";
 
 interface NotificationsPageProps {
@@ -17,17 +19,28 @@ interface NotificationsPageProps {
 }
 
 export const ShopPage: React.FC<NotificationsPageProps> = (props: NotificationsPageProps) => {
+  const [option, setOption] = useState<IGameDayPurchaseOption>(null);
+
   const getGameDayPurchaseOptions = (): JSX.Element[] => {
     return ShopUtility.getGameDayPurchaseOptions().map((option: IGameDayPurchaseOption, index: number) => (    
       <GameDayPurchaseOption 
         key={option.unit} 
-        discount={index > 0}
+        discount={option.unit !== GameDayPurchaseOptionUnit.One}
         option={option}
+        handleOnClick={() => setOption(option)}
       />
     ));
   }
 
-  return(
+  const getPurchaseModal = (): JSX.Element => {
+    if(option) {
+      return (
+        <GameDayPurchaseModal option={option} back={() => setOption(null)} />
+      )
+    }
+  }
+
+  return(    
     <Page 
       id="shop-page" 
       backgroundGraphic={ImageUtility.getGraphic(Graphic.Shopping)} 
@@ -41,6 +54,7 @@ export const ShopPage: React.FC<NotificationsPageProps> = (props: NotificationsP
       >
         {getGameDayPurchaseOptions()}
       </ShopSection>
+      {getPurchaseModal()}
     </Page>
   )
 }

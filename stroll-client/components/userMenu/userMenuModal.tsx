@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import ReactDOM from "react-dom";
 import classNames from "classnames";
 
-import { auth } from "../../firebase";
+import { auth } from "../../config/firebase";
 
 import { Button } from "../buttons/button";
 import { ProfileIcon } from "../profileIcon/profileIcon";

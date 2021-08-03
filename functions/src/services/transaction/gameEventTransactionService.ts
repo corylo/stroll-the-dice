@@ -1,6 +1,6 @@
 import firebase from "firebase-admin";
 
-import { db } from "../../../firebase";
+import { db } from "../../../config/firebase";
 
 import { gameEventConverter, IGameEvent } from "../../../../stroll-models/gameEvent/gameEvent";
 import { IMatchup, matchupConverter } from "../../../../stroll-models/matchup";

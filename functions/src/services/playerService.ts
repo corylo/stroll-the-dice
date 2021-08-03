@@ -1,7 +1,7 @@
 import firebase from "firebase-admin";
 import { Change, EventContext, logger } from "firebase-functions";
 
-import { db } from "../../firebase";
+import { db } from "../../config/firebase";
 
 import { GameEventBatchService } from "./batch/gameEventBatchService";
 import { GameEventTransactionService } from "./transaction/gameEventTransactionService";

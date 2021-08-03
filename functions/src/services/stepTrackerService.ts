@@ -2,7 +2,7 @@ import firebase from "firebase-admin";
 import { https, logger } from "firebase-functions";
 import axios from "axios";
 
-import { db } from "../../firebase";
+import { db } from "../../config/firebase";
 
 import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtility";
 import { NumberUtility } from "../../../stroll-utilities/numberUtility";

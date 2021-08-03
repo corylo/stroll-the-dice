@@ -9,6 +9,24 @@ import { StepTracker } from "../../../../stroll-enums/stepTracker";
 
 export const appReducer = (state: IAppState, action: IAction): IAppState => {  
   switch (action.type) {    
+    case AppAction.AddGameDays: {
+      const { gameDays } = state.user.stats;
+
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          stats: {
+            ...state.user.stats,
+            gameDays: {
+              ...gameDays,
+              available: gameDays.available + action.payload,
+              total: gameDays.total + action.payload
+            }
+          }
+        }
+      }
+    }
     case AppAction.CloseModals:
       return {
         ...state,

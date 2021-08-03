@@ -1,6 +1,6 @@
 import firebase from "firebase-admin";
 
-import { db } from "../../../firebase";
+import { db } from "../../../config/firebase";
 
 import { IGame } from "../../../../stroll-models/game";
 

@@ -10,6 +10,8 @@ import { GameDayPurchaseOptionUnit } from "../../../../../stroll-enums/gameDayPu
 interface GameDayPurchaseOptionProps {  
   discount?: boolean;
   option: IGameDayPurchaseOption;
+  presentationMode?: boolean;
+  handleOnClick?: () => void;
 }
 
 export const GameDayPurchaseOption: React.FC<GameDayPurchaseOptionProps> = (props: GameDayPurchaseOptionProps) => {  
@@ -22,24 +24,33 @@ export const GameDayPurchaseOption: React.FC<GameDayPurchaseOptionProps> = (prop
 
       return (
         <h1 className="game-day-purchase-option-discount-label passion-one-font">
-          Only ${daily.toFixed(2)} / Day <span className="highlight-custom"><span className="percent">{percent}%</span> less!</span>
+          Only ${daily.toFixed(2)} / Day <span className="highlight-custom"><span className="percent">{percent}%</span> less per day!</span>
         </h1>
       )
     }
   }
 
   const getRecommendationStatement = (): JSX.Element => {
-    if(option.unit === GameDayPurchaseOptionUnit.Fourteen) {
+    if(!props.presentationMode && option.unit === GameDayPurchaseOptionUnit.Five) {
       return (
         <h1 className="game-day-purchase-option-recommendation-statement passion-one-font">Recommended for new players!</h1>
       )
     }
   }
 
+  const getHandleOnClick = (): any => {
+    if(props.handleOnClick) {
+      return props.handleOnClick;
+    }
+
+    return () => {};
+  }
+
   return (   
     <Button
       className={classNames("game-day-purchase-option", "fancy-option-button")}     
-      handleOnClick={() => {}} 
+      disabled={props.handleOnClick === undefined}
+      handleOnClick={getHandleOnClick()} 
     >
       <i className={classNames(option.icon, "game-day-purchase-option-icon")} />      
       <div className="game-day-purchase-option-content">

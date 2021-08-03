@@ -2,6 +2,10 @@
   margin: auto;
   min-height: 100px;
   position: relative;
+
+  .form-loading {
+    opacity: 0.6;
+  }
   
   .form-title {   
     margin-bottom: 20px;
@@ -35,6 +39,7 @@
       border: 1px solid rgba(white, 0.5);
       border-radius: 10px;
       margin-top: 10px;
+      overflow: hidden;
       padding: 10px;
     }
   }

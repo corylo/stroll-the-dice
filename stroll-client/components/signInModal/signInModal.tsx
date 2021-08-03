@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import firebase from "firebase/app";
 
-import { auth } from "../../firebase";
+import { auth } from "../../config/firebase";
 
 import { Button } from "../buttons/button";
 import { Modal } from "../modal/modal";

@@ -2,7 +2,7 @@
 import firebase from "firebase-admin";
 import { Change, EventContext, logger } from "firebase-functions";
 
-import { db } from "../../firebase";
+import { db } from "../../config/firebase";
 
 import { GameBatchService } from "./batch/gameBatchService";
 import { PlayerBatchService } from "./batch/playerBatchService";

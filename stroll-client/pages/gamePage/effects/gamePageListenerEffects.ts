@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import firebase from "firebase/app";
 
-import { db } from "../../../firebase";
+import { db } from "../../../config/firebase";
 
 import { GamePageContext } from "../gamePage";
 

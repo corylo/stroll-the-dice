@@ -1,5 +1,7 @@
 import React from "react";
+import classNames from "classnames";
 
+import { FormStatusMessage } from "./formStatusMessage";
 import { LoadingIcon } from "../loadingIcon/loadingIcon";
 
 import { FormError } from "../../enums/formError";
@@ -7,6 +9,7 @@ import { FormStatus } from "../../enums/formStatus";
 
 interface FormProps {  
   children: any;
+  className?: string;
   errors?: any;
   id?: string;  
   status?: FormStatus;
@@ -48,35 +51,15 @@ export const Form: React.FC<FormProps> = (props: FormProps) => {
   }
   
   const getSubmitStatusMessage = (): JSX.Element | null => {
-    if(props.status === FormStatus.SubmitInfo) {
-      const infoMessage: string = props.statusMessage || "Info!";
-
+    if(props.status !== FormStatus.InProgress && props.status !== FormStatus.Submitting) {
       return (
-        <div className="form-submit-info-message">
-          <h1 className="passion-one-font">{infoMessage}</h1>
-        </div>
-      )
-    } else if(props.status === FormStatus.SubmitSuccess) {
-      const successMessage: string = props.statusMessage || "Success!";
-
-      return (
-        <div className="form-submit-success-message">
-          <h1 className="passion-one-font">{successMessage}</h1>
-        </div>
-      )
-    } else if(props.status === FormStatus.SubmitError) {
-      const errorMessage: string = props.statusMessage || "Whoops! Unable to complete request. Please Refresh And Try Again.";
-
-      return (
-        <div className="form-submit-error-message">
-          <h1 className="passion-one-font">{errorMessage}</h1>
-        </div>
+        <FormStatusMessage status={props.status} text={props.statusMessage} />
       )
     }
   }
 
   return (
-    <div id={props.id} className="form">
+    <div id={props.id} className={classNames("form", props.className)}>
       {getFormContent()}      
       {getFormErrorMessage()}
       {getSubmitStatusMessage()}

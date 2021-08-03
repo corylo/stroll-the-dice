@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useReducer } from "react";
+import { Link } from "react-router-dom";
 
 import { Button } from "../buttons/button";
 import { DurationSelector } from "./components/durationSelector/durationSelector";
@@ -32,7 +33,6 @@ import { GameDuration } from "../../../stroll-enums/gameDuration";
 import { GameFormAction } from "./enums/gameFormAction";
 import { GameMode } from "../../../stroll-enums/gameMode";
 import { GameStatus } from "../../../stroll-enums/gameStatus";
-import { Link } from "react-router-dom";
 
 interface GameFormProps {  
   forwarding?: boolean;

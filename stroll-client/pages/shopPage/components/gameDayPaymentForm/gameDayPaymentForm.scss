@@ -1,0 +1,25 @@
+#game-day-payment-form {
+  transition: height 0.25s, opacity 0.25s;
+
+  &.submitting {
+    .form-payment-fields-section {
+      opacity: 0.4;
+    }
+  }
+
+  #billing-credit-card-input {
+    .input {
+      background-color: rgba(white, 0.25);
+      border-radius: 6px;
+      padding: 15px 10px;
+    }
+  }
+
+  .submit-button {
+    i {
+      animation: spin 2s ease infinite;
+      color: white;
+      font-size: 0.8em;
+    }
+  }
+}

@@ -1,0 +1,13 @@
+#game-day-purchase-modal {
+  .game-day-purchase-option {
+    border: none;
+  }
+}
+
+@include phone-or-larger {
+  #game-day-purchase-modal {
+    .modal-content-wrapper {
+      width: 540px;
+    }
+  }
+}

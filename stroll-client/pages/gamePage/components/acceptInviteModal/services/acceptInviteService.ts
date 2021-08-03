@@ -1,6 +1,6 @@
 import firebase from "firebase/app";
 
-import { db } from "../../../../../firebase";
+import { db } from "../../../../../config/firebase";
 
 import { gameConverter, IGame } from "../../../../../../stroll-models/game";
 import { inviteConverter } from "../../../../../../stroll-models/invite";

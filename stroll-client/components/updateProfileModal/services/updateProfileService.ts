@@ -1,6 +1,6 @@
 import firebase from "firebase/app";
 
-import { db } from "../../../firebase";
+import { db } from "../../../config/firebase";
 
 import { IProfile, profileConverter } from "../../../../stroll-models/profile";
 import { IProfileGameDayStats } from "../../../../stroll-models/profileStats";

@@ -1,7 +1,7 @@
 import firebase from "firebase-admin";
 import { logger } from "firebase-functions";
 
-import { db } from "../../../firebase";
+import { db } from "../../../config/firebase";
 
 import { FirestoreDateUtility } from "../../utilities/firestoreDateUtility";
 import { GameEventService } from "../gameEventService";

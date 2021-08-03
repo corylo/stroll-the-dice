@@ -1,6 +1,6 @@
 import firebase from "firebase/app";
 
-import { db } from "../firebase";
+import { db } from "../config/firebase";
 
 import { ErrorUtility } from "../utilities/errorUtility";
 

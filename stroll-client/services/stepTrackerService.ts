@@ -1,4 +1,4 @@
-import { functions } from "../firebase";
+import { functions } from "../config/firebase";
 
 import { IStepTracker } from "../../stroll-models/stepTracker";
 

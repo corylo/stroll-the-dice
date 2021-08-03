@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 import firebase from "firebase/app";
 
-import { auth } from "../firebase";
+import { auth } from "../config/firebase";
 
 import { ProfileService } from "../services/profileService";
 import { ProfileStatsService } from "../services/profileStatsService";
