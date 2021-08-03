@@ -109,8 +109,7 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
         ...state,
         user: {
           ...state.user,
-          profile: action.payload.profile,
-          stats: action.payload.stats || state.user.stats
+          profile: action.payload
         }
       }
     case AppAction.SetProfileAndClose:

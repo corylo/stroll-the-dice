@@ -2,16 +2,18 @@ import firebase from "firebase/app";
 
 import { db } from "../../../config/firebase";
 
+import { ProfileStatsUtility } from "../../../utilities/profileStatsUtility";
+
 import { IProfile, profileConverter } from "../../../../stroll-models/profile";
-import { IProfileGameDayStats } from "../../../../stroll-models/profileStats";
+
 import { ProfileStatsID } from "../../../../stroll-enums/profileStatsID";
 
 interface IUpdateProfileService {
-  createProfile: (profile: IProfile, profileStatsID: ProfileStatsID, stats: IProfileGameDayStats) => Promise<void>;
+  createProfile: (profile: IProfile) => Promise<void>;
 }
 
 export const UpdateProfileService: IUpdateProfileService = {
-  createProfile: async (profile: IProfile, profileStatsID: ProfileStatsID, stats: IProfileGameDayStats): Promise<void> => {
+  createProfile: async (profile: IProfile): Promise<void> => {
     const batch: firebase.firestore.WriteBatch = db.batch();
 
     const profileRef: firebase.firestore.DocumentReference<IProfile> = db.collection("profiles")
@@ -20,12 +22,19 @@ export const UpdateProfileService: IUpdateProfileService = {
 
     batch.set(profileRef, profile);
 
-    const profileStatsRef: firebase.firestore.DocumentReference = db.collection("profiles")
+    const gameDaysStatsRef: firebase.firestore.DocumentReference = db.collection("profiles")
       .doc(profile.uid)
       .collection("stats")
-      .doc(profileStatsID);
+      .doc(ProfileStatsID.GameDays);
 
-    batch.set(profileStatsRef, stats);
+    batch.set(gameDaysStatsRef, ProfileStatsUtility.mapCreate(ProfileStatsID.GameDays));
+
+    const gamesStatsRef: firebase.firestore.DocumentReference = db.collection("profiles")
+      .doc(profile.uid)
+      .collection("stats")
+      .doc(ProfileStatsID.Games);
+
+    batch.set(gamesStatsRef, ProfileStatsUtility.mapCreate(ProfileStatsID.Games));
 
     return await batch.commit();
   }

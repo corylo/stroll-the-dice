@@ -1,3 +1,4 @@
 export enum ProfileStatsID {
-  GameDays = "Game Days"
+  GameDays = "Game Days",
+  Games = "Games"
 }

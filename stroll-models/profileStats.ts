@@ -10,10 +10,22 @@ export const defaultProfileGameDayStats = (): IProfileGameDayStats => ({
   total: 0
 });
 
+export interface IProfileGamesStats {
+  lastCreated: string;
+  lastJoined: string;
+}
+
+export const defaultProfileGamesStats = (): IProfileGamesStats => ({
+  lastCreated: "",
+  lastJoined: ""
+});
+
 export interface IProfileStats {
   gameDays: IProfileGameDayStats;
+  games: IProfileGamesStats;
 }
 
 export const defaultProfileStats = (): IProfileStats => ({
-  gameDays: defaultProfileGameDayStats()
+  gameDays: defaultProfileGameDayStats(),
+  games: defaultProfileGamesStats()
 });

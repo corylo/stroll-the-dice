@@ -9,13 +9,13 @@ import { ErrorUtility } from "../utilities/errorUtility";
 import { UserUtility } from "../utilities/userUtility";
 
 import { IAppState } from "../components/app/models/appState";
+import { IProfileGameDayStats } from "../../stroll-models/profileStats";
 import { IUser } from "../models/user";
 
 import { AppAction } from "../enums/appAction";
 import { AppStatus } from "../enums/appStatus";
 import { DocumentType } from "../../stroll-enums/documentType";
 import { ProfileStatsID } from "../../stroll-enums/profileStatsID";
-import { IProfileGameDayStats } from "../../stroll-models/profileStats";
 
 export const useAuthStateChangedEffect = (appState: IAppState, dispatch: (type: AppAction, payload?: any) => void): void => {
   useEffect(() => {

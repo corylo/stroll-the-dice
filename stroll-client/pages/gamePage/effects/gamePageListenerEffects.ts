@@ -190,6 +190,12 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
     setState(updates);
   }, [appState.user, game, players, events]);
 
+  useEffect(() => {
+    if(state.statuses.player === PlayerStatus.NotPlaying) {
+      setState({ ...state, statuses: { ...state.statuses, players: RequestStatus.Success } });
+    }
+  }, [state.statuses.player]);
+
   useEffect(() => {   
     if(
       id.trim() !== "" && 

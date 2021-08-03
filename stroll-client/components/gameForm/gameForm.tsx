@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useReducer } from "react";
-import { Link } from "react-router-dom";
 
 import { Button } from "../buttons/button";
 import { DurationSelector } from "./components/durationSelector/durationSelector";
@@ -8,7 +7,7 @@ import { FormActions } from "../form/formActions";
 import { FormBody } from "../form/formBody";
 import { FormBodySection } from "../form/formBodySection";
 import { FormTitle } from "../form/formTitle";
-import { GameDayStatement } from "../gameDayStatement/gameDayStatement";
+import { GameDayRequirement } from "../gameDayRequirement/gameDayRequirement";
 import { HourSelector } from "./components/hourSelector/hourSelector";
 import { InputWrapper } from "../inputWrapper/inputWrapper";
 import { LockGame } from "./components/lockGame/lockGame";
@@ -123,41 +122,19 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
     }
   }
 
-  const getGameDayRequirementSection = (): JSX.Element => {    
-    const getText = (): JSX.Element => {
-      if(props.game) {
-        const costStatement: JSX.Element = <GameDayStatement quantity={props.game.duration} />;
-
-        return (
-          <h1 className="passion-one-font">This game costs {costStatement} for players to join.</h1>
-        );
-      }
-
-      const costStatement: JSX.Element = <GameDayStatement quantity={fields.duration} />,
-        availableStatement: JSX.Element = <GameDayStatement quantity={user.stats.gameDays.available} />;
-
-      return (
-        <h1 className="passion-one-font">This game will cost {costStatement} to create. You currently have {availableStatement} available.</h1>
-      );
-    }
-
+  const getGameDayRequirementSection = (): JSX.Element => { 
     return (
       <InputWrapper
         label="Game Day Requirement"
         error={errors.gameDays}
         errorMessage="Not Enough Game Days"
-      >
-        <FormBodySection className="game-day-requirement-section">
-          {getText()}
-          <Link
-            className="go-to-store-button button link fancy-button"            
-            to="/shop"
-            target="_blank"
-          >
-            <i className="fal fa-store" />
-            <h1 className="passion-one-font">Shop</h1>
-          </Link>
-        </FormBodySection>
+      >        
+        <GameDayRequirement 
+          available={user.stats.gameDays.available} 
+          duration={fields.duration} 
+          game={props.game}
+          type="create"
+        />
       </InputWrapper>
     )
   }

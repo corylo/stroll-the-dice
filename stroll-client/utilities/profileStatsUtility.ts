@@ -1,19 +1,24 @@
-import { IProfileGameDayStats } from "../../stroll-models/profileStats";
+import { IProfileGameDayStats, IProfileGamesStats } from "../../stroll-models/profileStats";
 
 import { ProfileStatsID } from "../../stroll-enums/profileStatsID";
 
 interface IProfileStatsUtility {
-  mapCreate: (id: string) => IProfileGameDayStats;
+  mapCreate: (id: ProfileStatsID) => IProfileGameDayStats | IProfileGamesStats;
 }
 
 export const ProfileStatsUtility: IProfileStatsUtility = {
-  mapCreate: (id: string): IProfileGameDayStats => {
+  mapCreate: (id: ProfileStatsID): IProfileGameDayStats | IProfileGamesStats => {
     switch(id) {
       case ProfileStatsID.GameDays:
         return {
           available: 0,
           redeemed: 0,
           total: 0
+        }
+      case ProfileStatsID.Games:
+        return {
+          lastCreated: "",
+          lastJoined: ""
         }
       default:
         throw new Error(`Unknown Profile Stats ID: ${id}`);

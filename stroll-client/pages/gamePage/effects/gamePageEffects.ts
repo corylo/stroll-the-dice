@@ -13,6 +13,7 @@ import { IInvite } from "../../../../stroll-models/invite";
 
 import { AppAction } from "../../../enums/appAction";
 import { AppStatus } from "../../../enums/appStatus";
+import { PlayerStatus } from "../../../../stroll-enums/playerStatus";
 
 export const useUpdateCurrentDayEffect = (state: IGamePageState, setState: (state: IGamePageState) => void): void => {      
   useEffect(() => {
@@ -54,7 +55,7 @@ export const useGameInviteEffect = (
         }
       } else if (inviteID && appState.status === AppStatus.SignedOut) {
         dispatch(AppAction.ToggleSignIn, true);
-      } else if (inviteID && appState.status === AppStatus.SignedIn) {
+      } else if (state.statuses.player === PlayerStatus.Playing) {
         UrlUtility.clearParam(history, "invite");
       }
     }

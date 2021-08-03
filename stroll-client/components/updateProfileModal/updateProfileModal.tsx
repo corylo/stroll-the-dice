@@ -11,18 +11,15 @@ import { ProfileService } from "../../services/profileService";
 import { UpdateProfileService } from "./services/updateProfileService";
 
 import { ProfileFormUtility } from "./utilities/profileFormUtility";
-import { ProfileStatsUtility } from "../../utilities/profileStatsUtility";
 
 import { useOnClickAwayEffect } from "../../effects/appEffects";
 
 import { IProfile } from "../../../stroll-models/profile";
 import { IProfileFormStateFields } from "./models/profileFormStateFields";
-import { IProfileGameDayStats } from "../../../stroll-models/profileStats";
 import { IProfileUpdate } from "../../../stroll-models/profileUpdate";
 
 import { AppAction } from "../../enums/appAction";
 import { ElementID } from "../../enums/elementId";
-import { ProfileStatsID } from "../../../stroll-enums/profileStatsID";
 
 interface UpdateProfileModalProps {  
   
@@ -51,16 +48,15 @@ export const UpdateProfileModal: React.FC<UpdateProfileModalProps> = (props: Upd
   if(toggles.profile) {    
     const save = async (fields: IProfileFormStateFields): Promise<void> => {    
       if(user.profile.username === "") {        
-        const profile: IProfile = ProfileFormUtility.mapCreate(fields, user),
-          stats: IProfileGameDayStats = ProfileStatsUtility.mapCreate(ProfileStatsID.GameDays);
+        const profile: IProfile = ProfileFormUtility.mapCreate(fields, user);
 
-        await UpdateProfileService.createProfile(profile, ProfileStatsID.GameDays, stats);
+        await UpdateProfileService.createProfile(profile);
 
         const action: AppAction = toggles.acceptInvite 
           ? AppAction.SetProfileAndClose 
           : AppAction.SetProfile;
 
-        dispatch(action, { profile, stats });
+        dispatch(action, profile);
       } else {
         const update: IProfileUpdate = ProfileFormUtility.mapUpdate(fields);
 

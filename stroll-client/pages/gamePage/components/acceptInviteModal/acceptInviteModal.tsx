@@ -4,6 +4,8 @@ import { Button } from "../../../../components/buttons/button";
 import { Form } from "../../../../components/form/form";
 import { FormActions } from "../../../../components/form/formActions";
 import { FormBody } from "../../../../components/form/formBody";
+import { FormBodySection } from "../../../../components/form/formBodySection";
+import { GameDayRequirement } from "../../../../components/gameDayRequirement/gameDayRequirement";
 import { GameDetails } from "../../../../components/gameDetails/gameDetails";
 import { GameDateStatus } from "../../../../components/gameDateStatus/gameDateStatus";
 import { Modal } from "../../../../components/modal/modal";
@@ -63,16 +65,23 @@ export const AcceptInviteModal: React.FC<AcceptInviteModalProps> = (props: Accep
       <Modal id="accept-invite-modal">
         <ModalTitle text="You've been invited!" handleOnClose={props.back} />
         <ModalBody>
-          <Form status={status} statusMessage="Whoops! Looks like this game is locked.">
+          <Form status={status} statusMessage="Whoops! Looks like you aren't able to join this game right now.">
             <FormBody>
-              <div className="accept-invite-details-header">
-                <PlayerStatement profile={state.game.creator} />
-                <GameDateStatus game={state.game} />
+              <div className="accept-invite-details">
+                <div className="accept-invite-details-header">
+                  <PlayerStatement profile={state.game.creator} />
+                  <GameDateStatus game={state.game} />
+                </div>
+                <div className="accept-invite-details-body">
+                  <h1 className="game-name passion-one-font">{state.game.name}</h1>
+                  <GameDetails game={state.game} />
+                </div>
               </div>
-              <div className="accept-invite-details-body">
-                <h1 className="game-name passion-one-font">{state.game.name}</h1>
-                <GameDetails game={state.game} />
-              </div>
+              <GameDayRequirement 
+                available={user.stats.gameDays.available} 
+                duration={state.game.duration} 
+                type="join"
+              />
             </FormBody>
             <FormActions>    
               <Button

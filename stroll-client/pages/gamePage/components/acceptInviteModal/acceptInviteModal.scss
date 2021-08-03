@@ -3,27 +3,29 @@
     max-width: 540px;
 
     .form-body {
-      background: linear-gradient(to bottom, rgba(white, 0.1), transparent);
-      border-radius: 4px;     
-      padding: 10px 20px;
+      .accept-invite-details { 
+        background: linear-gradient(to bottom, rgba(white, 0.1), transparent);
+        border-radius: 4px;    
+        padding: 10px 20px;
 
-      .accept-invite-details-header {
-        display: flex;
-        justify-content: space-between;
-      }
-    
-      .accept-invite-details-body {
-        .label.game-date-status {
-          margin: 19px 20px;
-          position: absolute;
-          right: 0px;
-          top: 0px;
+        .accept-invite-details-header {
+          display: flex;
+          justify-content: space-between;
         }
+      
+        .accept-invite-details-body {
+          .label.game-date-status {
+            margin: 19px 20px;
+            position: absolute;
+            right: 0px;
+            top: 0px;
+          }
 
-        .game-name {
-          color: white;
-          font-size: 1.5em;
-          margin-top: 5px;
+          .game-name {
+            color: white;
+            font-size: 1.5em;
+            margin-top: 5px;
+          }
         }
       }
     }
