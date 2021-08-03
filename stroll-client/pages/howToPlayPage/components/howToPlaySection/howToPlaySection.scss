@@ -13,7 +13,7 @@
     margin-top: 5px;
 
     .how-to-play-section-content-border {
-      background-color: gray(40);
+      background-color: white;
       border-radius: 10px;
       flex-shrink: 0;
       width: 2px;
@@ -33,7 +33,7 @@
         display: flex;
 
         .how-to-play-section-text-border {
-          background-color: white;
+          background-color: gray(40);
           border-radius: 10px;
           flex-shrink: 0;
           width: 2px;
@@ -47,7 +47,7 @@
           padding-right: 0px;
 
           p {            
-            color: white;
+            color: gray(40);
             font-size: 1.25em;
           }
         }

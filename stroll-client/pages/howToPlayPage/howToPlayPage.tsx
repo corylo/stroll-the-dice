@@ -45,12 +45,22 @@ export const HowToPlayPage: React.FC<HowToPlayPageProps> = (props: HowToPlayPage
           <HowToPlaySectionText text="You are not only trying to gain points through stepping, but also attempting to gain additional points by predicting how well your fellow competitors will do against each other." />
         </HowToPlaySection>
         <HowToPlaySection title="Prerequisites">
-          <HowToPlaySectionText text="In order for the game to be able to track your steps you must connect a valid step tracker." />
-          <HowToPlaySectionText text="As of right now the only available step tracker is via Google Fit. Fortunately Google Fit can be linked to a number of different step tracking devices including Android and Apple Watches." />
-          <HowToPlaySectionText text="You can connect your step tracker in the Connect Step Trackers section on the profile page." />
-          <Button className="go-to-profile-button fancy-button passion-one-font" url="/profile">
-            Go to profile
-          </Button>
+          <HowToPlaySubSection title="Step Tracking">
+            <HowToPlaySectionText text="In order for the game to be able to track your steps you must connect a valid step tracker." />
+            <HowToPlaySectionText text="As of right now the only available step tracker is via Google Fit. Fortunately Google Fit can be linked to a number of different step tracking devices including Android and Apple Watches." />
+            <HowToPlaySectionText text="You can connect your step tracker in the Connect Step Trackers section on the profile page." />
+            <Button className="go-to-profile-button fancy-button passion-one-font" url="/profile">
+              Go to profile
+            </Button>
+          </HowToPlaySubSection>
+          <HowToPlaySubSection title="Purchasing Game Days">
+            <HowToPlaySectionText text="In order to create or join a game you will need to purchase Game Days. One Game Day is required for each day of the duration of the game you have selected." />
+            <HowToPlaySectionText text="For example, if you wanted to create a game that was 5 days long, you would need to purchase at least 5 Game Days." />
+            <HowToPlaySectionText text="Game Days can be purchased in the Shop for as low as $0.21 per day!" />
+            <Button className="go-to-shop-button fancy-button passion-one-font" url="/shop">
+              Go to shop
+            </Button>
+          </HowToPlaySubSection>
         </HowToPlaySection>
         <HowToPlaySection title="How does the game work exactly?">
           <HowToPlaySectionText text="Games last between 1 and 7 days and can start at any hour of day." />
