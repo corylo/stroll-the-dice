@@ -12,7 +12,6 @@ import { FormBodySection } from "../../../../components/form/formBodySection";
 import { FormStatusMessage } from "../../../../components/form/formStatusMessage";
 import { InputWrapper } from "../../../../components/inputWrapper/inputWrapper";
 
-import { AppContext } from "../../../../components/app/contexts/appContext";
 import { GameDayPurchaseContext } from "../gameDayPurchaseModal/gameDayPurchaseModal";
 
 import { PaymentService } from "../../../../services/paymentService";
@@ -23,7 +22,6 @@ import { IGameDayPurchaseStateFields } from "../../models/gameDayPurchaseState";
 import { IPaymentBillingAddress, IPaymentBillingFields } from "../../../../../stroll-models/paymentBillingFields";
 import { IStripeBillingDetails } from "../../../../../stroll-models/stripe/stripeBillingDetails";
 
-import { AppAction } from "../../../../enums/appAction";
 import { FormStatus } from "../../../../enums/formStatus";
 import { PaymentItemID } from "../../../../../stroll-enums/paymentItemID";
 
@@ -34,10 +32,6 @@ interface GameDayPaymentFormProps {
 }
 
 export const GameDayPaymentForm: React.FC<GameDayPaymentFormProps> = (props: GameDayPaymentFormProps) => {
-  const { dispatchToApp } = useContext(AppContext);
-
-  const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
-
   const { state, setState } = useContext(GameDayPurchaseContext);
 
   const { errors, fields } = state;
@@ -60,7 +54,7 @@ export const GameDayPaymentForm: React.FC<GameDayPaymentFormProps> = (props: Gam
   }
 
   const submit = async () => {
-    if(state.status === FormStatus.InProgress) {
+    if(state.status !== FormStatus.Submitting) {
       try {
         setState({ ...state, status: FormStatus.Submitting });
 
@@ -83,8 +77,6 @@ export const GameDayPaymentForm: React.FC<GameDayPaymentFormProps> = (props: Gam
 
         await PaymentService.confirmPayment({ intentID, paymentMethodID: paymentMethod.id });
 
-        dispatch(AppAction.AddGameDays, props.quantity);
-        
         setState({ ...state, status: FormStatus.SubmitSuccess });
       } catch (err) {
         console.error(err);

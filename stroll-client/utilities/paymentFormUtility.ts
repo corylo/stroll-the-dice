@@ -14,8 +14,8 @@ export const PaymentFormUtility: IPaymentFormUtility = {
       hidePostalCode: true,
       style: {
         base: {
-          color: "gray(40, 40, 40)",
-          iconColor: "gray(40, 40, 40)",
+          color: "white",
+          iconColor: "white",
           fontSize: "16px",
           fontWeight: "bold",
           "::placeholder": {

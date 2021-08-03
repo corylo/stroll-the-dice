@@ -59,7 +59,10 @@ export const PaymentService: IPaymentService = {
         const price: number = PaymentUtility.getPrice(request.itemID),
           cents: number = price * 100;
 
-        logger.info(`Creating payment intent for user [${context.auth.uid}] for item: [${request.itemID}] for price: [$${price}]`);
+        logger.info(`Creating payment intent for user [${context.auth.uid}]`, { 
+          itemID: request.itemID, 
+          price
+        });
 
         return await StripeService.createPaymentIntent(cents, request.itemID);
       } catch (err) {

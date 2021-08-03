@@ -1,5 +1,4 @@
-export enum AppAction {
-  AddGameDays = "Add Game Days",
+export enum AppAction {  
   CloseModals = "Close Modals",
   CompleteStepTrackerConnection = "Complete Step Tracker Connection",
   CompleteStepTrackerDisconnection = "Complete Step Tracker Disconnection",
@@ -7,6 +6,7 @@ export enum AppAction {
   InitiateSignOut = "Initiate Sign Out",
   InitiateStepTrackerConnection = "Initiate Step Tracker Connection",
   InitiateStepTrackerDisconnection = "Initiate Step Tracker Disconnection",  
+  SetGameDays = "Set Game Days",
   SetProfile = "Set Profile",
   SetProfileAndClose = "Set Profile And Close",
   SetStatus = "Set Status",

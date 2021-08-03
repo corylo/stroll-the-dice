@@ -22,7 +22,7 @@ import { AppContext } from "./contexts/appContext";
 import { appReducer } from "./reducers/appReducer";
 
 import { useCloseModalsEffect, useScrollToTopEffect } from "../../effects/appEffects";
-import { useAuthStateChangedEffect } from "../../effects/userEffects";
+import { useAuthStateChangedEffect, useGameDaysListenerEffect } from "../../effects/userEffects";
 
 import { defaultAppState } from "./models/appState";
 
@@ -42,6 +42,8 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
   useCloseModalsEffect(location, appState, dispatch);
 
   useAuthStateChangedEffect(appState, dispatch);
+
+  useGameDaysListenerEffect(appState, dispatch);
   
   return (
     <AppContext.Provider value={{ appState, dispatchToApp }}>

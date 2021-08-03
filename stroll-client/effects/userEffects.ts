@@ -1,11 +1,9 @@
 import { useEffect } from "react";
-
 import firebase from "firebase/app";
 
-import { auth } from "../config/firebase";
+import { auth, db } from "../config/firebase";
 
 import { ProfileService } from "../services/profileService";
-import { ProfileStatsService } from "../services/profileStatsService";
 
 import { ErrorUtility } from "../utilities/errorUtility";
 import { UserUtility } from "../utilities/userUtility";
@@ -17,17 +15,17 @@ import { AppAction } from "../enums/appAction";
 import { AppStatus } from "../enums/appStatus";
 import { DocumentType } from "../../stroll-enums/documentType";
 import { ProfileStatsID } from "../../stroll-enums/profileStatsID";
+import { IProfileGameDayStats } from "../../stroll-models/profileStats";
 
 export const useAuthStateChangedEffect = (appState: IAppState, dispatch: (type: AppAction, payload?: any) => void): void => {
   useEffect(() => {
     const unsub = auth.onAuthStateChanged(async (firebaseUser: firebase.User) => {      
-      if(firebaseUser && appState.user === null) {        
+      if(firebaseUser && appState.user.profile.uid === "") {        
         const user: IUser = UserUtility.mapUser(firebaseUser);
         
         try {
           user.profile = await ProfileService.get.by.uid(user.profile.uid);
-          user.stats.gameDays = await ProfileStatsService.getByUID(user.profile.uid, ProfileStatsID.GameDays);
-
+          
           dispatch(AppAction.SignInUser, user);
         } catch (err) {
           console.error(err);
@@ -36,11 +34,33 @@ export const useAuthStateChangedEffect = (appState: IAppState, dispatch: (type: 
             dispatch(AppAction.SignInUserForFirstTime, user);
           }
         }
-      } else if (appState.user === null) {
+      } else if (appState.user.profile.uid === "") {
         dispatch(AppAction.SetStatus, AppStatus.SignedOut);
       }
     });
 
     return () => unsub();
   }, [appState.user]);
+}
+
+export const useGameDaysListenerEffect = (appState: IAppState, dispatch: (type: AppAction, payload?: any) => void): void => {
+  useEffect(() => {  
+    if(appState.user.profile.uid !== "") {   
+      const { uid } = appState.user.profile;
+
+      const unsubToGameDays = db.collection("profiles")
+        .doc(uid)
+        .collection("stats")
+        .doc(ProfileStatsID.GameDays)
+        .onSnapshot((doc: firebase.firestore.QueryDocumentSnapshot) => {
+          if(doc.exists) {
+            const gameDays: IProfileGameDayStats = doc.data() as IProfileGameDayStats;
+            
+            dispatch(AppAction.SetGameDays, gameDays);
+          }
+        });
+
+      return () => unsubToGameDays();
+    }
+  }, [appState.user.profile.uid]);
 }
