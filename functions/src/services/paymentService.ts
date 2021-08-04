@@ -34,7 +34,7 @@ export const PaymentService: IPaymentService = {
       }
       
       try {
-        logger.info(`Payment successful for user [${context.auth.uid}]. Moving on to handling payment completion.`, { intentID: request.intentID });
+        logger.info(`Payment successful for user [${context.auth.uid}]. Handling payment completion step.`, { intentID: request.intentID });
 
         await PaymentCompleteService.handlePaymentCompletion(context.auth.uid, intent);
       } catch (err) {
