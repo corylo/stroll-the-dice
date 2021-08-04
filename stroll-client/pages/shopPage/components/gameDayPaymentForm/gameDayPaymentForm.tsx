@@ -226,6 +226,9 @@ export const GameDayPaymentForm: React.FC<GameDayPaymentFormProps> = (props: Gam
           <InputWrapper id="billing-credit-card-input" label="Card">
             <CardElement options={PaymentFormUtility.getCreditCardInputOptions()} />
           </InputWrapper>
+          <div className="powered-by-brand-logo">
+            <img src="/img/brands/powered-by-stripe-logo.svg" />
+          </div>
         </FormBodySection>
       )
     }

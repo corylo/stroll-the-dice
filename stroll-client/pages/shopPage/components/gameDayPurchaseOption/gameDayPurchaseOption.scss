@@ -23,7 +23,7 @@
     }
 
     .game-day-purchase-option-price {      
-      color: $green;      
+      color: $themeMainDark;      
       margin-bottom: 10px;
     }
 
@@ -35,18 +35,18 @@
     }
 
     .game-day-purchase-option-discount-label {
-      background-color: rgba($green, 0.1);
-      border: 1px solid rgba($green, 0.25);
+      background-color: rgba(white, 0.2);
+      border: 1px solid rgba(white, 0.25);
       border-radius: 6px;
       padding: 10px;
 
       .highlight-custom {
-        color: $green;
+        color: $themeMainDark;
         font-size: 1.25em;
         margin-left: 5px;
 
         .percent {
-          color: $green;
+          color: $themeMainDark;
           font-size: 1.25em;
         }
       }
