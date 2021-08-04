@@ -29,6 +29,7 @@ import { PaymentItemID } from "../../../../../stroll-enums/paymentItemID";
 interface GameDayPaymentFormProps {
   children?: any;
   itemID: PaymentItemID;
+  price: number;
   quantity: number;
 }
 
@@ -242,7 +243,7 @@ export const GameDayPaymentForm: React.FC<GameDayPaymentFormProps> = (props: Gam
           )
         }
 
-        return "Buy!";
+        return `Pay $${props.price}!`;
       }
 
       return (

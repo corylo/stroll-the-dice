@@ -46,6 +46,7 @@ export const GameDayPurchaseModal: React.FC<GameDayPurchaseModalProps> = (props:
         <ModalBody>       
           <GameDayPaymentForm 
             itemID={GameDayUtility.getGameDayPaymentItemID(props.option.unit)} 
+            price={props.option.price}
             quantity={props.option.quantity}
           >
             <GameDayPurchaseOption 
