@@ -6,7 +6,6 @@ import { Button } from "../../../../components/buttons/button";
 import { IGameDayPurchaseOption } from "../../../../../stroll-models/gameDayPurchaseOption";
 
 import { GameDayPurchaseOptionUnit } from "../../../../../stroll-enums/gameDayPurchaseOptionUnit";
-import { GameDayUtility } from "../../../../../stroll-utilities/gameDayUtility";
 
 interface GameDayPurchaseOptionProps {  
   discount?: boolean;
@@ -18,8 +17,7 @@ interface GameDayPurchaseOptionProps {
 export const GameDayPurchaseOption: React.FC<GameDayPurchaseOptionProps> = (props: GameDayPurchaseOptionProps) => {  
   const { option } = props;
 
-  const daily: number = option.price / option.quantity,
-    bonus: number = GameDayUtility.getDayBonus(option.quantity);
+  const daily: number = option.price / option.quantity;
 
 
   const getDiscountLabel = (): JSX.Element => {
@@ -43,14 +41,6 @@ export const GameDayPurchaseOption: React.FC<GameDayPurchaseOptionProps> = (prop
     }
   }
 
-  const getDayBonus = (): JSX.Element => {
-    if(bonus > 0) {
-      return (
-        <span className="highlight-custom"> + {bonus} Bonus!</span>
-      )
-    }
-  }
-
   const getHandleOnClick = (): any => {
     if(props.handleOnClick) {
       return props.handleOnClick;
@@ -67,7 +57,7 @@ export const GameDayPurchaseOption: React.FC<GameDayPurchaseOptionProps> = (prop
     >
       <i className={classNames(option.icon, "game-day-purchase-option-icon")} />      
       <div className="game-day-purchase-option-content">
-        <h1 className="game-day-purchase-option-label passion-one-font">{option.label} ( {option.quantity - bonus} ) {getDayBonus()}</h1>
+        <h1 className="game-day-purchase-option-label passion-one-font">{option.label} ( {option.quantity} )</h1>
         <h1 className="game-day-purchase-option-daily-price passion-one-font">${daily.toFixed(2)} / Day</h1>
         <h1 className="game-day-purchase-option-price passion-one-font">${option.price}</h1>
         {getRecommendationStatement()}
