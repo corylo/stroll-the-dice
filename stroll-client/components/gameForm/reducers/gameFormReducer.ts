@@ -114,6 +114,14 @@ export const gameFormReducer = (state: IGameFormState, action: IAction): IGameFo
         ...state,
         status: action.payload
       }
+    case GameFormAction.SetUseMyGameDaysForJoiningPlayers:
+      return {
+        ...state,
+        fields: {
+          ...fields,
+          useMyGameDaysForJoiningPlayers: action.payload
+        }
+      }
     default:
       throw new Error(`Unknown action type in gameFormReducer: ${action.type}`);
   }

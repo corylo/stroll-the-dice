@@ -20,4 +20,5 @@ export interface IGameUpdate {
   startsAt?: firebase.firestore.FieldValue;
   status?: GameStatus;
   updatedAt?: firebase.firestore.FieldValue;
+  useMyGameDaysForJoiningPlayers?: boolean;
 }

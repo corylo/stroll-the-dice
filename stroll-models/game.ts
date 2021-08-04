@@ -42,6 +42,7 @@ export interface IGame {
   startsAt: firebase.firestore.FieldValue;
   status: GameStatus;
   updatedAt: firebase.firestore.FieldValue;
+  useMyGameDaysForJoiningPlayers: boolean;
 }
 
 export const defaultGame = (): IGame => ({
@@ -60,7 +61,8 @@ export const defaultGame = (): IGame => ({
   sortable: defaultGameSortable(),
   startsAt: firebase.firestore.FieldValue.serverTimestamp(),
   status: GameStatus.Upcoming,
-  updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+  useMyGameDaysForJoiningPlayers: false
 });
 
 export const gameConverter: any = {
@@ -80,7 +82,8 @@ export const gameConverter: any = {
       sortable: game.sortable,
       startsAt: game.startsAt,
       status: game.status,
-      updatedAt: game.updatedAt
+      updatedAt: game.updatedAt,
+      useMyGameDaysForJoiningPlayers: game.useMyGameDaysForJoiningPlayers
     }
   },
   fromFirestore(
@@ -104,7 +107,8 @@ export const gameConverter: any = {
       sortable: data.sortable,
       startsAt: data.startsAt,
       status: data.status,
-      updatedAt: data.updatedAt
+      updatedAt: data.updatedAt,
+      useMyGameDaysForJoiningPlayers: data.useMyGameDaysForJoiningPlayers
     }
   }
 }

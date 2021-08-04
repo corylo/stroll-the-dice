@@ -1,0 +1,76 @@
+.input-toggle-wrapper {
+  border-radius: 10px;
+  position: relative;
+
+  input {
+    border-radius: 6px;
+    height: 100%;
+    left: 0px;
+    outline: none;
+    opacity: 0;
+    position: absolute;
+    top: 0px;
+    width: 100%;
+
+    &:hover,
+    &:focus {
+      cursor: pointer;
+    }
+
+    &:not(.toggled):hover,
+    &:not(.toggled):focus {
+      + .input-toggle {
+        background: rgba(white, 0.15);
+      }
+    }
+
+    &.toggled {
+      + .input-toggle {
+        background: $whiteGradientHover;
+        border-color: white;
+        box-shadow: $shadow1;
+      }
+    }
+  }
+
+  .input-toggle {
+    align-items: center;
+    background: $whiteGradient;
+    border: 2px solid rgba(white, 0.5);
+    border-radius: 10px;
+    display: flex;
+    padding: 15px 10px;
+
+    > i {
+      color: white;
+      font-size: 1.5em;
+    }
+
+    .input-toggle-text {
+      margin-left: 10px;
+
+      .input-toggle-label {
+        align-items: center;
+        display: flex;
+
+        i, h1 {
+          color: white;
+        }
+
+        i {
+          font-size: 1.25em;
+          margin-right: 6px;
+        }
+
+        h1 {
+          font-size: 1.25em;
+        }
+      }
+
+      .input-toggle-description {
+        color: gray(40);
+        margin-top: 2px;
+      }
+    }
+  }
+}

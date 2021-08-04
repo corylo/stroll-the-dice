@@ -32,6 +32,7 @@ import { GameDuration } from "../../../stroll-enums/gameDuration";
 import { GameFormAction } from "./enums/gameFormAction";
 import { GameMode } from "../../../stroll-enums/gameMode";
 import { GameStatus } from "../../../stroll-enums/gameStatus";
+import { InputToggle } from "../inputToggle/inputToggle";
 
 interface GameFormProps {  
   forwarding?: boolean;
@@ -258,6 +259,14 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
             <HourSelector hour={fields.startsAtHour} select={(hour: number) => handleOnChange(GameFormAction.SetStartsAtHour, hour)} />
           </InputWrapper>
         </FormBodySection>
+        <InputToggle
+          className="use-my-game-days-toggle"
+          description="Enabling this feature will gift your available Game Days to players who join this game instead of using their own Game Days. What a good friend you are!"
+          icon="fal fa-gift"
+          label="Gift my Game Days when players join."
+          toggled={fields.useMyGameDaysForJoiningPlayers}
+          toggle={(toggled: boolean) => handleOnChange(GameFormAction.SetUseMyGameDaysForJoiningPlayers, toggled)}
+        />
         {getLockGameSection()}
         {getGameDayRequirementSection()}
       </FormBody>

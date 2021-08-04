@@ -10,6 +10,7 @@ export interface IGameFormStateFields {
   name: string;
   startsAt: string;
   startsAtHour: number;
+  useMyGameDaysForJoiningPlayers: boolean;
 }
 
 export const defaultGameFormStateFields = (): IGameFormStateFields => ({
@@ -18,5 +19,6 @@ export const defaultGameFormStateFields = (): IGameFormStateFields => ({
   mode: GameMode.None,
   name: "",
   startsAt: DateUtility.dateToInput(new Date()),
-  startsAtHour: new Date().getHours() + 1
+  startsAtHour: new Date().getHours() + 1,
+  useMyGameDaysForJoiningPlayers: false
 });

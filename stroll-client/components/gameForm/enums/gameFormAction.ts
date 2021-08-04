@@ -6,5 +6,6 @@ export enum GameFormAction {
   SetMode = "Set Mode",
   SetName = "Set Name",
   SetStatus = "Set Status",
-  SetStartsAt = "Set Starts At"
+  SetStartsAt = "Set Starts At",
+  SetUseMyGameDaysForJoiningPlayers = "Set Use My Game Days For Joining Players"
 }
