@@ -7,6 +7,7 @@ import { Icon } from "../stroll-enums/icon";
 import { PaymentItemID } from "../stroll-enums/paymentItemID";
 
 interface IGameDayUtility {
+  getDayBonus: (quantity: number) => number;
   getDayQuantity: (unit: GameDayPurchaseOptionUnit) => number;
   getGameDayPaymentItemID: (unit: GameDayPurchaseOptionUnit) => PaymentItemID;
   getGameDayPurchaseOptionPrice: (unit: GameDayPurchaseOptionUnit) => number;
@@ -16,6 +17,15 @@ interface IGameDayUtility {
 }
 
 export const GameDayUtility: IGameDayUtility = {
+  getDayBonus: (quantity: number): number => {
+    const bonus: number = Math.round(quantity * 0.25);
+
+    if(bonus < 10) {
+      return bonus;
+    }
+
+    return Math.ceil(bonus / 10) * 10;
+  },
   getDayQuantity: (unit: GameDayPurchaseOptionUnit): number => {
     switch(unit) {
       case GameDayPurchaseOptionUnit.One:

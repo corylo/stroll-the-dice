@@ -18,13 +18,29 @@
     }
 
     .game-day-purchase-option-label,
-    .game-day-purchase-option-price {       
-      font-size: 1.25em;
+    .game-day-purchase-option-daily-price {       
+      font-size: 1.5em;
     }
 
+    .game-day-purchase-option-daily-price,
     .game-day-purchase-option-price {      
-      color: $themeMainDark;      
       margin-bottom: 10px;
+    }
+
+    
+    .game-day-purchase-option-label {
+      .highlight-custom {
+        color: white;
+        font-size: 0.8em;
+      }
+    }
+
+    .game-day-purchase-option-daily-price {
+      color: $themeMainDark;  
+    }
+
+    .game-day-purchase-option-price {
+      color: white;
     }
 
     .game-day-purchase-option-recommendation-statement {
@@ -41,12 +57,12 @@
       padding: 10px;
 
       .highlight-custom {
-        color: $themeMainDark;
+        color: white;
         font-size: 1.25em;
         margin-left: 5px;
 
         .percent {
-          color: $themeMainDark;
+          color: white;
           font-size: 1.25em;
         }
       }

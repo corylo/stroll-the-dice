@@ -20,7 +20,7 @@ export const ShopSection: React.FC<ShopSectionProps> = (props: ShopSectionProps)
   const getDesc = (): JSX.Element => {
     if(props.description) {
       const lines: JSX.Element[] = props.description.map((line: string) => (
-        <h1 className="shop-section-description-line passion-one-font">{line}</h1>
+        <h1 key={line} className="shop-section-description-line passion-one-font">{line}</h1>
       ));
 
       return (

@@ -6,6 +6,7 @@ import { Button } from "../../../../components/buttons/button";
 import { IGameDayPurchaseOption } from "../../../../../stroll-models/gameDayPurchaseOption";
 
 import { GameDayPurchaseOptionUnit } from "../../../../../stroll-enums/gameDayPurchaseOptionUnit";
+import { GameDayUtility } from "../../../../../stroll-utilities/gameDayUtility";
 
 interface GameDayPurchaseOptionProps {  
   discount?: boolean;
@@ -17,6 +18,10 @@ interface GameDayPurchaseOptionProps {
 export const GameDayPurchaseOption: React.FC<GameDayPurchaseOptionProps> = (props: GameDayPurchaseOptionProps) => {  
   const { option } = props;
 
+  const daily: number = option.price / option.quantity,
+    bonus: number = GameDayUtility.getDayBonus(option.quantity);
+
+
   const getDiscountLabel = (): JSX.Element => {
     if(props.discount) {
       const daily: number = option.price / option.quantity,
@@ -24,7 +29,7 @@ export const GameDayPurchaseOption: React.FC<GameDayPurchaseOptionProps> = (prop
 
       return (
         <h1 className="game-day-purchase-option-discount-label passion-one-font">
-          Only ${daily.toFixed(2)} / Day <span className="highlight-custom"><span className="percent">{percent}%</span> less per day!</span>
+          <span className="highlight-custom"><span className="percent">{percent}%</span> less per day!</span>
         </h1>
       )
     }
@@ -34,6 +39,14 @@ export const GameDayPurchaseOption: React.FC<GameDayPurchaseOptionProps> = (prop
     if(!props.presentationMode && option.unit === GameDayPurchaseOptionUnit.Five) {
       return (
         <h1 className="game-day-purchase-option-recommendation-statement passion-one-font">Recommended for new players!</h1>
+      )
+    }
+  }
+
+  const getDayBonus = (): JSX.Element => {
+    if(bonus > 0) {
+      return (
+        <span className="highlight-custom"> + {bonus} Bonus!</span>
       )
     }
   }
@@ -54,7 +67,8 @@ export const GameDayPurchaseOption: React.FC<GameDayPurchaseOptionProps> = (prop
     >
       <i className={classNames(option.icon, "game-day-purchase-option-icon")} />      
       <div className="game-day-purchase-option-content">
-        <h1 className="game-day-purchase-option-label passion-one-font">{option.label} ( {option.quantity} )</h1>
+        <h1 className="game-day-purchase-option-label passion-one-font">{option.label} ( {option.quantity - bonus} ) {getDayBonus()}</h1>
+        <h1 className="game-day-purchase-option-daily-price passion-one-font">${daily.toFixed(2)} / Day</h1>
         <h1 className="game-day-purchase-option-price passion-one-font">${option.price}</h1>
         {getRecommendationStatement()}
         {getDiscountLabel()}
