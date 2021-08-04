@@ -7,11 +7,15 @@
   padding: 10px;
   position: relative;
 
+  &:not(:disabled):hover,
+  &:not(:disabled):focus {
+    cursor: pointer;
+  }
+
   &:not(:disabled, .selected):hover,
   &:not(:disabled, .selected):focus {
     background-color: rgba(white, 0.2);
     color: white;
-    cursor: pointer;
     
     .tooltip {
       opacity: 1;
@@ -55,7 +59,7 @@
 
   &.red {    
     background: linear-gradient(to right, rgba($red, 0.25), rgba($red, 0.05));
-    border: 1px solid rgba($red, 0.5);
+    border-color: rgba($red, 0.5);
 
     &:not(:disabled):hover,
     &:not(:disabled):focus {
@@ -78,7 +82,7 @@
 }
 
 .button.fancy-option-button {
-  border: 1px solid rgba(white, 0.5);
+  border: 1px solid rgba(white, 0.25);
   padding: 15px 10px;
 
   &:not(:disabled, .selected):hover,
@@ -88,11 +92,11 @@
 
   &.selected {
     background: $whiteGradientHover;
-    border: 1px solid rgba(white, 0.5);
-    color: gray(40);
+    border-color: rgba(white, 0.5);
+    color: $themeMainDark;
 
     i, h1 {
-      color: gray(40);
+      color: $themeMainDark;
     }
   }
 

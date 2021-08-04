@@ -261,9 +261,9 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
         </FormBodySection>
         <InputToggle
           className="use-my-game-days-toggle"
-          description="Enabling this feature will gift your available Game Days to players who join this game instead of using their own Game Days. What a good friend you are!"
+          description="Enabling this feature will gift the required number of Game Days to players who join this game."
           icon="fal fa-gift"
-          label="Gift my Game Days when players join."
+          label="Gift my Game Days!"
           toggled={fields.useMyGameDaysForJoiningPlayers}
           toggle={(toggled: boolean) => handleOnChange(GameFormAction.SetUseMyGameDaysForJoiningPlayers, toggled)}
         />

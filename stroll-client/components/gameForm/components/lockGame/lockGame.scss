@@ -1,10 +1,15 @@
 .lock-game {  
-  .lock-game-button {
+  .lock-game-button, .lock-game-button.selected {
+    border-width: 2px;
     width: 100%;
+
+    i, h1 {      
+      color: white;
+    }
   }
 
   .lock-game-label {
-    color: gray(40);
+    color: white;
     margin-top: 10px;
   }
 }

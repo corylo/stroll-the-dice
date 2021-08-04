@@ -16,7 +16,7 @@ export interface IGameFormStateFields {
 export const defaultGameFormStateFields = (): IGameFormStateFields => ({
   duration: GameDuration.None,
   locked: false,
-  mode: GameMode.None,
+  mode: GameMode.Singles,
   name: "",
   startsAt: DateUtility.dateToInput(new Date()),
   startsAtHour: new Date().getHours() + 1,
