@@ -62,9 +62,12 @@ export const UpdateProfileModal: React.FC<UpdateProfileModalProps> = (props: Upd
 
         await ProfileService.update(user.profile.uid, update);
 
-        dispatch(AppAction.SetProfile, { 
-          profile: { ...user.profile, ...update }
-        });
+        const profile: IProfile = {
+          ...user.profile,
+          ...update
+        }
+
+        dispatch(AppAction.SetProfile, profile);
       }
     }
 

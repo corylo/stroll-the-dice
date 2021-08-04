@@ -1,9 +1,9 @@
 import { IGameEvent } from "./gameEvent";
-import { IMatchupProfileReference } from "../matchupProfileReference";
+import { IMatchupPlayerReference } from "../matchupProfileReference";
 
 export interface IPlayerUpdatedPredictionEvent extends IGameEvent {
   afterAmount: number;
   beforeAmount: number;
-  matchup: IMatchupProfileReference;
+  matchup: IMatchupPlayerReference;
   playerID: string;
 }

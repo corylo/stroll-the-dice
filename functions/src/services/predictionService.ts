@@ -63,7 +63,7 @@ export const PredictionService: IPredictionService = {
           if(matchupDoc.exists) {
             const matchup: IMatchup = matchupDoc.data();
 
-            const property: string = prediction.ref.player === matchup.left.profile.uid ? "left" : "right",
+            const property: string = prediction.ref.player === matchup.left.playerID ? "left" : "right",
               side: IMatchupSide = matchup[property];
 
             const updatedTotalWagered: number = side.total.wagered + prediction.amount;
@@ -80,7 +80,7 @@ export const PredictionService: IPredictionService = {
                 prediction.ref.creator, 
                 prediction.createdAt, 
                 prediction.ref.player, 
-                MatchupUtility.mapProfileReference(matchup),
+                MatchupUtility.mapPlayerReference(matchup),
                 prediction.amount
               )
             );
@@ -112,7 +112,7 @@ export const PredictionService: IPredictionService = {
           if(matchupDoc.exists) {
             const matchup: IMatchup = matchupDoc.data();
 
-            const property: string = after.ref.player === matchup.left.profile.uid
+            const property: string = after.ref.player === matchup.left.playerID
               ? "left"
               : "right";
 
@@ -131,7 +131,7 @@ export const PredictionService: IPredictionService = {
                 after.ref.creator,
                 after.updatedAt,
                 after.ref.player,
-                MatchupUtility.mapProfileReference(matchup),
+                MatchupUtility.mapPlayerReference(matchup),
                 before.amount,
                 after.amount
               )

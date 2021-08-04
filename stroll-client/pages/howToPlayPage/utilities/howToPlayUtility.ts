@@ -28,6 +28,7 @@ export const HowToPlayUtility: IHowToPlayUtility = {
   getExampleMatchupSide: (side: MatchupSideAlignment): IMatchupSide => {
     if(side === MatchupSideAlignment.Left) {
       return {
+        playerID: "123",
         profile: {
           color: Color.Orange3,
           icon: Icon.Dog,
@@ -44,6 +45,7 @@ export const HowToPlayUtility: IHowToPlayUtility = {
     }
 
     return {
+      playerID: "234",
       profile: {
         color: Color.Yellow2,
         icon: Icon.Squirrel,

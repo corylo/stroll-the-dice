@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { EventDescriptionWrapper } from "./eventDescriptionWrapper";
 import { MatchupStatement } from "../../../../../components/matchupStatement/matchupStatement";
 import { PlayerStatement } from "../../../../../components/playerStatement/playerStatement";
 import { PointStatement } from "../../../../../components/pointStatement/pointStatement";
 
+import { GamePageContext } from "../../../gamePage";
+
+import { PlayerUtility } from "../../../../../utilities/playerUtility";
+
+import { IPlayer } from "../../../../../../stroll-models/player";
 import { IPlayerUpdatedPredictionEvent } from "../../../../../../stroll-models/gameEvent/playerUpdatedPredictionEvent";
 import { IProfileReference } from "../../../../../../stroll-models/profileReference";
 
@@ -14,15 +19,20 @@ interface PlayerUpdatedPredictionEventDescriptionProps {
 }
 
 export const PlayerUpdatedPredictionEventDescription: React.FC<PlayerUpdatedPredictionEventDescriptionProps> = (props: PlayerUpdatedPredictionEventDescriptionProps) => {         
+  const { state } = useContext(GamePageContext);
+
   const { event } = props;
 
-  const profile: IProfileReference = event.playerID === event.matchup.left.uid
-    ? event.matchup.left
-    : event.matchup.right;
+  const leftPlayer: IPlayer = PlayerUtility.getById(event.matchup.leftPlayerID, state.players),
+    rightPlayer: IPlayer = PlayerUtility.getById(event.matchup.rightPlayerID, state.players);
+
+  const profile: IProfileReference = event.playerID === event.matchup.leftPlayerID
+    ? leftPlayer.profile
+    : rightPlayer.profile;
 
   const beforeAmountStatement: JSX.Element = <PointStatement amount={event.beforeAmount.toLocaleString()} />,
     afterAmountStatement: JSX.Element = <PointStatement amount={event.afterAmount.toLocaleString()} />,
-    matchupStatement: JSX.Element = <MatchupStatement left={event.matchup.left} right={event.matchup.right}/>,
+    matchupStatement: JSX.Element = <MatchupStatement left={leftPlayer.profile} right={rightPlayer.profile}/>,
     playerStatement: JSX.Element = <PlayerStatement profile={profile} />;
 
   return (

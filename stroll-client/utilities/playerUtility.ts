@@ -10,7 +10,8 @@ import { InitialValue } from "../../stroll-enums/initialValue";
 
 interface IPlayerUtility {
   getById: (id: string, players: IPlayer[]) => IPlayer;
-  getByUser: (user: IUser, players: IPlayer[]) => IPlayer;
+  getByUser: (user: IUser, players: IPlayer[]) => IPlayer;  
+  hasProfileChanged: (before: IPlayer, after: IPlayer) => boolean;
   mapCreate: (profile: IProfile, game: IGame, invite: IInvite) => IPlayer;
 }
 
@@ -24,6 +25,14 @@ export const PlayerUtility: IPlayerUtility = {
     }
 
     return defaultPlayer();
+  },
+  hasProfileChanged: (before: IPlayer, after: IPlayer): boolean => {
+    return (
+      before.profile.color !== after.profile.color ||
+      before.profile.icon !== after.profile.icon ||
+      before.profile.name !== after.profile.name ||
+      before.profile.username !== after.profile.username
+    )
   },
   mapCreate: (profile: IProfile, game: IGame, invite: IInvite): IPlayer => {
     return {

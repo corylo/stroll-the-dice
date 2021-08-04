@@ -6,14 +6,13 @@ import { ProfileIcon } from "../../../../components/profileIcon/profileIcon";
 
 import { GamePageContext } from "../../gamePage";
 
-import { GameDurationUtility } from "../../../../../stroll-utilities/gameDurationUtility";
+import { FirestoreDateUtility } from "../../../../../stroll-utilities/firestoreDateUtility";
 import { MatchupUtility } from "../../../../utilities/matchupUtility";
 
 import { IMatchup, IMatchupSide } from "../../../../../stroll-models/matchup";
 
 import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 import { MatchupSideStats } from "../matchupSideStats/matchupSideStats";
-import { FirestoreDateUtility } from "../../../../../stroll-utilities/firestoreDateUtility";
 
 export enum MatchupSideAlignment {
   Left = "left",
@@ -27,16 +26,14 @@ interface MatchupSideProps {
 }
 
 export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps) => {  
-  const { day, game } = useContext(GamePageContext).state;
+  const { game } = useContext(GamePageContext).state;
 
   const { alignment, matchup, odds } = props;
   
-  const side: IMatchupSide = matchup[alignment],
-    dayStatus: GameStatus = GameDurationUtility.getDayStatus(matchup.day, day);
+  const side: IMatchupSide = matchup[alignment];
 
-
-  if(side.profile.uid !== "") {
-    const leader: boolean = MatchupUtility.getLeader(matchup) === side.profile.uid;
+  if(side.playerID !== "") {
+    const leader: boolean = MatchupUtility.getLeader(matchup) === side.playerID;
     
     const getLeaderLabel = (): JSX.Element => {
       if(leader) {        

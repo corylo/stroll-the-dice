@@ -44,12 +44,12 @@ export const PlayerTransactionService: IPlayerTransactionService = {
         matchups.push(doc.data()));
     }
 
-    if(matchups.length === 0 || matchups[0].right.profile.uid !== "") {    
+    if(matchups.length === 0 || matchups[0].right.playerID !== "") {    
       PlayerTransactionService.createDayOneMatchup(transaction, player);
     } else {
       const matchup: IMatchup = PlayerTransactionService.completeDayOneMatchup(transaction, matchups[0], player);
 
-      PredictionTransactionService.createInitialPredictions(transaction, game.id, matchup.id, matchup.left.profile.uid, player.id);
+      PredictionTransactionService.createInitialPredictions(transaction, game.id, matchup.id, matchup.left.playerID, player.id);
     }
   },
   completeDayOneMatchup: (transaction: firebase.firestore.Transaction, matchup: IMatchup, player: IPlayer): IMatchup => {    
@@ -65,7 +65,7 @@ export const PlayerTransactionService: IPlayerTransactionService = {
     transaction.update(matchupRef, { 
       ["left.total"]: total,
       ["right.total"]: total,
-      ["right.profile"]: player.profile
+      ["right.playerID"]: player.id
     });
 
     return matchup;
@@ -75,7 +75,7 @@ export const PlayerTransactionService: IPlayerTransactionService = {
 
     const matchupRef: firebase.firestore.DocumentReference = MatchupUtility.getMatchupRef(player.ref.game);
 
-    transaction.set(matchupRef, MatchupUtility.mapCreate(player.profile, defaultProfileReference(), 1));
+    transaction.set(matchupRef, MatchupUtility.mapCreate(player.id, "", 1));
   },
   distributePayoutsAndFinalizeSteps: async (gameID: string, day: number, startsAt: firebase.firestore.FieldValue, matchups: IMatchup[], updates: IMatchupSideStepUpdate[]): Promise<void> => {
     const dayCompletedAt: firebase.firestore.FieldValue = FirestoreDateUtility.endOfDay(day, startsAt);

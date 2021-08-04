@@ -25,7 +25,7 @@ export const MyPrediction: React.FC<MyPredictionProps> = (props: MyPredictionPro
 
   const { matchup, myPrediction } = props;
 
-  const profile: IProfileReference = myPrediction.ref.player === matchup.left.profile.uid
+  const profile: IProfileReference = myPrediction.ref.player === matchup.left.playerID
     ? matchup.left.profile
     : matchup.right.profile;
 

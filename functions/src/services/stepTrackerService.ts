@@ -201,8 +201,8 @@ export const StepTrackerService: IStepTrackerService = {
     let updates: IMatchupSideStepUpdate[] = [];
 
     for(let matchup of matchups) {
-      const leftUpdate: IMatchupSideStepUpdate = await StepTrackerService.getStepCountUpdate(game, matchup.left.profile.uid, matchup.left.steps),
-        rightUpdate: IMatchupSideStepUpdate = await StepTrackerService.getStepCountUpdate(game, matchup.right.profile.uid, matchup.right.steps);
+      const leftUpdate: IMatchupSideStepUpdate = await StepTrackerService.getStepCountUpdate(game, matchup.left.playerID, matchup.left.steps),
+        rightUpdate: IMatchupSideStepUpdate = await StepTrackerService.getStepCountUpdate(game, matchup.right.playerID, matchup.right.steps);
 
       updates = [...updates, leftUpdate, rightUpdate];
     }

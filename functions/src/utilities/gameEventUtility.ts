@@ -12,7 +12,7 @@ import { IGame } from "../../../stroll-models/game";
 import { gameEventConverter, IGameEvent } from "../../../stroll-models/gameEvent/gameEvent";
 import { IGameUpdateEvent } from "../../../stroll-models/gameEvent/gameUpdateEvent";
 import { IMatchup } from "../../../stroll-models/matchup";
-import { IMatchupProfileReference } from "../../../stroll-models/matchupProfileReference";
+import { IMatchupPlayerReference } from "../../../stroll-models/matchupProfileReference";
 import { IPlayerCreatedEvent } from "../../../stroll-models/gameEvent/playerCreatedEvent";
 import { IPlayerCreatedPredictionEvent } from "../../../stroll-models/gameEvent/playerCreatedPredictionEvent";
 import { IPlayerDayCompletedSummaryEvent } from "../../../stroll-models/gameEvent/playerDayCompletedSummaryEvent";
@@ -30,11 +30,11 @@ interface IGameEventUtility {
   mapDayCompletedEvent: (occurredAt: firebase.firestore.FieldValue, day: number) => IDayCompletedEvent;  
   mapGeneralEvent: (occurredAt: firebase.firestore.FieldValue, type: GameEventType) => IGameEvent;  
   mapPlayerCreatedEvent: (occurredAt: firebase.firestore.FieldValue, playerID: string) => IPlayerCreatedEvent;
-  mapPlayerCreatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, matchup: IMatchupProfileReference, amount: number) => IPlayerCreatedPredictionEvent;
+  mapPlayerCreatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, matchup: IMatchupPlayerReference, amount: number) => IPlayerCreatedPredictionEvent;
   mapPlayerDayCompletedSummaryEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, day: number, gained: number, lost: number, overall: number, received: number, steps: number, wagered: number) => IPlayerDayCompletedSummaryEvent
   mapPlayerEarnedPointsFromStepsEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, points: number) => IPlayerEarnedPointsFromStepsEvent;
   mapPlayerEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, category: GameEventCategory, type: GameEventType) => IGameEvent;
-  mapPlayerUpdatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, matchup: IMatchupProfileReference, beforeAmount: number, afterAmount: number) => IPlayerUpdatedPredictionEvent;  
+  mapPlayerUpdatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, matchup: IMatchupPlayerReference, beforeAmount: number, afterAmount: number) => IPlayerUpdatedPredictionEvent;  
   mapUpdateEvent: (occurredAt: firebase.firestore.FieldValue, before: IGame, after: IGame) => IGameUpdateEvent;  
 }
 
@@ -96,7 +96,7 @@ export const GameEventUtility: IGameEventUtility = {
       playerID
     }
   },
-  mapPlayerCreatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, matchup: IMatchupProfileReference, amount: number): IPlayerCreatedPredictionEvent => {
+  mapPlayerCreatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, matchup: IMatchupPlayerReference, amount: number): IPlayerCreatedPredictionEvent => {
     const event: IGameEvent = GameEventUtility.mapPlayerEvent(creatorID, occurredAt, GameEventCategory.Prediction, GameEventType.PlayerCreatedPrediction);
 
     return {
@@ -128,7 +128,7 @@ export const GameEventUtility: IGameEventUtility = {
       points
     }
   },
-  mapPlayerUpdatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, matchup: IMatchupProfileReference, beforeAmount: number, afterAmount: number): IPlayerUpdatedPredictionEvent => {
+  mapPlayerUpdatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, matchup: IMatchupPlayerReference, beforeAmount: number, afterAmount: number): IPlayerUpdatedPredictionEvent => {
     const event: IGameEvent = GameEventUtility.mapPlayerEvent(creatorID, occurredAt, GameEventCategory.Prediction, GameEventType.PlayerUpdatedPrediction);
 
     return {

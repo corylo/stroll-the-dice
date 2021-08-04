@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import _groupBy from "lodash.groupby";
 
+import { EmptyMessage } from "../../../../components/emptyMessage/emptyMessage";
 import { EventGroup } from "./eventGroup";
 
 import { GamePageContext } from "../../gamePage";
@@ -28,9 +29,18 @@ export const EventHistory: React.FC<EventHistoryProps> = (props: EventHistoryPro
       ));
   }
 
+  const getEmptyMessage = (): JSX.Element => {
+    if(events.length === 0) {
+      return (
+        <EmptyMessage text="There were no events found" />
+      )
+    }
+  }
+
   return (
     <div className="game-event-history">
       {getEvents()}
+      {getEmptyMessage()}
     </div>
   );
 }

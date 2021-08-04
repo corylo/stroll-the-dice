@@ -183,12 +183,14 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
   }, [appState.user, game, players, events]);
 
   useEffect(() => {
-    if(state.statuses.player === PlayerStatus.Playing && players.length > 0) {
+    if(state.statuses.player === PlayerStatus.Playing && state.players.length > 0) {
       const player: IPlayer = PlayerUtility.getByUser(appState.user, players);
 
-      setState({ ...state, player });
+      if(PlayerUtility.hasProfileChanged(state.player, player)) {
+        setState({ ...state, player });
+      }
     }
-  }, [players, state.statuses.player]);
+  }, [state.players, state.statuses.player]);
 
   useEffect(() => {
     if(state.statuses.player === PlayerStatus.NotPlaying) {

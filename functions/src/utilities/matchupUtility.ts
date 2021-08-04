@@ -8,7 +8,7 @@ import { NumberUtility } from "../../../stroll-utilities/numberUtility";
 import { defaultMatchupSideTotal, IMatchup, IMatchupSide, IMatchupSideTotal, matchupConverter } from "../../../stroll-models/matchup";
 import { IMatchupPair } from "../../../stroll-models/matchupPair";
 import { IMatchupPairGroup } from "../../../stroll-models/matchupPairGroup";
-import { IMatchupProfileReference } from "../../../stroll-models/matchupProfileReference";
+import { IMatchupPlayerReference } from "../../../stroll-models/matchupProfileReference";
 import { IMatchupSideStepUpdate } from "../../../stroll-models/matchupSideStepUpdate";
 import { IPlayer } from "../../../stroll-models/player";
 import { defaultProfileReference, IProfileReference } from "../../../stroll-models/profileReference";
@@ -32,9 +32,9 @@ interface IMatchupUtility {
   getMatchupRef: (gameID: string, matchupID?: string) => firebase.firestore.DocumentReference;
   getPlayerSteps: (playerID: string, matchup: IMatchup) => number;
   getWinnerOdds: (matchup: IMatchup) => number;
-  mapCreate: (leftProfile: IProfileReference, rightProfile: IProfileReference, day: number, total?: IMatchupSideTotal) => IMatchup;
+  mapCreate: (leftPlayerID: string, rightPlayerID: string, day: number, total?: IMatchupSideTotal) => IMatchup;
   mapMatchupsFromPairGroups: (groups: IMatchupPairGroup[], players: IPlayer[]) => IMatchup[];
-  mapProfileReference: (matchup: IMatchup) => IMatchupProfileReference;
+  mapPlayerReference: (matchup: IMatchup) => IMatchupPlayerReference;
   mapStepUpdates: (matchups: IMatchup[], updates: IMatchupSideStepUpdate[]) => IMatchup[];  
   setWinners: (matchups: IMatchup[]) => IMatchup[];
 }
@@ -143,7 +143,7 @@ export const MatchupUtility: IMatchupUtility = {
     return matchups.find((matchup: IMatchup) => matchup.id === id);
   },
   getByPlayer: (playerID: string, matchups: IMatchup[]): IMatchup => {
-    return matchups.find((matchup: IMatchup) => matchup.left.profile.uid === playerID || matchup.right.profile.uid === playerID);
+    return matchups.find((matchup: IMatchup) => matchup.left.playerID === playerID || matchup.right.playerID === playerID);
   },
   getCombinationsOfPair: (pair: IMatchupPair, list: IMatchupPair[]): IMatchupPair[] => {
     return list.filter((listPair: IMatchupPair) => (
@@ -157,9 +157,9 @@ export const MatchupUtility: IMatchupUtility = {
     let leader: string = MatchupLeader.Tie;
 
     if(matchup.left.steps > matchup.right.steps) {
-      leader = matchup.left.profile.uid;
+      leader = matchup.left.playerID;
     } else if (matchup.left.steps < matchup.right.steps) {
-      leader = matchup.right.profile.uid;
+      leader = matchup.right.playerID;
     }
 
     return leader;
@@ -180,35 +180,35 @@ export const MatchupUtility: IMatchupUtility = {
       .doc();
   },
   getPlayerSteps: (playerID: string, matchup: IMatchup): number => {
-    if(playerID === matchup.left.profile.uid) {
+    if(playerID === matchup.left.playerID) {
       return matchup.left.steps;
-    } else if (playerID === matchup.right.profile.uid) {
+    } else if (playerID === matchup.right.playerID) {
       return matchup.right.steps;
     }
 
-    throw new Error(`Player [${playerID}] not found in matchup [${matchup.id}]. Left was [${matchup.left.profile.uid}], right was [${matchup.right.profile.uid}]`);
+    throw new Error(`Player [${playerID}] not found in matchup [${matchup.id}]. Left was [${matchup.left.playerID}], right was [${matchup.right.playerID}]`);
   },
   getWinnerOdds: (matchup: IMatchup): number => {
     if(matchup.winner !== "" && matchup.winner !== MatchupLeader.Tie) {
-      return matchup.winner === matchup.left.profile.uid
+      return matchup.winner === matchup.left.playerID
         ? MatchupUtility.calculateOdds(matchup.left, matchup.right)
         : MatchupUtility.calculateOdds(matchup.right, matchup.left);
     }
 
     return 1;
   },
-  mapCreate: (leftProfile: IProfileReference, rightProfile: IProfileReference, day: number, total?: IMatchupSideTotal): IMatchup => {
+  mapCreate: (leftPlayerID: string, rightPlayerID: string, day: number, total?: IMatchupSideTotal): IMatchup => {
     return {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       day,
       id: Nano.generate(22),
       left: {
-        profile: leftProfile,
+        playerID: leftPlayerID,
         steps: 0,
         total: total || defaultMatchupSideTotal()
       },
       right: {
-        profile: rightProfile,
+        playerID: rightPlayerID,
         steps: 0,
         total: total || defaultMatchupSideTotal()
       },
@@ -220,8 +220,8 @@ export const MatchupUtility: IMatchupUtility = {
 
     let matchups: IMatchup[] = [];
 
-    const getTotal = (leftProfile: IProfileReference, rightProfile: IProfileReference): IMatchupSideTotal => {
-      if(leftProfile.uid !== "" && rightProfile.uid !== "") {
+    const getTotal = (leftPlayerID: string, rightPlayerID: string): IMatchupSideTotal => {
+      if(leftPlayerID !== "" && rightPlayerID !== "") {
         return {
           participants: 1,
           wagered: InitialValue.InitialPredictionPoints
@@ -232,28 +232,25 @@ export const MatchupUtility: IMatchupUtility = {
     groups.forEach((group: IMatchupPairGroup) => {
       group.pairs.forEach((pair: IMatchupPair) => {
         const left: IPlayer = players.find((player: IPlayer) => player.index === pair.left - 1),
-          right: IPlayer = players.find((player: IPlayer) => player.index === pair.right - 1),
-          leftProfile: IProfileReference = left ? left.profile : defaultProfileReference(),
-          rightProfile: IProfileReference = right ? right.profile : defaultProfileReference();
+          right: IPlayer = players.find((player: IPlayer) => player.index === pair.right - 1);
 
-
-        matchups.push(MatchupUtility.mapCreate(leftProfile, rightProfile, group.day, getTotal(leftProfile, rightProfile)));
+        matchups.push(MatchupUtility.mapCreate(left.id, right.id, group.day, getTotal(left.id, right.id)));
       });
     });
 
     return matchups;
   },
-  mapProfileReference: (matchup: IMatchup): IMatchupProfileReference => {
+  mapPlayerReference: (matchup: IMatchup): IMatchupPlayerReference => {
     return {
       id: matchup.id,
-      left: matchup.left.profile,
-      right: matchup.right.profile
+      leftPlayerID: matchup.left.playerID,
+      rightPlayerID: matchup.right.playerID
     }
   },
   mapStepUpdates: (matchups: IMatchup[], updates: IMatchupSideStepUpdate[]): IMatchup[] => {
     return matchups.map((matchup: IMatchup) => {
-      const leftUpdate: IMatchupSideStepUpdate = MatchupUtility.findStepUpdate(matchup.left.profile.uid, updates),
-        rightUpdate: IMatchupSideStepUpdate = MatchupUtility.findStepUpdate(matchup.right.profile.uid, updates);
+      const leftUpdate: IMatchupSideStepUpdate = MatchupUtility.findStepUpdate(matchup.left.playerID, updates),
+        rightUpdate: IMatchupSideStepUpdate = MatchupUtility.findStepUpdate(matchup.right.playerID, updates);
 
       if(leftUpdate) {
         matchup.left.steps += leftUpdate.steps;
@@ -268,7 +265,7 @@ export const MatchupUtility: IMatchupUtility = {
   },
   setWinners: (matchups: IMatchup[]): IMatchup[] => {
     return matchups.map((matchup: IMatchup) => {
-      if(matchup.left.profile.uid !== "" && matchup.right.profile.uid !== "") {
+      if(matchup.left.playerID !== "" && matchup.right.playerID !== "") {
         matchup.winner = MatchupUtility.getLeader(matchup);
       }
 

@@ -148,7 +148,7 @@ export const PredictionModal: React.FC<PredictionModalProps> = (props: Predictio
   }
 
   const getSelectionButton = (side: IMatchupSide): JSX.Element => {
-    const selected: boolean = state.playerID === side.profile.uid;
+    const selected: boolean = state.playerID === side.playerID;
     
     const styles: React.CSSProperties = selected 
         ? { backgroundColor: `rgba(${side.profile.color}, 0.1)`, borderColor: `rgb(${side.profile.color})` } 
@@ -156,11 +156,11 @@ export const PredictionModal: React.FC<PredictionModalProps> = (props: Predictio
 
     return (      
       <IconButton
-        className={classNames("prediction-player-selection-button", { selected: state.playerID === side.profile.uid })}
+        className={classNames("prediction-player-selection-button", { selected: state.playerID === side.playerID })}
         disabled={!PredictionUtility.matchupSideAvailable(matchup, side, player, myPrediction) || predictionsClosed}
         styles={styles}
         icon="fal fa-check"
-        handleOnClick={() => selectPlayer(side.profile.uid)}
+        handleOnClick={() => selectPlayer(side.playerID)}
       />
     )
   }

@@ -36,10 +36,10 @@ export const PredictionBatchService: IPredictionBatchService = {
   },
   createInitialPredictions: (batch: firebase.firestore.WriteBatch, gameID: string, matchups: IMatchup[]): void => {     
     matchups.forEach((matchup: IMatchup) => { 
-      if(matchup.left.profile.uid !== "" && matchup.right.profile.uid) {
-        PredictionBatchService.createInitialPrediction(batch, gameID, matchup.id, matchup.left.profile.uid);
+      if(matchup.left.playerID !== "" && matchup.right.playerID) {
+        PredictionBatchService.createInitialPrediction(batch, gameID, matchup.id, matchup.left.playerID);
         
-        PredictionBatchService.createInitialPrediction(batch, gameID, matchup.id, matchup.right.profile.uid);
+        PredictionBatchService.createInitialPrediction(batch, gameID, matchup.id, matchup.right.playerID);
       }
     });
   }

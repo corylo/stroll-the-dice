@@ -69,13 +69,13 @@ export const PredictionUtility: IPredictionUtility = {
     }
   },
   matchupAvailable: (matchup: IMatchup): boolean => {  
-    return matchup.left.profile.uid !== "" && matchup.right.profile.uid !== "";
+    return matchup.left.playerID !== "" && matchup.right.playerID !== "";
   },
   matchupSideAvailable: (matchup: IMatchup, side: IMatchupSide, player: IPlayer, myPrediction: IPrediction): boolean => {
     const isInMatchup: boolean = MatchupUtility.playerIsInMatchup(player, matchup);
     
-    const ifMyMatchupThenOnlyMe: boolean = isInMatchup ? side.profile.uid === player.id : true,
-      onlyTheSideIvePredicted: boolean = myPrediction === null || myPrediction.ref.player === side.profile.uid;
+    const ifMyMatchupThenOnlyMe: boolean = isInMatchup ? side.playerID === player.id : true,
+      onlyTheSideIvePredicted: boolean = myPrediction === null || myPrediction.ref.player === side.playerID;
 
     return (
       ifMyMatchupThenOnlyMe && 

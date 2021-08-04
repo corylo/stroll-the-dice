@@ -1,7 +1,5 @@
-import { IProfileReference } from "./profileReference";
-
-export interface IMatchupProfileReference {
+export interface IMatchupPlayerReference {
   id: string;
-  left: IProfileReference;
-  right: IProfileReference;
+  leftPlayerID: string;
+  rightPlayerID: string;
 }
