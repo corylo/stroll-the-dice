@@ -5,6 +5,7 @@ import { Form } from "../../../../components/form/form";
 import { FormActions } from "../../../../components/form/formActions";
 import { FormBody } from "../../../../components/form/formBody";
 import { FormBodySection } from "../../../../components/form/formBodySection";
+import { GameDayGiftingSection } from "../gameDayGiftingSection/gameDayGiftingSection";
 import { GameDayRequirement } from "../../../../components/gameDayRequirement/gameDayRequirement";
 import { GameDetails } from "../../../../components/gameDetails/gameDetails";
 import { GameDateStatus } from "../../../../components/gameDateStatus/gameDateStatus";
@@ -36,7 +37,8 @@ export const AcceptInviteModal: React.FC<AcceptInviteModalProps> = (props: Accep
 
   const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
 
-  const [status, setStatus] = useState<FormStatus>(FormStatus.InProgress);
+  const [status, setStatus] = useState<FormStatus>(FormStatus.InProgress),
+    [acceptedGiftDays, setAcceptedGiftDaysTo] = useState<boolean>(state.game.useMyGameDaysForJoiningPlayers);
 
   const { user } = appState;
 
@@ -46,7 +48,7 @@ export const AcceptInviteModal: React.FC<AcceptInviteModalProps> = (props: Accep
         try {
           setStatus(FormStatus.Submitting);
 
-          const player: IPlayer = PlayerUtility.mapCreate(user.profile, state.game, state.invite);
+          const player: IPlayer = PlayerUtility.mapCreate(user.profile, state.game, state.invite, acceptedGiftDays);
 
           await AcceptInviteService.acceptInvite(state.game, player);
           
@@ -61,13 +63,25 @@ export const AcceptInviteModal: React.FC<AcceptInviteModalProps> = (props: Accep
       }
     }
 
+    const getGameDayRequirementSection = (): JSX.Element => {
+      if(!acceptedGiftDays) {
+        return (
+          <GameDayRequirement 
+            available={user.stats.gameDays.available} 
+            duration={state.game.duration} 
+            type="join"
+          />
+        )
+      }
+    }
+
     return (
       <Modal id="accept-invite-modal">
         <ModalTitle text="You've been invited!" handleOnClose={props.back} />
         <ModalBody>
           <Form status={status} statusMessage="Whoops! Looks like you aren't able to join this game right now.">
             <FormBody>
-              <div className="accept-invite-details">
+              <FormBodySection className="accept-invite-details-section">
                 <div className="accept-invite-details-header">
                   <PlayerStatement profile={state.game.creator} />
                   <GameDateStatus game={state.game} />
@@ -76,19 +90,16 @@ export const AcceptInviteModal: React.FC<AcceptInviteModalProps> = (props: Accep
                   <h1 className="game-name passion-one-font">{state.game.name}</h1>
                   <GameDetails game={state.game} />
                 </div>
-              </div>
-              <GameDayRequirement 
-                available={user.stats.gameDays.available} 
-                duration={state.game.duration} 
-                type="join"
-              />
+              </FormBodySection>
+              <GameDayGiftingSection acceptingGift={acceptedGiftDays} setAcceptingGiftTo={setAcceptedGiftDaysTo} />
+              {getGameDayRequirementSection()}
             </FormBody>
             <FormActions>    
               <Button
                 className="submit-button fancy-button passion-one-font" 
                 handleOnClick={acceptInvite}
               >
-                Accept
+                Accept Invite
               </Button>      
               <Button
                 className="submit-button fancy-button passion-one-font" 

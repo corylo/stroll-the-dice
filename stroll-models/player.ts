@@ -1,7 +1,8 @@
 import firebase from "firebase/app";
-import { GameStatus } from "../stroll-enums/gameStatus";
 
 import { defaultProfileReference, IProfileReference } from "./profileReference";
+
+import { GameStatus } from "../stroll-enums/gameStatus";
 
 export interface IPlayerPoints {
   available: number;
@@ -14,6 +15,7 @@ export const defaultPlayerPoints = (): IPlayerPoints => ({
 });
 
 export interface IPlayerRef {
+  acceptedGiftDays: boolean;
   game: string;
   gameStatus: GameStatus;
   invite: string
@@ -22,6 +24,7 @@ export interface IPlayerRef {
 }
 
 export const defaultPlayerRef = (): IPlayerRef => ({
+  acceptedGiftDays: false,
   game: "",
   gameStatus: GameStatus.Upcoming,
   invite: "",

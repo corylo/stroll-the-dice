@@ -18,8 +18,10 @@ interface IAcceptInviteService {
 export const AcceptInviteService: IAcceptInviteService = {
   acceptInvite: async (game: IGame, player: IPlayer): Promise<void> => {
     return await db.runTransaction(async (transaction: firebase.firestore.Transaction) => {
+      const gameDaysStatsPlayerID: string = player.ref.acceptedGiftDays ? game.creator.uid : player.id;
+
       const gameDaysStatsRef: firebase.firestore.DocumentReference = db.collection("profiles")      
-        .doc(player.id)
+        .doc(gameDaysStatsPlayerID)
         .collection("stats")
         .doc(ProfileStatsID.GameDays);
       
@@ -48,7 +50,7 @@ export const AcceptInviteService: IAcceptInviteService = {
             .doc(player.id)
             .withConverter(playerConverter);
 
-          transaction.set(playerRef, player)
+          transaction.set(playerRef, player);
 
           const inviteRef: firebase.firestore.DocumentReference = db.collection("games")      
             .doc(game.id)

@@ -77,6 +77,7 @@ export const HowToPlayUtility: IHowToPlayUtility = {
         username: "Player 1"
       },
       ref: {
+        acceptedGiftDays: false,
         game: "",
         gameStatus: GameStatus.Unknown,
         invite: "",
