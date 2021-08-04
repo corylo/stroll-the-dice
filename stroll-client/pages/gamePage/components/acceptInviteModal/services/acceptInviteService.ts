@@ -8,6 +8,7 @@ import { IProfileGameDayStats } from "../../../../../../stroll-models/profileSta
 import { gameConverter, IGame } from "../../../../../../stroll-models/game";
 import { inviteConverter } from "../../../../../../stroll-models/invite";
 import { IPlayer, playerConverter } from "../../../../../../stroll-models/player";
+
 import { ProfileStatsID } from "../../../../../../stroll-enums/profileStatsID";
 
 interface IAcceptInviteService {

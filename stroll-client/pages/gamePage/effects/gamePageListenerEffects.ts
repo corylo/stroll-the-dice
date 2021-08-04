@@ -35,7 +35,7 @@ export const useMatchupListenerEffect = (
 ): void => {
   const { state: gameState, setState: setGameState } = useContext(GamePageContext);
 
-  const { game, player, players } = gameState;
+  const { game, player, players, statuses } = gameState;
 
   const [matchups, setMatchups] = useState<IMatchup[]>([]),
     [predictions, setPredictions] = useState<IPrediction[]>([]);
@@ -79,7 +79,7 @@ export const useMatchupListenerEffect = (
   }, [matchups, predictions]);
 
   useEffect(() => {
-    if(player.id && matchups.length > 0) {
+    if(statuses.player === PlayerStatus.Playing && matchups.length > 0) {
       const matchup: IMatchup = MatchupUtility.getByPlayer(player.id, matchups);
 
       if(matchup && matchup.day === gameState.day) {
@@ -88,7 +88,7 @@ export const useMatchupListenerEffect = (
         setGameState({ ...gameState, playerSteps: steps });
       }
     }
-  }, [player.id, gameState.day, matchups]);
+  }, [statuses.player, gameState.day, matchups]);
   
   useEffect(() => {
     if(matchupsInitiated && players.length > 0) {
@@ -159,14 +159,6 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
       }
     }
 
-    const player: IPlayer = PlayerUtility.getByUser(appState.user, players);
-
-    if(player) {
-      updates.player = player;
-
-      updates.statuses.players = RequestStatus.Loading;
-    }
-
     if(players.length > 0) {
       updates.players = players;
 
@@ -189,6 +181,14 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
 
     setState(updates);
   }, [appState.user, game, players, events]);
+
+  useEffect(() => {
+    if(state.statuses.player === PlayerStatus.Playing && players.length > 0) {
+      const player: IPlayer = PlayerUtility.getByUser(appState.user, players);
+
+      setState({ ...state, player });
+    }
+  }, [players, state.statuses.player]);
 
   useEffect(() => {
     if(state.statuses.player === PlayerStatus.NotPlaying) {

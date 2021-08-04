@@ -104,7 +104,7 @@ export const GameEventUtility: IGameEventUtility = {
     } else if(unidentifiedEvent.type === GameEventType.PlayerCreated) {
       const event: IPlayerCreatedEvent = unidentifiedEvent;
 
-      to.profile = event.profile;
+      to.playerID = event.playerID;
     } else if(unidentifiedEvent.type === GameEventType.PlayerEarnedPointsFromSteps) {
       const event: IPlayerEarnedPointsFromStepsEvent = unidentifiedEvent;
 

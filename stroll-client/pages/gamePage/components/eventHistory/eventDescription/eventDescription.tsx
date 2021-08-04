@@ -7,7 +7,6 @@ import { PlayerEarnedPointsFromStepsEventDescription } from "./playerEarnedPoint
 import { PlayerUpdatedPredictionEventDescription } from "./playerUpdatedPredictionEventDescription";
 import { UpdateEventDescription } from "./updateEventDescription";
 
-import { IDayCompletedEvent } from "../../../../../../stroll-models/gameEvent/dayCompletedEvent";
 import { IGameEvent } from "../../../../../../stroll-models/gameEvent/gameEvent";
 import { IGameUpdateEvent } from "../../../../../../stroll-models/gameEvent/gameUpdateEvent";
 import { IPlayerCreatedEvent } from "../../../../../../stroll-models/gameEvent/playerCreatedEvent";

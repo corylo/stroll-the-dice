@@ -26,7 +26,7 @@ export const defaultGamePageStateStatuses = (): IGamePageStateStatuses => ({
   events: RequestStatus.Loading,
   game: RequestStatus.Loading,
   player: PlayerStatus.Loading,  
-  players: RequestStatus.Idle
+  players: RequestStatus.Loading
 });
 
 export interface IGamePageStateToggles {
