@@ -4,6 +4,7 @@ import classNames from "classnames";
 import Stripe from "@stripe/stripe-js";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 
+import { AcceptedPayments } from "../../../../components/acceptedPayments/acceptedPayments";
 import { Button } from "../../../../components/buttons/button";
 import { Form } from "../../../../components/form/form";
 import { FormActions } from "../../../../components/form/formActions";
@@ -229,6 +230,7 @@ export const GameDayPaymentForm: React.FC<GameDayPaymentFormProps> = (props: Gam
             <CardElement options={PaymentFormUtility.getCreditCardInputOptions()} />
           </InputWrapper>
           <PoweredByStripe />
+          <AcceptedPayments />
         </FormBodySection>
       )
     }

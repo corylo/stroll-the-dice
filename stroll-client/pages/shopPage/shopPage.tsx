@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import { AcceptedPayments } from "../../components/acceptedPayments/acceptedPayments";
 import { GameDayPurchaseModal } from "./components/gameDayPurchaseModal/gameDayPurchaseModal";
 import { GameDayPurchaseOption } from "./components/gameDayPurchaseOption/gameDayPurchaseOption";
 import { Page } from "../../components/page/page";
@@ -49,6 +50,7 @@ export const ShopPage: React.FC<NotificationsPageProps> = (props: NotificationsP
     >     
       <PageTitle text="Shop" />   
       <PoweredByStripe />   
+      <AcceptedPayments />
       <ShopSection 
         className="game-day-purchase-options"
         description={[

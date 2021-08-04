@@ -7,7 +7,8 @@ interface PoweredByStripeProps {
 export const PoweredByStripe: React.FC<PoweredByStripeProps> = (props: PoweredByStripeProps) => {  
   return (    
     <a className="powered-by-stripe-logo" href="https://stripe.com/" target="_blank">
-      <img src="/img/brands/powered-by-stripe-logo.svg" />
+      <h1 className="passion-one-font">Payments Processed By</h1>
+      <img src="/img/brands/stripe-logo.svg" />
     </a>
   );
 }
