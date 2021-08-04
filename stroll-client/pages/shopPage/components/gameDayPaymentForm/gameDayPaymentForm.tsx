@@ -160,36 +160,38 @@ export const GameDayPaymentForm: React.FC<GameDayPaymentFormProps> = (props: Gam
               onChange={(e: any) => updateBillingFields({ ...state.fields.billing, email: e.target.value })}
             />
           </InputWrapper>        
-          <InputWrapper
-            id="billing-address-input" 
-            label="Address"           
-            value={fields.billing.address.line1}
-            error={errors.line1}
-          >
-            <input 
-              type="text"
-              className="passion-one-font"
-              disabled={state.status === FormStatus.Submitting}
-              placeholder="Address"
+          <div id="billing-address-inputs">
+            <InputWrapper
+              id="billing-address-input" 
+              label="Address"           
               value={fields.billing.address.line1}
-              onChange={(e: any) => updateBillingAddressFields({ ...state.fields.billing.address, line1: e.target.value })}
-            />
-          </InputWrapper>      
-          <InputWrapper
-            id="billing-address-2-input" 
-            label="Apt / Suite / Etc"           
-            value={fields.billing.address.line2}
-            error={errors.line2}
-          >
-            <input 
-              type="text"
-              className="passion-one-font"
-              disabled={state.status === FormStatus.Submitting}
-              placeholder="Apt / Suite / Etc"
+              error={errors.line1}
+            >
+              <input 
+                type="text"
+                className="passion-one-font"
+                disabled={state.status === FormStatus.Submitting}
+                placeholder="Address"
+                value={fields.billing.address.line1}
+                onChange={(e: any) => updateBillingAddressFields({ ...state.fields.billing.address, line1: e.target.value })}
+              />
+            </InputWrapper>    
+            <InputWrapper
+              id="billing-address-2-input" 
+              label="Apt / Suite"           
               value={fields.billing.address.line2}
-              onChange={(e: any) => updateBillingAddressFields({ ...state.fields.billing.address, line2: e.target.value })}
-            />
-          </InputWrapper>   
+              error={errors.line2}
+            >
+              <input 
+                type="text"
+                className="passion-one-font"
+                disabled={state.status === FormStatus.Submitting}
+                placeholder="123"
+                value={fields.billing.address.line2}
+                onChange={(e: any) => updateBillingAddressFields({ ...state.fields.billing.address, line2: e.target.value })}
+              />
+            </InputWrapper>   
+          </div>  
           <InputWrapper
             id="billing-city-input" 
             label="City"           
@@ -205,36 +207,38 @@ export const GameDayPaymentForm: React.FC<GameDayPaymentFormProps> = (props: Gam
               onChange={(e: any) => updateBillingAddressFields({ ...state.fields.billing.address, city: e.target.value })}
             />
           </InputWrapper>   
-          <InputWrapper
-            id="billing-state-input" 
-            label="State"           
-            value={fields.billing.address.state}
-            error={errors.state}
-          >
-            <input 
-              type="text"
-              className="passion-one-font"
-              disabled={state.status === FormStatus.Submitting}
-              placeholder="State"
+          <div id="billing-state-and-zip-inputs">
+            <InputWrapper
+              id="billing-state-input" 
+              label="State"           
               value={fields.billing.address.state}
-              onChange={(e: any) => updateBillingAddressFields({ ...state.fields.billing.address, state: e.target.value })}
-            />
-          </InputWrapper>   
-          <InputWrapper
-            id="billing-zip-input" 
-            label="Zip"           
-            value={fields.billing.address.zip}
-            error={errors.zip}
-          >
-            <input 
-              type="text"
-              className="passion-one-font"
-              disabled={state.status === FormStatus.Submitting}
-              placeholder="Zip"
+              error={errors.state}
+            >
+              <input 
+                type="text"
+                className="passion-one-font"
+                disabled={state.status === FormStatus.Submitting}
+                placeholder="State"
+                value={fields.billing.address.state}
+                onChange={(e: any) => updateBillingAddressFields({ ...state.fields.billing.address, state: e.target.value })}
+              />
+            </InputWrapper>   
+            <InputWrapper
+              id="billing-zip-input" 
+              label="Zip"           
               value={fields.billing.address.zip}
-              onChange={(e: any) => updateBillingAddressFields({ ...state.fields.billing.address, zip: e.target.value })}
-            />
-          </InputWrapper>
+              error={errors.zip}
+            >
+              <input 
+                type="text"
+                className="passion-one-font"
+                disabled={state.status === FormStatus.Submitting}
+                placeholder="12345"
+                value={fields.billing.address.zip}
+                onChange={(e: any) => updateBillingAddressFields({ ...state.fields.billing.address, zip: e.target.value })}
+              />
+            </InputWrapper>
+          </div>
           <InputWrapper 
             id="billing-credit-card-input" 
             label="Card" 
