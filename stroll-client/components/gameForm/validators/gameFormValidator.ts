@@ -1,5 +1,6 @@
 import { DateUtility } from "../../../../stroll-utilities/dateUtility";
 
+import { IGame } from "../../../../stroll-models/game";
 import { IGameFormStateErrors } from "../models/gameFormStateErrors";
 import { IGameFormStateFields } from "../models/gameFormStateFields";
 import { IUser } from "../../../models/user";
@@ -8,7 +9,6 @@ import { FormError } from "../../../enums/formError";
 import { GameDuration } from "../../../../stroll-enums/gameDuration";
 import { GameFormAction } from "../enums/gameFormAction";
 import { GameMode } from "../../../../stroll-enums/gameMode";
-import { IGame } from "../../../../stroll-models/game";
 
 interface IGameFormValidator {
   validate: (errors: IGameFormStateErrors, fields: IGameFormStateFields, game: IGame, user: IUser, dispatch: (type: GameFormAction, payload?: any) => void) => boolean;

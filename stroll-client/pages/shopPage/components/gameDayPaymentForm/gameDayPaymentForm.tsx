@@ -16,11 +16,15 @@ import { PoweredByStripe } from "../../../../components/poweredByStripe/poweredB
 
 import { GameDayPurchaseContext } from "../gameDayPurchaseModal/gameDayPurchaseModal";
 
+import { useGameDayPaymentFormErrorListener } from "./effects/gameDayPaymentFormEffects";
+
 import { PaymentService } from "../../../../services/paymentService";
+
+import { GameDayPaymentFormValidator } from "./validators/gameDayPaymentFormValidator";
 
 import { PaymentFormUtility } from "../../../../utilities/paymentFormUtility";
 
-import { IGameDayPurchaseStateFields } from "../../models/gameDayPurchaseState";
+import { IGameDayPurchaseStateFields } from "../../models/gameDayPurchaseStateFields";
 import { IPaymentBillingAddress, IPaymentBillingFields } from "../../../../../stroll-models/paymentBillingFields";
 import { IStripeBillingDetails } from "../../../../../stroll-models/stripe/stripeBillingDetails";
 
@@ -38,6 +42,8 @@ export const GameDayPaymentForm: React.FC<GameDayPaymentFormProps> = (props: Gam
   const { state, setState } = useContext(GameDayPurchaseContext);
 
   const { errors, fields } = state;
+
+  useGameDayPaymentFormErrorListener(state, setState);
 
   const stripe: Stripe.Stripe = useStripe(),
     stripeElements: Stripe.StripeElements = useElements();
@@ -57,7 +63,10 @@ export const GameDayPaymentForm: React.FC<GameDayPaymentFormProps> = (props: Gam
   }
 
   const submit = async () => {
-    if(state.status !== FormStatus.Submitting) {
+    if(
+      state.status !== FormStatus.Submitting &&
+      GameDayPaymentFormValidator.validate(state, setState)
+    ) {
       try {
         setState({ ...state, status: FormStatus.Submitting });
 
@@ -125,7 +134,7 @@ export const GameDayPaymentForm: React.FC<GameDayPaymentFormProps> = (props: Gam
             id="billing-name-input" 
             label="Name"           
             value={fields.billing.name}
-            error={errors.billing.name}
+            error={errors.name}
           >
             <input 
               type="text"
@@ -140,7 +149,7 @@ export const GameDayPaymentForm: React.FC<GameDayPaymentFormProps> = (props: Gam
             id="billing-email-input" 
             label="Email"           
             value={fields.billing.email}
-            error={errors.billing.email}
+            error={errors.email}
           >
             <input 
               type="text"
@@ -155,7 +164,7 @@ export const GameDayPaymentForm: React.FC<GameDayPaymentFormProps> = (props: Gam
             id="billing-address-input" 
             label="Address"           
             value={fields.billing.address.line1}
-            error={errors.billing.address.line1}
+            error={errors.line1}
           >
             <input 
               type="text"
@@ -170,7 +179,7 @@ export const GameDayPaymentForm: React.FC<GameDayPaymentFormProps> = (props: Gam
             id="billing-address-2-input" 
             label="Apt / Suite / Etc"           
             value={fields.billing.address.line2}
-            error={errors.billing.address.line2}
+            error={errors.line2}
           >
             <input 
               type="text"
@@ -185,7 +194,7 @@ export const GameDayPaymentForm: React.FC<GameDayPaymentFormProps> = (props: Gam
             id="billing-city-input" 
             label="City"           
             value={fields.billing.address.city}
-            error={errors.billing.address.city}
+            error={errors.city}
           >
             <input 
               type="text"
@@ -200,7 +209,7 @@ export const GameDayPaymentForm: React.FC<GameDayPaymentFormProps> = (props: Gam
             id="billing-state-input" 
             label="State"           
             value={fields.billing.address.state}
-            error={errors.billing.address.state}
+            error={errors.state}
           >
             <input 
               type="text"
@@ -215,7 +224,7 @@ export const GameDayPaymentForm: React.FC<GameDayPaymentFormProps> = (props: Gam
             id="billing-zip-input" 
             label="Zip"           
             value={fields.billing.address.zip}
-            error={errors.billing.address.zip}
+            error={errors.zip}
           >
             <input 
               type="text"
@@ -226,8 +235,16 @@ export const GameDayPaymentForm: React.FC<GameDayPaymentFormProps> = (props: Gam
               onChange={(e: any) => updateBillingAddressFields({ ...state.fields.billing.address, zip: e.target.value })}
             />
           </InputWrapper>
-          <InputWrapper id="billing-credit-card-input" label="Card">
-            <CardElement options={PaymentFormUtility.getCreditCardInputOptions()} />
+          <InputWrapper 
+            id="billing-credit-card-input" 
+            label="Card" 
+            error={errors.card}
+            errorMessage="Invalid"
+          >
+            <CardElement 
+              options={PaymentFormUtility.getCreditCardInputOptions()} 
+              onChange={(e: Stripe.StripeCardElementChangeEvent) => {updateFields({ ...state.fields, card: e.complete })}} 
+            />
           </InputWrapper>
           <PoweredByStripe />
           <AcceptedPayments />
@@ -260,7 +277,11 @@ export const GameDayPaymentForm: React.FC<GameDayPaymentFormProps> = (props: Gam
   }
 
   return (
-    <Form id="game-day-payment-form" className={classNames({ submitting: state.status === FormStatus.Submitting })}>
+    <Form 
+      id="game-day-payment-form" 
+      className={classNames({ submitting: state.status === FormStatus.Submitting })}
+      errors={errors}
+    >
       <FormBody>
         {getChildContent()}
         {getFormPaymentFields()}
