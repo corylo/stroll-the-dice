@@ -4,6 +4,14 @@
 @import "./components/shopSection/shopSection.scss";
 
 #shop-page {
+  .powered-by-stripe-logo {
+    height: 50px;
+
+    img {
+      height: 50px;
+    }
+  }
+
   .game-day-purchase-options {      
     margin-top: 10px;
 

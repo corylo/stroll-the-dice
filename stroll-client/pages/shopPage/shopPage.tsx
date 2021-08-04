@@ -4,6 +4,7 @@ import { GameDayPurchaseModal } from "./components/gameDayPurchaseModal/gameDayP
 import { GameDayPurchaseOption } from "./components/gameDayPurchaseOption/gameDayPurchaseOption";
 import { Page } from "../../components/page/page";
 import { PageTitle } from "../../components/page/pageTitle";
+import { PoweredByStripe } from "../../components/poweredByStripe/poweredByStripe";
 import { ShopSection } from "./components/shopSection/shopSection";
 
 import { ImageUtility } from "../../utilities/imageUtility";
@@ -46,7 +47,8 @@ export const ShopPage: React.FC<NotificationsPageProps> = (props: NotificationsP
       backgroundGraphic={ImageUtility.getGraphic(Graphic.Shopping)} 
       requireAuth
     >     
-      <PageTitle text="Shop" />      
+      <PageTitle text="Shop" />   
+      <PoweredByStripe />   
       <ShopSection 
         className="game-day-purchase-options"
         description={[

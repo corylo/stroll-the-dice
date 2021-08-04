@@ -11,6 +11,7 @@ import { FormBody } from "../../../../components/form/formBody";
 import { FormBodySection } from "../../../../components/form/formBodySection";
 import { FormStatusMessage } from "../../../../components/form/formStatusMessage";
 import { InputWrapper } from "../../../../components/inputWrapper/inputWrapper";
+import { PoweredByStripe } from "../../../../components/poweredByStripe/poweredByStripe";
 
 import { GameDayPurchaseContext } from "../gameDayPurchaseModal/gameDayPurchaseModal";
 
@@ -226,9 +227,7 @@ export const GameDayPaymentForm: React.FC<GameDayPaymentFormProps> = (props: Gam
           <InputWrapper id="billing-credit-card-input" label="Card">
             <CardElement options={PaymentFormUtility.getCreditCardInputOptions()} />
           </InputWrapper>
-          <div className="powered-by-brand-logo">
-            <img src="/img/brands/powered-by-stripe-logo.svg" />
-          </div>
+          <PoweredByStripe />
         </FormBodySection>
       )
     }

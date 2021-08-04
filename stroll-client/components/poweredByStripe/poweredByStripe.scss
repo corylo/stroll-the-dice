@@ -1,0 +1,17 @@
+.powered-by-stripe-logo { 
+  display: inline-block;
+  height: 40px;
+  margin-top: 10px;
+
+  &:hover,
+  &:focus {
+    img {
+      background: $whiteGradient;
+    }
+  }
+
+  img {
+    border-radius: 4px;
+    height: 40px;
+  }
+}
