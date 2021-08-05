@@ -59,17 +59,9 @@
         animation: fadeIn 400ms ease-in;
         z-index: 2;
     
-        .page-message-border {
-          background-color: white;
-          border-radius: 10px;
-          height: 2px;
-          width: 100%;
-        }
-
         .page-message-content {
-          background: linear-gradient(to bottom, rgba(white, 0.05), transparent);
+          background: linear-gradient(to bottom, rgba(white, 0.1), transparent);
           border-radius: 4px;
-          margin-top: 5px;
           padding: 40px 10px;
 
           h1 {

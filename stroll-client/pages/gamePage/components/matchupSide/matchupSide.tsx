@@ -13,6 +13,7 @@ import { IMatchup, IMatchupSide } from "../../../../../stroll-models/matchup";
 
 import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 import { MatchupSideStats } from "../matchupSideStats/matchupSideStats";
+import { MatchupLeader } from "../../../../../stroll-enums/matchupLeader";
 
 export enum MatchupSideAlignment {
   Left = "left",
@@ -33,12 +34,13 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
   const side: IMatchupSide = matchup[alignment];
 
   if(side.playerID !== "") {
-    const leader: boolean = MatchupUtility.getLeader(matchup) === side.playerID;
+    const isWinnerDetermined: boolean = matchup.winner !== "" && matchup.winner !== MatchupLeader.Tie,
+      leader: boolean = isWinnerDetermined ? matchup.winner === side.playerID : MatchupUtility.getLeader(matchup) === side.playerID;
     
     const getLeaderLabel = (): JSX.Element => {
       if(leader) {        
         const getText = (): string => {
-          if(FirestoreDateUtility.endOfDayProgressUpdateComplete(matchup.day, game.startsAt, game.progressUpdateAt)) {
+          if(isWinnerDetermined) {
             return "Winner";
           }
 
