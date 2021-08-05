@@ -8,6 +8,7 @@ import { StepTrackerUtility } from "../../../../utilities/stepTrackerUtility";
 
 import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
 import { StepTracker } from "../../../../../stroll-enums/stepTracker";
+import { StrollTheDiceCDN } from "../../../../../stroll-enums/strollTheDiceCDN";
 
 interface StepTrackerHubProps {  
   
@@ -34,7 +35,7 @@ export const StepTrackerHub: React.FC<StepTrackerHubProps> = (props: StepTracker
     <div className="step-tracker-hub">
       <div className="step-tracker-links">
         <StepTrackerLink                     
-          img="/img/brands/google-fit-logo.png" 
+          img={`${StrollTheDiceCDN.Url}/img/brands/google-fit-logo.png`} 
           status={getStatus(StepTracker.GoogleFit)}
           tracker={StepTracker.GoogleFit}
           url={StepTrackerUtility.getOAuthUrl(StepTracker.GoogleFit)} 

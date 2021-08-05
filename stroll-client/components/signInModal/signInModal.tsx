@@ -13,6 +13,7 @@ import { AppContext } from "../app/contexts/appContext";
 import { useOnClickAwayEffect } from "../../effects/appEffects";
 
 import { AppAction } from "../../enums/appAction";
+import { StrollTheDiceCDN } from "../../../stroll-enums/strollTheDiceCDN";
 
 interface SignInModalProps {  
   
@@ -56,12 +57,12 @@ export const SignInModal: React.FC<SignInModalProps> = (props: SignInModalProps)
           <div className="sign-in-buttons">
             <Button id="google-sign-in-button" className="sign-in-button" handleOnClick={handleSignInWithGoogle}>
               <div className="sign-in-button-logo">
-                <img src="/img/brands/google-logo.png" />
+                <img src={`${StrollTheDiceCDN.Url}/img/brands/google-logo.png`} />
               </div>
             </Button>
             <Button id="twitter-sign-in-button" className="sign-in-button" handleOnClick={handleSignInWithTwitter}>
               <div className="sign-in-button-logo">
-                <img src="/img/brands/twitter-logo.png" />
+                <img src={`${StrollTheDiceCDN.Url}/img/brands/twitter-logo.png`} />
               </div>
             </Button>      
           </div>
