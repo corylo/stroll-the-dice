@@ -18,12 +18,8 @@ interface IPaymentService {
 
 export const PaymentService: IPaymentService = {
   confirmPayment: async (request: IConfirmPaymentRequest, context: https.CallableContext): Promise<void> => {
-    if(
-      context !== null && 
-      request.intentID !== "" && 
-      request.paymentMethodID !== ""
-    ) {
-      if(context.auth !== null) {
+    if(context !== null) {
+      if(context.auth !== null && request.intentID !== "" && request.paymentMethodID !== "") {
         let intent: stripe.PaymentIntent = null;
 
         try {
@@ -59,15 +55,17 @@ export const PaymentService: IPaymentService = {
           "User does not have permission to perform this action."
         );
       }
+    } else {
+      const timeout = (): Promise<number> => {
+        return new Promise((resolve) => setTimeout(() => resolve(0), 1000));
+      }
+
+      await timeout();
     }
   },
   createPayment: async (request: ICreatePaymentRequest, context: https.CallableContext): Promise<string> => {
-    if(
-      context !== null &&
-      request.itemID !== PaymentItemID.None && 
-      request.quantity !== 0 
-    ) {
-      if(context.auth !== null) {
+    if(context !== null) {
+      if(context.auth !== null && request.itemID !== PaymentItemID.None && request.quantity !== 0) {
         try {
           const price: number = PaymentUtility.getPrice(request.itemID),
             cents: number = price * 100;
@@ -93,6 +91,12 @@ export const PaymentService: IPaymentService = {
           "User does not have permission to perform this action."
         );
       }
+    } else {
+      const timeout = (): Promise<number> => {
+        return new Promise((resolve) => setTimeout(() => resolve(0), 1000));
+      }
+
+      await timeout();
     }
   }
 }

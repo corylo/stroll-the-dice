@@ -14,18 +14,25 @@ interface GameDayRequirementProps {
 }
 
 export const GameDayRequirement: React.FC<GameDayRequirementProps> = (props: GameDayRequirementProps) => {    
+  const availableStatement: JSX.Element = <GameDayStatement quantity={props.available} />;
+
   const getText = (): JSX.Element => {
     if(props.game) {
-      const costStatement: JSX.Element = <GameDayStatement quantity={props.game.duration} />;
+      const costStatement: JSX.Element = <GameDayStatement quantity={props.game.duration} />
 
-      return (
-        <h1 className="passion-one-font">This game costs {costStatement} for players to join.</h1>
-      );
+      if(props.game.useMyGameDaysForJoiningPlayers) {
+        return (
+          <h1 className="passion-one-font">You are gifting {costStatement} to each player who joins. You currently have {availableStatement} available.</h1>
+        );
+      } else {
+        return (
+          <h1 className="passion-one-font">This game costs {costStatement} for players to join.</h1>
+        );
+      }
     } else if (props.duration !== undefined) {
 
-      const costStatement: JSX.Element = <GameDayStatement quantity={props.duration} />,
-        availableStatement: JSX.Element = <GameDayStatement quantity={props.available} />;
-
+      const costStatement: JSX.Element = <GameDayStatement quantity={props.duration} />;
+        
       return (
         <h1 className="passion-one-font">This game will cost {costStatement} to {props.type}. You currently have {availableStatement} available.</h1>
       );

@@ -150,12 +150,17 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
             {getLeaderboardAndMatchups()}
           </React.Fragment>
         )
+      } else if (appState.status === AppStatus.SignedOut) {
+        return (
+          <EmptyMessage text="Sign in to gain access to this game!" />
+        )
       } else if (
-        appState.status === AppStatus.SignedOut || 
-        (game.id !== "" && player.id === "" && statuses.players !== RequestStatus.Loading)
+        game.id !== "" && 
+        player.id === "" && 
+        statuses.players !== RequestStatus.Loading
       ) {
         return (
-          <EmptyMessage text="Sign in or request an invite from the creator to gain access to this game!" />
+          <EmptyMessage text="Request an invite from the creator to gain access to this game!" />
         )
       }
     }

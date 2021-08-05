@@ -52,7 +52,7 @@ export const AnimatedCounter: React.FC<AnimatedCounterProps> = (props: AnimatedC
     } else if (diff >= 20) {
       return state.value + 10 + NumberUtility.random(0, 9);
     } else if (diff >= 1) {
-      return state.value + NumberUtility.random(0, 9);
+      return state.value + 1;
     } else if (diff >= 0.1) {
       return state.value + (NumberUtility.random(0, 99) / 100);
     } else {
@@ -80,7 +80,7 @@ export const AnimatedCounter: React.FC<AnimatedCounterProps> = (props: AnimatedC
     } else if (diff >= 20) {
       return state.value - 10 - NumberUtility.random(0, 9);
     } else if (diff >= 1) {
-      return state.value - NumberUtility.random(0, 9);
+      return state.value - 1;
     } else if (diff >= 0.1) {
       return state.value - (NumberUtility.random(0, 99) / 100);
     } else {
@@ -110,7 +110,7 @@ export const AnimatedCounter: React.FC<AnimatedCounterProps> = (props: AnimatedC
   
           clearInterval(interval);
         }            
-      }, 10);
+      }, diff > 10 ? 10 : 100);
   
       return () => {
         clearInterval(interval);
@@ -124,7 +124,7 @@ export const AnimatedCounter: React.FC<AnimatedCounterProps> = (props: AnimatedC
   
           clearInterval(interval);
         }            
-      }, 10);
+      }, diff > 10 ? 10 : 100);
   
       return () => {
         clearInterval(interval);
