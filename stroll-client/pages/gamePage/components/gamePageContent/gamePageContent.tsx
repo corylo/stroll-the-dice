@@ -7,12 +7,14 @@ import { GameActions } from "../gameActions/gameActions";
 import { GameDateStatus } from "../../../../components/gameDateStatus/gameDateStatus";
 import { GameDetails } from "../../../../components/gameDetails/gameDetails";
 import { InvitePlayersModal } from "../invitePlayersModal/invitePlayersModal";
+import { Label } from "../../../../components/label/label";
 import { Leaderboard } from "../../../../components/leaderboard/leaderboard";
 import { MatchupGroup } from "../matchupGroup/matchupGroup";
 import { MyPoints } from "../myPoints/myPoints";
 import { UpdateGameModal } from "../updateGameModal/updateGameModal";
 import { PlayerStatement } from "../../../../components/playerStatement/playerStatement";
 import { StartingSoonMessage } from "../startingSoonMessage/startingSoonMessage";
+import { TooltipSide } from "../../../../components/tooltip/tooltip";
 import { ViewEventsModal } from "../viewEventsModal/viewEventsModal";
 import { ViewPlayersModal } from "../viewPlayersModal/viewPlayersModal";
 
@@ -141,7 +143,14 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
           <GameDateStatus game={game} />
         </div>
         <div className="game-page-body">
-          <h1 className="game-name passion-one-font">{game.name}</h1>
+          <h1 className="game-name passion-one-font">{game.name}</h1> 
+          <Label
+            className="game-dates passion-one-font"
+            icon="fal fa-clock"
+            text={FirestoreDateUtility.getShortenedDateTimeRange(game.startsAt, game.endsAt)}
+            tooltip={`${FirestoreDateUtility.timestampToLocaleDateTime(game.startsAt)} - ${FirestoreDateUtility.timestampToLocaleDateTime(game.endsAt)}`}
+            tooltipSide={TooltipSide.BottomLeft}
+          />   
           <GameDetails game={game} togglePlayers={togglePlayers()} />
           <div className="game-action-bar">
             <GameActions 

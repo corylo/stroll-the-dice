@@ -41,6 +41,13 @@
   .game-link-header {
     display: flex;
     justify-content: space-between;
+
+    .game-link-creator-statement {
+      .highlight-custom {
+        color: white;  
+        font-size: 0.9em;
+      }
+    }
   }
 
   .game-link-body {
@@ -52,6 +59,13 @@
     .game-name {
       color: white;
       font-size: 1.5em;
+    }
+
+    .game-dates {
+      i,
+      .label-text-wrapper > h1 {
+        color: gray(40);
+      }
     }
   }
 

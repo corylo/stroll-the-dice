@@ -36,7 +36,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = (props: ProfilePageProps)
       return (
         <React.Fragment>
           <ProfileHeader profile={user.profile} />
-          <ProfilePageSection icon={Icon.Steps} title="Connect Step Trackers">
+          <ProfilePageSection icon={Icon.Steps} title="Step Trackers">
             <StepTrackerHub />
           </ProfilePageSection>
         </React.Fragment>

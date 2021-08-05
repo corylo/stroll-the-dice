@@ -1,11 +1,11 @@
 .game-details {
   align-items: center;
+  margin-top: 5px;
   position: relative;
   z-index: 3;
 
   .game-labels {
     display: flex;
-    margin-top: 5px;
 
     .label {
       background-color: gray(20);

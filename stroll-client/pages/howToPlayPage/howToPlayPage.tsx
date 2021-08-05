@@ -48,7 +48,7 @@ export const HowToPlayPage: React.FC<HowToPlayPageProps> = (props: HowToPlayPage
           <HowToPlaySubSection title="Step Tracking">
             <HowToPlaySectionText text="In order for the game to be able to track your steps you must connect a valid step tracker." />
             <HowToPlaySectionText text="As of right now the only available step tracker is via Google Fit. Fortunately Google Fit can be linked to a number of different step tracking devices including Android and Apple Watches." />
-            <HowToPlaySectionText text="You can connect your step tracker in the Connect Step Trackers section on the profile page." />
+            <HowToPlaySectionText text="You can connect your step tracker in Connect Step Trackers section on the profile page." />
             <Button className="go-to-profile-button fancy-button passion-one-font" url="/profile">
               Go to profile
             </Button>

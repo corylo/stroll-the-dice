@@ -9,6 +9,15 @@
   
   .form-payment-fields-section {
     .input-wrapper {
+      &.error {
+        .input {
+          input {
+            border-color: transparent;
+            border-bottom-color: $red;
+          }
+        }
+      }
+
       .input {
         input {
           background-color: transparent;

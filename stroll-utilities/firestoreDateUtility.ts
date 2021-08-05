@@ -13,6 +13,7 @@ interface IFirestoreDateUtility {
   diffInDays: (value: firebase.firestore.FieldValue) => number;  
   endOfDay: (day: number, startsAt: firebase.firestore.FieldValue) => firebase.firestore.FieldValue;
   endOfDayProgressUpdateComplete: (day: number, startsAt: firebase.firestore.FieldValue, progressUpdateAt: firebase.firestore.FieldValue) => boolean;
+  getShortenedDateTimeRange: (start: firebase.firestore.FieldValue, end: firebase.firestore.FieldValue) => string;
   lessThanOrEqualToNow: (value: firebase.firestore.FieldValue) => boolean;
   timestampToDate: (value: firebase.firestore.FieldValue) => Date;
   timestampToDateInput: (value: firebase.firestore.FieldValue) => string;
@@ -20,7 +21,7 @@ interface IFirestoreDateUtility {
   timestampToLocaleDateTime: (value: firebase.firestore.FieldValue) => string;
   timestampToLocaleTime: (value: firebase.firestore.FieldValue) => string;
   timestampToRelative: (value: firebase.firestore.FieldValue) => string;
-  timestampToRelativeOfUnit: (value: firebase.firestore.FieldValue, unit: "H" | "M" | "S") => number;
+  timestampToRelativeOfUnit: (value: firebase.firestore.FieldValue, unit: "H" | "M" | "S") => number;  
   stringToOffsetTimestamp: (value: string, hour?: number) => firebase.firestore.Timestamp;
   stringToTimestamp: (value: string) => firebase.firestore.Timestamp;
 }
@@ -72,6 +73,20 @@ export const FirestoreDateUtility: IFirestoreDateUtility = {
     }
 
     return false;
+  },
+  getShortenedDateTimeRange: (start: firebase.firestore.FieldValue, end: firebase.firestore.FieldValue): string => {
+    const startDate: Date = FirestoreDateUtility.timestampToDate(start),
+      endDate: Date = FirestoreDateUtility.timestampToDate(end);
+
+    const dateOptions: Intl.DateTimeFormatOptions = { weekday: "short", day: "2-digit", month: "short" },
+      timeOptions: Intl.DateTimeFormatOptions = { hour: "numeric" };
+
+    const formattedStartDate: string = startDate.toLocaleDateString([], dateOptions),
+      formattedStartTime: string = startDate.toLocaleTimeString([], timeOptions),
+      formattedEndDate: string = endDate.toLocaleDateString([], dateOptions),
+      formattedEndTime: string = endDate.toLocaleTimeString([], timeOptions);
+
+    return `${formattedStartDate} ${formattedStartTime} - ${formattedEndDate} ${formattedEndTime}`;
   },
   lessThanOrEqualToNow: (value: firebase.firestore.FieldValue): boolean => {
     const date: IFirestoreTimestamp = value as any;
