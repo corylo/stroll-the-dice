@@ -49,8 +49,6 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
     toggles 
   } = state;
 
-  console.log(statuses)
-
   if(statuses.game === RequestStatus.Success) {
     const toggle = (updates: any): void => {
       setState({ ...state, toggles: { ...toggles, ...updates } });
