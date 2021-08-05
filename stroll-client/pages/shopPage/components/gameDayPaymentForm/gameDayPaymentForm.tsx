@@ -251,7 +251,6 @@ export const GameDayPaymentForm: React.FC<GameDayPaymentFormProps> = (props: Gam
             />
           </InputWrapper>
           <PoweredByStripe />
-          <AcceptedPayments />
         </FormBodySection>
       )
     }
