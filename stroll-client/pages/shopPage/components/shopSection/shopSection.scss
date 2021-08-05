@@ -1,9 +1,4 @@
 .shop-section {
-  background: linear-gradient(to bottom, rgba(white, 0.1), transparent);
-  border: 1px solid rgba(white, 0.5);
-  border-radius: 6px;
-  padding: 15px;
-
   .shop-section-title {
     color: white;
     font-size: 1.5em;
@@ -12,14 +7,14 @@
   
   .shop-section-description {
     .shop-section-description-line {
-      border-left: 2px solid gray(40);
-      color: gray(40);
+      border-left: 2px solid white;
+      color: white;
       margin-bottom: 10px;
       padding-left: 10px;
     }
   }
 
   .shop-section-content {
-    margin-top: 20px;
+    margin-top: 10px;
   }
 }

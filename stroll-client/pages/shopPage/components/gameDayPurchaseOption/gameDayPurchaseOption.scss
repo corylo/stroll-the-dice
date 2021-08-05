@@ -1,94 +1,72 @@
-.button.fancy-option-button.game-day-purchase-option {  
-  background: $whiteGradient;
-  padding: 10px;
+.button.game-day-purchase-option {      
+  background-position: center;
+  background-size: cover;
+  box-shadow: $shadow1;
+  padding: 0px;
   width: 100%;
 
-  .game-day-purchase-option-icon {
-    font-size: 5em;
-    margin-top: 10px;
-    text-align: center;
-    width: 100px;
+  &:hover,
+  &:focus {
+    .game-day-purchase-option-content { 
+      background: $darkGradient;
+    }
   }
 
-  .game-day-purchase-option-content {    
-    margin-top: 10px;
-
-    h1 {
-      margin-top: 0px;
-    }
-
-    .game-day-purchase-option-label,
-    .game-day-purchase-option-daily-price {       
-      font-size: 1.5em;
-    }
-
-    .game-day-purchase-option-daily-price,
-    .game-day-purchase-option-price {      
-      margin-bottom: 10px;
-    }
-
-    
-    .game-day-purchase-option-label {
-      .highlight-custom {
-        color: white;
-      }
-    }
-
-    .game-day-purchase-option-daily-price {
-      color: $themeMainDark;  
-    }
-
-    .game-day-purchase-option-price {
-      color: white;
-    }
-
-    .game-day-purchase-option-recommendation-statement {
-      background-color: gray(40);
-      border-radius: 6px;
-      margin-bottom: 5px;
-      padding: 10px;
-    }
+  .game-day-purchase-option-content { 
+    border-radius: 6px;
+    height: 200px;
+    padding: 10px;
 
     .game-day-purchase-option-discount-label {
-      background-color: rgba(white, 0.2);
-      border: 1px solid rgba(white, 0.25);
+      background: linear-gradient(to bottom, rgba(black, 0.25), transparent);
       border-radius: 6px;
+      color: white;
+      font-size: 1.25em;
+      left: 0px;
       padding: 10px;
-
-      .highlight-custom {
-        color: white;
-        font-size: 1.25em;
-        margin-left: 5px;
-
-        .percent {
-          color: white;
-          font-size: 1.25em;
-        }
-      }
-    }
-  }
-}
-
-@include phone-or-smaller {
-  .button.fancy-option-button.game-day-purchase-option {  
-    .game-day-purchase-option-icon {
-      font-size: 3em;
+      padding-bottom: 20px;
+      position: absolute;
+      text-shadow: 0px 0px 2px rgba(black, 0.6);
+      top: 0px;
+      width: calc(100% - 20px);
     }
 
-    .game-day-purchase-option-content {  
+    .game-day-purchase-option-details {
+      background: linear-gradient(to top, rgba(black, 0.25), transparent);
+      border-radius: 6px;
+      bottom: 0px;
+      left: 0px;
+      padding: 20px;
+      padding-top: 40px;
+      position: absolute;
+      text-align: left;
+      width: calc(100% - 40px);
+
       .game-day-purchase-option-label,
-      .game-day-purchase-option-daily-price {       
+      .game-day-purchase-option-daily-price {
+        color: white;    
         font-size: 1.25em;
+        text-shadow: 0px 0px 2px rgba(black, 0.4);
       }
-  
-      .game-day-purchase-option-discount-label {
-        .highlight-custom {
-          font-size: 1em;
-  
-          .percent {
-            font-size: 1.25em;
-          }
-        }
+
+      .game-day-purchase-option-daily-price {
+        font-size: 2.25em;
+      }
+
+      .game-day-purchase-option-recommendation-statement {
+        color: gray(40);
+      }
+
+      .game-day-purchase-option-buy-label {
+        border: 1px solid rgba(white, 0.5);
+        border-radius: 6px;
+        color: white;
+        display: inline-block;     
+        font-size: 1.25em;   
+        margin-top: 5px;
+        padding: 5px 0px;
+        text-align: center;
+        width: 100px;
       }
     }
   }

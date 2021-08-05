@@ -5,6 +5,7 @@ import { defaultGameDayPurchaseOption, IGameDayPurchaseOption } from "../stroll-
 import { GameDayPurchaseOptionUnit } from "../stroll-enums/gameDayPurchaseOptionUnit";
 import { Icon } from "../stroll-enums/icon";
 import { PaymentItemID } from "../stroll-enums/paymentItemID";
+import { ImageUtility } from "../stroll-client/utilities/imageUtility";
 
 interface IGameDayUtility {
   getDayQuantity: (unit: GameDayPurchaseOptionUnit) => number;
@@ -12,6 +13,7 @@ interface IGameDayUtility {
   getGameDayPurchaseOptionPrice: (unit: GameDayPurchaseOptionUnit) => number;
   getGameDayPurchaseOptionUnit: (itemID: PaymentItemID) => GameDayPurchaseOptionUnit;
   getGameDayPurchaseOptions: () => IGameDayPurchaseOption[];
+  getGraphic: (unit: GameDayPurchaseOptionUnit) => string;
   isGameDayPurchase: (itemID: PaymentItemID) => boolean;
 }
 
@@ -76,7 +78,7 @@ export const GameDayUtility: IGameDayUtility = {
     }, {
       ...defaultGameDayPurchaseOption(),
       icon: Icon.FiveGameDays,
-      label: "Pouch of Days",
+      label: "Bag of Days",
       unit: GameDayPurchaseOptionUnit.Five
     }, {
       ...defaultGameDayPurchaseOption(),
@@ -98,6 +100,22 @@ export const GameDayUtility: IGameDayUtility = {
       quantity: GameDayUtility.getDayQuantity(option.unit),
       price: GameDayUtility.getGameDayPurchaseOptionPrice(option.unit)
     }))
+  },
+  getGraphic: (unit: GameDayPurchaseOptionUnit): string => {
+    switch(unit) {
+      case GameDayPurchaseOptionUnit.One:
+        return ImageUtility.getGraphic("ticket", "png");       
+      case GameDayPurchaseOptionUnit.Five:
+        return ImageUtility.getGraphic("bag", "png");   
+      case GameDayPurchaseOptionUnit.Fourteen:
+        return ImageUtility.getGraphic("box", "png");       
+      case GameDayPurchaseOptionUnit.TwentyEight:
+        return ImageUtility.getGraphic("treasure-chest", "png");        
+      case GameDayPurchaseOptionUnit.OneHundredFourty:
+        return ImageUtility.getGraphic("airdrop", "png");   
+      default:
+        throw new Error(`Unknown game day purchase option unit: ${unit}`);
+    }
   },
   isGameDayPurchase: (itemID: PaymentItemID): boolean => {
     return (

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import { AcceptedPayments } from "../../components/acceptedPayments/acceptedPayments";
 import { GameDayPurchaseModal } from "./components/gameDayPurchaseModal/gameDayPurchaseModal";
 import { GameDayPurchaseOption } from "./components/gameDayPurchaseOption/gameDayPurchaseOption";
 import { Page } from "../../components/page/page";
@@ -50,13 +49,8 @@ export const ShopPage: React.FC<NotificationsPageProps> = (props: NotificationsP
     >     
       <PageTitle text="Shop" />   
       <PoweredByStripe />   
-      <AcceptedPayments />
       <ShopSection 
         className="game-day-purchase-options"
-        description={[
-          "In order to take part in a game, you will need to purchase Game Days! The number of Game Days required is determined by the duration of the game.",
-          "For example, joining a 5 day long game would require 5 Game Days."
-        ]}
         title="Game Days"
       >
         {getGameDayPurchaseOptions()}

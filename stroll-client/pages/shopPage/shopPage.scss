@@ -10,22 +10,24 @@
     }
   }
 
-  .game-day-purchase-options {      
+  .game-day-purchase-options {    
     margin-top: 10px;
 
-    .game-day-purchase-option {
-      &:first-child {
-        border-top-left-radius: 6px;      
-        border-top-right-radius: 6px;
-      }   
+    .shop-section-content {  
+      display: grid;
+      grid-gap: 1em;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
 
-      &:nth-of-type(n + 2) {
-        margin-top: 20px;
-      }
+      .game-day-purchase-option {
+        &:first-child {
+          border-top-left-radius: 6px;      
+          border-top-right-radius: 6px;
+        }   
 
-      &:last-child {
-        border-bottom-left-radius: 6px;      
-        border-bottom-right-radius: 6px;
+        &:last-child {
+          border-bottom-left-radius: 6px;      
+          border-bottom-right-radius: 6px;
+        }
       }
     }
   }

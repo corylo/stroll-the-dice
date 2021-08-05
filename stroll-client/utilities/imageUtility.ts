@@ -1,9 +1,9 @@
 interface IImageUtility {
-  getGraphic: (graphic: string) => string;
+  getGraphic: (graphic: string, ext?: string) => string;
 }
 
 export const ImageUtility: IImageUtility = {
-  getGraphic: (graphic: string): string => {
-    return `/img/graphics/${graphic}.svg`;
+  getGraphic: (graphic: string, ext?: string): string => {
+    return `/img/graphics/${graphic}.${ext || "svg"}`;
   }
 }
