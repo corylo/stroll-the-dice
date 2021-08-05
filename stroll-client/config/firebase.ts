@@ -4,25 +4,7 @@ import "firebase/auth";
 import "firebase/firestore";
 import "firebase/functions";
 
-export const strollTheDiceProductionAppConfig: any = {
-  apiKey: "AIzaSyBSPelvz0KfQ4CNENn15_rUQZkYH8dqtOk",
-  authDomain: "stroll-the-dice.firebaseapp.com",
-  projectId: "stroll-the-dice",
-  storageBucket: "stroll-the-dice.appspot.com",
-  messagingSenderId: "933905839245",
-  appId: "1:933905839245:web:3110bc6895f7f98cfcdec4",
-  measurementId: "G-SNS5B90NX9"
-};
-
-export const strollTheDiceDevelopmentAppConfig: any = {
-  apiKey: "AIzaSyBSPelvz0KfQ4CNENn15_rUQZkYH8dqtOk",
-  authDomain: "stroll-the-dice.firebaseapp.com",
-  projectId: "stroll-the-dice",
-  storageBucket: "stroll-the-dice.appspot.com",
-  messagingSenderId: "933905839245",
-  appId: "1:933905839245:web:3110bc6895f7f98cfcdec4",
-  measurementId: "G-SNS5B90NX9"
-};
+import { strollTheDiceProductionAppConfig, strollTheDiceDevelopmentAppConfig } from "../../config/firebase";
 
 const getConfig = (): any => {
   if (process.env.NODE_ENV === "production") {
