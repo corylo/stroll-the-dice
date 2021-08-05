@@ -165,6 +165,10 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
       if(updates.statuses.players === RequestStatus.Loading) {
         updates.statuses.players = RequestStatus.Success;
       }
+
+      if(state.statuses.player === PlayerStatus.Playing) {
+        updates.player = PlayerUtility.getByUser(appState.user, players);
+      }
     }
 
     if(events.length > 0) {
@@ -180,17 +184,7 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
     }
 
     setState(updates);
-  }, [appState.user, game, players, events]);
-
-  useEffect(() => {
-    if(state.statuses.player === PlayerStatus.Playing && state.players.length > 0) {
-      const player: IPlayer = PlayerUtility.getByUser(appState.user, players);
-
-      if(PlayerUtility.hasProfileChanged(state.player, player)) {
-        setState({ ...state, player });
-      }
-    }
-  }, [state.players, state.statuses.player]);
+  }, [appState.user, state.statuses.player, game, players, events]);
 
   useEffect(() => {
     if(state.statuses.player === PlayerStatus.NotPlaying) {

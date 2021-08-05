@@ -110,7 +110,7 @@ export const AnimatedCounter: React.FC<AnimatedCounterProps> = (props: AnimatedC
   
           clearInterval(interval);
         }            
-      }, diff > 10 ? 10 : 100);
+      }, diff > 10 ? 10 : 50);
   
       return () => {
         clearInterval(interval);
@@ -124,7 +124,7 @@ export const AnimatedCounter: React.FC<AnimatedCounterProps> = (props: AnimatedC
   
           clearInterval(interval);
         }            
-      }, diff > 10 ? 10 : 100);
+      }, diff > 10 ? 10 : 50);
   
       return () => {
         clearInterval(interval);
