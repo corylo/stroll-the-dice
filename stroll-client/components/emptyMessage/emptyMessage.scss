@@ -1,7 +1,8 @@
 .empty-message {
   .empty-message-content {
-    background: linear-gradient(to bottom, rgba(white, 0.1), transparent);
-    border-radius: 4px;
+    background-color: rgba(white, 0.1);
+    border: 1px solid rgba(white, 0.2);
+    border-radius: 6px;
     padding: 20px;
     
     .empty-message-title {

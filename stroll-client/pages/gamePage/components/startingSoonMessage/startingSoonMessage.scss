@@ -1,20 +1,10 @@
 .starting-soon-message {
   margin-top: 10px;
 
-  .starting-soon-message-border {
-    background-color: white;
-    border-radius: 4px;
-    height: 2px;
-  }
-
   .loading-message {
-    background: linear-gradient(to bottom, rgba(white, 0.05), transparent);   
-    border-radius: 4px;
-    margin-top: 5px;
-
-    .loading-message-border {
-      display: none;
-    }
+    background-color: rgba(white, 0.1);
+    border: 1px solid rgba(white, 0.2);
+    border-radius: 6px;
 
     .loading-message-content {
       background: transparent;

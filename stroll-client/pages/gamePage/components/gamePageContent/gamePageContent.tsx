@@ -103,15 +103,8 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
           }
         }
 
-        const getMatchupGroups = (): JSX.Element[] => {          
-          const startsAtPassed: boolean = FirestoreDateUtility.lessThanOrEqualToNow(game.startsAt);
-
-          if(
-            game.error !== GameError.PlayerMinimumNotMet && (
-            game.status === GameStatus.Upcoming && !startsAtPassed ||
-            game.status === GameStatus.InProgress && startsAtPassed ||
-            game.status === GameStatus.Completed
-          )) { 
+        const getMatchupGroups = (): JSX.Element[] => {                    
+          if(game.error !== GameError.PlayerMinimumNotMet) { 
             const max: number = getMaxDay();
             
             const matchupGroups: JSX.Element[] = [];
