@@ -21,15 +21,8 @@
     .empty-message {
       display: flex;
 
-      .empty-message-border {
-        height: auto;
-        width: 2px;
-      }
-
       .empty-message-content {
-        background: linear-gradient(to right, rgba(white, 0.05), transparent);
         flex-grow: 1;
-        margin-left: 5px;
         margin-top: 0px;
       }
     }
