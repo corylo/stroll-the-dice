@@ -60,7 +60,7 @@ export const GameDayPurchaseOption: React.FC<GameDayPurchaseOptionProps> = (prop
 
   return (   
     <Button
-      className={classNames("game-day-purchase-option")}     
+      className={classNames("game-day-purchase-option", { "presentation-mode": props.presentationMode })}     
       disabled={props.handleOnClick === undefined}
       styles={{ backgroundImage: `url(${GameDayUtility.getGraphic(option.unit)})` }}
       handleOnClick={getHandleOnClick()} 

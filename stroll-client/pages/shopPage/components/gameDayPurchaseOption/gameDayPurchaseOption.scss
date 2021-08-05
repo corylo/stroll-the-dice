@@ -5,8 +5,8 @@
   padding: 0px;
   width: 100%;
 
-  &:hover,
-  &:focus {
+  &:not(.presentation-mode):hover,
+  &:not(.presentation-mode):focus {
     .game-day-purchase-option-content { 
       background: $darkGradient;
     }
