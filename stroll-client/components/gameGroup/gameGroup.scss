@@ -22,6 +22,7 @@
       display: flex;
 
       .empty-message-content {
+        background: linear-gradient(to right, rgba(white, 0.05), transparent);
         flex-grow: 1;
         margin-top: 0px;
       }
