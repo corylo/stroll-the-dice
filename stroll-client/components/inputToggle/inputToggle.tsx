@@ -27,6 +27,14 @@ export const InputToggle: React.FC<InputToggleProps> = (props: InputToggleProps)
     }
   }
 
+  const getEnabledText = (): JSX.Element => {
+    if(props.toggled) {
+      return (
+        <span className="highlight-custom">Enabled</span>
+      )
+    }
+  }
+
   return (
     <div className={classNames("input-toggle-wrapper", props.className)}>
       <input 
@@ -40,7 +48,7 @@ export const InputToggle: React.FC<InputToggleProps> = (props: InputToggleProps)
         <div className="input-toggle-text">
           <div className="input-toggle-label">
             {getIcon()}
-            <h1 className="passion-one-font">{props.label}</h1>
+            <h1 className="passion-one-font">{props.label} {getEnabledText()}</h1>
           </div>
           {getDescription()}
         </div>

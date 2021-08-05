@@ -64,6 +64,10 @@
 
         h1 {
           font-size: 1.25em;
+
+          .highlight-custom {
+            color: $themeMainDark;
+          }
         }
       }
 

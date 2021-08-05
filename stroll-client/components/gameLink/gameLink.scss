@@ -62,6 +62,8 @@
     }
 
     .game-dates {
+      white-space: normal;
+
       i,
       .label-text-wrapper > h1 {
         color: gray(40);
@@ -78,7 +80,7 @@
   .game-link-wrapper {
     .game-link-body {
       .game-name {
-        font-size: 1.5em;
+        font-size: 1.25em;
       }
     }
   }

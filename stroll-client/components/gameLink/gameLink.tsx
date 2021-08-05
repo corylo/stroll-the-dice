@@ -21,7 +21,7 @@ export const GameLink: React.FC<GameLinkProps> = (props: GameLinkProps) => {
     <div className="game-link-wrapper">
       <Button key={game.id} className="game-link" url={`/game/${game.id}`} />
       <div className="game-link-header">
-        <h1 className="game-link-creator-statement passion-one-font"><span className="highlight-custom">Created by</span> <PlayerStatement profile={game.creator} /></h1>
+        <h1 className="game-link-creator-statement passion-one-font"><PlayerStatement profile={game.creator} /></h1>
         <GameDateStatus game={game} />
       </div>
       <div className="game-link-body">

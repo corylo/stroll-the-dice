@@ -55,12 +55,6 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
   const dispatch = (type: GameFormAction, payload?: any): void => dispatchToGameForm({ type, payload });
 
   useEffect(() => {
-    if(!GameFormUtility.isValidGameStatus(props.gameStatus)) {
-      dispatch(GameFormAction.SetStatus, FormStatus.SubmitInfo);
-    }
-  }, [props.gameStatus]);
-
-  useEffect(() => {
     if(status !== FormStatus.InProgress && GameFormUtility.hasChanged(props.game, fields)) {
       dispatch(GameFormAction.SetStatus, FormStatus.InProgress);
     }
@@ -113,12 +107,10 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
   const getLockGameSection = (): JSX.Element => {
     if(props.game) {
       return (
-        <FormBodySection>
-          <LockGame 
-            locked={fields.locked}
-            toggle={(locked: boolean) => handleOnChange(GameFormAction.SetLocked, locked)} 
-          />
-        </FormBodySection>
+        <LockGame 
+          locked={fields.locked}
+          toggle={(locked: boolean) => handleOnChange(GameFormAction.SetLocked, locked)} 
+        />
       )
     }
   }
@@ -140,13 +132,21 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
     )
   }
 
+  const updateNotAllowedMessage = (): JSX.Element => {
+    if(!GameFormUtility.isValidGameStatus(props.gameStatus)) {
+      return (
+        <FormBodySection>
+          <h1 className="update-not-allowed-message passion-one-font">This game's start date has already passed and so it can no longer be updated.</h1>
+        </FormBodySection>
+      )
+    }
+  }
+
   const getStatusMessage = (): string => {
     if(status === FormStatus.SubmitSuccess) {
       return "Game saved successfully!";
     } else if(status === FormStatus.SubmitError) {
       return "There was an issue saving your game. Please refresh and try again!";
-    } else if(status === FormStatus.SubmitInfo) {
-      return "Games can only be updated prior to the start date";
     }
   }
 
@@ -201,6 +201,7 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
     >
       {getTitle()}
       <FormBody>
+        {updateNotAllowedMessage()}
         <InputWrapper
           id="game-name-input" 
           label="Name" 

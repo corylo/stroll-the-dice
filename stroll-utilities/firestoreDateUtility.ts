@@ -78,7 +78,7 @@ export const FirestoreDateUtility: IFirestoreDateUtility = {
     const startDate: Date = FirestoreDateUtility.timestampToDate(start),
       endDate: Date = FirestoreDateUtility.timestampToDate(end);
 
-    const dateOptions: Intl.DateTimeFormatOptions = { weekday: "short", day: "2-digit", month: "short" },
+    const dateOptions: Intl.DateTimeFormatOptions = { day: "numeric", month: "short", year: "2-digit" },
       timeOptions: Intl.DateTimeFormatOptions = { hour: "numeric" };
 
     const formattedStartDate: string = startDate.toLocaleDateString([], dateOptions),

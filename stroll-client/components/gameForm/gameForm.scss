@@ -3,6 +3,10 @@
 @import "./components/modeSelector/modeSelector.scss";
 
 #game-form {
+  .update-not-allowed-message {
+    color: white;
+  }
+
   .start-date-section {
     display: grid;
     grid-gap: 1em;
