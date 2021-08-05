@@ -9,15 +9,12 @@ import { gameConverter, IGame } from "../../../stroll-models/game";
 
 import { FirebaseDocumentID } from "../../../stroll-enums/firebaseDocumentID";
 import { GameStatus } from "../../../stroll-enums/gameStatus";
-import { PaymentService } from "./paymentService";
-import { PaymentItemID } from "../../../stroll-enums/paymentItemID";
 
 interface IScheduleService {  
   handleInProgress: (snap: firebase.firestore.QuerySnapshot) => Promise<void>;
   handleInProgressToCompleted: (snap: firebase.firestore.QuerySnapshot) => Promise<void>;
   handleUpcomingToInProgress: (snap: firebase.firestore.QuerySnapshot) => Promise<void>;  
   scheduledGameUpdate: (context: EventContext) => Promise<void>;
-  scheduledKeepPaymentFunctionsWarm: (context: EventContext) => Promise<void>;
 }
 
 export const ScheduleService: IScheduleService = {
@@ -80,10 +77,5 @@ export const ScheduleService: IScheduleService = {
         .withConverter<IGame>(gameConverter)
         .update({ updatedAt: firebase.firestore.Timestamp.now() });
     }
-  },
-  scheduledKeepPaymentFunctionsWarm: async (context: EventContext): Promise<void> => {
-    await PaymentService.createPayment({ itemID: PaymentItemID.None, quantity: 0 }, null);
-
-    await PaymentService.confirmPayment({ intentID: "", paymentMethodID: "" }, null);
   }
 }
