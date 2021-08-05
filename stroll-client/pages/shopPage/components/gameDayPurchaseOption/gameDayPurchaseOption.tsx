@@ -50,14 +50,6 @@ export const GameDayPurchaseOption: React.FC<GameDayPurchaseOptionProps> = (prop
     }
   }
 
-  const getBuyLabel = (): JSX.Element => {
-    if(!props.presentationMode) {
-      return (
-        <h1 className="game-day-purchase-option-buy-label passion-one-font">Buy</h1>
-      )
-    }
-  }
-
   return (   
     <Button
       className={classNames("game-day-purchase-option", { "presentation-mode": props.presentationMode })}     
@@ -71,7 +63,7 @@ export const GameDayPurchaseOption: React.FC<GameDayPurchaseOptionProps> = (prop
           <h1 className="game-day-purchase-option-label passion-one-font">{option.label} ({option.quantity})</h1>
           <h1 className="game-day-purchase-option-daily-price passion-one-font">${daily.toFixed(2)} / Day</h1>
           {getRecommendationStatement()}
-          {getBuyLabel()}
+        <h1 className="game-day-purchase-option-price passion-one-font">${option.price}</h1>
         </div>
       </div>
     </Button>
