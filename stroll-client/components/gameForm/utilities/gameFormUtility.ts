@@ -99,6 +99,7 @@ export const GameFormUtility: IGameFormUtility = {
 
     return {
       endsAt,
+      error: GameError.None,
       locked: fields.locked,      
       name: fields.name,
       sortable: {

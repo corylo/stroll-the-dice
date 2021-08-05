@@ -2,9 +2,16 @@
   .empty-message-content {
     background: linear-gradient(to bottom, rgba(white, 0.1), transparent);
     border-radius: 4px;
-    padding: 40px 10px;
+    padding: 20px;
+    
+    .empty-message-title {
+      color: $themeMainDark;
+      font-size: 2em;
+      margin-bottom: 5px;
+      text-align: center;
+    }
 
-    h1 {
+    .empty-message-text {
       color: white;
       font-size: 1.25em;
       text-align: center;

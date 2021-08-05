@@ -28,6 +28,7 @@ import { AppStatus } from "../../../../enums/appStatus";
 import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
 import { IconButton } from "../../../../components/buttons/iconButton";
+import { GameError } from "../../../../../stroll-enums/gameError";
 
 interface GamePageContentProps {
   
@@ -80,20 +81,6 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
           return 1;
         }
 
-        const getMatchups = (): JSX.Element[] => {    
-          const max: number = getMaxDay();
-          
-          const matchupGroups: JSX.Element[] = [];
-  
-          for(let i: number = max; i > 0; i--) {
-            matchupGroups.push(
-              <MatchupGroup key={i} day={i} />
-            )
-          }      
-  
-          return matchupGroups;
-        }
-
         const getMinimumPlayerRequirementMessage = (): JSX.Element => {   
           if(game.counts.players < 4) {
             return (
@@ -116,25 +103,36 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
           }
         }
 
-        const getLeaderboardAndMatchups = (): JSX.Element => {          
+        const getMatchupGroups = (): JSX.Element[] => {          
           const startsAtPassed: boolean = FirestoreDateUtility.lessThanOrEqualToNow(game.startsAt);
 
           if(
+            game.error !== GameError.PlayerMinimumNotMet && (
             game.status === GameStatus.Upcoming && !startsAtPassed ||
             game.status === GameStatus.InProgress && startsAtPassed ||
             game.status === GameStatus.Completed
-          ) {
-            return (
-              <React.Fragment>
-                <Leaderboard 
-                  id="game-page-content-leaderboard"
-                  limit={4}
-                  players={players} 
-                  gameStatus={game.status} 
-                  toggleView={() => toggle({ players: true })}
-                />
-                {getMatchups()}
-              </React.Fragment>
+          )) { 
+            const max: number = getMaxDay();
+            
+            const matchupGroups: JSX.Element[] = [];
+    
+            for(let i: number = max; i > 0; i--) {
+              matchupGroups.push(
+                <MatchupGroup key={i} day={i} />
+              )
+            }      
+    
+            return matchupGroups;
+          }
+        }
+
+        const getDidNotMeetMinimumPlayerRequirementMessage = (): JSX.Element => {
+          if(game.error === GameError.PlayerMinimumNotMet) {        
+            return (          
+              <EmptyMessage                 
+                text="This game did not meet the minimum player requirement of 4. Please adjust the start date or time and then invite more players." 
+                title="Game Not Started!"
+              /> 
             )
           }
         }
@@ -147,7 +145,15 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
               startsAt={game.startsAt}                 
               status={game.status}
             />
-            {getLeaderboardAndMatchups()}
+            <Leaderboard 
+              id="game-page-content-leaderboard"
+              limit={4}
+              players={players} 
+              gameStatus={game.status} 
+              toggleView={() => toggle({ players: true })}
+            />
+            {getDidNotMeetMinimumPlayerRequirementMessage()}
+            {getMatchupGroups()}
           </React.Fragment>
         )
       } else if (appState.status === AppStatus.SignedOut) {

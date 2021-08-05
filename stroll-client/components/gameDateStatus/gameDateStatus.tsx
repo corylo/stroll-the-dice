@@ -9,6 +9,7 @@ import { useCurrentDateEffect } from "../../effects/appEffects";
 
 import { IGame } from "../../../stroll-models/game";
 
+import { GameError } from "../../../stroll-enums/gameError";
 import { GameStatus } from "../../../stroll-enums/gameStatus";
 
 interface GameDateStatusProps {  
@@ -20,21 +21,25 @@ export const GameDateStatus: React.FC<GameDateStatusProps> = (props: GameDateSta
 
   useCurrentDateEffect();
 
-  const getText = (): string => {
-    if(game.status === GameStatus.Completed || FirestoreDateUtility.lessThanOrEqualToNow(game.endsAt)) {
-      return "Completed";
-    } else if(game.status === GameStatus.InProgress || FirestoreDateUtility.lessThanOrEqualToNow(game.startsAt)) {
-      return `Ends in ${GameDurationUtility.getTimeRemaining(game)}`;
-    } else if (game.status === GameStatus.Upcoming) {
-      return `Starts in ${FirestoreDateUtility.timestampToRelative(game.startsAt)}`;
+  if(game.error !== GameError.PlayerMinimumNotMet) {
+    const getText = (): string => {
+      if(game.status === GameStatus.Completed) {
+        return "Completed";
+      } else if(game.status === GameStatus.InProgress) {
+        return `Ends in ${GameDurationUtility.getTimeRemaining(game)}`;
+      } else if (game.status === GameStatus.Upcoming) {
+        return `Starts in ${FirestoreDateUtility.timestampToRelative(game.startsAt)}`;
+      }
     }
+
+    return (
+      <Label
+        className="game-date-status date-status passion-one-font"
+        icon="fal fa-clock"
+        text={getText()}
+      />
+    );
   }
 
-  return (
-    <Label
-      className="game-date-status date-status passion-one-font"
-      icon="fal fa-clock"
-      text={getText()}
-    />
-  );
+  return null;
 }
