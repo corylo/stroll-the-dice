@@ -9,11 +9,8 @@ import { AppContext } from "../../components/app/contexts/appContext";
 
 import { useConnectStepTrackerEffect, useToggleUpdateProfileEffect } from "./effects/profilePageEffects";
 
-import { ImageUtility } from "../../utilities/imageUtility";
-
 import { AppAction } from "../../enums/appAction";
 import { AppStatus } from "../../enums/appStatus";
-import { Graphic } from "../../../stroll-enums/graphic";
 import { Icon } from "../../../stroll-enums/icon";
 
 interface ProfilePageProps {
@@ -47,7 +44,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = (props: ProfilePageProps)
   return(
     <Page 
       id="profile-page" 
-      backgroundGraphic={ImageUtility.getGraphic(Graphic.CityWalk)} 
+      backgroundGraphic=""
       requireAuth
     >   
       {getContent()}

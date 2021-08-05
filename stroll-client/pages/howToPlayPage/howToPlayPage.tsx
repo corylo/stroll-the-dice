@@ -12,7 +12,6 @@ import { PageTitle } from "../../components/page/pageTitle";
 import { GamePageContext } from "../gamePage/gamePage";
 
 import { HowToPlayUtility } from "./utilities/howToPlayUtility";
-import { ImageUtility } from "../../utilities/imageUtility";
 
 import { defaultGamePageState } from "../gamePage/models/gamePageState";
 
@@ -34,7 +33,7 @@ export const HowToPlayPage: React.FC<HowToPlayPageProps> = (props: HowToPlayPage
   }
 
   return(
-    <Page id="how-to-play-page" backgroundGraphic={ImageUtility.getGraphic("education")}>     
+    <Page id="how-to-play-page" backgroundGraphic="">     
       <PageTitle text="Huh?" />
       <div className="how-to-play-page-sections">
         <HowToPlaySection title="What is this?">

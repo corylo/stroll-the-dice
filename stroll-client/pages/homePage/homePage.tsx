@@ -10,7 +10,6 @@ import { ImageUtility } from "../../utilities/imageUtility";
 
 import { AppStatus } from "../../enums/appStatus";
 import { GameStatus } from "../../../stroll-enums/gameStatus";
-import { Graphic } from "../../../stroll-enums/graphic";
 
 interface HomePageProps {
   
@@ -40,7 +39,7 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
   return(
     <Page 
       id="home-page" 
-      backgroundGraphic={ImageUtility.getGraphic(Graphic.WorkingOut)}
+      backgroundGraphic={ImageUtility.getGraphic("running", "png")}
     >
       {getContent()}
     </Page>

@@ -71,7 +71,7 @@ export const UserPage: React.FC<UserPageProps> = (props: UserPageProps) => {
   return(
     <Page 
       id="user-page" 
-      backgroundGraphic={ImageUtility.getGraphic(Graphic.CityWalk)}
+      backgroundGraphic=""
       requireAuth
       status={state.status} 
     >    

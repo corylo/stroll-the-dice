@@ -7,13 +7,11 @@ import { PageTitle } from "../../components/page/pageTitle";
 import { PoweredByStripe } from "../../components/poweredByStripe/poweredByStripe";
 import { ShopSection } from "./components/shopSection/shopSection";
 
-import { ImageUtility } from "../../utilities/imageUtility";
 import { GameDayUtility } from "../../../stroll-utilities/gameDayUtility";
 
 import { IGameDayPurchaseOption } from "../../../stroll-models/gameDayPurchaseOption";
 
 import { GameDayPurchaseOptionUnit } from "../../../stroll-enums/gameDayPurchaseOptionUnit";
-import { Graphic } from "../../../stroll-enums/graphic";
 
 interface NotificationsPageProps {
   
@@ -44,7 +42,7 @@ export const ShopPage: React.FC<NotificationsPageProps> = (props: NotificationsP
   return(    
     <Page 
       id="shop-page" 
-      backgroundGraphic={ImageUtility.getGraphic(Graphic.Shopping)} 
+      backgroundGraphic=""
       requireAuth
     >     
       <PageTitle text="Shop" />   

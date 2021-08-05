@@ -9,13 +9,11 @@ import { AppContext } from "../../components/app/contexts/appContext";
 import { useUpdateCurrentDayEffect, useGameInviteEffect } from "./effects/gamePageEffects";
 import { useGameListenersEffect } from "./effects/gamePageListenerEffects";
 
-import { ImageUtility } from "../../utilities/imageUtility";
 import { UrlUtility } from "../../utilities/urlUtility";
 
 import { defaultGamePageState, IGamePageState } from "./models/gamePageState";
 
 import { AppAction } from "../../enums/appAction";
-import { Graphic } from "../../../stroll-enums/graphic";
 
 interface IGamePageContext {
   state: IGamePageState;
@@ -47,7 +45,7 @@ export const GamePage: React.FC<GamePageProps> = (props: GamePageProps) => {
     <GamePageContext.Provider value={{ state, setState }}>
       <Page 
         id="game-page" 
-        backgroundGraphic={ImageUtility.getGraphic(Graphic.DayAtPark)} 
+        backgroundGraphic=""
         status={state.statuses.game}
         errorMessage="Whoops! Looks like this game doesn't exist."
       >   

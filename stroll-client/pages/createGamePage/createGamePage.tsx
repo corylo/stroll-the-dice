@@ -9,7 +9,6 @@ import { AppContext } from "../../components/app/contexts/appContext";
 import { CreateGameService } from "./services/createGameService";
 
 import { GameFormUtility } from "../../components/gameForm/utilities/gameFormUtility";
-import { ImageUtility } from "../../utilities/imageUtility";
 import { InviteUtility } from "../../utilities/inviteUtility";
 import { PlayerUtility } from "../../utilities/playerUtility";
 
@@ -40,7 +39,7 @@ export const CreateGamePage: React.FC<CreateGamePageProps> = (props: CreateGameP
   }
 
   return(
-    <Page id="create-game-page" backgroundGraphic={ImageUtility.getGraphic("hiking")} requireAuth>    
+    <Page id="create-game-page" backgroundGraphic="" requireAuth>    
       <GameForm title="Create Game" forwarding save={save} />
     </Page>
   )
