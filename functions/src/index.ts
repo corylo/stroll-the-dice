@@ -56,3 +56,7 @@ exports.createPayment = https
   
 exports.confirmPayment = https
   .onCall(PaymentService.confirmPayment);
+
+exports.scheduledKeepPaymentFunctionsWarm = pubsub
+  .schedule("* * * * *")
+  .onRun(ScheduleService.scheduledKeepPaymentFunctionsWarm);
