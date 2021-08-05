@@ -58,7 +58,7 @@ export const GameGroup: React.FC<GameGroupProps> = (props: GameGroupProps) => {
   const getLoading = (): JSX.Element => {
     if(state.status === RequestStatus.Loading) {
       return (
-        <LoadingMessage text="Loading Games" />
+        <LoadingMessage text="Loading Games" borderless />
       )
     }
   }
