@@ -44,8 +44,14 @@ export const GamePage: React.FC<GamePageProps> = (props: GamePageProps) => {
 
   useUpdateCurrentDayEffect(state, setState);
 
+  console.log(state.statuses)
+
   const getStatus = (): RequestStatus => {
-    if(appState.status === AppStatus.SignedIn && state.statuses.player === PlayerStatus.Loading) {
+    if(
+      appState.status === AppStatus.SignedIn && 
+      state.statuses.game !== RequestStatus.Error &&
+      state.statuses.player === PlayerStatus.Loading
+    ) {
       return RequestStatus.Loading;
     }
 

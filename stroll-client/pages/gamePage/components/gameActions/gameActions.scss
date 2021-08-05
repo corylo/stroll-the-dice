@@ -1,31 +1,31 @@
 .game-actions {
   align-items: center;
   display: flex;
+}
 
-  .button {   
-    background-color: transparent; 
-    border: 1px solid rgba(white, 0.25);
-    border-radius: 100px;
-    margin-right: 10px;
-  
-    &:hover,
-    &:focus {
-      background-color: rgba(white, 0.1);
-    }
-  
-    > i {
-      font-size: 0.8em;
-      height: 20px;
-      line-height: 20px;
-      padding: 5px 15px;
-      width: 20px;
-    }
-  
-    > h1 {
-      color: white;
-      height: 20px;
-      line-height: 20px;
-      margin-left: 10px;
-    }
+.game-action-button {   
+  background-color: transparent; 
+  border: 1px solid rgba(white, 0.25);
+  border-radius: 100px;
+  margin-right: 10px;
+
+  &:hover,
+  &:focus {
+    background-color: rgba(white, 0.1);
+  }
+
+  > i {
+    font-size: 0.8em;
+    height: 20px;
+    line-height: 20px;
+    padding: 5px 15px;
+    width: 20px;
+  }
+
+  > h1 {
+    color: white;
+    height: 20px;
+    line-height: 20px;
+    margin-left: 10px;
   }
 }

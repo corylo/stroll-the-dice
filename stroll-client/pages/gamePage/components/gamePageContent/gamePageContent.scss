@@ -30,8 +30,28 @@
       margin-top: 10px;
     }
 
+    .minimum-player-requirement-message-wrapper {
+      background-color: rgba(white, 0.1);
+      border: 1px solid rgba(white, 0.25);  
+      border-radius: 6px;
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px;
+
+      .minimum-player-requirement-message {
+        h1 {
+          color: white;
+        }
+      }
+
+      .game-action-button {
+        margin-left: 10px;
+        margin-right: 0px;
+      }
+    }
+
     .leaderboard {
-      margin-top: 20px;
+      margin-top: 10px;
     }
   }
 }

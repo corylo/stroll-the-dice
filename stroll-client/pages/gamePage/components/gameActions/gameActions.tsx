@@ -30,7 +30,7 @@ export const GameActions: React.FC<GameActionsProps> = (props: GameActionsProps)
       actions.push(
         <IconButton
           key="invite"
-          className="invite-button"
+          className="game-action-button"
           icon="fal fa-user-plus" 
           tooltip="Invite"
           handleOnClick={props.toggleInvite} 

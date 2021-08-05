@@ -27,6 +27,7 @@ import { AppAction } from "../../../../enums/appAction";
 import { AppStatus } from "../../../../enums/appStatus";
 import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
+import { IconButton } from "../../../../components/buttons/iconButton";
 
 interface GamePageContentProps {
   
@@ -47,6 +48,8 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
     statuses,
     toggles 
   } = state;
+
+  console.log(statuses)
 
   if(statuses.game === RequestStatus.Success) {
     const toggle = (updates: any): void => {
@@ -93,7 +96,29 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
           return matchupGroups;
         }
 
-        const getContent = (): JSX.Element => {          
+        const getMinimumPlayerRequirementMessage = (): JSX.Element => {   
+          if(game.counts.players < 4) {
+            return (
+              <div className="minimum-player-requirement-message-wrapper">
+                <Label
+                  className="minimum-player-requirement-message"
+                  icon="fal fa-info-circle"
+                  text="Minimum of 4 players required"
+                />                
+                <IconButton
+                  key="invite"
+                  className="game-action-button"
+                  icon="fal fa-user-plus" 
+                  tooltip="Invite"
+                  tooltipSide={TooltipSide.Bottom}
+                  handleOnClick={() => toggle({ invite: true })} 
+                />
+              </div>
+            )
+          }
+        }
+
+        const getLeaderboardAndMatchups = (): JSX.Element => {          
           const startsAtPassed: boolean = FirestoreDateUtility.lessThanOrEqualToNow(game.startsAt);
 
           if(
@@ -117,13 +142,14 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
         }
 
         return (
-          <React.Fragment>
+          <React.Fragment>            
+            {getMinimumPlayerRequirementMessage()}
             <StartingSoonMessage 
               limit={59} 
               startsAt={game.startsAt}                 
               status={game.status}
             />
-            {getContent()}
+            {getLeaderboardAndMatchups()}
           </React.Fragment>
         )
       } else if (
