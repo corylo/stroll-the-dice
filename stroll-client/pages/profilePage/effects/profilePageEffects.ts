@@ -42,28 +42,36 @@ export const useConnectStepTrackerEffect = (
     const load = async (): Promise<void> => {
       if(
         appState.status === AppStatus.SignedIn && 
-        !appState.user.profile.tracker &&
-        state.authorizationCode !== "" &&
-        state.tracker.name !== StepTracker.Unknown
+        !appState.user.profile.tracker
       ) {
-        history.replace("/profile");
+        if(
+          state.authorizationCode !== null &&
+          state.authorizationCode !== "" &&
+          state.tracker.name !== StepTracker.Unknown
+        ) {
+          history.replace("/profile");
+          
+          dispatch(AppAction.InitiateStepTrackerConnection, state.tracker.name);
 
-        dispatch(AppAction.InitiateStepTrackerConnection, state.tracker.name);
+          try {  
+            await StepTrackerService.connect(
+              state.authorizationCode, 
+              appState.user.profile.uid, 
+              state.tracker
+            );
 
-        try {  
-          await StepTrackerService.connect(
-            state.authorizationCode, 
-            appState.user.profile.uid, 
-            state.tracker
-          );
+            setState(defaultUseConnectStepTrackerEffectState());
 
-          setState(defaultUseConnectStepTrackerEffectState());
+            dispatch(AppAction.CompleteStepTrackerConnection);
+          } catch (err) {
+            console.error(err);
 
-          dispatch(AppAction.CompleteStepTrackerConnection);
-        } catch (err) {
-          console.error(err);
-
-          dispatch(AppAction.FailedStepTrackerConnection);
+            dispatch(AppAction.FailedStepTrackerConnection, state.tracker.name);
+          }
+        } else if(UrlUtility.getQueryParam("error") === "access_denied") { 
+          history.replace("/profile");
+           
+          dispatch(AppAction.FailedStepTrackerConnection, state.tracker.name);
         }
       }
     }

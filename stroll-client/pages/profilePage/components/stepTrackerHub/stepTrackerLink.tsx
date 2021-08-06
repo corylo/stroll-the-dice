@@ -63,7 +63,7 @@ export const StepTrackerLink: React.FC<StepTrackerLinkProps> = (props: StepTrack
       const getButtons = (): JSX.Element => {
         if(confirm) {
           return (
-            <div className="step-tracker-disconnection-buttons">
+            <div className="step-tracker-buttons">
               <IconButton 
                 className="confirm-disconnect-step-tracker-button" 
                 icon="fal fa-check" 
@@ -83,7 +83,7 @@ export const StepTrackerLink: React.FC<StepTrackerLinkProps> = (props: StepTrack
         }
 
         return (
-          <div className="step-tracker-disconnection-buttons">
+          <div className="step-tracker-buttons">
             <IconButton 
               className="disconnect-step-tracker-button" 
               icon="fal fa-times"               
@@ -106,6 +106,15 @@ export const StepTrackerLink: React.FC<StepTrackerLinkProps> = (props: StepTrack
     return (
       <React.Fragment>
         <h1 className="passion-one-font">{props.tracker}<span className="highlight-error">Error Connecting</span></h1>
+        <div className="step-tracker-buttons">
+          <IconButton 
+            className="reset-step-tracker-button" 
+            icon="far fa-sync-alt"               
+            tooltip="Try Again"
+            tooltipSide={TooltipSide.Left}
+            handleOnClick={() => dispatch(AppAction.ResetStepTrackerConnection)} 
+          />
+        </div>
       </React.Fragment>
     )
   }

@@ -65,13 +65,14 @@
         }
       }
 
-      .step-tracker-disconnection-buttons {
+      .step-tracker-buttons {
         position: absolute;
         right: 0px;
 
         .disconnect-step-tracker-button,
         .cancel-disconnect-step-tracker-button,
-        .confirm-disconnect-step-tracker-button {  
+        .confirm-disconnect-step-tracker-button,
+        .reset-step-tracker-button {  
           background-color: rgba(white, 0.05);
           margin: 10px;
           margin-left: 0px;

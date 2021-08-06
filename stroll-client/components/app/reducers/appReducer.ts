@@ -52,6 +52,13 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
             ...state.statuses.tracker,
             is: RequestStatus.Error
           }
+        },
+        user: {
+          ...state.user,
+          profile: {
+            ...state.user.profile,
+            tracker: action.payload
+          }
         }
       }
     case AppAction.InitiateSignOut:
@@ -92,6 +99,24 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
           }
         }
       }
+    case AppAction.ResetStepTrackerConnection:
+      return {
+        ...state,              
+        statuses: {
+          ...state.statuses,
+          tracker: {
+            ...state.statuses.tracker,
+            is: RequestStatus.Idle
+          }
+        },
+        user: {
+          ...state.user,
+          profile: {
+            ...state.user.profile,
+            tracker: StepTracker.Unknown
+          }
+        }
+      } 
     case AppAction.SetGameDays: {
       return {
         ...state,
@@ -145,7 +170,6 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
           profile: true
         }
       }
-    
     case AppAction.ToggleAcceptInvite:
       return {
         ...state,

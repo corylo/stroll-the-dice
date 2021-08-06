@@ -24,7 +24,7 @@ export const StepTrackerHub: React.FC<StepTrackerHubProps> = (props: StepTracker
       if(statuses.tracker.is === RequestStatus.Idle || statuses.tracker.is === RequestStatus.Success) {
         return RequestStatus.Success;
       }
-      
+
       return statuses.tracker.is;
     }
 
