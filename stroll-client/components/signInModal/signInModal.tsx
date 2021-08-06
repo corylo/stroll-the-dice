@@ -50,6 +50,10 @@ export const SignInModal: React.FC<SignInModalProps> = (props: SignInModalProps)
       auth.signInWithRedirect(provider);
     }
 
+    const privacyPolicyLink: JSX.Element = <a href="https://legal.strollthedice.com/privacy-policy" target="_blank">Privacy Policy</a>,
+      termsAndConditionsLink: JSX.Element = <a href="https://legal.strollthedice.com/terms-and-conditions" target="_blank">Terms & Conditions</a>,
+      cookiePolicyLink: JSX.Element = <a href="https://legal.strollthedice.com/cookie-policy" target="_blank">Cookie Policy</a>;
+
     return (
       <Modal id="sign-in-modal" priority>
         <ModalTitle text="Sign In" handleOnClose={() => dispatch(AppAction.ToggleSignIn, false)} />
@@ -66,9 +70,9 @@ export const SignInModal: React.FC<SignInModalProps> = (props: SignInModalProps)
               </div>
             </Button>      
           </div>
-          {/* <div id="sign-in-disclaimer">
-            <h1 className="passion-one-font">By signing in you agree to our <a href="https://legal.strollthedice.com/privacy">Privacy Policy</a> and <a href="https://legal.strollthedice.com/terms">Terms & Conditions</a></h1>
-          </div> */}
+          <div id="sign-in-disclaimer">
+            <h1 className="passion-one-font">By signing in and continuing to use our services you are agreeing to our {privacyPolicyLink} and {termsAndConditionsLink} as well as our {cookiePolicyLink}.</h1>
+          </div>
         </ModalBody>
       </Modal>
     );

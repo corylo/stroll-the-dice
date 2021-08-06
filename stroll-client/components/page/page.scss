@@ -35,19 +35,6 @@
           width: 50px;
         }
 
-        .close-button {  
-          background-color: transparent;      
-          position: absolute;
-          right: 0px;
-          top: 0px;
-          
-          &:hover,
-          &:focus {
-            background-color: $themeMain;
-            color: white;
-          }
-        }
-
         h1 {
           color: white;
           font-size: 2em;

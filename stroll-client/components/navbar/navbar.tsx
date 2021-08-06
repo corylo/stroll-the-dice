@@ -21,26 +21,13 @@ export const Navbar: React.FC<NavbarProps> = (props: NavbarProps) => {
 
   const getNavbarItems = (): JSX.Element => {
     if(status === AppStatus.SignedIn && user) {
-      const getUserMenuButton = (): JSX.Element => {
-        if(user.profile.icon !== "") {
-          return (
-            <Button id="user-menu-button" className="signed-in" handleOnClick={() => dispatch(AppAction.ToggleMenu, !toggles.menu)}>
-              <ProfileIcon color={user.profile.color} icon={user.profile.icon} />
-            </Button>          
-          );
-        }
+      if(user.profile.icon !== "") {
+        return (
+          <Button id="user-menu-button" className="signed-in" handleOnClick={() => dispatch(AppAction.ToggleMenu, !toggles.menu)}>
+            <ProfileIcon color={user.profile.color} icon={user.profile.icon} />
+          </Button>          
+        );
       }
-
-      return (
-        <React.Fragment>
-          {getUserMenuButton()}
-          {/* <IconButton 
-            id="user-menu-button"
-            icon="far fa-ellipsis-h" 
-            handleOnClick={() => dispatch(AppAction.ToggleMenu, !toggles.menu)} 
-          /> */}
-        </React.Fragment>
-      )
     } else if (status === AppStatus.SignedOut) {
       return (
         <IconButton 

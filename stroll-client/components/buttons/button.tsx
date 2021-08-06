@@ -10,6 +10,7 @@ interface ButtonProps {
   disabled?: boolean;
   external?: boolean;
   id?: string;
+  newtab?: boolean;
   styles?: React.CSSProperties;
   tooltip?: string;
   tooltipSide?: TooltipSide;
@@ -40,6 +41,7 @@ export const Button: React.FC<ButtonProps> = (
           className={classNames("button link", props.className)} 
           href={props.url}
           style={getStyles()}
+          target={props.newtab ? "_blank" : "_self"}
           onClick={props.handleOnClick}
         >
           {props.children}

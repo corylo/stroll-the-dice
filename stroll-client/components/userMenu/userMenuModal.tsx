@@ -102,9 +102,9 @@ export const UserMenuModal: React.FC<UserMenuModalProps> = (props: UserMenuModal
         <div id="user-menu-content">
           {getUserInfo()}
           {getProfileButton()}
-          {/* <Button className="user-menu-item passion-one-font" url="https://legal.strollthedice.com" external>
+          <Button className="user-menu-item passion-one-font" url="https://legal.strollthedice.com" external newtab>
             Legal
-          </Button> */}
+          </Button>
           {getSignOutButton()}
         </div>
       </div>,

@@ -40,7 +40,7 @@
       color: white;
 
       a {
-        color: $themeMain;
+        color: $green;
         text-decoration: none;
 
         &:hover,
@@ -48,6 +48,14 @@
           text-decoration: underline;
         }
       }
+    }
+  }
+}
+
+@include phone-or-larger {
+  #sign-in-modal {
+    .modal-content-wrapper {
+      width: 540px;
     }
   }
 }
