@@ -11,7 +11,7 @@ export const LockGame: React.FC<LockGameProps> = (props: LockGameProps) => {
   return (
     <InputToggle
       className="lock-game-toggle"
-      description="Enabling this feature will prevents more players from joining. Games will lock automatically after the start time."
+      description="Enabling this feature will prevent more players from joining. Games will lock automatically after the start time."
       icon="fal fa-lock-alt"
       label="Lock Game"
       toggled={props.locked}
