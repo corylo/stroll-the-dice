@@ -126,9 +126,10 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props: ProfileFormProps)
         </InputWrapper>
         <InputWrapper
           id="name-input" 
-          label="Name (Optional)" 
+          label="Name" 
           maxLength={100}
           value={fields.name}
+          error={errors.name}
         >
           <input 
             type="text"

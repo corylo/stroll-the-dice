@@ -27,6 +27,11 @@ export const ProfileValidator: IProfileValidator = {
       errorCount++;
     }
 
+    if(fields.name.trim() === "") {
+      errors.name = FormError.MissingValue;
+      errorCount++;
+    }
+
     dispatch(ProfileFormAction.SetErrors, errors);
     
     return errorCount === 0;
