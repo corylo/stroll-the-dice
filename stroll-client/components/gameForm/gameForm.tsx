@@ -9,6 +9,7 @@ import { FormBodySection } from "../form/formBodySection";
 import { FormTitle } from "../form/formTitle";
 import { GameDayRequirement } from "../gameDayRequirement/gameDayRequirement";
 import { HourSelector } from "./components/hourSelector/hourSelector";
+import { InputToggle } from "../inputToggle/inputToggle";
 import { InputWrapper } from "../inputWrapper/inputWrapper";
 import { LockGame } from "./components/lockGame/lockGame";
 import { ModeSelector } from "./components/modeSelector/modeSelector";
@@ -32,7 +33,6 @@ import { GameDuration } from "../../../stroll-enums/gameDuration";
 import { GameFormAction } from "./enums/gameFormAction";
 import { GameMode } from "../../../stroll-enums/gameMode";
 import { GameStatus } from "../../../stroll-enums/gameStatus";
-import { InputToggle } from "../inputToggle/inputToggle";
 
 interface GameFormProps {  
   forwarding?: boolean;
@@ -59,6 +59,12 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
       dispatch(GameFormAction.SetStatus, FormStatus.InProgress);
     }
   }, [fields]);
+
+  useEffect(() => {
+    if(errors.gameDays === FormError.MissingValue && user.stats.gameDays.available >= fields.duration) {
+      dispatch(GameFormAction.SetErrors, { ...errors, gameDays: FormError.None });
+    }
+  }, [errors.gameDays, user.stats.gameDays.available]);
   
   const save = async (): Promise<void> => {
     if(
