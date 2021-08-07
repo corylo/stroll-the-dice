@@ -56,7 +56,7 @@ export const SignInModal: React.FC<SignInModalProps> = (props: SignInModalProps)
 
     return (
       <Modal id="sign-in-modal" priority>
-        <ModalTitle text="Sign In" handleOnClose={() => dispatch(AppAction.ToggleSignIn, false)} />
+        <ModalTitle text="Sign in with" handleOnClose={() => dispatch(AppAction.ToggleSignIn, false)} />
         <ModalBody>
           <div className="sign-in-buttons">
             <Button id="google-sign-in-button" className="sign-in-button" handleOnClick={handleSignInWithGoogle}>
