@@ -10,15 +10,15 @@ export interface IProfile {
   icon: Icon;
   id: string;
   name: string;
-  tracker?: StepTracker;
+  tracker: StepTracker;
   uid: string;
   updatedAt: firebase.firestore.FieldValue;
   username: string;
 }
 
 export const defaultProfile = (): IProfile => ({
-  createdAt: firebase.firestore.FieldValue.serverTimestamp(),
   color: Color.None,
+  createdAt: firebase.firestore.FieldValue.serverTimestamp(),
   icon: Icon.None,
   id: "",
   name: "",
