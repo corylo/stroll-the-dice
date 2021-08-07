@@ -58,8 +58,8 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props: ProfileFormProps)
         }
       } catch (err) {
         console.error(err);
-        
-        if(err.code === FirebaseErrorCode.PermissionDenied) {
+
+        if(props.profile.id !== "" && err.code === FirebaseErrorCode.PermissionDenied) {
           dispatch(ProfileFormAction.UpdatingProfileTooSoonError);
         } else {
           dispatch(ProfileFormAction.SetStatus, FormStatus.SubmitError);
