@@ -5,14 +5,14 @@
     grid-template-columns: repeat(auto-fill, minmax(40%, 1fr)); 
 
     .sign-in-button {
+      background: white;
       border: 1px solid rgba(white, 0.2);
       margin-top: 10px;
       width: 100%;
 
       &:hover,
       &:focus {
-        background: rgba(white, 0.5);
-        border-color: rgba(white, 0.5);
+        background: gray(230);
       }
 
       img {
