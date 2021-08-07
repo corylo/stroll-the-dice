@@ -21,7 +21,7 @@ interface IStepTrackerUtility {
 
 export const StepTrackerUtility: IStepTrackerUtility = {
   getAccessTokenRequestData: (code: string, origin: string): string => {
-    return `client_id=${config().google.fit.client_id}&client_secret=${config().google.fit.client_secret}&grant_type=authorization_code&redirect_uri=${encodeURIComponent(`${origin}/profile/connect/google-fit`)}&code=${code}`;
+    return `client_id=${config().google.oauth.client_id}&client_secret=${config().google.oauth.client_secret}&grant_type=authorization_code&redirect_uri=${encodeURIComponent(`${origin}/profile/connect/google-fit`)}&code=${code}`;
   },
   getAccessTokenRequestHeaders: (): any => {
     return {
@@ -39,7 +39,7 @@ export const StepTrackerUtility: IStepTrackerUtility = {
     }
   },
   getRefreshTokenRequestData: (refreshToken: string): string => {
-    return `client_id=${config().google.fit.client_id}&client_secret=${config().google.fit.client_secret}&grant_type=refresh_token&refresh_token=${refreshToken}`;
+    return `client_id=${config().google.oauth.client_id}&client_secret=${config().google.oauth.client_secret}&grant_type=refresh_token&refresh_token=${refreshToken}`;
   },
   getOAuthRevokeUrl: (tracker: StepTracker): string => {
     switch(tracker) {

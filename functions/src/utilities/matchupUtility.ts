@@ -11,7 +11,6 @@ import { IMatchupPairGroup } from "../../../stroll-models/matchupPairGroup";
 import { IMatchupPlayerReference } from "../../../stroll-models/matchupProfileReference";
 import { IMatchupSideStepUpdate } from "../../../stroll-models/matchupSideStepUpdate";
 import { IPlayer } from "../../../stroll-models/player";
-import { defaultProfileReference, IProfileReference } from "../../../stroll-models/profileReference";
 
 import { InitialValue } from "../../../stroll-enums/initialValue";
 import { MatchupLeader } from "../../../stroll-enums/matchupLeader";
@@ -234,7 +233,10 @@ export const MatchupUtility: IMatchupUtility = {
         const left: IPlayer = players.find((player: IPlayer) => player.index === pair.left - 1),
           right: IPlayer = players.find((player: IPlayer) => player.index === pair.right - 1);
 
-        matchups.push(MatchupUtility.mapCreate(left.id, right.id, group.day, getTotal(left.id, right.id)));
+        const leftID: string = left ? left.id : "",
+          rightID: string = right ? right.id : "";
+
+        matchups.push(MatchupUtility.mapCreate(leftID, rightID, group.day, getTotal(leftID, rightID)));
       });
     });
 
