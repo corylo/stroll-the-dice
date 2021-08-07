@@ -163,39 +163,41 @@ export const StepTrackerService: IStepTrackerService = {
     return res.data.access_token;
   },
   getStepCountUpdate: async (game: IGame, playerID: string, currentStepTotal: number): Promise<IMatchupSideStepUpdate> => {
-    const tracker: IStepTracker = await StepTrackerService.get(playerID);
+    if(playerID !== "") {
+      const tracker: IStepTracker = await StepTrackerService.get(playerID);
 
-    const update: IMatchupSideStepUpdate = {
-      id: playerID,
-      steps: currentStepTotal
-    }
-
-    try {
-      if(tracker && tracker.refreshToken !== "") {
-        const accessToken: string = await StepTrackerService.getAccessTokenFromRefreshToken(tracker.name, tracker.refreshToken);
-
-        const day: number = GameDurationUtility.getDay(game),
-          hasDayPassed: boolean = GameDurationUtility.hasDayPassed(game);
-
-        const res: any = await axios.post(
-          StepTrackerUtility.getStepDataRequestUrl(tracker.name), 
-          StepTrackerUtility.getStepDataRequestBody(tracker.name, game.startsAt, day, hasDayPassed),
-          StepTrackerUtility.getStepDataRequestHeaders(accessToken)
-        );
-
-        const newStepTotal: number = StepTrackerUtility.mapStepsFromResponse(res.data, currentStepTotal, hasDayPassed);
-
-        update.steps = newStepTotal - currentStepTotal;
-      } else {
-        throw new Error(`No tracker connected for user [${playerID}]`);
+      const update: IMatchupSideStepUpdate = {
+        id: playerID,
+        steps: currentStepTotal
       }
-    } catch (err) {
-      logger.error(err);
-      
-      update.steps = NumberUtility.random(0, 250);
-    }
 
-    return update;
+      try {
+        if(tracker && tracker.refreshToken !== "") {
+          const accessToken: string = await StepTrackerService.getAccessTokenFromRefreshToken(tracker.name, tracker.refreshToken);
+
+          const day: number = GameDurationUtility.getDay(game),
+            hasDayPassed: boolean = GameDurationUtility.hasDayPassed(game);
+
+          const res: any = await axios.post(
+            StepTrackerUtility.getStepDataRequestUrl(tracker.name), 
+            StepTrackerUtility.getStepDataRequestBody(tracker.name, game.startsAt, day, hasDayPassed),
+            StepTrackerUtility.getStepDataRequestHeaders(accessToken)
+          );
+
+          const newStepTotal: number = StepTrackerUtility.mapStepsFromResponse(res.data, currentStepTotal, hasDayPassed);
+
+          update.steps = newStepTotal - currentStepTotal;
+        } else {
+          throw new Error(`No tracker connected for user [${playerID}]`);
+        }
+      } catch (err) {
+        logger.error(err);
+        
+        update.steps = NumberUtility.random(0, 250);
+      }
+
+      return update;
+    }
   },  
   getStepCountUpdates: async (game: IGame, matchups: IMatchup[]): Promise<IMatchupSideStepUpdate[]> => {
     let updates: IMatchupSideStepUpdate[] = [];
