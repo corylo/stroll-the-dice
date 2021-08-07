@@ -38,7 +38,7 @@ export const AcceptInviteModal: React.FC<AcceptInviteModalProps> = (props: Accep
   const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
 
   const [status, setStatus] = useState<FormStatus>(FormStatus.InProgress),
-    [acceptedGiftDays, setAcceptedGiftDaysTo] = useState<boolean>(state.game.useMyGameDaysForJoiningPlayers);
+    [acceptedGiftDays, setAcceptedGiftDaysTo] = useState<boolean>(state.game.enableGiftDaysForJoiningPlayers);
 
   const { user } = appState;
 

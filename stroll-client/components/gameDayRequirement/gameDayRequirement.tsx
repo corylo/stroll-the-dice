@@ -20,7 +20,7 @@ export const GameDayRequirement: React.FC<GameDayRequirementProps> = (props: Gam
     if(props.game) {
       const costStatement: JSX.Element = <GameDayStatement quantity={props.game.duration} />
 
-      if(props.game.useMyGameDaysForJoiningPlayers) {
+      if(props.game.enableGiftDaysForJoiningPlayers) {
         return (
           <h1 className="passion-one-font">You are gifting {costStatement} to each player who joins. You currently have {availableStatement} available.</h1>
         );

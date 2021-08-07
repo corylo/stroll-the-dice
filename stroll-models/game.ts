@@ -30,6 +30,7 @@ export interface IGame {
   createdAt: firebase.firestore.FieldValue;
   creator: IProfileReference;  
   duration: GameDuration;
+  enableGiftDaysForJoiningPlayers: boolean;
   endsAt: firebase.firestore.FieldValue;
   error: GameError;
   id: string;  
@@ -42,7 +43,6 @@ export interface IGame {
   startsAt: firebase.firestore.FieldValue;
   status: GameStatus;
   updatedAt: firebase.firestore.FieldValue;
-  useMyGameDaysForJoiningPlayers: boolean;
 }
 
 export const defaultGame = (): IGame => ({
@@ -50,6 +50,7 @@ export const defaultGame = (): IGame => ({
   createdAt: firebase.firestore.FieldValue.serverTimestamp(),
   creator: defaultProfileReference(),  
   duration: GameDuration.None,
+  enableGiftDaysForJoiningPlayers: false,
   endsAt: null,
   error: GameError.None,
   id: "",
@@ -62,7 +63,6 @@ export const defaultGame = (): IGame => ({
   startsAt: firebase.firestore.FieldValue.serverTimestamp(),
   status: GameStatus.Upcoming,
   updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-  useMyGameDaysForJoiningPlayers: false
 });
 
 export const gameConverter: any = {
@@ -72,6 +72,7 @@ export const gameConverter: any = {
       createdAt: game.createdAt,
       creator: game.creator,
       duration: game.duration,
+      enableGiftDaysForJoiningPlayers: game.enableGiftDaysForJoiningPlayers,
       endsAt: game.endsAt,
       error: game.error,
       initializeProgressUpdateAt: game.initializeProgressUpdateAt,
@@ -82,8 +83,7 @@ export const gameConverter: any = {
       sortable: game.sortable,
       startsAt: game.startsAt,
       status: game.status,
-      updatedAt: game.updatedAt,
-      useMyGameDaysForJoiningPlayers: game.useMyGameDaysForJoiningPlayers
+      updatedAt: game.updatedAt
     }
   },
   fromFirestore(
@@ -96,6 +96,7 @@ export const gameConverter: any = {
       createdAt: data.createdAt,
       creator: data.creator,  
       duration: data.duration,    
+      enableGiftDaysForJoiningPlayers: data.enableGiftDaysForJoiningPlayers,
       endsAt: data.endsAt,
       error: data.error,
       id: snapshot.id,
@@ -107,8 +108,7 @@ export const gameConverter: any = {
       sortable: data.sortable,
       startsAt: data.startsAt,
       status: data.status,
-      updatedAt: data.updatedAt,
-      useMyGameDaysForJoiningPlayers: data.useMyGameDaysForJoiningPlayers
+      updatedAt: data.updatedAt
     }
   }
 }

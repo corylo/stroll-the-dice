@@ -31,7 +31,7 @@ export const GameFormUtility: IGameFormUtility = {
         game.name !== fields.name ||
         FirestoreDateUtility.timestampToDateInput(game.startsAt) !== fields.startsAt ||
         FirestoreDateUtility.timestampToDate(game.startsAt).getHours() !== fields.startsAtHour ||
-        game.useMyGameDaysForJoiningPlayers !== fields.useMyGameDaysForJoiningPlayers
+        game.enableGiftDaysForJoiningPlayers !== fields.enableGiftDaysForJoiningPlayers
       )
     }
 
@@ -72,7 +72,7 @@ export const GameFormUtility: IGameFormUtility = {
       startsAt,
       status: GameStatus.Upcoming,
       updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-      useMyGameDaysForJoiningPlayers: fields.useMyGameDaysForJoiningPlayers
+      enableGiftDaysForJoiningPlayers: fields.enableGiftDaysForJoiningPlayers
     }
   },
   mapInitialState: (game?: IGame): IGameFormState => {
@@ -87,7 +87,7 @@ export const GameFormUtility: IGameFormUtility = {
         name: game.name,
         startsAt: FirestoreDateUtility.timestampToDateInput(game.startsAt),
         startsAtHour: FirestoreDateUtility.timestampToDate(game.startsAt).getHours(),
-        useMyGameDaysForJoiningPlayers: game.useMyGameDaysForJoiningPlayers
+        enableGiftDaysForJoiningPlayers: game.enableGiftDaysForJoiningPlayers
       }
     }
 
@@ -99,6 +99,7 @@ export const GameFormUtility: IGameFormUtility = {
 
     return {
       endsAt,
+      enableGiftDaysForJoiningPlayers: fields.enableGiftDaysForJoiningPlayers,
       error: GameError.None,
       locked: fields.locked,      
       name: fields.name,
@@ -106,8 +107,7 @@ export const GameFormUtility: IGameFormUtility = {
         name: fields.name.toLowerCase(),
       },
       startsAt,
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-      useMyGameDaysForJoiningPlayers: fields.useMyGameDaysForJoiningPlayers
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     }
   }
 }

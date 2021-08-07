@@ -17,7 +17,7 @@ export const GameDayGiftingSection: React.FC<GameDayGiftingSectionProps> = (prop
 
   const { acceptingGift, setAcceptingGiftTo } = props;
 
-  if(state.game.useMyGameDaysForJoiningPlayers) {
+  if(state.game.enableGiftDaysForJoiningPlayers) {
     const getClasses = (selected: boolean): string => {
       return classNames(
         "game-day-gifting-acceptance-option", 

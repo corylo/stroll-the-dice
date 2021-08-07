@@ -9,6 +9,7 @@ import { GameStatus } from "../stroll-enums/gameStatus";
 
 export interface IGameUpdate {  
   duration?: GameDuration;
+  enableGiftDaysForJoiningPlayers?: boolean;
   endsAt?: firebase.firestore.FieldValue;
   error?: GameError;
   initializeProgressUpdateAt?: firebase.firestore.FieldValue;
@@ -20,5 +21,4 @@ export interface IGameUpdate {
   startsAt?: firebase.firestore.FieldValue;
   status?: GameStatus;
   updatedAt?: firebase.firestore.FieldValue;
-  useMyGameDaysForJoiningPlayers?: boolean;
 }
