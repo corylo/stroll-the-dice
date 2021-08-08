@@ -30,3 +30,11 @@
     }
   }
 }
+
+@include phone-or-larger {
+  #accept-invite-modal {
+    .modal-content-wrapper {
+      width: 540px;
+    }
+  }
+}
