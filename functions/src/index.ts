@@ -1,5 +1,6 @@
-import { firestore, https, pubsub } from "firebase-functions";
+import { auth, firestore, https, pubsub } from "firebase-functions";
 
+import { AuthService } from "./services/authService";
 import { GameService } from "./services/gameService";
 import { PaymentService } from "./services/paymentService";
 import { PlayerService } from "./services/playerService";
@@ -7,6 +8,11 @@ import { PredictionService } from "./services/predictionService";
 import { ProfileService } from "./services/profileService";
 import { ScheduleService } from "./services/scheduleService";
 import { StepTrackerService } from "./services/stepTrackerService";
+
+exports.onAuthUserDelete = auth.user()
+  .onDelete(AuthService.onAuthUserDelete);
+
+/* -- Firestore Event Listeners -- */
 
 exports.onProfileUpdate = firestore
   .document("profiles/{id}")

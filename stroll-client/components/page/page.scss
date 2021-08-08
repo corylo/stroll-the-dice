@@ -47,14 +47,11 @@
         z-index: 2;
     
         .page-message-content {
-          background-color: rgba(white, 0.1);
-          border: 1px solid rgba(white, 0.2);
-          border-radius: 6px;
           padding: 40px 10px;
 
           h1 {
-            color: rgba(white, 0.8);
-            font-size: 1.25em;
+            color: white;
+            font-size: 1.5em;
             text-align: center;
           }
       
