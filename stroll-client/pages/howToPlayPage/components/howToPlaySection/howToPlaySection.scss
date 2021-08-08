@@ -32,22 +32,14 @@
       .how-to-play-section-text {
         display: flex;
 
-        .how-to-play-section-text-border {
-          background-color: gray(40);
-          border-radius: 10px;
-          flex-shrink: 0;
-          width: 2px;
-        }
-
         .how-to-play-section-text-content {
-          background: linear-gradient(to right, rgba(white, 0.1), transparent);
+          background: linear-gradient(to right, rgba(black, 0.1), transparent);
           border-radius: 4px;
-          margin-left: 5px;
-          padding: 5px 10px;
+          padding: 10px;
           padding-right: 0px;
 
           p {            
-            color: gray(40);
+            color: white;
             font-size: 1.25em;
           }
         }
