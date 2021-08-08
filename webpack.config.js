@@ -30,6 +30,10 @@ const config = {
         {
           from: "stroll-client/img",
           to: "img"
+        },
+        {
+          from: "stroll-client/googleb8708be99dfba801.html",
+          to: "googleb8708be99dfba801.html"
         }
       ],
     })
