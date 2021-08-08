@@ -10,11 +10,15 @@ import { IProfileUpdate } from "../../../../stroll-models/profileUpdate";
 import { GameStatus } from "../../../../stroll-enums/gameStatus";
 
 interface IPlayerBatchService {
+  deletePlayerFromAllGames: () => Promise<void>;
   updateGameStatus: (batch: firebase.firestore.WriteBatch, players: IPlayer[], gameStatus: GameStatus) => void;
   updateProfile: (batch: firebase.firestore.WriteBatch, uid: string, update: IProfileUpdate) => Promise<void>;
 }
 
 export const PlayerBatchService: IPlayerBatchService = {
+  deletePlayerFromAllGames: async (): Promise<void> => {
+
+  },
   updateGameStatus: (batch: firebase.firestore.WriteBatch, players: IPlayer[], gameStatus: GameStatus): void => {
     players.forEach((player: IPlayer) => {      
       const playerRef: firebase.firestore.DocumentReference = db.collection("games")
