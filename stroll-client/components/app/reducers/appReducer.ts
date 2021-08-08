@@ -1,6 +1,7 @@
 import { IAction } from "../../../models/action";
 import { IAppState } from "../models/appState";
 import { defaultAppToggles } from "../models/appToggles";
+import { defaultUser } from "../../../models/user";
 
 import { AppAction } from "../../../enums/appAction";
 import { AppStatus } from "../../../enums/appStatus";
@@ -13,6 +14,23 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
       return {
         ...state,
         toggles: defaultAppToggles()
+      }
+    case AppAction.CompleteAccountDeletion:
+      return {
+        ...state,              
+        status: AppStatus.SignedOut,
+        statuses: {
+          ...state.statuses,
+          deleteAccount: {
+            ...state.statuses.deleteAccount,
+            is: RequestStatus.Success
+          }
+        },
+        toggles: {
+          ...state.toggles,
+          deleteAccount: false
+        },
+        user: defaultUser()
       }
     case AppAction.CompleteStepTrackerConnection:
       return {
@@ -43,6 +61,18 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
           }
         }
       } 
+    case AppAction.FailedAccountDeletion:
+      return {
+        ...state,              
+        statuses: {
+          ...state.statuses,
+          deleteAccount: {
+            ...state.statuses.deleteAccount,
+            is: RequestStatus.Error,
+            message: action.payload
+          }
+        }
+      }
     case AppAction.FailedStepTrackerConnection:
       return {
         ...state,              
@@ -58,6 +88,18 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
           profile: {
             ...state.user.profile,
             tracker: action.payload
+          }
+        }
+      }
+    case AppAction.InitiateAccountDeletion:
+      return {
+        ...state,              
+        statuses: {
+          ...state.statuses,
+          deleteAccount: {
+            ...state.statuses.deleteAccount,
+            is: RequestStatus.Loading,
+            message: ""
           }
         }
       }
@@ -176,6 +218,14 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
         toggles: {
           ...state.toggles,
           acceptInvite: action.payload
+        }
+      }
+    case AppAction.ToggleDeleteAccount:
+      return {
+        ...state,
+        toggles: {
+          ...state.toggles,
+          deleteAccount: action.payload
         }
       }
     case AppAction.ToggleUpdateProfile:

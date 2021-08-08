@@ -81,22 +81,15 @@
         padding: 15px 10px;
 
         &.success {
-          background-color: rgba($green, 0.15);
-
-          h1 {
-            color: $green;
-          }
+          background-color: rgba($green, 0.8);
         }
 
         &.error {
-          background-color: rgba($red, 0.15);
-
-          h1 {
-            color: $red;
-          }
+          background-color: rgba($red, 0.8);
         }
 
         h1 {
+          color: white;
           font-size: 1.1em;
           font-weight: 400;
         }

@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 
+import { Button } from "../../components/buttons/button";
 import { Page } from "../../components/page/page";
 import { ProfileHeader } from "../../components/profileHeader/profileHeader";
 import { ProfilePageSection } from "./components/profilePageSection/profilePageSection";
@@ -33,6 +34,22 @@ export const ProfilePage: React.FC<ProfilePageProps> = (props: ProfilePageProps)
       return (
         <React.Fragment>
           <ProfileHeader profile={user.profile} />
+          <ProfilePageSection icon={Icon.User} title="Action Center">
+            <Button
+              className="action-center-button fancy-button"
+              handleOnClick={() => dispatch(AppAction.ToggleUpdateProfile, true)} 
+            >
+              <i className="fal fa-pencil" />
+              <h1 className="passion-one-font">Edit Profile</h1>
+            </Button>
+            <Button
+              className="action-center-button fancy-button red"
+              handleOnClick={() => dispatch(AppAction.ToggleDeleteAccount, true)} 
+            >
+              <i className="far fa-trash-alt" />
+              <h1 className="passion-one-font">Delete Account Forever</h1>
+            </Button>
+          </ProfilePageSection>
           <ProfilePageSection icon={Icon.Steps} title="Step Trackers">
             <StepTrackerHub />
           </ProfilePageSection>

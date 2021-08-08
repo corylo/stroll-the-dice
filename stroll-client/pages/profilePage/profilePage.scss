@@ -1,2 +1,12 @@
 @import "./components/profilePageSection/profilePageSection.scss";
 @import "./components/stepTrackerHub/stepTrackerHub.scss";
+
+#profile-page {
+  .action-center-button {
+    width: 100%;
+
+    &:nth-of-type(n + 2) {
+      margin-top: 10px;
+    }
+  }
+}

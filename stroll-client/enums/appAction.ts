@@ -1,8 +1,11 @@
 export enum AppAction {  
   CloseModals = "Close Modals",
+  CompleteAccountDeletion = "Complete Account Deletion",
   CompleteStepTrackerConnection = "Complete Step Tracker Connection",
   CompleteStepTrackerDisconnection = "Complete Step Tracker Disconnection",
+  FailedAccountDeletion = "Failed Account Deletion",
   FailedStepTrackerConnection = "Failed Step Tracker Connection",
+  InitiateAccountDeletion = "Initiate Account Deletion",
   InitiateSignOut = "Initiate Sign Out",
   InitiateStepTrackerConnection = "Initiate Step Tracker Connection",
   InitiateStepTrackerDisconnection = "Initiate Step Tracker Disconnection",  
@@ -14,6 +17,7 @@ export enum AppAction {
   SignInUser = "Sign In User",
   SignInUserForFirstTime = "Sign In User For First Time",
   ToggleAcceptInvite = "Toggle Accept Invite",
+  ToggleDeleteAccount = "Toggle Delete Account",
   ToggleUpdateProfile = "Toggle Update Profile",
   ToggleMenu = "Toggle Menu",
   ToggleSignIn = "Toggle Sign In"

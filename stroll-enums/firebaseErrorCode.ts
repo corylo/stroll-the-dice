@@ -1,3 +1,4 @@
 export enum FirebaseErrorCode {
-  PermissionDenied = "permission-denied"
+  PermissionDenied = "permission-denied",
+  RequiresRecentLogin = "auth/requires-recent-login"
 }

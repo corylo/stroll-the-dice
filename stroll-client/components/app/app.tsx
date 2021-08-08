@@ -3,6 +3,7 @@ import { Route, Switch, useLocation } from "react-router";
 
 import { CreateGamePage } from "../../pages/createGamePage/createGamePage";
 import { GamePage } from "../../pages/gamePage/gamePage";
+import { GoodbyePage } from "../../pages/goodbyePage/goodbyePage";
 import { HomePage } from "../../pages/homePage/homePage";
 import { HowToPlayPage } from "../../pages/howToPlayPage/howToPlayPage";
 import { MyGamesPage } from "../../pages/myGamesPage/myGamesPage";
@@ -11,6 +12,7 @@ import { ProfilePage } from "../../pages/profilePage/profilePage";
 import { ShopPage } from "../../pages/shopPage/shopPage";
 import { UserPage } from "../../pages/userPage/userPage";
 
+import { DeleteAccountModal } from "../deleteAccountModal/deleteAccountModal";
 import { Nav } from "../nav/nav";
 import { Navbar } from "../navbar/navbar";
 import { SignInModal } from "../signInModal/signInModal";
@@ -53,6 +55,7 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
         <SignInModal />
         <UserMenuModal />
         <UpdateProfileModal />
+        <DeleteAccountModal />
         <Switch>
           <Route exact path="/">
             <HomePage />
@@ -80,6 +83,9 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
           </Route>
           <Route exact path="/huh">
             <HowToPlayPage />
+          </Route>
+          <Route exact path="/goodbye">
+            <GoodbyePage />
           </Route>
         </Switch>
       </div>

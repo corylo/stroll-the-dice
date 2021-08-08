@@ -1,0 +1,21 @@
+#goodbye-page {
+  .goodbye-title,
+  .goodbye-subtitle,
+  .goodbye-text {
+    color: white;
+    text-align: center;
+  }
+
+  .goodbye-title {
+    font-size: 3em;
+  }
+
+  .goodbye-subtitle {
+    font-size: 2em;
+    margin-top: 20px;
+  }
+
+  .goodbye-text {
+    font-size: 1.25em;
+  }
+}
