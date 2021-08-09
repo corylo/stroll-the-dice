@@ -18,7 +18,7 @@ export const Nav: React.FC<NavProps> = (props: NavProps) => {
         <NavMenuButton icon="fal fa-plus" label="Create Game" to="/create" />
         <NavMenuButton icon="far fa-store" label="Shop" to="/shop" />
         <NavMenuButton icon="far fa-bell" label="Notifications" to="/notifications" />
-        <NavMenuButton icon="far fa-question" label="How To Play" to="/huh" />
+        <NavMenuButton icon="far fa-question" label="How To Play" to="/how-to-play" />
       </div>
     )
   }
@@ -30,7 +30,7 @@ export const Nav: React.FC<NavProps> = (props: NavProps) => {
         <NavMenuButton icon="far fa-store" label="Shop" to="/shop" />
         <NavMenuButton center icon="far fa-home" label="Home" to="/" />
         <NavMenuButton icon="far fa-bell" label="Notifications" to="/notifications" />
-        <NavMenuButton icon="far fa-question" label="How To Play" to="/huh" />
+        <NavMenuButton icon="far fa-question" label="How To Play" to="/how-to-play" />
       </div>
     )
   }

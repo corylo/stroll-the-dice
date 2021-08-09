@@ -2,6 +2,7 @@ import React from "react";
 
 interface HowToPlaySectionProps {
   children?: any;
+  id?: string;
   title?: string;
 }
 
@@ -27,7 +28,7 @@ export const HowToPlaySection: React.FC<HowToPlaySectionProps> = (props: HowToPl
     }
   }
   return(
-    <div className="how-to-play-section">     
+    <div id={props.id} className="how-to-play-section">     
       {getTitle()}
       {getContent()}
     </div>

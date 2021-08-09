@@ -1,20 +1,24 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 import { Button } from "../../components/buttons/button";
 import { HowToPlaySection } from "./components/howToPlaySection/howToPlaySection";
 import { HowToPlaySectionText } from "./components/howToPlaySection/howToPlaySectionText";
 import { HowToPlaySubSection } from "./components/howToPlaySection/howToPlaySubSection";
+import { HowToPlaySummary } from "../../components/howToPlaySummary/howToPlaySummary";
 import { IconStatement } from "../../components/iconStatement/iconStatement";
 import { Matchup } from "../gamePage/components/matchup/matchup";
 import { Page } from "../../components/page/page";
 import { PageTitle } from "../../components/page/pageTitle";
 
+import { AppContext } from "../../components/app/contexts/appContext";
 import { GamePageContext } from "../gamePage/gamePage";
 
 import { HowToPlayUtility } from "./utilities/howToPlayUtility";
 
 import { defaultGamePageState } from "../gamePage/models/gamePageState";
 
+import { AppStatus } from "../../enums/appStatus";
 import { Icon } from "../../../stroll-enums/icon";
 
 interface HowToPlayPageProps {
@@ -22,6 +26,23 @@ interface HowToPlayPageProps {
 }
 
 export const HowToPlayPage: React.FC<HowToPlayPageProps> = (props: HowToPlayPageProps) => { 
+  const { appState } = useContext(AppContext);
+
+  const location: any = useLocation();
+
+  useEffect(() => {
+    if(location.hash && appState.status !== AppStatus.Loading) {   
+      setTimeout(() => {
+        const id: string = location.hash.split("#")[1],
+          element: HTMLElement = document.getElementById(id);
+        console.log(element)
+        if(element) {
+          element.scrollIntoView();
+        }
+      }, 500);
+    }
+  }, [appState.status]);
+
   const getExampleMatchup = (): JSX.Element => {
     return (      
       <GamePageContext.Provider value={{ state: defaultGamePageState(), setState: () => {}}}>
@@ -34,12 +55,10 @@ export const HowToPlayPage: React.FC<HowToPlayPageProps> = (props: HowToPlayPage
 
   return(
     <Page id="how-to-play-page" backgroundGraphic="">     
-      <PageTitle text="Huh?" />
+      <PageTitle text="How To Play" />
       <div className="how-to-play-page-sections">
-        <HowToPlaySection title="What is this?">
-          <HowToPlaySectionText text="Stroll The Dice is the combination of a stepping (walking / running) competition and a prediction game rolled into one." />
-        </HowToPlaySection>
-        <HowToPlaySection title="What is the goal of the game?">
+        <HowToPlaySummary />
+        <HowToPlaySection id="goal" title="What is the goal of the game?">
           <HowToPlaySectionText text="Ultimately, your goal as a player is to have the most points at the end of the game." />
           <HowToPlaySectionText text="You are not only trying to gain points through stepping, but also attempting to gain additional points by predicting how well your fellow competitors will do against each other." />
         </HowToPlaySection>

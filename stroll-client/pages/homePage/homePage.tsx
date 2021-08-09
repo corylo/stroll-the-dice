@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 
 import { Button } from "../../components/buttons/button";
 import { GameGroup } from "../../components/gameGroup/gameGroup";
-import { HomePagePanel } from "./components/homePagePanel/homePagePanel";
+import { HowToPlaySummary } from "../../components/howToPlaySummary/howToPlaySummary";
 import { Page } from "../../components/page/page";
 
 import { AppContext } from "../../components/app/contexts/appContext";
@@ -34,33 +34,13 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
     } else {
       return (
         <div className="signed-out-content">
-          <HomePagePanel
-            image="/img/cyclist.png"            
-            text="Stroll The Dice is the combination of a stepping competition and a prediction game rolled into one."
-            title="Strolling or rolling, just get going"
-          />
-          <HomePagePanel
-            image="/img/matchup.png"            
-            right
-            text="Games last between 1 and 7 days with different matchups each day. Earn points by taking steps and beating your competitor."
-            title="Get matched up head to head against your friends"
-          />
-          <HomePagePanel
-            image="/img/dice.png"                        
-            text="Each player starts with 10,000 points to use for guessing matchup outcomes."
-            title="Earn additional points by predicting matchup winners"
-          />
-          <HomePagePanel
-            image="/img/winner.png"
-            right
-            title="Have the most points at the end of the game and you win!"
-          />
+          <HowToPlaySummary />
           <Button className="sign-in-link" handleOnClick={() => dispatch(AppAction.ToggleSignIn, true)}>
             <i className="fad fa-sign-in" />
             <h1 className="passion-one-font">Sign in to get started</h1>
           </Button>
           <h1 className="link-divider passion-one-font">Or</h1>
-          <Button className="how-to-play-link" url="/huh">
+          <Button className="how-to-play-link" url="/how-to-play#goal">
             <i className="far fa-question" />
             <h1 className="passion-one-font">Learn more</h1>
           </Button>

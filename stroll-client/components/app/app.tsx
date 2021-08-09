@@ -39,7 +39,7 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
 
   const location: any = useLocation();
 
-  useScrollToTopEffect(location);
+  // useScrollToTopEffect(location);
 
   useCloseModalsEffect(location, appState, dispatch);
 
@@ -81,7 +81,7 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
           <Route exact path="/shop">
             <ShopPage />
           </Route>
-          <Route exact path="/huh">
+          <Route exact path="/how-to-play">
             <HowToPlayPage />
           </Route>
           <Route exact path="/goodbye">

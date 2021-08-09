@@ -1,6 +1,10 @@
 @import "./components/howToPlaySection/howToPlaySection.scss";
 
 #how-to-play-page {
+  .page-content-wrapper {
+    animation: none;
+  }
+
   .example-game-matchup {
     border: 1px solid rgba(white, 0.25);
     border-radius: 10px;

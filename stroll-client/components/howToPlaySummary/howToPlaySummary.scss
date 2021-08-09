@@ -1,9 +1,9 @@
-.home-page-panel-wrapper {
+.how-to-play-summary-panel-wrapper {
   &:nth-of-type(n + 2) {
     margin-top: 80px;
   }
 
-  .home-page-panel {   
+  .how-to-play-summary-panel {   
     align-items: center;
     display: flex;
 
@@ -15,17 +15,17 @@
       display: none;
     }
   
-    .home-page-panel-image {
+    .how-to-play-summary-panel-image {
       height: 300px;
     }
 
-    .home-page-panel-content {   
-      .home-page-panel-title {
+    .how-to-play-summary-panel-content {   
+      .how-to-play-summary-panel-title {
         color: white;
         font-size: 3em;
       }
 
-      .home-page-panel-text {
+      .how-to-play-summary-panel-text {
         color: white;
         font-size: 1.25em;
         margin-top: 10px;
@@ -35,8 +35,8 @@
 }
 
 @include small-tablet-or-smaller {
-  .home-page-panel-wrapper {
-    .home-page-panel {   
+  .how-to-play-summary-panel-wrapper {
+    .how-to-play-summary-panel {   
       flex-direction: column;
       margin: auto;
       max-width: 500px;
@@ -55,12 +55,12 @@
         display: none;
       }
       
-      .home-page-panel-image {
+      .how-to-play-summary-panel-image {
         height: 200px;
       }
 
-      .home-page-panel-content {   
-        .home-page-panel-title {
+      .how-to-play-summary-panel-content {   
+        .how-to-play-summary-panel-title {
           font-size: 2em;
         }
       }
