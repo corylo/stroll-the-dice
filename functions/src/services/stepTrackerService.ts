@@ -24,6 +24,7 @@ interface IStepTrackerService {
   getAccessTokenFromRefreshToken: (tracker: StepTracker, refreshToken: string) => Promise<string>;
   getStepCountUpdate: (game: IGame, playerID: string, steps: number) => Promise<IMatchupSideStepUpdate>;
   getStepCountUpdates: (game: IGame, matchups: IMatchup[]) => Promise<IMatchupSideStepUpdate[]>;
+  preauthorizedDisconnectStepTracker: (uid: string) => Promise<void>;
 }
 
 export const StepTrackerService: IStepTrackerService = {
@@ -82,46 +83,7 @@ export const StepTrackerService: IStepTrackerService = {
   },
   disconnectStepTracker: async (data: any, context: https.CallableContext): Promise<void> => {
     if(context.auth !== null) {
-      const userID: string = context.auth.uid;
-
-      logger.info(`Disconnecting step tracker for user [${userID}]`);
-      
-      try {
-        const tracker: IStepTracker = await StepTrackerService.get(userID);
-
-        if(tracker) {
-          await axios.post(
-            `${StepTrackerUtility.getOAuthRevokeUrl(tracker.name)}${tracker.refreshToken}`,
-            {},
-            StepTrackerUtility.getAccessTokenRequestHeaders()
-          );
-
-          const batch: firebase.firestore.WriteBatch = db.batch();
-
-          const profileRef: firebase.firestore.DocumentReference = db.collection("profiles")
-            .doc(userID);
-
-          batch.update(profileRef, { tracker: "" });
-
-          const trackerRef: firebase.firestore.DocumentReference = db.collection("profiles")
-            .doc(userID)
-            .collection("trackers")
-            .doc(tracker.name);
-
-          batch.delete(trackerRef);
-            
-          await batch.commit();
-        } else {
-          throw new Error(`Tracker for user [${context.auth.uid}] does not exist`);
-        }
-      } catch (err) {
-        logger.error(err);
-    
-        throw new https.HttpsError(
-          "internal",
-          "Disconnecting of step tracker failed due to an internal error."
-        );
-      }
+      await StepTrackerService.preauthorizedDisconnectStepTracker(context.auth.uid);
     } else {
       throw new https.HttpsError(
         "permission-denied",
@@ -215,5 +177,49 @@ export const StepTrackerService: IStepTrackerService = {
     }
 
     return updates;
+  },
+  preauthorizedDisconnectStepTracker: async (uid: string): Promise<void> => {
+    logger.info(`Disconnecting step tracker for user [${uid}]`);
+    
+    try {
+      const tracker: IStepTracker = await StepTrackerService.get(uid);
+
+      if(tracker) {
+        try {
+          await axios.post(
+            `${StepTrackerUtility.getOAuthRevokeUrl(tracker.name)}${tracker.refreshToken}`,
+            {},
+            StepTrackerUtility.getAccessTokenRequestHeaders()
+          );
+        } catch (err) {
+          logger.error(`Revoking of OAuth access failed for user [${uid}]`);
+        }
+
+        const batch: firebase.firestore.WriteBatch = db.batch();
+
+        const profileRef: firebase.firestore.DocumentReference = db.collection("profiles")
+          .doc(uid);
+
+        batch.update(profileRef, { tracker: "" });
+
+        const trackerRef: firebase.firestore.DocumentReference = db.collection("profiles")
+          .doc(uid)
+          .collection("trackers")
+          .doc(tracker.name);
+
+        batch.delete(trackerRef);
+          
+        await batch.commit();
+      } else {
+        throw new Error(`Tracker for user [${uid}] does not exist`);
+      }
+    } catch (err) {
+      logger.error(err);
+  
+      throw new https.HttpsError(
+        "internal",
+        "Disconnecting of step tracker failed due to an internal error."
+      );
+    }
   }
 }

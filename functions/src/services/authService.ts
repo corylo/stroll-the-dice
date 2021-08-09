@@ -3,6 +3,7 @@ import { auth, logger } from "firebase-functions";
 import { GameBatchService } from "./batch/gameBatchService";
 import { PlayerBatchService } from "./batch/playerBatchService";
 import { ProfileBatchService } from "./batch/profileBatchService";
+import { StepTrackerService } from "./stepTrackerService";
 
 interface IAuthService {
   onAuthUserDelete: (user: auth.UserRecord) => Promise<void>;
@@ -16,6 +17,8 @@ export const AuthService: IAuthService = {
       await GameBatchService.deleteCreatorFromAllGames(user.uid);
 
       await PlayerBatchService.deletePlayerFromAllGames(user.uid);
+      
+      await StepTrackerService.preauthorizedDisconnectStepTracker(user.uid);
     } catch(err) {
       logger.error(err);
 
