@@ -164,8 +164,6 @@ export const StepTrackerService: IStepTrackerService = {
           logger.error(`Disconnecting of step tracker failed for user [${playerID}].`);
         }
       }
-    } else {
-      logger.error(`No tracker connected for user [${playerID}]`);
     }
 
     return update;
