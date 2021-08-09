@@ -104,7 +104,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
         }
 
         const getMatchupGroups = (): JSX.Element[] => {                    
-          if(game.error !== GameError.PlayerMinimumNotMet) { 
+          if(game.error === GameError.None) { 
             const max: number = getMaxDay();
             
             const matchupGroups: JSX.Element[] = [];
