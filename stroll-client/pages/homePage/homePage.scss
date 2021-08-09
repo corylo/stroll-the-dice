@@ -1,5 +1,20 @@
+@import "./components/homePagePanel/homePagePanel.scss";
+
 #home-page {
-  .sign-in-message {
-    font-size: 2em;
+  .how-to-play-link {
+    border: 1px solid rgba(white, 0.25);
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    padding: 20px;
+
+    i, h1 {
+      color: white;
+      font-size: 3em;
+    }
+
+    h1 {
+      margin-left: 20px;
+    }
   }
 }
