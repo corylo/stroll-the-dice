@@ -136,7 +136,7 @@ export const StepTrackerService: IStepTrackerService = {
 
     const update: IMatchupSideStepUpdate = {
       id: playerID,
-      steps: currentStepTotal
+      steps: 0
     }
 
     if(tracker && tracker.refreshToken !== "") {

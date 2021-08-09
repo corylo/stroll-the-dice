@@ -23,7 +23,6 @@ import { IPlayer } from "../../../../stroll-models/player";
 import { IPlayerDayCompletedSummaryEvent } from "../../../../stroll-models/gameEvent/playerDayCompletedSummaryEvent";
 import { IPlayerEarnedPointsFromStepsEvent } from "../../../../stroll-models/gameEvent/playerEarnedPointsFromStepsEvent";
 import { IPrediction } from "../../../../stroll-models/prediction";
-import { defaultProfileReference } from "../../../../stroll-models/profileReference";
 
 import { InitialValue } from "../../../../stroll-enums/initialValue";
 
