@@ -9,6 +9,7 @@ import { AppContext } from "../../components/app/contexts/appContext";
 
 import { ImageUtility } from "../../utilities/imageUtility";
 
+import { AppAction } from "../../enums/appAction";
 import { AppStatus } from "../../enums/appStatus";
 import { GameStatus } from "../../../stroll-enums/gameStatus";
 
@@ -17,7 +18,9 @@ interface HomePageProps {
 }
 
 export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
-  const { appState } = useContext(AppContext);
+  const { appState, dispatchToApp } = useContext(AppContext);
+
+  const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
 
   const getContent = (): JSX.Element => {
     if(appState.status === AppStatus.SignedIn) {
@@ -52,9 +55,14 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
             right
             title="Have the most points at the end of the game and you win!"
           />
+          <Button className="sign-in-link" handleOnClick={() => dispatch(AppAction.ToggleSignIn, true)}>
+            <i className="fad fa-sign-in" />
+            <h1 className="passion-one-font">Sign in to get started</h1>
+          </Button>
+          <h1 className="link-divider passion-one-font">Or</h1>
           <Button className="how-to-play-link" url="/huh">
             <i className="far fa-question" />
-            <h1 className="passion-one-font">How To Play</h1>
+            <h1 className="passion-one-font">Learn more</h1>
           </Button>
         </div>
       )

@@ -34,7 +34,7 @@ export const Navbar: React.FC<NavbarProps> = (props: NavbarProps) => {
           id="sign-in-button" 
           className="fancy-button"
           icon="fad fa-sign-in"          
-          handleOnClick={() => dispatch(AppAction.ToggleSignIn, !toggles.signIn)} 
+          handleOnClick={() => dispatch(AppAction.ToggleSignIn, true)} 
         />        
       )
     }
