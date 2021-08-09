@@ -86,11 +86,12 @@ export const gameFormReducer = (state: IGameFormState, action: IAction): IGameFo
       ) {
         updatedErrors.startsAt = FormError.None;
 
-        if(withinDaysLower && withinTimeLower) {
-          updatedErrors.startsAtHour = FormError.None;
-        }
       }
 
+      if(withinTimeLower) {
+        updatedErrors.startsAtHour = FormError.None;
+      }
+      
       return {
         ...state,
         fields: {
