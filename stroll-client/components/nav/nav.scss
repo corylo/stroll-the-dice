@@ -135,6 +135,17 @@
               top: -15px;
               transform: translateX(-50%);
               width: 60px;
+
+              &.active {
+                i {
+                  background-color: rgba(white, 0.1);
+                }
+              }
+
+              i {
+                border-radius: 100px;
+                padding: 5px;
+              }
             }
           }
 
