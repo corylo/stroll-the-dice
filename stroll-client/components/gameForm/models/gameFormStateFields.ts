@@ -1,4 +1,4 @@
-import { DateUtility } from "../../../../stroll-utilities/dateUtility";
+import { GameFormUtility } from "../utilities/gameFormUtility";
 
 import { GameDuration } from "../../../../stroll-enums/gameDuration";
 import { GameMode } from "../../../../stroll-enums/gameMode";
@@ -19,6 +19,6 @@ export const defaultGameFormStateFields = (): IGameFormStateFields => ({
   locked: false,
   mode: GameMode.Singles,
   name: "",
-  startsAt: DateUtility.dateToInput(new Date()),
-  startsAtHour: new Date().getHours() + 1
+  startsAt: GameFormUtility.getStartsAt(),
+  startsAtHour: GameFormUtility.getStartsAtHour()
 });

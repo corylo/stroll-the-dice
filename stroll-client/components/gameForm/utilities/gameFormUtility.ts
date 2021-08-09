@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 
+import { DateUtility } from "../../../../stroll-utilities/dateUtility";
 import { FirestoreDateUtility } from "../../../../stroll-utilities/firestoreDateUtility";
 import { GameDurationUtility } from "../../../../stroll-utilities/gameDurationUtility";
 import { Nano } from "../../../../stroll-utilities/nanoUtility";
@@ -14,6 +15,8 @@ import { GameError } from "../../../../stroll-enums/gameError";
 import { GameStatus } from "../../../../stroll-enums/gameStatus";
 
 interface IGameFormUtility {
+  getStartsAt: () => string;
+  getStartsAtHour: () => number;
   hasChanged: (game: IGame, fields: IGameFormStateFields) => boolean;
   isValidGameStatus: (gameStatus: GameStatus) => boolean;
   mapCreate: (fields: IGameFormStateFields, user: IUser) => IGame;
@@ -22,6 +25,28 @@ interface IGameFormUtility {
 }
 
 export const GameFormUtility: IGameFormUtility = {
+  getStartsAt: (): string => {
+    const date: Date = new Date();
+
+    const isTomorrowWithinAnHour: boolean = date.getHours() + 1 === 24;
+
+    if(isTomorrowWithinAnHour) {
+      date.setDate(date.getDate() + 1);
+    }
+
+    return DateUtility.dateToInput(date);
+  },
+  getStartsAtHour: (): number => {
+    const date: Date = new Date();
+
+    const isTomorrowWithinAnHour: boolean = date.getHours() + 1 === 24;
+
+    if(isTomorrowWithinAnHour) {
+      return 0;
+    }
+
+    return new Date().getHours() + 1;
+  },
   hasChanged: (game: IGame, fields: IGameFormStateFields): boolean => {
     if(game) {
       return (
