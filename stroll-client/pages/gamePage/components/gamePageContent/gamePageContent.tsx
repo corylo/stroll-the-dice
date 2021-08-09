@@ -122,7 +122,8 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
         const getDidNotMeetMinimumPlayerRequirementMessage = (): JSX.Element => {
           if(game.error === GameError.PlayerMinimumNotMet) {        
             return (          
-              <EmptyMessage                 
+              <EmptyMessage      
+                className="game-not-started-message"           
                 text="This game did not meet the minimum player requirement of 4. Please adjust the start date or time and then invite more players." 
                 title="Game Not Started!"
               /> 
@@ -135,9 +136,11 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
             {getMinimumPlayerRequirementMessage()}
             <StartingSoonMessage 
               limit={59} 
+              error={game.error}
               startsAt={game.startsAt}                 
               status={game.status}
             />
+            {getDidNotMeetMinimumPlayerRequirementMessage()}
             <Leaderboard 
               id="game-page-content-leaderboard"
               limit={4}
@@ -145,7 +148,6 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
               gameStatus={game.status} 
               toggleView={() => toggle({ players: true })}
             />
-            {getDidNotMeetMinimumPlayerRequirementMessage()}
             {getMatchupGroups()}
           </React.Fragment>
         )
