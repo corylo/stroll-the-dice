@@ -34,17 +34,20 @@
       background-color: rgba(white, 0.1);
       border: 1px solid rgba(white, 0.25);  
       border-radius: 6px;
-      display: inline-block;
+      display: inline-flex;
       padding: 10px;
 
       .minimum-player-requirement-message {
+        margin-right: 10px;
+        white-space: normal;
+
         h1 {
           color: white;
         }
       }
 
       .game-action-button {
-        margin-left: 10px;
+        display: inline-block;
         margin-right: 0px;
       }
     }

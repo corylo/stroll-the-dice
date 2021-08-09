@@ -6,6 +6,7 @@ import { EventHistoryToggle } from "../eventHistory/eventHistoryToggle/eventHist
 import { GameActions } from "../gameActions/gameActions";
 import { GameDateStatus } from "../../../../components/gameDateStatus/gameDateStatus";
 import { GameDetails } from "../../../../components/gameDetails/gameDetails";
+import { IconButton } from "../../../../components/buttons/iconButton";
 import { InvitePlayersModal } from "../invitePlayersModal/invitePlayersModal";
 import { Label } from "../../../../components/label/label";
 import { Leaderboard } from "../../../../components/leaderboard/leaderboard";
@@ -25,10 +26,9 @@ import { FirestoreDateUtility } from "../../../../../stroll-utilities/firestoreD
 
 import { AppAction } from "../../../../enums/appAction";
 import { AppStatus } from "../../../../enums/appStatus";
+import { GameError } from "../../../../../stroll-enums/gameError";
 import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
-import { IconButton } from "../../../../components/buttons/iconButton";
-import { GameError } from "../../../../../stroll-enums/gameError";
 
 interface GamePageContentProps {
   
@@ -89,15 +89,17 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
                   className="minimum-player-requirement-message"
                   icon="fal fa-info-circle"
                   text="Minimum of 4 players required"
-                />                
-                <IconButton
-                  key="invite"
-                  className="game-action-button"
-                  icon="fal fa-user-plus" 
-                  tooltip="Invite"
-                  tooltipSide={TooltipSide.Bottom}
-                  handleOnClick={() => toggle({ invite: true })} 
-                />
+                />               
+                <div className="game-action-button-wrapper"> 
+                  <IconButton
+                    key="invite"
+                    className="game-action-button"
+                    icon="fal fa-user-plus" 
+                    tooltip="Invite"
+                    tooltipSide={TooltipSide.Bottom}
+                    handleOnClick={() => toggle({ invite: true })} 
+                  />
+                </div>
               </div>
             )
           }

@@ -2,11 +2,14 @@ import React, { useContext, useState } from "react";
 import firebase from "firebase/app";
 
 import { Button } from "../../../../components/buttons/button";
+import { IconButton } from "../../../../components/buttons/iconButton";
+import { Label } from "../../../../components/label/label";
 import { MatchupSides } from "../matchupSides/matchupSides";
 import { MyPrediction } from "../myPrediction/myPrediction";
 import { PredictionModal } from "../predictionModal/predictionModal";
 import { UpdateTimer } from "../../../../components/updateTimer/updateTimer";
 
+import { AppContext } from "../../../../components/app/contexts/appContext";
 import { GamePageContext } from "../../gamePage";
 
 import { FirestoreDateUtility } from "../../../../../stroll-utilities/firestoreDateUtility";
@@ -21,7 +24,10 @@ interface MatchupProps {
 }
 
 export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => { 
-  const { state } = useContext(GamePageContext);
+  const { appState } = useContext(AppContext),
+    { state } = useContext(GamePageContext);
+
+  const { user } = appState;
 
   const { matchup, predictions } = props;
 
@@ -48,6 +54,30 @@ export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => {
           matchup={matchup} 
           myPrediction={myPrediction} 
         />
+      )
+    }
+  }
+
+  const getNoTrackerConnectedMessage = (): JSX.Element => {
+    if(
+      (matchup.left.playerID === user.profile.uid || matchup.right.playerID === user.profile.uid) &&
+      user.profile.tracker === ""
+    ) {
+      return (
+        <div className="no-tracker-connected-message-wrapper">
+          <Label
+            className="no-tracker-connected-message"
+            icon="fal fa-exclamation-triangle"
+            text="Your step tracker isn't connected"
+          />
+          <div className="game-action-button-wrapper">
+            <IconButton
+              className="game-action-button"
+              icon="fal fa-arrow-right" 
+              url="/profile"
+            />
+          </div>                
+        </div>
       )
     }
   }
@@ -102,6 +132,7 @@ export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => {
     <div className="game-matchup">
       {getUpdateTimer()}
       <MatchupSides matchup={matchup} />
+      {getNoTrackerConnectedMessage()}
       {getMyPrediction()}    
       {getPredictionButton()}
       {getPredictionModal()}

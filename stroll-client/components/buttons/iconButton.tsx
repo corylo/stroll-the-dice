@@ -12,7 +12,8 @@ interface IconButtonProps {
   styles?: React.CSSProperties;
   tooltip?: string;
   tooltipSide?: TooltipSide;
-  handleOnClick: () => void;
+  url?: string;
+  handleOnClick?: () => void;
 }
 
 export const IconButton: React.FC<IconButtonProps> = (
@@ -26,6 +27,7 @@ export const IconButton: React.FC<IconButtonProps> = (
       styles={props.styles}
       tooltip={props.tooltip}
       tooltipSide={props.tooltipSide}
+      url={props.url}
       handleOnClick={props.handleOnClick}
     >
       <i className={props.icon} />

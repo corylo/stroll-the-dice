@@ -180,3 +180,13 @@
     transform: rotate(1440deg);
   }
 }
+
+@keyframes warningBackground {
+  from, to {
+    background-color: rgba(white, 0.25);
+  }
+
+  50% {
+    background-color: rgba($yellow, 0.25);
+  }
+}
