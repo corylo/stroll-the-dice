@@ -40,11 +40,7 @@ export const ShopPage: React.FC<NotificationsPageProps> = (props: NotificationsP
   }
 
   return(    
-    <Page 
-      id="shop-page" 
-      backgroundGraphic=""
-      requireAuth
-    >     
+    <Page id="shop-page" backgroundGraphic="">     
       <PageTitle text="Shop" />   
       <PoweredByStripe />   
       <ShopSection 

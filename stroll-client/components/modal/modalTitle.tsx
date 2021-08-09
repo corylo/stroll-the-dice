@@ -1,4 +1,5 @@
 import React from "react";
+import classNames from "classnames";
 
 import { IconButton } from "../buttons/iconButton";
 
@@ -36,7 +37,7 @@ export const ModalTitle: React.FC<ModalTitleProps> = (props: ModalTitleProps) =>
   }
 
   return (
-    <div className="modal-title">
+    <div className={classNames("modal-title", { closeable: props.handleOnClose !== undefined })}>
       {getText()}
       {getChildren()}
       {getCloseButton()}

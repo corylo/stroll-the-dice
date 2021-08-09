@@ -14,20 +14,6 @@
     z-index: 9999;
   }
 
-  &.closeable {
-    .modal-content-wrapper { 
-      .modal-content {
-        .modal-title {      
-          h1 {
-            font-size: 2em;
-            text-align: left;
-            width: calc(100% - 60px);
-          }
-        }
-      }
-    }
-  }
-
   .modal-content-wrapper { 
     padding: 20px 0px;
 
@@ -39,6 +25,14 @@
         min-height: 36px;
         position: relative;
     
+        &.closeable {
+          h1 {
+            font-size: 2em;
+            text-align: left;
+            width: calc(100% - 60px);
+          }
+        }
+
         .close-button {  
           background-color: transparent;      
           position: absolute;

@@ -14,19 +14,17 @@ interface ModalProps {
   children: any;
   priority?: boolean;
   status?: RequestStatus | FormStatus;
-  handleOnClose?: () => void;
 }
 
 export const Modal: React.FC<ModalProps> = (props: ModalProps) => {
   useDisableScrollEffect();
 
   const getClasses = (): string => {
-    const classes: any = { 
-      closeable: props.handleOnClose !== undefined,
+    return classNames(
+      "modal-wrapper", 
+      "scroll-bar", { 
       priority: props.priority
-    };
-
-    return classNames("modal-wrapper", "scroll-bar", classes);
+    });
   }
 
   const getModalContent = (): JSX.Element => {
@@ -46,7 +44,7 @@ export const Modal: React.FC<ModalProps> = (props: ModalProps) => {
   }
 
   return ReactDOM.createPortal(
-    <div id={props.id} className={getClasses()} onClick={props.handleOnClose}>
+    <div id={props.id} className={getClasses()}>
       {getModalContent()}
     </div>,
     document.body
