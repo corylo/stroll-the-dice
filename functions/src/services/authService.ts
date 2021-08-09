@@ -1,5 +1,6 @@
 import { auth, logger } from "firebase-functions";
 
+import { GameBatchService } from "./batch/gameBatchService";
 import { PlayerBatchService } from "./batch/playerBatchService";
 import { ProfileBatchService } from "./batch/profileBatchService";
 
@@ -11,6 +12,8 @@ export const AuthService: IAuthService = {
   onAuthUserDelete: async (user: auth.UserRecord): Promise<void> => {
     try {
       await ProfileBatchService.deleteProfile(user);
+
+      await GameBatchService.deleteCreatorFromAllGames(user.uid);
 
       await PlayerBatchService.deletePlayerFromAllGames(user.uid);
     } catch(err) {

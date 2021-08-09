@@ -54,7 +54,7 @@ export const AcceptInviteModal: React.FC<AcceptInviteModalProps> = (props: Accep
           
           setState({ ...state, player, statuses: { ...state.statuses, player: PlayerStatus.Playing } });
 
-          dispatch(AppAction.ToggleAcceptInvite, false)
+          dispatch(AppAction.ToggleAcceptInvite, false);
         } catch (err) {
           console.error(err);
 

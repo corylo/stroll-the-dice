@@ -46,7 +46,7 @@ export const ProfileService: IProfileService = {
     const before: IProfile = change.before.data(),
       after: IProfile = change.after.data();
   
-    if(ProfileUtility.hasChanged(before, after)) {
+    if(ProfileUtility.hasChanged(before, after) && after.deletedAt === null) {
       logger.info(`Updating documents for user: ${after.username}`);
       
       try {

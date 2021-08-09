@@ -33,7 +33,7 @@ export const PlayerBatchService: IPlayerBatchService = {
           max: number = i + 500,
           adjustedMax: number = Math.min(max, length);
 
-        logger.info(`Loop [${loopIndex++}]: Removing player data from games [${min + 1} - ${adjustedMax}] for user [${uid}]`);
+        logger.info(`Loop [${loopIndex++}]: Removing player profile data from games [${min + 1} - ${adjustedMax}] for user [${uid}]`);
 
         const docs: FirebaseFirestore.QueryDocumentSnapshot[] = playerSnap.docs.slice(min, max);
         
