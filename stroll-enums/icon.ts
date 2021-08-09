@@ -27,5 +27,6 @@ export enum Icon {
   ProfileIcon = "profile-icon",
   Steps = "fal fa-shoe-prints",  
   User = "fal fa-user",
+  UserDeleted = "fal fa-user-slash",
   None = ""
 }

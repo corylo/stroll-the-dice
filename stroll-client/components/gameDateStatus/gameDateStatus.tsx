@@ -21,33 +21,31 @@ export const GameDateStatus: React.FC<GameDateStatusProps> = (props: GameDateSta
 
   useCurrentDateEffect();
 
-  if(game.error !== GameError.PlayerMinimumNotMet) {
-    const getText = (): string => {
-      if(game.status === GameStatus.Completed) {
-        return "Completed";
-      } else if(game.status === GameStatus.InProgress) {
-        if(FirestoreDateUtility.lessThanOrEqualToNow(game.endsAt)) {
-          return "Finalizing";
-        }
-
-        return `Ends in ${GameDurationUtility.getTimeRemaining(game)}`;
-      } else if (game.status === GameStatus.Upcoming) {
-        if(FirestoreDateUtility.lessThanOrEqualToNow(game.startsAt)) {
-          return "Starting";
-        }
-
-        return `Starts in ${FirestoreDateUtility.timestampToRelative(game.startsAt)}`;
+  const getText = (): string => {
+    if(game.error === GameError.PlayerMinimumNotMet) {
+      return "Not Started";
+    } else if(game.status === GameStatus.Completed) {
+      return "Completed";
+    } else if(game.status === GameStatus.InProgress) {
+      if(FirestoreDateUtility.lessThanOrEqualToNow(game.endsAt)) {
+        return "Finalizing";
       }
-    }
 
-    return (
-      <Label
-        className="game-date-status date-status passion-one-font"
-        icon="fal fa-clock"
-        text={getText()}
-      />
-    );
+      return `Ends in ${GameDurationUtility.getTimeRemaining(game)}`;
+    } else if (game.status === GameStatus.Upcoming) {
+      if(FirestoreDateUtility.lessThanOrEqualToNow(game.startsAt)) {
+        return "Starting";
+      }
+
+      return `Starts in ${FirestoreDateUtility.timestampToRelative(game.startsAt)}`;
+    }
   }
 
-  return null;
+  return (
+    <Label
+      className="game-date-status date-status passion-one-font"
+      icon="fal fa-clock"
+      text={getText()}
+    />
+  );
 }

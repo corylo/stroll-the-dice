@@ -9,14 +9,39 @@ import { PlayerBatchService } from "./batch/playerBatchService";
 
 import { ProfileUtility } from "../utilities/profileUtility";
 
-import { IProfile } from "../../../stroll-models/profile";
+import { IProfile, profileConverter } from "../../../stroll-models/profile";
 import { IProfileUpdate } from "../../../stroll-models/profileUpdate";
 
+interface IProfileServiceGetBy {
+  uid: (uid: string) => Promise<IProfile>;
+}
+
+interface IProfileServiceGet {
+  by: IProfileServiceGetBy;
+}
+
 interface IProfileService {
+  get: IProfileServiceGet;
   onUpdate: (change: Change<firebase.firestore.QueryDocumentSnapshot<IProfile>>, context: EventContext) => Promise<void>;
 }
 
 export const ProfileService: IProfileService = {
+  get: {
+    by: {
+      uid: async (uid: string): Promise<IProfile> => {
+        const doc: firebase.firestore.DocumentSnapshot<IProfile> = await db.collection("profiles")
+          .doc(uid)
+          .withConverter<IProfile>(profileConverter)
+          .get();
+        
+        if(doc.exists) {
+          return doc.data();
+        }
+
+        throw new Error(`Profile for user: [${uid}] does not exist.`);
+      }
+    }
+  },
   onUpdate: async (change: Change<firebase.firestore.QueryDocumentSnapshot<IProfile>>, context: EventContext): Promise<void> => {
     const before: IProfile = change.before.data(),
       after: IProfile = change.after.data();

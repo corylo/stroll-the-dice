@@ -45,6 +45,7 @@ export const PlayerUtility: IPlayerUtility = {
       },
       profile: {
         color: profile.color,
+        deletedAt: null,
         icon: profile.icon,
         name: profile.name,
         uid: profile.uid,

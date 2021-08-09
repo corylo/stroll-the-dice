@@ -34,6 +34,7 @@ export const ProfileFormUtility: IProfileFormUtility = {
     return {
       color: fields.color,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      deletedAt: null,
       icon: fields.icon,
       id: Nano.generate(),
       name: fields.name,

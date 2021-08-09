@@ -12,7 +12,7 @@ export const AuthService: IAuthService = {
     try {
       await ProfileBatchService.deleteProfile(user);
 
-      await PlayerBatchService.deletePlayerFromAllGames();
+      await PlayerBatchService.deletePlayerFromAllGames(user.uid);
     } catch(err) {
       logger.error(err);
 

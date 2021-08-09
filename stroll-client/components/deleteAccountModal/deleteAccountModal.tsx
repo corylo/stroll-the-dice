@@ -96,7 +96,7 @@ export const DeleteAccountModal: React.FC<DeleteAccountModalProps> = (props: Del
         <React.Fragment>
           <ModalBody>   
             <p className="passion-one-font">I understand that deleting my account is permanent.</p> 
-            <p className="passion-one-font">I understand that continuing with this action will remove all of my profile, game, and player data forever as well as delete any Game Days I have purchased.</p>          
+            <p className="passion-one-font">I understand that continuing with this action will remove all of my personally identifiable profile, game, and player data forever as well as delete any Game Days I have purchased.</p>          
           </ModalBody>
           <ModalActions>          
             <Button

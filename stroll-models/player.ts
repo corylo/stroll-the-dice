@@ -55,7 +55,7 @@ export const defaultPlayer = (): IPlayer => ({
 export const playerConverter: any = {
   toFirestore(player: IPlayer): firebase.firestore.DocumentData {
     return {
-      createdAt: player.createdAt,      
+      createdAt: player.createdAt,   
       index: player.index,
       points: player.points,
       profile: player.profile,

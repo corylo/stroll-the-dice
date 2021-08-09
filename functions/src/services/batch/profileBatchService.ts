@@ -3,6 +3,10 @@ import { auth, logger } from "firebase-functions";
 
 import { db } from "../../../config/firebase";
 
+import { ProfileService } from "../profileService";
+
+import { deletedProfile, IProfile } from "../../../../stroll-models/profile";
+
 interface IProfileBatchService {
   deleteProfile: (user: auth.UserRecord) => Promise<void>;  
   deleteProfilePayments: (uid: string) => Promise<void>;
@@ -11,24 +15,29 @@ interface IProfileBatchService {
 
 export const ProfileBatchService: IProfileBatchService = {
   deleteProfile: async (user: auth.UserRecord): Promise<void> => {
-    await ProfileBatchService.deleteProfileStats(user.uid);
+    // await ProfileBatchService.deleteProfileStats(user.uid);
 
-    await ProfileBatchService.deleteProfilePayments(user.uid);
+    // await ProfileBatchService.deleteProfilePayments(user.uid);
 
     logger.info(`Deleting profile for user: [${user.uid}]`);
+
+    const profile: IProfile = await ProfileService.get.by.uid(user.uid);
     
     await db.collection("profiles")
       .doc(user.uid)
-      .delete();
+      .update({
+        ...deletedProfile(profile.createdAt, user.uid, profile.updatedAt),
+        deletedAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
   },
   deleteProfilePayments: async (uid: string): Promise<void> => {
-    let loopIndex: number = 1;
-
     const paymentRefs: firebase.firestore.DocumentReference[] = await db
       .collection("profiles")
       .doc(uid)
       .collection("payments")
       .listDocuments();
+
+    let loopIndex: number = 1;
 
     const { length } = paymentRefs;
       

@@ -52,6 +52,7 @@ export const GameFormUtility: IGameFormUtility = {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       creator: {
         color: user.profile.color,
+        deletedAt: user.profile.deletedAt,
         icon: user.profile.icon,
         name: user.profile.name,
         uid: user.profile.uid,
