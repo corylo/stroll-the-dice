@@ -1,5 +1,4 @@
-import React, { useContext, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useContext } from "react";
 
 import { Button } from "../../components/buttons/button";
 import { HowToPlaySection } from "./components/howToPlaySection/howToPlaySection";
@@ -14,11 +13,12 @@ import { PageTitle } from "../../components/page/pageTitle";
 import { AppContext } from "../../components/app/contexts/appContext";
 import { GamePageContext } from "../gamePage/gamePage";
 
+import { useScrollHashIntoViewEffect } from "./effects/howToPlayPageEffects";
+
 import { HowToPlayUtility } from "./utilities/howToPlayUtility";
 
 import { defaultGamePageState } from "../gamePage/models/gamePageState";
 
-import { AppStatus } from "../../enums/appStatus";
 import { Icon } from "../../../stroll-enums/icon";
 
 interface HowToPlayPageProps {
@@ -28,20 +28,7 @@ interface HowToPlayPageProps {
 export const HowToPlayPage: React.FC<HowToPlayPageProps> = (props: HowToPlayPageProps) => { 
   const { appState } = useContext(AppContext);
 
-  const location: any = useLocation();
-
-  useEffect(() => {
-    if(location.hash && appState.status !== AppStatus.Loading) {   
-      setTimeout(() => {
-        const id: string = location.hash.split("#")[1],
-          element: HTMLElement = document.getElementById(id);
-        console.log(element)
-        if(element) {
-          element.scrollIntoView();
-        }
-      }, 500);
-    }
-  }, [appState.status]);
+  useScrollHashIntoViewEffect(appState);
 
   const getExampleMatchup = (): JSX.Element => {
     return (      

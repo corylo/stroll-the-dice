@@ -39,7 +39,7 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
 
   const location: any = useLocation();
 
-  // useScrollToTopEffect(location);
+  useScrollToTopEffect(location);
 
   useCloseModalsEffect(location, appState, dispatch);
 
