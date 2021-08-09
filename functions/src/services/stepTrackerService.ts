@@ -83,7 +83,14 @@ export const StepTrackerService: IStepTrackerService = {
   },
   disconnectStepTracker: async (data: any, context: https.CallableContext): Promise<void> => {
     if(context.auth !== null) {
-      await StepTrackerService.preauthorizedDisconnectStepTracker(context.auth.uid);
+      try {
+        await StepTrackerService.preauthorizedDisconnectStepTracker(context.auth.uid);
+      } catch (err) {
+        throw new https.HttpsError(
+          "internal",
+          "Disconnecting of step tracker failed due to an internal error."
+        );
+      }
     } else {
       throw new https.HttpsError(
         "permission-denied",
@@ -132,8 +139,8 @@ export const StepTrackerService: IStepTrackerService = {
       steps: currentStepTotal
     }
 
-    try {
-      if(tracker && tracker.refreshToken !== "") {
+    if(tracker && tracker.refreshToken !== "") {
+      try {
         const accessToken: string = await StepTrackerService.getAccessTokenFromRefreshToken(tracker.name, tracker.refreshToken);
 
         const day: number = GameDurationUtility.getDay(game),
@@ -148,13 +155,17 @@ export const StepTrackerService: IStepTrackerService = {
         const newStepTotal: number = StepTrackerUtility.mapStepsFromResponse(res.data, currentStepTotal, hasDayPassed);
 
         update.steps = newStepTotal - currentStepTotal;
-      } else {
-        throw new Error(`No tracker connected for user [${playerID}]`);
+      } catch (err) {
+        logger.error(`Request for step count data failed for user [${playerID}]. Attempting disconnect.`, err);
+
+        try {
+          await StepTrackerService.preauthorizedDisconnectStepTracker(playerID);
+        } catch (err) {
+          logger.error(`Disconnecting of step tracker failed for user [${playerID}].`);
+        }
       }
-    } catch (err) {
-      logger.error(err);
-      
-      update.steps = NumberUtility.random(0, 250);
+    } else {
+      logger.error(`No tracker connected for user [${playerID}]`);
     }
 
     return update;
@@ -181,45 +192,36 @@ export const StepTrackerService: IStepTrackerService = {
   preauthorizedDisconnectStepTracker: async (uid: string): Promise<void> => {
     logger.info(`Disconnecting step tracker for user [${uid}]`);
     
-    try {
-      const tracker: IStepTracker = await StepTrackerService.get(uid);
+    const tracker: IStepTracker = await StepTrackerService.get(uid);
 
-      if(tracker) {
-        try {
-          await axios.post(
-            `${StepTrackerUtility.getOAuthRevokeUrl(tracker.name)}${tracker.refreshToken}`,
-            {},
-            StepTrackerUtility.getAccessTokenRequestHeaders()
-          );
-        } catch (err) {
-          logger.error(`Revoking of OAuth access failed for user [${uid}]`);
-        }
-
-        const batch: firebase.firestore.WriteBatch = db.batch();
-
-        const profileRef: firebase.firestore.DocumentReference = db.collection("profiles")
-          .doc(uid);
-
-        batch.update(profileRef, { tracker: "" });
-
-        const trackerRef: firebase.firestore.DocumentReference = db.collection("profiles")
-          .doc(uid)
-          .collection("trackers")
-          .doc(tracker.name);
-
-        batch.delete(trackerRef);
-          
-        await batch.commit();
-      } else {
-        throw new Error(`Tracker for user [${uid}] does not exist`);
+    if(tracker) {
+      try {
+        await axios.post(
+          `${StepTrackerUtility.getOAuthRevokeUrl(tracker.name)}${tracker.refreshToken}`,
+          {},
+          StepTrackerUtility.getAccessTokenRequestHeaders()
+        );
+      } catch (err) {
+        logger.error(`Revoking of OAuth access failed for user [${uid}]`);
       }
-    } catch (err) {
-      logger.error(err);
-  
-      throw new https.HttpsError(
-        "internal",
-        "Disconnecting of step tracker failed due to an internal error."
-      );
+
+      const batch: firebase.firestore.WriteBatch = db.batch();
+
+      const profileRef: firebase.firestore.DocumentReference = db.collection("profiles")
+        .doc(uid);
+
+      batch.update(profileRef, { tracker: "" });
+
+      const trackerRef: firebase.firestore.DocumentReference = db.collection("profiles")
+        .doc(uid)
+        .collection("trackers")
+        .doc(tracker.name);
+
+      batch.delete(trackerRef);
+        
+      await batch.commit();
+    } else {
+      throw new Error(`Tracker for user [${uid}] does not exist`);
     }
   }
 }
