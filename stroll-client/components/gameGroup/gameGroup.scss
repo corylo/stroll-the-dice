@@ -1,14 +1,15 @@
 .game-conglomerate {
-  min-height: 200px;
   position: relative;
   
   .game-conglomerate-groups {
     animation: fadeIn 400ms ease-in;
   }
 
-  .loading-message {
-    @include centered;
-    position: absolute;
+  .loading-message-wrapper {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    min-height: 200px;
   }
 }
 
