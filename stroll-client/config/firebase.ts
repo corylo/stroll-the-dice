@@ -16,7 +16,12 @@ const getConfig = (): any => {
 
 firebase.initializeApp(getConfig());
 
+firebase
+  .firestore()
+  .enablePersistence({ synchronizeTabs: true });
+
 export const db: firebase.firestore.Firestore = firebase.firestore();
+
 export const analytics: firebase.analytics.Analytics = firebase.analytics();
 export const auth: firebase.auth.Auth = firebase.auth();
 export const functions: firebase.functions.Functions = firebase.functions();
