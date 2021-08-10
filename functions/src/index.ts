@@ -18,9 +18,9 @@ exports.onProfileUpdate = firestore
   .document("profiles/{id}")
   .onUpdate(ProfileService.onUpdate);
 
-exports.onGameCreate = firestore
-  .document("games/{id}")
-  .onCreate(GameService.onCreate);
+exports.onPaymentCreation = firestore
+  .document("profiles/{profileID}/payments/{paymentID}")
+  .onCreate(PaymentService.onCreate);
 
 exports.onGameUpdate = firestore
   .document("games/{id}")
@@ -41,6 +41,8 @@ exports.onPredictionCreate = firestore
 exports.onPredictionUpdate = firestore
   .document("games/{gameID}/matchups/{matchupID}/predictions/{id}")
   .onUpdate(PredictionService.onUpdate);
+
+/* -- Firestore Scheduled Functions -- */
 
 exports.scheduledGameUpdate = pubsub
   .schedule("0,56,57,58,59 0-23 * * *")

@@ -3,6 +3,7 @@ import firebase from "firebase/app";
 import { GameDayHistoryEntryType } from "../stroll-enums/gameDayHistoryEntryType";
 
 export interface IGameDayHistoryEntry {
+  gameID: string;
   id: string;
   occurredAt: firebase.firestore.FieldValue;
   quantity: number;
@@ -11,6 +12,7 @@ export interface IGameDayHistoryEntry {
 }
 
 export const defaultGameDayHistoryEntry = (): IGameDayHistoryEntry => ({      
+  gameID: "",
   id: "",
   occurredAt: firebase.firestore.FieldValue.serverTimestamp(),
   quantity: 0,
@@ -21,6 +23,7 @@ export const defaultGameDayHistoryEntry = (): IGameDayHistoryEntry => ({
 export const gameDayHistoryEntryConverter: any = {
   toFirestore(entry: IGameDayHistoryEntry): firebase.firestore.DocumentData {
     return {
+      gameID: entry.gameID,
       occurredAt: entry.occurredAt,
       quantity: entry.quantity,
       redeemedBy: entry.redeemedBy,
@@ -33,6 +36,7 @@ export const gameDayHistoryEntryConverter: any = {
     const data: IGameDayHistoryEntry = snapshot.data();
 
     return {      
+      gameID: data.gameID,
       id: snapshot.id,
       occurredAt: data.occurredAt,
       quantity: data.quantity,

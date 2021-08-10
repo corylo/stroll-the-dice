@@ -27,7 +27,7 @@ import { IPrediction } from "../../../../stroll-models/prediction";
 import { InitialValue } from "../../../../stroll-enums/initialValue";
 
 interface IPlayerTransactionService {
-  handleMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, game: IGame, player: IPlayer) => void;
+  handleMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, player: IPlayer) => void;
   completeDayOneMatchup: (transaction: firebase.firestore.Transaction, matchup: IMatchup, player: IPlayer) => IMatchup;
   createDayOneMatchup: (transaction: firebase.firestore.Transaction, player: IPlayer) => void;    
   distributePayoutsAndFinalizeSteps: (gameID: string, day: number, startsAt: firebase.firestore.FieldValue, matchups: IMatchup[], updates: IMatchupSideStepUpdate[]) => Promise<void>;
@@ -35,7 +35,7 @@ interface IPlayerTransactionService {
 }
 
 export const PlayerTransactionService: IPlayerTransactionService = {
-  handleMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, game: IGame, player: IPlayer): void => {
+  handleMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, player: IPlayer): void => {
     const matchups: IMatchup[] = [];
 
     if(!matchupSnap.empty) {
@@ -48,7 +48,7 @@ export const PlayerTransactionService: IPlayerTransactionService = {
     } else {
       const matchup: IMatchup = PlayerTransactionService.completeDayOneMatchup(transaction, matchups[0], player);
 
-      PredictionTransactionService.createInitialPredictions(transaction, game.id, matchup.id, matchup.left.playerID, player.id);
+      PredictionTransactionService.createInitialPredictions(transaction, player.ref.game, matchup.id, matchup.left.playerID, player.id);
     }
   },
   completeDayOneMatchup: (transaction: firebase.firestore.Transaction, matchup: IMatchup, player: IPlayer): IMatchup => {    

@@ -1,4 +1,5 @@
-import { https, logger } from "firebase-functions";
+import firebase from "firebase-admin";
+import { EventContext, https, logger } from "firebase-functions";
 import stripe from "stripe";
 
 import { PaymentCompleteService } from "./paymentCompleteService";
@@ -10,10 +11,17 @@ import { IConfirmPaymentRequest } from "../../../stroll-models/confirmPaymentReq
 import { ICreatePaymentRequest } from "../../../stroll-models/createPaymentRequest";
 
 import { PaymentItemID } from "../../../stroll-enums/paymentItemID";
+import { IPayment } from "../../../stroll-models/payment";
+import { GameDayHistoryService } from "./gameDayHistoryService";
+import { GameDayHistoryUtility } from "../utilities/gameDayHistoryUtility";
+import { GameDayHistoryEntryType } from "../../../stroll-enums/gameDayHistoryEntryType";
+import { GameDayUtility } from "../../../stroll-utilities/gameDayUtility";
+import { IGameDayHistoryEntry } from "../../../stroll-models/gameDayHistoryEntry";
 
 interface IPaymentService {
   confirmPayment: (request: IConfirmPaymentRequest, context: https.CallableContext) => Promise<void>;  
   createPayment: (request: ICreatePaymentRequest, context: https.CallableContext) => Promise<string>;    
+  onCreate: (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext) => Promise<void>;
 }
 
 export const PaymentService: IPaymentService = {
@@ -89,6 +97,23 @@ export const PaymentService: IPaymentService = {
         "permission-denied",
         "User does not have permission to perform this action."
       );
+    }
+  },
+  onCreate: async (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext): Promise<void> => {
+    const payment: IPayment = snapshot.data() as IPayment;
+
+    try {      
+      const entry: IGameDayHistoryEntry = GameDayHistoryUtility.mapCreate(
+        "",
+        payment.createdAt, 
+        GameDayUtility.getDayQuantity(GameDayUtility.getGameDayPurchaseOptionUnit(payment.itemID)), 
+        "", 
+        GameDayHistoryEntryType.Received
+      );
+
+      await GameDayHistoryService.create(context.params.profileID, entry);
+    } catch (err) {
+      logger.error(err);
     }
   }
 }

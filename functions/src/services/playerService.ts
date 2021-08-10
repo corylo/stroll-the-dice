@@ -1,16 +1,19 @@
 import firebase from "firebase-admin";
-import { Change, EventContext, logger } from "firebase-functions";
+import { EventContext, logger } from "firebase-functions";
 
 import { db } from "../../config/firebase";
 
+import { GameDayHistoryTransactionService } from "./transaction/gameDayHistoryTransactionService";
 import { GameEventTransactionService } from "./transaction/gameEventTransactionService";
 import { PlayerTransactionService } from "./transaction/playerTransactionService";
 
+import { GameDayHistoryUtility } from "../utilities/gameDayHistoryUtility";
 import { GameEventUtility } from "../utilities/gameEventUtility";
 
 import { gameConverter, IGame } from "../../../stroll-models/game";
 import { matchupConverter } from "../../../stroll-models/matchup";
 import { IPlayer, playerConverter } from "../../../stroll-models/player";
+import { GameDayHistoryEntryType } from "../../../stroll-enums/gameDayHistoryEntryType";
 
 interface IPlayerService {
   getByGame: (id: string) => Promise<IPlayer[]>;
@@ -52,16 +55,24 @@ export const PlayerService: IPlayerService = {
           matchupSnap: firebase.firestore.QuerySnapshot = await transaction.get(existingMatchupRef);
 
         if(gameDoc.exists) {
-          const game: IGame = gameDoc.data(); 
+          const game: IGame = gameDoc.data();
 
-          PlayerTransactionService.handleMatchup(transaction, matchupSnap, game, player);
+          PlayerTransactionService.handleMatchup(transaction, matchupSnap, player);
 
-          if(game.creator.uid !== player.profile.uid) {          
-            GameEventTransactionService.create(transaction, game.id, GameEventUtility.mapPlayerCreatedEvent(player.createdAt, player.id));
-          }
+          GameEventTransactionService.create(transaction, game.id, GameEventUtility.mapPlayerCreatedEvent(player.createdAt, player.id));
+
+          const playerID: string = game.enableGiftDaysForJoiningPlayers && player.ref.acceptedGiftDays ? game.creator.uid : player.id;
+
+          GameDayHistoryTransactionService.create(transaction, playerID, GameDayHistoryUtility.mapCreate(
+            game.id,
+            player.createdAt,
+            game.duration,
+            player.id,
+            GameDayHistoryEntryType.Redeemed
+          ));
         }
       });
-      
+
       logger.info(`Successfully completed onCreate function for player [${player.id}] in game [${player.ref.game}].`);
     } catch (err) {
       logger.error(err);

@@ -1,42 +1,21 @@
 import firebase from "firebase-admin";
 import { Change, EventContext, logger } from "firebase-functions";
 
-import { GameDayHistoryService } from "./gameDayHistoryService";
-import { GameEventService } from "./gameEventService";
 import { GameUpdateService } from "./gameUpdateService";
 import { PlayingInBatchService } from "./batch/playingInBatchService";
 
-import { GameDayHistoryUtility } from "../utilities/gameDayHistoryUtility";
-import { GameEventUtility } from "../utilities/gameEventUtility";
 import { GameUtility } from "../utilities/gameUtility";
 
 import { IGame } from "../../../stroll-models/game";
 
 import { FirebaseDocumentID } from "../../../stroll-enums/firebaseDocumentID";
-import { GameDayHistoryEntryType } from "../../../stroll-enums/gameDayHistoryEntryType";
-import { GameEventType } from "../../../stroll-enums/gameEventType";
 
 interface IGameService {
-  onCreate: (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext) => Promise<void>;  
   onDelete: (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext) => Promise<void>;  
   onUpdate: (change: Change<firebase.firestore.QueryDocumentSnapshot<IGame>>, context: EventContext) => Promise<void>;
 }
 
 export const GameService: IGameService = {
-  onCreate: async (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext): Promise<void> => {
-    const game: IGame = snapshot.data() as IGame;
-
-    try {
-      await GameEventService.create(context.params.id, GameEventUtility.mapGeneralEvent(game.createdAt, GameEventType.Created));
-
-      await GameDayHistoryService.create(
-        game.creator.uid, 
-        GameDayHistoryUtility.mapCreate(game.createdAt, game.duration, game.creator.uid, GameDayHistoryEntryType.Redeemed)
-      );
-    } catch (err) {
-      logger.error(err);
-    }
-  },
   onDelete: async (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext): Promise<void> => {
     try {
       logger.info(`Deleting all references to game [${context.params.id}]`)
