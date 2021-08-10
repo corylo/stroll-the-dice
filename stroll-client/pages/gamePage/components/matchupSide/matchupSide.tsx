@@ -36,13 +36,14 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
   if(side.playerID !== "") {
     const dayStatus: GameStatus = GameDurationUtility.getDayStatus(matchup.day, day);
   
-    const isWinnerDetermined: boolean = matchup.winner !== "" && matchup.winner !== MatchupLeader.Tie,
-      isLeader: boolean = isWinnerDetermined ? matchup.winner === side.playerID : MatchupUtility.getLeader(matchup) === side.playerID;
+    const isWinner: boolean = matchup.winner === side.playerID,    
+      isLeader: boolean = MatchupUtility.getLeader(matchup) === side.playerID,
+      isTied: boolean = matchup.winner === MatchupLeader.Tie || matchup.left.steps === matchup.right.steps;
     
     const getLeaderLabel = (): JSX.Element => {
       if(dayStatus !== GameStatus.Upcoming) {
         const getText = (): string => {
-          if(isWinnerDetermined) {
+          if(isWinner) {
             return "Winner";
           } else if(isLeader) {
             return "Leader";
@@ -54,7 +55,7 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
         const getStyles = (): React.CSSProperties => {
           const styles: React.CSSProperties = {};
           
-          if(isLeader || isWinnerDetermined) {
+          if(isWinner || isLeader) {
             styles.color = `rgb(${side.profile.color})`;
           } else {
             styles.color = "white";
@@ -63,14 +64,16 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
           return styles;
         }
 
-        return (
-          <Label 
-            className="game-matchup-side-leader-label" 
-            icon="fal fa-trophy" 
-            styles={getStyles()}
-            text={getText()}
-          />
-        );
+        if(isWinner || isLeader || isTied) {
+          return (
+            <Label 
+              className="game-matchup-side-leader-label" 
+              icon="fal fa-trophy" 
+              styles={getStyles()}
+              text={getText()}
+            />
+          );
+        }
       }
     }
 
