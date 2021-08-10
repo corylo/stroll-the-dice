@@ -77,6 +77,7 @@
     @include centered;
     opacity: 0.2;
     height: 90vh;
+    width: 315vh;
   }
 }
 
@@ -88,10 +89,6 @@
         margin-left: 50px;
         margin-right: 0px;
       }
-    }
-
-    .page-background-graphic-image {
-      height: 80vh;
     }
   }
 }
@@ -114,6 +111,7 @@
 
     .page-background-graphic-image {
       height: 60vh;
+      width: 210vh;
     }
   }
 }
