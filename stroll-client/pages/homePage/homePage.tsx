@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import { Button } from "../../components/buttons/button";
-import { GameGroup } from "../../components/gameGroup/gameGroup";
+import { GameConglomerate } from "../../components/gameGroup/gameConglomerate";
 import { HowToPlaySummary } from "../../components/howToPlaySummary/howToPlaySummary";
 import { Page } from "../../components/page/page";
 
@@ -11,7 +11,6 @@ import { ImageUtility } from "../../utilities/imageUtility";
 
 import { AppAction } from "../../enums/appAction";
 import { AppStatus } from "../../enums/appStatus";
-import { GameStatus } from "../../../stroll-enums/gameStatus";
 
 interface HomePageProps {
   
@@ -25,11 +24,7 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
   const getContent = (): JSX.Element => {
     if(appState.status === AppStatus.SignedIn) {
       return (
-        <React.Fragment>
-          <GameGroup limit={10} status={GameStatus.InProgress} />
-          <GameGroup limit={10} status={GameStatus.Upcoming} />
-          <GameGroup limit={10} status={GameStatus.Completed} />
-        </React.Fragment>
+        <GameConglomerate limit={10} />
       )
     } else {
       return (

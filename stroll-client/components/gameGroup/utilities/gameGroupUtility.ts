@@ -2,10 +2,12 @@ import { IGameGroup } from "../../../../stroll-models/gameGroup";
 
 import { GameStatus } from "../../../../stroll-enums/gameStatus";
 import { GroupGameBy } from "../../../../stroll-enums/groupGameBy";
+import { RequestStatus } from "../../../../stroll-enums/requestStatus";
 
 interface IGameGroupUtility {
   getAllEmptyMessage: (status: GameStatus) => string;
   getEmptyMessage: (groupBy: GroupGameBy, status: GameStatus) => string;
+  getInitialGroup: (gameStatus: GameStatus, groupBy: GroupGameBy) => IGameGroup;
   getInitialGroups: () => IGameGroup[];
 }
 
@@ -44,10 +46,22 @@ export const GameGroupUtility: IGameGroupUtility = {
         throw new Error(`Invalid groupBy: ${groupBy}`);
     }
   },
+  getInitialGroup: (gameStatus: GameStatus, groupBy: GroupGameBy): IGameGroup => {
+    return { 
+      games: [], 
+      gameStatus, 
+      groupBy, 
+      requestStatus: RequestStatus.Loading 
+    }
+  },
   getInitialGroups: (): IGameGroup[] => {
     return [
-      { games: [], groupBy: GroupGameBy.Hosting },
-      { games: [], groupBy: GroupGameBy.Joined }
+      GameGroupUtility.getInitialGroup(GameStatus.InProgress, GroupGameBy.Hosting),
+      GameGroupUtility.getInitialGroup(GameStatus.InProgress, GroupGameBy.Joined),
+      GameGroupUtility.getInitialGroup(GameStatus.Upcoming, GroupGameBy.Hosting),
+      GameGroupUtility.getInitialGroup(GameStatus.Upcoming, GroupGameBy.Joined),
+      GameGroupUtility.getInitialGroup(GameStatus.Completed, GroupGameBy.Hosting),
+      GameGroupUtility.getInitialGroup(GameStatus.Completed, GroupGameBy.Joined)
     ];
   }
 }
