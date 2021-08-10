@@ -1,19 +1,33 @@
 <!DOCTYPE html>
-<html>
-  <head lang="en">
+<html lang="en">
+  <head>
     <title>Stroll The Dice</title>
 
     <meta charset="utf-8" /> 
 
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0,maximum-scale=1.5"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.5" />
+
+    <link rel="shortcut icon" href="/img/icon128x128.png" />
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/img/icon512x512.png" />
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="#0770A4" />
+    <meta name="apple-mobile-web-app-title" content="Stroll The Dice" />
+    <meta name="theme-color" content="#0770A4" />
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Passion+One:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Passion+One:wght@700&display=swap" rel="stylesheet">
 
-    <script src="https://kit.fontawesome.com/63a272ddc0.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/63a272ddc0.js" crossorigin="anonymous" async></script>
+
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("serviceWorker.js");
+        });
+      }
+    </script>
   </head>
   <body>
     <div id="root">      

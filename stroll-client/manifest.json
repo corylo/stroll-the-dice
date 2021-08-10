@@ -1,0 +1,17 @@
+{
+  "name": "Stroll The Dice",
+  "icons": [{
+    "src": "/img/icon128x128.png",
+    "type": "image/png",
+    "sizes": "128x128"
+  }, {
+    "src": "/img/icon512x512.png",
+    "type": "image/png",
+    "sizes": "512x512"
+  }],
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0770A4",
+  "theme_color": "#0770A4",
+  "orientation": "landscape"
+}

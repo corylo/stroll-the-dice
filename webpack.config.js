@@ -4,6 +4,8 @@ const webpack = require("webpack"),
 const CopyPlugin = require("copy-webpack-plugin"),
   HtmlPlugin = require("html-webpack-plugin"),
   MiniCssExtractPlugin = require("mini-css-extract-plugin");
+  
+const { GenerateSW } = require("workbox-webpack-plugin");
 
 const config = {
   entry: "./stroll-client/index.tsx",
@@ -34,9 +36,14 @@ const config = {
         {
           from: "stroll-client/googleb8708be99dfba801.html",
           to: "googleb8708be99dfba801.html"
+        },
+        {
+          from: "stroll-client/manifest.json",
+          to: "manifest.json"
         }
       ],
-    })
+    }),
+    new GenerateSW()
   ]
 }
 
