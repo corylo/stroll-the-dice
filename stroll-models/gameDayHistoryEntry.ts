@@ -1,17 +1,21 @@
 import firebase from "firebase/app";
 
+import { GameDayHistoryEntryType } from "../stroll-enums/gameDayHistoryEntryType";
+
 export interface IGameDayHistoryEntry {
   id: string;
   occurredAt: firebase.firestore.FieldValue;
   quantity: number;
   redeemedBy: string;
+  type: GameDayHistoryEntryType
 }
 
 export const defaultGameDayHistoryEntry = (): IGameDayHistoryEntry => ({      
   id: "",
   occurredAt: firebase.firestore.FieldValue.serverTimestamp(),
   quantity: 0,
-  redeemedBy: ""
+  redeemedBy: "",
+  type: GameDayHistoryEntryType.None
 });
 
 export const gameDayHistoryEntryConverter: any = {
@@ -19,7 +23,8 @@ export const gameDayHistoryEntryConverter: any = {
     return {
       occurredAt: entry.occurredAt,
       quantity: entry.quantity,
-      redeemedBy: entry.redeemedBy
+      redeemedBy: entry.redeemedBy,
+      type: entry.type
     };
   },
   fromFirestore(
@@ -31,7 +36,8 @@ export const gameDayHistoryEntryConverter: any = {
       id: snapshot.id,
       occurredAt: data.occurredAt,
       quantity: data.quantity,
-      redeemedBy: data.redeemedBy
+      redeemedBy: data.redeemedBy,
+      type: data.type
     };
   }
 }

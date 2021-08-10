@@ -13,6 +13,7 @@ import { GameUtility } from "../utilities/gameUtility";
 import { IGame } from "../../../stroll-models/game";
 
 import { FirebaseDocumentID } from "../../../stroll-enums/firebaseDocumentID";
+import { GameDayHistoryEntryType } from "../../../stroll-enums/gameDayHistoryEntryType";
 import { GameEventType } from "../../../stroll-enums/gameEventType";
 
 interface IGameService {
@@ -30,7 +31,7 @@ export const GameService: IGameService = {
 
       await GameDayHistoryService.create(
         game.creator.uid, 
-        GameDayHistoryUtility.mapCreate(game.createdAt, game.duration, game.creator.uid)
+        GameDayHistoryUtility.mapCreate(game.createdAt, game.duration, game.creator.uid, GameDayHistoryEntryType.Redeemed)
       );
     } catch (err) {
       logger.error(err);
