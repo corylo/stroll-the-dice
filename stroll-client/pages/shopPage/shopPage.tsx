@@ -37,11 +37,20 @@ export const ShopPage: React.FC<NotificationsPageProps> = (props: NotificationsP
   }
 
   const getGameDayPurchaseOptions = (): JSX.Element[] => {
+    const getRecommendation = (unit: GameDayPurchaseOptionUnit): string => {
+      if(unit === GameDayPurchaseOptionUnit.Five) {
+        return "Recommended for new players!";
+      } else if (unit === GameDayPurchaseOptionUnit.OneHundredFourty) {
+        return "Enough to cover 20 players for a 7 day game!";
+      }
+    }
+
     return GameDayUtility.getGameDayPurchaseOptions().map((option: IGameDayPurchaseOption, index: number) => (    
       <GameDayPurchaseOption 
         key={option.unit} 
         discount={option.unit !== GameDayPurchaseOptionUnit.One}
         option={option}
+        recommendation={getRecommendation(option.unit)}
         handleOnClick={() => handleOnOptionClick(option)}
       />
     ));

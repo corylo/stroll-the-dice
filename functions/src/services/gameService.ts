@@ -1,12 +1,14 @@
 import firebase from "firebase-admin";
 import { Change, EventContext, logger } from "firebase-functions";
 
+import { GameDayHistoryService } from "./gameDayHistoryService";
 import { GameEventService } from "./gameEventService";
 import { GameUpdateService } from "./gameUpdateService";
 import { PlayingInBatchService } from "./batch/playingInBatchService";
 
-import { GameUtility } from "../utilities/gameUtility";
+import { GameDayHistoryUtility } from "../utilities/gameDayHistoryUtility";
 import { GameEventUtility } from "../utilities/gameEventUtility";
+import { GameUtility } from "../utilities/gameUtility";
 
 import { IGame } from "../../../stroll-models/game";
 
@@ -25,6 +27,11 @@ export const GameService: IGameService = {
 
     try {
       await GameEventService.create(context.params.id, GameEventUtility.mapGeneralEvent(game.createdAt, GameEventType.Created));
+
+      await GameDayHistoryService.create(
+        game.creator.uid, 
+        GameDayHistoryUtility.mapCreate(game.createdAt, game.duration, game.creator.uid)
+      );
     } catch (err) {
       logger.error(err);
     }

@@ -7,11 +7,10 @@ import { GameDayUtility } from "../../../../../stroll-utilities/gameDayUtility";
 
 import { IGameDayPurchaseOption } from "../../../../../stroll-models/gameDayPurchaseOption";
 
-import { GameDayPurchaseOptionUnit } from "../../../../../stroll-enums/gameDayPurchaseOptionUnit";
-
 interface GameDayPurchaseOptionProps {  
   discount?: boolean;
   option: IGameDayPurchaseOption;
+  recommendation?: string;
   presentationMode?: boolean;
   handleOnClick?: () => void;
 }
@@ -43,9 +42,9 @@ export const GameDayPurchaseOption: React.FC<GameDayPurchaseOptionProps> = (prop
   }
 
   const getRecommendationStatement = (): JSX.Element => {
-    if(option.unit === GameDayPurchaseOptionUnit.Five) {
+    if(props.recommendation) {
       return (
-        <h1 className="game-day-purchase-option-recommendation-statement passion-one-font">Recommended for new players!</h1>
+        <h1 className="game-day-purchase-option-recommendation-statement passion-one-font">{props.recommendation}</h1>
       )
     }
   }
