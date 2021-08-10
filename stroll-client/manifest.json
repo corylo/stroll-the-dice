@@ -1,5 +1,6 @@
 {
   "name": "Stroll The Dice",
+  "short_name": "Stroll",
   "icons": [{
     "src": "/img/icon128x128.png",
     "type": "image/png",
