@@ -6,7 +6,7 @@ import { ProfileIcon } from "../../../../components/profileIcon/profileIcon";
 
 import { GamePageContext } from "../../gamePage";
 
-import { FirestoreDateUtility } from "../../../../../stroll-utilities/firestoreDateUtility";
+import { GameDurationUtility } from "../../../../../stroll-utilities/gameDurationUtility";
 import { MatchupUtility } from "../../../../utilities/matchupUtility";
 
 import { IMatchup, IMatchupSide } from "../../../../../stroll-models/matchup";
@@ -27,39 +27,55 @@ interface MatchupSideProps {
 }
 
 export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps) => {  
-  const { game } = useContext(GamePageContext).state;
+  const { day, game } = useContext(GamePageContext).state;
 
   const { alignment, matchup, odds } = props;
   
   const side: IMatchupSide = matchup[alignment];
 
   if(side.playerID !== "") {
+    const dayStatus: GameStatus = GameDurationUtility.getDayStatus(matchup.day, day);
+  
     const isWinnerDetermined: boolean = matchup.winner !== "" && matchup.winner !== MatchupLeader.Tie,
-      leader: boolean = isWinnerDetermined ? matchup.winner === side.playerID : MatchupUtility.getLeader(matchup) === side.playerID;
+      isLeader: boolean = isWinnerDetermined ? matchup.winner === side.playerID : MatchupUtility.getLeader(matchup) === side.playerID;
     
     const getLeaderLabel = (): JSX.Element => {
-      if(leader) {        
+      if(dayStatus !== GameStatus.Upcoming) {
         const getText = (): string => {
           if(isWinnerDetermined) {
             return "Winner";
+          } else if(isLeader) {
+            return "Leader";
           }
 
-          return "Leader";
+          return "Tied";
+        }
+
+        const getStyles = (): React.CSSProperties => {
+          const styles: React.CSSProperties = {};
+          
+          if(isLeader || isWinnerDetermined) {
+            styles.color = `rgb(${side.profile.color})`;
+          } else {
+            styles.color = "white";
+          }
+
+          return styles;
         }
 
         return (
           <Label 
             className="game-matchup-side-leader-label" 
             icon="fal fa-trophy" 
-            styles={{ color: `rgb(${side.profile.color})`}}
+            styles={getStyles()}
             text={getText()}
           />
-        )
+        );
       }
     }
 
     const getBorderStyles = (): React.CSSProperties => {
-      if(leader) {
+      if(isLeader) {
         return {
           backgroundColor: `rgb(${side.profile.color})`
         }
@@ -67,7 +83,7 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
     }
 
     const getStyles = (): React.CSSProperties => {
-      if(leader) {
+      if(isLeader) {
         const { color } = side.profile;
 
         const background: string = alignment === MatchupSideAlignment.Left 
