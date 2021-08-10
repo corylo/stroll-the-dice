@@ -220,14 +220,27 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
           acceptInvite: action.payload
         }
       }
-    case AppAction.ToggleDeleteAccount:
-      return {
+    case AppAction.ToggleDeleteAccount: {
+      const updates: IAppState = {
         ...state,
         toggles: {
           ...state.toggles,
           deleteAccount: action.payload
         }
       }
+
+      if(action.payload === false) {        
+        updates.statuses = {
+          ...state.statuses,
+          deleteAccount: {
+            is: RequestStatus.Idle,
+            message: ""
+          }
+        };
+      }
+
+      return updates;
+    }
     case AppAction.ToggleUpdateProfile:
       return {
         ...state,

@@ -50,7 +50,7 @@ export const DeleteAccountModal: React.FC<DeleteAccountModalProps> = (props: Del
   }, [state.confirmationText]);
 
   useEffect(() => {
-    if(toggles.deleteAccount === false) {
+    if(!toggles.deleteAccount) {
       setState(defaultDeleteAccountModalState());
     }
   }, [toggles.deleteAccount]);
@@ -78,6 +78,10 @@ export const DeleteAccountModal: React.FC<DeleteAccountModalProps> = (props: Del
           }
         }
       }
+    }
+
+    const handleOnClose = (): void => {
+      dispatch(AppAction.ToggleDeleteAccount, false);
     }
 
     const handleSignOut = async () => {
@@ -171,7 +175,7 @@ export const DeleteAccountModal: React.FC<DeleteAccountModalProps> = (props: Del
 
     return (
       <Modal id="delete-account-modal" status={statuses.deleteAccount.is} priority>
-        <ModalTitle text="Delete My Account" handleOnClose={() => dispatch(AppAction.ToggleDeleteAccount, false)} />
+        <ModalTitle text="Delete My Account" handleOnClose={handleOnClose} />
         {getContent()}
       </Modal>
     );
