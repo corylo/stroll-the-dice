@@ -22,6 +22,10 @@ exports.onPaymentCreation = firestore
   .document("profiles/{profileID}/payments/{paymentID}")
   .onCreate(PaymentService.onCreate);
 
+exports.onGameCreate = firestore
+  .document("games/{id}")
+  .onCreate(GameService.onCreate);
+
 exports.onGameUpdate = firestore
   .document("games/{id}")
   .onUpdate(GameService.onUpdate);
