@@ -39,7 +39,7 @@ export const PredictionUtility: IPredictionUtility = {
       return matchup.winner === prediction.ref.player;
     }
     
-    return true;
+    return false;
   },
   getByPlayer: (playerID: string, predictions: IPrediction[]): IPrediction[] => {
     return predictions.filter((prediction: IPrediction) => prediction.ref.creator === playerID);
@@ -78,7 +78,7 @@ export const PredictionUtility: IPredictionUtility = {
   },
   sumIncorrectPredictions: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]): number => {
     const predictions: IPrediction[] = PredictionUtility.getByPlayer(playerID, allPredictions),
-      incorrectPredictions: IPrediction[] = PredictionUtility.adjustForInitialSelfPrediction(playerID, PredictionUtility.getIncorrectPredictions(predictions, matchups))
+      incorrectPredictions: IPrediction[] = PredictionUtility.adjustForInitialSelfPrediction(playerID, PredictionUtility.getIncorrectPredictions(predictions, matchups));
 
     return PredictionUtility.sumPredictions(incorrectPredictions);
   },

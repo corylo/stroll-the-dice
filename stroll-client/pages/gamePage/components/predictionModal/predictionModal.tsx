@@ -150,18 +150,30 @@ export const PredictionModal: React.FC<PredictionModalProps> = (props: Predictio
   const getSelectionButton = (side: IMatchupSide): JSX.Element => {
     const selected: boolean = state.playerID === side.playerID;
     
-    const styles: React.CSSProperties = selected 
-        ? { backgroundColor: `rgba(${side.profile.color}, 0.1)`, borderColor: `rgb(${side.profile.color})` } 
-        : null;
+    const styles: React.CSSProperties = {},
+      borderStyles: React.CSSProperties = {};
+    
+    if(selected) {
+      const borderColor: string = `rgb(${side.profile.color})`;
+
+      borderStyles.background = `linear-gradient(to top, rgba(${side.profile.color}, 0.25), transparent)`;
+      borderStyles.borderColor = borderColor;
+
+      styles.backgroundColor = `rgba(${side.profile.color}, 0.1)`;
+      styles.borderColor = borderColor;
+    }
 
     return (      
-      <IconButton
-        className={classNames("prediction-player-selection-button", { selected: state.playerID === side.playerID })}
-        disabled={!PredictionUtility.matchupSideAvailable(matchup, side, player, myPrediction) || predictionsClosed}
-        styles={styles}
-        icon="fal fa-check"
-        handleOnClick={() => selectPlayer(side.playerID)}
-      />
+      <div className={classNames("prediction-player-selection-button-wrapper", { selected: state.playerID === side.playerID })}>     
+        <div className="prediction-player-selection-bracket" style={borderStyles} />
+        <IconButton
+          className={classNames("prediction-player-selection-button", { selected: state.playerID === side.playerID })}
+          disabled={!PredictionUtility.matchupSideAvailable(matchup, side, player, myPrediction) || predictionsClosed}
+          styles={styles}
+          icon="fal fa-check"
+          handleOnClick={() => selectPlayer(side.playerID)}
+        />
+      </div>
     )
   }
 
