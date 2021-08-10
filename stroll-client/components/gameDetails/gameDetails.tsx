@@ -33,7 +33,7 @@ export const GameDetails: React.FC<GameDetailsProps> = (props: GameDetailsProps)
         <Label 
           className="game-player-count passion-one-font" 
           icon="fal fa-user-friends"
-          text={game.counts.players.toString()} 
+          text={`${game.counts.players.toString()} / 20`} 
           tooltip={props.togglePlayers ? "View" : null}
           tooltipSide={TooltipSide.Bottom}
           handleOnClick={props.togglePlayers}
