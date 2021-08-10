@@ -42,7 +42,8 @@ const config = {
           to: "manifest.json"
         }
       ],
-    })
+    }),
+    new GenerateSW()
   ]
 }
 
@@ -100,8 +101,6 @@ if(process.env.NODE_ENV === "local") {
       filename: "index.[fullhash].css",
     })
   );
-
-  config.plugins.push(new GenerateSW());
 }
 
 module.exports = config;

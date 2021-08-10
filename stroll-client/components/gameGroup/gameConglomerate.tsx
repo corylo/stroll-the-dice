@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import axios from "axios";
 
 import { GameGroup } from "./gameGroup";
 import { LoadingMessage } from "../loadingMessage/loadingMessage";
@@ -41,17 +42,14 @@ export const GameConglomerate: React.FC<GameConglomerateProps> = (props: GameCon
         try {
           let updates: IGameGroup[] = [];
 
-          for(let group of state.groups) {
-            try {
-              const games: IGame[] = await GameService.getGrouped(user.profile.uid, group.gameStatus, group.groupBy, props.limit);
+          const requests: any[] = state.groups.map((group: IGameGroup) => 
+            GameService.getGrouped(user.profile.uid, group.gameStatus, group.groupBy, props.limit));
 
-              updates.push({ ...group, games, requestStatus: RequestStatus.Success });
-            } catch (err) {
-              console.error(err);
+          const responses: any = await axios.all(requests);
 
-              updates.push({ ...group, games: [], requestStatus: RequestStatus.Error });
-            }
-          }
+          responses.forEach((res: any, index: number) => {
+            updates.push({ ...state.groups[index], games: res, requestStatus: RequestStatus.Success });
+          });
 
           setState({ ...state, groups: updates, status: RequestStatus.Success });
         } catch (err) {
