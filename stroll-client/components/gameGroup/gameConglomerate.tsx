@@ -64,7 +64,7 @@ export const GameConglomerate: React.FC<GameConglomerateProps> = (props: GameCon
   }, []);
 
   const getContent = (): JSX.Element => {
-    if(state.status !== RequestStatus.Loading && false) {
+    if(state.status !== RequestStatus.Loading) {
       return (
         <div className="game-conglomerate-groups">
           <GameGroup groups={state.groups} status={GameStatus.InProgress} />
