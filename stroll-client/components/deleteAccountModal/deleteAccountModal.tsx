@@ -1,19 +1,29 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import { auth } from "../../config/firebase";
 
 import { Button } from "../buttons/button";
+import { Form } from "../form/form";
+import { FormBody } from "../form/formBody";
+import { FormActions } from "../form/formActions";
+import { InputWrapper } from "../inputWrapper/inputWrapper";
 import { Modal } from "../modal/modal";
 import { ModalActions } from "../modal/modalActions";
 import { ModalBody } from "../modal/modalBody";
-import { ModalStatusMessage } from "../modal/modalStatusMessage";
 import { ModalTitle } from "../modal/modalTitle";
 
 import { AppContext } from "../app/contexts/appContext";
 
+import { DeleteAccountValidator } from "./validators/deleteAccountValidator";
+
+import { defaultDeleteAccountModalState, IDeleteAccountModalState } from "./models/deleteAccountModalState";
+
 import { AppAction } from "../../enums/appAction";
+import { DeleteAccountConfirmationText } from "./enums/deleteAccountConfirmationText";
 import { FirebaseErrorCode } from "../../../stroll-enums/firebaseErrorCode";
+import { FormError } from "../../enums/formError";
+import { FormStatus } from "../../enums/formStatus";
 import { RequestStatus } from "../../../stroll-enums/requestStatus";
 
 interface DeleteAccountModalProps {  
@@ -27,25 +37,45 @@ export const DeleteAccountModal: React.FC<DeleteAccountModalProps> = (props: Del
 
   const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
 
+  const [state, setState] = useState<IDeleteAccountModalState>(defaultDeleteAccountModalState());
+
+  const updateConfirmationText = (confirmationText: string): void => {
+    setState({ ...state, confirmationText });
+  }
+
+  useEffect(() => {
+    if(state.confirmationText.toUpperCase() === DeleteAccountConfirmationText.Value) {
+      setState({ ...state, confirmationTextError: FormError.None });
+    }
+  }, [state.confirmationText]);
+
+  useEffect(() => {
+    if(toggles.deleteAccount === false) {
+      setState(defaultDeleteAccountModalState());
+    }
+  }, [toggles.deleteAccount]);
+
   const history: any = useHistory();
 
   if(toggles.deleteAccount) {
     const handleOnDelete = async () => {
-      try {
-        dispatch(AppAction.InitiateAccountDeletion);
+      if(DeleteAccountValidator.validate(state, setState)) {
+        try {
+          dispatch(AppAction.InitiateAccountDeletion);
 
-        await auth.currentUser.delete();
+          await auth.currentUser.delete();
 
-        dispatch(AppAction.CompleteAccountDeletion);
-        
-        setTimeout(() => history.replace("/goodbye"), 10);
-      } catch (err) {
-        console.error(err);
+          dispatch(AppAction.CompleteAccountDeletion);
+          
+          setTimeout(() => history.replace("/goodbye"), 10);
+        } catch (err) {
+          console.error(err);
 
-        if(err.code === FirebaseErrorCode.RequiresRecentLogin) {
-          dispatch(AppAction.FailedAccountDeletion, FirebaseErrorCode.RequiresRecentLogin);
-        } else {
-          dispatch(AppAction.FailedAccountDeletion, "");
+          if(err.code === FirebaseErrorCode.RequiresRecentLogin) {
+            dispatch(AppAction.FailedAccountDeletion, FirebaseErrorCode.RequiresRecentLogin);
+          } else {
+            dispatch(AppAction.FailedAccountDeletion, "");
+          }
         }
       }
     }
@@ -81,39 +111,60 @@ export const DeleteAccountModal: React.FC<DeleteAccountModalProps> = (props: Del
         )
       }
 
-      const getErrorMessage = (): JSX.Element => {
+      const getFormStatus = (): FormStatus => {
         if(statuses.deleteAccount.is === RequestStatus.Error) {
-          return (
-            <ModalStatusMessage 
-              status={RequestStatus.Error} 
-              statusMessage="There was an issue deleting your account. Please refresh and try again!" 
-            />
-          )
+          return FormStatus.SubmitError;
         }
+
+        return FormStatus.InProgress;
       }
 
       return (
         <React.Fragment>
           <ModalBody>   
             <p className="passion-one-font">I understand that deleting my account is permanent.</p> 
-            <p className="passion-one-font">I understand that continuing with this action will remove all of my personally identifiable profile, game, and player data forever as well as delete any Game Days I have purchased.</p>          
+            <p className="passion-one-font">I understand that continuing with this action will remove all of my personally identifiable profile, game, and player data forever as well as delete any Game Days I have purchased.</p>   
+            <Form 
+              id="delete-account-form" 
+              status={getFormStatus()} 
+              statusMessage="There was an issue deleting your account. Please refresh and try again!"
+            >
+              <FormBody>
+                <InputWrapper
+                  id="confirmation-input" 
+                  label="Enter DELETE" 
+                  value={state.confirmationText}
+                  error={state.confirmationTextError}
+                  errorMessage="Invalid"
+                >
+                  <input 
+                    type="text"
+                    className="passion-one-font"
+                    minLength={3}
+                    maxLength={24}
+                    placeholder="DELETE"
+                    value={state.confirmationText}
+                    onChange={(e: any) => updateConfirmationText(e.target.value.toUpperCase())}
+                  />
+                </InputWrapper>
+              </FormBody>
+              <FormActions>        
+                <Button
+                  className="delete-account-button fancy-button red"
+                  handleOnClick={handleOnDelete} 
+                >
+                  <i className="far fa-trash-alt" />
+                  <h1 className="passion-one-font">Delete Forever</h1>
+                </Button>
+                <Button
+                  className="delete-account-button fancy-button"
+                  handleOnClick={() => dispatch(AppAction.ToggleDeleteAccount, false)} 
+                >
+                  <h1 className="passion-one-font">Nevermind</h1>
+                </Button>
+              </FormActions>
+            </Form>       
           </ModalBody>
-          <ModalActions>          
-            <Button
-              className="delete-account-button fancy-button red"
-              handleOnClick={handleOnDelete} 
-            >
-              <i className="far fa-trash-alt" />
-              <h1 className="passion-one-font">Delete Forever</h1>
-            </Button>
-            <Button
-              className="delete-account-button fancy-button"
-              handleOnClick={() => dispatch(AppAction.ToggleDeleteAccount, false)} 
-            >
-              <h1 className="passion-one-font">Nevermind</h1>
-            </Button>
-          </ModalActions>
-          {getErrorMessage()}
         </React.Fragment>
       )
     }
