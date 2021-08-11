@@ -1,12 +1,14 @@
 .accepted-payments {
-  border: 1px solid white;
-  border-radius: 4px;
   display: inline-block;
-  padding: 8px;
   
   .accepted-payment {
+    border: 1px solid white;
+    border-radius: 4px;
     color: white;
     font-size: 2em;
-    margin-right: 5px;
+    height: 50px;
+    line-height: 50px;
+    margin-left: 5px;
+    padding: 0px 10px;
   }
 }

@@ -20,13 +20,11 @@ export const StripeService: IStripeService = {
         price_data: {
           currency: "usd",
           product_data: {
-            name: itemID
+            name: itemID,
+            images: [PaymentUtility.getImage(itemID)]
           },
           unit_amount: amount
         },
-        images: [
-          PaymentUtility.getImage(itemID)
-        ],
         quantity: 1
       }],
       metadata: {

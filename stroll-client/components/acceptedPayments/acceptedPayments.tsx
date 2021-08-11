@@ -7,10 +7,6 @@ interface AcceptedPaymentsProps {
 
 export const AcceptedPayments: React.FC<AcceptedPaymentsProps> = (props: AcceptedPaymentsProps) => {  
   const icons: string[] = [
-    "fab fa-cc-visa",
-    "fab fa-cc-mastercard",
-    "fab fa-cc-amex",
-    "fab fa-cc-discover",
     "fab fa-google-pay",
     "fab fa-apple-pay"
   ];
