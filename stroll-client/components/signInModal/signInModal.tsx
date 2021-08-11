@@ -42,8 +42,8 @@ export const SignInModal: React.FC<SignInModalProps> = (props: SignInModalProps)
       auth.signInWithRedirect(provider);
     }
   
-    const handleSignInWithTwitter = async () => {
-      const provider: firebase.auth.TwitterAuthProvider = new firebase.auth.TwitterAuthProvider();
+    const handleSignInWithFacebook = async () => {
+      const provider: firebase.auth.FacebookAuthProvider = new firebase.auth.FacebookAuthProvider();
   
       provider.setCustomParameters({ prompt: "select_account" });
   
@@ -64,7 +64,7 @@ export const SignInModal: React.FC<SignInModalProps> = (props: SignInModalProps)
                 <img src={`${StrollTheDiceCDN.Url}/img/brands/google-logo.png`} />
               </div>
             </Button>
-            <Button id="twitter-sign-in-button" className="sign-in-button" handleOnClick={handleSignInWithTwitter}>
+            <Button id="twitter-sign-in-button" className="sign-in-button" handleOnClick={handleSignInWithFacebook}>
               <div className="sign-in-button-logo">
                 <img src={`${StrollTheDiceCDN.Url}/img/brands/twitter-logo.png`} />
               </div>

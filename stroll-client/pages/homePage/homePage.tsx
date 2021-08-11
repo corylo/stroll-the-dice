@@ -48,6 +48,7 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
     <Page 
       id="home-page" 
       backgroundGraphic={ImageUtility.getGraphic("running", "png")}
+      showFooter
     >
       {getContent()}
     </Page>

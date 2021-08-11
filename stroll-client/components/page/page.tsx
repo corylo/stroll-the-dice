@@ -19,6 +19,7 @@ interface PageProps {
   errorMessage?: string;
   id?: string;
   requireAuth?: boolean;
+  showFooter?: boolean;
   status?: RequestStatus;
 }
 
@@ -70,11 +71,36 @@ export const Page: React.FC<PageProps> = (props: PageProps) => {
     }
   }
 
+  const getFooter = (): JSX.Element => {
+    if(
+      props.showFooter && 
+      appState.status !== AppStatus.Loading &&
+      props.status !== RequestStatus.Loading
+    ) {
+      return (
+        <div className="page-content-footer">
+          <div className="page-content-footer-legal-policies">
+            <h1 className="passion-one-font">Legal</h1>
+            <div className="page-content-footer-legal-policies-list">
+              <a className="passion-one-font" href="https://legal.strollthedice.com/privacy-policy" target="_blank">Privacy Policy</a>
+              <a className="passion-one-font" href="https://legal.strollthedice.com/terms-and-conditions" target="_blank">Terms & Conditions</a>
+              <a className="passion-one-font" href="https://legal.strollthedice.com/cookie-policy" target="_blank">Cookie Policy</a>
+            </div>
+          </div>
+          <div className="page-content-footer-company-name">
+            <h1 className="passion-one-font">2021 Waff Apps LLC</h1>
+          </div>
+        </div>
+      )
+    }
+  }
+
   return (
     <div id={props.id} className="page">
       <div className="page-content-wrapper">
         <div className="page-content">
           {getPageContent()}
+          {getFooter()}
         </div>
       </div>
       {getPageBackgroundGraphic()}
