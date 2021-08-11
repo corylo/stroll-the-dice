@@ -74,8 +74,7 @@ export const Page: React.FC<PageProps> = (props: PageProps) => {
   const getFooter = (): JSX.Element => {
     if(
       props.showFooter && 
-      appState.status !== AppStatus.Loading &&
-      props.status !== RequestStatus.Loading
+      appState.status === AppStatus.SignedOut
     ) {
       return (
         <div className="page-content-footer">
@@ -86,9 +85,6 @@ export const Page: React.FC<PageProps> = (props: PageProps) => {
               <a className="passion-one-font" href="https://legal.strollthedice.com/terms-and-conditions" target="_blank">Terms & Conditions</a>
               <a className="passion-one-font" href="https://legal.strollthedice.com/cookie-policy" target="_blank">Cookie Policy</a>
             </div>
-          </div>
-          <div className="page-content-footer-company-name">
-            <h1 className="passion-one-font">2021 Waff Apps LLC</h1>
           </div>
         </div>
       )
