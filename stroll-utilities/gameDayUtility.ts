@@ -10,6 +10,7 @@ import { PaymentItemID } from "../stroll-enums/paymentItemID";
 interface IGameDayUtility {
   getDayQuantity: (unit: GameDayPurchaseOptionUnit) => number;
   getGameDayPaymentItemID: (unit: GameDayPurchaseOptionUnit) => PaymentItemID;
+  getGameDayPurchaseOption: (unit: GameDayPurchaseOptionUnit) => IGameDayPurchaseOption;
   getGameDayPurchaseOptionPrice: (unit: GameDayPurchaseOptionUnit) => number;
   getGameDayPurchaseOptionUnit: (itemID: PaymentItemID) => GameDayPurchaseOptionUnit;
   getGameDayPurchaseOptions: () => IGameDayPurchaseOption[];
@@ -49,6 +50,9 @@ export const GameDayUtility: IGameDayUtility = {
       default:
         throw new Error(`Unknown game day purchase option unit: ${unit}`);
     }
+  },
+  getGameDayPurchaseOption: (unit: GameDayPurchaseOptionUnit): IGameDayPurchaseOption => {
+    return GameDayUtility.getGameDayPurchaseOptions().find((option: IGameDayPurchaseOption) => option.unit === unit);
   },
   getGameDayPurchaseOptionPrice: (unit: GameDayPurchaseOptionUnit): number => {
     return PaymentUtility.getPrice(GameDayUtility.getGameDayPaymentItemID(unit));

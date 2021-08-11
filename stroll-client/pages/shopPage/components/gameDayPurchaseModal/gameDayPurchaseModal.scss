@@ -1,10 +1,14 @@
 #game-day-purchase-modal {
   .modal-content-wrapper {
     padding-bottom: 60px;
-  }
 
-  .game-day-purchase-option {
-    border: none;
+    .modal-content {
+      .modal-body {
+        .powered-by-stripe-wrapper {
+          margin-top: 20px;
+        }
+      }
+    }
   }
 
   .modal-actions {

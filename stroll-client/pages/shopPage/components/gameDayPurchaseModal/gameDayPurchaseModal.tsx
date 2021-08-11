@@ -6,6 +6,7 @@ import { Modal } from "../../../../components/modal/modal";
 import { ModalActions } from "../../../../components/modal/modalActions";
 import { ModalBody } from "../../../../components/modal/modalBody";
 import { ModalTitle } from "../../../../components/modal/modalTitle";
+import { PoweredByStripe } from "../../../../components/poweredByStripe/poweredByStripe";
 
 import { PaymentService } from "../../../../services/paymentService";
 
@@ -15,6 +16,7 @@ import { IGameDayPurchaseOption } from "../../../../../stroll-models/gameDayPurc
 
 import { GameDayPurchaseOptionUnit } from "../../../../../stroll-enums/gameDayPurchaseOptionUnit";
 import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
+import { ModalStatusMessage } from "../../../../components/modal/modalStatusMessage";
 
 interface IGameDayPurchaseState {
   status: RequestStatus;
@@ -22,6 +24,7 @@ interface IGameDayPurchaseState {
 }
 
 interface GameDayPurchaseModalProps {  
+  completionStatus: RequestStatus;
   option: IGameDayPurchaseOption;
   back: () => void;
 }
@@ -30,21 +33,63 @@ export const GameDayPurchaseModal: React.FC<GameDayPurchaseModalProps> = (props:
   const [state, setState] = useState<IGameDayPurchaseState>({ status: RequestStatus.Loading, url: "" });
 
   useEffect(() => {
-    const fetch = async (): Promise<void> => {
-      try {
-        const url: string = await PaymentService.createPaymentSession({ 
-          itemID: GameDayUtility.getGameDayPaymentItemID(props.option.unit), 
-          quantity: 1 
-        });
+    if(props.completionStatus === RequestStatus.Idle) {
+      const fetch = async (): Promise<void> => {
+        try {
+          const url: string = await PaymentService.createPaymentSession({ 
+            itemID: GameDayUtility.getGameDayPaymentItemID(props.option.unit), 
+            quantity: 1 
+          });
 
-        setState({ status: RequestStatus.Success, url });
-      } catch (err) {
-        props.back();
+          setState({ status: RequestStatus.Success, url });
+        } catch (err) {
+          props.back();
+        }
       }
-    }
 
-    fetch();
-  }, []);
+      fetch();
+    } else {
+      setState({ ...state, status: RequestStatus.Idle });
+    }
+  }, [props.completionStatus, props.option]);
+
+  const getContent = (): JSX.Element => {
+    if(props.completionStatus === RequestStatus.Idle) {
+      return (
+        <PoweredByStripe />
+      )
+    } else if (props.completionStatus === RequestStatus.Success) {
+      return (
+        <ModalStatusMessage 
+          status={RequestStatus.Success} 
+          statusMessage="Purchase complete! If you opened the shop in a new tab, you may now close it."
+        />
+      )
+    } else if (props.completionStatus === RequestStatus.Error) {
+      return (
+        <ModalStatusMessage 
+          status={RequestStatus.Error} 
+          statusMessage="Purchase cancelled! You may now close this modal."
+        />
+      )
+    }
+  }
+
+  const getActions = (): JSX.Element => {
+    if(props.completionStatus === RequestStatus.Idle) {
+      return (
+        <ModalActions>
+          <Button
+            className="submit-button fancy-button passion-one-font" 
+            external
+            url={state.url}
+          >
+            Checkout
+          </Button>
+        </ModalActions>
+      )
+    }
+  }
 
   return (
     <Modal id="game-day-purchase-modal" status={state.status}>
@@ -55,16 +100,9 @@ export const GameDayPurchaseModal: React.FC<GameDayPurchaseModalProps> = (props:
           option={props.option} 
           presentationMode 
         />
+        {getContent()}
       </ModalBody>
-      <ModalActions>
-        <Button
-          className="submit-button fancy-button passion-one-font" 
-          external
-          url={state.url}
-        >
-          Checkout
-        </Button>
-      </ModalActions>
+      {getActions()}
     </Modal>
   );
 }

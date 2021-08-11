@@ -17,6 +17,7 @@ export const StripeService: IStripeService = {
   createPaymentSession: async (uid: string, amount: number, itemID: PaymentItemID): Promise<string> => {
     const session: stripe.Checkout.Session = await Stripe.checkout.sessions.create({
       line_items: [{
+        description: itemID,
         price_data: {
           currency: "usd",
           product_data: {
@@ -33,8 +34,8 @@ export const StripeService: IStripeService = {
       },
       mode: "payment",
       payment_method_types: ["card"],
-      success_url: "https://strollthedice.com/shop",
-      cancel_url: "https://strollthedice.com/shop"
+      success_url: `https://strollthedice.com/shop?id=${PaymentUtility.getItemUrlID(itemID)}&success=true`,
+      cancel_url: `https://strollthedice.com/shop?id=${PaymentUtility.getItemUrlID(itemID)}&error=true`
     });
 
     return session.url;
