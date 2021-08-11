@@ -64,9 +64,9 @@ export const SignInModal: React.FC<SignInModalProps> = (props: SignInModalProps)
                 <img src={`${StrollTheDiceCDN.Url}/img/brands/google-logo.png`} />
               </div>
             </Button>
-            <Button id="twitter-sign-in-button" className="sign-in-button" handleOnClick={handleSignInWithFacebook}>
+            <Button id="facebook-sign-in-button" className="sign-in-button" handleOnClick={handleSignInWithFacebook}>
               <div className="sign-in-button-logo">
-                <img src={`${StrollTheDiceCDN.Url}/img/brands/twitter-logo.png`} />
+                <img src={`${StrollTheDiceCDN.Url}/img/brands/facebook-logo.png`} />
               </div>
             </Button>      
           </div>
