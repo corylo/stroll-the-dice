@@ -17,12 +17,16 @@ export const AuthService: IAuthService = {
       await GameBatchService.deleteCreatorFromAllGames(user.uid);
 
       await PlayerBatchService.deletePlayerFromAllGames(user.uid);
-      
-      await StepTrackerService.preauthorizedDisconnectStepTracker(user.uid);
     } catch(err) {
       logger.error(err);
 
       logger.error(`Unable to delete profile for user: [${user.displayName}].`);
+    }
+      
+    try {
+      await StepTrackerService.preauthorizedDisconnectStepTracker(user.uid);
+    } catch(err) {
+      logger.error(err);
     }
   }
 }
