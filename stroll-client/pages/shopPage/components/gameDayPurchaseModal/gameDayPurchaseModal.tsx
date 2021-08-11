@@ -20,7 +20,6 @@ import { ModalStatusMessage } from "../../../../components/modal/modalStatusMess
 
 interface IGameDayPurchaseState {
   status: RequestStatus;
-  url: string;
 }
 
 interface GameDayPurchaseModalProps {  
@@ -30,28 +29,22 @@ interface GameDayPurchaseModalProps {
 }
 
 export const GameDayPurchaseModal: React.FC<GameDayPurchaseModalProps> = (props: GameDayPurchaseModalProps) => {    
-  const [state, setState] = useState<IGameDayPurchaseState>({ status: RequestStatus.Loading, url: "" });
+  const [state, setState] = useState<IGameDayPurchaseState>({ status: RequestStatus.Idle });
 
-  useEffect(() => {
-    if(props.completionStatus === RequestStatus.Idle) {
-      const fetch = async (): Promise<void> => {
-        try {
-          const url: string = await PaymentService.createPaymentSession({ 
-            itemID: GameDayUtility.getGameDayPaymentItemID(props.option.unit), 
-            quantity: 1 
-          });
+  const handleOnCheckout = async (): Promise<void> => {
+    try {
+      setState({ ...state, status: RequestStatus.Loading });
 
-          setState({ status: RequestStatus.Success, url });
-        } catch (err) {
-          props.back();
-        }
-      }
+      const url: string = await PaymentService.createPaymentSession({ 
+        itemID: GameDayUtility.getGameDayPaymentItemID(props.option.unit), 
+        quantity: 1 
+      });
 
-      fetch();
-    } else {
+      window.location.href = url;
+    } catch (err) {
       setState({ ...state, status: RequestStatus.Idle });
     }
-  }, [props.completionStatus, props.option]);
+  }
 
   const getContent = (): JSX.Element => {
     if(props.completionStatus === RequestStatus.Idle) {
@@ -81,8 +74,7 @@ export const GameDayPurchaseModal: React.FC<GameDayPurchaseModalProps> = (props:
         <ModalActions>
           <Button
             className="submit-button fancy-button passion-one-font" 
-            external
-            url={state.url}
+            handleOnClick={handleOnCheckout}
           >
             Checkout
           </Button>
