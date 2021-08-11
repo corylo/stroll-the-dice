@@ -28,18 +28,4 @@
     font-size: 1.25em;
     margin-left: 5px;
   }
-
-  .app-brand-beta-label {
-    background: linear-gradient(to right, rgba(white, 0.25), rgba(white, 0.25));    
-    border: 1px solid white;
-    border-radius: 100px;    
-    color: white;
-    font-size: 0.8em;
-    padding: 2px 8px;
-    position: absolute;
-    right: -10px;
-    text-align: center;
-    top: 50%;
-    transform: translate(100%, -50%);
-  }
 }
