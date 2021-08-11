@@ -45,8 +45,6 @@ export const SignInModal: React.FC<SignInModalProps> = (props: SignInModalProps)
     const handleSignInWithFacebook = async () => {
       const provider: firebase.auth.FacebookAuthProvider = new firebase.auth.FacebookAuthProvider();
   
-      provider.setCustomParameters({ prompt: "select_account" });
-  
       auth.signInWithRedirect(provider);
     }
 
