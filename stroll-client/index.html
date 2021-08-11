@@ -24,7 +24,7 @@
   <script src="https://kit.fontawesome.com/63a272ddc0.js" crossorigin="anonymous" async></script>
 
   <script>
-    if ("serviceWorker" in navigator) {
+    if (location.hostname !== "localhost" && "serviceWorker" in navigator) {
       window.addEventListener("load", () => {
         navigator.serviceWorker.register("service-worker.js");
       });
