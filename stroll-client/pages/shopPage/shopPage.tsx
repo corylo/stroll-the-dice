@@ -28,7 +28,7 @@ export const ShopPage: React.FC<NotificationsPageProps> = (props: NotificationsP
 
   const [option, setOption] = useState<IGameDayPurchaseOption>(null);
 
-  const handleOnOptionClick = (option: IGameDayPurchaseOption): void => {
+  const handleOnOptionClick = async (option: IGameDayPurchaseOption): Promise<void> => {
     if(appState.status === AppStatus.SignedIn) {
       setOption(option);
     } else {
@@ -48,7 +48,7 @@ export const ShopPage: React.FC<NotificationsPageProps> = (props: NotificationsP
     return GameDayUtility.getGameDayPurchaseOptions().map((option: IGameDayPurchaseOption, index: number) => (    
       <GameDayPurchaseOption 
         key={option.unit} 
-        discount={option.unit !== GameDayPurchaseOptionUnit.One}
+        discount={option.unit !== GameDayPurchaseOptionUnit.Two}
         option={option}
         recommendation={getRecommendation(option.unit)}
         handleOnClick={() => handleOnOptionClick(option)}

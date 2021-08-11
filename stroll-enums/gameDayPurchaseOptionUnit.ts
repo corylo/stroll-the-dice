@@ -1,5 +1,5 @@
 export enum GameDayPurchaseOptionUnit {
-  One = "One",
+  Two = "Two",
   Five = "Five",
   Fourteen = "Fourteen",
   TwentyEight = "Twenty-Eight",

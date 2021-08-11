@@ -14,5 +14,5 @@ export const defaultGameDayPurchaseOption = (): IGameDayPurchaseOption => ({
   label: "",
   price: 0,
   quantity: 0,
-  unit: GameDayPurchaseOptionUnit.One
+  unit: GameDayPurchaseOptionUnit.Two
 });

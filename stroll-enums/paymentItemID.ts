@@ -1,7 +1,7 @@
 export enum PaymentItemID {
   None = "",
 
-  OneGameDay = "One Game Day",
+  TwoGameDays = "Two Game Days",
   FiveGameDays = "Five Game Days",
   FourteenGameDays = "Fourteen Game Days",
   TwentyEightGameDays = "Twenty-Eight Game Days",

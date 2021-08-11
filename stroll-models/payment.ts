@@ -6,7 +6,7 @@ export interface IPayment {
   amount: number;
   createdAt: firebase.firestore.FieldValue;
   id: string;
-  intentID: string;
+  checkoutSessionID: string;
   itemID: PaymentItemID;
 }
 
@@ -14,7 +14,7 @@ export const defaultPayment = (): IPayment => ({
   amount: 0,
   createdAt: firebase.firestore.FieldValue.serverTimestamp(),
   id: "",
-  intentID: "",
+  checkoutSessionID: "",
   itemID: PaymentItemID.None
 });
 
@@ -23,7 +23,7 @@ export const paymentConverter: any = {
     return {
       amount: payment.amount,
       createdAt: payment.createdAt,         
-      intentID: payment.intentID,
+      checkoutSessionID: payment.checkoutSessionID,
       itemID: payment.itemID
     }
   },
@@ -36,7 +36,7 @@ export const paymentConverter: any = {
       amount: data.amount,
       createdAt: data.createdAt,            
       id: snapshot.id,
-      intentID: data.intentID,
+      checkoutSessionID: data.checkoutSessionID,
       itemID: data.itemID
     }
   }

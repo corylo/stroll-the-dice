@@ -6,6 +6,12 @@
   .game-day-purchase-option {
     border: none;
   }
+
+  .modal-actions {
+    .submit-button {
+      text-align: center;
+    }
+  }
 }
 
 @include phone-or-larger {

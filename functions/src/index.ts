@@ -8,6 +8,7 @@ import { PredictionService } from "./services/predictionService";
 import { ProfileService } from "./services/profileService";
 import { ScheduleService } from "./services/scheduleService";
 import { StepTrackerService } from "./services/stepTrackerService";
+import { StripeService } from "./services/stripeService";
 
 exports.onAuthUserDelete = auth.user()
   .onDelete(AuthService.onAuthUserDelete);
@@ -63,8 +64,8 @@ exports.disconnectStepTracker = https
 // exports.updateUserEmail = https
 //   .onCall(UserService.updateEmail);
   
-exports.createPayment = https
-  .onCall(PaymentService.createPayment);
-  
-exports.confirmPayment = https
-  .onCall(PaymentService.confirmPayment);
+exports.createPaymentSession = https
+  .onCall(PaymentService.createPaymentSession);
+
+exports.stripePaymentWebhook = https
+  .onRequest(StripeService.paymentWebhook);

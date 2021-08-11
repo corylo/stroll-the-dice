@@ -4,8 +4,11 @@ import classNames from "classnames";
 import { Button } from "../../../../components/buttons/button";
 
 import { GameDayUtility } from "../../../../../stroll-utilities/gameDayUtility";
+import { PaymentUtility } from "../../../../../stroll-utilities/paymentUtility";
 
 import { IGameDayPurchaseOption } from "../../../../../stroll-models/gameDayPurchaseOption";
+
+import { GameDayPurchaseOptionUnit } from "../../../../../stroll-enums/gameDayPurchaseOptionUnit";
 
 interface GameDayPurchaseOptionProps {  
   discount?: boolean;
@@ -30,8 +33,12 @@ export const GameDayPurchaseOption: React.FC<GameDayPurchaseOptionProps> = (prop
 
   const getDiscountLabel = (): JSX.Element => {
     if(props.discount) {
+      const basePrice: number = PaymentUtility.getPrice(GameDayUtility.getGameDayPaymentItemID(GameDayPurchaseOptionUnit.Two)),
+        baseQuantity: number = GameDayUtility.getDayQuantity(GameDayPurchaseOptionUnit.Two),
+        baseDaily: number = basePrice / baseQuantity;
+
       const daily: number = option.price / option.quantity,
-        percent: string = ((1 - daily) * 100).toFixed(0);
+        percent: string = ((1 - (daily /baseDaily)) * 100).toFixed(0);
 
       return (
         <h1 className="game-day-purchase-option-discount-label passion-one-font">

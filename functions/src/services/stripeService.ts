@@ -1,28 +1,67 @@
+import { config, https, logger } from "firebase-functions";
 import stripe from "stripe";
 
 import { Stripe } from "../../config/stripe";
 
-import { IConfirmPaymentRequest } from "../../../stroll-models/confirmPaymentRequest";
+import { PaymentCompleteService } from "./paymentCompleteService";
+
 import { PaymentItemID } from "../../../stroll-enums/paymentItemID";
+import { PaymentUtility } from "../../../stroll-utilities/paymentUtility";
 
 interface IStripeService {  
-  createPaymentIntent: (amount: number, itemID: PaymentItemID) => Promise<string>;
-  confirmPayment: (request: IConfirmPaymentRequest) => Promise<stripe.PaymentIntent>;
+  createPaymentSession: (uid: string, amount: number, itemID: PaymentItemID) => Promise<string>;
+  paymentWebhook: (req: https.Request, res: any) => Promise<void>;
 }
 
 export const StripeService: IStripeService = {
-  createPaymentIntent: async (amount: number, itemID: PaymentItemID): Promise<string> => {
-    const paymentIntent: stripe.PaymentIntent = await Stripe.paymentIntents.create({
-      amount,
-      currency: "usd",
-      description: itemID      
+  createPaymentSession: async (uid: string, amount: number, itemID: PaymentItemID): Promise<string> => {
+    const session: stripe.Checkout.Session = await Stripe.checkout.sessions.create({
+      line_items: [{
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: itemID
+          },
+          unit_amount: amount
+        },
+        images: [
+          PaymentUtility.getImage(itemID)
+        ],
+        quantity: 1
+      }],
+      metadata: {
+        itemID,
+        uid
+      },
+      mode: "payment",
+      payment_method_types: ["card"],
+      success_url: "https://strollthedice.com/shop",
+      cancel_url: "https://strollthedice.com/shop"
     });
 
-    return paymentIntent.id;
+    return session.url;
   },
-  confirmPayment: async (request: IConfirmPaymentRequest): Promise<stripe.PaymentIntent> => {
-    return await Stripe.paymentIntents.confirm(request.intentID, {
-      payment_method: request.paymentMethodID
-    });
+  paymentWebhook: async (req: https.Request, res: any): Promise<void> => {
+    try {
+      const event: stripe.Event = Stripe.webhooks.constructEvent(
+        req.rawBody,
+        req.headers["stripe-signature"],
+        config().stripe.payment_webhook_secret
+      );
+
+      event.type === ""
+
+      const { object } = event.data as any;
+
+      await PaymentCompleteService.handlePaymentCompletion(
+        object.metadata.uid, 
+        object.metadata.itemID,
+        object.id
+      );
+
+      return res.sendStatus(200);
+    } catch (err) {
+      logger.error(err);
+    }
   }
 }

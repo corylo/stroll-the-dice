@@ -1,3 +1,4 @@
+import { ImageUtility } from "../stroll-client/utilities/imageUtility";
 import { PaymentUtility } from "./paymentUtility";
 
 import { defaultGameDayPurchaseOption, IGameDayPurchaseOption } from "../stroll-models/gameDayPurchaseOption";
@@ -5,7 +6,6 @@ import { defaultGameDayPurchaseOption, IGameDayPurchaseOption } from "../stroll-
 import { GameDayPurchaseOptionUnit } from "../stroll-enums/gameDayPurchaseOptionUnit";
 import { Icon } from "../stroll-enums/icon";
 import { PaymentItemID } from "../stroll-enums/paymentItemID";
-import { ImageUtility } from "../stroll-client/utilities/imageUtility";
 
 interface IGameDayUtility {
   getDayQuantity: (unit: GameDayPurchaseOptionUnit) => number;
@@ -20,8 +20,8 @@ interface IGameDayUtility {
 export const GameDayUtility: IGameDayUtility = {
   getDayQuantity: (unit: GameDayPurchaseOptionUnit): number => {
     switch(unit) {
-      case GameDayPurchaseOptionUnit.One:
-        return 1;       
+      case GameDayPurchaseOptionUnit.Two:
+        return 2;       
       case GameDayPurchaseOptionUnit.Five:
         return 5;      
       case GameDayPurchaseOptionUnit.Fourteen:
@@ -36,8 +36,8 @@ export const GameDayUtility: IGameDayUtility = {
   },
   getGameDayPaymentItemID: (unit: GameDayPurchaseOptionUnit): PaymentItemID => {
     switch(unit) {
-      case GameDayPurchaseOptionUnit.One:
-        return PaymentItemID.OneGameDay;       
+      case GameDayPurchaseOptionUnit.Two:
+        return PaymentItemID.TwoGameDays;       
       case GameDayPurchaseOptionUnit.Five:
         return PaymentItemID.FiveGameDays;      
       case GameDayPurchaseOptionUnit.Fourteen:
@@ -55,8 +55,8 @@ export const GameDayUtility: IGameDayUtility = {
   },
   getGameDayPurchaseOptionUnit: (itemID: PaymentItemID): GameDayPurchaseOptionUnit => {
     switch(itemID) {
-      case PaymentItemID.OneGameDay:
-        return GameDayPurchaseOptionUnit.One;
+      case PaymentItemID.TwoGameDays:
+        return GameDayPurchaseOptionUnit.Two;
       case PaymentItemID.FiveGameDays:
         return GameDayPurchaseOptionUnit.Five;
       case PaymentItemID.FourteenGameDays:
@@ -73,8 +73,8 @@ export const GameDayUtility: IGameDayUtility = {
     return [{
       ...defaultGameDayPurchaseOption(),
       icon: Icon.OneGameDay,
-      label: "Single Day",
-      unit: GameDayPurchaseOptionUnit.One
+      label: "Two Pack",
+      unit: GameDayPurchaseOptionUnit.Two
     }, {
       ...defaultGameDayPurchaseOption(),
       icon: Icon.FiveGameDays,
@@ -103,7 +103,7 @@ export const GameDayUtility: IGameDayUtility = {
   },
   getGraphic: (unit: GameDayPurchaseOptionUnit): string => {
     switch(unit) {
-      case GameDayPurchaseOptionUnit.One:
+      case GameDayPurchaseOptionUnit.Two:
         return ImageUtility.getGraphic("ticket", "png");       
       case GameDayPurchaseOptionUnit.Five:
         return ImageUtility.getGraphic("bag", "png");   
@@ -119,7 +119,7 @@ export const GameDayUtility: IGameDayUtility = {
   },
   isGameDayPurchase: (itemID: PaymentItemID): boolean => {
     return (
-      itemID === PaymentItemID.OneGameDay ||
+      itemID === PaymentItemID.TwoGameDays ||
       itemID === PaymentItemID.FiveGameDays ||
       itemID === PaymentItemID.FourteenGameDays ||
       itemID === PaymentItemID.TwentyEightGameDays ||

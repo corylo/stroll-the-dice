@@ -18,17 +18,17 @@ import { PaymentItemID } from "../../../stroll-enums/paymentItemID";
 import { ProfileStatsID } from "../../../stroll-enums/profileStatsID";
 
 interface IPaymentCompleteService {
-  handleGameDayPurchase: (uid: string, itemID: PaymentItemID, intentID: string, price: number) => Promise<void>;
-  handlePaymentCompletion: (uid: string, intent: stripe.PaymentIntent) => Promise<void>;
+  handleGameDayPurchase: (uid: string, itemID: PaymentItemID, checkoutSessionID: string, price: number) => Promise<void>;
+  handlePaymentCompletion: (uid: string, itemID: string, checkoutSessionID: string) => Promise<void>;
 }
 
 export const PaymentCompleteService: IPaymentCompleteService = {
-  handleGameDayPurchase: async (uid: string, itemID: PaymentItemID, intentID: string, price: number): Promise<void> => {
+  handleGameDayPurchase: async (uid: string, itemID: PaymentItemID, checkoutSessionID: string, price: number): Promise<void> => {
     const unit: GameDayPurchaseOptionUnit = GameDayUtility.getGameDayPurchaseOptionUnit(itemID),        
       quantity: number = GameDayUtility.getDayQuantity(unit);
 
     logger.info(`Handling payment completion for user: [${uid}].`, {
-      intentID,
+      checkoutSessionID,
       unit,
       quantity
     });
@@ -54,7 +54,7 @@ export const PaymentCompleteService: IPaymentCompleteService = {
           amount: price,          
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           id: "",
-          intentID,
+          checkoutSessionID,
           itemID
         };
 
@@ -64,12 +64,12 @@ export const PaymentCompleteService: IPaymentCompleteService = {
       }
     });
   },
-  handlePaymentCompletion: async (uid: string, intent: stripe.PaymentIntent): Promise<void> => {
-    const itemID: PaymentItemID = PaymentUtility.getItemID(intent.description),
-      price: number = PaymentUtility.getPrice(itemID);
+  handlePaymentCompletion: async (uid: string, itemID: string, checkoutSessionID: string): Promise<void> => {
+    const paymentItemID: PaymentItemID = PaymentUtility.getItemID(itemID),
+      price: number = PaymentUtility.getPrice(paymentItemID);
 
-    if(GameDayUtility.isGameDayPurchase(itemID)) {
-      await PaymentCompleteService.handleGameDayPurchase(uid, itemID, intent.id, price);
+    if(GameDayUtility.isGameDayPurchase(paymentItemID)) {
+      await PaymentCompleteService.handleGameDayPurchase(uid, paymentItemID, checkoutSessionID, price);
     }
   }
 }

@@ -10,7 +10,9 @@ export const AcceptedPayments: React.FC<AcceptedPaymentsProps> = (props: Accepte
     "fab fa-cc-visa",
     "fab fa-cc-mastercard",
     "fab fa-cc-amex",
-    "fab fa-cc-discover"
+    "fab fa-cc-discover",
+    "fab fa-google-pay",
+    "fab fa-apple-pay"
   ];
 
   const getPayments = (): JSX.Element[] => {

@@ -4,8 +4,9 @@ import { IConfirmPaymentRequest } from "../../stroll-models/confirmPaymentReques
 import { ICreatePaymentRequest } from "../../stroll-models/createPaymentRequest";
 
 interface IPaymentService {
-  createPayment: (request: ICreatePaymentRequest) => Promise<string>;
   confirmPayment: (request: IConfirmPaymentRequest) => Promise<void>;
+  createPayment: (request: ICreatePaymentRequest) => Promise<string>;
+  createPaymentSession: (request: ICreatePaymentRequest) => Promise<string>;
 }
 
 export const PaymentService: IPaymentService = {
@@ -16,6 +17,11 @@ export const PaymentService: IPaymentService = {
   },
   createPayment: async (request: ICreatePaymentRequest): Promise<string> => {
     const res: any = await functions.httpsCallable("createPayment")(request);
+
+    return res.data;
+  },
+  createPaymentSession: async (request: ICreatePaymentRequest): Promise<string> => {
+    const res: any = await functions.httpsCallable("createPaymentSession")(request);
 
     return res.data;
   }

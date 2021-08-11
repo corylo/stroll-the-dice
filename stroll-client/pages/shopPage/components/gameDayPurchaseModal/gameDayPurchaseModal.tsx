@@ -1,18 +1,25 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 
-import { GameDayPaymentForm } from "../gameDayPaymentForm/gameDayPaymentForm";
+import { Button } from "../../../../components/buttons/button";
 import { GameDayPurchaseOption } from "../gameDayPurchaseOption/gameDayPurchaseOption";
 import { Modal } from "../../../../components/modal/modal";
+import { ModalActions } from "../../../../components/modal/modalActions";
 import { ModalBody } from "../../../../components/modal/modalBody";
 import { ModalTitle } from "../../../../components/modal/modalTitle";
+
+import { PaymentService } from "../../../../services/paymentService";
 
 import { GameDayUtility } from "../../../../../stroll-utilities/gameDayUtility";
 
 import { IGameDayPurchaseOption } from "../../../../../stroll-models/gameDayPurchaseOption";
-import { defaultGameDayPurchaseState, IGameDayPurchaseState } from "../../models/gameDayPurchaseState";
 
-import { FormStatus } from "../../../../enums/formStatus";
 import { GameDayPurchaseOptionUnit } from "../../../../../stroll-enums/gameDayPurchaseOptionUnit";
+import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
+
+interface IGameDayPurchaseState {
+  status: RequestStatus;
+  url: string;
+}
 
 interface IGameDayPurchaseContext {
   state: IGameDayPurchaseState;
@@ -27,35 +34,41 @@ interface GameDayPurchaseModalProps {
 }
 
 export const GameDayPurchaseModal: React.FC<GameDayPurchaseModalProps> = (props: GameDayPurchaseModalProps) => {    
-  const [state, setState] = useState<IGameDayPurchaseState>(defaultGameDayPurchaseState());
+  const [state, setState] = useState<IGameDayPurchaseState>({ status: RequestStatus.Loading, url: "" });
 
-  const handleBack = (): void => {
-    if(state.status === FormStatus.SubmitSuccess) {
-      window.close();
-      
-      setTimeout(() => props.back(), 10);
-    } else {
-      props.back();
+  useEffect(() => {
+    const fetch = async (): Promise<void> => {
+      const url: string = await PaymentService.createPaymentSession({ 
+        itemID: GameDayUtility.getGameDayPaymentItemID(props.option.unit), 
+        quantity: 1 
+      });
+
+      setState({ status: RequestStatus.Success, url });
     }
-  }
+
+    fetch();
+  }, []);
 
   return (
     <GameDayPurchaseContext.Provider value={{ state, setState }}>
-      <Modal id="game-day-purchase-modal">
-        <ModalTitle text="Purchase Game Days" handleOnClose={handleBack} />
+      <Modal id="game-day-purchase-modal" status={state.status}>
+        <ModalTitle text="Purchase Game Days" handleOnClose={props.back} />
         <ModalBody>       
-          <GameDayPaymentForm 
-            itemID={GameDayUtility.getGameDayPaymentItemID(props.option.unit)} 
-            price={props.option.price}
-            quantity={props.option.quantity}
-          >
-            <GameDayPurchaseOption 
-              discount={props.option.unit !== GameDayPurchaseOptionUnit.One}
-              option={props.option} 
-              presentationMode 
-            />
-          </GameDayPaymentForm>
+          <GameDayPurchaseOption 
+            discount={props.option.unit !== GameDayPurchaseOptionUnit.Two}
+            option={props.option} 
+            presentationMode 
+          />
         </ModalBody>
+        <ModalActions>
+          <Button
+            className="submit-button fancy-button passion-one-font" 
+            external
+            url={state.url}
+          >
+            Checkout
+          </Button>
+        </ModalActions>
       </Modal>
     </GameDayPurchaseContext.Provider>
   );
