@@ -6,6 +6,7 @@ export interface IGameDayHistoryEntry {
   gameID: string;
   id: string;
   occurredAt: firebase.firestore.FieldValue;
+  paymentID: string;
   quantity: number;
   redeemedBy: string;
   type: GameDayHistoryEntryType
@@ -15,6 +16,7 @@ export const defaultGameDayHistoryEntry = (): IGameDayHistoryEntry => ({
   gameID: "",
   id: "",
   occurredAt: firebase.firestore.FieldValue.serverTimestamp(),
+  paymentID: "",
   quantity: 0,
   redeemedBy: "",
   type: GameDayHistoryEntryType.None
@@ -25,6 +27,7 @@ export const gameDayHistoryEntryConverter: any = {
     return {
       gameID: entry.gameID,
       occurredAt: entry.occurredAt,
+      paymentID: entry.paymentID,
       quantity: entry.quantity,
       redeemedBy: entry.redeemedBy,
       type: entry.type
@@ -39,6 +42,7 @@ export const gameDayHistoryEntryConverter: any = {
       gameID: data.gameID,
       id: snapshot.id,
       occurredAt: data.occurredAt,
+      paymentID: data.paymentID,
       quantity: data.quantity,
       redeemedBy: data.redeemedBy,
       type: data.type

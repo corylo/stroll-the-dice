@@ -54,12 +54,13 @@ export const PaymentService: IPaymentService = {
     }
   },
   onCreate: async (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext): Promise<void> => {
-    const payment: IPayment = snapshot.data() as IPayment;
+    const payment: IPayment = { ...snapshot.data() as IPayment, id: snapshot.id };
 
     try {      
       const entry: IGameDayHistoryEntry = GameDayHistoryUtility.mapCreate(
         "",
         payment.createdAt, 
+        payment.id,
         GameDayUtility.getDayQuantity(GameDayUtility.getGameDayPurchaseOptionUnit(payment.itemID)), 
         "", 
         GameDayHistoryEntryType.Received

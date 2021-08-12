@@ -67,6 +67,7 @@ export const PlayerService: IPlayerService = {
           GameDayHistoryTransactionService.create(transaction, playerID, GameDayHistoryUtility.mapCreate(
             game.id,
             player.createdAt,
+            "",
             game.duration,
             player.id,
             GameDayHistoryEntryType.Redeemed

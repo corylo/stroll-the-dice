@@ -33,27 +33,33 @@ export const PaymentCompleteService: IPaymentCompleteService = {
     });
 
     await db.runTransaction(async (transaction: firebase.firestore.Transaction) => {
-      const ref: firebase.firestore.DocumentReference = db.collection("profiles")      
+      const profileStatsRef: firebase.firestore.DocumentReference = db.collection("profiles")      
         .doc(uid)
         .collection("stats")
         .doc(ProfileStatsID.GameDays);
-      
-      const doc: firebase.firestore.DocumentSnapshot = await transaction.get(ref);
 
-      if(doc.exists) {
-        const stats: IProfileGameDayStats = doc.data() as IProfileGameDayStats,
+      const paymentRef: firebase.firestore.Query = db.collection("profiles")      
+        .doc(uid)
+        .collection("payments")
+        .where("checkoutSessionID", "==", checkoutSessionID);
+      
+      const profileStatsDoc: firebase.firestore.DocumentSnapshot = await transaction.get(profileStatsRef),
+        paymentSnap: firebase.firestore.QuerySnapshot = await transaction.get(paymentRef);
+
+      if(profileStatsDoc.exists && paymentSnap.empty) {
+        const stats: IProfileGameDayStats = profileStatsDoc.data() as IProfileGameDayStats,
           update: IGameDayStatsUpdate = { 
             available: stats.available + quantity, 
             total: stats.total + quantity 
           };
 
-        transaction.update(ref, update);
+        transaction.update(profileStatsRef, update);
 
         const payment: IPayment = {
           amount: price,          
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          id: "",
           checkoutSessionID,
+          id: "",
           itemID
         };
 

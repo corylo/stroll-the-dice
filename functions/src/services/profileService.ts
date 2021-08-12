@@ -5,8 +5,10 @@ import { Change, EventContext, logger } from "firebase-functions";
 import { db } from "../../config/firebase";
 
 import { GameBatchService } from "./batch/gameBatchService";
+import { NotificationService } from "./notificationService";
 import { PlayerBatchService } from "./batch/playerBatchService";
 
+import { NotificationUtility } from "../utilities/notificationUtility";
 import { ProfileUtility } from "../utilities/profileUtility";
 
 import { IProfile, profileConverter } from "../../../stroll-models/profile";
@@ -22,6 +24,7 @@ interface IProfileServiceGet {
 
 interface IProfileService {
   get: IProfileServiceGet;
+  onCreate: (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext) => Promise<void>; 
   onUpdate: (change: Change<firebase.firestore.QueryDocumentSnapshot<IProfile>>, context: EventContext) => Promise<void>;
 }
 
@@ -40,6 +43,19 @@ export const ProfileService: IProfileService = {
 
         throw new Error(`Profile for user: [${uid}] does not exist.`);
       }
+    }
+  },
+  onCreate: async (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext): Promise<void> => {
+    const profile: IProfile = snapshot.data() as IProfile;
+
+    try {
+      await NotificationService.create(context.params.id, NotificationUtility.mapCreate(
+        "We're glad you're here! For more info on how to play, check out the How To Play page 😃",
+        `Welcome ${profile.username}!`,
+        profile.createdAt
+      ));
+    } catch (err) {
+      logger.error(err);
     }
   },
   onUpdate: async (change: Change<firebase.firestore.QueryDocumentSnapshot<IProfile>>, context: EventContext): Promise<void> => {

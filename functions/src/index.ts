@@ -15,6 +15,10 @@ exports.onAuthUserDelete = auth.user()
 
 /* -- Firestore Event Listeners -- */
 
+exports.onProfileCreate = firestore
+  .document("profiles/{id}")
+  .onCreate(ProfileService.onCreate);
+
 exports.onProfileUpdate = firestore
   .document("profiles/{id}")
   .onUpdate(ProfileService.onUpdate);
