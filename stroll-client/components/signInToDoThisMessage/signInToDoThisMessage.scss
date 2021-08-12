@@ -1,0 +1,30 @@
+.sign-in-to-do-this-message {
+  display: flex;
+  flex-direction: column;
+  
+  .sign-in-to-do-this-message-image {
+    height: 300px;
+    margin: auto;
+  }
+
+  .sign-in-to-do-this-text {
+    color: white;
+    font-size: 2em;
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .sign-in-link {
+    margin: auto;
+    margin-top: 20px;
+    max-width: 400px;
+  }
+}
+
+@include small-tablet-or-smaller {
+  .sign-in-to-do-this-message {
+    .sign-in-to-do-this-message-image {
+        height: 200px;
+    }
+  }
+}
