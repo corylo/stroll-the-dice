@@ -82,6 +82,8 @@ if(process.env.NODE_ENV === "local") {
         NODE_ENV: JSON.stringify("production"),
       },
     }));
+  
+    config.plugins.push(new GenerateSW());
   }
 
   config.output = {
@@ -100,8 +102,6 @@ if(process.env.NODE_ENV === "local") {
       filename: "index.[fullhash].css",
     })
   );
-  
-  config.plugins.push(new GenerateSW());
 }
 
 module.exports = config;
