@@ -50,9 +50,10 @@ export const ProfileService: IProfileService = {
 
     try {
       await NotificationService.create(context.params.id, NotificationUtility.mapCreate(
-        "We're glad you're here! For more info on how to play, check out the How To Play page 😃",
+        "We're glad you're here! For more info on how to play, check out the How To Play page 😃.",
         `Welcome ${profile.username}!`,
-        profile.createdAt
+        profile.createdAt,
+        "how-to-play"
       ));
     } catch (err) {
       logger.error(err);

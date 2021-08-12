@@ -43,7 +43,7 @@ export const notificationConverter: any = {
       text: data.text,
       title: data.title,
       url: data.url,
-      viewedAt: data.occurredAt
+      viewedAt: data.viewedAt
     }
   }
 }

@@ -1,0 +1,16 @@
+#notification-timeline {
+  animation: fadeIn 400ms ease-in;
+  
+  .notification-timeline-group {
+    .notification-timeline-group-list {
+      border-left: 1px solid rgba(white, 0.25);
+      margin-top: 10px;
+      padding: 10px;
+    }
+  }
+
+  .loading-more-notifications-wrapper {
+    height: 100px;
+    position: relative;
+  }
+}

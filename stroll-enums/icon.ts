@@ -8,6 +8,8 @@ export enum Icon {
   Kiwi = "far fa-kiwi-bird",
   Monkey = "far fa-monkey",  
   Narwhal = "far fa-narwhal",
+  NotificationRead = "fal fa-envelope-open",
+  NotificationUnread = "fal fa-envelope",
   Pegasus = "far fa-pegasus",
   Pig = "far fa-pig",
   Rabbit = "far fa-rabbit-fast",
