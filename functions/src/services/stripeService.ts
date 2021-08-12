@@ -5,8 +5,10 @@ import { Stripe } from "../../config/stripe";
 
 import { PaymentCompleteService } from "./paymentCompleteService";
 
-import { PaymentItemID } from "../../../stroll-enums/paymentItemID";
 import { PaymentUtility } from "../../../stroll-utilities/paymentUtility";
+import { UrlUtility } from "../utilities/urlUtility";
+
+import { PaymentItemID } from "../../../stroll-enums/paymentItemID";
 
 interface IStripeService {  
   createPaymentSession: (uid: string, amount: number, itemID: PaymentItemID) => Promise<string>;
@@ -34,8 +36,8 @@ export const StripeService: IStripeService = {
       },
       mode: "payment",
       payment_method_types: ["card"],
-      success_url: `https://strollthedice.com/shop?id=${PaymentUtility.getItemUrlID(itemID)}&success=true`,
-      cancel_url: `https://strollthedice.com/shop?id=${PaymentUtility.getItemUrlID(itemID)}&error=true`
+      success_url: `${UrlUtility.getOriginUrl()}/shop?id=${PaymentUtility.getItemUrlID(itemID)}&success=true`,
+      cancel_url: `${UrlUtility.getOriginUrl()}/shop?id=${PaymentUtility.getItemUrlID(itemID)}&error=true`
     });
 
     return session.url;
