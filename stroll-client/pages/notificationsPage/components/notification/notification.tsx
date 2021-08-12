@@ -43,19 +43,23 @@ export const Notification: React.FC<NotificationProps> = (props: NotificationPro
 
   }
 
-  const handleOnClick = async (): Promise<void> => {
+  const handleOnClick = async (leaving?: boolean): Promise<void> => {
     if(
       notification.viewedAt === null &&
       status !== RequestStatus.Loading
     ) {
       try {
-        setStatus(RequestStatus.Loading);
+        if(leaving) {
+          await NotificationService.view(appState.user.profile.uid, notification.id);          
+        } else {
+          setStatus(RequestStatus.Loading);
 
-        viewNotification();
+          viewNotification();
 
-        await NotificationService.view(appState.user.profile.uid, notification.id);
-        
-        setStatus(RequestStatus.Success);
+          await NotificationService.view(appState.user.profile.uid, notification.id);
+          
+          setStatus(RequestStatus.Success);
+        }
       } catch (err) {
         console.error(err);
 
@@ -82,6 +86,7 @@ export const Notification: React.FC<NotificationProps> = (props: NotificationPro
         <Link 
           to={notification.url} 
           className="notification-content link"
+          onClick={() => handleOnClick(true)}
         >
           <div className="notification-content-items">
             {getCommonContentItems()}
@@ -118,7 +123,7 @@ export const Notification: React.FC<NotificationProps> = (props: NotificationPro
         className="notification-status-icon"
         disabled={notification.viewedAt !== null}
         icon={notification.viewedAt === null ? Icon.NotificationUnread : Icon.NotificationRead}
-        handleOnClick={handleOnClick}
+        handleOnClick={() => handleOnClick(false)}
       />
     </div>
   )   
