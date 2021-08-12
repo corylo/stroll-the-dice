@@ -7,6 +7,7 @@ import { GameDayHistoryTransactionService } from "./transaction/gameDayHistoryTr
 import { GameEventTransactionService } from "./transaction/gameEventTransactionService";
 import { PlayerTransactionService } from "./transaction/playerTransactionService";
 
+import { FirestoreDateUtility } from "../utilities/firestoreDateUtility";
 import { GameDayHistoryUtility } from "../utilities/gameDayHistoryUtility";
 import { GameEventUtility } from "../utilities/gameEventUtility";
 
@@ -59,7 +60,7 @@ export const PlayerService: IPlayerService = {
 
           PlayerTransactionService.handleMatchup(transaction, matchupSnap, player);
 
-          GameEventTransactionService.create(transaction, game.id, GameEventUtility.mapPlayerCreatedEvent(player.createdAt, player.id));
+          GameEventTransactionService.create(transaction, game.id, GameEventUtility.mapPlayerCreatedEvent(FirestoreDateUtility.addMillis(player.createdAt, 1), player.id));
 
           const playerID: string = game.enableGiftDaysForJoiningPlayers && player.ref.acceptedGiftDays ? game.creator.uid : player.id;
 
