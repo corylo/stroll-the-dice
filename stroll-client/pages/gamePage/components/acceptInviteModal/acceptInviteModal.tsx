@@ -26,6 +26,7 @@ import { IPlayer } from "../../../../../stroll-models/player";
 import { AppAction } from "../../../../enums/appAction";
 import { FormStatus } from "../../../../enums/formStatus";
 import { PlayerStatus } from "../../../../../stroll-enums/playerStatus";
+import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
 
 interface AcceptInviteModalProps {  
   back: () => void;
@@ -47,6 +48,13 @@ export const AcceptInviteModal: React.FC<AcceptInviteModalProps> = (props: Accep
       if(status !== FormStatus.Submitting) {
         try {
           setStatus(FormStatus.Submitting);
+
+          setState({ ...state, statuses: { 
+              ...state.statuses,               
+              player: PlayerStatus.Loading,
+              players: RequestStatus.Loading
+            } 
+          });
 
           const player: IPlayer = PlayerUtility.mapCreate(user.profile, state.game, state.invite, acceptedGiftDays);
 
