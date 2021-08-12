@@ -1,10 +1,12 @@
+import { config } from "firebase-functions";
+
 interface IUrlUtility {
   getOriginUrl: () => string;
 }
 
 export const UrlUtility: IUrlUtility = {
   getOriginUrl: (): string => {
-    if (process.env.NODE_ENV === "production") {
+    if (config().env.value === "production") {
       return "https://strollthedice.com";
     }
     

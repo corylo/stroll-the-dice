@@ -1,9 +1,10 @@
 import admin from "firebase-admin";
+import { config } from "firebase-functions";
 
 import { strollTheDiceProductionAppConfig, strollTheDiceDevelopmentAppConfig } from "../../config/firebase";
 
 const getConfig = (): any => {
-  if (process.env.NODE_ENV === "production") {
+  if (config().env.value === "production") {
     return strollTheDiceProductionAppConfig;
   }
   
