@@ -11,8 +11,8 @@
     "deploy": "npm run clean && npm run build && firebase deploy --only hosting",
     "dp": "npm run clean && npm run build:prod && firebase deploy --only hosting",
     "da": "npm run set:dev && npm run deploy && npm run set:prod && npm run dp",
-    "set:dev": "firebase use stroll-the-dice",
-    "set:prod": "firebase use stroll-the-dice",
+    "set:dev": "firebase use stroll-the-dice-development",
+    "set:prod": "firebase use stroll-the-dice-5fa5a",
     "projects": "firebase projects:list",
     "pd": "git push && npm run deploy",
     "pda": "git push && npm run da"

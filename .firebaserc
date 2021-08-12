@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "stroll-the-dice-5fa5a"
+    "default": "stroll-the-dice-5fa5a",
+    "dev": "stroll-the-dice-development",
+    "prod": "stroll-the-dice-5fa5a"
   }
 }
