@@ -11,9 +11,9 @@ export const ProfileStatsUtility: IProfileStatsUtility = {
     switch(id) {
       case ProfileStatsID.GameDays:
         return {
-          available: 7,
+          available: 3,
           redeemed: 0,
-          total: 7
+          total: 3
         }
       case ProfileStatsID.Games:
         return {
