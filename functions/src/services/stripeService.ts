@@ -48,15 +48,15 @@ export const StripeService: IStripeService = {
         config().stripe.payment_webhook_secret
       );
 
-      event.type === ""
+      const object: stripe.Checkout.Session = event.data.object as stripe.Checkout.Session;
 
-      const { object } = event.data as any;
-
-      await PaymentCompleteService.handlePaymentCompletion(
-        object.metadata.uid, 
-        object.metadata.itemID,
-        object.id
-      );
+      if(object.payment_status === "paid") {
+        await PaymentCompleteService.handlePaymentCompletion(
+          object.metadata.uid, 
+          object.metadata.itemID,
+          object.id
+        );
+      }
 
       return res.sendStatus(200);
     } catch (err) {

@@ -1,6 +1,5 @@
 import firebase from "firebase-admin";
 import { logger } from "firebase-functions";
-import stripe from "stripe";
 
 import { db } from "../../config/firebase";
 
