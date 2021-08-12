@@ -53,7 +53,7 @@ export const HowToPlayPage: React.FC<HowToPlayPageProps> = (props: HowToPlayPage
           <HowToPlaySubSection title="Step Tracking">
             <HowToPlaySectionText text="In order for the game to be able to track your steps you must connect a valid step tracker." />
             <HowToPlaySectionText text="As of right now the only available step tracker is via Google Fit. Fortunately Google Fit can be linked to a number of different step tracking devices including Android and Apple phones and watches." />
-            <HowToPlaySectionText text="You can connect your step tracker in Connect Step Trackers section on the profile page." />
+            <HowToPlaySectionText text="You can connect your step tracker in the Step Trackers section on the profile page." />
             <Button className="go-to-profile-button fancy-button passion-one-font" url="/profile">
               Go to profile
             </Button>
@@ -68,7 +68,7 @@ export const HowToPlayPage: React.FC<HowToPlayPageProps> = (props: HowToPlayPage
           </HowToPlaySubSection>
         </HowToPlaySection>
         <HowToPlaySection title="How does the game work exactly?">
-          <HowToPlaySectionText text="Games last between 1 and 7 days and can start at any hour of day." />
+          <HowToPlaySectionText text="Games last between 1 and 7 days and can start at any hour of the day." />
           <HowToPlaySectionText text="Players will start the game with 10,000 points. Throughout each day, as you take steps, you will periodically gain points at a rate of 1 point per step." />        
           <HowToPlaySubSection title="Matchups">
             <HowToPlaySectionText text="For each day of the game, players will be matched up against one another with the goal of stepping more than the player they are paired against." />    
@@ -82,7 +82,7 @@ export const HowToPlayPage: React.FC<HowToPlayPageProps> = (props: HowToPlayPage
             <HowToPlaySectionText text="In the above example, player 1 has been matched up against player 2 for the first day." />          
           </HowToPlaySubSection>
           <HowToPlaySubSection title="Predictions">
-            <HowToPlaySectionText text="Before each day begins, the matchups for that day will be open for predictions." /> 
+            <HowToPlaySectionText text="Before the first step update each day, the matchups for that day will be open for predictions." /> 
             <HowToPlaySectionText text="By clicking the Predict button below any matchup, players can spend their available points to wager on the player they believe will out-step their competitor." />        
             <HowToPlaySectionText text="At the end of the day, players who predicted correctly will earn points based on the displayed return ratio. Players who predicted incorrectly will lose any points wagered." />
           </HowToPlaySubSection>

@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 
 import { Button } from "../../components/buttons/button";
 import { GameConglomerate } from "../../components/gameGroup/gameConglomerate";
+import { GameInviteInput } from "../../components/gameInviteInput/gameInviteInput";
 import { HowToPlaySummary } from "../../components/howToPlaySummary/howToPlaySummary";
 import { Page } from "../../components/page/page";
 import { SignInLink } from "../../components/signInLink/signInLink";
@@ -22,7 +23,10 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
   const getContent = (): JSX.Element => {
     if(appState.status === AppStatus.SignedIn) {
       return (
-        <GameConglomerate limit={10} />
+        <React.Fragment>
+          <GameInviteInput />
+          <GameConglomerate limit={10} />
+        </React.Fragment>
       )
     } else {
       return (

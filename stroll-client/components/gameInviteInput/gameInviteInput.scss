@@ -1,0 +1,16 @@
+#game-invite-input-wrapper {
+  display: flex;
+  justify-content: space-between;
+
+  #game-invite-input {
+    width: calc(100% - 60px);
+  }
+
+  #game-invite-input-button {
+    height: 50px;
+
+    i {
+      font-size: 1.25em;
+    }
+  }
+}
