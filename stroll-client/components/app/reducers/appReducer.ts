@@ -7,6 +7,7 @@ import { AppAction } from "../../../enums/appAction";
 import { AppStatus } from "../../../enums/appStatus";
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
 import { StepTracker } from "../../../../stroll-enums/stepTracker";
+import { INotification } from "../../../../stroll-models/notification";
 
 export const appReducer = (state: IAppState, action: IAction): IAppState => {  
   switch (action.type) {    

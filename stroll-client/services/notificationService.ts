@@ -6,6 +6,7 @@ import { INotification, notificationConverter } from "../../stroll-models/notifi
 
 interface INotificationService {
   getAll: (uid: string, limit: number) => Promise<INotification[]>;
+  view: (uid: string, id: string) => Promise<void>;
 }
 
 export const NotificationService: INotificationService = {
@@ -24,5 +25,12 @@ export const NotificationService: INotificationService = {
       notifications.push(doc.data()));
     
     return notifications;
+  },
+  view: async (uid: string, id: string): Promise<void> => {
+    return db.collection("profiles")
+      .doc(uid)
+      .collection("notifications")
+      .doc(id)
+      .update({ viewedAt: firebase.firestore.FieldValue.serverTimestamp() });
   }
 }
