@@ -20,7 +20,7 @@ export const AuthService: IAuthService = {
     } catch(err) {
       logger.error(err);
 
-      logger.error(`Unable to delete profile for user: [${user.displayName}].`);
+      logger.error(`Unable to delete profile for user: [${user.uid}].`);
     }
       
     try {
