@@ -3,7 +3,10 @@ import ReactDOM from "react-dom";
 import classNames from "classnames";
 
 import { AnimatedCounter } from "../../../../components/animatedCounter/animatedCounter";
+import { Label } from "../../../../components/label/label";
+import { IconButton } from "../../../../components/buttons/iconButton";
 
+import { AppContext } from "../../../../components/app/contexts/appContext";
 import { GamePageContext } from "../../gamePage";
 
 import { NumberUtility } from "../../../../../stroll-utilities/numberUtility";
@@ -14,16 +17,41 @@ interface MyPointsProps {
   
 }
 
-export const MyPoints: React.FC<MyPointsProps> = (props: MyPointsProps) => {    
-  const { player } = useContext(GamePageContext).state;
+export const MyPoints: React.FC<MyPointsProps> = (props: MyPointsProps) => {   
+  const { user  } = useContext(AppContext).appState,
+    { player } = useContext(GamePageContext).state;
 
   if(player.id !== "") {
     const { points } = player;
 
+    const getNoTrackerConnectedMessage = (): JSX.Element => {
+      if(user.profile.tracker === "") {
+        return (
+          <div className="no-tracker-connected-message-outer-wrapper">
+            <div className="no-tracker-connected-message-wrapper">
+              <Label
+                className="no-tracker-connected-message"
+                icon="fal fa-exclamation-triangle"
+                text="Your step tracker isn't connected"
+              />
+              <div className="game-action-button-wrapper">
+                <IconButton
+                  className="game-action-button"
+                  icon="fal fa-arrow-right" 
+                  url="/profile"
+                />
+              </div>                
+            </div>
+          </div>
+        )
+      }
+    }
+  
     return ReactDOM.createPortal(
       <div className="my-points-modal">
         <div className="my-points-wrapper">
-          <div className="my-points"> 
+          {getNoTrackerConnectedMessage()}
+          <div className="my-points">             
             <div className="my-points-content-wrapper">
               <div className="my-points-content">
                 <i className={classNames("my-points-icon", Icon.Points)} />

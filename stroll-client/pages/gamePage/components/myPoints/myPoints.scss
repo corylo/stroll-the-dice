@@ -11,6 +11,39 @@
     margin: auto;
     max-width: 1200px;
 
+    .no-tracker-connected-message-outer-wrapper {
+      margin-bottom: 10px;
+      margin-left: 270px;
+
+      .no-tracker-connected-message-wrapper {
+        animation: warningBackground 3s ease-in-out infinite;  
+        border: 1px solid rgba($yellow, 0.8);  
+        border-radius: 6px;
+        box-shadow: $shadow1;
+        display: inline-flex;
+        padding: 10px;
+        pointer-events: all;
+    
+        .no-tracker-connected-message {
+          margin-right: 10px;
+          white-space: normal;
+    
+          i, h1 {
+            color: white;
+          }
+        }
+    
+        .game-action-button {
+          display: inline-block;
+          margin-right: 0px;
+    
+          i {
+            padding: 5px 10px;
+          }
+        }
+      }
+    }
+  
     .my-points {     
       background-color: gray(30);
       border-radius: 10px;
@@ -87,6 +120,7 @@
 @include tablet-or-smaller {
   .my-points-modal {
     .my-points-wrapper {
+      .no-tracker-connected-message-outer-wrapper,
       .my-points {
         margin-left: 70px;
       }
@@ -99,8 +133,13 @@
     bottom: 70px;
 
     .my-points-wrapper {
+      .no-tracker-connected-message-outer-wrapper,
       .my-points {
         margin-left: 20px;
+      }
+      
+      .no-tracker-connected-message-outer-wrapper {
+        width: calc(100% - 40px);
       }
     }
   }

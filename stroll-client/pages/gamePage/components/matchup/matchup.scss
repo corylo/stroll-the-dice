@@ -10,33 +10,6 @@
     justify-content: flex-end;
   }
 
-  .no-tracker-connected-message-wrapper {
-    animation: warningBackground 3s ease-in-out infinite;  
-    border: 1px solid rgba($yellow, 0.8);  
-    border-radius: 6px;
-    display: flex;
-    margin-top: 10px;
-    padding: 10px;
-
-    .no-tracker-connected-message {
-      margin-right: 10px;
-      white-space: normal;
-
-      i, h1 {
-        color: white;
-      }
-    }
-
-    .game-action-button {
-      display: inline-block;
-      margin-right: 0px;
-
-      i {
-        padding: 5px 10px;
-      }
-    }
-  }
-
   .toggle-prediction-button {
     background-color: rgba(white, 0.1);
     border: 1px solid rgba(white, 0.2);  
