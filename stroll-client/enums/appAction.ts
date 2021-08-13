@@ -15,7 +15,7 @@ export enum AppAction {
   SetNotificationsStatus = "Set Notifications Status",
   SetNotificationStats = "Set Notification Stats",
   SetProfile = "Set Profile",
-  SetProfileAndClose = "Set Profile And Close",
+  SetProfileAndClose = "Set Profile And Close",  
   SetStatus = "Set Status",
   SignInUser = "Sign In User",
   SignInUserForFirstTime = "Sign In User For First Time",

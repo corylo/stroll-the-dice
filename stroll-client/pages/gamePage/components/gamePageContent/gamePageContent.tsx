@@ -28,7 +28,9 @@ import { AppAction } from "../../../../enums/appAction";
 import { AppStatus } from "../../../../enums/appStatus";
 import { GameError } from "../../../../../stroll-enums/gameError";
 import { GameStatus } from "../../../../../stroll-enums/gameStatus";
+import { PlayerStatus } from "../../../../../stroll-enums/playerStatus";
 import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
+import { Role } from "../../../../../stroll-enums/role";
 
 interface GamePageContentProps {
   
@@ -44,7 +46,6 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
   const { 
     game, 
     invite, 
-    player, 
     players, 
     statuses,
     toggles 
@@ -56,13 +57,19 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
     }
 
     const togglePlayers = (): any => {      
-      if(player.id !== "") {
+      if(
+        statuses.player === PlayerStatus.Playing ||
+        appState.user.roles.includes(Role.Admin)
+      ) {
         return () => toggle({ players: true });
       }
     }
     
     const getEventHistoryToggle = (): JSX.Element => {      
-      if(player.id !== "") {
+      if(
+        statuses.player === PlayerStatus.Playing ||
+        appState.user.roles.includes(Role.Admin)
+      ) {
         return (
           <EventHistoryToggle toggle={toggle} />
         );
@@ -70,7 +77,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
     }
 
     const getGamePageContentForPlayer = (): JSX.Element => {
-      if(player.id !== "") {
+      if(statuses.player === PlayerStatus.Playing || appState.user.roles.includes(Role.Admin)) {
         const getMaxDay = (): number => {          
           if(game.status === GameStatus.InProgress) {
             return Math.min(state.day + 1, game.duration);
@@ -159,7 +166,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
         )
       } else if (
         game.id !== "" && 
-        player.id === "" && 
+        statuses.player === PlayerStatus.NotPlaying && 
         statuses.players !== RequestStatus.Loading &&
         invite !== null
       ) {

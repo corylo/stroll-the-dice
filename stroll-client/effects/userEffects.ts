@@ -4,6 +4,7 @@ import firebase from "firebase/app";
 import { auth, db } from "../config/firebase";
 
 import { ProfileService } from "../services/profileService";
+import { RoleService } from "../services/roleService";
 
 import { ErrorUtility } from "../utilities/errorUtility";
 import { UserUtility } from "../utilities/userUtility";
@@ -25,6 +26,7 @@ export const useAuthStateChangedEffect = (appState: IAppState, dispatch: (type: 
         
         try {
           user.profile = await ProfileService.get.by.uid(user.profile.uid);
+          user.roles = await RoleService.getByUID(user.profile.uid);
           
           dispatch(AppAction.SignInUser, user);
         } catch (err) {

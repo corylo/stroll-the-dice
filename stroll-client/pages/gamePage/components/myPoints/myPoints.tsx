@@ -12,6 +12,7 @@ import { GamePageContext } from "../../gamePage";
 import { NumberUtility } from "../../../../../stroll-utilities/numberUtility";
 
 import { Icon } from "../../../../../stroll-enums/icon";
+import { PlayerStatus } from "../../../../../stroll-enums/playerStatus";
 
 interface MyPointsProps {  
   
@@ -19,9 +20,9 @@ interface MyPointsProps {
 
 export const MyPoints: React.FC<MyPointsProps> = (props: MyPointsProps) => {   
   const { user  } = useContext(AppContext).appState,
-    { player } = useContext(GamePageContext).state;
+    { player, statuses } = useContext(GamePageContext).state;
 
-  if(player.id !== "") {
+  if(statuses.player === PlayerStatus.Playing) {
     const { points } = player;
 
     const getNoTrackerConnectedMessage = (): JSX.Element => {

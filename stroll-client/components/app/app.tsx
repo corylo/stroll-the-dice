@@ -48,7 +48,7 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
   useGameDaysListenerEffect(appState, dispatch);
 
   useNotificationsListenerEffect(appState, dispatch);
-  
+
   return (
     <AppContext.Provider value={{ appState, dispatchToApp }}>
       <div id="stroll-the-dice-app">

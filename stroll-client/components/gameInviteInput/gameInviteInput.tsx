@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import { InputWrapper } from "../inputWrapper/inputWrapper";
 
 import { FormError } from "../../enums/formError";
 import { IconButton } from "../buttons/iconButton";
+import { AppContext } from "../app/contexts/appContext";
+import { RoleUtility } from "../../../stroll-utilities/roleUtility";
 
 interface IGameInviteInputState {
   error: FormError;
@@ -16,6 +18,8 @@ interface GameInviteInputProps {
 }
 
 export const GameInviteInput: React.FC<GameInviteInputProps> = (props: GameInviteInputProps) => {  
+  const { user } = useContext(AppContext).appState;
+
   const [state, setState] = useState<IGameInviteInputState>({ error: FormError.None, value: "" });
 
   const updateValue = (value: string): void => setState({ ...state, value });
@@ -23,17 +27,25 @@ export const GameInviteInput: React.FC<GameInviteInputProps> = (props: GameInvit
   const history: any = useHistory();
 
   const validate = (): boolean => {
-    const formattedValue: string = state.value.trim(),
-      hasOrigin: boolean = state.value.indexOf(window.location.origin) === 0,
-      hasGameParam: boolean = state.value.indexOf("/game/") > window.location.origin.length - 1,
-      hasInviteParam: boolean = state.value.indexOf("?invite=") > window.location.origin.length - 1;
-
-    if(
-      formattedValue !== "" &&
-      hasOrigin &&
-      hasGameParam &&
-      hasInviteParam
-    ) {
+    const isValid = (): boolean => {
+      if(RoleUtility.isAdmin(user.roles)) {
+        return true;
+      }
+  
+      const formattedValue: string = state.value.trim(),
+        hasOrigin: boolean = state.value.indexOf(window.location.origin) === 0,
+        hasGameParam: boolean = state.value.indexOf("/game/") > window.location.origin.length - 1,
+        hasInviteParam: boolean = state.value.indexOf("?invite=") > window.location.origin.length - 1;
+  
+      return (
+        formattedValue !== "" &&
+        hasOrigin &&
+        hasGameParam &&
+        hasInviteParam
+      )
+    }
+  
+    if(isValid()) {
       return true;
     }
 
@@ -50,9 +62,15 @@ export const GameInviteInput: React.FC<GameInviteInputProps> = (props: GameInvit
 
   const go = (): void => {
     if(validate()) {
-      const path: string = state.value.split(window.location.origin)[1];
+      const getPath = (): string => {
+        if(RoleUtility.isAdmin(user.roles)) {
+          return `/game/${state.value}`;
+        }
 
-      history.push(path);
+        return state.value.split(window.location.origin)[1];
+      }
+
+      history.push(getPath());
     }
   }
 

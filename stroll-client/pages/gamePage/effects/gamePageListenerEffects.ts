@@ -27,6 +27,7 @@ import { GameEventReferenceID } from "../../../../stroll-enums/gameEventReferenc
 import { GameStatus } from "../../../../stroll-enums/gameStatus";
 import { PlayerStatus } from "../../../../stroll-enums/playerStatus";
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
+import { Role } from "../../../../stroll-enums/role";
 
 export const useMatchupListenerEffect = (
   state: IMatchupGroupState,
@@ -218,7 +219,10 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
   }, [id, appState.status]);
 
   useEffect(() => {    
-    if(appState.status === AppStatus.SignedIn && state.game.id !== "") {
+    if(
+      appState.status === AppStatus.SignedIn && 
+      state.game.id !== ""
+    ) {
       const fetch = async (): Promise<void> => {
         const updates: IGamePageState = { ...state };
 
@@ -230,12 +234,15 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
           updates.player = player;
 
           updates.statuses.player = PlayerStatus.Playing;
-
-          if(state.game.status === GameStatus.Upcoming) {
-            updates.invite = await InviteService.get.by.game(game);
-          }
         } else {
           updates.statuses.player = PlayerStatus.NotPlaying;
+        }
+
+        if(
+          (updates.statuses.player === PlayerStatus.Playing || appState.user.roles.includes(Role.Admin)) &&
+          state.game.status === GameStatus.Upcoming
+        ) {          
+          updates.invite = await InviteService.get.by.game(game);
         }
 
         setState(updates);
@@ -246,7 +253,12 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
   }, [appState.status, state.game.id]);
 
   useEffect(() => {        
-    if(state.game.id !== "" && state.statuses.player === PlayerStatus.Playing) {    
+    if(
+      state.game.id !== "" && (
+        state.statuses.player === PlayerStatus.Playing ||
+        appState.user.roles.includes(Role.Admin)
+      )
+    ) {    
       const unsubToPlayers = db.collection("games")
         .doc(state.game.id)
         .collection("players")

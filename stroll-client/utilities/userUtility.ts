@@ -20,6 +20,7 @@ export const UserUtility: IUserUtility = {
     return {            
       email: firebaseUser.email || "",
       profile: UserUtility.mapProfile(firebaseUser),
+      roles: [],
       stats: defaultProfileStats()
     }
   }
