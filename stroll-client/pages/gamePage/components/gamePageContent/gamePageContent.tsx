@@ -167,8 +167,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
       } else if (
         game.id !== "" && 
         statuses.player === PlayerStatus.NotPlaying && 
-        statuses.players !== RequestStatus.Loading &&
-        invite !== null
+        statuses.players !== RequestStatus.Loading
       ) {
         return (
           <EmptyMessage text="Request an invite from the creator to gain access to this game!" />
