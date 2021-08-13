@@ -16,7 +16,7 @@
       margin-left: 270px;
 
       .no-tracker-connected-message-wrapper {
-        animation: warningBackground 3s ease-in-out infinite;  
+        animation: warningBackground 5s ease-in-out infinite;  
         border: 1px solid rgba($yellow, 0.8);  
         border-radius: 6px;
         box-shadow: $shadow1;
@@ -30,6 +30,7 @@
     
           i, h1 {
             color: white;
+            text-shadow: 0px 0px 2px rgba(black, 0.8);
           }
         }
     
