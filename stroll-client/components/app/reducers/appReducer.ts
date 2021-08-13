@@ -190,6 +190,17 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
           notifications: action.payload
         }
       }
+    case AppAction.SetNotificationStats:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          stats: {
+            ...state.user.stats,
+            notifications: action.payload
+          }
+        }
+      }
     case AppAction.SetProfile:
       return {
         ...state,

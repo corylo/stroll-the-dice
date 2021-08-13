@@ -36,6 +36,13 @@ export const UpdateProfileService: IUpdateProfileService = {
 
     batch.set(gamesStatsRef, ProfileStatsUtility.mapCreate(ProfileStatsID.Games));
 
+    const notificationStatsRef: firebase.firestore.DocumentReference = db.collection("profiles")
+      .doc(profile.uid)
+      .collection("stats")
+      .doc(ProfileStatsID.Notifications);
+
+    batch.set(notificationStatsRef, ProfileStatsUtility.mapCreate(ProfileStatsID.Notifications));
+
     return await batch.commit();
   }
 }

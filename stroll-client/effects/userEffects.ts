@@ -9,7 +9,7 @@ import { ErrorUtility } from "../utilities/errorUtility";
 import { UserUtility } from "../utilities/userUtility";
 
 import { IAppState } from "../components/app/models/appState";
-import { IProfileGameDayStats } from "../../stroll-models/profileStats";
+import { IProfileGameDayStats, IProfileNotificationStats } from "../../stroll-models/profileStats";
 import { IUser } from "../models/user";
 
 import { AppAction } from "../enums/appAction";
@@ -61,6 +61,28 @@ export const useGameDaysListenerEffect = (appState: IAppState, dispatch: (type: 
         });
 
       return () => unsubToGameDays();
+    }
+  }, [appState.user.profile.uid]);
+}
+
+export const useNotificationsListenerEffect = (appState: IAppState, dispatch: (type: AppAction, payload?: any) => void): void => {
+  useEffect(() => {  
+    if(appState.user.profile.uid !== "") {   
+      const { uid } = appState.user.profile;
+
+      const unsubToNotifications = db.collection("profiles")
+        .doc(uid)
+        .collection("stats")
+        .doc(ProfileStatsID.Notifications)
+        .onSnapshot((doc: firebase.firestore.QueryDocumentSnapshot) => {
+          if(doc.exists) {
+            const notifications: IProfileNotificationStats = doc.data() as IProfileNotificationStats;
+            
+            dispatch(AppAction.SetNotificationStats, notifications);
+          }
+        });
+
+      return () => unsubToNotifications();
     }
   }, [appState.user.profile.uid]);
 }

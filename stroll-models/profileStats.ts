@@ -20,12 +20,28 @@ export const defaultProfileGamesStats = (): IProfileGamesStats => ({
   lastJoined: ""
 });
 
+export interface IProfileNotificationStats {  
+  lastViewed: string;
+  total: number;
+  unviewed: number;  
+  viewed: number;
+}
+
+export const defaultProfileNotificationStats = (): IProfileNotificationStats => ({
+  lastViewed: "",
+  total: 0,
+  unviewed: 0,  
+  viewed: 0,
+});
+
 export interface IProfileStats {
   gameDays: IProfileGameDayStats;
   games: IProfileGamesStats;
+  notifications: IProfileNotificationStats;
 }
 
 export const defaultProfileStats = (): IProfileStats => ({
   gameDays: defaultProfileGameDayStats(),
-  games: defaultProfileGamesStats()
+  games: defaultProfileGamesStats(),
+  notifications: defaultProfileNotificationStats()
 });

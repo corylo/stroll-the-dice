@@ -3,6 +3,9 @@ import firebase from "firebase/app";
 import { db } from "../config/firebase";
 
 import { INotification, notificationConverter } from "../../stroll-models/notification";
+import { IProfileNotificationStats } from "../../stroll-models/profileStats";
+
+import { ProfileStatsID } from "../../stroll-enums/profileStatsID";
 
 interface INotificationService {
   getAll: (uid: string, limit: number) => Promise<INotification[]>;
@@ -27,10 +30,30 @@ export const NotificationService: INotificationService = {
     return notifications;
   },
   view: async (uid: string, id: string): Promise<void> => {
-    return db.collection("profiles")
-      .doc(uid)
-      .collection("notifications")
-      .doc(id)
-      .update({ viewedAt: firebase.firestore.FieldValue.serverTimestamp() });
+    await db.runTransaction(async (transaction: firebase.firestore.Transaction) => {
+      const notificationStatsRef: firebase.firestore.DocumentReference = db.collection("profiles")
+        .doc(uid)
+        .collection("stats")
+        .doc(ProfileStatsID.Notifications);
+
+      const notificationRef: firebase.firestore.DocumentReference = db.collection("profiles")
+        .doc(uid)
+        .collection("notifications")
+        .doc(id);
+
+      const notificationStatsDoc: firebase.firestore.DocumentSnapshot = await transaction.get(notificationStatsRef);
+
+      if(notificationStatsDoc.exists) {
+        const notificationStats: IProfileNotificationStats = notificationStatsDoc.data() as IProfileNotificationStats;
+
+        transaction.update(notificationStatsRef, {
+          lastViewed: id,
+          unviewed: notificationStats.unviewed - 1,
+          viewed: notificationStats.viewed + 1
+        });
+
+        transaction.update(notificationRef, { viewedAt: firebase.firestore.FieldValue.serverTimestamp() });
+      }
+    });
   }
 }

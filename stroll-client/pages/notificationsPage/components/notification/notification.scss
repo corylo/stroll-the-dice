@@ -7,13 +7,14 @@
 
   &.unread {
     .notification-content {  
-      background: linear-gradient(to right, rgba($green, 0.15), transparent);
+      background: linear-gradient(to right, rgba(white, 0.15), transparent);
+      border-left: 4px solid white;
     }
   }
 
   .notification-content {
     background: linear-gradient(to right, rgba(white, 0.05), transparent);
-    border: 1px solid rgba(white, 0.2);
+    border: 2px solid rgba(white, 0.2);
     border-radius: 6px;
     display: block;
     padding: 15px;

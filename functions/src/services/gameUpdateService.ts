@@ -1,4 +1,3 @@
-
 import firebase from "firebase-admin";
 import { logger } from "firebase-functions";
 

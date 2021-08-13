@@ -5,7 +5,7 @@ import { Change, EventContext, logger } from "firebase-functions";
 import { db } from "../../config/firebase";
 
 import { GameBatchService } from "./batch/gameBatchService";
-import { NotificationService } from "./notificationService";
+import { NotificationBatchService } from "./batch/notificationBatchService";
 import { PlayerBatchService } from "./batch/playerBatchService";
 
 import { NotificationUtility } from "../utilities/notificationUtility";
@@ -49,9 +49,9 @@ export const ProfileService: IProfileService = {
     const profile: IProfile = snapshot.data() as IProfile;
 
     try {
-      await NotificationService.create(context.params.id, NotificationUtility.mapCreate(
-        "We're glad you're here! For more info on how to play, check out the How To Play page 😃.",
-        `Welcome ${profile.username}!`,
+      await NotificationBatchService.create(context.params.id, NotificationUtility.mapCreate(
+        "We've started you off with 3 free Game Days on the house! For more info on how to play, check out the How To Play page by clicking on this notification 😃. Good luck and have fun!",
+        `Welcome, ${profile.username}!`,
         profile.createdAt,
         "how-to-play"
       ));

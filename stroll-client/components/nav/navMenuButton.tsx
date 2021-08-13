@@ -16,7 +16,7 @@ export const NavMenuButton: React.FC<NavMenuButtonProps> = (props: NavMenuButton
     <div className={classNames("nav-menu-button-wrapper", { center })}>
       <NavLink to={props.to} className="nav-menu-button" exact>
         <i className={props.icon} />
-        <h1 className="passion-one-font">{props.label}</h1>
+        <h1 className="notification-label passion-one-font">{props.label}</h1>
       </NavLink>
     </div>
   )

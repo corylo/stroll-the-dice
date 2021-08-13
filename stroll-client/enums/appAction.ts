@@ -13,6 +13,7 @@ export enum AppAction {
   SetGameDays = "Set Game Days",
   SetNotifications = "Set Notifications",
   SetNotificationsStatus = "Set Notifications Status",
+  SetNotificationStats = "Set Notification Stats",
   SetProfile = "Set Profile",
   SetProfileAndClose = "Set Profile And Close",
   SetStatus = "Set Status",
