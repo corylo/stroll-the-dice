@@ -33,6 +33,10 @@ export const StepTrackerLink: React.FC<StepTrackerLinkProps> = (props: StepTrack
       <Button className="step-tracker-link" url={StepTrackerUtility.getOAuthUrl(props.tracker)} external>
         <img src={props.img} />      
         <h1 className="passion-one-font">{props.tracker}</h1>
+        <div className="step-tracker-link-connect-icon">
+          <i className="fal fa-plus" />
+          <h1 className="passion-one-font">Connect</h1>
+        </div>
       </Button>
     );
   }

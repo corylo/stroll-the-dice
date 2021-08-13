@@ -41,6 +41,30 @@
         background-color: $whiteGradient;
         border-color: white;
       }
+
+      .step-tracker-link-connect-icon {
+        background-color: rgba(white, 0.1);
+        border: 1px solid rgba(white, 0.2);
+        border-radius: 4px;
+        display: flex;
+        margin-left: 20px;
+        padding: 10px;
+
+        h1, i {
+          color: white;
+          height: 20px;
+          line-height: 20px;
+        }
+
+        i {
+          text-align: center;
+          width: 20px;
+        }
+
+        h1 {
+          margin-left: 5px;
+        }
+      }
     }
 
     .connected-step-tracker-link {
@@ -134,6 +158,20 @@
               line-height: 30px;
               width: 30px;
             }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include small-phone-or-smaller {
+  .step-tracker-hub {
+    .step-tracker-links {
+      .step-tracker-link {
+        .step-tracker-link-connect-icon {
+          h1 {
+            display: none;
           }
         }
       }
