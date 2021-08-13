@@ -245,8 +245,6 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
           updates.invite = await InviteService.get.by.game(game);
         }
 
-        console.log(updates);
-
         setState(updates);
       }
 
