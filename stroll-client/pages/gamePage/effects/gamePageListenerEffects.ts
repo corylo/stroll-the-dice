@@ -256,7 +256,7 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
     if(
       state.game.id !== "" && (
         state.statuses.player === PlayerStatus.Playing ||
-        appState.user.roles.includes(Role.Admin)
+        (state.statuses.player === PlayerStatus.NotPlaying && appState.user.roles.includes(Role.Admin))
       )
     ) {    
       const unsubToPlayers = db.collection("games")

@@ -35,7 +35,7 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
 
   if(side.playerID !== "") {
     const dayStatus: GameStatus = GameDurationUtility.getDayStatus(matchup.day, day);
-  
+
     const isWinner: boolean = matchup.winner === side.playerID,    
       isLeader: boolean = MatchupUtility.getLeader(matchup) === side.playerID,
       isTied: boolean = matchup.winner === MatchupLeader.Tie || matchup.left.steps === matchup.right.steps;

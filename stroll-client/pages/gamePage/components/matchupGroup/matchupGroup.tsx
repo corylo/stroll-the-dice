@@ -6,7 +6,6 @@ import { IconButton } from "../../../../components/buttons/iconButton";
 import { GameDayStatus } from "../../../../components/gameDayStatus/gameDayStatus";
 import { MatchupList } from "./matchupList";
 import { TooltipSide } from "../../../../components/tooltip/tooltip";
-import { UpdateTimer } from "../../../../components/updateTimer/updateTimer";
 
 import { GamePageContext } from "../../gamePage";
 
