@@ -67,7 +67,7 @@
   }
 }
 
-@include small-phone-or-smaller {
+@include medium-phone-or-smaller {
   .leaderboard-remaining-row {  
     .leaderboard-remaining-row-content {      
       .leaderboard-row-player-and-points {
@@ -75,7 +75,30 @@
           .user-link-content {
             .user-link-username-wrapper {
               .user-link-username {
-                max-width: 90px;
+                font-size: 0.9em;
+                max-width: 120px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include small-phone-or-smaller {
+  .leaderboard-remaining-row {  
+    .leaderboard-remaining-row-content {  
+      .leaderboard-row-icon {
+        display: none;
+      }    
+      
+      .leaderboard-row-player-and-points {
+        .user-link {
+          .user-link-content {
+            .user-link-username-wrapper {
+              .user-link-username {
+                max-width: 80px;
               }
             }
           }
