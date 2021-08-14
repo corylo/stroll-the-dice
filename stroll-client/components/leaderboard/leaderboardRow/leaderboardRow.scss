@@ -22,20 +22,13 @@
     margin-left: 5px;
     padding: 5px 10px;
 
-    .leaderboard-row-place,
-    .leaderboard-row-icon {
+    .leaderboard-row-place {
       color: white;
     }
     
     .leaderboard-row-place {    
       text-align: center;
       width: 20px;
-    }
-
-    .leaderboard-row-icon {
-      font-size: 0.9em;
-      margin-left: 10px;
-      text-align: center;
     }
 
     .leaderboard-row-player-and-points {
@@ -76,7 +69,6 @@
             .user-link-username-wrapper {
               .user-link-username {
                 font-size: 0.9em;
-                max-width: 120px;
               }
             }
           }
@@ -89,16 +81,22 @@
 @include small-phone-or-smaller {
   .leaderboard-remaining-row {  
     .leaderboard-remaining-row-content {  
-      .leaderboard-row-icon {
-        display: none;
-      }    
-      
+      padding: 5px;
+
       .leaderboard-row-player-and-points {
+        margin-left: 0px;
+
         .user-link {
+          .profile-icon {
+            background-color: transparent;
+            height: 30px;
+            width: 30px;
+          }
+
           .user-link-content {
             .user-link-username-wrapper {
               .user-link-username {
-                max-width: 80px;
+                max-width: 110px;
               }
             }
           }
