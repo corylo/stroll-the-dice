@@ -5,6 +5,7 @@ import { InviteService } from "../../../services/inviteService";
 
 import { GameDurationUtility } from "../../../../stroll-utilities/gameDurationUtility";
 import { InviteUtility } from "../../../utilities/inviteUtility";
+import { RoleUtility } from "../../../../stroll-utilities/roleUtility";
 import { UrlUtility } from "../../../utilities/urlUtility";
 
 import { IAppState } from "../../../components/app/models/appState";
@@ -41,9 +42,15 @@ export const useGameInviteEffect = (
 
   const history: any = useHistory();
 
+  const { user } = appState;
+
   useEffect(() => {
     const load = async (): Promise<void> => {
-      if(InviteUtility.showInvite(inviteID, state.statuses.player)) {
+      const showInvite: boolean = InviteUtility.showInvite(inviteID, state.statuses.player);
+
+      if(showInvite && RoleUtility.isAdmin(user.roles)) {
+        dispatch(AppAction.ToggleAcceptInvite, true);
+      } else if (showInvite) {
         try {
           const invite: IInvite = await InviteService.get.by.id(state.game, inviteID);
 
@@ -61,5 +68,5 @@ export const useGameInviteEffect = (
     }
 
     load();
-  }, [appState.status, state.statuses.player]);
+  }, [appState.status, user.roles, state.statuses.player]);
 }

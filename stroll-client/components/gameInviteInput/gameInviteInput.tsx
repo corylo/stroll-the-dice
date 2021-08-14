@@ -26,26 +26,40 @@ export const GameInviteInput: React.FC<GameInviteInputProps> = (props: GameInvit
 
   const history: any = useHistory();
 
-  const validate = (): boolean => {
-    const isValid = (): boolean => {
-      if(RoleUtility.isAdmin(user.roles)) {
-        return true;
-      }
-  
-      const formattedValue: string = state.value.trim(),
-        hasOrigin: boolean = state.value.indexOf(window.location.origin) === 0,
-        hasGameParam: boolean = state.value.indexOf("/game/") > window.location.origin.length - 1,
-        hasInviteParam: boolean = state.value.indexOf("?invite=") > window.location.origin.length - 1;
-  
-      return (
-        formattedValue !== "" &&
-        hasOrigin &&
-        hasGameParam &&
-        hasInviteParam
-      )
+  const isGameID = (): boolean => {
+    return (
+      state.value.trim() !== "" &&
+      state.value.length === 14
+    )
+  }
+
+  const isInviteLink = (): boolean => {
+    const formattedValue: string = state.value.trim(),
+      hasOrigin: boolean = state.value.indexOf(window.location.origin) === 0,
+      hasGameParam: boolean = state.value.indexOf("/game/") > window.location.origin.length - 1,
+      hasInviteParam: boolean = state.value.indexOf("?invite=") > window.location.origin.length - 1;
+
+    return (
+      formattedValue !== "" &&
+      hasOrigin &&
+      hasGameParam &&
+      hasInviteParam
+    )
+  }
+
+  const getValidatedPath = (): string => {
+    if(RoleUtility.isAdmin(user.roles) && isGameID()) {
+      return `/game/${state.value}`;
     }
-  
-    if(isValid()) {
+
+    return state.value.split(window.location.origin)[1];
+  }
+
+  const validate = (): boolean => {
+    if(
+      (RoleUtility.isAdmin(user.roles) && isGameID()) ||
+      isInviteLink()
+    ) {
       return true;
     }
 
@@ -62,15 +76,7 @@ export const GameInviteInput: React.FC<GameInviteInputProps> = (props: GameInvit
 
   const go = (): void => {
     if(validate()) {
-      const getPath = (): string => {
-        if(RoleUtility.isAdmin(user.roles)) {
-          return `/game/${state.value}`;
-        }
-
-        return state.value.split(window.location.origin)[1];
-      }
-
-      history.push(getPath());
+      history.push(getValidatedPath());
     }
   }
 
