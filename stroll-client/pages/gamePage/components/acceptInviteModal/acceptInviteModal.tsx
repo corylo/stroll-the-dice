@@ -49,18 +49,16 @@ export const AcceptInviteModal: React.FC<AcceptInviteModalProps> = (props: Accep
         try {
           setStatus(FormStatus.Submitting);
 
-          setState({ ...state, statuses: { 
-              ...state.statuses,               
-              player: PlayerStatus.Loading,
-              players: RequestStatus.Loading
-            } 
-          });
-
           const player: IPlayer = PlayerUtility.mapCreate(user.profile, state.game, state.invite, acceptedGiftDays);
 
           await AcceptInviteService.acceptInvite(state.game, player);
           
-          setState({ ...state, player, statuses: { ...state.statuses, player: PlayerStatus.Playing } });
+          setState({ ...state, statuses: { 
+              ...state.statuses,               
+              player: PlayerStatus.Playing,
+              players: RequestStatus.Loading
+            } 
+          });
 
           dispatch(AppAction.ToggleAcceptInvite, false);
         } catch (err) {

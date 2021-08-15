@@ -170,7 +170,9 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
       if(state.statuses.player === PlayerStatus.Playing) {
         updates.player = PlayerUtility.getByUser(appState.user, players);
       }
-    } else if (players.length === 0 && state.statuses.player === PlayerStatus.NotPlaying) {
+    } else if (players.length === 0 && state.statuses.player !== PlayerStatus.Loading) {
+      updates.players = [];
+
       updates.statuses.players = RequestStatus.Success;
     }
 
@@ -180,7 +182,7 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
       if(updates.statuses.events === RequestStatus.Loading) {
         updates.statuses.events = RequestStatus.Success;
       }
-    } else if(events.length === 0 && state.statuses.player === PlayerStatus.NotPlaying) {
+    } else if(events.length === 0 && state.statuses.player !== PlayerStatus.Loading) {
       updates.events = [];
 
       updates.statuses.events = RequestStatus.Success;
