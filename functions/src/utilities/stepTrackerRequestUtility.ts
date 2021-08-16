@@ -19,13 +19,15 @@ export const StepTrackerRequestUtility: IStepTrackerRequestUtility = {
     start.setDate(startDateValue);
 
     end.setDate(endDateValue);
-    end.setMilliseconds(end.getMilliseconds() - 1);
+    end.setHours(end.getHours() - 1);
 
     const formattedStartDateString: string = start.toISOString().split("T")[0],
-      formattedStartTimeString: string = `${start.getHours()}:00`;
+      formattedStartHourString: string = start.getHours() < 10 ? `0${start.getHours()}` : start.getHours().toString(),
+      formattedStartTimeString: string = `${formattedStartHourString}:00`;
 
     const formattedEndDateString: string = end.toISOString().split("T")[0],
-      formattedEndTimeString: string = `${end.getHours() - 1}:59`;
+      formattedEndHourString: string = end.getHours() < 10 ? `0${end.getHours()}` : end.getHours().toString(),
+      formattedEndTimeString: string = `${formattedEndHourString}:59`;
 
     return `/1/user/-/activities/steps/date/${formattedStartDateString}/${formattedEndDateString}/15min/time/${formattedStartTimeString}/${formattedEndTimeString}.json`;
   },
