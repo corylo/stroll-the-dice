@@ -2,56 +2,57 @@
   position: relative;
 
   .step-tracker-links {
-    .step-tracker-link,
-    .connected-step-tracker-link {
-      align-items: center;
-      display: flex;
-
-      &:nth-child(n + 2) {
-        margin-top: 10px;
-      }
-
-      img {
-        height: 50px;
-      }
-
-      > h1 {
-        color: white;
-        font-size: 1.5em;
-        height: 20px;
-        line-height: 20px;
-        margin-left: 10px;
-        text-transform: uppercase;
-      }
-
-      .connecting-icon {        
-        animation: spin 2s ease-in-out infinite;  
-        color: white;
-        font-size: 1.5em;
-        margin-left: 20px;
-      }
-    }
-
-    .step-tracker-link {
-      border: 1px solid rgba(white, 0.2);
-      justify-content: center;
-
+    a.step-tracker-link {      
       &:hover,
       &:focus {
         background-color: $whiteGradient;
         border-color: white;
       }
+    }
 
-      .step-tracker-link-connect-icon {
-        background-color: rgba(white, 0.1);
-        border: 1px solid rgba(white, 0.2);
-        border-radius: 4px;
+    .step-tracker-link {
+      align-items: center;
+      background: rgba(white, 0.1);
+      border: 1px solid rgba(white, 0.3);
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 20px;
+      position: relative;
+
+      &:nth-child(n + 2) {
+        margin-top: 10px;
+      }
+
+      &:disabled {
+        opacity: 0.6;
+      }
+
+      .step-tracker-link-branding {
+        align-items: center;
         display: flex;
-        margin-left: 20px;
-        padding: 10px;
+
+        img {
+          height: 50px;
+        }
+
+        > h1 {
+          color: white;
+          font-size: 1.5em;
+          height: 20px;
+          line-height: 20px;
+          margin-left: 10px;
+          text-transform: uppercase;
+        }
+      }
+
+      .step-tracker-link-connection-icon {
+        align-items: center;
+        display: flex;
 
         h1, i {
           color: white;
+          font-size: 1.25em;
           height: 20px;
           line-height: 20px;
         }
@@ -64,42 +65,25 @@
         h1 {
           margin-left: 5px;
         }
-      }
-    }
 
-    .connected-step-tracker-link {
-      background: rgba(white, 0.1);
-      border: 1px solid rgba(white, 0.2);
-      border-radius: 6px;
-      justify-content: flex-start;
-      padding: 10px;
-      position: relative;
-      
-      h1 {
-        .highlight-custom {
-          color: $green;
-        }
-
-        span {
-          font-size: 0.75em;
-          height: 20px;
-          line-height: 20px;
-          margin-left: 5px;
-          vertical-align: top;
+        .connecting-icon {        
+          animation: spin 2s ease-in-out infinite;  
+          color: white;
+          font-size: 2em;
+          height: 40px;
+          line-height: 40px;
+          width: 40px;
         }
       }
 
       .step-tracker-buttons {
-        position: absolute;
-        right: 0px;
+        margin-left: 20px;
 
         .disconnect-step-tracker-button,
         .cancel-disconnect-step-tracker-button,
         .confirm-disconnect-step-tracker-button,
         .reset-step-tracker-button {  
           background-color: rgba(white, 0.05);
-          margin: 10px;
-          margin-left: 0px;
 
           &:hover,
           &:focus {
@@ -117,64 +101,43 @@
             width: 40px;
           }
         }
-      }
-    }
-  }
-}
 
-@include phone-or-smaller {
-  .step-tracker-hub {
-    .step-tracker-links {
-      .step-tracker-link,
-      .connected-step-tracker-link {
-        img {
-          height: 30px;
-        }
-
-        h1 {
-          font-size: 1em;
-          height: 20px;
-          line-height: 20px;
-        }
-
-        .connecting-icon {        
-          font-size: 1em;
-          margin-left: 10px;
-        }
-      }
-      
-      .connected-step-tracker-link {
-        h1 {
-          span {
-            font-size: 0.9em;
-          }
-        }
-
-        .step-tracker-disconnection-buttons {
-          .button {
-            i {
-              font-size: 1em;
-              height: 30px;
-              line-height: 30px;
-              width: 30px;
-            }
-          }
+        .confirm-disconnect-step-tracker-button {
+          margin-right: 10px;
         }
       }
     }
   }
 }
 
-@include small-phone-or-smaller {
+@include medium-phone-or-smaller {
   .step-tracker-hub {
+    position: relative;
+  
     .step-tracker-links {
-      .step-tracker-link {
-        .step-tracker-link-connect-icon {
-          h1 {
-            display: none;
+      .step-tracker-link {        
+        padding: 10px;
+
+        .step-tracker-link-branding {
+          img {
+            height: 30px;
+          }
+
+          > h1 {
+            font-size: 1em;
           }
         }
-      }
+
+        .step-tracker-link-connection-icon {          
+          h1, i {
+            font-size: 1em;
+          }
+
+          .step-tracker-buttons {
+            margin-left: 10px;
+          }
+        }
+      } 
     }
   }
 }

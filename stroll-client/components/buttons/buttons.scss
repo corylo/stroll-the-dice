@@ -28,6 +28,13 @@
   }
 }
 
+a.button {
+  &.disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+}
+
 .icon-button {
   padding: 0px;
 

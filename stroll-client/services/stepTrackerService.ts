@@ -9,22 +9,14 @@ interface IStepTrackerService {
 
 export const StepTrackerService: IStepTrackerService = {
   connect: async (authorizationCode: string, uid: string, tracker: IStepTracker): Promise<void> => {
-    try {
-      await functions.httpsCallable("connectStepTracker")({
-        authorizationCode,
-        uid,
-        tracker,
-        origin: window.location.origin
-      });
-    } catch (err) {
-      console.error(err);
-    }
+    await functions.httpsCallable("connectStepTracker")({
+      authorizationCode,
+      uid,
+      tracker,
+      origin: window.location.origin
+    });
   },
   disconnect: async (): Promise<void> => {
-    try {
-      await functions.httpsCallable("disconnectStepTracker")();
-    } catch (err) {
-      console.error(err);
-    }
+    await functions.httpsCallable("disconnectStepTracker")();
   }
 }

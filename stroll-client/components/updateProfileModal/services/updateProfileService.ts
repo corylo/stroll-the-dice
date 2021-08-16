@@ -16,6 +16,8 @@ export const UpdateProfileService: IUpdateProfileService = {
   createProfile: async (profile: IProfile): Promise<void> => {
     const batch: firebase.firestore.WriteBatch = db.batch();
 
+    console.log(profile)
+
     const profileRef: firebase.firestore.DocumentReference<IProfile> = db.collection("profiles")
       .doc(profile.uid)
       .withConverter<IProfile>(profileConverter);

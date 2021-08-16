@@ -5,7 +5,6 @@ import axios from "axios";
 import { db } from "../../config/firebase";
 
 import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtility";
-import { NumberUtility } from "../../../stroll-utilities/numberUtility";
 import { StepTrackerUtility } from "../utilities/stepTrackerUtility";
 
 import { IConnectStepTrackerRequest } from "../../../stroll-models/connectStepTrackerRequest";
@@ -24,6 +23,7 @@ interface IStepTrackerService {
   getAccessTokenFromRefreshToken: (tracker: StepTracker, refreshToken: string) => Promise<string>;
   getStepCountUpdate: (game: IGame, playerID: string, steps: number) => Promise<IMatchupSideStepUpdate>;
   getStepCountUpdates: (game: IGame, matchups: IMatchup[]) => Promise<IMatchupSideStepUpdate[]>;
+  getStepCountUpdateRequest: (tracker: IStepTracker, game: IGame) => Promise<void>;
   preauthorizedDisconnectStepTracker: (uid: string) => Promise<void>;
 }
 
@@ -40,8 +40,8 @@ export const StepTrackerService: IStepTrackerService = {
       try {
         const res: any = await axios.post(
           StepTrackerUtility.getOAuthUrl(request.tracker.name), 
-          StepTrackerUtility.getAccessTokenRequestData(request.authorizationCode, request.origin),
-          StepTrackerUtility.getAccessTokenRequestHeaders()
+          StepTrackerUtility.getAccessTokenRequestData(request.tracker.name, request.authorizationCode, request.origin),
+          StepTrackerUtility.getAccessTokenRequestHeaders(request.tracker.name)
         );
 
         const tracker: IStepTracker = {
@@ -49,23 +49,32 @@ export const StepTrackerService: IStepTrackerService = {
           refreshToken: res.data.refresh_token
         }
 
-        const batch: firebase.firestore.WriteBatch = db.batch();
+        await db.runTransaction(async (transaction: firebase.firestore.Transaction) => {      
+          const trackersRef: firebase.firestore.Query = db.collection("profiles")
+            .doc(request.uid)
+            .collection("trackers")
+            .withConverter(stepTrackerConverter);
 
-        const trackerRef: firebase.firestore.DocumentReference = db.collection("profiles")
-          .doc(request.uid)
-          .collection("trackers")
-          .doc(request.tracker.name)
-          .withConverter(stepTrackerConverter);
+          const trackerSnap: firebase.firestore.QuerySnapshot = await transaction.get(trackersRef);
 
-        batch.set(trackerRef, tracker);
+          if(trackerSnap.empty || trackerSnap.size === 0) {
+            const trackerRef: firebase.firestore.DocumentReference = db.collection("profiles")
+              .doc(request.uid)
+              .collection("trackers")
+              .doc(request.tracker.name)
+              .withConverter(stepTrackerConverter);
 
-        const profileRef: firebase.firestore.DocumentReference = db.collection("profiles")
-          .doc(request.uid)
-          .withConverter(profileConverter);
+            transaction.set(trackerRef, tracker);
 
-        batch.update(profileRef, { tracker: tracker.name });
+            const profileRef: firebase.firestore.DocumentReference = db.collection("profiles")
+              .doc(request.uid)
+              .withConverter(profileConverter);
 
-        await batch.commit();
+            transaction.update(profileRef, { tracker: tracker.name });
+          } else {
+            throw new Error("User already has tracker connected");
+          }
+        });
       } catch (err) {
         logger.error(err);
     
@@ -125,8 +134,8 @@ export const StepTrackerService: IStepTrackerService = {
   getAccessTokenFromRefreshToken: async (tracker: StepTracker, refreshToken: string): Promise<string> => {
     const res: any = await axios.post(
       StepTrackerUtility.getOAuthUrl(tracker), 
-      StepTrackerUtility.getRefreshTokenRequestData(refreshToken),
-      StepTrackerUtility.getAccessTokenRequestHeaders()
+      StepTrackerUtility.getRefreshTokenRequestData(tracker, refreshToken),
+      StepTrackerUtility.getAccessTokenRequestHeaders(tracker)
     );
 
     return res.data.access_token;
@@ -141,18 +150,11 @@ export const StepTrackerService: IStepTrackerService = {
 
     if(tracker && tracker.refreshToken !== "") {
       try {
-        const accessToken: string = await StepTrackerService.getAccessTokenFromRefreshToken(tracker.name, tracker.refreshToken);
+        const hasDayPassed: boolean = GameDurationUtility.hasDayPassed(game);
 
-        const day: number = GameDurationUtility.getDay(game),
-          hasDayPassed: boolean = GameDurationUtility.hasDayPassed(game);
+        const res: any = await StepTrackerService.getStepCountUpdateRequest(tracker, game);
 
-        const res: any = await axios.post(
-          StepTrackerUtility.getStepDataRequestUrl(tracker.name), 
-          StepTrackerUtility.getStepDataRequestBody(tracker.name, game.startsAt, day, hasDayPassed),
-          StepTrackerUtility.getStepDataRequestHeaders(accessToken)
-        );
-
-        const newStepTotal: number = StepTrackerUtility.mapStepsFromResponse(res.data, currentStepTotal, hasDayPassed);
+        const newStepTotal: number = StepTrackerUtility.mapStepsFromResponse(tracker.name, res.data, currentStepTotal, hasDayPassed);
 
         update.steps = newStepTotal - currentStepTotal;
       } catch (err) {
@@ -187,6 +189,25 @@ export const StepTrackerService: IStepTrackerService = {
 
     return updates;
   },
+  getStepCountUpdateRequest: async (tracker: IStepTracker, game: IGame): Promise<void> => {
+    const accessToken: string = await StepTrackerService.getAccessTokenFromRefreshToken(tracker.name, tracker.refreshToken);
+    
+    const day: number = GameDurationUtility.getDay(game),
+      hasDayPassed: boolean = GameDurationUtility.hasDayPassed(game);
+
+    if(tracker.name === StepTracker.GoogleFit) {
+      return await axios.post(
+        StepTrackerUtility.getStepDataRequestUrl(tracker.name), 
+        StepTrackerUtility.getStepDataRequestBody(tracker.name, game.startsAt, day, hasDayPassed),
+        StepTrackerUtility.getStepDataRequestHeaders(accessToken)
+      );
+    } else if (tracker.name === StepTracker.Fitbit) {
+      return await axios.get(
+        StepTrackerUtility.getStepDataRequestUrl(tracker.name, game.startsAt, day, hasDayPassed),         
+        StepTrackerUtility.getStepDataRequestHeaders(accessToken)
+      );
+    }
+  },
   preauthorizedDisconnectStepTracker: async (uid: string): Promise<void> => {
     logger.info(`Disconnecting step tracker for user [${uid}]`);
     
@@ -197,7 +218,7 @@ export const StepTrackerService: IStepTrackerService = {
         await axios.post(
           `${StepTrackerUtility.getOAuthRevokeUrl(tracker.name)}${tracker.refreshToken}`,
           {},
-          StepTrackerUtility.getAccessTokenRequestHeaders()
+          StepTrackerUtility.getAccessTokenRequestHeaders(tracker.name)
         );
       } catch (err) {
         logger.error(`Revoking of OAuth access failed for user [${uid}]`);

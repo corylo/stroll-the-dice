@@ -38,11 +38,12 @@ export const Button: React.FC<ButtonProps> = (
       return (
         <a      
           id={props.id} 
-          className={classNames("button link", props.className)} 
-          href={props.url}
+          className={classNames("button link", { disabled: props.disabled }, props.className)} 
+          href={!props.disabled ? props.url : ""}
           style={getStyles()}
+          tabIndex={!props.disabled ? 0 : -1}
           target={props.newtab ? "_blank" : "_self"}
-          onClick={props.handleOnClick}
+          onClick={!props.disabled ? props.handleOnClick : null}
         >
           {props.children}
         </a>
@@ -51,10 +52,11 @@ export const Button: React.FC<ButtonProps> = (
       return (
         <Link
           id={props.id} 
-          className={classNames("button link", props.className)} 
+          className={classNames("button link", { disabled: props.disabled }, props.className)} 
           style={getStyles()}
-          to={props.url}
-          onClick={props.handleOnClick}
+          tabIndex={!props.disabled ? 0 : -1}
+          to={!props.disabled ? props.url : ""}
+          onClick={!props.disabled ? props.handleOnClick : null}
         >
           {props.children}
         </Link>

@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 
 import { Button } from "../../../../components/buttons/button";
 import { IconButton } from "../../../../components/buttons/iconButton";
+import { TooltipSide } from "../../../../components/tooltip/tooltip";
 
 import { AppContext } from "../../../../components/app/contexts/appContext";
 
@@ -12,44 +13,68 @@ import { StepTrackerUtility } from "../../../../utilities/stepTrackerUtility";
 import { AppAction } from "../../../../enums/appAction";
 import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
 import { StepTracker } from "../../../../../stroll-enums/stepTracker";
-import { TooltipSide } from "../../../../components/tooltip/tooltip";
+import { StrollTheDiceCDN } from "../../../../../stroll-enums/strollTheDiceCDN";
 
-interface StepTrackerLinkProps {    
-  img: string;
-  status: RequestStatus;
+interface StepTrackerLinkProps {  
   tracker: StepTracker;
-  url: string;
 }
 
 export const StepTrackerLink: React.FC<StepTrackerLinkProps> = (props: StepTrackerLinkProps) => {  
-  const { dispatchToApp } = useContext(AppContext);
+  const { appState, dispatchToApp } = useContext(AppContext);
+
+  const { statuses, user } = appState;
 
   const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
 
   const [confirm, setConfirm] = useState<boolean>(false);
 
-  if(props.status === RequestStatus.Idle) {    
-    return (
-      <Button className="step-tracker-link" url={StepTrackerUtility.getOAuthUrl(props.tracker)} external>
-        <img src={props.img} />      
-        <h1 className="passion-one-font">{props.tracker}</h1>
-        <div className="step-tracker-link-connect-icon">
+  const hasTracker: boolean = user.profile.tracker !== "",
+    logo: string = `${StrollTheDiceCDN.Url}/img/brands/${StepTrackerUtility.getLogo(props.tracker)}`;
+ 
+  const getStatus = (tracker: StepTracker): RequestStatus => {
+    if(user.profile.tracker === tracker) {
+      if(statuses.tracker.is === RequestStatus.Idle || statuses.tracker.is === RequestStatus.Success) {
+        return RequestStatus.Success;
+      }
+
+      return statuses.tracker.is;
+    }
+
+    return RequestStatus.Idle;
+  }
+
+  const status: RequestStatus = getStatus(props.tracker);
+
+  const getConnectionIcon = (): JSX.Element => {
+    if(status === RequestStatus.Idle) {
+      return (
+        <div className="step-tracker-link-connection-icon">
           <i className="fal fa-plus" />
           <h1 className="passion-one-font">Connect</h1>
         </div>
-      </Button>
-    );
-  }
-
-  const getConnectedStepTrackerLinkContent = (): JSX.Element => {
-    if(props.status === RequestStatus.Loading) {
-      return (
-        <React.Fragment>
-          <h1 className="passion-one-font">{props.tracker}</h1>
-          <i className="connecting-icon fal fa-spinner-third" />
-        </React.Fragment>
       )
-    } else if (props.status === RequestStatus.Success) {
+    } else if(status === RequestStatus.Loading) {
+      return (
+        <div className="step-tracker-link-connection-icon">
+          <i className="connecting-icon fal fa-spinner-third" />
+        </div>
+      )
+    } else if (status === RequestStatus.Error) {
+      return (
+        <div className="step-tracker-link-connection-icon">          
+          <h1 className="connected-label passion-one-font">Error</h1>
+          <div className="step-tracker-buttons">
+            <IconButton 
+              className="reset-step-tracker-button" 
+              icon="fal fa-redo"               
+              tooltip="Try Again"
+              tooltipSide={TooltipSide.Left}
+              handleOnClick={() => dispatch(AppAction.ResetStepTrackerConnection)} 
+            />
+          </div>
+        </div>
+      )
+    } else if (status === RequestStatus.Success) {
       const handleDisconnect = async (): Promise<void> => {
         try {
           setConfirm(false);
@@ -100,33 +125,38 @@ export const StepTrackerLink: React.FC<StepTrackerLinkProps> = (props: StepTrack
       }
 
       return (
-        <React.Fragment>
-          <h1 className="passion-one-font">{props.tracker}<span className="highlight-custom">Connected</span></h1>
+        <div className="step-tracker-link-connection-icon">          
+          <h1 className="connected-label passion-one-font">Connected</h1>
           {getButtons()}
-        </React.Fragment>
+        </div>
       )
     }
-
-    return (
-      <React.Fragment>
-        <h1 className="passion-one-font">{props.tracker}<span className="highlight-error">Error Connecting</span></h1>
-        <div className="step-tracker-buttons">
-          <IconButton 
-            className="reset-step-tracker-button" 
-            icon="far fa-sync-alt"               
-            tooltip="Try Again"
-            tooltipSide={TooltipSide.Left}
-            handleOnClick={() => dispatch(AppAction.ResetStepTrackerConnection)} 
-          />
-        </div>
-      </React.Fragment>
-    )
   }
 
+  if(hasTracker && props.tracker === user.profile.tracker) {
+    return (
+      <div className="step-tracker-link">
+        <div className="step-tracker-link-branding">
+          <img src={logo} />      
+          <h1 className="passion-one-font">{props.tracker}</h1>
+        </div>
+        {getConnectionIcon()}
+      </div>
+    )
+  }
+  
   return (
-    <div className="connected-step-tracker-link">
-      <img src={props.img} />      
-      {getConnectedStepTrackerLinkContent()}
-    </div>
-  )
+    <Button 
+      className="step-tracker-link" 
+      disabled={hasTracker && props.tracker !== user.profile.tracker}
+      url={StepTrackerUtility.getOAuthUrl(props.tracker)} 
+      external
+    >
+      <div className="step-tracker-link-branding">
+        <img src={logo} />      
+        <h1 className="passion-one-font">{props.tracker}</h1>
+      </div>
+      {getConnectionIcon()}
+    </Button>
+  );
 }

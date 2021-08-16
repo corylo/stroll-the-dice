@@ -3,48 +3,81 @@ import { config } from "firebase-functions";
 
 import { StepTrackerRequestUtility } from "./stepTrackerRequestUtility";
 
-import { IGoogleFitStepDataResponseBucketItem, IGoogleFitStepDataResponseBucketItemDataset, IGoogleFitStepDataResponseBucketItemDatasetPoint, IGoogleFitStepDataResponseBucketItemDatasetPointValue, IGoogleFitStepDataResponseData } from "../../../stroll-models/googleFitStepDataResponseData";
+import { IFitbitStepDataResponse, IFitbitStepDataResponseActivitiesStepsSummaryItem } from "../../../stroll-models/fitbitStepDataResponse";
+import { IGoogleFitStepDataResponseBucketItem, IGoogleFitStepDataResponseBucketItemDataset, IGoogleFitStepDataResponseBucketItemDatasetPoint, IGoogleFitStepDataResponseBucketItemDatasetPointValue, IGoogleFitStepDataResponse } from "../../../stroll-models/googleFitStepDataResponse";
 
 import { StepTracker } from "../../../stroll-enums/stepTracker";
 
 interface IStepTrackerUtility {
-  getAccessTokenRequestData: (code: string, origin: string) => string;
-  getAccessTokenRequestHeaders: () => any;
+  getAccessTokenRequestData: (tracker: StepTracker, code: string, origin: string) => string;
+  getAccessTokenRequestHeaders: (tracker: StepTracker) => any;
   getOAuthUrl: (tracker: StepTracker) => string;
-  getRefreshTokenRequestData: (refreshToken: string) => string;
+  getRefreshTokenRequestData: (tracker: StepTracker, refreshToken: string) => string;
   getOAuthRevokeUrl: (tracker: StepTracker) => string;
   getStepDataRequestBody: (tracker: StepTracker, startsAt: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean) => any;
   getStepDataRequestHeaders: (accessToken: string) => any;
-  getStepDataRequestUrl: (tracker: StepTracker) => string;
-  mapStepsFromResponse: (data: IGoogleFitStepDataResponseData, currentStepTotal: number, hasDayPassed: boolean) => number;
+  getStepDataRequestUrl: (tracker: StepTracker, startsAt?: firebase.firestore.FieldValue, day?: number, hasDayPassed?: boolean) => string;
+  mapStepsFromResponse: (tracker: StepTracker, data: IGoogleFitStepDataResponse | IFitbitStepDataResponse, currentStepTotal: number, hasDayPassed: boolean) => number;
 }
 
 export const StepTrackerUtility: IStepTrackerUtility = {
-  getAccessTokenRequestData: (code: string, origin: string): string => {
-    return `client_id=${config().google.oauth.client_id}&client_secret=${config().google.oauth.client_secret}&grant_type=authorization_code&redirect_uri=${encodeURIComponent(`${origin}/profile/connect/google-fit`)}&code=${code}`;
+  getAccessTokenRequestData: (tracker: StepTracker, code: string, origin: string): string => {
+    switch(tracker) {
+      case StepTracker.GoogleFit:
+        return `client_id=${config().google.oauth.client_id}&client_secret=${config().google.oauth.client_secret}&grant_type=authorization_code&redirect_uri=${encodeURIComponent(`${origin}/profile/connect/google-fit`)}&code=${code}`;
+      case StepTracker.Fitbit:
+        return `client_id=${config().fitbit.oauth.client_id}&grant_type=authorization_code&redirect_uri=${encodeURIComponent(`${origin}/profile/connect/fitbit`)}&code=${code}`;
+      default:
+        throw new Error(`Unknown step tracker: ${tracker}`);
+    }
   },
-  getAccessTokenRequestHeaders: (): any => {
-    return {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded" 
-      }
+  getAccessTokenRequestHeaders: (tracker: StepTracker): any => {
+    switch(tracker) {
+      case StepTracker.GoogleFit:
+        return {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded" 
+          }
+        }
+      case StepTracker.Fitbit:
+        const encodedOAuthCredentials: string = Buffer.from(`${config().fitbit.oauth.client_id}:${config().fitbit.oauth.client_secret}`).toString("base64");
+
+        return {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Authorization": `Basic ${encodedOAuthCredentials}`
+          }
+        }
+      default:
+        throw new Error(`Unknown step tracker: ${tracker}`);
     }
   },
   getOAuthUrl: (tracker: StepTracker): string => {
     switch(tracker) {
       case StepTracker.GoogleFit:
         return "https://oauth2.googleapis.com/token";
+      case StepTracker.Fitbit:
+        return "https://api.fitbit.com/oauth2/token";
       default:
         throw new Error(`Unknown step tracker: ${tracker}`);
     }
   },
-  getRefreshTokenRequestData: (refreshToken: string): string => {
-    return `client_id=${config().google.oauth.client_id}&client_secret=${config().google.oauth.client_secret}&grant_type=refresh_token&refresh_token=${refreshToken}`;
+  getRefreshTokenRequestData: (tracker: StepTracker, refreshToken: string): string => {
+    switch(tracker) {
+      case StepTracker.GoogleFit:
+        return `client_id=${config().google.oauth.client_id}&client_secret=${config().google.oauth.client_secret}&grant_type=refresh_token&refresh_token=${refreshToken}`;
+      case StepTracker.Fitbit:
+        return `client_id=${config().fitbit.oauth.client_id}&grant_type=refresh_token&refresh_token=${refreshToken}`;
+      default:
+        throw new Error(`Unknown step tracker: ${tracker}`);
+    }
   },
   getOAuthRevokeUrl: (tracker: StepTracker): string => {
     switch(tracker) {
       case StepTracker.GoogleFit:
         return "https://oauth2.googleapis.com/revoke?token=";
+      case StepTracker.Fitbit:
+        return "https://api.fitbit.com/oauth2/revoke?token=";
       default:
         throw new Error(`Unknown step tracker: ${tracker}`);
     }
@@ -64,31 +97,47 @@ export const StepTrackerUtility: IStepTrackerUtility = {
       }
     }
   },
-  getStepDataRequestUrl: (tracker: StepTracker): string => {
+  getStepDataRequestUrl: (tracker: StepTracker, startsAt?: firebase.firestore.FieldValue, day?: number, hasDayPassed?: boolean): string => {
     switch(tracker) {
       case StepTracker.GoogleFit:
         return "https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate";
+      case StepTracker.Fitbit:
+        return `https://api.fitbit.com${StepTrackerRequestUtility.getFitbitStepDataRequestUrlPath(startsAt, day, hasDayPassed)}`;
       default:
         throw new Error(`Unknown step tracker: ${tracker}`);
     }
   },
-  mapStepsFromResponse: (data: IGoogleFitStepDataResponseData, currentStepTotal: number, hasDayPassed: boolean): number => {
-    if(data && data.bucket && data.bucket.length > 0) {
-      const item: IGoogleFitStepDataResponseBucketItem = data.bucket[0];
+  mapStepsFromResponse: (tracker: StepTracker, data: IGoogleFitStepDataResponse | IFitbitStepDataResponse, currentStepTotal: number): number => {
+    if(tracker === StepTracker.GoogleFit) {
+      data = data as IGoogleFitStepDataResponse;
 
-      if(item) {
-        const dataset: IGoogleFitStepDataResponseBucketItemDataset = item.dataset[0];
+      if(data && data.bucket && data.bucket.length > 0) {
+        const item: IGoogleFitStepDataResponseBucketItem = data.bucket[0];
 
-        if(dataset) {
-          const point: IGoogleFitStepDataResponseBucketItemDatasetPoint = dataset.point[0];
+        if(item) {
+          const dataset: IGoogleFitStepDataResponseBucketItemDataset = item.dataset[0];
 
-          if(point) {
-            const value: IGoogleFitStepDataResponseBucketItemDatasetPointValue = point.value[0];
+          if(dataset) {
+            const point: IGoogleFitStepDataResponseBucketItemDatasetPoint = dataset.point[0];
 
-            if(value) {
-              return value.intVal;
+            if(point) {
+              const value: IGoogleFitStepDataResponseBucketItemDatasetPointValue = point.value[0];
+
+              if(value) {
+                return value.intVal;
+              }
             }
           }
+        }
+      }
+    } else if (tracker === StepTracker.Fitbit) {
+      data = data as IFitbitStepDataResponse;
+
+      if(data && data["activities-steps"] && data["activities-steps"].length > 0) {
+        const item: IFitbitStepDataResponseActivitiesStepsSummaryItem = data["activities-steps"][0];
+
+        if(item && item.value) {
+          return parseInt(item.value);
         }
       }
     }

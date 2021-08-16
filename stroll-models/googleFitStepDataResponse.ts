@@ -22,6 +22,6 @@ export interface IGoogleFitStepDataResponseBucketItem {
   dataset: IGoogleFitStepDataResponseBucketItemDataset[];
 }
 
-export interface IGoogleFitStepDataResponseData {
+export interface IGoogleFitStepDataResponse {
   bucket: IGoogleFitStepDataResponseBucketItem[];
 }
