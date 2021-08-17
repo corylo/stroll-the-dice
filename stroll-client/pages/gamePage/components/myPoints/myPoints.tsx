@@ -14,6 +14,7 @@ import { NumberUtility } from "../../../../../stroll-utilities/numberUtility";
 import { Icon } from "../../../../../stroll-enums/icon";
 import { PlayerStatus } from "../../../../../stroll-enums/playerStatus";
 import { StepTracker } from "../../../../../stroll-enums/stepTracker";
+import { StepTrackerConnectionStatus } from "../../../../../stroll-enums/stepTrackerConnectionStatus";
 
 interface MyPointsProps {  
   
@@ -27,14 +28,25 @@ export const MyPoints: React.FC<MyPointsProps> = (props: MyPointsProps) => {
     const { points } = player;
 
     const getNoTrackerConnectedMessage = (): JSX.Element => {
-      if(user.profile.tracker.name === StepTracker.Unknown) {
+      if(
+        user.profile.tracker.name === StepTracker.Unknown ||
+        user.profile.tracker.status !== StepTrackerConnectionStatus.Verified
+      ) {
+        const getLabelText = (): string => {
+          if (user.profile.tracker.name === StepTracker.Unknown) {
+            return "connected";
+          } else if(user.profile.tracker.status === StepTrackerConnectionStatus.VerificationFailed) {
+            return "verified";
+          }
+        }
+
         return (
           <div className="no-tracker-connected-message-outer-wrapper">
             <div className="no-tracker-connected-message-wrapper">
               <Label
                 className="no-tracker-connected-message"
                 icon="fal fa-exclamation-triangle"
-                text="Your step tracker isn't connected"
+                text={`Your step tracker isn't ${getLabelText()}`}
               />
               <div className="game-action-button-wrapper">
                 <IconButton
