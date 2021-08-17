@@ -21,7 +21,7 @@ export const StepTrackerHub: React.FC<StepTrackerHubProps> = (props: StepTracker
       tracker.status !== StepTrackerConnectionStatus.Verified
     ) {
       return (
-        <NoTrackerConnectedMessage url="/profile" />
+        <NoTrackerConnectedMessage />
       )
     }
   }
