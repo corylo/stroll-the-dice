@@ -205,12 +205,17 @@ export const StepTrackerConnectionModal: React.FC<StepTrackerConnectionModalProp
           }
         }
 
-        const getDisconnectButton = (): JSX.Element => {
+        const getVerifiedButtons = (): JSX.Element => {
           if(tracker.status === StepTrackerConnectionStatus.Verified) {
-            return (              
-              <Button className="disconnect-button fancy-button" handleOnClick={handleDisconnect}>
-                <h1 className="passion-one-font">Disconnect</h1>
-              </Button>
+            return (     
+              <React.Fragment>    
+                <Button className="disconnect-button fancy-button" handleOnClick={props.back}>
+                  <h1 className="passion-one-font">Done</h1>
+                </Button>    
+                <Button className="disconnect-button fancy-button red" handleOnClick={handleDisconnect}>
+                  <h1 className="passion-one-font">Disconnect {tracker.name}</h1>
+                </Button>
+              </React.Fragment>
             )
           }
         }
@@ -231,7 +236,7 @@ export const StepTrackerConnectionModal: React.FC<StepTrackerConnectionModalProp
               tracker={tracker.name}
             />
             {getVerificationErrorInfo()}
-            {getDisconnectButton()}
+            {getVerifiedButtons()}
           </React.Fragment>
         )
       }

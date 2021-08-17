@@ -1,0 +1,50 @@
+.connect-a-step-tracker-message {
+  border: 1px solid rgba(white, 0.5);
+  border-radius: 10px;   
+  margin-bottom: 20px;
+  padding: 10px;
+
+  .connect-a-step-tracker-message-label {
+    color: white;
+    font-size: 1.5em;
+    text-align: center;
+  }
+   
+  .connect-a-step-tracker-items {     
+    display: flex;
+    margin-top: 20px;
+
+    .connect-a-step-tracker-item {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      gap: 1em;
+
+      &:first-of-type {
+        border-right: 1px solid rgba(white, 0.25);
+      }
+
+      .connect-a-step-tracker-logo {
+        height: 100px;
+        width: 100px;
+      }
+
+      .connect-a-step-tracker-label {
+        color: white;
+        text-align: center;
+      }
+    }
+  }
+
+  .go-to-profile-button {
+    margin-top: 20px;
+    text-align: center;
+    width: calc(100% - 40px);
+
+    h1 {
+      color: white;
+      font-size: 1.5em;
+    }
+  }
+}

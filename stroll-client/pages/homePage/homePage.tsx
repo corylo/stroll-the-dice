@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 
 import { Button } from "../../components/buttons/button";
+import { ConnectAStepTrackerMessage } from "../../components/connectAStepTrackerMessage/connectAStepTrackerMessage";
 import { GameConglomerate } from "../../components/gameGroup/gameConglomerate";
 import { GameInviteInput } from "../../components/gameInviteInput/gameInviteInput";
 import { HowToPlaySummary } from "../../components/howToPlaySummary/howToPlaySummary";
@@ -24,6 +25,7 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
     if(appState.status === AppStatus.SignedIn) {
       return (
         <React.Fragment>
+          <ConnectAStepTrackerMessage />
           <GameInviteInput />
           <GameConglomerate limit={10} />
         </React.Fragment>
