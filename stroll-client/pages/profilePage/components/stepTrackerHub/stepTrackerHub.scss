@@ -1,6 +1,11 @@
 .step-tracker-hub {
   position: relative;
 
+  .no-tracker-connected-message-wrapper {
+    margin-bottom: 10px;
+    width: calc(100% - 20px);
+  }
+
   .step-tracker-links {
     a.step-tracker-link {      
       &:hover,

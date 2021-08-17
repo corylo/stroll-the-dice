@@ -3,6 +3,10 @@
   
   .game-conglomerate-groups {
     animation: fadeIn 400ms ease-in;
+    background-color: rgba(white, 0.05);
+    border: 2px solid rgba(white, 0.5);
+    border-radius: 10px;   
+    padding: 10px;
   }
 
   .loading-message-wrapper {
