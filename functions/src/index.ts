@@ -62,6 +62,9 @@ exports.scheduledGameUpdate = pubsub
 exports.connectStepTracker = https
   .onCall(StepTrackerService.connectStepTracker);
   
+exports.verifyStepTracker = https
+  .onCall(StepTrackerService.verifyStepTracker);
+
 exports.disconnectStepTracker = https
   .onCall(StepTrackerService.disconnectStepTracker);
   

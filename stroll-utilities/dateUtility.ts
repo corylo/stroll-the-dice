@@ -2,6 +2,7 @@ interface IDateUtility {
   dateToInput: (date: Date) => string;
   daysToMillis: (days: number) => number;  
   diffInDays: (value: string, hour?: number) => number;
+  getCurrentTimezone: () => string;
   getRelativeOfUnit: (seconds: number, unit: "H" | "M" | "S") => number;
   getTimeUntilMinuteOfHour: (interval: number) => string;
   getTomorrow: () => Date;
@@ -43,6 +44,9 @@ export const DateUtility: IDateUtility = {
     const diff: number = date.getTime() - current.getTime();
     
     return diff / (24 * 3600 * 1000);
+  },
+  getCurrentTimezone: (): string => {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone;
   },
   getRelativeOfUnit: (seconds: number, unit: "H" | "M" | "S"): number => {     
     const relativeMillis: number = Math.abs(seconds * 1000 - new Date().getTime()),

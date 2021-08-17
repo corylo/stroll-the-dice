@@ -7,8 +7,7 @@ import { defaultProfileFormState, IProfileFormState } from "../models/profileFor
 import { IProfileFormStateFields } from "../models/profileFormStateFields";
 import { IProfileUpdate } from "../../../../stroll-models/profileUpdate";
 import { IUser } from "../../../models/user";
-
-import { StepTracker } from "../../../../stroll-enums/stepTracker";
+import { defaultStepTrackerProfileReference } from "../../../../stroll-models/stepTrackerProfileReference";
 
 interface IProfileFormUtility {
   hasChanged: (profile: IProfile, fields: IProfileFormStateFields) => boolean;
@@ -38,7 +37,7 @@ export const ProfileFormUtility: IProfileFormUtility = {
       icon: fields.icon,
       id: Nano.generate(),
       name: fields.name,
-      tracker: StepTracker.Unknown,
+      tracker: defaultStepTrackerProfileReference(),
       uid: user.profile.uid,
       updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
       username: fields.username

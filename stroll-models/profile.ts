@@ -1,8 +1,9 @@
 import firebase from "firebase/app";
 
+import { defaultStepTrackerProfileReference, IStepTrackerProfileReference } from "./stepTrackerProfileReference";
+
 import { Color } from "../stroll-enums/color";
 import { Icon } from "../stroll-enums/icon";
-import { StepTracker } from "../stroll-enums/stepTracker";
 
 export interface IProfile {
   color: Color;
@@ -11,7 +12,7 @@ export interface IProfile {
   icon: Icon;
   id: string;
   name: string;
-  tracker: StepTracker;
+  tracker: IStepTrackerProfileReference;
   uid: string;
   updatedAt: firebase.firestore.FieldValue;
   username: string;
@@ -24,7 +25,7 @@ export const defaultProfile = (): IProfile => ({
   icon: Icon.None,
   id: "",
   name: "",
-  tracker: StepTracker.Unknown,
+  tracker: defaultStepTrackerProfileReference(),
   uid: "",
   updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
   username: ""
@@ -41,7 +42,7 @@ export const deletedProfile = (
   icon: Icon.UserDeleted,
   id: "",
   name: "Deleted",
-  tracker: StepTracker.Unknown,
+  tracker: defaultStepTrackerProfileReference(),
   uid,
   updatedAt,
   username: "Deleted"

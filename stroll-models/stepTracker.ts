@@ -5,11 +5,13 @@ import { StepTrackerUtility } from "../stroll-client/utilities/stepTrackerUtilit
 import { StepTracker } from "../stroll-enums/stepTracker";
 
 export interface IStepTracker {  
+  accessToken: string;
   name: StepTracker;  
   refreshToken: string;
 }
 
 export const defaultStepTracker = (): IStepTracker => ({
+  accessToken: "",
   name: StepTracker.Unknown,
   refreshToken: ""
 });
@@ -17,6 +19,7 @@ export const defaultStepTracker = (): IStepTracker => ({
 export const stepTrackerConverter: any = {
   toFirestore(tracker: IStepTracker): firebase.firestore.DocumentData {
     return {
+      accessToken: tracker.accessToken,
       refreshToken: tracker.refreshToken
     }
   },
@@ -26,6 +29,7 @@ export const stepTrackerConverter: any = {
     const data: IStepTracker = snapshot.data();
 
     return {
+      accessToken: data.accessToken,
       name: StepTrackerUtility.determineTrackerFromString(snapshot.id),      
       refreshToken: data.refreshToken
     }

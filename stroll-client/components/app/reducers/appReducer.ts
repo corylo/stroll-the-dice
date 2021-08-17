@@ -7,7 +7,8 @@ import { AppAction } from "../../../enums/appAction";
 import { AppStatus } from "../../../enums/appStatus";
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
 import { StepTracker } from "../../../../stroll-enums/stepTracker";
-import { INotification } from "../../../../stroll-models/notification";
+import { StepTrackerConnectionStatus } from "../../../../stroll-enums/stepTrackerConnectionStatus";
+import { IStepTrackerProfileReference } from "../../../../stroll-models/stepTrackerProfileReference";
 
 export const appReducer = (state: IAppState, action: IAction): IAppState => {  
   switch (action.type) {    
@@ -33,35 +34,6 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
         },
         user: defaultUser()
       }
-    case AppAction.CompleteStepTrackerConnection:
-      return {
-        ...state,              
-        statuses: {
-          ...state.statuses,
-          tracker: {
-            ...state.statuses.tracker,
-            is: RequestStatus.Success
-          }
-        }
-      }   
-    case AppAction.CompleteStepTrackerDisconnection:
-      return {
-        ...state,              
-        statuses: {
-          ...state.statuses,
-          tracker: {
-            ...state.statuses.tracker,
-            is: RequestStatus.Idle
-          }
-        },
-        user: {
-          ...state.user,
-          profile: {
-            ...state.user.profile,
-            tracker: StepTracker.Unknown
-          }
-        }
-      } 
     case AppAction.FailedAccountDeletion:
       return {
         ...state,              
@@ -75,19 +47,16 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
       }
     case AppAction.FailedStepTrackerConnection:
       return {
-        ...state,              
-        statuses: {
-          ...state.statuses,
-          tracker: {
-            ...state.statuses.tracker,
-            is: RequestStatus.Error
-          }
-        },
+        ...state,  
         user: {
           ...state.user,
           profile: {
             ...state.user.profile,
-            tracker: action.payload
+            tracker: {
+              ...state.user.profile.tracker,
+              name: action.payload,
+              status: StepTrackerConnectionStatus.ConnectionFailed
+            }
           }
         }
       }
@@ -113,51 +82,37 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
       }
     case AppAction.InitiateStepTrackerConnection:
       return {
-        ...state,              
-        statuses: {
-          ...state.statuses,
-          tracker: {
-            ...state.statuses.tracker,
-            is: RequestStatus.Loading
-          }
-        },
+        ...state,  
         user: {
           ...state.user,
           profile: {
             ...state.user.profile,
-            tracker: action.payload
+            tracker: {
+              ...state.user.profile.tracker,
+              name: action.payload,
+              status: StepTrackerConnectionStatus.Initiated
+            }
           }
         }
       }
-    case AppAction.InitiateStepTrackerDisconnection:
+    case AppAction.ResetStepTrackerConnection: {
+      const tracker: IStepTrackerProfileReference = action.payload || {
+        ...state.user.profile.tracker,
+        name: StepTracker.Unknown,
+        status: StepTrackerConnectionStatus.Idle
+      };
+      
       return {
-        ...state,              
-        statuses: {
-          ...state.statuses,
-          tracker: {
-            ...state.statuses.tracker,
-            is: RequestStatus.Loading
-          }
-        }
-      }
-    case AppAction.ResetStepTrackerConnection:
-      return {
-        ...state,              
-        statuses: {
-          ...state.statuses,
-          tracker: {
-            ...state.statuses.tracker,
-            is: RequestStatus.Idle
-          }
-        },
+        ...state,     
         user: {
           ...state.user,
           profile: {
             ...state.user.profile,
-            tracker: StepTracker.Unknown
+            tracker
           }
         }
       } 
+    }
     case AppAction.SetGameDays: {
       return {
         ...state,
@@ -225,6 +180,20 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
       return {
         ...state,
         status: action.payload
+      }
+    case AppAction.SetStepTrackerConnectionStatus:
+      return {
+        ...state,  
+        user: {
+          ...state.user,
+          profile: {
+            ...state.user.profile,
+            tracker: {
+              ...state.user.profile.tracker,
+              status: action.payload
+            }
+          }
+        }
       }
     case AppAction.SignInUser:
       return {

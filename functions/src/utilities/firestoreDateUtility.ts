@@ -8,8 +8,9 @@ interface IFirestoreDateUtility {
   beginningOfHour: (occurredAt: firebase.firestore.FieldValue) => firebase.firestore.FieldValue;
   dateToTimestamp: (date: Date) => firebase.firestore.Timestamp;
   daysToMillis: (days: number) => number;  
-  endOfDay: (day: number, startsAt: firebase.firestore.FieldValue) => firebase.firestore.FieldValue;
+  endOfDay: (day: number, startsAt: firebase.firestore.FieldValue) => firebase.firestore.FieldValue;  
   timestampToDate: (value: firebase.firestore.FieldValue) => Date;
+  timestampToTimezoneOffsetTimestamp: (value: firebase.firestore.FieldValue, timezone: string) => firebase.firestore.FieldValue;
 }
 
 export const FirestoreDateUtility: IFirestoreDateUtility = {
@@ -49,5 +50,12 @@ export const FirestoreDateUtility: IFirestoreDateUtility = {
     const date: IFirestoreTimestamp = value as any;
 
     return new Date(date.seconds * 1000);
+  },
+  timestampToTimezoneOffsetTimestamp: (value: firebase.firestore.FieldValue, timezone: string): firebase.firestore.FieldValue => {
+    const date: Date = FirestoreDateUtility.timestampToDate(value);
+
+    const offsetDate: Date = new Date(date.toLocaleDateString([], { timeZone: timezone }));
+
+    return FirestoreDateUtility.dateToTimestamp(offsetDate);
   }
 }

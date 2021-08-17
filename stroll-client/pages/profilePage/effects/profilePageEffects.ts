@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
 
 import { StepTrackerService } from "../../../services/stepTrackerService";
@@ -7,21 +7,54 @@ import { StepTrackerUtility } from "../../../utilities/stepTrackerUtility";
 import { UrlUtility } from "../../../utilities/urlUtility";
 
 import { IAppState } from "../../../components/app/models/appState";
-import { defaultStepTracker, IStepTracker } from "../../../../stroll-models/stepTracker";
 
 import { AppAction } from "../../../enums/appAction";
 import { AppStatus } from "../../../enums/appStatus";
 import { StepTracker } from "../../../../stroll-enums/stepTracker";
+import { StepTrackerConnectionStatus } from "../../../../stroll-enums/stepTrackerConnectionStatus";
 
-interface IUseConnectStepTrackerEffectState {
-  authorizationCode: string;
-  tracker: IStepTracker;
+export const useInitiateStepTrackerConnectionEffect = (
+  appState: IAppState, 
+  setToggled: (toggled: boolean) => void,
+  dispatch: (type: AppAction, payload?: any) => void
+): void => {  
+  const match: any = useRouteMatch(),
+    history: any = useHistory();
+
+  useEffect(() => {
+    const load = async (): Promise<void> => {
+      if(appState.status === AppStatus.SignedIn) {
+        try {
+          const authorizationCode: string = UrlUtility.getQueryParam("code"),
+            tracker: string = StepTrackerUtility.determineTrackerFromParam(match),
+            isError: boolean = UrlUtility.getQueryParam("error") === "access_denied";
+
+          if(
+            appState.user.profile.tracker.name === StepTracker.Unknown &&
+            authorizationCode &&
+            tracker
+          ) {
+            setToggled(true);
+
+            dispatch(AppAction.InitiateStepTrackerConnection, tracker);
+          } else if(isError) { 
+            history.replace("/profile");
+              
+            setToggled(true);
+
+            dispatch(AppAction.FailedStepTrackerConnection, tracker);
+          }
+        } catch (err) {
+          history.replace("/profile");
+
+          dispatch(AppAction.ResetStepTrackerConnection);
+        }
+      }
+    }
+
+    load();
+  }, [appState.status]);
 }
-
-const defaultUseConnectStepTrackerEffectState = (): IUseConnectStepTrackerEffectState => ({
-  authorizationCode: "",
-  tracker: defaultStepTracker()
-})
 
 export const useConnectStepTrackerEffect = (
   appState: IAppState, 
@@ -30,54 +63,53 @@ export const useConnectStepTrackerEffect = (
   const match: any = useRouteMatch(),
     history: any = useHistory();
 
-  const [state, setState] = useState<IUseConnectStepTrackerEffectState>({
-    authorizationCode: UrlUtility.getQueryParam("code"),
-    tracker: {
-      ...defaultStepTracker(),      
-      name:  StepTrackerUtility.determineTrackerFromParam(match)
-    }
-  });
+  const { user } = appState;
 
   useEffect(() => {
     const load = async (): Promise<void> => {
-      if(
-        appState.status === AppStatus.SignedIn && 
-        !appState.user.profile.tracker
-      ) {
-        if(
-          state.authorizationCode !== null &&
-          state.authorizationCode !== "" &&
-          state.tracker.name !== StepTracker.Unknown
-        ) {
+      const authorizationCode: string = UrlUtility.getQueryParam("code"),
+        tracker: StepTracker = StepTrackerUtility.determineTrackerFromParam(match);
+      
+      if(user.profile.tracker.status === StepTrackerConnectionStatus.Initiated) {
+        try {
+          dispatch(AppAction.SetStepTrackerConnectionStatus, StepTrackerConnectionStatus.Connecting);
+
           history.replace("/profile");
+
+          await StepTrackerService.connect(
+            authorizationCode, 
+            user.profile.uid, { 
+              accessToken: "",
+              name: tracker, 
+              refreshToken: "" 
+            }
+          );
           
-          dispatch(AppAction.InitiateStepTrackerConnection, state.tracker.name);
+          dispatch(AppAction.SetStepTrackerConnectionStatus, StepTrackerConnectionStatus.Connected);
+        } catch (err) {
+          console.error(err);
 
-          try {  
-            await StepTrackerService.connect(
-              state.authorizationCode, 
-              appState.user.profile.uid, 
-              state.tracker
-            );
+          dispatch(AppAction.SetStepTrackerConnectionStatus, StepTrackerConnectionStatus.ConnectionFailed);
+        }
+      } else if (user.profile.tracker.status === StepTrackerConnectionStatus.Connected) {        
+        try {
+          dispatch(AppAction.SetStepTrackerConnectionStatus, StepTrackerConnectionStatus.Verifying);
 
-            setState(defaultUseConnectStepTrackerEffectState());
-
-            dispatch(AppAction.CompleteStepTrackerConnection);
-          } catch (err) {
-            console.error(err);
-
-            dispatch(AppAction.FailedStepTrackerConnection, state.tracker.name);
-          }
-        } else if(UrlUtility.getQueryParam("error") === "access_denied") { 
           history.replace("/profile");
-           
-          dispatch(AppAction.FailedStepTrackerConnection, state.tracker.name);
+
+          await StepTrackerService.verify();
+          
+          dispatch(AppAction.SetStepTrackerConnectionStatus, StepTrackerConnectionStatus.Verified);
+        } catch (err) {
+          console.error(err);
+
+          dispatch(AppAction.SetStepTrackerConnectionStatus, StepTrackerConnectionStatus.VerificationFailed);
         }
       }
     }
 
     load();
-  }, [appState.status, state]);
+  }, [user.profile.tracker.status]);
 }
 
 export const useToggleUpdateProfileEffect = (

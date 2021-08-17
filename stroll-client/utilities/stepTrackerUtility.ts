@@ -19,14 +19,20 @@ export const StepTrackerUtility: IStepTrackerUtility = {
     const param: string = UrlUtility.getParam(match, "tracker");
 
     if(param !== "") {
-      switch(param) {
-        case UrlUtility.format(StepTracker.GoogleFit):        
-          return StepTracker.GoogleFit;
-        case UrlUtility.format(StepTracker.Fitbit):        
-          return StepTracker.Fitbit;
-        default:
-          throw new Error(`Unknown step tracker: [${param}]`);
-      }    
+      try {
+        switch(param) {
+          case UrlUtility.format(StepTracker.GoogleFit):        
+            return StepTracker.GoogleFit;
+          case UrlUtility.format(StepTracker.Fitbit):        
+            return StepTracker.Fitbit;
+          default:
+            throw new Error(`Unknown step tracker: [${param}]`);
+        }    
+      } catch (err) {
+        console.error(err);
+
+        return StepTracker.Unknown;
+      }
     }
 
     return StepTracker.Unknown;

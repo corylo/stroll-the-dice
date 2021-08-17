@@ -13,11 +13,12 @@ interface IStepTrackerUtility {
   getAccessTokenRequestHeaders: (tracker: StepTracker) => any;
   getOAuthUrl: (tracker: StepTracker) => string;
   getRefreshTokenRequestData: (tracker: StepTracker, refreshToken: string) => string;
-  getOAuthRevokeUrl: (tracker: StepTracker) => string;
+  getOAuthRevokeUrl: (tracker: StepTracker, token: string) => string;
   getStepDataRequestBody: (tracker: StepTracker, startsAt: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean) => any;
   getStepDataRequestHeaders: (accessToken: string) => any;
   getStepDataRequestUrl: (tracker: StepTracker, startsAt?: firebase.firestore.FieldValue, day?: number, hasDayPassed?: boolean) => string;
-  mapStepsFromResponse: (tracker: StepTracker, data: IGoogleFitStepDataResponse | IFitbitStepDataResponse, currentStepTotal: number, hasDayPassed: boolean) => number;
+  isValidStepTracker: (tracker: StepTracker) => boolean;
+  mapStepsFromResponse: (tracker: StepTracker, data: IGoogleFitStepDataResponse | IFitbitStepDataResponse) => number;
 }
 
 export const StepTrackerUtility: IStepTrackerUtility = {
@@ -72,12 +73,12 @@ export const StepTrackerUtility: IStepTrackerUtility = {
         throw new Error(`Unknown step tracker: ${tracker}`);
     }
   },
-  getOAuthRevokeUrl: (tracker: StepTracker): string => {
+  getOAuthRevokeUrl: (tracker: StepTracker, token: string): string => {
     switch(tracker) {
       case StepTracker.GoogleFit:
-        return "https://oauth2.googleapis.com/revoke?token=";
+        return `https://oauth2.googleapis.com/revoke?token=${token}`;
       case StepTracker.Fitbit:
-        return "https://api.fitbit.com/oauth2/revoke?token=";
+        return `https://api.fitbit.com/oauth2/revoke?token=${token}`;
       default:
         throw new Error(`Unknown step tracker: ${tracker}`);
     }
@@ -107,7 +108,16 @@ export const StepTrackerUtility: IStepTrackerUtility = {
         throw new Error(`Unknown step tracker: ${tracker}`);
     }
   },
-  mapStepsFromResponse: (tracker: StepTracker, data: IGoogleFitStepDataResponse | IFitbitStepDataResponse, currentStepTotal: number): number => {
+  isValidStepTracker: (tracker: StepTracker): boolean => {
+    switch(tracker) {
+      case StepTracker.Fitbit:
+      case StepTracker.GoogleFit:
+        return true;
+      default:
+        throw new Error(`Unknown step tracker: ${tracker}`);
+    }
+  },
+  mapStepsFromResponse: (tracker: StepTracker, data: IGoogleFitStepDataResponse | IFitbitStepDataResponse): number => {
     if(tracker === StepTracker.GoogleFit) {
       data = data as IGoogleFitStepDataResponse;
 
@@ -130,6 +140,8 @@ export const StepTrackerUtility: IStepTrackerUtility = {
           }
         }
       }
+
+      throw new Error(`Unable to map response for tracker [${tracker}].`);
     } else if (tracker === StepTracker.Fitbit) {
       data = data as IFitbitStepDataResponse;
 
@@ -140,8 +152,10 @@ export const StepTrackerUtility: IStepTrackerUtility = {
           return parseInt(item.value);
         }
       }
+
+      throw new Error(`Unable to map response for tracker [${tracker}].`);
     }
 
-    return currentStepTotal;
+    throw new Error(`Unknown step tracker: ${tracker}`);
   }
 }

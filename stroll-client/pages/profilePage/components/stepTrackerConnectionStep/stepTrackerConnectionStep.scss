@@ -1,0 +1,62 @@
+.step-tracker-connection-step {
+  align-items: center;
+  border: 1px solid rgba(white, 0.25);
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 15px;
+
+  &:nth-of-type(n + 2) {
+    margin-top: 10px;
+  }
+
+  &.idle {
+    opacity: 0.6;
+  }
+
+  &.loading {      
+    .step-tracker-connection-step-status-icon {
+      animation: spin 2s ease-in-out infinite;  
+    }
+  }
+
+  &.success {
+    background-color: rgba($green, 0.1);
+    border-color: $green;
+  }
+
+  &.error {
+    background-color: rgba($red, 0.3);
+    border-color: $red;
+  }
+
+  .step-tracker-connection-step-info {
+    align-items: center;
+    display: flex;
+
+    h1 {
+      color: white;
+      font-size: 1.25em;
+    }
+
+    img {
+      height: 50px;
+      margin: 0px 10px;
+    }
+  }
+
+  .step-tracker-connection-step-status-icon {
+    color: white;
+    font-size: 2em;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    width: 40px;
+  }
+
+  .step-tracker-connection-step-error-button {
+    i {
+      font-size: 1.25em;
+    }
+  }
+}

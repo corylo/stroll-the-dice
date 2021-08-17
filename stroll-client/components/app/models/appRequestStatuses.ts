@@ -5,13 +5,11 @@ export interface IAppRequestStatuses {
   notifications: IAppRequestStatus;
   profile: IAppRequestStatus;
   roles: IAppRequestStatus;
-  tracker: IAppRequestStatus;
 }
 
 export const defaultAppRequestStatuses = (): IAppRequestStatuses => ({  
   deleteAccount: defaultAppRequestStatus(),
   notifications: defaultAppRequestStatus(),
   profile: defaultAppRequestStatus(),
-  roles: defaultAppRequestStatus(),
-  tracker: defaultAppRequestStatus()
+  roles: defaultAppRequestStatus()
 });

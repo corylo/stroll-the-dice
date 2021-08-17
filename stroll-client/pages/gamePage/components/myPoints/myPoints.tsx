@@ -13,6 +13,7 @@ import { NumberUtility } from "../../../../../stroll-utilities/numberUtility";
 
 import { Icon } from "../../../../../stroll-enums/icon";
 import { PlayerStatus } from "../../../../../stroll-enums/playerStatus";
+import { StepTracker } from "../../../../../stroll-enums/stepTracker";
 
 interface MyPointsProps {  
   
@@ -26,7 +27,7 @@ export const MyPoints: React.FC<MyPointsProps> = (props: MyPointsProps) => {
     const { points } = player;
 
     const getNoTrackerConnectedMessage = (): JSX.Element => {
-      if(user.profile.tracker === "") {
+      if(user.profile.tracker.name === StepTracker.Unknown) {
         return (
           <div className="no-tracker-connected-message-outer-wrapper">
             <div className="no-tracker-connected-message-wrapper">

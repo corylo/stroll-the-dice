@@ -29,7 +29,7 @@ export const StepTrackerRequestUtility: IStepTrackerRequestUtility = {
       formattedEndHourString: string = end.getHours() < 10 ? `0${end.getHours()}` : end.getHours().toString(),
       formattedEndTimeString: string = `${formattedEndHourString}:59`;
 
-    return `/1/user/-/activities/steps/date/${formattedStartDateString}/${formattedEndDateString}/15min/time/${formattedStartTimeString}/${formattedEndTimeString}.json`;
+    return `/1/user/-/activities/steps/date/${formattedStartDateString}/${formattedEndDateString}/15min/time/${encodeURIComponent(formattedStartTimeString)}/${encodeURIComponent(formattedEndTimeString)}.json`;
   },
   getGoogleFitStepDataRequestBody: (startsAt: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean): any => {
     const start: Date = FirestoreDateUtility.timestampToDate(startsAt),
