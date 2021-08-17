@@ -85,6 +85,8 @@ export const StepTrackerUtility: IStepTrackerUtility = {
   },
   getStepDataRequestBody: (tracker: StepTracker, startsAt: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean): any => {
     switch(tracker) {
+      case StepTracker.Fitbit:
+        return {};
       case StepTracker.GoogleFit:
         return StepTrackerRequestUtility.getGoogleFitStepDataRequestBody(startsAt, day, hasDayPassed);
       default:

@@ -47,7 +47,9 @@ export const StepTrackerRequestService: IStepTrackerRequestService = {
   getStepCountUpdate: async (uid: string, tracker: IStepTracker, timestamp: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean): Promise<number> => {    
     try {
       return await StepTrackerRequestService.sendStepCountUpdateRequest(tracker.name, tracker.accessToken, timestamp, day, hasDayPassed);
-    } catch (err) {}
+    } catch (err) {
+      logger.error(`Initial [${tracker.name}] step count update request failed for user [${uid}].`, err);
+    }
 
     let tokens: IOAuthRefreshTokenResponse = null;
 
