@@ -5,8 +5,9 @@ import { StepTrackerLink } from "./stepTrackerLink";
 
 import { AppContext } from "../../../../components/app/contexts/appContext";
 
+import { StepTrackerUtility } from "../../../../utilities/stepTrackerUtility";
+
 import { StepTracker } from "../../../../../stroll-enums/stepTracker";
-import { StepTrackerConnectionStatus } from "../../../../../stroll-enums/stepTrackerConnectionStatus";
 
 interface StepTrackerHubProps {  
   toggleModal: (toggled: boolean) => void;
@@ -16,10 +17,7 @@ export const StepTrackerHub: React.FC<StepTrackerHubProps> = (props: StepTracker
   const { tracker } = useContext(AppContext).appState.user.profile;
 
   const getNoTrackerConnectedMessage = (): JSX.Element => {
-    if(
-      tracker.name === StepTracker.Unknown ||
-      tracker.status !== StepTrackerConnectionStatus.Verified
-    ) {
+    if(StepTrackerUtility.showNoTrackerConnectedMessage(tracker.status)) {
       return (
         <NoTrackerConnectedMessage />
       )

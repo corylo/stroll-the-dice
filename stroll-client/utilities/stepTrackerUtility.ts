@@ -3,6 +3,7 @@ import { UrlUtility } from "./urlUtility";
 import { FitbitOAuthClientID } from "../../config/fitbitOAuthClientID";
 import { GoogleOAuthClientID } from "../../config/googleOAuthClientID";
 import { StepTracker } from "../../stroll-enums/stepTracker";
+import { StepTrackerConnectionStatus } from "../../stroll-enums/stepTrackerConnectionStatus";
 
 interface IStepTrackerUtility {
   determineTrackerFromParam: (match: any) => StepTracker;
@@ -12,6 +13,7 @@ interface IStepTrackerUtility {
   getOAuthClientID: (tracker: StepTracker) => string;
   getOAuthUrl: (tracker: StepTracker) => string;
   getScope: (tracker: StepTracker) => string;
+  showNoTrackerConnectedMessage: (status: StepTrackerConnectionStatus) => boolean;
 }
 
 export const StepTrackerUtility: IStepTrackerUtility = {
@@ -104,5 +106,14 @@ export const StepTrackerUtility: IStepTrackerUtility = {
       default:
         throw new Error(`Unknown step tracker: [${tracker}]`);
     }
+  },
+  showNoTrackerConnectedMessage: (status: StepTrackerConnectionStatus): boolean => {
+    return (
+      status === StepTrackerConnectionStatus.Idle ||
+      status === StepTrackerConnectionStatus.Connected ||
+      status === StepTrackerConnectionStatus.ConnectionFailed ||
+      status === StepTrackerConnectionStatus.VerificationFailed ||
+      status === StepTrackerConnectionStatus.Disconnected
+    )
   }
 }

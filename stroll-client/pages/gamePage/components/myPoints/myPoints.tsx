@@ -9,11 +9,10 @@ import { AppContext } from "../../../../components/app/contexts/appContext";
 import { GamePageContext } from "../../gamePage";
 
 import { NumberUtility } from "../../../../../stroll-utilities/numberUtility";
+import { StepTrackerUtility } from "../../../../utilities/stepTrackerUtility";
 
 import { Icon } from "../../../../../stroll-enums/icon";
 import { PlayerStatus } from "../../../../../stroll-enums/playerStatus";
-import { StepTracker } from "../../../../../stroll-enums/stepTracker";
-import { StepTrackerConnectionStatus } from "../../../../../stroll-enums/stepTrackerConnectionStatus";
 
 interface MyPointsProps {  
   
@@ -27,10 +26,7 @@ export const MyPoints: React.FC<MyPointsProps> = (props: MyPointsProps) => {
     const { points } = player;
 
     const getNoTrackerConnectedMessage = (): JSX.Element => {
-      if(
-        tracker.name === StepTracker.Unknown ||
-        tracker.status !== StepTrackerConnectionStatus.Verified
-      ) {
+      if(StepTrackerUtility.showNoTrackerConnectedMessage(tracker.status)) {
         return (
           <div className="no-tracker-connected-message-outer-wrapper">
             <NoTrackerConnectedMessage url="/profile" />

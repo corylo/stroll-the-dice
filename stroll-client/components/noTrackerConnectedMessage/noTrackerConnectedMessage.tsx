@@ -5,7 +5,6 @@ import { Label } from "../label/label";
 
 import { AppContext } from "../app/contexts/appContext";
 
-import { StepTracker } from "../../../stroll-enums/stepTracker";
 import { StepTrackerConnectionStatus } from "../../../stroll-enums/stepTrackerConnectionStatus";
 
 interface NoTrackerConnectedMessageProps {
@@ -13,12 +12,19 @@ interface NoTrackerConnectedMessageProps {
 }
 
 export const NoTrackerConnectedMessage: React.FC<NoTrackerConnectedMessageProps> = (props: NoTrackerConnectedMessageProps) => {   
-  const { user } = useContext(AppContext).appState;
+  const { tracker } = useContext(AppContext).appState.user.profile;
 
   const getLabelText = (): string => {
-    if (user.profile.tracker.name === StepTracker.Unknown) {
+    if (
+      tracker.status === StepTrackerConnectionStatus.Idle ||
+      tracker.status === StepTrackerConnectionStatus.ConnectionFailed ||
+      tracker.status === StepTrackerConnectionStatus.Disconnected
+    ) {
       return "connected";
-    } else if(user.profile.tracker.status === StepTrackerConnectionStatus.VerificationFailed) {
+    } else if(
+      tracker.status === StepTrackerConnectionStatus.Connected ||
+      tracker.status === StepTrackerConnectionStatus.VerificationFailed
+    ) {
       return "verified";
     }
   }
