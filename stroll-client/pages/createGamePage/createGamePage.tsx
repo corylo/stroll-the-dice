@@ -51,6 +51,7 @@ export const CreateGamePage: React.FC<CreateGamePageProps> = (props: CreateGameP
       return (
         <SignInToDoThisMessage
           image={ImageUtility.getGraphic("matchup", "png")}
+          index={3}
           text="Sign in to create a game!"
         />
       )

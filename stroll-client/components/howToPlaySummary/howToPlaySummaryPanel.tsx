@@ -31,6 +31,7 @@ export const HowToPlaySummaryPanel: React.FC<HowToPlaySummaryPanelProps> = (prop
   const getImage = (): JSX.Element => {
     return (
       <div className="how-to-play-summary-panel-image">
+        <SvgBlob index={props.index} />
         <img src={props.image} />
       </div>
     )

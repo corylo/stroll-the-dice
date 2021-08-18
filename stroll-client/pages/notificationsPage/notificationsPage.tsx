@@ -34,6 +34,7 @@ export const NotificationsPage: React.FC<NotificationsPageProps> = (props: Notif
       return (
         <SignInToDoThisMessage
           image={ImageUtility.getGraphic("cyclist", "png")}
+          index={1}
           text="Sign in to view your notifications!"
         />
       )
