@@ -16,9 +16,6 @@
     }
 
     .nav-menu-content {
-      background: $themeMainAccent;
-      border-radius: 10px;
-      box-shadow: $shadow1;
       padding: 5px;
       pointer-events: all;
       width: 239px;
@@ -139,6 +136,7 @@
       }
 
       .nav-menu-content {
+        background: $themeMainAccent;
         border-radius: 0px;
         box-shadow: rgba(0, 0, 0, 0.12) 0px -1px 6px, rgba(0, 0, 0, 0.12) 0px -1px 4px;
         display: grid;
@@ -155,7 +153,7 @@
           &.center {
             .nav-menu-button {
               align-items: center;
-              background-color: $themeMainAccent;
+              background: $themeMainAccent;
               border-radius: 100px;
               box-shadow: rgba(0, 0, 0, 0.12) 0px -4px 4px;
               height: 60px;

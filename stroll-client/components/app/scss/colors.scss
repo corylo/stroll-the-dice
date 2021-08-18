@@ -34,6 +34,7 @@ $themeMainAccent: $themeColor2Accent;
 $themeMainDark: $themeColor2Dark;
 
 $themeMainGradient: linear-gradient(135deg, $themeMain, $themeMainDark);
+$themeMainAccentGradient: linear-gradient(135deg, $themeMain, $themeMainAccent);
 $whiteGradient: linear-gradient(to right, rgba(white, 0.25), rgba(white, 0.05));
 $whiteGradientHover: linear-gradient(to right, rgba(white, 0.25), rgba(white, 0.1));
 $darkGradient: linear-gradient(to right, rgba(gray(40), 0.3), rgba(gray(40), 0.1));
