@@ -10,7 +10,7 @@
     margin-top: 90px;
     max-width: 1200px;
     position: relative;
-    z-index: 2;
+    z-index: 3;
 
     .page-content {
       margin-left: 250px;
@@ -114,11 +114,23 @@
     }
   }
 
+  .page-content-filter {
+    background: $themeMainGradient;
+    height: 100%;
+    left: 0px;
+    opacity: 0.9;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    z-index: 2;
+  }
+
   .page-background-graphic-image {
     @include centered;
-    opacity: 0.2;
-    height: 90vh;
-    width: 315vh;
+    opacity: 0.8;
+    height: 100vh;
+    width: 348vh;
+    z-index: 1;
   }
 }
 
@@ -148,11 +160,6 @@
           }
         }
       }
-    }
-
-    .page-background-graphic-image {
-      height: 60vh;
-      width: 210vh;
     }
   }
 }
