@@ -62,7 +62,7 @@ export const FirestoreDateUtility: IFirestoreDateUtility = {
 
     return FirestoreDateUtility.dateToTimestamp(date);
   },
-  endOfDayProgressUpdateComplete: (day: number, startsAt: firebase.firestore.FieldValue, progressUpdateAt: firebase.firestore.FieldValue): boolean => {    
+  endOfDayProgressUpdateComplete: (day: number, startsAt: firebase.firestore.FieldValue, progressUpdateAt: firebase.firestore.FieldValue): boolean => { 
     if(progressUpdateAt !== null) {
       const endOfDayTimestamp: firebase.firestore.FieldValue = FirestoreDateUtility.endOfDay(day, startsAt);
       

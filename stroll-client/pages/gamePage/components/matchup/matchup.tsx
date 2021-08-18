@@ -70,8 +70,7 @@ export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => {
 
   const getUpdateTimer = (): JSX.Element => {
     if(
-      state.day === matchup.day &&
-      state.game.progressUpdateAt && 
+      state.day > 0 &&
       !FirestoreDateUtility.endOfDayProgressUpdateComplete(matchup.day, state.game.startsAt, state.game.progressUpdateAt)
     ) {   
       const getText = (time: string): string => {
