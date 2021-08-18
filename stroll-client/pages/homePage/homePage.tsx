@@ -4,7 +4,7 @@ import { ConnectAStepTrackerMessage } from "../../components/connectAStepTracker
 import { GameConglomerate } from "../../components/gameGroup/gameConglomerate";
 import { GameInviteInput } from "../../components/gameInviteInput/gameInviteInput";
 import { HowToPlaySummary } from "../../components/howToPlaySummary/howToPlaySummary";
-import { LearnMoreButton } from "../../components/learnMoreButton/learnMoreButton";
+import { LearnMoreLink } from "../../components/learnMoreLink/learnMoreLink";
 import { Page } from "../../components/page/page";
 import { SignInLink } from "../../components/signInLink/signInLink";
 
@@ -26,7 +26,7 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
       return (
         <React.Fragment>
           <ConnectAStepTrackerMessage />
-          <LearnMoreButton />
+          <LearnMoreLink />
           <GameInviteInput />
           <GameConglomerate limit={10} />
         </React.Fragment>
@@ -36,8 +36,10 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
         <div className="signed-out-content">
           <HowToPlaySummary />
           <SignInLink />
-          <h1 className="link-divider passion-one-font">Or</h1>
-          <LearnMoreButton />
+          <div className="link-divider">
+            <h1 className=" passion-one-font">Or</h1>
+          </div>
+          <LearnMoreLink />
         </div>
       )
     }
