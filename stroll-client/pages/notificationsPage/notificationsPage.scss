@@ -1,2 +1,12 @@
 @import "./components/notification/notification.scss";
 @import "./components/notificationTimeline/notificationTimeline.scss";
+
+#notifications-page {
+  .sign-in-to-do-this-message {
+    .sign-in-to-do-this-message-image {
+      .svg-blob {
+        height: 500px;
+      }
+    }
+  }
+}
