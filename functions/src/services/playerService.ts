@@ -60,7 +60,7 @@ export const PlayerService: IPlayerService = {
 
           PlayerTransactionService.handleMatchup(transaction, matchupSnap, player);
 
-          GameEventTransactionService.create(transaction, game.id, GameEventUtility.mapPlayerCreatedEvent(FirestoreDateUtility.addMillis(player.createdAt, 1), player.id));
+          GameEventTransactionService.create(transaction, game.id, GameEventUtility.mapPlayerCreatedEvent(FirestoreDateUtility.addMillis(player.createdAt, 100), player.id));
 
           const playerID: string = game.enableGiftDaysForJoiningPlayers && player.ref.acceptedGiftDays ? game.creator.uid : player.id;
 
