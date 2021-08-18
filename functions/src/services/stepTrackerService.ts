@@ -127,8 +127,7 @@ export const StepTrackerService: IStepTrackerService = {
     }
   },
   getStepCountUpdate: async (game: IGame, playerID: string, currentStepTotal: number): Promise<IMatchupSideStepUpdate> => {
-    const profile: IProfile = await ProfileService.get.by.uid(playerID),
-      tracker: IStepTracker = await StepTrackerService.get(playerID);
+    const tracker: IStepTracker = await StepTrackerService.get(playerID);
 
     const update: IMatchupSideStepUpdate = {
       id: playerID,
@@ -140,12 +139,7 @@ export const StepTrackerService: IStepTrackerService = {
         const day: number = GameDurationUtility.getDay(game),
           hasDayPassed: boolean = GameDurationUtility.hasDayPassed(game);
 
-        const timestamp: firebase.firestore.FieldValue = FirestoreDateUtility.timestampToTimezoneOffsetTimestamp(
-          game.startsAt,
-          profile.tracker.timezone
-        )
-
-        const total: number = await StepTrackerRequestService.getStepCountUpdate(playerID, tracker, timestamp, day, hasDayPassed);
+        const total: number = await StepTrackerRequestService.getStepCountUpdate(playerID, tracker, game.startsAt, day, hasDayPassed, currentStepTotal);
           
         update.steps = total - currentStepTotal;
       } catch (err) {
@@ -262,14 +256,19 @@ export const StepTrackerService: IStepTrackerService = {
       .update(updateFields);
   },
   updateStepTrackerTokens: async (uid: string, tracker: StepTracker, tokens: IOAuthRefreshTokenResponse): Promise<void> => {
+    const update: any = {
+      accessToken: tokens.accessToken
+    }
+
+    if(tokens.refreshToken) {
+      update.refreshToken = tokens.refreshToken;
+    }
+
     await db.collection("profiles")
       .doc(uid)
       .collection("trackers")
       .doc(tracker)
-      .update({
-        accessToken: tokens.accessToken,
-        refreshToken: tokens.refreshToken
-      });
+      .update(update);
   },
   verifyStepTracker: async (data: any, context: https.CallableContext): Promise<void> => {
     if(context.auth !== null) {
@@ -277,12 +276,9 @@ export const StepTrackerService: IStepTrackerService = {
         profile: IProfile = await ProfileService.get.by.uid(context.auth.uid);
 
       try {
-        const timestamp: firebase.firestore.FieldValue = FirestoreDateUtility.timestampToTimezoneOffsetTimestamp(
-          FirestoreDateUtility.beginningOfHour(firebase.firestore.Timestamp.now()),
-          profile.tracker.timezone
-        );
+        const timestamp: firebase.firestore.FieldValue = FirestoreDateUtility.beginningOfHour(firebase.firestore.Timestamp.now());
     
-        await StepTrackerRequestService.getStepCountUpdate(context.auth.uid, tracker, timestamp, 1, false);
+        await StepTrackerRequestService.getStepCountUpdate(context.auth.uid, tracker, timestamp, 1, false, 0);
 
         await StepTrackerService.updateStepTrackerProfileReference(context.auth.uid, {
           status: StepTrackerConnectionStatus.Verified

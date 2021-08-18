@@ -2,12 +2,14 @@ import firebase from "firebase-admin";
 import { logger } from "firebase-functions";
 import axios from "axios";
 
+import { ProfileService } from "./profileService";
 import { StepTrackerService } from "./stepTrackerService";
 
 import { StepTrackerUtility } from "../utilities/stepTrackerUtility";
 
 import { IConnectStepTrackerRequest } from "../../../stroll-models/connectStepTrackerRequest";
 import { IOAuthRefreshTokenResponse } from "../../../stroll-models/oauthRefreshTokenResponse";
+import { IProfile } from "../../../stroll-models/profile";
 import { IStepTracker } from "../../../stroll-models/stepTracker";
 
 import { StepTracker } from "../../../stroll-enums/stepTracker";
@@ -15,8 +17,8 @@ import { StepTracker } from "../../../stroll-enums/stepTracker";
 interface IStepTrackerRequestService {
   getAccessTokenAndRefreshToken: (request: IConnectStepTrackerRequest) => Promise<IOAuthRefreshTokenResponse>;
   getAccessTokenFromRefreshToken: (tracker: StepTracker, refreshToken: string) => Promise<IOAuthRefreshTokenResponse>;
-  getStepCountUpdate: (uid: string, tracker: IStepTracker, timestamp: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean) => Promise<number>;  
-  sendStepCountUpdateRequest: (tracker: StepTracker, accessToken: string, timestamp: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean) => Promise<number>;
+  getStepCountUpdate: (uid: string, tracker: IStepTracker, timestamp: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean, currentStepTotal: number) => Promise<number>;  
+  sendStepCountUpdateRequest: (tracker: StepTracker, accessToken: string, timestamp: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean, timezone: string, currentStepTotal: number) => Promise<number>;
 }
 
 export const StepTrackerRequestService: IStepTrackerRequestService = {
@@ -44,9 +46,11 @@ export const StepTrackerRequestService: IStepTrackerRequestService = {
       refreshToken: res.data.refresh_token
     }
   },
-  getStepCountUpdate: async (uid: string, tracker: IStepTracker, timestamp: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean): Promise<number> => {    
+  getStepCountUpdate: async (uid: string, tracker: IStepTracker, timestamp: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean, currentStepTotal: number): Promise<number> => {    
+    const profile: IProfile = await ProfileService.get.by.uid(uid);
+
     try {
-      return await StepTrackerRequestService.sendStepCountUpdateRequest(tracker.name, tracker.accessToken, timestamp, day, hasDayPassed);
+      return await StepTrackerRequestService.sendStepCountUpdateRequest(tracker.name, tracker.accessToken, timestamp, day, hasDayPassed, profile.tracker.timezone, currentStepTotal);
     } catch (err) {
       logger.error(`Initial [${tracker.name}] step count update request failed for user [${uid}].`, err);
     }
@@ -64,15 +68,15 @@ export const StepTrackerRequestService: IStepTrackerRequestService = {
     }
     
     try {     
-      return await StepTrackerRequestService.sendStepCountUpdateRequest(tracker.name, tokens.accessToken, timestamp, day, hasDayPassed);
+      return await StepTrackerRequestService.sendStepCountUpdateRequest(tracker.name, tokens.accessToken, timestamp, day, hasDayPassed, profile.tracker.timezone, currentStepTotal);
     } catch (err) {
       logger.error(err);
 
       throw new Error(`Subsequent [${tracker.name}] step count update request failed for user [${uid}].`);
     }
   },
-  sendStepCountUpdateRequest: async (tracker: StepTracker, accessToken: string, timestamp: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean): Promise<number> => {    
-    const url: string = StepTrackerUtility.getStepDataRequestUrl(tracker, timestamp, day, hasDayPassed),
+  sendStepCountUpdateRequest: async (tracker: StepTracker, accessToken: string, timestamp: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean, timezone: string, currentStepTotal: number): Promise<number> => {    
+    const url: string = StepTrackerUtility.getStepDataRequestUrl(tracker, timestamp, day, hasDayPassed, timezone),
       body: any = StepTrackerUtility.getStepDataRequestBody(tracker, timestamp, day, hasDayPassed),
       headers: any = StepTrackerUtility.getStepDataRequestHeaders(accessToken);
 
@@ -84,6 +88,6 @@ export const StepTrackerRequestService: IStepTrackerRequestService = {
       res = await axios.get(url, headers);
     }
     
-    return StepTrackerUtility.mapStepsFromResponse(tracker, res.data);
+    return StepTrackerUtility.mapStepsFromResponse(tracker, res.data, currentStepTotal);
   }
 }

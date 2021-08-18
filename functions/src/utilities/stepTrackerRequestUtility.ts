@@ -1,16 +1,17 @@
 import firebase from "firebase-admin";
 
+import { DateUtility } from "../../../stroll-utilities/dateUtility";
 import { FirestoreDateUtility } from "./firestoreDateUtility";
 
 interface IStepTrackerRequestUtility {
-  getFitbitStepDataRequestUrlPath: (startsAt: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean) => string;
+  getFitbitStepDataRequestUrlPath: (startsAt: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean, timezone: string) => string;
   getGoogleFitStepDataRequestBody: (startsAt: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean) => any;
 }
 
 export const StepTrackerRequestUtility: IStepTrackerRequestUtility = {
-  getFitbitStepDataRequestUrlPath: (startsAt: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean): string => {
-    const start: Date = FirestoreDateUtility.timestampToDate(startsAt),
-      end: Date = FirestoreDateUtility.timestampToDate(startsAt);
+  getFitbitStepDataRequestUrlPath: (startsAt: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean, timezone: string): string => {
+    const start: Date = DateUtility.dateToTimezoneOffsetDate(FirestoreDateUtility.timestampToDate(startsAt), timezone),
+      end: Date = new Date(start);
 
     const dayOffset: number = hasDayPassed ? day - 2 : day - 1,
       startDateValue: number = start.getDate() + dayOffset,

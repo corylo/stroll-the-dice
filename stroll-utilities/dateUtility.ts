@@ -1,5 +1,6 @@
 interface IDateUtility {
   dateToInput: (date: Date) => string;
+  dateToTimezoneOffsetDate: (date: Date, timezone: string) => Date;
   daysToMillis: (days: number) => number;  
   diffInDays: (value: string, hour?: number) => number;
   getCurrentTimezone: () => string;
@@ -29,6 +30,9 @@ export const DateUtility: IDateUtility = {
     }
 
     return [year, month, day].join("-");
+  },
+  dateToTimezoneOffsetDate: (date: Date, timezone: string): Date => {
+    return new Date(date.toLocaleDateString([], { timeZone: timezone }));
   },
   daysToMillis: (days: number): number => {
     return days * 24 * 3600 * 1000;

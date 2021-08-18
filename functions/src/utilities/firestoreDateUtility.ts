@@ -1,5 +1,7 @@
 import firebase from "firebase-admin";
 
+import { DateUtility } from "../../../stroll-utilities/dateUtility";
+
 import { IFirestoreTimestamp } from "../../../stroll-models/firestoreTimestamp";
 
 interface IFirestoreDateUtility {
@@ -52,9 +54,8 @@ export const FirestoreDateUtility: IFirestoreDateUtility = {
     return new Date(date.seconds * 1000);
   },
   timestampToTimezoneOffsetTimestamp: (value: firebase.firestore.FieldValue, timezone: string): firebase.firestore.FieldValue => {
-    const date: Date = FirestoreDateUtility.timestampToDate(value);
-
-    const offsetDate: Date = new Date(date.toLocaleDateString([], { timeZone: timezone }));
+    const date: Date = FirestoreDateUtility.timestampToDate(value),
+      offsetDate: Date = DateUtility.dateToTimezoneOffsetDate(date, timezone);
 
     return FirestoreDateUtility.dateToTimestamp(offsetDate);
   }
