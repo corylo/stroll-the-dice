@@ -66,7 +66,7 @@ export const Page: React.FC<PageProps> = (props: PageProps) => {
   const getPageBackgroundGraphic = (): JSX.Element => {
     if(props.backgroundGraphic !== undefined && props.status !== RequestStatus.Loading) {
       return (
-        <PageBackgroundGraphic img="/img/running.png" />
+        <PageBackgroundGraphic img={props.backgroundGraphic || ImageUtility.getGraphic(Graphic.Running, "png")} />
       )
     }
   }
