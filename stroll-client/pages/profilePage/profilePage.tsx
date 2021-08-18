@@ -38,6 +38,9 @@ export const ProfilePage: React.FC<ProfilePageProps> = (props: ProfilePageProps)
       return (
         <React.Fragment>
           <ProfileHeader profile={user.profile} />
+          <ProfilePageSection icon={Icon.Steps} title="Step Trackers">
+            <StepTrackerHub toggleModal={setToggled} />
+          </ProfilePageSection>
           <ProfilePageSection icon={Icon.User} title="Action Center">
             <Button
               className="action-center-button fancy-button"
@@ -53,9 +56,6 @@ export const ProfilePage: React.FC<ProfilePageProps> = (props: ProfilePageProps)
               <i className="far fa-trash-alt" />
               <h1 className="passion-one-font">Delete Account Forever</h1>
             </Button>
-          </ProfilePageSection>
-          <ProfilePageSection icon={Icon.Steps} title="Step Trackers">
-            <StepTrackerHub toggleModal={setToggled} />
           </ProfilePageSection>
         </React.Fragment>
       )
