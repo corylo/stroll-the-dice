@@ -159,7 +159,7 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
         updates.day = GameDurationUtility.getDay(game);
       }
     }
-
+    
     if(players.length > 0) {
       updates.players = players;
 
@@ -170,7 +170,7 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
       if(state.statuses.player === PlayerStatus.Playing) {
         updates.player = PlayerUtility.getByUser(appState.user, players);
       }
-    } else if (players.length === 0 && state.statuses.player !== PlayerStatus.Loading) {
+    } else if (players.length === 0 && state.statuses.player === PlayerStatus.NotPlaying) {
       updates.players = [];
 
       updates.statuses.players = RequestStatus.Success;
@@ -182,7 +182,7 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
       if(updates.statuses.events === RequestStatus.Loading) {
         updates.statuses.events = RequestStatus.Success;
       }
-    } else if(events.length === 0 && state.statuses.player !== PlayerStatus.Loading) {
+    } else if(events.length === 0 && state.statuses.player === PlayerStatus.NotPlaying) {
       updates.events = [];
 
       updates.statuses.events = RequestStatus.Success;
@@ -250,7 +250,7 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
     }            
   }, [appState.status, state.game.id]);
 
-  useEffect(() => {        
+  useEffect(() => {      
     if(
       state.game.id !== "" && (
         state.statuses.player === PlayerStatus.Playing ||

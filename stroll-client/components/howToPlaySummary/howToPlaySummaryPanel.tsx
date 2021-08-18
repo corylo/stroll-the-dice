@@ -1,7 +1,10 @@
 import React from "react";
 
+import { SvgBlob } from "../svgBlob/svgBlob";
+
 interface HowToPlaySummaryPanelProps {
   image: string;
+  index: number;
   right?: boolean;
   text?: string;
   title: string;
@@ -25,20 +28,28 @@ export const HowToPlaySummaryPanel: React.FC<HowToPlaySummaryPanelProps> = (prop
     )
   }
 
+  const getImage = (): JSX.Element => {
+    return (
+      <div className="how-to-play-summary-panel-image">
+        <img src={props.image} />
+      </div>
+    )
+  }
+
   const getDesktopPanel = (): JSX.Element => {
     if(props.right === undefined || props.right === false) {
       return (
-        <div className="how-to-play-summary-panel desktop">
-          <img src={props.image} className="how-to-play-summary-panel-image" />
+        <div className="how-to-play-summary-panel desktop left">
+          {getImage()}
           {getContent()}
         </div>
       )
     }
 
     return(
-      <div className="how-to-play-summary-panel desktop">
+      <div className="how-to-play-summary-panel desktop right">
         {getContent()}
-        <img src={props.image} className="how-to-play-summary-panel-image" />
+        {getImage()}
       </div>
     )
   }
@@ -46,7 +57,7 @@ export const HowToPlaySummaryPanel: React.FC<HowToPlaySummaryPanelProps> = (prop
   const getMobilePanel = (): JSX.Element => {
     return (      
       <div className="how-to-play-summary-panel mobile">
-        <img src={props.image} className="how-to-play-summary-panel-image" />
+        {getImage()}
         {getContent()}
       </div>
     )
