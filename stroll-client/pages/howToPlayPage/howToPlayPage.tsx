@@ -67,9 +67,14 @@ export const HowToPlayPage: React.FC<HowToPlayPageProps> = (props: HowToPlayPage
             </Button>
           </HowToPlaySubSection>
         </HowToPlaySection>
-        <HowToPlaySection title="How does the game work exactly?">
+        <HowToPlaySection title="How does the game work exactly?"> 
           <HowToPlaySectionText text="Games last between 1 and 7 days and can start at any hour of the day." />
-          <HowToPlaySectionText text="Players will start the game with 10,000 points. Throughout each day, as you take steps, you will periodically gain points at a rate of 1 point per step." />        
+          <HowToPlaySectionText text="Players will start the game with 10,000 points. Throughout each day, as you take steps, you will periodically gain points at a rate of 1 point per step." />                  
+          <HowToPlaySubSection title="Inviting Players">
+            <HowToPlaySectionText text="You can invite up to 19 additional players to a game for a total of 20 players." />
+            <HowToPlaySectionText text="A minimum of 4 players is required for a game to start. If the player minimum is not met, you will have to adjust the start date of the game and then invite more players." />
+            <HowToPlaySectionText text="The invite link can be found near the top of the game page before the game has started. Once the game begins, the game will lock and additional players will no longer be able to join." />
+          </HowToPlaySubSection>
           <HowToPlaySubSection title="Matchups">
             <HowToPlaySectionText text="For each day of the game, players will be matched up against one another with the goal of stepping more than the player they are paired against." />    
             <HowToPlaySectionText text="The number of players in the game will determine the number of matchups per day. For example, if you have 10 players, then there will be 5 matchups per day." />
