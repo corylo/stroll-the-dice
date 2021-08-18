@@ -15,7 +15,7 @@ export const useScrollHashIntoViewEffect = (appState: IAppState): void => {
           element: HTMLElement = document.getElementById(id);
           
         if(element) {
-          element.scrollIntoView();
+          element.scrollIntoView({ behavior: "smooth" });
         }
       }, 500);
     }

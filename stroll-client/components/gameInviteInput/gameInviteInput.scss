@@ -1,7 +1,7 @@
 #game-invite-input-wrapper {
-  background-color: rgba(white, 0.05);
-  border: 2px solid rgba(white, 0.5);
+  background-color: $themeMain;
   border-radius: 10px;   
+  box-shadow: $shadow1;
   display: flex;
   justify-content: space-between;
   padding: 10px;
