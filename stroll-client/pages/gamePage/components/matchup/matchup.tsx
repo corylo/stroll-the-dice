@@ -15,6 +15,9 @@ import { PredictionUtility } from "../../../../utilities/predictionUtility";
 import { IMatchup } from "../../../../../stroll-models/matchup";
 import { IPrediction } from "../../../../../stroll-models/prediction";
 
+import { GameStatus } from "../../../../../stroll-enums/gameStatus";
+import { GameDurationUtility } from "../../../../../stroll-utilities/gameDurationUtility";
+
 interface MatchupProps {  
   matchup: IMatchup;
   predictions: IPrediction[];
@@ -25,7 +28,8 @@ export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => {
 
   const { matchup, predictions } = props;
 
-  const myPrediction: IPrediction = PredictionUtility.getById(state.player.id, matchup.id, predictions);
+  const myPrediction: IPrediction = PredictionUtility.getById(state.player.id, matchup.id, predictions),
+    dayStatus: GameStatus = GameDurationUtility.getDayStatus(matchup.day, state.day);
 
   const [toggled, setToggled] = useState<boolean>(false);
 
@@ -71,7 +75,8 @@ export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => {
   const getUpdateTimer = (): JSX.Element => {
     if(
       state.day > 0 &&
-      !FirestoreDateUtility.endOfDayProgressUpdateComplete(matchup.day, state.game.startsAt, state.game.progressUpdateAt)
+      dayStatus === GameStatus.InProgress ||
+      (dayStatus === GameStatus.Completed && !FirestoreDateUtility.endOfDayProgressUpdateComplete(matchup.day, state.game.startsAt, state.game.progressUpdateAt))
     ) {   
       const getText = (time: string): string => {
         const beginningOfHour: firebase.firestore.FieldValue = FirestoreDateUtility.beginningOfHour(state.game.progressUpdateAt),
