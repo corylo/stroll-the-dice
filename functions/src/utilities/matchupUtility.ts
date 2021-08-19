@@ -9,7 +9,6 @@ import { defaultMatchupSideTotal, IMatchup, IMatchupSide, IMatchupSideTotal, mat
 import { IMatchupPair } from "../../../stroll-models/matchupPair";
 import { IMatchupPairGroup } from "../../../stroll-models/matchupPairGroup";
 import { IMatchupPlayerReference } from "../../../stroll-models/matchupProfileReference";
-import { IMatchupSideStepUpdate } from "../../../stroll-models/matchupSideStepUpdate";
 import { IPlayer } from "../../../stroll-models/player";
 
 import { InitialValue } from "../../../stroll-enums/initialValue";
@@ -19,7 +18,6 @@ interface IMatchupUtility {
   calculateOdds: (left: IMatchupSide, right: IMatchupSide) => number;
   filterOutCombinationsOfPair: (pair: IMatchupPair, list: IMatchupPair[]) => IMatchupPair[];
   filterOutPairs: (listOne: IMatchupPair[], listTwo: IMatchupPair[]) => IMatchupPair[];
-  findStepUpdate: (playerID: string, updates: IMatchupSideStepUpdate[]) => IMatchupSideStepUpdate;    
   generateAllPairs: (numberOfPlayers: number) => IMatchupPair[];
   generateDayOnePairs: (numberOfPlayers: number) => IMatchupPair[];
   generatePairGroups: (numberOfDays: number, numberOfPlayers: number) => IMatchupPairGroup[];
@@ -34,8 +32,6 @@ interface IMatchupUtility {
   mapCreate: (leftPlayerID: string, rightPlayerID: string, day: number, total?: IMatchupSideTotal) => IMatchup;
   mapMatchupsFromPairGroups: (groups: IMatchupPairGroup[], players: IPlayer[]) => IMatchup[];
   mapPlayerReference: (matchup: IMatchup) => IMatchupPlayerReference;
-  mapStepUpdates: (matchups: IMatchup[], updates: IMatchupSideStepUpdate[]) => IMatchup[];  
-  setWinners: (matchups: IMatchup[]) => IMatchup[];
 }
 
 export const MatchupUtility: IMatchupUtility = {   
@@ -61,11 +57,6 @@ export const MatchupUtility: IMatchupUtility = {
 
       return match === undefined;
     });
-  },
-  findStepUpdate: (playerID: string, updates: IMatchupSideStepUpdate[]): IMatchupSideStepUpdate => {
-    const match: IMatchupSideStepUpdate = updates.find((update: IMatchupSideStepUpdate) => update.id === playerID);
-
-    return match || null;
   },
   generateAllPairs: (numberOfPlayers: number): IMatchupPair[] => {
     const count: number = MatchupUtility.getAdjustedPlayerCount(numberOfPlayers);
@@ -248,30 +239,5 @@ export const MatchupUtility: IMatchupUtility = {
       leftPlayerID: matchup.left.playerID,
       rightPlayerID: matchup.right.playerID
     }
-  },
-  mapStepUpdates: (matchups: IMatchup[], updates: IMatchupSideStepUpdate[]): IMatchup[] => {
-    return matchups.map((matchup: IMatchup) => {
-      const leftUpdate: IMatchupSideStepUpdate = MatchupUtility.findStepUpdate(matchup.left.playerID, updates),
-        rightUpdate: IMatchupSideStepUpdate = MatchupUtility.findStepUpdate(matchup.right.playerID, updates);
-
-      if(leftUpdate) {
-        matchup.left.steps += leftUpdate.steps;
-      }
-
-      if(rightUpdate) {
-        matchup.right.steps += rightUpdate.steps;
-      }
-
-      return matchup;
-    });
-  },
-  setWinners: (matchups: IMatchup[]): IMatchup[] => {
-    return matchups.map((matchup: IMatchup) => {
-      if(matchup.left.playerID !== "" && matchup.right.playerID !== "") {
-        matchup.winner = MatchupUtility.getLeader(matchup);
-      }
-
-      return matchup;
-    });
   }
 }

@@ -19,7 +19,7 @@ interface IGameDurationUtility {
   getShortLabel: (duration: GameDuration) => string;
   getTimeRemaining: (game: IGame) => string;
   getTimeRemainingInToday: (game: IGame, day: number) => string;
-  hasDayPassed: (game: IGame) => boolean;
+  isDayComplete: (game: IGame) => boolean;
 }
 
 export const GameDurationUtility: IGameDurationUtility = {
@@ -109,7 +109,7 @@ export const GameDurationUtility: IGameDurationUtility = {
 
     return DateUtility.secondsToRelative(end.getTime() / 1000);
   },
-  hasDayPassed: (game: IGame): boolean => {
+  isDayComplete: (game: IGame): boolean => {
     const date: Date = FirestoreDateUtility.timestampToDate(game.startsAt),
       diff: number = Math.abs(date.getTime() - Date.now()),
       hours: number = diff / (3600 * 1000);

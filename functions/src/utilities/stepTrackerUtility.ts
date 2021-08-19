@@ -20,11 +20,11 @@ interface IStepTrackerUtility {
   getOAuthUrl: (tracker: StepTracker) => string;
   getRefreshTokenRequestData: (tracker: StepTracker, refreshToken: string) => string;
   getOAuthRevokeUrl: (tracker: StepTracker, token: string) => string;
-  getStepDataRequestBody: (tracker: StepTracker, startsAt: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean) => any;
+  getStepDataRequestBody: (tracker: StepTracker, startsAt: firebase.firestore.FieldValue, day: number) => any;
   getStepDataRequestHeaders: (accessToken: string) => any;
-  getStepDataRequestUrl: (tracker: StepTracker, startsAt: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean, timezone: string) => string;
+  getStepDataRequestUrl: (tracker: StepTracker, startsAt: firebase.firestore.FieldValue, day: number, timezone: string) => string;
   isValidStepTracker: (tracker: StepTracker) => boolean;
-  mapStepsFromResponse: (tracker: StepTracker, data: IGoogleFitStepDataResponse | IFitbitStepDataResponse, currentStepTotal: number) => number;
+  mapStepsFromResponse: (tracker: StepTracker, data: IGoogleFitStepDataResponse | IFitbitStepDataResponse) => number;
 }
 
 export const StepTrackerUtility: IStepTrackerUtility = {
@@ -89,12 +89,12 @@ export const StepTrackerUtility: IStepTrackerUtility = {
         throw new Error(`Unknown step tracker: ${tracker}`);
     }
   },
-  getStepDataRequestBody: (tracker: StepTracker, startsAt: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean): any => {
+  getStepDataRequestBody: (tracker: StepTracker, startsAt: firebase.firestore.FieldValue, day: number): any => {
     switch(tracker) {
       case StepTracker.Fitbit:
         return {};
       case StepTracker.GoogleFit:
-        return StepTrackerRequestUtility.getGoogleFitStepDataRequestBody(startsAt, day, hasDayPassed);
+        return StepTrackerRequestUtility.getGoogleFitStepDataRequestBody(startsAt, day);
       default:
         throw new Error(`Unknown step tracker: ${tracker}`);
     }
@@ -106,12 +106,12 @@ export const StepTrackerUtility: IStepTrackerUtility = {
       }
     }
   },
-  getStepDataRequestUrl: (tracker: StepTracker, startsAt: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean, timezone: string): string => {
+  getStepDataRequestUrl: (tracker: StepTracker, startsAt: firebase.firestore.FieldValue, day: number, timezone: string): string => {
     switch(tracker) {
       case StepTracker.GoogleFit:
         return "https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate";
       case StepTracker.Fitbit:
-        return `https://api.fitbit.com${StepTrackerRequestUtility.getFitbitStepDataRequestUrlPath(startsAt, day, hasDayPassed, timezone)}`;
+        return `https://api.fitbit.com${StepTrackerRequestUtility.getFitbitStepDataRequestUrlPath(startsAt, day, timezone)}`;
       default:
         throw new Error(`Unknown step tracker: ${tracker}`);
     }
@@ -125,7 +125,7 @@ export const StepTrackerUtility: IStepTrackerUtility = {
         throw new Error(`Unknown step tracker: ${tracker}`);
     }
   },
-  mapStepsFromResponse: (tracker: StepTracker, data: IGoogleFitStepDataResponse | IFitbitStepDataResponse, currentStepTotal: number): number => {
+  mapStepsFromResponse: (tracker: StepTracker, data: IGoogleFitStepDataResponse | IFitbitStepDataResponse): number => {
     if(tracker === StepTracker.GoogleFit) {
       data = data as IGoogleFitStepDataResponse;
 
@@ -145,7 +145,7 @@ export const StepTrackerUtility: IStepTrackerUtility = {
                 return value.intVal;
               }
             } else {
-              return currentStepTotal;
+              return 0;
             }
           }
         }

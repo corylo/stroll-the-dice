@@ -11,6 +11,7 @@ interface IFirestoreDateUtility {
   dateToTimestamp: (date: Date) => firebase.firestore.Timestamp;
   daysToMillis: (days: number) => number;  
   endOfDay: (day: number, startsAt: firebase.firestore.FieldValue) => firebase.firestore.FieldValue;  
+  lessThanOrEqualToNow: (value: firebase.firestore.FieldValue) => boolean;
   timestampToDate: (value: firebase.firestore.FieldValue) => Date;
   timestampToTimezoneOffsetTimestamp: (value: firebase.firestore.FieldValue, timezone: string) => firebase.firestore.FieldValue;
 }
@@ -47,6 +48,11 @@ export const FirestoreDateUtility: IFirestoreDateUtility = {
       date: Date = new Date(seconds * 1000);
 
     return FirestoreDateUtility.dateToTimestamp(date);
+  },
+  lessThanOrEqualToNow: (value: firebase.firestore.FieldValue): boolean => {
+    const date: IFirestoreTimestamp = value as any;
+
+    return DateUtility.lessThanOrEqualToNow(date.seconds);
   },
   timestampToDate: (value: firebase.firestore.FieldValue): Date => {
     const date: IFirestoreTimestamp = value as any;

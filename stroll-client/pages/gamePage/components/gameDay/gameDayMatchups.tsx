@@ -3,8 +3,8 @@ import React, { useContext } from "react";
 import { LoadingMessage } from "../../../../components/loadingMessage/loadingMessage";
 import { Matchup } from "../matchup/matchup";
 
+import { GameDayContext } from "./gameDay";
 import { GamePageContext } from "../../gamePage";
-import { MatchupGroupContext } from "./matchupGroup";
 
 import { MatchupUtility } from "../../../../utilities/matchupUtility";
 
@@ -12,23 +12,25 @@ import { IMatchup } from "../../../../../stroll-models/matchup";
 
 import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
 
-interface MatchupsListProps {  
+interface GameDayMatchupsProps {  
   day: number;
 }
 
-export const MatchupList: React.FC<MatchupsListProps> = (props: MatchupsListProps) => {  
+export const GameDayMatchups: React.FC<GameDayMatchupsProps> = (props: GameDayMatchupsProps) => {  
   const { players } = useContext(GamePageContext).state;
 
-  const { state } = useContext(MatchupGroupContext);
+  const { state } = useContext(GameDayContext);
+
+  const { matchups } = state;
 
   const getMatchups = (): JSX.Element[] => {
     if(
-      state.statuses.matchups === RequestStatus.Success && 
+      (state.statuses.matchups === RequestStatus.Success || state.statuses.summary === RequestStatus.Success) && 
       state.statuses.predictions === RequestStatus.Success
     ) {
-      const matchups: IMatchup[] = MatchupUtility.mapProfilesToMatchups(state.matchups, players);
+      const mappedMatchups: IMatchup[] = MatchupUtility.mapProfilesToMatchups(matchups, players);
 
-      return matchups.map((matchup: IMatchup) =>       
+      return mappedMatchups.map((matchup: IMatchup) =>       
         <Matchup 
           key={matchup.id} 
           matchup={matchup} 
@@ -50,7 +52,7 @@ export const MatchupList: React.FC<MatchupsListProps> = (props: MatchupsListProp
   }
 
   return (
-    <div className="game-matchups-list">
+    <div className="game-day-matchups">
       {getMatchups()}
       {getLoadingMessage()}
     </div>

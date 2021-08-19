@@ -1,7 +1,9 @@
 import { IGame } from "../../../stroll-models/game";
+import { IGameDaySummary } from "../../../stroll-models/gameDaySummary";
+import { IGameUpdate } from "../../../stroll-models/gameUpdate";
+import { IMatchup } from "../../../stroll-models/matchup";
 
 import { GameStatus } from "../../../stroll-enums/gameStatus";
-import { IGameUpdate } from "../../../stroll-models/gameUpdate";
 
 interface IGameUtility {
   hasReferenceFieldChanged: (before: IGame, after: IGame) => boolean;

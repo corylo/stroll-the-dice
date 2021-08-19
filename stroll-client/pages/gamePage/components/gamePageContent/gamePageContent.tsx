@@ -10,7 +10,7 @@ import { IconButton } from "../../../../components/buttons/iconButton";
 import { InvitePlayersModal } from "../invitePlayersModal/invitePlayersModal";
 import { Label } from "../../../../components/label/label";
 import { Leaderboard } from "../../../../components/leaderboard/leaderboard";
-import { MatchupGroup } from "../matchupGroup/matchupGroup";
+import { GameDay } from "../gameDay/gameDay";
 import { MyPoints } from "../myPoints/myPoints";
 import { UpdateGameModal } from "../updateGameModal/updateGameModal";
 import { PlayerStatement } from "../../../../components/playerStatement/playerStatement";
@@ -112,19 +112,17 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
           }
         }
 
-        const getMatchupGroups = (): JSX.Element[] => {                    
+        const getGameDays = (): JSX.Element[] => {                    
           if(game.error === GameError.None) { 
             const max: number = getMaxDay();
             
-            const matchupGroups: JSX.Element[] = [];
+            const gameDays: JSX.Element[] = [];
     
             for(let i: number = max; i > 0; i--) {
-              matchupGroups.push(
-                <MatchupGroup key={i} day={i} />
-              )
+              gameDays.push(<GameDay key={i} day={i} />);
             }      
     
-            return matchupGroups;
+            return gameDays;
           }
         }
 
@@ -157,7 +155,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
               gameStatus={game.status} 
               toggleView={() => toggle({ players: true })}
             />
-            {getMatchupGroups()}
+            {getGameDays()}
           </React.Fragment>
         )
       } else if (appState.status === AppStatus.SignedOut) {

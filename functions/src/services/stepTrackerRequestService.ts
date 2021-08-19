@@ -17,8 +17,8 @@ import { StepTracker } from "../../../stroll-enums/stepTracker";
 interface IStepTrackerRequestService {
   getAccessTokenAndRefreshToken: (request: IConnectStepTrackerRequest) => Promise<IOAuthRefreshTokenResponse>;
   getAccessTokenFromRefreshToken: (tracker: StepTracker, refreshToken: string) => Promise<IOAuthRefreshTokenResponse>;
-  getStepCountUpdate: (uid: string, tracker: IStepTracker, timestamp: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean, currentStepTotal: number) => Promise<number>;  
-  sendStepCountUpdateRequest: (tracker: StepTracker, accessToken: string, timestamp: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean, timezone: string, currentStepTotal: number) => Promise<number>;
+  getStepCountUpdate: (uid: string, timestamp: firebase.firestore.FieldValue, day: number) => Promise<number>;  
+  sendStepCountUpdateRequest: (tracker: StepTracker, accessToken: string, timestamp: firebase.firestore.FieldValue, day: number, timezone: string) => Promise<number>;
 }
 
 export const StepTrackerRequestService: IStepTrackerRequestService = {
@@ -46,38 +46,42 @@ export const StepTrackerRequestService: IStepTrackerRequestService = {
       refreshToken: res.data.refresh_token
     }
   },
-  getStepCountUpdate: async (uid: string, tracker: IStepTracker, timestamp: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean, currentStepTotal: number): Promise<number> => {    
-    const profile: IProfile = await ProfileService.get.by.uid(uid);
+  getStepCountUpdate: async (uid: string, timestamp: firebase.firestore.FieldValue, day: number): Promise<number> => {        
+    const tracker: IStepTracker = await StepTrackerService.get(uid);
 
-    try {
-      return await StepTrackerRequestService.sendStepCountUpdateRequest(tracker.name, tracker.accessToken, timestamp, day, hasDayPassed, profile.tracker.timezone, currentStepTotal);
-    } catch (err) {
-      logger.error(`Initial [${tracker.name}] step count update request failed for user [${uid}].`, err);
-    }
-
-    let tokens: IOAuthRefreshTokenResponse = null;
-
-    try {
-      tokens = await StepTrackerRequestService.getAccessTokenFromRefreshToken(tracker.name, tracker.refreshToken);
+    if(tracker !== null) {
+      const profile: IProfile = await ProfileService.get.by.uid(uid);
       
-      await StepTrackerService.updateStepTrackerTokens(uid, tracker.name, tokens);
-    } catch (err) {
-      logger.error(err);
+      try {
+        return await StepTrackerRequestService.sendStepCountUpdateRequest(tracker.name, tracker.accessToken, timestamp, day, profile.tracker.timezone);
+      } catch (err) {}
 
-      throw new Error(`[${tracker.name}] refresh token request failed for user [${uid}].`);
-    }
-    
-    try {     
-      return await StepTrackerRequestService.sendStepCountUpdateRequest(tracker.name, tokens.accessToken, timestamp, day, hasDayPassed, profile.tracker.timezone, currentStepTotal);
-    } catch (err) {
-      logger.error(err);
+      let tokens: IOAuthRefreshTokenResponse = null;
 
-      throw new Error(`Subsequent [${tracker.name}] step count update request failed for user [${uid}].`);
+      try {
+        tokens = await StepTrackerRequestService.getAccessTokenFromRefreshToken(tracker.name, tracker.refreshToken);
+        
+        await StepTrackerService.updateStepTrackerTokens(uid, tracker.name, tokens);
+      } catch (err) {
+        logger.error(err);
+
+        throw new Error(`[${tracker.name}] refresh token request failed for user [${uid}].`);
+      }
+      
+      try {     
+        return await StepTrackerRequestService.sendStepCountUpdateRequest(tracker.name, tokens.accessToken, timestamp, day, profile.tracker.timezone);
+      } catch (err) {
+        logger.error(err);
+
+        throw new Error(`Subsequent [${tracker.name}] step count update request failed for user [${uid}].`);
+      }
     }
+
+    return 0;
   },
-  sendStepCountUpdateRequest: async (tracker: StepTracker, accessToken: string, timestamp: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean, timezone: string, currentStepTotal: number): Promise<number> => {    
-    const url: string = StepTrackerUtility.getStepDataRequestUrl(tracker, timestamp, day, hasDayPassed, timezone),
-      body: any = StepTrackerUtility.getStepDataRequestBody(tracker, timestamp, day, hasDayPassed),
+  sendStepCountUpdateRequest: async (tracker: StepTracker, accessToken: string, timestamp: firebase.firestore.FieldValue, day: number, timezone: string): Promise<number> => {    
+    const url: string = StepTrackerUtility.getStepDataRequestUrl(tracker, timestamp, day, timezone),
+      body: any = StepTrackerUtility.getStepDataRequestBody(tracker, timestamp, day),
       headers: any = StepTrackerUtility.getStepDataRequestHeaders(accessToken);
 
     let res: any = null;
@@ -88,6 +92,6 @@ export const StepTrackerRequestService: IStepTrackerRequestService = {
       res = await axios.get(url, headers);
     }
     
-    return StepTrackerUtility.mapStepsFromResponse(tracker, res.data, currentStepTotal);
+    return StepTrackerUtility.mapStepsFromResponse(tracker, res.data);
   }
 }

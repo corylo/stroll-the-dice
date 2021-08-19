@@ -4,17 +4,16 @@ import { DateUtility } from "../../../stroll-utilities/dateUtility";
 import { FirestoreDateUtility } from "./firestoreDateUtility";
 
 interface IStepTrackerRequestUtility {
-  getFitbitStepDataRequestUrlPath: (startsAt: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean, timezone: string) => string;
-  getGoogleFitStepDataRequestBody: (startsAt: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean) => any;
+  getFitbitStepDataRequestUrlPath: (startsAt: firebase.firestore.FieldValue, day: number, timezone: string) => string;
+  getGoogleFitStepDataRequestBody: (startsAt: firebase.firestore.FieldValue, day: number) => any;
 }
 
 export const StepTrackerRequestUtility: IStepTrackerRequestUtility = {
-  getFitbitStepDataRequestUrlPath: (startsAt: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean, timezone: string): string => {
+  getFitbitStepDataRequestUrlPath: (startsAt: firebase.firestore.FieldValue, day: number, timezone: string): string => {
     const start: Date = DateUtility.dateToTimezoneOffsetDate(FirestoreDateUtility.timestampToDate(startsAt), timezone),
       end: Date = new Date(start);
 
-    const dayOffset: number = hasDayPassed ? day - 2 : day - 1,
-      startDateValue: number = start.getDate() + dayOffset,
+    const startDateValue: number = start.getDate() + (day - 1),
       endDateValue: number = startDateValue + 1;
 
     start.setDate(startDateValue);
@@ -32,12 +31,11 @@ export const StepTrackerRequestUtility: IStepTrackerRequestUtility = {
 
     return `/1/user/-/activities/steps/date/${formattedStartDateString}/${formattedEndDateString}/15min/time/${encodeURIComponent(formattedStartTimeString)}/${encodeURIComponent(formattedEndTimeString)}.json`;
   },
-  getGoogleFitStepDataRequestBody: (startsAt: firebase.firestore.FieldValue, day: number, hasDayPassed: boolean): any => {
+  getGoogleFitStepDataRequestBody: (startsAt: firebase.firestore.FieldValue, day: number): any => {
     const start: Date = FirestoreDateUtility.timestampToDate(startsAt),
       end: Date = FirestoreDateUtility.timestampToDate(startsAt);
 
-    const dayOffset: number = hasDayPassed ? day - 2 : day - 1,
-      startDateValue: number = start.getDate() + dayOffset,
+    const startDateValue: number = start.getDate() + (day - 1),
       endDateValue: number = startDateValue + 1;
 
     start.setDate(startDateValue);

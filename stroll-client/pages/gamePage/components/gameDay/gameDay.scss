@@ -1,14 +1,14 @@
-.game-matchups {
+.game-day {
   background-color: rgba(white, 0.1);
   border: 2px solid rgba(white, 0.25);  
   border-radius: 6px;
   padding: 10px;
   margin-top: 40px;
 
-  .game-matchups-title {
+  .game-day-title {
     position: relative;
 
-    .game-matchups-title-text {
+    .game-day-title-text {
       color: white;
       font-size: 2em;
       height: 36px;
@@ -16,7 +16,7 @@
       text-align: center;
     }
     
-    .game-matchups-title-date-and-game-status {
+    .game-day-title-date-and-game-status {
       align-items: center;
       border-bottom: 1px solid rgba(white, 0.2);
       display: flex;
@@ -24,13 +24,13 @@
       margin-top: 5px;
       padding: 5px 0px;
 
-      .game-matchups-title-date {
+      .game-day-title-date {
         color: white;
         font-size: 1em;
       }
     }
 
-    .hide-matchups-button {
+    .hide-day-button {
       position: absolute;
       right: 0px;
       top: 0px;
@@ -49,7 +49,7 @@
     }
   }
 
-  .view-matchups-button {
+  .view-day-button {
     background-color: rgba(white, 0.1);
     border: 1px solid rgba(white, 0.2);    
     margin-top: 10px;
@@ -64,9 +64,9 @@
 }
 
 @include phone-or-smaller {
-  .game-matchups {    
-    .game-matchups-title {
-      .game-matchups-title-text {
+  .game-day {    
+    .game-day-title {
+      .game-day-title-text {
         font-size: 1.75em;
         text-align: left;
       }
@@ -75,9 +75,9 @@
 }
 
 @include small-phone-or-smaller {
-  .game-matchups {    
-    .game-matchups-title {
-      .game-matchups-title-text {
+  .game-day {    
+    .game-day-title {
+      .game-day-title-text {
         font-size: 1.5em;
       }
     }

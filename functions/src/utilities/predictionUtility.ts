@@ -13,8 +13,8 @@ interface IPredictionUtility {
   determineIfCorrect: (prediction: IPrediction, matchups: IMatchup[]) => boolean;            
   getByPlayer: (playerID: string, predictions: IPrediction[]) => IPrediction[];
   getCorrectPredictions: (predictions: IPrediction[], matchups: IMatchup[]) => IPrediction[];
-  getIncorrectPredictions: (predictions: IPrediction[], matchups: IMatchup[]) => IPrediction[];  
-  mapCreate: (amount: number, creatorID: string, gameID: string, matchupID: string, playerID: string) => IPrediction;  
+  getIncorrectPredictions: (predictions: IPrediction[], matchups: IMatchup[]) => IPrediction[];    
+  mapCreate: (amount: number, creatorID: string, gameID: string, matchupID: string, playerID: string) => IPrediction;    
   sumCorrectPredictions: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]) => number;  
   sumCorrectPredictionsWithOdds: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]) => number;
   sumIncorrectPredictions: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]) => number;

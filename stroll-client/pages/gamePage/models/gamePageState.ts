@@ -51,7 +51,6 @@ export interface IGamePageState {
   invite: IInvite;
   message: string;
   player: IPlayer;
-  playerSteps: number;
   players: IPlayer[];
   statuses: IGamePageStateStatuses;
   toggles: IGamePageStateToggles;
@@ -65,7 +64,6 @@ export const defaultGamePageState = (): IGamePageState => ({
   invite: null,
   message: "",
   player: defaultPlayer(),
-  playerSteps: 0,
   players: [],
   statuses: defaultGamePageStateStatuses(),
   toggles: defaultGamePageStateToggles()

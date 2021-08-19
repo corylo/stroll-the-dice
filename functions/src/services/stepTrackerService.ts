@@ -10,14 +10,12 @@ import { StepTrackerRequestService } from "./stepTrackerRequestService";
 import { StepTrackerServiceValidator } from "../validators/stepTrackerServiceValidator";
 
 import { FirestoreDateUtility } from "../utilities/firestoreDateUtility";
-import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtility";
 import { StepTrackerUtility } from "../utilities/stepTrackerUtility";
 
 import { IConnectStepTrackerRequest } from "../../../stroll-models/connectStepTrackerRequest";
-import { IGame } from "../../../stroll-models/game";
-import { IMatchup } from "../../../stroll-models/matchup";
-import { IMatchupSideStepUpdate } from "../../../stroll-models/matchupSideStepUpdate";
+import { IGameDaySummary, IGameDaySummaryPlayerReference } from "../../../stroll-models/gameDaySummary";
 import { IOAuthRefreshTokenResponse } from "../../../stroll-models/oauthRefreshTokenResponse";
+import { IPlayerStepUpdate } from "../../../stroll-models/playerStepUpdate";
 import { IProfile, profileConverter } from "../../../stroll-models/profile";
 import { IStepTracker, stepTrackerConverter } from "../../../stroll-models/stepTracker";
 import { defaultStepTrackerProfileReference, IStepTrackerProfileReference } from "../../../stroll-models/stepTrackerProfileReference";
@@ -31,8 +29,8 @@ interface IStepTrackerService {
   connectStepTracker: (request: IConnectStepTrackerRequest, context: https.CallableContext) => Promise<void>;
   disconnectStepTracker: (data: any, context: https.CallableContext) => Promise<void>;  
   get: (uid: string) => Promise<IStepTracker>;
-  getStepCountUpdate: (game: IGame, playerID: string, steps: number) => Promise<IMatchupSideStepUpdate>;
-  getStepCountUpdates: (game: IGame, matchups: IMatchup[]) => Promise<IMatchupSideStepUpdate[]>;
+  getStepCountUpdate: (startsAt: firebase.firestore.FieldValue, day: number, player: IGameDaySummaryPlayerReference) => Promise<IPlayerStepUpdate>;
+  getStepCountUpdates: (startsAt: firebase.firestore.FieldValue, summary: IGameDaySummary) => Promise<IPlayerStepUpdate[]>;
   preauthorizedDisconnectStepTracker: (uid: string) => Promise<void>;  
   saveStepTracker: (uid: string, request: IConnectStepTrackerRequest, tokens: IOAuthRefreshTokenResponse) => Promise<void>;
   updateStepTrackerProfileReference: (uid: string, updates: IStepTrackerProfileReferenceUpdate) => Promise<void>;
@@ -126,50 +124,33 @@ export const StepTrackerService: IStepTrackerService = {
       }
     }
   },
-  getStepCountUpdate: async (game: IGame, playerID: string, currentStepTotal: number): Promise<IMatchupSideStepUpdate> => {
-    const tracker: IStepTracker = await StepTrackerService.get(playerID);
+  getStepCountUpdate: async (startsAt: firebase.firestore.FieldValue, day: number, player: IGameDaySummaryPlayerReference): Promise<IPlayerStepUpdate> => {
+    const update: IPlayerStepUpdate = { id: player.id, steps: 0 };
 
-    const update: IMatchupSideStepUpdate = {
-      id: playerID,
-      steps: 0
-    }
-
-    if(tracker && tracker.refreshToken !== "") {
-      try {
-        const day: number = GameDurationUtility.getDay(game),
-          hasDayPassed: boolean = GameDurationUtility.hasDayPassed(game);
-
-        const total: number = await StepTrackerRequestService.getStepCountUpdate(playerID, tracker, game.startsAt, day, hasDayPassed, currentStepTotal);
-          
-        update.steps = total - currentStepTotal;
-      } catch (err) {
-        logger.error(err);
-
-        await StepTrackerService.updateStepTrackerProfileReference(playerID, {
-          status: StepTrackerConnectionStatus.VerificationFailed
-        });
+    try {
+      const steps: number = await StepTrackerRequestService.getStepCountUpdate(player.id, startsAt, day);
+        
+      if(steps > player.steps) {
+        update.steps = steps - player.steps;
       }
+    } catch (err) {
+      logger.error(err);
+
+      await StepTrackerService.updateStepTrackerProfileReference(player.id, { status: StepTrackerConnectionStatus.VerificationFailed });
     }
 
     return update;
   },  
-  getStepCountUpdates: async (game: IGame, matchups: IMatchup[]): Promise<IMatchupSideStepUpdate[]> => {
-    let updates: IMatchupSideStepUpdate[] = [];
+  getStepCountUpdates: async (startsAt: firebase.firestore.FieldValue, summary: IGameDaySummary): Promise<IPlayerStepUpdate[]> => {
+    let updates: IPlayerStepUpdate[] = [];
 
-    for(let matchup of matchups) {
-      if(matchup.left.playerID !== "") {
-        const leftUpdate: IMatchupSideStepUpdate = await StepTrackerService.getStepCountUpdate(game, matchup.left.playerID, matchup.left.steps);
+    const requests: any[] = summary.players.map((player: IGameDaySummaryPlayerReference) => 
+      StepTrackerService.getStepCountUpdate(startsAt, summary.day, player));
 
-        updates = [...updates, leftUpdate];
-      }
-      
-      if(matchup.right.playerID !== "") {
-        const rightUpdate: IMatchupSideStepUpdate = await StepTrackerService.getStepCountUpdate(game, matchup.right.playerID, matchup.right.steps);
+    const responses: any = await axios.all(requests);
 
-        updates = [...updates, rightUpdate];
-      }
-    }
-
+    responses.forEach((res: any) => updates.push(res));
+    
     return updates;
   },
   preauthorizedDisconnectStepTracker: async (uid: string): Promise<void> => {
@@ -272,13 +253,12 @@ export const StepTrackerService: IStepTrackerService = {
   },
   verifyStepTracker: async (data: any, context: https.CallableContext): Promise<void> => {
     if(context.auth !== null) {
-      const tracker: IStepTracker = await StepTrackerService.get(context.auth.uid),
-        profile: IProfile = await ProfileService.get.by.uid(context.auth.uid);
+      const profile: IProfile = await ProfileService.get.by.uid(context.auth.uid);
 
       try {
         const timestamp: firebase.firestore.FieldValue = FirestoreDateUtility.beginningOfHour(firebase.firestore.Timestamp.now());
     
-        await StepTrackerRequestService.getStepCountUpdate(context.auth.uid, tracker, timestamp, 1, false, 0);
+        await StepTrackerRequestService.getStepCountUpdate(context.auth.uid, timestamp, 1);
 
         await StepTrackerService.updateStepTrackerProfileReference(context.auth.uid, {
           status: StepTrackerConnectionStatus.Verified
