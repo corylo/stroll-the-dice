@@ -1,9 +1,6 @@
 .game-matchup {
+  border-top: 1px solid rgba(white, 0.25);
   padding: 10px 0px;
-
-  &:nth-of-type(n + 2) {
-    border-top: 1px solid rgba(white, 0.25);
-  }
 
   .game-matchup-header{    
     display: flex;

@@ -3,8 +3,9 @@ import classNames from "classnames";
 
 import { Button } from "../../../../components/buttons/button";
 import { IconButton } from "../../../../components/buttons/iconButton";
-import { GameDayStatus } from "../../../../components/gameDayStatus/gameDayStatus";
 import { GameDayMatchups } from "./gameDayMatchups";
+import { GameDayStatus } from "../../../../components/gameDayStatus/gameDayStatus";
+import { GameDayStepLeaderboard } from "../gameDayStepLeaderboard/gameDayStepLeaderboard";
 import { TooltipSide } from "../../../../components/tooltip/tooltip";
 
 import { GamePageContext } from "../../gamePage";
@@ -32,7 +33,7 @@ interface GameDayProps {
 }
 
 export const GameDay: React.FC<GameDayProps> = (props: GameDayProps) => {  
-  const { day, game } = useContext(GamePageContext).state;
+  const { day, game, players } = useContext(GamePageContext).state;
 
   const dayStatus: GameStatus = GameDurationUtility.getDayStatus(props.day, day);
 
@@ -78,10 +79,13 @@ export const GameDay: React.FC<GameDayProps> = (props: GameDayProps) => {
     }
   }
 
-  const getMatchupsList = (): JSX.Element => {
+  const getExpandedContent = (): JSX.Element => {
     if(state.expanded) {
       return (
-        <GameDayMatchups day={props.day} />
+        <React.Fragment>
+          <GameDayStepLeaderboard players={players} references={state.players} />
+          <GameDayMatchups day={props.day} />
+        </React.Fragment>
       )
     }
   }
@@ -128,7 +132,7 @@ export const GameDay: React.FC<GameDayProps> = (props: GameDayProps) => {
           </div>     
           {getHideButton()}
         </div>
-        {getMatchupsList()}
+        {getExpandedContent()}
         {getViewButton()}
       </div>
     </GameDayContext.Provider>

@@ -1,0 +1,18 @@
+.game-day-step-leaderboard {
+  border: 2px solid rgba(white, 0.2);
+  border-radius: 6px;
+  margin: 10px 0px;
+  padding: 10px;
+
+  .game-day-step-leaderboard-title {
+    h1 {
+      color: white;
+      font-size: 1.25em;
+      text-align: center;
+    }
+  }
+
+  .game-day-step-leaderboard-rows {
+    margin-top: 10px;
+  }
+}
