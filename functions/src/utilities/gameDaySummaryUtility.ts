@@ -13,6 +13,8 @@ interface IGameDaySummaryUtility {
   mapCreate: (day: number, matchups: IMatchup[]) => IGameDaySummary;
   mapPlayerDayCompletedSummary: (day: number, playerID: string, matchups: IMatchup[], predictions: IPrediction[]) => IPlayerDayCompletedSummary;
   mapUpdates: (summary: IGameDaySummary, updates: IPlayerStepUpdate[]) => IGameDaySummary;
+  mapUpdatesToMatchups: (matchups: IMatchup[], updates: IPlayerStepUpdate[]) => IMatchup[];
+  mapUpdatesToPlayers: (players: IGameDaySummaryPlayerReference[], updates: IPlayerStepUpdate[]) => IGameDaySummaryPlayerReference[];
   mapWinners: (summary: IGameDaySummary) => IGameDaySummary;
 }
 
@@ -68,7 +70,31 @@ export const GameDaySummaryUtility: IGameDaySummaryUtility = {
     }
   },
   mapUpdates: (summary: IGameDaySummary, updates: IPlayerStepUpdate[]): IGameDaySummary => {
-    summary.players = summary.players.map((player: IGameDaySummaryPlayerReference) => {
+    return {
+      ...summary,
+      matchups: GameDaySummaryUtility.mapUpdatesToMatchups(summary.matchups, updates),
+      players: GameDaySummaryUtility.mapUpdatesToPlayers(summary.players, updates)
+    };
+  },
+  mapUpdatesToMatchups: (matchups: IMatchup[], updates: IPlayerStepUpdate[]): IMatchup[] => {
+    return matchups.map((matchup: IMatchup) => {
+      if(matchup.left.playerID !== "") {
+        const update: number = GameDaySummaryUtility.findUpdateForPlayer(matchup.left.playerID, updates);
+
+        matchup.left.steps = matchup.left.steps + update;
+      }
+
+      if(matchup.right.playerID !== "") {
+        const update: number = GameDaySummaryUtility.findUpdateForPlayer(matchup.right.playerID, updates);
+
+        matchup.right.steps = matchup.right.steps + update;
+      }
+
+      return matchup;
+    });    
+  },
+  mapUpdatesToPlayers: (players: IGameDaySummaryPlayerReference[], updates: IPlayerStepUpdate[]): IGameDaySummaryPlayerReference[] => {
+    return players.map((player: IGameDaySummaryPlayerReference) => {
       const update: number = GameDaySummaryUtility.findUpdateForPlayer(player.id, updates);
 
       return {
@@ -76,8 +102,6 @@ export const GameDaySummaryUtility: IGameDaySummaryUtility = {
         steps: player.steps + update
       }
     });
-
-    return summary;
   },
   mapWinners: (summary: IGameDaySummary): IGameDaySummary => {
     summary.matchups = summary.matchups.map((matchup: IMatchup) => {
