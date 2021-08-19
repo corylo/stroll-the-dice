@@ -10,6 +10,7 @@
     "firebase-deploy:": "firebase deploy --only functions:verifyStepTracker",
     "deploy": "npm run clean && npm run build && npm run firebase-deploy",
     "deploy:": "npm run clean && npm run build && npm run firebase-deploy:",
+    "da": "npm run set:dev && npm run deploy && npm run set:prod && npm run deploy",
     "logs": "firebase functions:log",
     "set:dev": "firebase use stroll-the-dice-development",
     "set:prod": "firebase use stroll-the-dice-5fa5a",

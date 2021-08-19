@@ -18,7 +18,7 @@ interface GameDayStepLeaderboardProps {
 export const GameDayStepLeaderboard: React.FC<GameDayStepLeaderboardProps> = (props: GameDayStepLeaderboardProps) => {  
   if(props.references.length > 0) {
     const getRows = (): JSX.Element[] => {
-      return _orderBy(props.references, "steps").slice(0, 3).map((ref: IGameDaySummaryPlayerReference, index: number) => {
+      return _orderBy(props.references, "steps", "desc").slice(0, 3).map((ref: IGameDaySummaryPlayerReference, index: number) => {
         const player: IPlayer = PlayerUtility.getById(ref.id, props.players);
 
         if(player) {
