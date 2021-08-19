@@ -1,10 +1,10 @@
 @import "./event/event.scss";
 @import "./eventDescription/eventDescription.scss";
 @import "./eventFilters/eventFilters.scss";
-@import "./eventHistoryToggle/eventHistoryToggle.scss";
+@import "./gameTimelineToggle/gameTimelineToggle.scss";
 @import "./eventType/eventType.scss";
 
-.game-event-history {
+.game-timeline {
   margin-top: 20px;
   
   .game-event-group {

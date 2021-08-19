@@ -2,8 +2,8 @@ import React from "react";
 
 import { EventFilter } from "./eventFilter";
 
-import { Icon } from "../../../../../../stroll-enums/icon";
 import { GameEventCategory } from "../../../../../../stroll-enums/gameEventCategory";
+import { Icon } from "../../../../../../stroll-enums/icon";
 
 interface EventFiltersProps {  
   
@@ -13,22 +13,22 @@ export const EventFilters: React.FC<EventFiltersProps> = (props: EventFiltersPro
   return (
     <div className="event-history-filters">
       <EventFilter
-        eventCategory={GameEventCategory.Unknown}
+        category={GameEventCategory.Unknown}
         icon="fal fa-filter"
         text="All"
       />
       <EventFilter
-        eventCategory={GameEventCategory.Game}
+        category={GameEventCategory.Game}
         icon={Icon.Dice}
         text="Game"
       />
       <EventFilter
-        eventCategory={GameEventCategory.Steps}
+        category={GameEventCategory.Steps}
         icon={Icon.Steps}
         text="Steps"
       />
       <EventFilter
-        eventCategory={GameEventCategory.Prediction}
+        category={GameEventCategory.Prediction}
         icon={Icon.Dice}
         text="Predictions"
       />

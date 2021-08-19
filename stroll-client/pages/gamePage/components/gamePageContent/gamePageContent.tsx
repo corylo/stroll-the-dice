@@ -2,10 +2,10 @@ import React, { useContext } from "react";
 
 import { AcceptInviteModal } from "../acceptInviteModal/acceptInviteModal";
 import { EmptyMessage } from "../../../../components/emptyMessage/emptyMessage";
-import { EventHistoryToggle } from "../eventHistory/eventHistoryToggle/eventHistoryToggle";
 import { GameActions } from "../gameActions/gameActions";
 import { GameDateStatus } from "../../../../components/gameDateStatus/gameDateStatus";
 import { GameDetails } from "../../../../components/gameDetails/gameDetails";
+import { GameTimelineToggle } from "../gameTimeline/gameTimelineToggle/gameTimelineToggle";
 import { IconButton } from "../../../../components/buttons/iconButton";
 import { InvitePlayersModal } from "../invitePlayersModal/invitePlayersModal";
 import { Label } from "../../../../components/label/label";
@@ -16,7 +16,7 @@ import { UpdateGameModal } from "../updateGameModal/updateGameModal";
 import { PlayerStatement } from "../../../../components/playerStatement/playerStatement";
 import { StartingSoonMessage } from "../startingSoonMessage/startingSoonMessage";
 import { TooltipSide } from "../../../../components/tooltip/tooltip";
-import { ViewEventsModal } from "../viewEventsModal/viewEventsModal";
+import { ViewGameTimelineModal } from "../viewGameTimelineModal/viewGameTimelineModal";
 import { ViewPlayersModal } from "../viewPlayersModal/viewPlayersModal";
 
 import { AppContext } from "../../../../components/app/contexts/appContext";
@@ -65,13 +65,13 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
       }
     }
     
-    const getEventHistoryToggle = (): JSX.Element => {      
+    const getGameTimelineToggle = (): JSX.Element => {      
       if(
         statuses.player === PlayerStatus.Playing ||
         appState.user.roles.includes(Role.Admin)
       ) {
         return (
-          <EventHistoryToggle toggle={toggle} />
+          <GameTimelineToggle toggle={toggle} />
         );
       }
     }
@@ -196,7 +196,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
               toggleInvite={() => toggle({ invite: true })}
               toggleUpdate={() => toggle({ update: true })}
             />
-            {getEventHistoryToggle()}
+            {getGameTimelineToggle()}
           </div>
           {getGamePageContentForPlayer()}
         </div>
@@ -205,7 +205,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
         <AcceptInviteModal back={() => dispatch(AppAction.ToggleAcceptInvite, false)} />
         <InvitePlayersModal back={() => toggle({ invite: false })} />
         <ViewPlayersModal back={() => toggle({ players: false })} />
-        <ViewEventsModal back={() => toggle({ events: false })} />
+        <ViewGameTimelineModal back={() => toggle({ events: false })} />
       </div>
     )
   }

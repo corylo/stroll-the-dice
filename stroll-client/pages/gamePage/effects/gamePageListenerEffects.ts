@@ -11,13 +11,11 @@ import { PlayerUtility } from "../../../utilities/playerUtility";
 
 import { IAppState } from "../../../components/app/models/appState";
 import { defaultGame, gameConverter, IGame } from "../../../../stroll-models/game";
-import { gameEventConverter, IGameEvent } from "../../../../stroll-models/gameEvent/gameEvent";
+import { IGameEvent } from "../../../../stroll-models/gameEvent/gameEvent";
 import { IGamePageState } from "../models/gamePageState";
 import { IPlayer, playerConverter } from "../../../../stroll-models/player";
 
 import { AppStatus } from "../../../enums/appStatus";
-import { GameEventCategory } from "../../../../stroll-enums/gameEventCategory";
-import { GameEventReferenceID } from "../../../../stroll-enums/gameEventReferenceID";
 import { GameStatus } from "../../../../stroll-enums/gameStatus";
 import { PlayerStatus } from "../../../../stroll-enums/playerStatus";
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
@@ -56,18 +54,6 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
       updates.players = [];
 
       updates.statuses.players = RequestStatus.Success;
-    }
-
-    if(events.length > 0) {
-      updates.events = events;
-
-      if(updates.statuses.events === RequestStatus.Loading) {
-        updates.statuses.events = RequestStatus.Success;
-      }
-    } else if(events.length === 0 && state.statuses.player === PlayerStatus.NotPlaying) {
-      updates.events = [];
-
-      updates.statuses.events = RequestStatus.Success;
     }
 
     setState(updates);
@@ -153,53 +139,9 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
           setPlayers(updates);
         });
 
-      let query: firebase.firestore.Query = db.collection("games")
-        .doc(state.game.id)
-        .collection("events");
-
-      if(state.filters.eventCategory !== GameEventCategory.Unknown) {                
-        query = query.where("category", "==", state.filters.eventCategory);
-      }
-        
-      const unsubToEvents = query
-        .where("referenceID", "in", [GameEventReferenceID.General, state.player.id])   
-        .orderBy("occurredAt", "desc")        
-        .limit(eventsLimit)
-        .withConverter(gameEventConverter)
-        .onSnapshot((snap: firebase.firestore.QuerySnapshot) => {
-          let updates: IGameEvent[] = [];
-
-          snap.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGameEvent>) =>
-            updates.push(doc.data()));
- 
-          setEvents(updates);
-        });
-
       return () => {
         unsubToPlayers();
-        unsubToEvents();
       }
     }
-  }, [state.game.id, state.statuses.player, eventsLimit, state.filters.eventCategory]);
-
-  useEffect(() => {
-    if(state.toggles.events && eventsLimit !== 20) {
-      setEventsLimit(20);
-    } else if (!state.toggles.events) {      
-      setState({ ...state, filters: { 
-        ...state.filters, 
-        eventCategory: GameEventCategory.Game 
-      }});
-    }
-  }, [state.toggles.events, eventsLimit]);
-
-  useEffect(() => {
-    const updates: IGamePageState = { ...state };
-
-    if(state.statuses.events === RequestStatus.Success) {
-      updates.statuses.events = RequestStatus.Loading;
-    }
-    
-    setState(updates);
-  }, [state.filters.eventCategory]);
+  }, [state.game.id, state.statuses.player, eventsLimit]);
 }

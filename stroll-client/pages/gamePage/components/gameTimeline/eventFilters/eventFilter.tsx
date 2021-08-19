@@ -3,31 +3,31 @@ import classNames from "classnames";
 
 import { Label } from "../../../../../components/label/label";
 
-import { GamePageContext } from "../../../gamePage";
+import { ViewGameTimelineContext } from "../../viewGameTimelineModal/viewGameTimelineModal";
 
 import { GameEventCategory } from "../../../../../../stroll-enums/gameEventCategory";
 
 interface EventFilterProps {  
-  eventCategory: GameEventCategory;
+  category: GameEventCategory;
   icon: string;
   text: string;
 }
 
 export const EventFilter: React.FC<EventFilterProps> = (props: EventFilterProps) => {  
-  const { state, setState } = useContext(GamePageContext);
+  const { state, setState } = useContext(ViewGameTimelineContext);
 
-  const update = (updates: any): void => {
-    setState({ ...state, filters: { ...state.filters, ...updates } });
+  const updateCategory = (): void => {
+    setState({ ...state, category: props.category });
   }
 
-  const selected: boolean = state.filters.eventCategory === props.eventCategory;
+  const selected: boolean = state.category === props.category;
 
   return (
     <Label
       className={classNames("event-history-filter", { selected })}
       icon={props.icon}
       text={props.text}
-      handleOnClick={() => update({ eventCategory: props.eventCategory })}
+      handleOnClick={updateCategory}
     />
   );
 }

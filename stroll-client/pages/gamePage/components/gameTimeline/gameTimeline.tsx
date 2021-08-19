@@ -4,21 +4,21 @@ import _groupBy from "lodash.groupby";
 import { EmptyMessage } from "../../../../components/emptyMessage/emptyMessage";
 import { EventGroup } from "./eventGroup";
 
-import { GamePageContext } from "../../gamePage";
+import { ViewGameTimelineContext } from "../viewGameTimelineModal/viewGameTimelineModal";
 
 import { FirestoreDateUtility } from "../../../../../stroll-utilities/firestoreDateUtility";
 
 import { IGameEvent } from "../../../../../stroll-models/gameEvent/gameEvent";
 
-interface EventHistoryProps {  
+interface GameTimelineProps {  
   
 }
 
-export const EventHistory: React.FC<EventHistoryProps> = (props: EventHistoryProps) => {    
-  const { events } = useContext(GamePageContext).state;
+export const GameTimeline: React.FC<GameTimelineProps> = (props: GameTimelineProps) => {    
+  const { state } = useContext(ViewGameTimelineContext)
 
   const getEvents = (): JSX.Element[] => {
-    return Object.entries(_groupBy(events, (event: IGameEvent) => FirestoreDateUtility.timestampToDate(event.occurredAt).toDateString()))
+    return Object.entries(_groupBy(state.events, (event: IGameEvent) => FirestoreDateUtility.timestampToDate(event.occurredAt).toDateString()))
       .map((entry: any) => ({ date: entry[0], events: entry[1] }))
       .map((entry: any) => (
         <EventGroup 
@@ -30,7 +30,7 @@ export const EventHistory: React.FC<EventHistoryProps> = (props: EventHistoryPro
   }
 
   const getEmptyMessage = (): JSX.Element => {
-    if(events.length === 0) {
+    if(state.events.length === 0) {
       return (
         <EmptyMessage text="There were no events found" />
       )
@@ -38,7 +38,7 @@ export const EventHistory: React.FC<EventHistoryProps> = (props: EventHistoryPro
   }
 
   return (
-    <div className="game-event-history">
+    <div className="game-timeline">
       {getEvents()}
       {getEmptyMessage()}
     </div>
