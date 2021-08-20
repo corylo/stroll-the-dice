@@ -17,3 +17,18 @@
 @import "./components/updateGameModal/updateGameModal.scss";
 @import "./components/viewGameTimelineModal/viewGameTimelineModal.scss";
 @import "./components/viewPlayersModal/viewPlayersModal.scss";
+
+#game-page {
+  .page-content-filter {
+    opacity: 0.8;
+  }
+
+  .page-background-graphic-image {    
+    bottom: 0px;
+    height: 150vh;
+    top: auto;
+    transform: translate(-50%, 0px);
+    width: 265vh;
+    z-index: 1;
+  }
+}
