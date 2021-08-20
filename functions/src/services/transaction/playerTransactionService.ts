@@ -40,7 +40,7 @@ export const PlayerTransactionService: IPlayerTransactionService = {
   },
   handlePlayerEarnedPointsForSteps: (transaction: firebase.firestore.Transaction, gameID: string, doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>, updates: IPlayerStepUpdate[]): void => {
     const player: IPlayer = doc.data(),
-      steps: number = GameDaySummaryUtility.findUpdateForPlayer(player.id, updates);
+      steps: number = GameDaySummaryUtility.findUpdateForPlayer(doc.id, updates);
 
     if(steps > 0) {
       const updatedPlayer: IPlayer = PointsUtility.mapPointsForSteps(player, steps);
@@ -50,7 +50,7 @@ export const PlayerTransactionService: IPlayerTransactionService = {
         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
       });
 
-      GameEventTransactionService.sendPlayerEarnedPointsFromStepsEvent(transaction, gameID, updatedPlayer.id, steps);
+      GameEventTransactionService.sendPlayerEarnedPointsFromStepsEvent(transaction, gameID, doc.id, steps);
     }
   },
   completeDayOneMatchup: (transaction: firebase.firestore.Transaction, matchup: IMatchup, player: IPlayer): IMatchup => {    

@@ -51,15 +51,15 @@ export const GameTransactionService: IGameTransactionService = {
 
         playerSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>) => {
           const player: IPlayer = doc.data(),
-            newSteps: number = GameDaySummaryUtility.findUpdateForPlayer(player.id, updates);
+            steps: number = GameDaySummaryUtility.findUpdateForPlayer(doc.id, updates);
 
-          if(newSteps > 0) {
-            GameEventTransactionService.sendPlayerEarnedPointsFromStepsEvent(transaction, gameID, player.id, newSteps);
+          if(steps > 0) {
+            GameEventTransactionService.sendPlayerEarnedPointsFromStepsEvent(transaction, gameID, doc.id, steps);
           }
 
           const playerSummary: IPlayerDayCompletedSummary = GameDaySummaryUtility.mapPlayerDayCompletedSummary(
             day, 
-            player.id, 
+            doc.id, 
             finalizedSummary.matchups, 
             predictions
           );
@@ -67,7 +67,7 @@ export const GameTransactionService: IGameTransactionService = {
           GameEventTransactionService.create(
             transaction, 
             gameID, 
-            GameEventUtility.mapPlayerDayCompletedSummaryEvent(player.id, FirestoreDateUtility.addMillis(dayCompletedAt, 1), playerSummary)
+            GameEventUtility.mapPlayerDayCompletedSummaryEvent(doc.id, FirestoreDateUtility.addMillis(dayCompletedAt, 1), playerSummary)
           );
 
           const points: IPlayerPoints = {
