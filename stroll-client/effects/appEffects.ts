@@ -7,6 +7,7 @@ import { IAppState } from "../components/app/models/appState";
 
 import { AppAction } from "../enums/appAction";
 import { ElementID } from "../enums/elementId";
+import { ImageStatus } from "../enums/imageStatus";
 
 interface IUseCurrentDateEffect {
   date: Date;
@@ -139,4 +140,36 @@ export const useGlobalCommandsEffect = (): void => {
       document.removeEventListener("keydown", handleOnKeyDown);
     }
   }, []);
+}
+
+interface IUseLoadImageEffect {
+  status: ImageStatus;
+}
+
+export const useLoadImageEffect = (previewSource: string, loadedSource: string): IUseLoadImageEffect => {
+  const [status, setStatus] = useState<ImageStatus>(ImageStatus.Waiting);
+
+  useEffect(() => {
+    const preview: HTMLImageElement = new Image();
+    preview.src = previewSource;
+
+    preview.onload = () => {
+      setStatus(ImageStatus.Preview);
+    };
+  }, []);
+
+  useEffect(() => {
+    if(status === ImageStatus.Preview) {
+      const loaded: HTMLImageElement = new Image();
+      loaded.src = loadedSource;
+
+      loaded.onload = () => {
+        setStatus(ImageStatus.Loaded);
+      };
+    }
+  }, [status])
+
+  return {
+    status
+  }
 }

@@ -10,8 +10,6 @@ import { SignInLink } from "../../components/signInLink/signInLink";
 
 import { AppContext } from "../../components/app/contexts/appContext";
 
-import { ImageUtility } from "../../utilities/imageUtility";
-
 import { AppStatus } from "../../enums/appStatus";
 
 interface HomePageProps {
@@ -48,7 +46,7 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
   return(
     <Page 
       id="home-page" 
-      backgroundGraphic={ImageUtility.getGraphic("running", "png")}
+      backgroundGraphic=""
       showFooter
     >
       {getContent()}

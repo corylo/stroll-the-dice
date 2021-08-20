@@ -18,7 +18,6 @@ import { AppStatus } from "../../enums/appStatus";
 import { Graphic } from "../../../stroll-enums/graphic";
 import { PlayerStatus } from "../../../stroll-enums/playerStatus";
 import { RequestStatus } from "../../../stroll-enums/requestStatus";
-import { ImageUtility } from "../../utilities/imageUtility";
 
 interface IGamePageContext {
   state: IGamePageState;
@@ -62,7 +61,7 @@ export const GamePage: React.FC<GamePageProps> = (props: GamePageProps) => {
     <GamePageContext.Provider value={{ state, setState }}>
       <Page 
         id="game-page" 
-        backgroundGraphic={ImageUtility.getGraphic("game", "png")}
+        backgroundGraphic={Graphic.Game}
         status={getStatus()}
         errorMessage="Whoops! Looks like this game doesn't exist."
       >   

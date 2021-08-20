@@ -7,8 +7,6 @@ import { PageMessage } from "./pageMessage";
 
 import { AppContext } from "../../components/app/contexts/appContext";
 
-import { ImageUtility } from "../../utilities/imageUtility";
-
 import { AppStatus } from "../../enums/appStatus";
 import { Graphic } from "../../../stroll-enums/graphic";
 import { RequestStatus } from "../../../stroll-enums/requestStatus";
@@ -66,7 +64,7 @@ export const Page: React.FC<PageProps> = (props: PageProps) => {
   const getPageBackgroundGraphic = (): JSX.Element => {
     if(props.backgroundGraphic !== undefined && props.status !== RequestStatus.Loading) {
       return (
-        <PageBackgroundGraphic img={props.backgroundGraphic || ImageUtility.getGraphic(Graphic.Running, "png")} />
+        <PageBackgroundGraphic graphic={props.backgroundGraphic || Graphic.Running} />
       )
     }
   }
