@@ -1,16 +1,36 @@
+import firebase from "firebase/app";
+
 import { IGameEvent } from "../../../../../../stroll-models/gameEvent/gameEvent";
 
 import { GameEventCategory } from "../../../../../../stroll-enums/gameEventCategory";
 import { RequestStatus } from "../../../../../../stroll-enums/requestStatus";
 
+export interface IViewGameTimelineStatuses {
+  initial: RequestStatus;
+  more: RequestStatus;
+}
+
+export const defaultViewGameTimelineStatuses = (): IViewGameTimelineStatuses => ({
+  initial: RequestStatus.Loading,
+  more: RequestStatus.Idle
+});
+
 export interface IViewGameTimelineState {
-  events: IGameEvent[];
   category: GameEventCategory;
-  status: RequestStatus;
+  end: boolean;
+  events: IGameEvent[];  
+  index: number;
+  limit: number;
+  offset: firebase.firestore.QueryDocumentSnapshot;
+  statuses: IViewGameTimelineStatuses;
 }
 
 export const defaultViewGameTimelineState = (): IViewGameTimelineState => ({
-  events: [],
   category: GameEventCategory.Game,
-  status: RequestStatus.Idle
+  end: false,
+  events: [],
+  index: 0,
+  limit: 20,
+  offset: null,
+  statuses: defaultViewGameTimelineStatuses()
 });

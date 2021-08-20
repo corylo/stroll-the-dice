@@ -10,8 +10,8 @@ import { GamePageContext } from "../../gamePage";
 
 import { GameEventService } from "../../../../services/gameEventService";
 
-import { IGameEvent } from "../../../../../stroll-models/gameEvent/gameEvent";
-import { defaultViewGameTimelineState, IViewGameTimelineState } from "./models/viewGameTimelineState";
+import { IGetGameEventsResponse } from "../../../../../stroll-models/getGameEventsResponse";
+import { defaultViewGameTimelineState, IViewGameTimelineState, IViewGameTimelineStatuses } from "./models/viewGameTimelineState";
 
 import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
 
@@ -33,34 +33,50 @@ export const ViewGameTimelineModal: React.FC<ViewGameTimelineModalProps> = (prop
 
   const [state, setState] = useState<IViewGameTimelineState>(defaultViewGameTimelineState());
 
-  const updateStatus = (status: RequestStatus): void => {
-    setState({ ...state, status });
+  const updateStatuses = (statuses: any): void => {
+    setState({ ...state, statuses: { ...state.statuses, ...statuses } });
   }
 
   useEffect(() => {
     if(toggles.events) {
       const fetch = async (): Promise<void> => {
         try {
-          updateStatus(RequestStatus.Loading);
+          if(state.offset !== null) {
+            updateStatuses({ more: RequestStatus.Loading });
+          }
 
-          const events: IGameEvent[] = await GameEventService.get(game.id, player.id, state.category, 10);
+          const res: IGetGameEventsResponse = await GameEventService.get(game.id, player.id, state.category, state.limit, state.offset);
 
-          setState({ ...state, events, status: RequestStatus.Success });
+          const statuses: IViewGameTimelineStatuses = { ...state.statuses };
+
+          if(state.offset === null) {
+            statuses.initial = RequestStatus.Success;
+          } else {
+            statuses.more = RequestStatus.Success;
+          }
+
+          setState({ 
+            ...state, 
+            end: res.events.length < state.limit,
+            events: [...state.events, ...res.events], 
+            offset: res.offset,
+            statuses 
+          });
         } catch (err) {
           console.error(err);
 
-          updateStatus(RequestStatus.Error);
+          updateStatuses(RequestStatus.Error);
         }
       }
 
       fetch();
     }
-  }, [toggles.events, state.category]);
+  }, [toggles.events, state.category, state.index]);
 
   if(toggles.events) {
     return (
       <ViewGameTimelineContext.Provider value={{ state, setState }}>
-        <Modal id="view-game-timeline-modal" status={state.status}>
+        <Modal id="view-game-timeline-modal" status={state.statuses.initial}>
           <ModalTitle text="Game Timeline" handleOnClose={props.back} />
           <ModalBody>       
             <EventFilters />
