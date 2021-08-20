@@ -74,21 +74,26 @@ export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => {
 
   const getUpdateTimer = (): JSX.Element => {
     if(
-      state.day > 0 &&
-      (dayStatus === GameStatus.InProgress && state.game.progressUpdateAt !== null) ||
-      (dayStatus === GameStatus.Completed && !FirestoreDateUtility.endOfDayProgressUpdateComplete(matchup.day, state.game.startsAt, state.game.progressUpdateAt))
+      state.day > 0 && (
+        dayStatus === GameStatus.InProgress ||
+        (dayStatus === GameStatus.Completed && !FirestoreDateUtility.endOfDayProgressUpdateComplete(matchup.day, state.game.startsAt, state.game.progressUpdateAt))
+      )
     ) {   
       const getText = (time: string): string => {
-        const beginningOfHour: firebase.firestore.FieldValue = FirestoreDateUtility.beginningOfHour(state.game.progressUpdateAt),
-          predictionsCloseAt: firebase.firestore.FieldValue = PredictionUtility.getPredictionsCloseAt(matchup, state.game.startsAt);
-        
-        if(PredictionUtility.predictionsAvailableForDay(matchup, state.game.startsAt) && FirestoreDateUtility.timestampToRelativeOfUnit(predictionsCloseAt, "M") <= 60) {
-          return `Predictions close in ${time}`;
-        } else if(FirestoreDateUtility.timestampToRelativeOfUnit(beginningOfHour, "M") >= 60) {
-          return "Retrieving step updates";
-        }
-
-        return `Update in ${time}`;
+        if(state.game.progressUpdateAt) {
+          const beginningOfHour: firebase.firestore.FieldValue = FirestoreDateUtility.beginningOfHour(state.game.progressUpdateAt),
+            predictionsCloseAt: firebase.firestore.FieldValue = PredictionUtility.getPredictionsCloseAt(matchup, state.game.startsAt);
+          
+          if(PredictionUtility.predictionsAvailableForDay(matchup, state.game.startsAt) && FirestoreDateUtility.timestampToRelativeOfUnit(predictionsCloseAt, "M") <= 60) {
+            return `Predictions close in ${time}`;
+          } else if(FirestoreDateUtility.timestampToRelativeOfUnit(beginningOfHour, "M") >= 60) {
+            return "Retrieving step updates";
+          }
+  
+          return `Update in ${time}`;
+        } else {
+          return "Starting game";
+        }        
       }
   
       return (
