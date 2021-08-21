@@ -10,8 +10,8 @@ import { GameService } from "../../services/gameService";
 
 import { GameGroupUtility } from "./utilities/gameGroupUtility";
 
-import { IGame } from "../../../stroll-models/game";
 import { IGameGroup } from "../../../stroll-models/gameGroup";
+import { IGetGamesResponse } from "../../../stroll-models/getGamesResponse";
 
 import { AppStatus } from "../../enums/appStatus";
 import { GameStatus } from "../../../stroll-enums/gameStatus";
@@ -43,12 +43,12 @@ export const GameConglomerate: React.FC<GameConglomerateProps> = (props: GameCon
           let updates: IGameGroup[] = [];
 
           const requests: any[] = state.groups.map((group: IGameGroup) => 
-            GameService.getGrouped(user.profile.uid, group.gameStatus, group.groupBy, props.limit));
+            GameService.getGrouped(user.profile.uid, group.gameStatus, group.groupBy, props.limit, null));
 
           const responses: any = await axios.all(requests);
 
-          responses.forEach((res: any, index: number) => {
-            updates.push({ ...state.groups[index], games: res, requestStatus: RequestStatus.Success });
+          responses.forEach((res: IGetGamesResponse, index: number) => {
+            updates.push({ ...state.groups[index], games: res.games, requestStatus: RequestStatus.Success });
           });
 
           setState({ ...state, groups: updates, status: RequestStatus.Success });

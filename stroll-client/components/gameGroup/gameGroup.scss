@@ -3,10 +3,6 @@
   
   .game-conglomerate-groups {
     animation: fadeIn 400ms ease-in;
-    background-color: rgba(white, 0.05);
-    border: 2px solid rgba(white, 0.5);
-    border-radius: 10px;   
-    padding: 10px;
   }
 
   .loading-message-wrapper {
@@ -18,15 +14,21 @@
 }
 
 .game-group {  
+  background-color: rgba(white, 0.05);
+  border: 2px solid rgba(white, 0.5);
+  border-radius: 10px;   
+  padding: 10px;
+  
   &:nth-of-type(n + 2) {
     margin-top: 20px;
   }
 
   .game-group-title {
     display: flex;
+    justify-content: space-between;
     position: relative;
 
-    h1 {
+    .game-group-title-text {
       color: white;
       font-size: 1.5em;
       text-align: left;
@@ -34,7 +36,7 @@
   }
 
   .game-group-lists {
-    margin-top: 5px;
+    margin-top: 10px;
     position: relative;
 
     .empty-message {
@@ -44,39 +46,6 @@
         background: linear-gradient(to right, rgba(white, 0.05), transparent);
         flex-grow: 1;
         margin-top: 0px;
-      }
-    }
-
-    .game-list { 
-      display: flex;
-
-      &:nth-of-type(n + 2) {
-        margin-top: 20px;
-      }
-
-      .game-list-border {
-        background-color: white;
-        border-radius: 10px;         
-        flex-shrink: 0;   
-        width: 2px;
-      }
-    
-      .game-list-content {
-        border-radius: 4px;
-        flex-grow: 1;
-        margin-left: 5px;
-        padding: 10px;
-
-        .game-list-title {
-          margin-bottom: 5px;
-          position: relative;
-
-          h1 {
-            color: white;
-            font-size: 1.1em;
-            text-align: left;
-          }
-        }
       }
     }
   }

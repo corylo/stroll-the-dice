@@ -1,0 +1,15 @@
+.filter-button {
+  border: 1px solid rgba(white, 0.25);
+  border-radius: 100px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  padding: 5px 10px;
+
+  &.selected {
+    background-color: rgba(white, 0.25);
+  }
+
+  h1 {
+    color: white;
+  }
+}

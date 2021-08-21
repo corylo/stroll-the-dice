@@ -1,0 +1,23 @@
+.game-filters {
+  display: flex;
+  gap: 10px;
+
+  .game-filters-section {
+    .game-filters-section-items {
+      border: 1px solid rgba(white, 0.25);
+      border-radius: 100px;
+      display: inline-flex;
+      padding: 5px;
+
+      .filter-button {
+        margin: 5px;
+      }
+    }
+  }
+}
+
+@include phone-or-smaller {
+  .game-filters {
+    flex-direction: column;
+  }
+}

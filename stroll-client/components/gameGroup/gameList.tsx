@@ -3,9 +3,10 @@ import React from "react";
 import { GameLink } from "../gameLink/gameLink";
 
 import { IGame } from "../../../stroll-models/game";
+import { EmptyMessage } from "../emptyMessage/emptyMessage";
 
 interface GameListProps {  
-  emptyMessage: string;
+  emptyMessage?: string;
   games: IGame[];  
   title?: string;
 }
@@ -43,6 +44,12 @@ export const GameList: React.FC<GameListProps> = (props: GameListProps) => {
           {getLinks()}          
         </div>
       </div>
+    )
+  }
+
+  if(props.emptyMessage) {
+    return (      
+      <EmptyMessage text={props.emptyMessage} />
     )
   }
 

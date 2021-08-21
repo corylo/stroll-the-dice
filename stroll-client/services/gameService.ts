@@ -5,6 +5,7 @@ import { db } from "../config/firebase";
 import { GameDurationUtility } from "../../stroll-utilities/gameDurationUtility";
 
 import { gameConverter, IGame } from "../../stroll-models/game";
+import { IGetGamesResponse } from "../../stroll-models/getGamesResponse";
 import { IGameUpdate } from "../../stroll-models/gameUpdate";
 
 import { GameStatus } from "../../stroll-enums/gameStatus";
@@ -14,10 +15,10 @@ interface IGameService {
   create: (game: IGame) => Promise<void>;
   delete: (id: string) => Promise<void>;
   get: (id: string) => Promise<IGame>;
-  getAllByList: (list: string[]) => Promise<IGame[]>;
-  getGrouped: (uid: string, status: GameStatus, groupBy: GroupGameBy, limit?: number) => Promise<IGame[]>;
-  getHosting: (uid: string, status: GameStatus, limit?: number) => Promise<IGame[]>;
-  getPlayingIn: (uid: string, status: GameStatus, limit?: number) => Promise<IGame[]>;
+  getAllByList: (list: string[]) => Promise<IGetGamesResponse>;
+  getGrouped: (uid: string, status: GameStatus, groupBy: GroupGameBy, limit: number, offset: firebase.firestore.QueryDocumentSnapshot) => Promise<IGetGamesResponse>;
+  getHosting: (uid: string, status: GameStatus, limit: number, offset: firebase.firestore.QueryDocumentSnapshot) => Promise<IGetGamesResponse>;
+  getPlayingIn: (uid: string, status: GameStatus, limit: number, offset: firebase.firestore.QueryDocumentSnapshot) => Promise<IGetGamesResponse>;
   update: (id: string, update: IGameUpdate) => Promise<void>;  
 }
 
@@ -41,33 +42,45 @@ export const GameService: IGameService = {
 
     return doc.exists ? doc.data() : null;
   },
-  getAllByList: async (list: string[]): Promise<IGame[]> => {
+  getAllByList: async (list: string[]): Promise<IGetGamesResponse> => {
     const snap: firebase.firestore.QuerySnapshot = await db.collection("games")  
       .where(firebase.firestore.FieldPath.documentId(), "in", list)          
       .withConverter(gameConverter)
       .get();
 
-    let games: IGame[] = [];
+    let results: IGame[] = [];
 
     snap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => 
-      games.push(doc.data()));
+      results.push(doc.data()));
       
-    return list.map((id: string) => games.find((game: IGame) => game.id === id));
-  },
-  getGrouped: async (uid: string, status: GameStatus, groupBy: GroupGameBy, limit?: number): Promise<IGame[]> => {
-    if(groupBy === GroupGameBy.Hosting) {
-      return await GameService.getHosting(uid, status, limit);
-    } else if (groupBy === GroupGameBy.Joined) {
-      return await GameService.getPlayingIn(uid, status, limit);
+    const games: IGame[] = list.map((id: string) => results.find((game: IGame) => game.id === id)),
+      offset: firebase.firestore.QueryDocumentSnapshot = snap.size > 0 ? snap.docs[snap.size - 1] : null;
+
+    return {
+      games,
+      offset
     }
   },
-  getHosting: async (uid: string, status: GameStatus, limit?: number): Promise<IGame[]> => {    
-    const snap: firebase.firestore.QuerySnapshot<IGame> = await db.collection("games")
+  getGrouped: async (uid: string, status: GameStatus, groupBy: GroupGameBy, limit: number, offset: firebase.firestore.QueryDocumentSnapshot): Promise<IGetGamesResponse> => {
+    if(groupBy === GroupGameBy.Hosting) {
+      return await GameService.getHosting(uid, status, limit, offset);
+    } else if (groupBy === GroupGameBy.Joined) {
+      return await GameService.getPlayingIn(uid, status, limit, offset);
+    }
+  },
+  getHosting: async (uid: string, status: GameStatus, limit: number, offset: firebase.firestore.QueryDocumentSnapshot): Promise<IGetGamesResponse> => {    
+    let query: firebase.firestore.Query = db.collection("games")
       .where("creator.uid", "==", uid)
       .where("status", "==", status)
       .orderBy(GameDurationUtility.getOrderBy(status), GameDurationUtility.getOrderByDirection(status))      
       .orderBy("sortable.name")
-      .limit(limit || 10)
+
+    if(offset !== null) {
+      query = query.startAfter(offset);
+    }
+    
+    const snap: firebase.firestore.QuerySnapshot = await query    
+      .limit(limit)
       .withConverter<IGame>(gameConverter)
       .get();
 
@@ -76,15 +89,28 @@ export const GameService: IGameService = {
     snap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGame>) => 
       games.push(doc.data()));
       
-    return games;
+    const newOffset: firebase.firestore.QueryDocumentSnapshot = snap.size > 0 
+      ? snap.docs[snap.size - 1] 
+      : null;
+
+    return {
+      games,
+      offset: newOffset
+    }
   },
-  getPlayingIn: async (uid: string, status: GameStatus, limit?: number): Promise<IGame[]> => {    
-    const snap: firebase.firestore.QuerySnapshot = await db.collection("profiles")      
+  getPlayingIn: async (uid: string, status: GameStatus, limit: number, offset: firebase.firestore.QueryDocumentSnapshot): Promise<IGetGamesResponse> => {    
+    let query: firebase.firestore.Query = db.collection("profiles")    
       .doc(uid)
       .collection("playing_in")
       .where("status", "==", status)      
       .orderBy(GameDurationUtility.getOrderBy(status), GameDurationUtility.getOrderByDirection(status))
       .orderBy("name")
+      
+    if(offset !== null) {
+      query = query.startAfter(offset);
+    }
+  
+    const snap: firebase.firestore.QuerySnapshot = await query   
       .limit(limit)
       .get();
 
@@ -93,9 +119,14 @@ export const GameService: IGameService = {
     snap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot) => 
       ids.push(doc.id));
 
-    return ids.length > 0
-      ? await GameService.getAllByList(ids)
-      : [];
+    if(ids.length > 0) {
+      return await GameService.getAllByList(ids);
+    }
+
+    return {
+      games: [],
+      offset: null
+    }
   },
   update: async (id: string, update: IGameUpdate): Promise<void> => {
     return await db.collection("games")

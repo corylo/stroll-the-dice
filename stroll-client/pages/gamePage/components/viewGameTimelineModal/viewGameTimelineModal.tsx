@@ -8,19 +8,16 @@ import { ModalTitle } from "../../../../components/modal/modalTitle";
 
 import { GamePageContext } from "../../gamePage";
 
-import { GameEventService } from "../../../../services/gameEventService";
+import { useFetchGameEventsEffect } from "../../effects/viewGameTimelineEffects";
 
-import { IGetGameEventsResponse } from "../../../../../stroll-models/getGameEventsResponse";
-import { defaultViewGameTimelineState, IViewGameTimelineState, IViewGameTimelineStatuses } from "./models/viewGameTimelineState";
+import { defaultViewGameTimelineState, IViewGameTimelineState } from "./models/viewGameTimelineState";
 
-import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
-
-interface ViewGameTimelineContext {
+interface IViewGameTimelineContext {
   state: IViewGameTimelineState;
   setState: (state: IViewGameTimelineState) => void;
 }
 
-export const ViewGameTimelineContext = createContext<ViewGameTimelineContext>(null);
+export const ViewGameTimelineContext = createContext<IViewGameTimelineContext>(null);
 
 interface ViewGameTimelineModalProps {  
   back: () => void;
@@ -33,45 +30,7 @@ export const ViewGameTimelineModal: React.FC<ViewGameTimelineModalProps> = (prop
 
   const [state, setState] = useState<IViewGameTimelineState>(defaultViewGameTimelineState());
 
-  const updateStatuses = (statuses: any): void => {
-    setState({ ...state, statuses: { ...state.statuses, ...statuses } });
-  }
-
-  useEffect(() => {
-    if(toggles.events) {
-      const fetch = async (): Promise<void> => {
-        try {
-          if(state.offset !== null) {
-            updateStatuses({ more: RequestStatus.Loading });
-          }
-
-          const res: IGetGameEventsResponse = await GameEventService.get(game.id, player.id, state.category, state.limit, state.offset);
-
-          const statuses: IViewGameTimelineStatuses = { ...state.statuses };
-
-          if(state.offset === null) {
-            statuses.initial = RequestStatus.Success;
-          } else {
-            statuses.more = RequestStatus.Success;
-          }
-
-          setState({ 
-            ...state, 
-            end: res.events.length < state.limit,
-            events: [...state.events, ...res.events], 
-            offset: res.offset,
-            statuses 
-          });
-        } catch (err) {
-          console.error(err);
-
-          updateStatuses(RequestStatus.Error);
-        }
-      }
-
-      fetch();
-    }
-  }, [toggles.events, state.category, state.index]);
+  useFetchGameEventsEffect(state, toggles, game.id, player.id, setState);
 
   if(toggles.events) {
     return (

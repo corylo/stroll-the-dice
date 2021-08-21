@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
-import classNames from "classnames";
 
-import { Label } from "../../../../../components/label/label";
+import { FilterButton } from "../../../../../components/filterButton/filterButton";
 
 import { ViewGameTimelineContext } from "../../viewGameTimelineModal/viewGameTimelineModal";
 
@@ -19,15 +18,15 @@ export const EventFilter: React.FC<EventFilterProps> = (props: EventFilterProps)
   const { state, setState } = useContext(ViewGameTimelineContext);
 
   const changeCategory = (): void => {
-    setState({ ...defaultViewGameTimelineState(), category: props.category });
+    if(state.category !== props.category) {
+      setState({ ...defaultViewGameTimelineState(), category: props.category });
+    }
   }
 
-  const selected: boolean = state.category === props.category;
-
   return (
-    <Label
-      className={classNames("event-history-filter", { selected })}
+    <FilterButton
       icon={props.icon}
+      selected={state.category === props.category}
       text={props.text}
       handleOnClick={changeCategory}
     />

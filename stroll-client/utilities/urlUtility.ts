@@ -5,6 +5,7 @@ interface IUrlUtility {
   getLink: (path: string) => string;
   getParam: (match: any, param: string) => string;
   getQueryParam: (param: string) => string;
+  setQueryParam: (param: string, value: string, history: any) => void;
 }
 
 export const UrlUtility: IUrlUtility = {
@@ -36,5 +37,12 @@ export const UrlUtility: IUrlUtility = {
       value: string | null = params.get(param);
 
     return value;
+  },
+  setQueryParam: (param: string, value: string, history: any): void => {
+    const params: URLSearchParams = new URLSearchParams(window.location.search);
+
+    params.set(param, UrlUtility.format(value));
+
+    history.push({ search: params.toString() });    
   }
 }

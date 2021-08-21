@@ -16,9 +16,11 @@
     }
 
     .nav-menu-content {
+      border: 2px solid rgba(white, 0.25);
+      border-radius: 6px;
       padding: 5px;
       pointer-events: all;
-      width: 239px;
+      width: 236px;
 
       .nav-menu-button-wrapper {
         position: relative;
@@ -89,7 +91,7 @@
       .nav-menu-content {
         border-radius: 0px;
         border-bottom-right-radius: 5px;
-        border-right: none;        
+        border-left: none;        
         border-top-right-radius: 5px;
         padding: 5px;
         width: 40px;
@@ -137,6 +139,7 @@
 
       .nav-menu-content {
         background: $themeMainAccent;
+        border: none;
         border-radius: 0px;
         box-shadow: rgba(0, 0, 0, 0.12) 0px -1px 6px, rgba(0, 0, 0, 0.12) 0px -1px 4px;
         display: grid;

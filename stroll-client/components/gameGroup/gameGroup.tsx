@@ -1,9 +1,11 @@
 import React from "react";
 
+import { Button } from "../buttons/button";
 import { EmptyMessage } from "../emptyMessage/emptyMessage";
 import { GameList } from "./gameList";
 
 import { GameGroupUtility } from "./utilities/gameGroupUtility";
+import { UrlUtility } from "../../utilities/urlUtility";
 
 import { IGameGroup } from "../../../stroll-models/gameGroup";
 
@@ -27,7 +29,6 @@ export const GameGroup: React.FC<GameGroupProps> = (props: GameGroupProps) => {
         return (
           <GameList 
             key={group.groupBy}
-            emptyMessage={GameGroupUtility.getEmptyMessage(group.groupBy, props.status)}
             games={group.games}
             title={group.groupBy} 
           />
@@ -47,7 +48,13 @@ export const GameGroup: React.FC<GameGroupProps> = (props: GameGroupProps) => {
   return (
     <div className="game-group">
       <div className="game-group-title">
-        <h1 className="passion-one-font">{props.status}</h1>
+        <h1 className="game-group-title-text passion-one-font">{props.status}</h1>     
+        <Button 
+          className="view-all-button passion-one-font" 
+          url={`/games?status=${UrlUtility.format(props.status)}`}
+        >
+          View All
+        </Button>
       </div>
       <div className="game-group-lists">
         {getLists()}   

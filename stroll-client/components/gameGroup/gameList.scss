@@ -1,0 +1,32 @@
+.game-list { 
+  display: flex;
+
+  &:nth-of-type(n + 2) {
+    margin-top: 20px;
+  }
+
+  .game-list-border {
+    background-color: white;
+    border-radius: 10px;         
+    flex-shrink: 0;   
+    width: 2px;
+  }
+
+  .game-list-content {
+    border-radius: 4px;
+    flex-grow: 1;
+    margin-left: 5px;
+    padding: 10px;
+
+    .game-list-title {
+      margin-bottom: 5px;
+      position: relative;
+
+      h1 {
+        color: white;
+        font-size: 1.1em;
+        text-align: left;
+      }
+    }
+  }
+}
