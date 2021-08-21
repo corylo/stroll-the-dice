@@ -5,7 +5,7 @@ import { Button } from "../buttons/button";
 import { ImageUtility } from "../../utilities/imageUtility";
 
 interface LearnMoreLinkProps {  
-  
+  text?: string;
 }
 
 export const LearnMoreLink: React.FC<LearnMoreLinkProps> = (props: LearnMoreLinkProps) => {  
@@ -13,7 +13,7 @@ export const LearnMoreLink: React.FC<LearnMoreLinkProps> = (props: LearnMoreLink
     <Button className="learn-more-link" url="/how-to-play#goal" styles={{ backgroundImage: `url(${ImageUtility.getGraphic("park", "png")})` }}>
       <div className="learn-more-link-content">
         <i className="far fa-question" />
-        <h1 className="passion-one-font">Learn more</h1>
+        <h1 className="passion-one-font">{props.text || "Learn more"}</h1>
       </div>
     </Button>
   );

@@ -24,7 +24,7 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
       return (
         <React.Fragment>
           <ConnectAStepTrackerMessage />
-          <LearnMoreLink />
+          <LearnMoreLink text="How To Play" />
           <GameInviteInput />
           <GameConglomerate limit={10} />
         </React.Fragment>
