@@ -1,32 +1,32 @@
 .game-list { 
-  display: flex;
+  background-color: rgba(white, 0.05);
+  border: 2px solid rgba(white, 0.5);
+  border-radius: 6px;  
+  padding: 10px;
 
   &:nth-of-type(n + 2) {
     margin-top: 20px;
   }
 
-  .game-list-border {
-    background-color: white;
-    border-radius: 10px;         
-    flex-shrink: 0;   
-    width: 2px;
-  }
-
   .game-list-content {
     border-radius: 4px;
-    flex-grow: 1;
-    margin-left: 5px;
-    padding: 10px;
 
     .game-list-title {
-      margin-bottom: 5px;
+      display: flex;
+      justify-content: space-between;
       position: relative;
 
-      h1 {
+      .game-list-title-text {
+        align-items: center;
         color: white;
-        font-size: 1.1em;
+        display: flex;
+        font-size: 1.25em;
         text-align: left;
       }
+    }
+
+    .game-list-links {
+      margin-top: 10px;
     }
   }
 }

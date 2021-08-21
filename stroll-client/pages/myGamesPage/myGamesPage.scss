@@ -5,6 +5,13 @@
     .page-content {
       .my-games {
         margin-top: 20px;
+
+        .game-list {
+          background-color: transparent;
+          border: none;
+          border-radius: 0px;
+          padding: 0px;
+        }
         
         .games-loading-icon {
           height: 100px;

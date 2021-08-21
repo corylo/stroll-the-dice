@@ -32,7 +32,7 @@ export const defaultMyGamesPageState = (): IMyGamesPageState => ({
   games: [],
   groupBy: GroupGameBy.Hosting,
   index: 0,
-  limit: 2,
+  limit: 20,
   offset: null,
   status: null,
   statuses: defaultMyGamesPageStatuses()

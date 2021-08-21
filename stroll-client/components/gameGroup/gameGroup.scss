@@ -14,10 +14,6 @@
 }
 
 .game-group {  
-  background-color: rgba(white, 0.05);
-  border: 2px solid rgba(white, 0.5);
-  border-radius: 10px;   
-  padding: 10px;
   
   &:nth-of-type(n + 2) {
     margin-top: 20px;
@@ -32,6 +28,32 @@
       color: white;
       font-size: 1.5em;
       text-align: left;
+      padding-left: 50px;
+      position: relative;
+
+      &:before {
+        background-color: white;
+        border-radius: 10px;
+        content: "";
+        height: 10px;
+        left: 0px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 10px;
+      }
+      
+      &:after {
+        background-color: white;
+        border-radius: 10px;
+        content: "";
+        height: 2px;
+        left: 20px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+      }
     }
   }
 

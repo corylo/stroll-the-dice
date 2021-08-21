@@ -52,7 +52,8 @@ export const MyGamesPage: React.FC<MyGamesPageProps> = (props: MyGamesPageProps)
         <GameList         
           emptyMessage={GameGroupUtility.getEmptyMessage(state.groupBy, state.status)}
           games={state.games}
-          title={GroupGameBy.Hosting} 
+          groupBy={state.groupBy}
+          status={state.status}
         />
       )
     }
