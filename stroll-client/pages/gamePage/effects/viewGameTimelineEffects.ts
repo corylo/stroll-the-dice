@@ -4,7 +4,7 @@ import { GameEventService } from "../../../services/gameEventService";
 
 import { IGamePageStateToggles } from "../models/gamePageState";
 import { IGetGameEventsResponse } from "../../../../stroll-models/getGameEventsResponse";
-import { IViewGameTimelineState, IViewGameTimelineStatuses } from "../components/viewGameTimelineModal/models/viewGameTimelineState";
+import { defaultViewGameTimelineState, IViewGameTimelineState, IViewGameTimelineStatuses } from "../components/viewGameTimelineModal/models/viewGameTimelineState";
 
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
 
@@ -58,4 +58,10 @@ export const useFetchGameEventsEffect = (
       fetch();
     }
   }, [toggles.events, state.category, state.index]);
+
+  useEffect(() => {
+    if(!toggles.events) {
+      setState(defaultViewGameTimelineState());
+    }
+  }, [toggles.events]);
 }
