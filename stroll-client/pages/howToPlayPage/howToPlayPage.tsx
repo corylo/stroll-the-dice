@@ -49,6 +49,9 @@ export const HowToPlayPage: React.FC<HowToPlayPageProps> = (props: HowToPlayPage
           <HowToPlaySectionText text="Ultimately, your goal as a player is to have the most points at the end of the game." />
           <HowToPlaySectionText text="You are not only trying to gain points through stepping, but also attempting to gain additional points by predicting how well your fellow competitors will do against each other." />
         </HowToPlaySection>
+        <HowToPlaySection title="Disclaimer">
+          <HowToPlaySectionText text="Step tracking is not guaranteed to be perfectly accurate. Step counts and points earned from steps may vary slightly each day." />     
+        </HowToPlaySection>
         <HowToPlaySection title="Prerequisites">
           <HowToPlaySubSection title="Step Tracking">
             <HowToPlaySectionText text="In order for the game to be able to track your steps you must connect a valid step tracker." />
