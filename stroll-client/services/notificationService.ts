@@ -2,32 +2,46 @@ import firebase from "firebase/app";
 
 import { db } from "../config/firebase";
 
+import { IGetNotificationsResponse } from "../../stroll-models/getNotificationsResponse";
 import { INotification, notificationConverter } from "../../stroll-models/notification";
 import { IProfileNotificationStats } from "../../stroll-models/profileStats";
 
 import { ProfileStatsID } from "../../stroll-enums/profileStatsID";
 
 interface INotificationService {
-  getAll: (uid: string, limit: number) => Promise<INotification[]>;
+  getAll: (uid: string, limit: number, offset: firebase.firestore.QueryDocumentSnapshot) => Promise<IGetNotificationsResponse>;
   view: (uid: string, id: string) => Promise<void>;
 }
 
 export const NotificationService: INotificationService = {
-  getAll: async (uid: string, limit: number): Promise<INotification[]> => {
-    const snap: firebase.firestore.QuerySnapshot = await db.collection("profiles")
+  getAll: async (uid: string, limit: number, offset: firebase.firestore.QueryDocumentSnapshot): Promise<IGetNotificationsResponse> => {
+    let query: firebase.firestore.Query = db.collection("profiles")
       .doc(uid)
       .collection("notifications")
-      .orderBy("createdAt")
+      .orderBy("createdAt", "desc")
+
+    if(offset !== null) {
+      query = query.startAfter(offset);
+    }
+  
+    const snap: firebase.firestore.QuerySnapshot = await query     
       .limit(limit)
       .withConverter(notificationConverter)
       .get();
 
-    let notifications: INotification[] = [];
+    let results: INotification[] = [];
 
     snap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<INotification>) => 
-      notifications.push(doc.data()));
+      results.push(doc.data()));
     
-    return notifications;
+    const newOffset: firebase.firestore.QueryDocumentSnapshot = snap.size > 0 
+      ? snap.docs[snap.size - 1] 
+      : null;
+
+    return {
+      notifications: results,
+      offset: newOffset
+    }
   },
   view: async (uid: string, id: string): Promise<void> => {
     await db.runTransaction(async (transaction: firebase.firestore.Transaction) => {

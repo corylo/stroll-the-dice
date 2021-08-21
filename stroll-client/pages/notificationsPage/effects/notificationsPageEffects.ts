@@ -2,36 +2,56 @@ import { useEffect } from "react"
 
 import { NotificationService } from "../../../services/notificationService";
 
-import { IAppState } from "../../../components/app/models/appState";
-import { INotification } from "../../../../stroll-models/notification";
+import { IGetNotificationsResponse } from "../../../../stroll-models/getNotificationsResponse";
+import { INotificationsPageState, INotificationsPageStatuses } from "../models/notificationsPageState";
 
-import { AppAction } from "../../../enums/appAction";
-import { AppStatus } from "../../../enums/appStatus";
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
 
-export const useGetNotificationsEffect = (
-  appState: IAppState, 
-  limit: number,
-  dispatch: (type: AppAction, payload?: any) => void
+
+export const useFetchNotificationsEffect = (
+  uid: string,
+  state: INotificationsPageState,
+  setState: (state: INotificationsPageState) => void
 ): void => {
   useEffect(() => {
-    if(
-      appState.status === AppStatus.SignedIn && 
-      appState.user.profile.uid !== ""
-    ) {
+    const updateStatuses = (statuses: any): void => {
+      setState({ ...state, statuses: { ...state.statuses, ...statuses } });
+    }
+  
+    if(uid !== "") {
       const fetch = async (): Promise<void> => {
         try {
-          dispatch(AppAction.SetNotificationsStatus, { is: RequestStatus.Loading, message: "" });
+          updateStatuses({ more: RequestStatus.Loading });
 
-          const notifications: INotification[] = await NotificationService.getAll(appState.user.profile.uid, limit);
+          const res: IGetNotificationsResponse = await NotificationService.getAll(uid, state.limit, state.offset);
 
-          dispatch(AppAction.SetNotifications, notifications);
+          const statuses: INotificationsPageStatuses = { ...state.statuses };
+
+          if(state.offset === null) {
+            statuses.initial = RequestStatus.Success;
+          } else {
+            statuses.more = RequestStatus.Success;
+          }
+
+          setState({ 
+            ...state, 
+            end: res.notifications.length < state.limit,
+            notifications: [...state.notifications, ...res.notifications], 
+            offset: res.offset,
+            statuses 
+          });
         } catch (err) {
           console.error(err);
+
+          if(state.offset === null) {
+            updateStatuses({ initial: RequestStatus.Error });
+          } else {
+            updateStatuses({ more: RequestStatus.Error });
+          }
         }
       }
 
       fetch();
     }
-  }, [appState.status, appState.user.profile.id]);
+  }, [uid, state.index]);
 }

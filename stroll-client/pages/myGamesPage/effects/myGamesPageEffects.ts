@@ -19,8 +19,6 @@ export const useFetchGamesEffect = (
   
     if(uid !== "" && state.status !== null) {
       const fetch = async (): Promise<void> => {
-        console.log("fetch");
-        
         try {
           if(state.offset !== null) {
             updateStatuses({ more: RequestStatus.Loading });

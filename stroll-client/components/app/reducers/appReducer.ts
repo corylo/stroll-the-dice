@@ -125,26 +125,6 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
         }
       }
     }
-    case AppAction.SetNotifications:
-      return {
-        ...state,
-        notifications: action.payload,
-        statuses: {
-          ...state.statuses,
-          notifications: {
-            is: RequestStatus.Success,
-            message: ""
-          }
-        }
-      }
-    case AppAction.SetNotificationsStatus:
-      return {
-        ...state,      
-        statuses: {
-          ...state.statuses,
-          notifications: action.payload
-        }
-      }
     case AppAction.SetNotificationStats:
       return {
         ...state,

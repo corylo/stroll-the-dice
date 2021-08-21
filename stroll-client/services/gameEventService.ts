@@ -39,9 +39,13 @@ export const GameEventService: IGameEventService = {
     snap.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IGameEvent>) =>
       results.push(doc.data()));
 
+    const newOffset: firebase.firestore.QueryDocumentSnapshot = snap.size > 0 
+      ? snap.docs[snap.size - 1] 
+      : null;
+
     return {
       events: results,
-      offset: snap.docs[snap.size - 1]
+      offset: newOffset
     };
   }
 }

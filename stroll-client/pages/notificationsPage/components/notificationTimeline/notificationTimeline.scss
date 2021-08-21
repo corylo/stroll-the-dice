@@ -2,6 +2,10 @@
   animation: fadeIn 400ms ease-in;
   
   .notification-timeline-group {
+    &:nth-of-type(n + 2) {
+      margin-top: 40px;
+    }
+
     .notification-timeline-group-list {
       border-left: 1px solid rgba(white, 0.25);
       margin-top: 10px;
@@ -12,5 +16,18 @@
   .loading-more-notifications-wrapper {
     height: 100px;
     position: relative;
+  }
+        
+  .view-more-button {
+    background-color: rgba(white, 0.1);
+    border: 1px solid rgba(white, 0.2);  
+    margin-top: 10px;
+    padding: 15px 10px;
+    width: 100%;
+
+    &:hover,
+    &:focus {
+      background-color: rgba(white, 0.2);
+    }
   }
 }

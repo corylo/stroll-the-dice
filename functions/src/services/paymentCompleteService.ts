@@ -70,11 +70,12 @@ export const PaymentCompleteService: IPaymentCompleteService = {
         PaymentHistoryTransactionService.create(transaction, uid, payment);
 
         NotificationTransactionService.create(transaction, uid, NotificationUtility.mapCreate([
-            "For more information on how to use or share your Game Days you can click on this notification.",
+            "For more information on how to use or share your Game Days, check out the How To Play page by clicking on this notification.",
             NotificationUtility.getRandomGoodLuckStatement()
           ],
-          `You purchased ${unit} from the store!`,
-          payment.createdAt
+          `You purchased ${itemID} from the store!`,
+          payment.createdAt,
+          "how-to-play#game-days"
         ))
       } else {
         throw new Error(`Document with Profile Stats ID: [${ProfileStatsID.GameDays}] does not exist for user: [${uid}]`);

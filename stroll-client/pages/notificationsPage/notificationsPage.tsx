@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 import { NotificationTimeline } from "./components/notificationTimeline/notificationTimeline";
 import { Page } from "../../components/page/page";
@@ -7,23 +7,33 @@ import { SignInToDoThisMessage } from "../../components/signInToDoThisMessage/si
 
 import { AppContext } from "../../components/app/contexts/appContext";
 
-import { useGetNotificationsEffect } from "./effects/notificationsPageEffects";
+import { useFetchNotificationsEffect } from "./effects/notificationsPageEffects";
 
 import { ImageUtility } from "../../utilities/imageUtility";
 
-import { AppAction } from "../../enums/appAction";
+import { defaultNotificationsPageState, INotificationsPageState } from "./models/notificationsPageState";
+
 import { AppStatus } from "../../enums/appStatus";
+
+interface INotificationsPageContext {
+  state: INotificationsPageState;
+  setState: (state: INotificationsPageState) => void;
+}
+
+export const NotificationsPageContext = createContext<INotificationsPageContext>(null);
 
 interface NotificationsPageProps {
   
 }
 
 export const NotificationsPage: React.FC<NotificationsPageProps> = (props: NotificationsPageProps) => {
-  const { appState, dispatchToApp } = useContext(AppContext);
+  const { appState } = useContext(AppContext);
 
-  const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
+  const { profile } = appState.user;
 
-  useGetNotificationsEffect(appState, 10, dispatch);
+  const [state, setState] = useState<INotificationsPageState>(defaultNotificationsPageState());
+
+  useFetchNotificationsEffect(profile.uid, state, setState);
 
   const getContent = (): JSX.Element => {
     if(appState.status === AppStatus.SignedIn) {
@@ -42,10 +52,12 @@ export const NotificationsPage: React.FC<NotificationsPageProps> = (props: Notif
   }
 
   return(
-    <Page 
-      id="notifications-page" backgroundGraphic="">     
-      <PageTitle text="Notifications" />
-      {getContent()}
-    </Page>
+    <NotificationsPageContext.Provider value={{ state, setState }}>
+      <Page 
+        id="notifications-page" backgroundGraphic="">     
+        <PageTitle text="Notifications" />
+        {getContent()}
+      </Page>
+    </NotificationsPageContext.Provider>
   )
 }

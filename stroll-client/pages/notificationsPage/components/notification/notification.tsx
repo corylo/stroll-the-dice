@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 
 import { IconButton } from "../../../../components/buttons/iconButton";
 import { Label } from "../../../../components/label/label";
+import { TooltipSide } from "../../../../components/tooltip/tooltip";
 
 import { AppContext } from "../../../../components/app/contexts/appContext";
+import { NotificationsPageContext } from "../../notificationsPage";
 
 import { NotificationService } from "../../../../services/notificationService";
 
@@ -13,7 +15,6 @@ import { FirestoreDateUtility } from "../../../../../stroll-utilities/firestoreD
 
 import { INotification } from "../../../../../stroll-models/notification";
 
-import { AppAction } from "../../../../enums/appAction";
 import { Icon } from "../../../../../stroll-enums/icon";
 import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
 
@@ -21,42 +22,45 @@ interface NotificationProps {
   notification: INotification;
 }
 
-export const Notification: React.FC<NotificationProps> = (props: NotificationProps) => {      
-  const { appState, dispatchToApp } = useContext(AppContext);
+export const Notification: React.FC<NotificationProps> = (props: NotificationProps) => {  
+  const { profile } = useContext(AppContext).appState.user;
 
-  const { notification } = props;
+  const { state, setState } = useContext(NotificationsPageContext);
 
-  const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
+  const { notifications } = state;
+
+  const updateNotifications = (updated: INotification[]): void => {
+    setState({ ...state, notifications: updated });
+  }
 
   const [status, setStatus] = useState<RequestStatus>(RequestStatus.Idle);
 
   const viewNotification = (): void => {
-    const updatedNotifications: INotification[] = appState.notifications.map((n: INotification) => {
-      if(n.id === notification.id) {
-        n.viewedAt = FirestoreDateUtility.dateToTimestamp(new Date());
+    const updated: INotification[] = notifications.map((notification: INotification) => {
+      if(notification.id === props.notification.id) {
+        notification.viewedAt = FirestoreDateUtility.dateToTimestamp(new Date());
       }
 
-      return n;
-    })
+      return notification;
+    });
 
-    dispatch(AppAction.SetNotifications, updatedNotifications);
-
+    updateNotifications(updated);
   }
 
   const handleOnClick = async (leaving?: boolean): Promise<void> => {
     if(
-      notification.viewedAt === null &&
+      props.notification.viewedAt === null &&
       status !== RequestStatus.Loading
     ) {
       try {
         if(leaving) {
-          await NotificationService.view(appState.user.profile.uid, notification.id);          
+          await NotificationService.view(profile.uid, props.notification.id);          
         } else {
           setStatus(RequestStatus.Loading);
 
           viewNotification();
 
-          await NotificationService.view(appState.user.profile.uid, notification.id);
+          await NotificationService.view(profile.uid, props.notification.id);
           
           setStatus(RequestStatus.Success);
         }
@@ -68,15 +72,33 @@ export const Notification: React.FC<NotificationProps> = (props: NotificationPro
     }
   }
 
-  const isLink: boolean = notification.url !== "";
+  const isLink: boolean = props.notification.url !== "";
 
   const getContent = (): JSX.Element => {
     const getCommonContentItems = (): JSX.Element => {      
+      const getText = (): JSX.Element => {
+        if(Array.isArray(props.notification.text)) {
+          const sentences: JSX.Element[] = props.notification.text.map((sentence: string) => (
+            <p className="notification-text passion-one-font">{sentence}</p>
+          ));
+
+          return (
+            <React.Fragment>
+              {sentences}
+            </React.Fragment>
+          );
+        }
+
+        return (
+          <p className="notification-text passion-one-font">{props.notification.text}</p>
+        )
+      }
+
       return (
         <React.Fragment>
-          <h1 className="notification-date passion-one-font">{FirestoreDateUtility.timestampToDate(notification.createdAt).toLocaleTimeString()}</h1> 
-          <h1 className="notification-title passion-one-font">{notification.title}</h1>  
-          <p className="notification-text passion-one-font">{notification.text}</p>  
+          <h1 className="notification-date passion-one-font">{FirestoreDateUtility.timestampToDate(props.notification.createdAt).toLocaleTimeString()}</h1> 
+          <h1 className="notification-title passion-one-font">{props.notification.title}</h1>  
+          {getText()}
         </React.Fragment>
       )
     }
@@ -84,7 +106,7 @@ export const Notification: React.FC<NotificationProps> = (props: NotificationPro
     if(isLink) {
       return ( 
         <Link 
-          to={notification.url} 
+          to={props.notification.url} 
           className="notification-content link"
           onClick={() => handleOnClick(true)}
         >
@@ -93,7 +115,7 @@ export const Notification: React.FC<NotificationProps> = (props: NotificationPro
             <Label
               className="notification-url"
               icon="fal fa-link"
-              text={notification.url}
+              text={props.notification.url}
             />
           </div>
         </Link>
@@ -112,8 +134,8 @@ export const Notification: React.FC<NotificationProps> = (props: NotificationPro
   const classes: string = classNames(
     "notification", { 
     link: isLink,
-    read: notification.viewedAt !== null, 
-    unread: notification.viewedAt === null 
+    read: props.notification.viewedAt !== null, 
+    unread: props.notification.viewedAt === null 
   });
 
   return (
@@ -121,8 +143,10 @@ export const Notification: React.FC<NotificationProps> = (props: NotificationPro
       {getContent()}
       <IconButton
         className="notification-status-icon"
-        disabled={notification.viewedAt !== null}
-        icon={notification.viewedAt === null ? Icon.NotificationUnread : Icon.NotificationRead}
+        disabled={props.notification.viewedAt !== null}
+        icon={props.notification.viewedAt === null ? Icon.NotificationUnread : Icon.NotificationRead}
+        tooltip="Mark as read"
+        tooltipSide={TooltipSide.Left}
         handleOnClick={() => handleOnClick(false)}
       />
     </div>

@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import _groupBy from "lodash.groupby";
 
+import { Button } from "../../../../components/buttons/button";
 import { EmptyMessage } from "../../../../components/emptyMessage/emptyMessage";
 import { LoadingIcon } from "../../../../components/loadingIcon/loadingIcon";
 import { NotificationTimelineGroup } from "./notificationTimelineGroup";
 
-import { AppContext } from "../../../../components/app/contexts/appContext";
+import { NotificationsPageContext } from "../../notificationsPage";
 
 import { FirestoreDateUtility } from "../../../../../stroll-utilities/firestoreDateUtility";
 
@@ -19,12 +20,12 @@ interface NotificationTimelineProps {
 }
 
 export const NotificationTimeline: React.FC<NotificationTimelineProps> = (props: NotificationTimelineProps) => {  
-  const { appState, dispatchToApp } = useContext(AppContext);
+  const { state, setState } = useContext(NotificationsPageContext);
 
-  const { notifications, statuses } = appState;
+  const { notifications, statuses } = state;
 
   const getLoadingIcon = (): JSX.Element => {
-    if(statuses.notifications.is === RequestStatus.Loading) {
+    if(statuses.more === RequestStatus.Loading) {
       return (
         <div className="loading-more-notifications-wrapper">
           <LoadingIcon />
@@ -33,7 +34,24 @@ export const NotificationTimeline: React.FC<NotificationTimelineProps> = (props:
     } 
   }
 
-  if(appState.notifications.length > 0) {
+  const getViewMoreButton = (): JSX.Element => {
+    if(
+      state.statuses.more !== RequestStatus.Loading && 
+      state.notifications.length !== 0 &&
+      !state.end
+    ) {
+      return (        
+        <Button 
+          className="view-more-button passion-one-font" 
+          handleOnClick={() => setState({ ...state, index: state.index + 1 })}
+        >
+          View more
+        </Button>
+      )
+    }
+  }
+
+  if(notifications.length > 0) {
     const getNotificationGroups = (): JSX.Element[] => {
       return Object.entries(_groupBy(notifications, (notification: INotification) => FirestoreDateUtility.timestampToLocaleDate(notification.createdAt)))
         .map((entry: any) => ({ date: entry[0], notifications: entry[1] }))
@@ -52,11 +70,12 @@ export const NotificationTimeline: React.FC<NotificationTimelineProps> = (props:
       <div id="notification-timeline">
         {getNotificationGroups()}
         {getLoadingIcon()}
+        {getViewMoreButton()}
       </div>
     );
   } else if (
-    statuses.notifications.is === RequestStatus.Success &&
-    appState.notifications.length === 0
+    statuses.initial === RequestStatus.Success &&
+    notifications.length === 0
   ) {
     return (    
       <EmptyMessage text="You don't have any notifications yet!" />
