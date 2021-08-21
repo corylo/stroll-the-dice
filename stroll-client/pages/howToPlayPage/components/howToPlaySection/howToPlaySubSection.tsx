@@ -2,6 +2,7 @@ import React from "react";
 
 interface HowToPlaySubSectionProps {
   children: any;
+  id?: string;
   title?: string;
 }
 
@@ -15,7 +16,7 @@ export const HowToPlaySubSection: React.FC<HowToPlaySubSectionProps> = (props: H
   }
 
   return(
-    <div className="how-to-play-sub-section">     
+    <div id={props.id} className="how-to-play-sub-section">     
       {getTitle()}
       <div className="how-to-play-sub-section-content">
         {props.children}

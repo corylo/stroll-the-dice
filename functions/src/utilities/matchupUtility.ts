@@ -97,7 +97,7 @@ export const MatchupUtility: IMatchupUtility = {
         unselectedPairs: IMatchupPair[] = [];
 
       while(possiblePairs.length > 0) {
-        const rand: number = NumberUtility.random(0, possiblePairs.length - 1),
+        const rand: number = NumberUtility.random(0, possiblePairs.length),
           selectedPair: IMatchupPair = possiblePairs[rand];
 
         selectedPairs = [...selectedPairs, selectedPair];

@@ -3,9 +3,11 @@ import { logger } from "firebase-functions";
 
 import { db } from "../../config/firebase";
 
+import { NotificationTransactionService } from "./transaction/notificationTransactionService";
 import { PaymentHistoryTransactionService } from "./transaction/paymentHistoryTransactionService";
 
-import { GameDayUtility } from "../../../stroll-utilities/gameDayUtility"
+import { GameDayUtility } from "../../../stroll-utilities/gameDayUtility";
+import { NotificationUtility } from "../utilities/notificationUtility";
 import { PaymentUtility } from "../../../stroll-utilities/paymentUtility";
 
 import { IGameDayStatsUpdate } from "../../../stroll-models/gameDayStatsUpdate";
@@ -46,7 +48,9 @@ export const PaymentCompleteService: IPaymentCompleteService = {
       const profileStatsDoc: firebase.firestore.DocumentSnapshot = await transaction.get(profileStatsRef),
         paymentSnap: firebase.firestore.QuerySnapshot = await transaction.get(paymentRef);
 
-      if(profileStatsDoc.exists && paymentSnap.empty) {
+      if(!paymentSnap.empty) {
+        throw new Error(`An entry for checkoutSessionID [${checkoutSessionID}] already exists for user: [${uid}]`);
+      } else if(profileStatsDoc.exists) {
         const stats: IProfileGameDayStats = profileStatsDoc.data() as IProfileGameDayStats,
           update: IGameDayStatsUpdate = { 
             available: stats.available + quantity, 
@@ -64,6 +68,14 @@ export const PaymentCompleteService: IPaymentCompleteService = {
         };
 
         PaymentHistoryTransactionService.create(transaction, uid, payment);
+
+        NotificationTransactionService.create(transaction, uid, NotificationUtility.mapCreate([
+            "For more information on how to use or share your Game Days you can click on this notification.",
+            NotificationUtility.getRandomGoodLuckStatement()
+          ],
+          `You purchased ${unit} from the store!`,
+          payment.createdAt
+        ))
       } else {
         throw new Error(`Document with Profile Stats ID: [${ProfileStatsID.GameDays}] does not exist for user: [${uid}]`);
       }

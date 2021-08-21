@@ -4,7 +4,7 @@ export interface INotification {
   createdAt: firebase.firestore.FieldValue;
   id: string;
   occurredAt: firebase.firestore.FieldValue;
-  text: string;
+  text: string | string[];
   title: string;
   url: string;
   viewedAt: firebase.firestore.FieldValue;

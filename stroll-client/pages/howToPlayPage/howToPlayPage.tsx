@@ -58,9 +58,10 @@ export const HowToPlayPage: React.FC<HowToPlayPageProps> = (props: HowToPlayPage
               Go to profile
             </Button>
           </HowToPlaySubSection>
-          <HowToPlaySubSection title="Purchasing Game Days">
+          <HowToPlaySubSection id="game-days" title="Game Days">
             <HowToPlaySectionText text="In order to create or join a game you will need to purchase Game Days. One Game Day is required for each day of the duration of the game you have selected." />
-            <HowToPlaySectionText text="For example, if you wanted to create a game that was 5 days long, you would need to purchase at least 5 Game Days." />
+            <HowToPlaySectionText text="For example, if you wanted to create or join a game that was 5 days long, you would need to purchase at least 5 Game Days." />
+            <HowToPlaySectionText text={`You can also gift your game days to players who are joining your game by selecting the "Gift my Game Days" option in the Create Game and Update Game menus.`} />
             <HowToPlaySectionText text="Game Days can be purchased in the Shop for as low as $0.21 per day!" />
             <Button className="go-to-shop-button fancy-button passion-one-font" url="/shop">
               Go to shop

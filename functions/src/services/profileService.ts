@@ -49,8 +49,11 @@ export const ProfileService: IProfileService = {
     const profile: IProfile = snapshot.data() as IProfile;
 
     try {
-      await NotificationBatchService.create(context.params.id, NotificationUtility.mapCreate(
-        "We've started you off with 3 free Game Days on the house! For more info on how to play, check out the How To Play page by clicking on this notification 😃. Good luck and have fun!",
+      await NotificationBatchService.create(context.params.id, NotificationUtility.mapCreate([
+          "We've started you off with 3 free Game Days on the house!", 
+          "For more info on how to play, check out the How To Play page by clicking on this notification.",
+          NotificationUtility.getRandomGoodLuckStatement()
+        ],
         `Welcome, ${profile.username}!`,
         profile.createdAt,
         "how-to-play"
