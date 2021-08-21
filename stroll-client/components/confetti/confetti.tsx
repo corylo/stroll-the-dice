@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 
 import { NumberUtility } from "../../../stroll-utilities/numberUtility";
@@ -10,9 +10,19 @@ interface ConfettiProps {
 export const Confetti: React.FC<ConfettiProps> = (props: ConfettiProps) => {  
   const ref: React.MutableRefObject<HTMLDivElement> = useRef(null);
 
-  const getConfettiParticles = (): JSX.Element[] => {
-    if(ref.current) {
-      const count: number = (ref.current.clientWidth / 50) * 10;
+  const [element, setElement] = useState<HTMLElement>(null);
+
+  useEffect(() => {
+    const el: HTMLElement = document.getElementById(props.id);
+
+    if(el !== null) {
+      setElement(el);
+    }
+  }, []);  
+
+  const getConfettiParticles = (): JSX.Element[] => {    
+    if(element) {
+      const count: number = (element.clientWidth / 50) * 10;
 
       let particles: JSX.Element[] = [];
 
