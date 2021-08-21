@@ -78,8 +78,8 @@ export const Notification: React.FC<NotificationProps> = (props: NotificationPro
     const getCommonContentItems = (): JSX.Element => {      
       const getText = (): JSX.Element => {
         if(Array.isArray(props.notification.text)) {
-          const sentences: JSX.Element[] = props.notification.text.map((sentence: string) => (
-            <p className="notification-text passion-one-font">{sentence}</p>
+          const sentences: JSX.Element[] = props.notification.text.map((sentence: string, index: number) => (
+            <p key={index} className="notification-text passion-one-font">{sentence}</p>
           ));
 
           return (
