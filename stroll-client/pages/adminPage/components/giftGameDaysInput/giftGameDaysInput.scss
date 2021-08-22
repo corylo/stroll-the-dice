@@ -21,6 +21,7 @@
 
     #gift-game-days-inputs {
       display: flex;
+      flex-grow: 1;
       gap: 1em;
 
       .input-wrapper {
