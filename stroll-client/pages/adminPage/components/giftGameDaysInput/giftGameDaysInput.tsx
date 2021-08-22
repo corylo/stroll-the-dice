@@ -98,49 +98,60 @@ export const GiftGameDaysInput: React.FC<GiftGameDaysInputProps> = (props: GiftG
     }
   }
 
+  const getErrorMessage = (): JSX.Element => {
+    if(state.status === RequestStatus.Error) {
+      return (
+        <h1 className="gift-game-days-error-message passion-one-font">Invalid permissions or user does not exist.</h1>
+      )
+    }
+  }
+
   return (    
     <div id="gift-game-days-wrapper" className={classNames({ loading: state.status === RequestStatus.Loading })}>
-      <div id="gift-game-days-inputs">
-        <InputWrapper
-          id="gift-game-days-email-input" 
-          label="User Email"
-          value={state.email}
-          error={state.emailError}
-          errorMessage="Invalid Email"
-        >
-          <input 
-            type="text"
-            className="passion-one-font"
-            disabled={state.status === RequestStatus.Loading}
-            placeholder="Enter email"
+      <div id="gift-game-days-form">
+        <div id="gift-game-days-inputs">
+          <InputWrapper
+            id="gift-game-days-email-input" 
+            label="User Email"
             value={state.email}
-            onChange={(e: any) => updateEmail(e.target.value)}
-            onKeyDown={handleOnKeyDown}
-          />
-        </InputWrapper>
-        <InputWrapper
-          id="gift-game-days-quantity-input" 
-          label="Quantity"
-          value={state.quantity.toString()}
-          error={state.quantityError}
-          errorMessage="Invalid Quantity"
-        >
-          <input 
-            type="text"
-            className="passion-one-font"
-            disabled={state.status === RequestStatus.Loading}
-            placeholder="Enter quantity"
-            value={state.quantity}
-            onChange={(e: any) => updateQuantity(e.target.value)}
-            onKeyDown={handleOnKeyDown}
-          />
-        </InputWrapper>
+            error={state.emailError}
+            errorMessage="Invalid Email"
+          >
+            <input 
+              type="text"
+              className="passion-one-font"
+              disabled={state.status === RequestStatus.Loading}
+              placeholder="Enter email"
+              value={state.email}
+              onChange={(e: any) => updateEmail(e.target.value)}
+              onKeyDown={handleOnKeyDown}
+            />
+          </InputWrapper>
+          <InputWrapper
+            id="gift-game-days-quantity-input" 
+            label="Quantity"
+            value={state.quantity.toString()}
+            error={state.quantityError}
+            errorMessage="Invalid Quantity"
+          >
+            <input 
+              type="text"
+              className="passion-one-font"
+              disabled={state.status === RequestStatus.Loading}
+              placeholder="Enter quantity"
+              value={state.quantity}
+              onChange={(e: any) => updateQuantity(e.target.value)}
+              onKeyDown={handleOnKeyDown}
+            />
+          </InputWrapper>
+        </div>
+        <IconButton
+          id="gift-game-days-input-button"
+          icon={state.status === RequestStatus.Loading ? "fal fa-spinner-third" : "fal fa-arrow-right"}
+          handleOnClick={go}
+        />
       </div>
-      <IconButton
-        id="gift-game-days-input-button"
-        icon={state.status === RequestStatus.Loading ? "fal fa-spinner-third" : "fal fa-arrow-right"}
-        handleOnClick={go}
-      />
+      {getErrorMessage()}
     </div>
   )
 }
