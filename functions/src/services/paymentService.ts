@@ -9,10 +9,9 @@ import { GameDayUtility } from "../../../stroll-utilities/gameDayUtility";
 import { PaymentUtility } from "../../../stroll-utilities/paymentUtility";
 
 import { ICreatePaymentRequest } from "../../../stroll-models/createPaymentRequest";
-import { IGameDayHistoryEntry } from "../../../stroll-models/gameDayHistoryEntry";
+import { IGameDayHistoryPurchaseEntry } from "../../../stroll-models/gameDayHistoryEntry/gameDayHistoryPurchaseEntry";
 import { IPayment } from "../../../stroll-models/payment";
 
-import { GameDayHistoryEntryType } from "../../../stroll-enums/gameDayHistoryEntryType";
 import { PaymentItemID } from "../../../stroll-enums/paymentItemID";
 
 interface IPaymentService {  
@@ -56,14 +55,13 @@ export const PaymentService: IPaymentService = {
   onCreate: async (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext): Promise<void> => {
     const payment: IPayment = { ...snapshot.data() as IPayment, id: snapshot.id };
 
-    try {      
-      const entry: IGameDayHistoryEntry = GameDayHistoryUtility.mapCreate(
-        "",
-        payment.createdAt, 
-        payment.id,
-        GameDayUtility.getDayQuantity(GameDayUtility.getGameDayPurchaseOptionUnit(payment.itemID)), 
-        "", 
-        GameDayHistoryEntryType.Received
+    try {    
+      const quantity: number = GameDayUtility.getDayQuantity(GameDayUtility.getGameDayPurchaseOptionUnit(payment.itemID));
+
+      const entry: IGameDayHistoryPurchaseEntry = GameDayHistoryUtility.mapGameDayHistoryPurchaseEntry(
+        payment.createdAt,
+        quantity,
+        payment.id
       );
 
       await GameDayHistoryService.create(context.params.profileID, entry);

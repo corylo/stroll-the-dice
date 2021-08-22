@@ -23,6 +23,7 @@ import { AppContext } from "../../../../components/app/contexts/appContext";
 import { GamePageContext } from "../../gamePage";
 
 import { FirestoreDateUtility } from "../../../../../stroll-utilities/firestoreDateUtility";
+import { RoleUtility } from "../../../../../stroll-utilities/roleUtility";
 
 import { AppAction } from "../../../../enums/appAction";
 import { AppStatus } from "../../../../enums/appStatus";
@@ -59,7 +60,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
     const togglePlayers = (): any => {      
       if(
         statuses.player === PlayerStatus.Playing ||
-        appState.user.roles.includes(Role.Admin)
+        RoleUtility.isAdmin(appState.user.roles)
       ) {
         return () => toggle({ players: true });
       }
@@ -68,7 +69,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
     const getGameTimelineToggle = (): JSX.Element => {      
       if(
         statuses.player === PlayerStatus.Playing ||
-        appState.user.roles.includes(Role.Admin)
+        RoleUtility.isAdmin(appState.user.roles)
       ) {
         return (
           <GameTimelineToggle toggle={toggle} />
@@ -77,7 +78,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
     }
 
     const getGamePageContentForPlayer = (): JSX.Element => {
-      if(statuses.player === PlayerStatus.Playing || appState.user.roles.includes(Role.Admin)) {
+      if(statuses.player === PlayerStatus.Playing || RoleUtility.isAdmin(appState.user.roles)) {
         const getMaxDay = (): number => {          
           if(game.status === GameStatus.InProgress) {
             return Math.min(state.day + 1, game.duration);

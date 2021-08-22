@@ -8,10 +8,10 @@ import { PlayerService } from "../../../services/playerService";
 
 import { GameDurationUtility } from "../../../../stroll-utilities/gameDurationUtility";
 import { PlayerUtility } from "../../../utilities/playerUtility";
+import { RoleUtility } from "../../../../stroll-utilities/roleUtility";
 
 import { IAppState } from "../../../components/app/models/appState";
 import { defaultGame, gameConverter, IGame } from "../../../../stroll-models/game";
-import { IGameEvent } from "../../../../stroll-models/gameEvent/gameEvent";
 import { IGamePageState } from "../models/gamePageState";
 import { IPlayer, playerConverter } from "../../../../stroll-models/player";
 
@@ -23,9 +23,7 @@ import { Role } from "../../../../stroll-enums/role";
 
 export const useGameListenersEffect = (id: string, appState: IAppState, state: IGamePageState, setState: (state: IGamePageState) => void): void => {
   const [game, setGame] = useState<IGame>(defaultGame()),
-    [players, setPlayers] = useState<IPlayer[]>([]),
-    [events, setEvents] = useState<IGameEvent[]>([]),
-    [eventsLimit, setEventsLimit] = useState<number>(5);
+    [players, setPlayers] = useState<IPlayer[]>([]);
 
   useEffect(() => {  
     const updates: IGamePageState = { ...state };
@@ -57,7 +55,7 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
     }
 
     setState(updates);
-  }, [appState.user, state.statuses.player, game, players, events]);
+  }, [appState.user, state.statuses.player, game, players]);
 
   useEffect(() => {   
     if(
@@ -105,7 +103,7 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
         }
 
         if(
-          (updates.statuses.player === PlayerStatus.Playing || appState.user.roles.includes(Role.Admin)) &&
+          (updates.statuses.player === PlayerStatus.Playing || RoleUtility.isAdmin(appState.user.roles)) &&
           state.game.status === GameStatus.Upcoming
         ) {          
           updates.invite = await InviteService.get.by.game(game);
@@ -122,7 +120,7 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
     if(
       state.game.id !== "" && (
         state.statuses.player === PlayerStatus.Playing ||
-        (state.statuses.player === PlayerStatus.NotPlaying && appState.user.roles.includes(Role.Admin))
+        (state.statuses.player === PlayerStatus.NotPlaying && RoleUtility.isAdmin(appState.user.roles))
       )
     ) {    
       const unsubToPlayers = db.collection("games")
@@ -143,5 +141,5 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
         unsubToPlayers();
       }
     }
-  }, [state.game.id, state.statuses.player, eventsLimit]);
+  }, [state.game.id, state.statuses.player]);
 }

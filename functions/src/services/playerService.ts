@@ -12,9 +12,9 @@ import { GameDayHistoryUtility } from "../utilities/gameDayHistoryUtility";
 import { GameEventUtility } from "../utilities/gameEventUtility";
 
 import { gameConverter, IGame } from "../../../stroll-models/game";
+import { IGameDayHistoryUseEntry } from "../../../stroll-models/gameDayHistoryEntry/gameDayHistoryUseEntry";
 import { matchupConverter } from "../../../stroll-models/matchup";
 import { IPlayer, playerConverter } from "../../../stroll-models/player";
-import { GameDayHistoryEntryType } from "../../../stroll-enums/gameDayHistoryEntryType";
 
 interface IPlayerService {
   getByGame: (id: string) => Promise<IPlayer[]>;
@@ -64,14 +64,14 @@ export const PlayerService: IPlayerService = {
 
           const playerID: string = game.enableGiftDaysForJoiningPlayers && player.ref.acceptedGiftDays ? game.creator.uid : player.id;
 
-          GameDayHistoryTransactionService.create(transaction, playerID, GameDayHistoryUtility.mapCreate(
-            game.id,
+          const entry: IGameDayHistoryUseEntry = GameDayHistoryUtility.mapGameDayHistoryUseEntry(
             player.createdAt,
-            "",
             game.duration,
-            player.id,
-            GameDayHistoryEntryType.Redeemed
-          ));
+            game.id,
+            player.id
+          );
+
+          GameDayHistoryTransactionService.create(transaction, playerID, entry);
         }
       });
 

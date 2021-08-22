@@ -4,7 +4,6 @@ import { logger } from "firebase-functions";
 import { db } from "../../../config/firebase";
 
 import { GameEventService } from "../gameEventService";
-import { GameEventTransactionService } from "./gameEventTransactionService";
 import { PlayerTransactionService } from "./playerTransactionService";
 import { PredictionService } from "../predictionService";
 
@@ -16,7 +15,7 @@ import { PlayerUtility } from "../../utilities/playerUtility";
 import { IDayCompletedEvent } from "../../../../stroll-models/gameEvent/dayCompletedEvent";
 import { gameConverter, IGame } from "../../../../stroll-models/game";
 import { gameDaySummaryConverter, IGameDaySummary } from "../../../../stroll-models/gameDaySummary";
-import { IPlayer, IPlayerPoints } from "../../../../stroll-models/player";
+import { IPlayer } from "../../../../stroll-models/player";
 import { IPlayerDayCompletedSummary } from "../../../../stroll-models/playerDayCompletedSummary";
 import { IPlayerStepUpdate } from "../../../../stroll-models/playerStepUpdate";
 import { IPrediction } from "../../../../stroll-models/prediction";
@@ -49,14 +48,7 @@ export const GameTransactionService: IGameTransactionService = {
       await db.runTransaction(async (transaction: firebase.firestore.Transaction) => {
         const playerSnap: firebase.firestore.QuerySnapshot = await transaction.get(playersRef);
 
-        playerSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>) => {
-          const player: IPlayer = doc.data(),
-            steps: number = GameDaySummaryUtility.findUpdateForPlayer(doc.id, updates);
-
-          if(steps > 0) {
-            GameEventTransactionService.sendPlayerEarnedPointsFromStepsEvent(transaction, gameID, doc.id, steps);
-          }
-
+        playerSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>) => {          
           const playerSummary: IPlayerDayCompletedSummary = GameDaySummaryUtility.mapPlayerDayCompletedSummary(
             day, 
             doc.id, 
@@ -64,18 +56,7 @@ export const GameTransactionService: IGameTransactionService = {
             predictions
           );
 
-          GameEventTransactionService.create(
-            transaction, 
-            gameID, 
-            GameEventUtility.mapPlayerDayCompletedSummaryEvent(doc.id, FirestoreDateUtility.addMillis(dayCompletedAt, 1), playerSummary)
-          );
-
-          const points: IPlayerPoints = {
-            available: player.points.available + playerSummary.received,
-            total: player.points.total + (playerSummary.gained - playerSummary.lost)
-          }
-
-          transaction.update(doc.ref, { points, updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
+          PlayerTransactionService.handlePlayerEarnedPointsAtEndOfDay(transaction, gameID, doc, updates, playerSummary, dayCompletedAt);
         });
 
         transaction.update(gameDaySummaryRef, finalizedSummary);

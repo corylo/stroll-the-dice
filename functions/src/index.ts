@@ -1,6 +1,7 @@
 import { auth, firestore, https, pubsub } from "firebase-functions";
 
 import { AuthService } from "./services/authService";
+import { GameDayTransactionService } from "./services/transaction/gameDayTransactionService";
 import { GameService } from "./services/gameService";
 import { PaymentService } from "./services/paymentService";
 import { PlayerService } from "./services/playerService";
@@ -68,11 +69,16 @@ exports.verifyStepTracker = https
 exports.disconnectStepTracker = https
   .onCall(StepTrackerService.disconnectStepTracker);
   
+exports.createPaymentSession = https
+  .onCall(PaymentService.createPaymentSession);
+
+exports.giftGameDays = https
+  .onCall(GameDayTransactionService.giftGameDays);
+
 // exports.updateUserEmail = https
 //   .onCall(UserService.updateEmail);
   
-exports.createPaymentSession = https
-  .onCall(PaymentService.createPaymentSession);
+/* -- Web Hooks -- */
 
 exports.stripePaymentWebhook = https
   .onRequest(StripeService.paymentWebhook);

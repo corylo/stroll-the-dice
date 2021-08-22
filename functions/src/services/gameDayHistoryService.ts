@@ -1,6 +1,6 @@
 import { db } from "../../config/firebase";
 
-import { gameDayHistoryEntryConverter, IGameDayHistoryEntry } from "../../../stroll-models/gameDayHistoryEntry";
+import { gameDayHistoryEntryConverter, IGameDayHistoryEntry } from "../../../stroll-models/gameDayHistoryEntry/gameDayHistoryEntry";
 
 interface IGameDayHistoryService {
   create: (uid: string, entry: IGameDayHistoryEntry) => Promise<void>;

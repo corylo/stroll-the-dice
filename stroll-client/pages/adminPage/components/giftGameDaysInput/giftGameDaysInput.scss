@@ -1,0 +1,49 @@
+#gift-game-days-wrapper {
+  background-color: $themeMainAccent;
+  border-radius: 6px;   
+  box-shadow: $shadow1;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+
+  &.loading {
+    #gift-game-days-input-button {
+      i {
+        animation: spin 2s ease-in-out infinite;  
+      }
+    }
+  }
+
+  #gift-game-days-inputs {
+    display: flex;
+    gap: 1em;
+    width: calc(100% - 60px);
+
+    .input-wrapper {
+      flex-grow: 1;
+    }
+  }
+
+  #gift-game-days-input-button {
+    height: 50px;
+
+    i {
+      font-size: 1.25em;
+    }
+  }
+}
+
+@include phone-or-smaller {
+  #gift-game-days-wrapper {
+    flex-direction: column;
+
+    #gift-game-days-inputs {
+      flex-direction: column;
+      width: 100%;
+    }
+  
+    #gift-game-days-input-button {
+      margin-top: 10px;
+    }
+  }
+}

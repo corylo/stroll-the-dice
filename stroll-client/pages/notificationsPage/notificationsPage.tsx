@@ -53,8 +53,7 @@ export const NotificationsPage: React.FC<NotificationsPageProps> = (props: Notif
 
   return(
     <NotificationsPageContext.Provider value={{ state, setState }}>
-      <Page 
-        id="notifications-page" backgroundGraphic="">     
+      <Page id="notifications-page" backgroundGraphic="">     
         <PageTitle text="Notifications" />
         {getContent()}
       </Page>

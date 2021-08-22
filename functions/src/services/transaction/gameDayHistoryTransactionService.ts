@@ -2,7 +2,7 @@ import firebase from "firebase-admin";
 
 import { db } from "../../../config/firebase";
 
-import { gameDayHistoryEntryConverter, IGameDayHistoryEntry } from "../../../../stroll-models/gameDayHistoryEntry";
+import { gameDayHistoryEntryConverter, IGameDayHistoryEntry } from "../../../../stroll-models/gameDayHistoryEntry/gameDayHistoryEntry";
 
 interface IGameDayHistoryTransactionService {
   create: (transaction: firebase.firestore.Transaction, uid: string, entry: IGameDayHistoryEntry) => void;  

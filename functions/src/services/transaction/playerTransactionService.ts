@@ -4,18 +4,22 @@ import { logger } from "firebase-functions";
 import { GameEventTransactionService } from "./gameEventTransactionService";
 import { PredictionTransactionService } from "./predictionTransactionService";
 
+import { FirestoreDateUtility } from "../../utilities/firestoreDateUtility";
 import { GameDaySummaryUtility } from "../../utilities/gameDaySummaryUtility";
+import { GameEventUtility } from "../../utilities/gameEventUtility";
 import { MatchupUtility } from "../../utilities/matchupUtility";
 import { PointsUtility } from "../../utilities/pointsUtility";
 
 import { IMatchup, IMatchupSideTotal } from "../../../../stroll-models/matchup";
 import { IPlayer } from "../../../../stroll-models/player";
+import { IPlayerDayCompletedSummary } from "../../../../stroll-models/playerDayCompletedSummary";
 import { IPlayerStepUpdate } from "../../../../stroll-models/playerStepUpdate";
 
 import { InitialValue } from "../../../../stroll-enums/initialValue";
 
 interface IPlayerTransactionService {
   handleMatchup: (transaction: firebase.firestore.Transaction, matchupSnap: firebase.firestore.QuerySnapshot, player: IPlayer) => void;
+  handlePlayerEarnedPointsAtEndOfDay: (transaction: firebase.firestore.Transaction, gameID: string, doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>, updates: IPlayerStepUpdate[], playerSummary: IPlayerDayCompletedSummary, dayCompletedAt: firebase.firestore.FieldValue) => void;
   handlePlayerEarnedPointsForSteps: (transaction: firebase.firestore.Transaction, gameID: string, doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>, updates: IPlayerStepUpdate[]) => void;
   completeDayOneMatchup: (transaction: firebase.firestore.Transaction, matchup: IMatchup, player: IPlayer) => IMatchup;
   createDayOneMatchup: (transaction: firebase.firestore.Transaction, player: IPlayer) => void;      
@@ -37,6 +41,31 @@ export const PlayerTransactionService: IPlayerTransactionService = {
 
       PredictionTransactionService.createInitialPredictions(transaction, player.ref.game, matchup.id, matchup.left.playerID, player.id);
     }
+  },
+  handlePlayerEarnedPointsAtEndOfDay: (transaction: firebase.firestore.Transaction, gameID: string, doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>, updates: IPlayerStepUpdate[], playerSummary: IPlayerDayCompletedSummary, dayCompletedAt: firebase.firestore.FieldValue): void => {
+    const player: IPlayer = doc.data(),
+      steps: number = GameDaySummaryUtility.findUpdateForPlayer(doc.id, updates);
+
+    let updatedPlayer: IPlayer = { ...player };
+
+    if(steps > 0) {
+      updatedPlayer = PointsUtility.mapPointsForSteps(updatedPlayer, steps);;
+
+      GameEventTransactionService.sendPlayerEarnedPointsFromStepsEvent(transaction, gameID, doc.id, steps);
+    }
+
+    updatedPlayer = PointsUtility.mapEndOfDayPoints(player, playerSummary);
+
+    transaction.update(doc.ref, { 
+      points: updatedPlayer.points, 
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp() 
+    });
+    
+    GameEventTransactionService.create(
+      transaction, 
+      gameID, 
+      GameEventUtility.mapPlayerDayCompletedSummaryEvent(doc.id, FirestoreDateUtility.addMillis(dayCompletedAt, 1), playerSummary)
+    );
   },
   handlePlayerEarnedPointsForSteps: (transaction: firebase.firestore.Transaction, gameID: string, doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>, updates: IPlayerStepUpdate[]): void => {
     const player: IPlayer = doc.data(),
