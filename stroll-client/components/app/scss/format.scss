@@ -37,12 +37,25 @@ td {
   color: white;
 }
 
+.highlight-warning {
+  color: $yellow;
+}
+
 .highlight-error {
   color: $red;
 }
 
 .highlight-white {
   color: white;
+}
+
+.label.warning-message {  
+  background-color: rgba($yellow, 0.5);
+  border: 1px solid rgba($yellow, 0.8);  
+  border-radius: 6px;
+  display: flex;
+  box-shadow: $shadow1;
+  padding: 15px;
 }
 
 .scroll-bar {
