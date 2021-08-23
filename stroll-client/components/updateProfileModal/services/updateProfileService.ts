@@ -5,6 +5,7 @@ import { db } from "../../../config/firebase";
 import { ProfileStatsUtility } from "../../../utilities/profileStatsUtility";
 
 import { IProfile, profileConverter } from "../../../../stroll-models/profile";
+import { IFriendIDReference, friendIDReferenceConverter } from "../../../../stroll-models/friendIDReference";
 
 import { ProfileStatsID } from "../../../../stroll-enums/profileStatsID";
 
@@ -42,6 +43,12 @@ export const UpdateProfileService: IUpdateProfileService = {
       .doc(ProfileStatsID.Notifications);
 
     batch.set(notificationStatsRef, ProfileStatsUtility.mapCreate(ProfileStatsID.Notifications));
+    
+    const friendIDRef: firebase.firestore.DocumentReference = db.collection("friend_ids")
+      .doc(profile.friendID)
+      .withConverter<IFriendIDReference>(friendIDReferenceConverter);
+
+    batch.set(friendIDRef, { uid: profile.uid });
 
     return await batch.commit();
   }

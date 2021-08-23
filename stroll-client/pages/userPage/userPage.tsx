@@ -8,13 +8,11 @@ import { AppContext } from "../../components/app/contexts/appContext";
 
 import { ProfileService } from "../../services/profileService";
 
-import { ImageUtility } from "../../utilities/imageUtility";
 import { UrlUtility } from "../../utilities/urlUtility";
 
 import { IProfile } from "../../../stroll-models/profile";
 import { defaultUserPageState, IUserPageState } from "./models/userPageState";
 
-import { Graphic } from "../../../stroll-enums/graphic";
 import { RequestStatus } from "../../../stroll-enums/requestStatus";
 
 interface UserPageProps {
@@ -33,11 +31,11 @@ export const UserPage: React.FC<UserPageProps> = (props: UserPageProps) => {
 
   useEffect(() => {
     if(state.status === RequestStatus.Success && match.path !== "/u/:id/:username") {      
-      history.replace(`/u/${state.profile.id}/${UrlUtility.format(state.profile.username)}`);
+      history.replace(`/u/${state.profile.friendID}/${UrlUtility.format(state.profile.username)}`);
     }
   }, [state.profile]);
 
-  const id: string = UrlUtility.getParam(match, "id");
+  const friendID: string = UrlUtility.getParam(match, "id");
 
   useEffect(() => {
     const fetch = async (): Promise<void> => {
@@ -45,10 +43,10 @@ export const UserPage: React.FC<UserPageProps> = (props: UserPageProps) => {
       try {
         let profile: IProfile = null;
 
-        if(user && user.profile.id === id) {
+        if(user && user.profile.friendID === friendID) {
           profile = user.profile;
         } else {
-          profile = await ProfileService.get.by.id(id);
+          profile = await ProfileService.get.by.friendID(friendID);
         }          
 
         setState({ profile, status: RequestStatus.Success });        
@@ -63,7 +61,7 @@ export const UserPage: React.FC<UserPageProps> = (props: UserPageProps) => {
   }, []);
 
   useEffect(() => {
-    if(user && user.profile.id === id) {
+    if(user && user.profile.friendID === friendID) {
       setState({ ...state, profile: user.profile });
     }
   }, [user]);

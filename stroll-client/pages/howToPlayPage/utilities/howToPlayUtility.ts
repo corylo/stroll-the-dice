@@ -32,6 +32,7 @@ export const HowToPlayUtility: IHowToPlayUtility = {
         profile: {
           color: Color.Orange3,
           deletedAt: null,
+          friendID: "",
           icon: Icon.Dog,
           name: "",
           uid: "123",
@@ -50,6 +51,7 @@ export const HowToPlayUtility: IHowToPlayUtility = {
       profile: {
         color: Color.Yellow2,
         deletedAt: null,
+        friendID: "",
         icon: Icon.Squirrel,
         name: "",
         uid: "234",
@@ -74,6 +76,7 @@ export const HowToPlayUtility: IHowToPlayUtility = {
       profile: {
         color: Color.Purple3,
         deletedAt: null,
+        friendID: "",
         icon: Icon.Rudolph,
         name: "",
         uid: "",
@@ -87,6 +90,7 @@ export const HowToPlayUtility: IHowToPlayUtility = {
         lastMatchupPredicted: "",
         team: ""
       },
+      steps: 0,
       updatedAt: FirestoreDateUtility.dateToTimestamp(new Date())
     }
   }

@@ -39,6 +39,7 @@ export interface IPlayer {
   points: IPlayerPoints;
   profile: IProfileReference;
   ref: IPlayerRef;  
+  steps: number;
   updatedAt: firebase.firestore.FieldValue; 
 }
 
@@ -49,6 +50,7 @@ export const defaultPlayer = (): IPlayer => ({
   points: defaultPlayerPoints(),
   profile: defaultProfileReference(),
   ref: defaultPlayerRef(),  
+  steps: 0,
   updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
 });
 
@@ -60,6 +62,7 @@ export const playerConverter: any = {
       points: player.points,
       profile: player.profile,
       ref: player.ref,
+      steps: player.steps,
       updatedAt: player.updatedAt
     }
   },
@@ -75,6 +78,7 @@ export const playerConverter: any = {
       profile: data.profile,
       id: snapshot.id,
       ref: data.ref,
+      steps: data.steps,
       updatedAt: data.updatedAt
     }
   }

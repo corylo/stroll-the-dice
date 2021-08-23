@@ -46,6 +46,7 @@ export const PlayerUtility: IPlayerUtility = {
       profile: {
         color: profile.color,
         deletedAt: null,
+        friendID:  profile.friendID,
         icon: profile.icon,
         name: profile.name,
         uid: profile.uid,
@@ -59,6 +60,7 @@ export const PlayerUtility: IPlayerUtility = {
         lastMatchupPredicted: "",
         team: ""
       },
+      steps: 0,
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     }
   }

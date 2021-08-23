@@ -10,7 +10,7 @@ import { IProfileUpdate } from "../../stroll-models/profileUpdate";
 import { DocumentType } from "../../stroll-enums/documentType";
 
 interface IProfileServiceGetBy {
-  id: (id: string) => Promise<IProfile>;
+  friendID: (id: string) => Promise<IProfile>;
   uid: (uid: string) => Promise<IProfile>;
 }
 
@@ -33,9 +33,9 @@ export const ProfileService: IProfileService = {
   },
   get: {
     by: {
-      id: async (id: string): Promise<IProfile> => {
+      friendID: async (id: string): Promise<IProfile> => {
         const snap: firebase.firestore.QuerySnapshot = await db.collection("profiles")
-          .where("id", "==", id)
+          .where("friendID", "==", id)
           .withConverter(profileConverter)
           .get();
 

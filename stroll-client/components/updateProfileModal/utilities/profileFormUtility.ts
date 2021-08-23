@@ -6,8 +6,8 @@ import { IProfile } from "../../../../stroll-models/profile";
 import { defaultProfileFormState, IProfileFormState } from "../models/profileFormState";
 import { IProfileFormStateFields } from "../models/profileFormStateFields";
 import { IProfileUpdate } from "../../../../stroll-models/profileUpdate";
-import { IUser } from "../../../models/user";
 import { defaultStepTrackerProfileReference } from "../../../../stroll-models/stepTrackerProfileReference";
+import { IUser } from "../../../models/user";
 
 interface IProfileFormUtility {
   hasChanged: (profile: IProfile, fields: IProfileFormStateFields) => boolean;
@@ -34,8 +34,8 @@ export const ProfileFormUtility: IProfileFormUtility = {
       color: fields.color,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       deletedAt: null,
+      friendID: Nano.generate(6),
       icon: fields.icon,
-      id: Nano.generate(),
       name: fields.name,
       tracker: defaultStepTrackerProfileReference(),
       uid: user.profile.uid,

@@ -78,6 +78,7 @@ export const GameFormUtility: IGameFormUtility = {
       creator: {
         color: user.profile.color,
         deletedAt: user.profile.deletedAt,
+        friendID: user.profile.friendID,
         icon: user.profile.icon,
         name: user.profile.name,
         uid: user.profile.uid,

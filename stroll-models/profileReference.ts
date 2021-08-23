@@ -6,6 +6,7 @@ import { Icon } from "../stroll-enums/icon";
 export interface IProfileReference {
   color: Color;
   deletedAt: firebase.firestore.FieldValue;  
+  friendID: string;
   icon: Icon;
   name: string;
   uid: string;
@@ -15,6 +16,7 @@ export interface IProfileReference {
 export const defaultProfileReference = (): IProfileReference => ({
   color: Color.None,
   deletedAt: null,
+  friendID: "",
   icon: Icon.None,
   name: "",
   uid: "",
@@ -24,6 +26,7 @@ export const defaultProfileReference = (): IProfileReference => ({
 export const deletedProfileReference = (uid: string): IProfileReference => ({
   color: Color.Gray5,
   deletedAt: null,
+  friendID: "",
   icon: Icon.UserDeleted,
   name: "Deleted",
   uid,
