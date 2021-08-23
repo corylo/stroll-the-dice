@@ -5,6 +5,7 @@ import { db } from "../../../config/firebase";
 
 import { AdminService } from "../adminService";
 import { GameDayHistoryTransactionService } from "./gameDayHistoryTransactionService";
+import { NotificationTransactionService } from "./notificationTransactionService";
 import { UserService } from "../userService";
 
 import { GameDayHistoryUtility } from "../../utilities/gameDayHistoryUtility";
@@ -15,6 +16,7 @@ import { IGiftGameDaysRequest } from "../../../../stroll-models/giftGameDaysRequ
 import { IProfileGameDayStats } from "../../../../stroll-models/profileStats";
 
 import { ProfileStatsID } from "../../../../stroll-enums/profileStatsID";
+import { NotificationUtility } from "../../utilities/notificationUtility";
 
 interface IGameDayTransactionService {
   giftGameDays: (request: IGiftGameDaysRequest, context: https.CallableContext) => Promise<void>;
@@ -43,14 +45,24 @@ export const GameDayTransactionService: IGameDayTransactionService = {
         
             GameDayTransactionService.update(transaction, profileStatsRef, stats, request.quantity);
 
+            const timestamp: firebase.firestore.FieldValue = firebase.firestore.FieldValue.serverTimestamp();
+
             const entry: IGameDayHistoryGiftEntry = GameDayHistoryUtility.mapGameDayHistoryGiftEntry(
-              firebase.firestore.FieldValue.serverTimestamp(),
+              timestamp,
               request.quantity,
               context.auth.uid,
               targetUID
             )
             
             GameDayHistoryTransactionService.create(transaction, targetUID, entry);
+
+            GameDayHistoryTransactionService.create(transaction, context.auth.uid, entry);
+
+            NotificationTransactionService.create(transaction, targetUID, NotificationUtility.mapCreate(
+              `You've been gifted ${request.quantity} game days!`,
+              `You received a gift!`,
+              timestamp
+            ));
           });
         } catch (err) {
           logger.error(err);

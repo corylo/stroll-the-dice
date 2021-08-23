@@ -76,7 +76,7 @@ export const PaymentCompleteService: IPaymentCompleteService = {
           `You purchased ${itemID} from the store!`,
           payment.createdAt,
           "how-to-play#game-days"
-        ))
+        ));
       } else {
         throw new Error(`Document with Profile Stats ID: [${ProfileStatsID.GameDays}] does not exist for user: [${uid}]`);
       }
