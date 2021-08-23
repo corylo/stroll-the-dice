@@ -2,7 +2,7 @@
   "name": "Stroll The Dice",
   "short_name": "Stroll",
   "icons": [{
-    "maskable": true,
+    "purpose": "maskable",
     "src": "/img/icon-192x192.png",
     "type": "image/png",
     "sizes": "192x192"
