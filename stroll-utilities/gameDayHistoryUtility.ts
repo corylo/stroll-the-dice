@@ -31,6 +31,7 @@ export const GameDayHistoryUtility: IGameDayHistoryUtility = {
     } else if(unidentifiedEntry.type === GameDayHistoryEntryType.Use) {
       const entry: IGameDayHistoryUseEntry = unidentifiedEntry;
 
+      to.gameID = entry.gameID;
       to.usedBy = entry.usedBy;
     } else if(unidentifiedEntry.type === GameDayHistoryEntryType.Gift) {
       const entry: IGameDayHistoryGiftEntry = unidentifiedEntry;

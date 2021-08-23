@@ -37,7 +37,6 @@ export const InviteService: IInviteService = {
           const snap: firebase.firestore.QuerySnapshot = await db.collection("games")
             .doc(game.id)
             .collection("invites")
-            .where("ref.creator", "==", game.creator.uid)
             .limit(1)
             .withConverter(inviteConverter)
             .get();

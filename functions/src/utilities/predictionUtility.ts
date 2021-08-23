@@ -5,11 +5,9 @@ import { MatchupUtility } from "./matchupUtility";
 import { IMatchup } from "../../../stroll-models/matchup";
 import { IPrediction } from "../../../stroll-models/prediction";
 
-import { InitialValue } from "../../../stroll-enums/initialValue";
 import { MatchupLeader } from "../../../stroll-enums/matchupLeader";
 
 interface IPredictionUtility {    
-  adjustForInitialSelfPrediction: (playerID: string, predictions: IPrediction[]) => IPrediction[];  
   determineIfCorrect: (prediction: IPrediction, matchups: IMatchup[]) => boolean;            
   getByPlayer: (playerID: string, predictions: IPrediction[]) => IPrediction[];
   getCorrectPredictions: (predictions: IPrediction[], matchups: IMatchup[]) => IPrediction[];
@@ -23,15 +21,6 @@ interface IPredictionUtility {
 }
 
 export const PredictionUtility: IPredictionUtility = {
-  adjustForInitialSelfPrediction: (playerID: string, predictions: IPrediction[]): IPrediction[] => {
-    return predictions.map((prediction: IPrediction) => {
-      if(prediction.ref.player === playerID) {
-        prediction.amount = prediction.amount - InitialValue.InitialPredictionPoints;
-      }
-
-      return prediction;
-    });
-  },
   determineIfCorrect: (prediction: IPrediction, matchups: IMatchup[]): boolean => {
     const matchup: IMatchup = MatchupUtility.getByID(prediction.ref.matchup, matchups);
 
@@ -66,7 +55,7 @@ export const PredictionUtility: IPredictionUtility = {
   },
   sumCorrectPredictions: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]): number => {
     const predictions: IPrediction[] = PredictionUtility.getByPlayer(playerID, allPredictions),
-      correctPredictions: IPrediction[] = PredictionUtility.adjustForInitialSelfPrediction(playerID, PredictionUtility.getCorrectPredictions(predictions, matchups))
+      correctPredictions: IPrediction[] = PredictionUtility.getCorrectPredictions(predictions, matchups);
 
     return PredictionUtility.sumPredictions(correctPredictions);    
   },
@@ -78,7 +67,7 @@ export const PredictionUtility: IPredictionUtility = {
   },
   sumIncorrectPredictions: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]): number => {
     const predictions: IPrediction[] = PredictionUtility.getByPlayer(playerID, allPredictions),
-      incorrectPredictions: IPrediction[] = PredictionUtility.adjustForInitialSelfPrediction(playerID, PredictionUtility.getIncorrectPredictions(predictions, matchups));
+      incorrectPredictions: IPrediction[] = PredictionUtility.getIncorrectPredictions(predictions, matchups);
 
     return PredictionUtility.sumPredictions(incorrectPredictions);
   },

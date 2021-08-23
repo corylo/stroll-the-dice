@@ -11,7 +11,6 @@ import { MatchupBatchService } from "./batch/matchupBatchService";
 import { PlayerBatchService } from "./batch/playerBatchService";
 import { PlayerService } from "./playerService";
 import { PlayingInBatchService } from "./batch/playingInBatchService";
-import { PredictionBatchService } from "./batch/predictionBatchService";
 import { StepTrackerService } from "./stepTrackerService";
 
 import { FirestoreDateUtility } from "../utilities/firestoreDateUtility";
@@ -105,8 +104,6 @@ export const GameUpdateService: IGameUpdateService = {
 
       MatchupBatchService.createRemainingMatchups(batch, gameID, matchups);
   
-      PredictionBatchService.createInitialPredictions(batch, gameID, matchups);
-
       GameEventBatchService.create(batch, gameID, GameEventUtility.mapGeneralEvent(game.startsAt, GameEventType.Started));
     }
 

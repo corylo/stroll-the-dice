@@ -86,7 +86,7 @@ export const GameFormUtility: IGameFormUtility = {
       duration: fields.duration,
       endsAt,
       error: GameError.None,
-      id: Nano.generate(),
+      id: Nano.generate(6),
       initializeProgressUpdateAt: null,
       locked: false,
       mode: fields.mode,

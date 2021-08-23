@@ -29,7 +29,7 @@ interface IMatchupUtility {
   getMatchupRef: (gameID: string, matchupID?: string) => firebase.firestore.DocumentReference;
   getPlayerSteps: (playerID: string, matchup: IMatchup) => number;
   getWinnerOdds: (matchup: IMatchup) => number;
-  mapCreate: (leftPlayerID: string, rightPlayerID: string, day: number, total?: IMatchupSideTotal) => IMatchup;
+  mapCreate: (leftPlayerID: string, rightPlayerID: string, day: number) => IMatchup;
   mapMatchupsFromPairGroups: (groups: IMatchupPairGroup[], players: IPlayer[]) => IMatchup[];
   mapPlayerReference: (matchup: IMatchup) => IMatchupPlayerReference;
 }
@@ -187,7 +187,7 @@ export const MatchupUtility: IMatchupUtility = {
 
     return 1;
   },
-  mapCreate: (leftPlayerID: string, rightPlayerID: string, day: number, total?: IMatchupSideTotal): IMatchup => {
+  mapCreate: (leftPlayerID: string, rightPlayerID: string, day: number): IMatchup => {
     return {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       day,
@@ -195,12 +195,12 @@ export const MatchupUtility: IMatchupUtility = {
       left: {
         playerID: leftPlayerID,
         steps: 0,
-        total: total || defaultMatchupSideTotal()
+        total: defaultMatchupSideTotal()
       },
       right: {
         playerID: rightPlayerID,
         steps: 0,
-        total: total || defaultMatchupSideTotal()
+        total: defaultMatchupSideTotal()
       },
       winner: ""
     }
@@ -210,15 +210,6 @@ export const MatchupUtility: IMatchupUtility = {
 
     let matchups: IMatchup[] = [];
 
-    const getTotal = (leftPlayerID: string, rightPlayerID: string): IMatchupSideTotal => {
-      if(leftPlayerID !== "" && rightPlayerID !== "") {
-        return {
-          participants: 1,
-          wagered: InitialValue.InitialPredictionPoints
-        };
-      }
-    }
-    
     groups.forEach((group: IMatchupPairGroup) => {
       group.pairs.forEach((pair: IMatchupPair) => {
         const left: IPlayer = players.find((player: IPlayer) => player.index === pair.left - 1),
@@ -227,7 +218,7 @@ export const MatchupUtility: IMatchupUtility = {
         const leftID: string = left ? left.id : "",
           rightID: string = right ? right.id : "";
 
-        matchups.push(MatchupUtility.mapCreate(leftID, rightID, group.day, getTotal(leftID, rightID)));
+        matchups.push(MatchupUtility.mapCreate(leftID, rightID, group.day));
       });
     });
 

@@ -11,7 +11,7 @@ import { PlayerStatus } from "../../stroll-enums/playerStatus";
 
 interface IInviteUtility {
   getLink: (gameID: string, inviteID: string) => string;
-  mapCreate: (uid: string) => IInvite;
+  mapCreate: () => IInvite;
   showInvite: (id: string, playerStatus: PlayerStatus) => boolean;
 }
 
@@ -19,15 +19,11 @@ export const InviteUtility: IInviteUtility = {
   getLink: (gameID: string, inviteID: string): string => {
     return UrlUtility.getLink(`/game/${gameID}?invite=${inviteID}`);
   },
-  mapCreate: (uid: string): IInvite => {
+  mapCreate: (): IInvite => {
     return {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       duration: DateUtility.daysToMillis(365),
-      id: Nano.generate(28),
-      ref: {
-        creator: uid,
-        team: "",
-      },
+      id: Nano.generate(5),
       uses: {
         current: 0,
         max: InitialValue.MaxInviteUses

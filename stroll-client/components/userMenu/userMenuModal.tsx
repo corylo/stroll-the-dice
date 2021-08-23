@@ -12,6 +12,8 @@ import { AppContext } from "../app/contexts/appContext";
 
 import { useOnClickAwayEffect } from "../../effects/appEffects";
 
+import { RoleUtility } from "../../../stroll-utilities/roleUtility";
+
 import { AppAction } from "../../enums/appAction";
 import { AppStatus } from "../../enums/appStatus";
 
@@ -79,7 +81,7 @@ export const UserMenuModal: React.FC<UserMenuModalProps> = (props: UserMenuModal
     }
 
     const getAdminButton = (): JSX.Element => {
-      if(user) {
+      if(RoleUtility.isAdmin(user.roles)) {
         return (          
           <Button className="user-menu-item passion-one-font" url="/admin" handleOnClick={() => dispatch(AppAction.ToggleMenu, false)}>
             Admin

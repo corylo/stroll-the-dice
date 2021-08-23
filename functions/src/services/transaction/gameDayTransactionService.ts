@@ -56,7 +56,9 @@ export const GameDayTransactionService: IGameDayTransactionService = {
             
             GameDayHistoryTransactionService.create(transaction, targetUID, entry);
 
-            GameDayHistoryTransactionService.create(transaction, context.auth.uid, entry);
+            if(context.auth.uid !== targetUID) {
+              GameDayHistoryTransactionService.create(transaction, context.auth.uid, entry);
+            }
 
             NotificationTransactionService.create(transaction, targetUID, NotificationUtility.mapCreate(
               `You've been gifted ${request.quantity} game days!`,

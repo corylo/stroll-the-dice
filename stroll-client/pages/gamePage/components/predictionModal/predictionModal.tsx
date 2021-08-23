@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import classNames from "classnames";
+import _cloneDeep from "lodash.clonedeep";
 
 import { Button } from "../../../../components/buttons/button";
 import { Form } from "../../../../components/form/form";
@@ -12,6 +13,7 @@ import { Modal } from "../../../../components/modal/modal";
 import { ModalBody } from "../../../../components/modal/modalBody";
 import { ModalTitle } from "../../../../components/modal/modalTitle";
 import { MyPrediction } from "../myPrediction/myPrediction";
+import { SimulatedPredictionOutcome } from "../simulatedPredictionOutcome/simulatedPredictionOutcome";
 
 import { GamePageContext } from "../../gamePage";
 
@@ -21,7 +23,7 @@ import { PredictionUtility } from "../../../../utilities/predictionUtility";
 
 import { PredictionValidator } from "../../validators/predictionValidator";
 
-import { IMatchup, IMatchupSide } from "../../../../../stroll-models/matchup";
+import { defaultMatchup, IMatchup, IMatchupSide } from "../../../../../stroll-models/matchup";
 import { defaultMatchupPredictionState, IMatchupPredictionState, IMatchupPredictionStateErrors } from "../../models/matchupPredictionState";
 import { IPrediction } from "../../../../../stroll-models/prediction";
 import { IPredictionUpdate } from "../../../../../stroll-models/predictionUpdate";
@@ -147,6 +149,19 @@ export const PredictionModal: React.FC<PredictionModalProps> = (props: Predictio
     }
   }
 
+  const getSimulatedOutcome = (): JSX.Element => {
+    if(state.amount !== "" && state.playerID !== "") {      
+      return (
+        <SimulatedPredictionOutcome 
+          amount={parseInt(state.amount)} 
+          currentAmount={myPrediction ? myPrediction.amount : 0}
+          matchup={_cloneDeep(matchup)} 
+          playerID={state.playerID}
+        />
+      )
+    }
+  }
+
   const getSelectionButton = (side: IMatchupSide): JSX.Element => {
     const selected: boolean = state.playerID === side.playerID;
     
@@ -199,6 +214,7 @@ export const PredictionModal: React.FC<PredictionModalProps> = (props: Predictio
               {getSelectionButton(matchup.right)}
             </InputWrapper>            
             {getMyPrediction()}
+            {getSimulatedOutcome()}
             <InputWrapper 
               label={`${player.points.available.toLocaleString()} points available`}
               error={state.errors.amount} 
