@@ -23,8 +23,8 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
     if(appState.status === AppStatus.SignedIn) {
       return (
         <React.Fragment>
-          <ConnectAStepTrackerMessage />
           <LearnMoreLink text="How To Play" />
+          <ConnectAStepTrackerMessage />
           <GameInviteInput />
           <GameConglomerate limit={10} />
         </React.Fragment>
