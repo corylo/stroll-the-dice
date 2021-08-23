@@ -84,13 +84,3 @@
     }
   }
 }
-
-@include tablet-or-smaller {
-  #navbar {  
-    #navbar-content {
-      .app-brand {
-        margin-left: 0px;
-      }
-    }
-  }
-}
