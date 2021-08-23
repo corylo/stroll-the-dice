@@ -2,17 +2,17 @@
   "name": "Stroll The Dice",
   "short_name": "Stroll",
   "icons": [{
-    "src": "/img/icon128x128.png",
+    "src": "/img/icon-128x128.png",
     "type": "image/png",
     "sizes": "128x128"
   }, {
-    "src": "/img/icon512x512.png",
+    "src": "/img/icon-512x512.png",
     "type": "image/png",
     "sizes": "512x512"
   }],
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FFFFFF",
-  "theme_color": "#FFFFFF",
+  "background_color": "#1595AD",
+  "theme_color": "#1595AD",
   "orientation": "portrait"
 }
