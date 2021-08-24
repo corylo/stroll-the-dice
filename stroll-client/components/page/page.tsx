@@ -79,9 +79,15 @@ export const Page: React.FC<PageProps> = (props: PageProps) => {
           <div className="page-content-footer-legal-policies">
             <h1 className="passion-one-font">Legal</h1>
             <div className="page-content-footer-legal-policies-list">
-              <a className="passion-one-font" href="https://legal.strollthedice.com/privacy-policy" target="_blank">Privacy Policy</a>
-              <a className="passion-one-font" href="https://legal.strollthedice.com/terms-and-conditions" target="_blank">Terms & Conditions</a>
-              <a className="passion-one-font" href="https://legal.strollthedice.com/cookie-policy" target="_blank">Cookie Policy</a>
+              <div className="page-content-footer-legal-policy-link">
+                <a className="passion-one-font" href="https://legal.strollthedice.com/privacy-policy" target="_blank">Privacy Policy</a>
+              </div>
+              <div className="page-content-footer-legal-policy-link">
+                <a className="passion-one-font" href="https://legal.strollthedice.com/terms-and-conditions" target="_blank">Terms & Conditions</a>
+              </div>
+              <div className="page-content-footer-legal-policy-link">
+                <a className="passion-one-font" href="https://legal.strollthedice.com/cookie-policy" target="_blank">Cookie Policy</a>
+              </div>
             </div>
           </div>
         </div>

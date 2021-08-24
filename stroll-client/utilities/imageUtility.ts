@@ -4,6 +4,7 @@ interface IImageUtility {
   getBlob: (index: number) => string;
   getGraphic: (graphic: string, ext?: string) => string;
   getGraphicPreview: (graphic: string, ext?: string) => string;
+  getLogo: () => string;
 }
 
 export const ImageUtility: IImageUtility = {
@@ -15,5 +16,8 @@ export const ImageUtility: IImageUtility = {
   },
   getGraphicPreview: (graphic: string, ext?: string): string => {
     return `${StrollTheDiceCDN.Url}/img/graphics/${graphic}-preview.${ext || "svg"}`;
+  },
+  getLogo: (): string => {
+    return `${StrollTheDiceCDN.Url}/img/logo.png`;
   }
 }
