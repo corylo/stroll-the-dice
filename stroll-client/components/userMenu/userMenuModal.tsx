@@ -114,7 +114,10 @@ export const UserMenuModal: React.FC<UserMenuModalProps> = (props: UserMenuModal
         <div id="user-menu-content">
           {getUserInfo()}
           {getProfileButton()}
-          {getAdminButton()}
+          {getAdminButton()}      
+          <Button className="user-menu-item passion-one-font" url="/contact-us" handleOnClick={() => dispatch(AppAction.ToggleMenu, false)}>
+            Contact us
+          </Button>
           <Button className="user-menu-item passion-one-font" url="https://legal.strollthedice.com" external newtab>
             Legal
           </Button>

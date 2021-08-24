@@ -7,7 +7,7 @@
   padding: 20px;
   position: absolute;
   right: 0px;
-  top: 60px;
+  top: 70px;
   z-index: 9997;
 
   &.signed-out {
@@ -79,7 +79,6 @@
     margin: 10px;
     position: fixed;
     right: auto;
-    top: 60px;
     width: calc(100% - 60px);
 
     #user-menu-content {
