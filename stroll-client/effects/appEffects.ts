@@ -3,9 +3,6 @@ import { useHistory } from "react-router";
 
 import { UrlUtility } from "../utilities/urlUtility";
 
-import { IAppState } from "../components/app/models/appState";
-
-import { AppAction } from "../enums/appAction";
 import { ElementID } from "../enums/elementId";
 import { ImageStatus } from "../enums/imageStatus";
 
@@ -39,18 +36,12 @@ export const useClearParamsEffect = (param: string): void => {
   }, []);
 }
 
-export const useCloseModalsEffect = (location: any, appState: IAppState, dispatch: (type: AppAction, payload?: any) => void): void => {  
-  // useEffect(() => {
-  //   const { toggles } = appState;
-
-  //   if(toggles.acceptInvite || toggles.menu || toggles.profile || toggles.signIn) {
-  //     dispatch(AppAction.CloseModals);
-  //   }
-  // }, [location.pathname]);
-}
-
 export const useScrollToTopEffect = (location: any): void => {  
-  useEffect(() => window.scrollTo(0, 0), [location.pathname]);
+  useEffect(() => {
+    if(location.hash === "") {
+      window.scrollTo(0, 0);
+    }
+  }, [location.pathname, location.hash]);
 }
 
 export const useDisableScrollEffect = () => {

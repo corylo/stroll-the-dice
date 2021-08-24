@@ -64,21 +64,27 @@ export const HowToPlayPage: React.FC<HowToPlayPageProps> = (props: HowToPlayPage
           <HowToPlaySubSection id="game-days" title="Game Days">
             <HowToPlaySectionText text="In order to create or join a game you will need to purchase Game Days. One Game Day is required for each day of the duration of the game you have selected." />
             <HowToPlaySectionText text="For example, if you wanted to create or join a game that was 5 days long, you would need to purchase at least 5 Game Days." />
-            <HowToPlaySectionText text={`You can also gift your game days to players who are joining your game by selecting the "Gift my Game Days" option in the Create Game and Update Game menus.`} />
             <HowToPlaySectionText text="Game Days can be purchased in the Shop for as low as $0.21 per day!" />
             <Button className="go-to-shop-button fancy-button passion-one-font" url="/shop">
               Go to shop
             </Button>
           </HowToPlaySubSection>
+          <HowToPlaySubSection title="Gifting Game Days">
+            <HowToPlaySectionText text={`You can also gift your game days to players who are joining your game by selecting the "Gift my Game Days" option in the Create Game and Update Game menus.`} />
+            <Button className="go-to-shop-button fancy-button passion-one-font" url="/shop">
+              Go to shop
+            </Button>
+          </HowToPlaySubSection>
+        </HowToPlaySection>              
+        <HowToPlaySection title="Inviting Players">
+          <HowToPlaySectionText text="The invite link to any game can be found near the top of the game page before the game has started. This link can be shared with anyone you'd like to join the game." />
+          <HowToPlaySectionText text="You can invite up to 19 additional players to a game for a total of 20 players." />
+          <HowToPlaySectionText text="A minimum of 4 players is required for a game to start. If the player minimum is not met, you will have to adjust the start date of the game and then invite more players." />
+          <HowToPlaySectionText text="After the start time has passed, the game will lock and additional players will no longer be able to join." />
         </HowToPlaySection>
         <HowToPlaySection title="How does the game work exactly?"> 
           <HowToPlaySectionText text="Games last between 1 and 7 days and can start at any hour of the day." />
-          <HowToPlaySectionText text="Players will start the game with 10,000 points. Throughout each day, as you take steps, you will periodically gain points at a rate of 1 point per step." />                  
-          <HowToPlaySubSection title="Inviting Players">
-            <HowToPlaySectionText text="You can invite up to 19 additional players to a game for a total of 20 players." />
-            <HowToPlaySectionText text="A minimum of 4 players is required for a game to start. If the player minimum is not met, you will have to adjust the start date of the game and then invite more players." />
-            <HowToPlaySectionText text="The invite link can be found near the top of the game page before the game has started. Once the game begins, the game will lock and additional players will no longer be able to join." />
-          </HowToPlaySubSection>
+          <HowToPlaySectionText text="Players will start the game with 10,000 points. Throughout each day, as you take steps, you will periodically gain points at a rate of 1 point per step." />    
           <HowToPlaySubSection title="Matchups">
             <HowToPlaySectionText text="For each day of the game, players will be matched up against one another with the goal of stepping more than the player they are paired against." />    
             <HowToPlaySectionText text="The number of players in the game will determine the number of matchups per day. For example, if you have 10 players, then there will be 5 matchups per day." />

@@ -8,7 +8,11 @@
     padding: 10px;
 
     .game-matchup {
-      margin-top: 40px;
+      border-top: none;
+      
+      .toggle-prediction-button {
+        display: none;
+      }
     }
   }
 
