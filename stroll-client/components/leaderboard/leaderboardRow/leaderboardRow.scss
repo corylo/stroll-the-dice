@@ -88,9 +88,12 @@
 
         .user-link {
           .profile-icon {
-            background-color: transparent;
-            height: 30px;
-            width: 30px;
+            height: 34px;
+            width: 34px;
+
+            i {
+              font-size: 0.9em;
+            }
           }
 
           .user-link-content {

@@ -56,6 +56,11 @@ td {
   display: flex;
   box-shadow: $shadow1;
   padding: 15px;
+  white-space: normal;
+
+  .label-text-wrapper {
+    margin-left: 5px;
+  }
 }
 
 .scroll-bar {
