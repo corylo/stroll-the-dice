@@ -3,6 +3,7 @@ import { useHistory } from "react-router";
 
 import { LoadingIcon } from "../../components/loadingIcon/loadingIcon";
 import { PageBackgroundGraphic } from "./pageBackgroundGraphic";
+import { PageFooter } from "./components/pageFooter/pageFooter";
 import { PageMessage } from "./pageMessage";
 
 import { AppContext } from "../../components/app/contexts/appContext";
@@ -72,25 +73,10 @@ export const Page: React.FC<PageProps> = (props: PageProps) => {
   const getFooter = (): JSX.Element => {
     if(
       props.showFooter && 
-      appState.status === AppStatus.SignedOut
+      appState.status !== AppStatus.Loading
     ) {
       return (
-        <div className="page-content-footer">
-          <div className="page-content-footer-legal-policies">
-            <h1 className="passion-one-font">Legal</h1>
-            <div className="page-content-footer-legal-policies-list">
-              <div className="page-content-footer-legal-policy-link">
-                <a className="passion-one-font" href="https://legal.strollthedice.com/privacy-policy" target="_blank">Privacy Policy</a>
-              </div>
-              <div className="page-content-footer-legal-policy-link">
-                <a className="passion-one-font" href="https://legal.strollthedice.com/terms-and-conditions" target="_blank">Terms & Conditions</a>
-              </div>
-              <div className="page-content-footer-legal-policy-link">
-                <a className="passion-one-font" href="https://legal.strollthedice.com/cookie-policy" target="_blank">Cookie Policy</a>
-              </div>
-            </div>
-          </div>
-        </div>
+        <PageFooter />
       )
     }
   }

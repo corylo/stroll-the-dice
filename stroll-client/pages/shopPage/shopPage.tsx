@@ -128,7 +128,7 @@ export const ShopPage: React.FC<ShopPageProps> = (props: ShopPageProps) => {
   }
 
   return(    
-    <Page id="shop-page" backgroundGraphic="">     
+    <Page id="shop-page" backgroundGraphic="" showFooter>     
       <PageTitle text="Shop" />   
       <PoweredByStripe />   
       <ShopSection 

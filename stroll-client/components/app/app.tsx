@@ -2,6 +2,7 @@ import React, { useReducer } from "react";
 import { Route, Switch, useLocation } from "react-router";
 
 import { AdminPage } from "../../pages/adminPage/adminPage";
+import { ContactUsPage } from "../../pages/contactUsPage/contactUsPage";
 import { CreateGamePage } from "../../pages/createGamePage/createGamePage";
 import { GamePage } from "../../pages/gamePage/gamePage";
 import { GoodbyePage } from "../../pages/goodbyePage/goodbyePage";
@@ -86,6 +87,9 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
           </Route>
           <Route exact path="/how-to-play">
             <HowToPlayPage />
+          </Route>
+          <Route exact path="/contact-us">
+            <ContactUsPage />
           </Route>
           <Route exact path="/goodbye">
             <GoodbyePage />

@@ -1,0 +1,48 @@
+.page-footer {
+  animation: fadeIn 400ms ease-in;
+  background: linear-gradient(to bottom, rgba(white, 0.15), transparent);
+  border-top: 2px solid rgba(white, 0.25);
+  display: flex;
+  gap: 2em;
+  margin-top: 40px;
+  padding: 40px;
+
+  .page-footer-section {
+    .page-footer-section-title {
+      color: white;
+    }
+
+    .page-footer-section-content {
+      display: flex;
+      flex-direction: column;
+
+      .page-footer-link {
+        margin-top: 10px;
+
+        a {
+          color: gray(40);
+          display: inline-block;
+          text-decoration: none;
+
+          &:hover,
+          &:focus {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include small-phone-or-smaller {
+  .page-footer {
+    flex-direction: column;
+    padding: 20px;
+
+    .page-footer-section {
+      .page-footer-section-content {
+        
+      }
+    }
+  }
+}

@@ -1,3 +1,5 @@
+@import "./components/pageFooter/pageFooter.scss";
+
 .page {
   min-height: 100vh;
   overflow: hidden;
@@ -71,49 +73,6 @@
         height: 200px;
         max-height: 50vh;
         position: relative;
-      }
-
-      .page-content-footer {
-        border-top: 1px solid rgba(white, 0.25);
-        margin-top: 20px;
-        padding: 20px;
-
-        .page-content-footer-legal-policies {
-          h1 {
-            color: white;
-          }
-
-          .page-content-footer-legal-policies-list {
-            display: flex;
-            flex-direction: column;
-            margin-top: 10px;
-
-            .page-content-footer-legal-policy-link {
-              a {
-                color: gray(40);
-                display: inline-block;
-                text-decoration: none;
-
-                &:hover,
-                &:focus {
-                  text-decoration: underline;
-                }
-
-                &:nth-of-type(n + 2) {
-                  margin-top: 5px;
-                }
-              }
-            }
-          }
-        }
-
-        .page-content-footer-company-name {
-          margin-top: 50px;
-
-          h1 {
-            color: white;
-          }  
-        }
       }
     }
   }

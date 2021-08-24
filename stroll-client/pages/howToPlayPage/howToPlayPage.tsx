@@ -41,7 +41,7 @@ export const HowToPlayPage: React.FC<HowToPlayPageProps> = (props: HowToPlayPage
   }
 
   return(
-    <Page id="how-to-play-page" backgroundGraphic="">     
+    <Page id="how-to-play-page" backgroundGraphic="" showFooter>     
       <PageTitle text="How To Play" />
       <div className="how-to-play-page-sections">
         <HowToPlaySummary />
