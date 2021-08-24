@@ -8,8 +8,6 @@ export enum Icon {
   Kiwi = "far fa-kiwi-bird",
   Monkey = "far fa-monkey",  
   Narwhal = "far fa-narwhal",
-  NotificationRead = "fal fa-envelope-open",
-  NotificationUnread = "fal fa-envelope",
   Pegasus = "far fa-pegasus",
   Pig = "far fa-pig",
   Rabbit = "far fa-rabbit-fast",
@@ -23,10 +21,14 @@ export enum Icon {
   TwentyEightGameDays = "fal fa-treasure-chest",
   OneHundredFourtyGameDays = "fal fa-parachute-box",
 
+  NotificationRead = "fal fa-envelope-open",
+  NotificationUnread = "fal fa-envelope",
+  
   AppBrand = "fal fa-running",
   Dice = "fal fa-dice",
   Points = "fal fa-dice-d8",
   ProfileIcon = "profile-icon",
+  Question = "fal fa-question",
   Steps = "fal fa-shoe-prints",  
   User = "fal fa-user",
   UserDeleted = "fal fa-user-slash",

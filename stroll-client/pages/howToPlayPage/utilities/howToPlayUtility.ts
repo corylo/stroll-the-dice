@@ -30,7 +30,7 @@ export const HowToPlayUtility: IHowToPlayUtility = {
       return {
         playerID: "123",
         profile: {
-          color: Color.Orange3,
+          color: Color.Orange2,
           deletedAt: null,
           friendID: "",
           icon: Icon.Dog,
@@ -49,7 +49,7 @@ export const HowToPlayUtility: IHowToPlayUtility = {
     return {
       playerID: "234",
       profile: {
-        color: Color.Yellow2,
+        color: Color.Yellow1,
         deletedAt: null,
         friendID: "",
         icon: Icon.Squirrel,
@@ -74,7 +74,7 @@ export const HowToPlayUtility: IHowToPlayUtility = {
         total: 1000
       },
       profile: {
-        color: Color.Purple3,
+        color: Color.Purple1,
         deletedAt: null,
         friendID: "",
         icon: Icon.Rudolph,

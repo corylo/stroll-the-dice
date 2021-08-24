@@ -36,7 +36,7 @@ export const GameEventUtility: IGameEventUtility = {
       case GameEventType.PlayerDayCompletedSummary:
         return playerColor;
       default:
-        return Color.Gray5;
+        return Color.White;
     }
   },
   getIcon: (type: GameEventType): Icon => {

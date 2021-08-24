@@ -27,6 +27,7 @@
     }
     
     .leaderboard-row-place {    
+      flex-shrink: 0;
       text-align: center;
       width: 20px;
     }
@@ -37,6 +38,12 @@
       flex-grow: 1;
       justify-content: space-between;
       margin-left: 10px;
+
+      .user-link {
+        .profile-icon {
+          flex-shrink: 0;
+        }
+      }
 
       .leaderboard-row-points {  
         align-items: center;

@@ -24,7 +24,7 @@ export const defaultProfileReference = (): IProfileReference => ({
 });
 
 export const deletedProfileReference = (uid: string): IProfileReference => ({
-  color: Color.Gray5,
+  color: Color.White,
   deletedAt: null,
   friendID: "",
   icon: Icon.UserDeleted,

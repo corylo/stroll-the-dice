@@ -36,7 +36,7 @@ export const deletedProfile = (
   uid: string,
   updatedAt: firebase.firestore.FieldValue
 ): IProfile => ({
-  color: Color.Gray5,
+  color: Color.White,
   createdAt,
   deletedAt: null,
   friendID: "",

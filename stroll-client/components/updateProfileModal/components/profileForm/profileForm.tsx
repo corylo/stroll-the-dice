@@ -109,7 +109,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props: ProfileFormProps)
           id="username-input" 
           label="Username" 
           minLength={3}
-          maxLength={24}
+          maxLength={20}
           value={fields.username}
           error={errors.username}
         >
@@ -117,7 +117,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props: ProfileFormProps)
             type="text"
             className="passion-one-font"
             minLength={3}
-            maxLength={24}
+            maxLength={20}
             placeholder="Flying Ninja Monkey"
             value={fields.username}
             onChange={(e: any) => dispatch(ProfileFormAction.SetUsername, e.target.value.replace(/[^a-z0-9 ]/gi, ""))}
@@ -127,15 +127,15 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props: ProfileFormProps)
         <InputWrapper
           id="name-input" 
           label="Name" 
-          maxLength={100}
+          maxLength={30}
           value={fields.name}
           error={errors.name}
         >
           <input 
             type="text"
             className="passion-one-font"
-            maxLength={100}
-            placeholder="Name"
+            maxLength={30}
+            placeholder="John D"
             value={fields.name}
             onChange={(e: any) => dispatch(ProfileFormAction.SetName, e.target.value.replace(/[^a-z0-9 ]/gi, ""))}
             onKeyDown={handleOnKeyDown}

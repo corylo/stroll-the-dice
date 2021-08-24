@@ -126,7 +126,8 @@
         z-index: 2;
       }
 
-      .leaderboard-top-row-player-username {
+      .leaderboard-top-row-player-username,
+      .leaderboard-top-row-player-name {       
         margin-top: 5px;
         max-width: 140px;
         overflow: hidden;
@@ -139,6 +140,7 @@
       .leaderboard-top-row-player-name {
         color: white;
         font-size: 0.8em;
+        margin-top: 0px;
       }
     }
 
@@ -195,6 +197,10 @@
           padding: 0px 5px;
           width: 90px;
         }
+        
+        .leaderboard-top-row-player-name {
+          width: 100px;
+        }
       }
 
       .leaderboard-top-row-points {  
@@ -218,6 +224,10 @@
       .leaderboard-top-row-player {
         .leaderboard-top-row-player-username {
           width: 70px;
+        }
+        
+        .leaderboard-top-row-player-name {
+          width: 80px;
         }
       }
     }
