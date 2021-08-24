@@ -44,7 +44,7 @@ export const PlayerTransactionService: IPlayerTransactionService = {
     let updatedPlayer: IPlayer = { ...player };
 
     if(steps > 0) {
-      updatedPlayer = PointsUtility.mapPointsForSteps(updatedPlayer, steps);;
+      updatedPlayer = PointsUtility.mapPointsForSteps(updatedPlayer, steps);
 
       GameEventTransactionService.sendPlayerEarnedPointsFromStepsEvent(transaction, gameID, doc.id, steps);
     }
@@ -53,6 +53,7 @@ export const PlayerTransactionService: IPlayerTransactionService = {
 
     transaction.update(doc.ref, { 
       points: updatedPlayer.points, 
+      steps: player.steps + steps,
       updatedAt: firebase.firestore.FieldValue.serverTimestamp() 
     });
     
@@ -71,6 +72,7 @@ export const PlayerTransactionService: IPlayerTransactionService = {
 
       transaction.update(doc.ref, {
         points: updatedPlayer.points,
+        steps: player.steps + steps,
         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
       });
 
