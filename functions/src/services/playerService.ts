@@ -1,11 +1,12 @@
 import firebase from "firebase-admin";
-import { EventContext, logger } from "firebase-functions";
+import { Change, EventContext, logger } from "firebase-functions";
 
 import { db } from "../../config/firebase";
 
 import { GameDayHistoryTransactionService } from "./transaction/gameDayHistoryTransactionService";
 import { GameEventTransactionService } from "./transaction/gameEventTransactionService";
 import { PlayerTransactionService } from "./transaction/playerTransactionService";
+import { ProfileTransactionService } from "./transaction/profileTransactionService";
 
 import { FirestoreDateUtility } from "../utilities/firestoreDateUtility";
 import { GameDayHistoryUtility } from "../utilities/gameDayHistoryUtility";
@@ -16,9 +17,12 @@ import { IGameDayHistoryUseEntry } from "../../../stroll-models/gameDayHistoryEn
 import { matchupConverter } from "../../../stroll-models/matchup";
 import { IPlayer, playerConverter } from "../../../stroll-models/player";
 
+import { GameStatus } from "../../../stroll-enums/gameStatus";
+
 interface IPlayerService {
   getByGame: (id: string) => Promise<IPlayer[]>;
   onCreate: (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext) => Promise<void>;  
+  onUpdate: (change: Change<firebase.firestore.QueryDocumentSnapshot<IPlayer>>, context: EventContext) => Promise<void>;
 }
 
 export const PlayerService: IPlayerService = {
@@ -83,6 +87,21 @@ export const PlayerService: IPlayerService = {
       logger.info(`Successfully completed onCreate function for player [${player.id}] in game [${player.ref.game}].`);
     } catch (err) {
       logger.error(err);
+    }
+  },
+  onUpdate: async (change: Change<firebase.firestore.QueryDocumentSnapshot<IPlayer>>, context: EventContext): Promise<void> => {    
+    const before: IPlayer = change.before.data(),
+      after: IPlayer = change.after.data();
+  
+    if(before.ref.gameStatus === GameStatus.InProgress && after.ref.gameStatus === GameStatus.Completed) {
+      try {
+        await ProfileTransactionService.handleGameCompletedProfileUpdate(context.params.gameID, { 
+          ...change.after.data(),
+          id: context.params.id
+        });
+      } catch (err) {
+        logger.error(err);
+      }
     }
   }
 }

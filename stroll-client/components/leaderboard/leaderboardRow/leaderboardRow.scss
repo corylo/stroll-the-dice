@@ -1,4 +1,4 @@
-.leaderboard-remaining-row {  
+.leaderboard-row {  
   display: flex;
   position: relative;
 
@@ -6,79 +6,46 @@
     margin-top: 10px;
   }
 
-  .leaderboard-remaining-row-border {
-    background-color: white;
-    border-radius: 10px;
-    flex-shrink: 0;
-    width: 2px;
-  }
-
-  .leaderboard-remaining-row-content {
+  .leaderboard-row-content {
     align-items: center;
-    background: linear-gradient(to right, rgba(white, 0.05), transparent 80%);   
+    background: linear-gradient(to right, rgba(white, 0.1), transparent 80%);   
     border-radius: 4px;
     display: flex;
     flex-grow: 1;
-    margin-left: 5px;
-    padding: 5px 10px;
+    justify-content: space-between;
+    padding: 5px;
 
-    .leaderboard-row-place {
-      color: white;
-    }
-    
-    .leaderboard-row-place {    
-      flex-shrink: 0;
-      text-align: center;
-      width: 20px;
-    }
-
-    .leaderboard-row-player-and-points {
+    .leaderboard-row-place-and-player {
       align-items: center;
       display: flex;
-      flex-grow: 1;
-      justify-content: space-between;
-      margin-left: 10px;
+
+      .leaderboard-row-place {  
+        color: white;  
+        text-align: center;
+        width: 20px;
+      }
 
       .user-link {
-        .profile-icon {
-          flex-shrink: 0;
-        }
-      }
-
-      .leaderboard-row-points {  
-        align-items: center;
-        color: white;
-        display: flex;
-        justify-content: center;
-
-        i {
-          font-size: 0.7em;
-        }
-
-        .animated-counter {
-          margin-left: 5px;
-
-          h1 {
-            color: white;
-          }
-        }
+        margin-left: 5px;
       }
     }
-  }
-}
 
-@include medium-phone-or-smaller {
-  .leaderboard-remaining-row {  
-    .leaderboard-remaining-row-content {      
-      .leaderboard-row-player-and-points {
-        .user-link {
-          .user-link-content {
-            .user-link-username-wrapper {
-              .user-link-username {
-                font-size: 0.9em;
-              }
-            }
-          }
+
+    .leaderboard-row-points {  
+      align-items: center;
+      color: white;
+      display: flex;
+      justify-content: center;
+
+      i {
+        font-size: 0.7em;
+      }
+
+      .animated-counter {
+        margin-left: 5px;
+
+        h1 {
+          color: white;
         }
       }
     }
@@ -86,27 +53,14 @@
 }
 
 @include small-phone-or-smaller {
-  .leaderboard-remaining-row {  
-    .leaderboard-remaining-row-content {  
-      padding: 5px;
-
-      .leaderboard-row-player-and-points {
-        margin-left: 0px;
-
+  .leaderboard-row {  
+    .leaderboard-row-content {      
+      .leaderboard-row-place-and-player {
         .user-link {
-          .profile-icon {
-            height: 34px;
-            width: 34px;
-
-            i {
-              font-size: 0.9em;
-            }
-          }
-
           .user-link-content {
             .user-link-username-wrapper {
               .user-link-username {
-                max-width: 110px;
+                max-width: 100px;
               }
             }
           }

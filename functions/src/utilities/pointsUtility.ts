@@ -1,26 +1,22 @@
-import { IPlayer } from "../../../stroll-models/player";
+import { IPlayer, IPlayerPoints } from "../../../stroll-models/player";
 import { IPlayerDayCompletedSummary } from "../../../stroll-models/playerDayCompletedSummary";
 
 interface IPointsUtility {
-  mapEndOfDayPoints: (player: IPlayer, summary: IPlayerDayCompletedSummary) => IPlayer;
-  mapPointsForSteps: (player: IPlayer, update: number) => IPlayer;
+  mapEndOfDayPoints: (player: IPlayer, summary: IPlayerDayCompletedSummary) => IPlayerPoints;
+  mapPointsForSteps: (player: IPlayer, update: number) => IPlayerPoints;
 }
 
 export const PointsUtility: IPointsUtility = {
-  mapEndOfDayPoints: (player: IPlayer, summary: IPlayerDayCompletedSummary): IPlayer => {
-    player.points = {
+  mapEndOfDayPoints: (player: IPlayer, summary: IPlayerDayCompletedSummary): IPlayerPoints => {
+    return {
       available: player.points.available + summary.received,
       total: player.points.total + (summary.gained - summary.lost)
-    }
-
-    return player;
+    };
   },
-  mapPointsForSteps: (player: IPlayer, update: number): IPlayer => {
-    player.points = {
+  mapPointsForSteps: (player: IPlayer, update: number): IPlayerPoints => {
+    return {
       available: player.points.available + update,
       total: player.points.total + update
     }
-
-    return player;
   }
 }

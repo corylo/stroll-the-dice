@@ -1,5 +1,4 @@
 import React from "react";
-import _orderBy from "lodash.orderby";
 
 import { LeaderboardTopRowPillar } from "./leaderboardTopRowPillar";
 import { ProfileIcon } from "../../profileIcon/profileIcon";

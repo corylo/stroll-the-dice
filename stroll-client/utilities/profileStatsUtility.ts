@@ -17,8 +17,13 @@ export const ProfileStatsUtility: IProfileStatsUtility = {
         }
       case ProfileStatsID.Games:
         return {
+          daysPlayed: 0,
+          gamesPlayed: 0,
           lastCreated: "",
-          lastJoined: ""
+          lastJoined: "",
+          points: 0,
+          steps: 0,
+          wins: 0
         }
       case ProfileStatsID.Notifications:
         return {

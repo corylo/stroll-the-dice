@@ -13,7 +13,6 @@ import { PlayerService } from "./playerService";
 import { PlayingInBatchService } from "./batch/playingInBatchService";
 import { StepTrackerService } from "./stepTrackerService";
 
-import { FirestoreDateUtility } from "../utilities/firestoreDateUtility";
 import { GameDaySummaryUtility } from "../utilities/gameDaySummaryUtility";
 import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtility";
 import { GameEventUtility } from "../utilities/gameEventUtility";
@@ -33,14 +32,16 @@ interface IGameUpdateService {
   handleReferenceFieldChange: (gameID: string, game: IGame) => Promise<void>;
   handleStillInProgress: (gameID: string, game: IGame) => Promise<void>;
   handleUpcomingToInProgress: (gameID: string, game: IGame) => Promise<void>;
-  handleUpdateEvent: (gameID: string, before: IGame, after: IGame) => Promise<void>;
+  handleUpdateEvent: (gameID: string, before: IGame, after: IGame) => Promise<void>;  
 }
 
 export const GameUpdateService: IGameUpdateService = {
   handleInProgressToCompleted: async (gameID: string, game: IGame): Promise<void> => {
     await GameUpdateService.handleStillInProgress(gameID, game);
-    
-    logger.info(`Game [${gameID}] is now complete.`);
+
+    const gameRef: firebase.firestore.DocumentReference<IGame> = db.collection("games")
+      .doc(gameID)
+      .withConverter<IGame>(gameConverter);
 
     const batch: firebase.firestore.WriteBatch = db.batch();
 
@@ -48,15 +49,11 @@ export const GameUpdateService: IGameUpdateService = {
 
     PlayerBatchService.updateGameStatus(batch, players, game.status);
 
-    GameEventBatchService.create(batch, gameID, GameEventUtility.mapGeneralEvent(FirestoreDateUtility.addMillis(game.endsAt, 3), GameEventType.Completed));
-
-    const gameRef: firebase.firestore.DocumentReference<IGame> = db.collection("games")
-      .doc(gameID)
-      .withConverter<IGame>(gameConverter);
-
     batch.update(gameRef, { progressUpdateAt: firebase.firestore.FieldValue.serverTimestamp() });   
 
     await batch.commit();
+    
+    logger.info(`Game [${gameID}] is now complete.`);
   },
   handleReferenceFieldChange: async (gameID: string, game: IGame): Promise<void> => {    
     logger.info(`Updating all references to game [${gameID}]`);

@@ -1,6 +1,5 @@
 import React from "react";
 import classNames from "classnames";
-import _orderBy from "lodash.orderby";
 
 import { AnimatedCounter } from "../../animatedCounter/animatedCounter";
 import { LeaderboardTopRowPillar } from "./leaderboardTopRowPillar";

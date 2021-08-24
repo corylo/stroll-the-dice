@@ -69,6 +69,7 @@ export const HowToPlayUtility: IHowToPlayUtility = {
       id: "000",
       createdAt: FirestoreDateUtility.dateToTimestamp(new Date()),
       index: 0,
+      place: 0,
       points: {
         available: 1000,
         total: 1000

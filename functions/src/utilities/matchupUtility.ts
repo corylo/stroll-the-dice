@@ -5,13 +5,12 @@ import { db } from "../../config/firebase";
 import { Nano } from "../../../stroll-utilities/nanoUtility";
 import { NumberUtility } from "../../../stroll-utilities/numberUtility";
 
-import { defaultMatchupSideTotal, IMatchup, IMatchupSide, IMatchupSideTotal, matchupConverter } from "../../../stroll-models/matchup";
+import { defaultMatchupSideTotal, IMatchup, IMatchupSide, matchupConverter } from "../../../stroll-models/matchup";
 import { IMatchupPair } from "../../../stroll-models/matchupPair";
 import { IMatchupPairGroup } from "../../../stroll-models/matchupPairGroup";
 import { IMatchupPlayerReference } from "../../../stroll-models/matchupProfileReference";
 import { IPlayer } from "../../../stroll-models/player";
 
-import { InitialValue } from "../../../stroll-enums/initialValue";
 import { MatchupLeader } from "../../../stroll-enums/matchupLeader";
 
 interface IMatchupUtility {  

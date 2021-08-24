@@ -133,6 +133,7 @@ export const GameEventUtility: IGameEventUtility = {
       to.gained = event.gained;
       to.lost = event.lost;
       to.overall = event.overall;
+      to.place = event.place;
       to.received = event.received;
       to.steps = event.steps;
       to.wagered = event.wagered;

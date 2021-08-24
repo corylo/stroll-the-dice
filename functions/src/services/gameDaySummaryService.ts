@@ -22,6 +22,7 @@ export const GameDaySummaryService: IGameDaySummaryService = {
       .doc(gameID)
       .collection("day_summaries")
       .doc(summary.day.toString())
+      .withConverter(gameDaySummaryConverter)
       .set(summary);
   },
   get: async (gameID: string, day: number): Promise<IGameDaySummary> => {

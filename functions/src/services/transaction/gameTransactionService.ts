@@ -15,8 +15,6 @@ import { PlayerUtility } from "../../utilities/playerUtility";
 import { IDayCompletedEvent } from "../../../../stroll-models/gameEvent/dayCompletedEvent";
 import { gameConverter, IGame } from "../../../../stroll-models/game";
 import { gameDaySummaryConverter, IGameDaySummary } from "../../../../stroll-models/gameDaySummary";
-import { IPlayer } from "../../../../stroll-models/player";
-import { IPlayerDayCompletedSummary } from "../../../../stroll-models/playerDayCompletedSummary";
 import { IPlayerStepUpdate } from "../../../../stroll-models/playerStepUpdate";
 import { IPrediction } from "../../../../stroll-models/prediction";
 
@@ -48,16 +46,16 @@ export const GameTransactionService: IGameTransactionService = {
       await db.runTransaction(async (transaction: firebase.firestore.Transaction) => {
         const playerSnap: firebase.firestore.QuerySnapshot = await transaction.get(playersRef);
 
-        playerSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>) => {          
-          const playerSummary: IPlayerDayCompletedSummary = GameDaySummaryUtility.mapPlayerDayCompletedSummary(
-            day, 
-            doc.id, 
-            finalizedSummary.matchups, 
-            predictions
-          );
-
-          PlayerTransactionService.handlePlayerEarnedPointsAtEndOfDay(transaction, gameID, doc, updates, playerSummary, dayCompletedAt);
-        });
+        PlayerTransactionService.handlePlayerEarnedPointsAtEndOfDay(
+          transaction, 
+          gameID, 
+          playerSnap, 
+          finalizedSummary.matchups,
+          predictions,
+          updates, 
+          day,
+          dayCompletedAt
+        );
 
         transaction.update(gameDaySummaryRef, finalizedSummary);
         
@@ -91,9 +89,8 @@ export const GameTransactionService: IGameTransactionService = {
       await db.runTransaction(async (transaction: firebase.firestore.Transaction) => {
         const playerSnap: firebase.firestore.QuerySnapshot = await transaction.get(playersRef);
 
-        playerSnap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>) => 
-          PlayerTransactionService.handlePlayerEarnedPointsForSteps(transaction, gameID, doc, updates));
-
+        PlayerTransactionService.handlePlayerEarnedPointsForSteps(transaction, gameID, playerSnap, updates);
+        
         transaction.update(gameDaySummaryRef, summary);
         
         transaction.update(gameRef, { progressUpdateAt: firebase.firestore.FieldValue.serverTimestamp() });

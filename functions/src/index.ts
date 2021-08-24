@@ -43,6 +43,10 @@ exports.onGameDelete = firestore
 exports.onPlayerCreate = firestore
   .document("games/{gameID}/players/{id}")
   .onCreate(PlayerService.onCreate);
+
+exports.onPlayerUpdate = firestore
+  .document("games/{gameID}/players/{id}")
+  .onUpdate(PlayerService.onUpdate);
   
 exports.onPredictionCreate = firestore
   .document("games/{gameID}/matchups/{matchupID}/predictions/{id}")

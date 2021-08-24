@@ -11,7 +11,7 @@ interface IGameDaySummaryUtility {
   findUpdateForPlayer: (playerID: string, updates: IPlayerStepUpdate[]) => number;
   getPlayersFromMatchups: (matchups: IMatchup[]) => IGameDaySummaryPlayerReference[];
   mapCreate: (day: number, matchups: IMatchup[]) => IGameDaySummary;
-  mapPlayerDayCompletedSummary: (day: number, playerID: string, matchups: IMatchup[], predictions: IPrediction[]) => IPlayerDayCompletedSummary;
+  mapPlayerDayCompletedSummary: (day: number, playerID: string, place: number, matchups: IMatchup[], predictions: IPrediction[]) => IPlayerDayCompletedSummary;
   mapUpdates: (summary: IGameDaySummary, updates: IPlayerStepUpdate[]) => IGameDaySummary;
   mapUpdatesToMatchups: (matchups: IMatchup[], updates: IPlayerStepUpdate[]) => IMatchup[];
   mapUpdatesToPlayers: (players: IGameDaySummaryPlayerReference[], updates: IPlayerStepUpdate[]) => IGameDaySummaryPlayerReference[];
@@ -47,7 +47,7 @@ export const GameDaySummaryUtility: IGameDaySummaryUtility = {
       players: GameDaySummaryUtility.getPlayersFromMatchups(matchups)
     }
   },
-  mapPlayerDayCompletedSummary: (day: number, playerID: string, matchups: IMatchup[], predictions: IPrediction[]): IPlayerDayCompletedSummary => {
+  mapPlayerDayCompletedSummary: (day: number, playerID: string, place: number, matchups: IMatchup[], predictions: IPrediction[]): IPlayerDayCompletedSummary => {
     const received: number = PredictionUtility.sumCorrectPredictionsWithOdds(playerID, matchups, predictions),
       correctlyWagered: number = PredictionUtility.sumCorrectPredictions(playerID, matchups, predictions),
       lost: number = PredictionUtility.sumIncorrectPredictions(playerID, matchups, predictions),
@@ -64,6 +64,7 @@ export const GameDaySummaryUtility: IGameDaySummaryUtility = {
       gained,
       lost,
       overall,
+      place,
       received,
       steps,  
       wagered

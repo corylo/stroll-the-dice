@@ -82,13 +82,7 @@ export const GameEventUtility: IGameEventUtility = {
 
     return {
       ...event,
-      day: summary.day,
-      gained: summary.gained,
-      lost: summary.lost,
-      overall: summary.overall,
-      received: summary.received,
-      steps: summary.steps,
-      wagered: summary.wagered
+      ...summary
     }
   },
   mapPlayerEarnedPointsFromStepsEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, points: number): IPlayerEarnedPointsFromStepsEvent => {

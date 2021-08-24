@@ -11,13 +11,33 @@ export const defaultProfileGameDayStats = (): IProfileGameDayStats => ({
 });
 
 export interface IProfileGamesStats {
+  daysPlayed: number;
+  gamesPlayed: number;
   lastCreated: string;
   lastJoined: string;
+  points: number;
+  steps: number;
+  wins: number;
+}
+
+export interface IProfileGamesStatsUpdate {
+  daysPlayed?: number;
+  gamesPlayed?: number;
+  lastCreated?: string;
+  lastJoined?: string;  
+  points?: number;
+  steps?: number;
+  wins?: number;
 }
 
 export const defaultProfileGamesStats = (): IProfileGamesStats => ({
+  daysPlayed: 0,
+  gamesPlayed: 0,
   lastCreated: "",
-  lastJoined: ""
+  lastJoined: "",
+  points: 0,
+  steps: 0,
+  wins: 0
 });
 
 export interface IProfileNotificationStats {  

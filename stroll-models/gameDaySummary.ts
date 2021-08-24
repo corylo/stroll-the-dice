@@ -36,7 +36,7 @@ export const gameDaySummaryConverter: any = {
 
     return {
       day: data.day,
-      id: data.id,
+      id: snapshot.id,
       matchups: data.matchups,
       players: data.players
     }

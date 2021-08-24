@@ -43,6 +43,7 @@ export const PlayerUtility: IPlayerUtility = {
         available: InitialValue.PlayerPoints,
         total: InitialValue.PlayerPoints
       },
+      place: 0,
       profile: {
         color: profile.color,
         deletedAt: null,

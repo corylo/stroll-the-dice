@@ -1,5 +1,4 @@
 import _groupBy from "lodash.groupby";
-import _orderBy from "lodash.orderby";
 
 import { IMatchup, IMatchupSide } from "../../stroll-models/matchup";
 import { IPlayer } from "../../stroll-models/player";

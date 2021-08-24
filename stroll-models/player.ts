@@ -35,7 +35,8 @@ export const defaultPlayerRef = (): IPlayerRef => ({
 export interface IPlayer {
   createdAt: firebase.firestore.FieldValue;  
   id: string;  
-  index: number;
+  index?: number;
+  place: number;
   points: IPlayerPoints;
   profile: IProfileReference;
   ref: IPlayerRef;  
@@ -46,7 +47,7 @@ export interface IPlayer {
 export const defaultPlayer = (): IPlayer => ({
   createdAt: firebase.firestore.FieldValue.serverTimestamp(),
   id: "",  
-  index: 0,
+  place: 0,
   points: defaultPlayerPoints(),
   profile: defaultProfileReference(),
   ref: defaultPlayerRef(),  
@@ -57,8 +58,8 @@ export const defaultPlayer = (): IPlayer => ({
 export const playerConverter: any = {
   toFirestore(player: IPlayer): firebase.firestore.DocumentData {
     return {
-      createdAt: player.createdAt,   
-      index: player.index,
+      createdAt: player.createdAt,  
+      place: player.place,
       points: player.points,
       profile: player.profile,
       ref: player.ref,
@@ -73,7 +74,7 @@ export const playerConverter: any = {
 
     return {
       createdAt: data.createdAt,   
-      index: data.index,   
+      place: data.place,
       points: data.points,
       profile: data.profile,
       id: snapshot.id,

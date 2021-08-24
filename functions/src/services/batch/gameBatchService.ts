@@ -5,7 +5,7 @@ import { db } from "../../../config/firebase";
 
 import { ProfileUtility } from "../../utilities/profileUtility";
 
-import { IGame } from "../../../../stroll-models/game";
+import { gameConverter, IGame } from "../../../../stroll-models/game";
 import { IGameUpdate } from "../../../../stroll-models/gameUpdate";
 import { deletedProfileReference } from "../../../../stroll-models/profileReference";
 import { IProfileUpdate } from "../../../../stroll-models/profileUpdate";
@@ -20,7 +20,7 @@ interface IGameBatchService {
   handleInProgressToCompleted: (completedGamesSnap: firebase.firestore.QuerySnapshot) => Promise<void>;
   handleInProgressToCompletedLoop: (docs: FirebaseFirestore.QueryDocumentSnapshot[]) => Promise<void>;
   handleUpcomingToInProgress: (upcomingGamesSnap: firebase.firestore.QuerySnapshot) => Promise<void>;
-  handleUpcomingToInProgressLoop: (docs: FirebaseFirestore.QueryDocumentSnapshot[]) => Promise<void>;
+  handleUpcomingToInProgressLoop: (docs: FirebaseFirestore.QueryDocumentSnapshot[]) => Promise<void>;  
   updateCreator: (batch: firebase.firestore.WriteBatch, uid: string, update: IProfileUpdate) => Promise<void>;
 }
 
