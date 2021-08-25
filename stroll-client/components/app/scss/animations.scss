@@ -183,10 +183,10 @@
 
 @keyframes warningBackground {
   from, to {
-    background-color: rgba($yellow, 0.5);
+    background-color: rgba($orange, 0.6);
   }
 
   50% {
-    background-color: rgba($yellow, 0.75);
+    background-color: rgba($orange, 0.9);
   }
 }
