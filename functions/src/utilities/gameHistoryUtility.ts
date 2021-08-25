@@ -9,9 +9,11 @@ interface IGameHistoryUtility {
 export const GameHistoryUtility: IGameHistoryUtility = {  
   mapCreate: (game: IGame, player: IPlayer): IGameHistoryEntry => {
     return {
+      duration: game.duration,
       endsAt: game.endsAt,
       gameID: game.id,
       id: "",
+      name: game.name,
       place: player.place,
       points: player.points.total,
       steps: player.steps
