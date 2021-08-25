@@ -131,9 +131,6 @@ export const UserMenuModal: React.FC<UserMenuModalProps> = (props: UserMenuModal
           {getProfileButton()}
           {getAdminButton()}      
           {getToggleCookieBannerButton()}
-          <Button className="user-menu-item passion-one-font" url="/contact-us" handleOnClick={() => dispatch(AppAction.ToggleMenu, false)}>
-            Contact us
-          </Button>          
           {getSignOutButton()}
         </div>
       </div>,
