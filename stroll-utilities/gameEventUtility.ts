@@ -8,55 +8,15 @@ import { IPlayerUpdatedPredictionEvent } from "../stroll-models/gameEvent/player
 
 import { IGameEvent } from "../stroll-models/gameEvent/gameEvent";
 
-import { Color } from "../stroll-enums/color";
 import { GameEventType } from "../stroll-enums/gameEventType";
-import { Icon } from "../stroll-enums/icon";
 
 interface IGameEventUtility {
-  getColor: (type: GameEventType, playerColor: Color) => Color;
-  getIcon: (type: GameEventType) => Icon;
   getLabel: (event: IGameEvent) => string;
   mapFromFirestore: (id: string, event: any) => any;
   mapToFirestore: (event: any) => any;
 }
 
-export const GameEventUtility: IGameEventUtility = {  
-  getColor: (type: GameEventType, playerColor: Color): Color => {
-    switch(type) {
-      case GameEventType.Completed:
-      case GameEventType.Created:
-      case GameEventType.DayCompleted:
-      case GameEventType.Started:
-      case GameEventType.Updated:
-      case GameEventType.PlayerCreated:
-        return Color.History;
-      case GameEventType.PlayerCreatedPrediction:
-      case GameEventType.PlayerEarnedPointsFromSteps:
-      case GameEventType.PlayerUpdatedPrediction:
-      case GameEventType.PlayerDayCompletedSummary:
-        return playerColor;
-      default:
-        return Color.White;
-    }
-  },
-  getIcon: (type: GameEventType): Icon => {
-    switch(type) {
-      case GameEventType.Completed:
-      case GameEventType.Created:
-      case GameEventType.DayCompleted:
-      case GameEventType.PlayerCreated:
-      case GameEventType.PlayerCreatedPrediction:
-      case GameEventType.PlayerDayCompletedSummary:
-      case GameEventType.PlayerUpdatedPrediction:
-      case GameEventType.Started:
-      case GameEventType.Updated:
-        return Icon.Dice;
-      case GameEventType.PlayerEarnedPointsFromSteps:
-        return Icon.Steps;
-      default:
-        return Icon.None;
-    }
-  },
+export const GameEventUtility: IGameEventUtility = { 
   getLabel: (event: IGameEvent): string => {
     switch(event.type) {
       case GameEventType.DayCompleted: {

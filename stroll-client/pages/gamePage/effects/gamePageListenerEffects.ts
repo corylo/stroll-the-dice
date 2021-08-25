@@ -19,7 +19,6 @@ import { AppStatus } from "../../../enums/appStatus";
 import { GameStatus } from "../../../../stroll-enums/gameStatus";
 import { PlayerStatus } from "../../../../stroll-enums/playerStatus";
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
-import { Role } from "../../../../stroll-enums/role";
 
 export const useGameListenersEffect = (id: string, appState: IAppState, state: IGamePageState, setState: (state: IGamePageState) => void): void => {
   const [game, setGame] = useState<IGame>(defaultGame()),

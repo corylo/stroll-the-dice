@@ -1,5 +1,5 @@
 .game-event {
-  background-color: rgba(white, 0.2);
+  background-color: rgba(white, 0.1);
   display: flex;
   padding: 10px;
 
@@ -17,30 +17,17 @@
     border-bottom-right-radius: 5px;
   }
 
-  .game-event-icon {
-    align-items: center;
-    display: flex;
-    flex-shrink: 0;
-    justify-content: center;
-    width: 40px;
-
-    > i {
-      font-size: 1.25em;
-    }
-  }
-
-  .game-event-color-indicator {    
-    border-radius: 10px;
-    flex-shrink: 0;
-    margin-left: 5px;
-    width: 2px;
+  &.game-created,
+  &.game-started,
+  &.day-completed,
+  &.game-completed {
+    background-color: rgba(white, 0.4);
   }
 
   .game-event-content {
     border-bottom-left-radius: 4px;
     border-top-left-radius: 4px;
     flex-grow: 1;
-    margin-left: 5px;
     padding: 10px;
 
     .game-event-header {
