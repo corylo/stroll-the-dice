@@ -30,7 +30,9 @@ td {
 }
 
 .highlight-main {
-  color: $themeMainDark;
+  color: $themeMainAccent;
+  -webkit-text-stroke-width: 0.5px;
+  -webkit-text-stroke-color: rgba(white, 0.8);
 }
 
 .highlight-white {

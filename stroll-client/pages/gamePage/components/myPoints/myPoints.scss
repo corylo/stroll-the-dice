@@ -17,17 +17,17 @@
     }
   
     .my-points {     
-      background-color: gray(30);
+      background: $themeMainAccentGradient;
       border-radius: 10px;
-      box-shadow: $shadow1;
+      box-shadow: $shadow3;
       display: inline-block;
       margin-left: 270px;
       padding: 4px;
       position: relative;
 
       .my-points-content-wrapper {
-        background-color: gray(30);
-        border: 1px solid gray(60);
+        background: $themeMainAccentGradient;
+        border: 1px solid rgba(white, 0.5);
         border-radius: 10px;
         padding: 10px 20px;
         position: relative;
@@ -40,8 +40,8 @@
           pointer-events: all;
 
           .my-points-icon {
-            border-right: 1px solid rgba(white, 0.2);
-            color: $green;
+            border-right: 1px solid rgba(white, 0.25);
+            color: white;
             font-size: 2em;
             margin-right: 10px;
             padding-right: 10px;
@@ -79,7 +79,7 @@
 
             .my-total-points {
               > h1 {
-                color: $green;
+                color: gray(60);
               }
             }
           }
