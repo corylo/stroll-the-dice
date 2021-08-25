@@ -10,17 +10,17 @@ import { FormError } from "../../../../enums/formError";
 import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
 
 interface IGiftGameDaysInputState {  
-  email: string;
-  emailError: FormError;
-  quantity: number;
+  id: string;
+  idError: FormError;
+  quantity: string;
   quantityError: FormError;
   status: RequestStatus;
 }
 
 const defaultGiftGameDaysInputState = (): IGiftGameDaysInputState => ({
-  email: "", 
-  emailError: FormError.None,     
-  quantity: 0,
+  id: "", 
+  idError: FormError.None,     
+  quantity: "",
   quantityError: FormError.None,
   status: RequestStatus.Idle
 });
@@ -32,18 +32,10 @@ interface GiftGameDaysInputProps {
 export const GiftGameDaysInput: React.FC<GiftGameDaysInputProps> = (props: GiftGameDaysInputProps) => {  
   const [state, setState] = useState<IGiftGameDaysInputState>(defaultGiftGameDaysInputState());
 
-  const updateEmail = (email: string): void => setState({ ...state, email });
+  const updateID = (id: string): void => setState({ ...state, id });
 
   const updateQuantity = (quantity: string): void => {
-    const quantityString: string = quantity.replace(/\D/g,"");
-
-    let updatedQuantity: number = 0;
-
-    if(quantityString !== "") {
-      updatedQuantity = parseInt(quantityString);
-    }
-
-    setState({ ...state, quantity: updatedQuantity });
+    setState({ ...state, quantity });
   };
 
   const validate = (): boolean => {
@@ -51,12 +43,12 @@ export const GiftGameDaysInput: React.FC<GiftGameDaysInputProps> = (props: GiftG
 
     let errorCount: number = 0;
 
-    if(state.email.trim() === "") {
-      updatedState.emailError = FormError.InvalidValue;
+    if(state.id.trim() === "") {
+      updatedState.idError = FormError.InvalidValue;
       errorCount++;
     }
 
-    if(state.quantity === 0) {
+    if(state.quantity === "" || parseInt(state.quantity) === 0) {
       updatedState.quantityError = FormError.InvalidValue;
       errorCount++;
     }
@@ -67,11 +59,11 @@ export const GiftGameDaysInput: React.FC<GiftGameDaysInputProps> = (props: GiftG
   }
 
   useEffect(() => {
-    if(state.emailError === FormError.InvalidValue && state.email.trim() !== "") {
-      setState({ ...state, emailError: FormError.None });
+    if(state.idError === FormError.InvalidValue && state.id.trim() !== "") {
+      setState({ ...state, idError: FormError.None });
     }
     
-    if(state.quantityError === FormError.InvalidValue && state.quantity > 0) {
+    if(state.quantityError === FormError.InvalidValue && state.quantity !== "" && parseInt(state.quantity) > 0) {
       setState({ ...state, quantityError: FormError.None });
     }
   }, [state]);
@@ -81,7 +73,7 @@ export const GiftGameDaysInput: React.FC<GiftGameDaysInputProps> = (props: GiftG
       try {
         setState({ ...state, status: RequestStatus.Loading });
 
-        await GameDayService.gift({ email: state.email, quantity: state.quantity });
+        await GameDayService.gift({ id: state.id, quantity: parseInt(state.quantity) });
         
         setState(defaultGiftGameDaysInputState());
       } catch (err) {
@@ -111,19 +103,19 @@ export const GiftGameDaysInput: React.FC<GiftGameDaysInputProps> = (props: GiftG
       <div id="gift-game-days-form">
         <div id="gift-game-days-inputs">
           <InputWrapper
-            id="gift-game-days-email-input" 
-            label="User Email"
-            value={state.email}
-            error={state.emailError}
-            errorMessage="Invalid Email"
+            id="gift-game-days-id-input" 
+            label="User ID"
+            value={state.id}
+            error={state.idError}
+            errorMessage="Invalid ID"
           >
             <input 
               type="text"
               className="passion-one-font"
               disabled={state.status === RequestStatus.Loading}
-              placeholder="Enter email"
-              value={state.email}
-              onChange={(e: any) => updateEmail(e.target.value)}
+              placeholder="Enter ID"
+              value={state.id}
+              onChange={(e: any) => updateID(e.target.value)}
               onKeyDown={handleOnKeyDown}
             />
           </InputWrapper>
@@ -140,7 +132,7 @@ export const GiftGameDaysInput: React.FC<GiftGameDaysInputProps> = (props: GiftG
               disabled={state.status === RequestStatus.Loading}
               placeholder="Enter quantity"
               value={state.quantity}
-              onChange={(e: any) => updateQuantity(e.target.value)}
+              onChange={(e: any) => updateQuantity(e.target.value.replace(/\D/g,""))}
               onKeyDown={handleOnKeyDown}
             />
           </InputWrapper>

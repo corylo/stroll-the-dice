@@ -5,7 +5,7 @@ export interface IFriendIDReference {
   uid: string;
 }
 
-export const friendIDReferenceConverter: firebase.firestore.FirestoreDataConverter<IFriendIDReference> = {
+export const friendIDReferenceConverter: any = {
   toFirestore(ref: IFriendIDReference): firebase.firestore.DocumentData {
     return {
       uid: ref.uid

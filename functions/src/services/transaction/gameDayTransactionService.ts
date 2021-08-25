@@ -4,11 +4,14 @@ import { https, logger } from "firebase-functions";
 import { db } from "../../../config/firebase";
 
 import { AdminService } from "../adminService";
+import { FriendIDService } from "../friendIDService";
 import { GameDayHistoryTransactionService } from "./gameDayHistoryTransactionService";
 import { NotificationTransactionService } from "./notificationTransactionService";
 import { UserService } from "../userService";
 
 import { GameDayHistoryUtility } from "../../utilities/gameDayHistoryUtility";
+import { NotificationUtility } from "../../utilities/notificationUtility";
+import { ProfileUtility } from "../../utilities/profileUtility";
 
 import { IGameDayHistoryGiftEntry } from "../../../../stroll-models/gameDayHistoryEntry/gameDayHistoryGiftEntry";
 import { IGameDayStatsUpdate } from "../../../../stroll-models/gameDayStatsUpdate";
@@ -16,7 +19,6 @@ import { IGiftGameDaysRequest } from "../../../../stroll-models/giftGameDaysRequ
 import { IProfileGameDayStats } from "../../../../stroll-models/profileStats";
 
 import { ProfileStatsID } from "../../../../stroll-enums/profileStatsID";
-import { NotificationUtility } from "../../utilities/notificationUtility";
 
 interface IGameDayTransactionService {
   giftGameDays: (request: IGiftGameDaysRequest, context: https.CallableContext) => Promise<void>;
@@ -28,10 +30,19 @@ export const GameDayTransactionService: IGameDayTransactionService = {
     try {
       if(context.auth !== null && AdminService.checkIfAdmin(context.auth.uid)) {
         try {
-          const targetUID: string = await UserService.getByEmail(request.email);
+          const getTargetUID = async (): Promise<string> => {
+            if(ProfileUtility.validFriendCode(request.id)) {
+              return await FriendIDService.getUIDByFriendID(request.id);
+            } else if (ProfileUtility.validEmail(request.id)) {
+              return await UserService.getByEmail(request.id);
+            }
 
-          logger.info(`Gifting [${request.quantity}] game days from user [${context.auth.uid}] to user [${targetUID}].`);
-          
+            throw new Error("Invalid email or friend ID.");
+          }
+
+          const targetUID: string = await getTargetUID();
+
+          logger.info(`Gifting [${request.quantity}] game days from user [${context.auth.uid}] to user [${targetUID}].`);          
           
           await db.runTransaction(async (transaction: firebase.firestore.Transaction) => {
             const profileStatsRef: firebase.firestore.DocumentReference = db.collection("profiles")      

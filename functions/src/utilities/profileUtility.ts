@@ -3,9 +3,11 @@ import { IProfileReference } from "../../../stroll-models/profileReference";
 import { IProfileUpdate } from "../../../stroll-models/profileUpdate";
 
 interface IProfileUtility {
-  applyUpdate: (profile: IProfileReference, update: IProfileUpdate) => IProfileUpdate;
+  applyUpdate: (profile: IProfileReference, update: IProfileUpdate) => IProfileUpdate;  
   hasChanged: (before: IProfile, after: IProfile) => boolean;
   mapUpdate: (profile: IProfile) => IProfileUpdate;
+  validEmail: (value: string) => boolean;
+  validFriendCode: (value: string) => boolean;
 }
 
 export const ProfileUtility: IProfileUtility = {  
@@ -33,5 +35,35 @@ export const ProfileUtility: IProfileUtility = {
       name: profile.name,
       username: profile.username
     }
+  },
+  validEmail: (value: string): boolean => {
+    if(
+      value !== undefined && 
+      value !== null && 
+      typeof value === "string"
+    ) {
+      const formatted: string = value.trim();
+
+      if(formatted.length !== 0 && formatted.indexOf("@") > 0) {
+        return true;
+      }
+    }
+
+    return false;  
+  },
+  validFriendCode: (value: string): boolean => {
+    if(
+      value !== undefined && 
+      value !== null && 
+      typeof value === "string"
+    ) {
+      const formatted: string = value.replace(/\W/g, "");
+
+      if(formatted.length === 6) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

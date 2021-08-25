@@ -1,4 +1,4 @@
 export interface IGiftGameDaysRequest {
-  email: string;
+  id: string;
   quantity: number;
 }
