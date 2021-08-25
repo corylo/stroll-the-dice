@@ -1,3 +1,5 @@
+@import "./components/friendCodeSection/friendCodeSection.scss";
+@import "./components/gameDaysSection/gameDaysSection.scss";
 @import "./components/profilePageSection/profilePageSection.scss";
 @import "./components/stepTrackerConnectionModal/stepTrackerConnectionModal.scss";
 @import "./components/stepTrackerHub/stepTrackerHub.scss";
@@ -8,6 +10,23 @@
 
     &:nth-of-type(n + 2) {
       margin-top: 10px;
+    }
+  }
+}
+
+@include phone-or-smaller {
+  #profile-page {
+    .my-game-days { 
+      font-size: 1.25em;
+
+      .game-day-statement {
+        .animated-counter {
+          h1 {
+            color: gray(40);
+            margin-right: 2px;
+          }
+        }
+      }
     }
   }
 }

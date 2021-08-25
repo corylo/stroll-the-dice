@@ -125,6 +125,10 @@
         padding: 10px;
 
         .step-tracker-link-branding {
+          img {
+            height: 30px;
+          }
+
           > h1 {
             font-size: 1em;
           }

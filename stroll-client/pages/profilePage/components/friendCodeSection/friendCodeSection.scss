@@ -1,0 +1,27 @@
+.profile-page-section.friend-code-section {
+  .profile-page-section-content {
+    background-color: rgba(white, 0.1);
+    padding: 0px;
+
+    .friend-code {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      padding: 15px;
+
+      > h1 {
+        color: white;
+        font-size: 2em;
+      }
+
+      .copy-button {
+        i {
+          font-size: 2em;
+          height: 40px;
+          line-height: 40px;
+          width: 40px;
+        }
+      }
+    }
+  }
+}

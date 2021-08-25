@@ -1,6 +1,8 @@
 import React, { useContext, useState } from "react";
 
 import { Button } from "../../components/buttons/button";
+import { FriendCodeSection } from "./components/friendCodeSection/friendCodeSection";
+import { GameDaysSection } from "./components/gameDaysSection/gameDaysSection";
 import { Page } from "../../components/page/page";
 import { ProfileHeader } from "../../components/profileHeader/profileHeader";
 import { ProfilePageSection } from "./components/profilePageSection/profilePageSection";
@@ -33,14 +35,24 @@ export const ProfilePage: React.FC<ProfilePageProps> = (props: ProfilePageProps)
 
   useToggleUpdateProfileEffect(appState, dispatch);
 
+  const handleBack = (): void => {
+    setToggled(false);
+
+    if(user.profile.tracker.status === StepTrackerConnectionStatus.Disconnected) {
+      dispatch(AppAction.ResetStepTrackerConnection);
+    } else if (user.profile.tracker.status === StepTrackerConnectionStatus.DisconnectionFailed) {
+      location.reload();
+    }
+  }
+
   const getContent = (): JSX.Element => {
     if(status === AppStatus.SignedIn) {
       return (
         <React.Fragment>
           <ProfileHeader profile={user.profile} />
-          <ProfilePageSection icon={Icon.Steps} title="Step Trackers">
-            <StepTrackerHub toggleModal={setToggled} />
-          </ProfilePageSection>
+          <FriendCodeSection friendID={user.profile.friendID} />
+          <StepTrackerHub toggleModal={setToggled} />
+          <GameDaysSection available={user.stats.gameDays.available} />
           <ProfilePageSection icon={Icon.User} title="Action Center">
             <Button
               className="action-center-button fancy-button"
@@ -59,16 +71,6 @@ export const ProfilePage: React.FC<ProfilePageProps> = (props: ProfilePageProps)
           </ProfilePageSection>
         </React.Fragment>
       )
-    }
-  }
-
-  const handleBack = (): void => {
-    setToggled(false);
-
-    if(user.profile.tracker.status === StepTrackerConnectionStatus.Disconnected) {
-      dispatch(AppAction.ResetStepTrackerConnection);
-    } else if (user.profile.tracker.status === StepTrackerConnectionStatus.DisconnectionFailed) {
-      location.reload();
     }
   }
 

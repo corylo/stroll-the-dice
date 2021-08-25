@@ -43,7 +43,7 @@ export const GameDayRequirement: React.FC<GameDayRequirementProps> = (props: Gam
     <FormBodySection className="game-day-requirement-section">
       {getText()}
       <Link
-        className="go-to-store-button button link fancy-button"            
+        className="go-to-shop-button button link fancy-button"            
         to="/shop"
         target="_blank"
       >
