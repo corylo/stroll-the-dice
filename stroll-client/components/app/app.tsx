@@ -3,6 +3,7 @@ import { Route, Switch, useLocation } from "react-router";
 
 import { AdminPage } from "../../pages/adminPage/adminPage";
 import { ContactUsPage } from "../../pages/contactUsPage/contactUsPage";
+import { CookieBanner } from "../cookieBanner/cookieBanner";
 import { CreateGamePage } from "../../pages/createGamePage/createGamePage";
 import { GamePage } from "../../pages/gamePage/gamePage";
 import { GoodbyePage } from "../../pages/goodbyePage/goodbyePage";
@@ -25,7 +26,7 @@ import { AppContext } from "./contexts/appContext";
 
 import { appReducer } from "./reducers/appReducer";
 
-import { useScrollToTopEffect } from "../../effects/appEffects";
+import { useFirebaseAnalyticsInitializerEffect, useScrollToTopEffect } from "../../effects/appEffects";
 import { useAuthStateChangedEffect, useGameDaysListenerEffect, useNotificationsListenerEffect } from "../../effects/userEffects";
 
 import { defaultAppState } from "./models/appState";
@@ -49,6 +50,8 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
 
   useNotificationsListenerEffect(appState, dispatch);
 
+  useFirebaseAnalyticsInitializerEffect(appState);
+
   return (
     <AppContext.Provider value={{ appState, dispatchToApp }}>
       <div id="stroll-the-dice-app">
@@ -58,6 +61,7 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
         <UserMenuModal />
         <UpdateProfileModal />
         <DeleteAccountModal />
+        <CookieBanner />
         <Switch>
           <Route exact path="/">
             <HomePage />

@@ -1,14 +1,15 @@
 import { IAction } from "../../../models/action";
 import { IAppState } from "../models/appState";
 import { defaultAppToggles } from "../models/appToggles";
+import { IStepTrackerProfileReference } from "../../../../stroll-models/stepTrackerProfileReference";
 import { defaultUser } from "../../../models/user";
 
 import { AppAction } from "../../../enums/appAction";
 import { AppStatus } from "../../../enums/appStatus";
+import { CookieStatus } from "../../../enums/cookieStatus";
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
 import { StepTracker } from "../../../../stroll-enums/stepTracker";
 import { StepTrackerConnectionStatus } from "../../../../stroll-enums/stepTrackerConnectionStatus";
-import { IStepTrackerProfileReference } from "../../../../stroll-models/stepTrackerProfileReference";
 
 export const appReducer = (state: IAppState, action: IAction): IAppState => {  
   switch (action.type) {    
@@ -113,6 +114,11 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
         }
       } 
     }
+    case AppAction.SetCookieStatus:
+      return {
+        ...state,
+        cookieStatus: action.payload
+      }
     case AppAction.SetGameDays: {
       return {
         ...state,
@@ -197,6 +203,15 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
         toggles: {
           ...state.toggles,
           acceptInvite: action.payload
+        }
+      }
+    case AppAction.ToggleCookieBanner:
+      return {
+        ...state,
+        cookieStatus: CookieStatus.Unknown,
+        toggles: {
+          ...state.toggles,
+          menu: false
         }
       }
     case AppAction.ToggleDeleteAccount: {

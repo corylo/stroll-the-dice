@@ -16,6 +16,7 @@ import { RoleUtility } from "../../../stroll-utilities/roleUtility";
 
 import { AppAction } from "../../enums/appAction";
 import { AppStatus } from "../../enums/appStatus";
+import { CookieStatus } from "../../enums/cookieStatus";
 
 interface UserMenuModalProps {
   
@@ -80,6 +81,20 @@ export const UserMenuModal: React.FC<UserMenuModalProps> = (props: UserMenuModal
       }
     }
 
+    const getToggleCookieBannerButton = (): JSX.Element => {
+      const handleOnClick = (): void => {
+        dispatch(AppAction.ToggleCookieBanner);
+
+        localStorage.setItem("cookie-status", CookieStatus.Unknown);
+      }
+
+      return (        
+        <Button className="user-menu-item passion-one-font" handleOnClick={handleOnClick}>
+          Cookies
+        </Button>
+      )
+    }
+
     const getAdminButton = (): JSX.Element => {
       if(RoleUtility.isAdmin(user.roles)) {
         return (          
@@ -115,12 +130,10 @@ export const UserMenuModal: React.FC<UserMenuModalProps> = (props: UserMenuModal
           {getUserInfo()}
           {getProfileButton()}
           {getAdminButton()}      
+          {getToggleCookieBannerButton()}
           <Button className="user-menu-item passion-one-font" url="/contact-us" handleOnClick={() => dispatch(AppAction.ToggleMenu, false)}>
             Contact us
-          </Button>
-          <Button className="user-menu-item passion-one-font" url="https://legal.strollthedice.com" external newtab>
-            Legal
-          </Button>
+          </Button>          
           {getSignOutButton()}
         </div>
       </div>,

@@ -1,8 +1,16 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
+import firebase from "firebase/app";
 
+import { analytics } from "../config/firebase";
+
+import { CookieUtility } from "../utilities/cookieUtility";
 import { UrlUtility } from "../utilities/urlUtility";
 
+import { IAppState } from "../components/app/models/appState";
+
+import { AppAction } from "../enums/appAction";
+import { CookieStatus } from "../enums/cookieStatus";
 import { ElementID } from "../enums/elementId";
 import { ImageStatus } from "../enums/imageStatus";
 
@@ -163,4 +171,15 @@ export const useLoadImageEffect = (previewSource: string, loadedSource: string):
   return {
     status
   }
+}
+
+export const useFirebaseAnalyticsInitializerEffect = (appState: IAppState): void => {
+  useEffect(() => {
+    if(appState.cookieStatus === CookieStatus.Accepted) {      
+      analytics.setAnalyticsCollectionEnabled(true);
+    } else if(appState.cookieStatus === CookieStatus.Unknown || appState.cookieStatus === CookieStatus.Denied) {      
+      CookieUtility.removeAll();
+      analytics.setAnalyticsCollectionEnabled(false);
+    }
+  }, [appState.cookieStatus])
 }
