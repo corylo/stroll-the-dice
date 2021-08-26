@@ -23,7 +23,7 @@ export const ProfileTransactionService: IProfileTransactionService = {
     const gamesStatsRef: firebase.firestore.DocumentReference = db.collection("profiles")      
       .doc(player.id)
       .collection("stats")
-      .doc(ProfileStatsID.GameDays);
+      .doc(ProfileStatsID.Games);
       
     const gameHistoryEntryRef: firebase.firestore.DocumentReference = db.collection("profiles")      
       .doc(player.id)
