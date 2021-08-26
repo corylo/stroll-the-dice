@@ -2,11 +2,12 @@ import { functions } from "../config/firebase";
 
 import { DateUtility } from "../../stroll-utilities/dateUtility";
 
+import { IDisconnectStepTrackerRequest } from "../../stroll-models/disconnectStepTrackerRequest";
 import { IStepTracker } from "../../stroll-models/stepTracker";
 
 interface IStepTrackerService {
   connect: (authorizationCode: string, uid: string, tracker: IStepTracker) => Promise<void>;  
-  disconnect: () => Promise<void>;
+  disconnect: (request?: IDisconnectStepTrackerRequest) => Promise<void>;
   verify: () => Promise<void>;
 }
 
@@ -20,8 +21,8 @@ export const StepTrackerService: IStepTrackerService = {
       origin: window.location.origin
     });
   },
-  disconnect: async (): Promise<void> => {
-    await functions.httpsCallable("disconnectStepTracker")();
+  disconnect: async (request?: IDisconnectStepTrackerRequest): Promise<void> => {
+    await functions.httpsCallable("disconnectStepTracker")(request || {});
   },
   verify: async (): Promise<void> => {
     await functions.httpsCallable("verifyStepTracker")();

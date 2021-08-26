@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
 
-import { AdminSection } from "./components/adminSection/adminSection";
-import { GiftGameDaysInput } from "./components/giftGameDaysInput/giftGameDaysInput";
+import { DisconnectStepTrackerSection } from "./components/disconnectStepTrackerSection/disconnectStepTrackerSection";
+import { GiftGameDaysSection } from "./components/giftGameDaysSection/giftGameDaysSection";
 import { Page } from "../../components/page/page";
 import { PageTitle } from "../../components/page/pageTitle";
 
@@ -30,9 +30,8 @@ export const AdminPage: React.FC<AdminPageProps> = (props: AdminPageProps) => {
       return (
         <React.Fragment>
           <PageTitle text="Admin" />
-          <AdminSection title="Gift Game Days">          
-            <GiftGameDaysInput />
-          </AdminSection>
+          <GiftGameDaysSection />
+          <DisconnectStepTrackerSection />
         </React.Fragment>  
       )
     }

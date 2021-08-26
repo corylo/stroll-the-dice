@@ -1,5 +1,17 @@
 .admin-section {
+  background-color: $themeMainAccent;
+  border-radius: 6px;   
+  box-shadow: $shadow1;
   margin-top: 40px;
+  padding: 10px;
+
+  &.loading {
+    .admin-section-submit-button {
+      i {
+        animation: spin 2s ease-in-out infinite;  
+      }
+    }
+  }
 
   .admin-section-title {
     color: white;
@@ -8,5 +20,50 @@
 
   .admin-section-content {
     margin-top: 10px;
+
+    .admin-section-form {
+      display: flex;
+      gap: 1em;
+      justify-content: space-between;
+  
+      .admin-section-inputs {
+        display: flex;
+        flex-grow: 1;
+        gap: 1em;
+  
+        .input-wrapper {
+          flex-grow: 1;
+        }
+      }
+    }
+
+    .admin-section-submit-button {      
+      height: 50px;
+
+      i {
+        font-size: 1.25em;
+      }
+    }
+
+    .admin-section-error-message {
+      background-color: rgba($red, 0.8);
+      border-radius: 6px;
+      color: white;
+      margin-top: 10px;
+      padding: 15px 10px;
+    }
+  }
+}
+
+@include phone-or-smaller {
+  .admin-section {
+    .admin-section-form {
+      flex-direction: column;
+
+      .admin-section-inputs {
+        flex-direction: column;
+        width: 100%;
+      }
+    }
   }
 }

@@ -4,6 +4,8 @@ import axios from "axios";
 
 import { db } from "../../config/firebase";
 
+import { AdminService } from "./adminService";
+import { FriendIDService } from "./friendIDService";
 import { ProfileService } from "./profileService";
 import { StepTrackerRequestService } from "./stepTrackerRequestService";
 
@@ -13,6 +15,7 @@ import { FirestoreDateUtility } from "../utilities/firestoreDateUtility";
 import { StepTrackerUtility } from "../utilities/stepTrackerUtility";
 
 import { IConnectStepTrackerRequest } from "../../../stroll-models/connectStepTrackerRequest";
+import { IDisconnectStepTrackerRequest } from "../../../stroll-models/disconnectStepTrackerRequest";
 import { IGameDaySummary, IGameDaySummaryPlayerReference } from "../../../stroll-models/gameDaySummary";
 import { IOAuthRefreshTokenResponse } from "../../../stroll-models/oauthRefreshTokenResponse";
 import { IPlayerStepUpdate } from "../../../stroll-models/playerStepUpdate";
@@ -83,10 +86,24 @@ export const StepTrackerService: IStepTrackerService = {
       );
     }
   },
-  disconnectStepTracker: async (data: any, context: https.CallableContext): Promise<void> => {
+  disconnectStepTracker: async (request: IDisconnectStepTrackerRequest, context: https.CallableContext): Promise<void> => {
     if(context.auth !== null) {
       try {
-        await StepTrackerService.preauthorizedDisconnectStepTracker(context.auth.uid);
+        const getUID = async (): Promise<string> => {
+          if(request.friendID) {
+            const isAdmin: boolean = await AdminService.checkIfAdmin(context.auth.uid);
+
+            if(isAdmin) {
+              return await FriendIDService.getUIDByFriendID(request.friendID);
+            }
+          }
+
+          return context.auth.uid;
+        } 
+
+        const uid: string = await getUID();
+
+        await StepTrackerService.preauthorizedDisconnectStepTracker(uid);
       } catch (err) {
         throw new https.HttpsError(
           "internal",

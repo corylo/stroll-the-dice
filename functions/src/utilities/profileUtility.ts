@@ -7,7 +7,7 @@ interface IProfileUtility {
   hasChanged: (before: IProfile, after: IProfile) => boolean;
   mapUpdate: (profile: IProfile) => IProfileUpdate;
   validEmail: (value: string) => boolean;
-  validFriendCode: (value: string) => boolean;
+  validFriendID: (value: string) => boolean;
 }
 
 export const ProfileUtility: IProfileUtility = {  
@@ -51,7 +51,7 @@ export const ProfileUtility: IProfileUtility = {
 
     return false;  
   },
-  validFriendCode: (value: string): boolean => {
+  validFriendID: (value: string): boolean => {
     if(
       value !== undefined && 
       value !== null && 
