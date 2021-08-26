@@ -14,6 +14,7 @@ import { StepTrackerConnectionStatus } from "../../../../../stroll-enums/stepTra
 import { StrollTheDiceCDN } from "../../../../../stroll-enums/strollTheDiceCDN";
 
 interface StepTrackerLinkProps {  
+  disabled?: boolean;
   tracker: StepTracker;
   toggleModal: (toggled: boolean) => void;
 }
@@ -117,7 +118,7 @@ export const StepTrackerLink: React.FC<StepTrackerLinkProps> = (props: StepTrack
   return (
     <Button 
       className="step-tracker-link" 
-      disabled={hasTracker && props.tracker !== user.profile.tracker.name}
+      disabled={props.disabled || (hasTracker && props.tracker !== user.profile.tracker.name)}
       url={StepTrackerUtility.getOAuthUrl(props.tracker)} 
       external
     >

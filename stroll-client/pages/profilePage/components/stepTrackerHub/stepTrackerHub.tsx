@@ -32,7 +32,7 @@ export const StepTrackerHub: React.FC<StepTrackerHubProps> = (props: StepTracker
         {getNoTrackerConnectedMessage()}
         <div className="step-tracker-links">
           <StepTrackerLink tracker={StepTracker.GoogleFit} toggleModal={props.toggleModal} />
-          <StepTrackerLink tracker={StepTracker.Fitbit} toggleModal={props.toggleModal}  />
+          <StepTrackerLink disabled tracker={StepTracker.Fitbit} toggleModal={props.toggleModal}  />
         </div>
       </div>
     </ProfilePageSection>
