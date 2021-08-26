@@ -10,8 +10,6 @@ import { ModalTitle } from "../modal/modalTitle";
 
 import { AppContext } from "../app/contexts/appContext";
 
-import { useOnClickAwayEffect } from "../../effects/appEffects";
-
 import { AppAction } from "../../enums/appAction";
 import { StrollTheDiceCDN } from "../../../stroll-enums/strollTheDiceCDN";
 
@@ -26,13 +24,6 @@ export const SignInModal: React.FC<SignInModalProps> = (props: SignInModalProps)
 
   const { toggles } = appState;
   
-  useOnClickAwayEffect(
-    toggles.signIn, 
-    ["sign-in-modal-content"], 
-    [toggles.signIn], 
-    () => dispatch(AppAction.ToggleSignIn, false)
-  );
-
   if(toggles.signIn) {
     const handleSignInWithGoogle = async () => {
       const provider: firebase.auth.GoogleAuthProvider = new firebase.auth.GoogleAuthProvider();
