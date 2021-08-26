@@ -61,11 +61,11 @@
 
         &.gain {
           .player-day-completed-summary-table-row-value {
-            color: $green;
-
+            color: $blue;
+            
             .point-statement {
               i, span {
-                color: $green;
+                color: $blue;
               }
             }
           }
@@ -94,7 +94,7 @@
           white-space: nowrap;
 
           > i {
-            font-size: 0.6em;
+            font-size: 0.5em;
           }
 
           h1 {

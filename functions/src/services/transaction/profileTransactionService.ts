@@ -2,13 +2,14 @@ import firebase from "firebase-admin";
 
 import { db } from "../../../config/firebase";
 
+import { GameHistoryUtility } from "../../utilities/gameHistoryUtility";
+
 import { gameConverter, IGame } from "../../../../stroll-models/game";
 import { gameHistoryEntryConverter } from "../../../../stroll-models/gameHistoryEntry";
 import { IPlayer } from "../../../../stroll-models/player";
 import { IProfileGamesStats, IProfileGamesStatsUpdate } from "../../../../stroll-models/profileStats";
 
 import { ProfileStatsID } from "../../../../stroll-enums/profileStatsID";
-import { GameHistoryUtility } from "../../utilities/gameHistoryUtility";
 
 interface IProfileTransactionService {
   handleGameCompletedProfileUpdate: (gameID: string, player: IPlayer) => Promise<void>;

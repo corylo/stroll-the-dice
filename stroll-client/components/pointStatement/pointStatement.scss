@@ -1,12 +1,16 @@
 .point-statement {
-  text-shadow: 0px 0px 2px rgba(black, 0.4);
   white-space: nowrap;
 
   i, span {    
-    color: $green;
+    color: $blue;
   }
   
   i {
     font-size: 0.7em;
+  }
+
+  span {    
+    -webkit-text-stroke-width: 0.5px;
+    -webkit-text-stroke-color: rgba(black, 0.8);
   }
 }

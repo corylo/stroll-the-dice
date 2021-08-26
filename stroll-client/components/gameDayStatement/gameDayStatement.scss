@@ -1,20 +1,18 @@
 .game-day-statement {
   align-items: center;
-  color: white;
-  display: inline-flex;
+  color: $blue;
   margin: 0px 2px;
   white-space: nowrap;
 
   i {
-    margin-right: 2px;
+    font-size: 0.8em;
   }
 
   .animated-counter {
     margin-left: 2px;
 
     h1 {
-      color: white;
-      margin-right: 2px;
+      color: $blue;
     }
   }
 }
