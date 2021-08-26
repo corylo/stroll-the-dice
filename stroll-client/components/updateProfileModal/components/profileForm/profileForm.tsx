@@ -97,6 +97,19 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props: ProfileFormProps)
     }
   }
   
+  const getBackButton = (): JSX.Element => {
+    if(props.back) {
+      return (      
+        <Button
+          className="submit-button fancy-button passion-one-font" 
+          handleOnClick={props.back}
+        >
+          Close
+        </Button>
+      )
+    }
+  }
+  
   return (    
     <Form     
       errors={errors}
@@ -135,7 +148,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props: ProfileFormProps)
             type="text"
             className="passion-one-font"
             maxLength={30}
-            placeholder="John D"
+            placeholder="Name"
             value={fields.name}
             onChange={(e: any) => dispatch(ProfileFormAction.SetName, e.target.value.replace(/[^a-z0-9 ]/gi, ""))}
             onKeyDown={handleOnKeyDown}
@@ -171,6 +184,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props: ProfileFormProps)
       </FormBody>   
       <FormActions>
         {getSaveButton()}
+        {getBackButton()}
       </FormActions>
     </Form>
   );

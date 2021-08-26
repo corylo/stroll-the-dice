@@ -32,9 +32,9 @@ export const UpdateProfileModal: React.FC<UpdateProfileModalProps> = (props: Upd
   
   const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
 
-  const cancel = (): void => { 
+  const cancel = (): any => { 
     if(user.profile.username !== "") {
-      dispatch(AppAction.ToggleUpdateProfile, false);
+      return () => dispatch(AppAction.ToggleUpdateProfile, false);
     }
   };  
 
@@ -88,7 +88,7 @@ export const UpdateProfileModal: React.FC<UpdateProfileModalProps> = (props: Upd
       }
   
       return (
-        <ModalTitle text="Update Your Profile" handleOnClose={cancel} />
+        <ModalTitle text="Update Your Profile" handleOnClose={cancel()} />
       )
     }
   
@@ -99,7 +99,7 @@ export const UpdateProfileModal: React.FC<UpdateProfileModalProps> = (props: Upd
           <ProfileForm 
             leaveOnSave={toggles.acceptInvite}
             profile={user.profile} 
-            back={cancel} 
+            back={cancel()} 
             save={save} 
           />
         </ModalBody>
