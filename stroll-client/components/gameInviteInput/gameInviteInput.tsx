@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
+import { IconButton } from "../buttons/iconButton";
 import { InputWrapper } from "../inputWrapper/inputWrapper";
 
-import { FormError } from "../../enums/formError";
-import { IconButton } from "../buttons/iconButton";
-import { AppContext } from "../app/contexts/appContext";
 import { RoleUtility } from "../../../stroll-utilities/roleUtility";
+
+import { AppContext } from "../app/contexts/appContext";
+
+import { FormError } from "../../enums/formError";
 
 interface IGameInviteInputState {
   error: FormError;

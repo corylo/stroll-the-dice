@@ -11,7 +11,7 @@ import { StepTrackerHub } from "./components/stepTrackerHub/stepTrackerHub";
 
 import { AppContext } from "../../components/app/contexts/appContext";
 
-import { useInitiateStepTrackerConnectionEffect, useToggleUpdateProfileEffect } from "./effects/profilePageEffects";
+import { useInitiateStepTrackerConnectionEffect } from "./effects/profilePageEffects";
 
 import { AppAction } from "../../enums/appAction";
 import { AppStatus } from "../../enums/appStatus";
@@ -32,8 +32,6 @@ export const ProfilePage: React.FC<ProfilePageProps> = (props: ProfilePageProps)
   const [toggled, setToggled] = useState<boolean>(false);
 
   useInitiateStepTrackerConnectionEffect(appState, setToggled, dispatch);
-
-  useToggleUpdateProfileEffect(appState, dispatch);
 
   const handleBack = (): void => {
     setToggled(false);

@@ -4,7 +4,6 @@ import { Button } from "../../components/buttons/button";
 import { HowToPlaySection } from "./components/howToPlaySection/howToPlaySection";
 import { HowToPlaySectionText } from "./components/howToPlaySection/howToPlaySectionText";
 import { HowToPlaySubSection } from "./components/howToPlaySection/howToPlaySubSection";
-import { HowToPlaySummary } from "../../components/howToPlaySummary/howToPlaySummary";
 import { IconStatement } from "../../components/iconStatement/iconStatement";
 import { Matchup } from "../gamePage/components/matchup/matchup";
 import { Page } from "../../components/page/page";
@@ -44,7 +43,6 @@ export const HowToPlayPage: React.FC<HowToPlayPageProps> = (props: HowToPlayPage
     <Page id="how-to-play-page" backgroundGraphic="" showFooter>     
       <PageTitle text="How To Play" />
       <div className="how-to-play-page-sections">
-        <HowToPlaySummary />
         <HowToPlaySection id="goal" title="What is the goal of the game?">
           <HowToPlaySectionText text="Ultimately, your goal as a player is to have the most points at the end of the game." />
           <HowToPlaySectionText text="You are not only trying to gain points through stepping, but also attempting to gain additional points by predicting how well your fellow competitors will do against each other." />
