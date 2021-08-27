@@ -1,73 +1,35 @@
 import React from "react";
-
-import { SvgBlob } from "../svgBlob/svgBlob";
+import classNames from "classnames";
 
 interface HowToPlaySummaryPanelProps {
-  image: string;
-  index: number;
-  right?: boolean;
-  text?: string;
+  backgroundImage: string;
+  className?: string;
+  image?: string;
+  text: string;
   title: string;
 }
 
 export const HowToPlaySummaryPanel: React.FC<HowToPlaySummaryPanelProps> = (props: HowToPlaySummaryPanelProps) => {
-  const getText = (): JSX.Element => {
-    if(props.text) {
-      return (
-        <h1 className="how-to-play-summary-panel-text passion-one-font">{props.text}</h1>
-      )
-    }
-  }
-
-  const getContent = (): JSX.Element => {
-    return (
-      <div className="how-to-play-summary-panel-content">
-        <h1 className="how-to-play-summary-panel-title passion-one-font">{props.title}</h1>
-        {getText()}
-      </div>
-    )
-  }
-
   const getImage = (): JSX.Element => {
-    return (
-      <div className="how-to-play-summary-panel-image">
-        <SvgBlob index={props.index} />
-        <img src={props.image} />
-      </div>
-    )
-  }
-
-  const getDesktopPanel = (): JSX.Element => {
-    if(props.right === undefined || props.right === false) {
+    if(props.image) {
       return (
-        <div className="how-to-play-summary-panel desktop left">
-          {getImage()}
-          {getContent()}
+        <div className="how-to-play-summary-panel-image-wrapper">
+          <img className="how-to-play-summary-panel-image" src={props.image} />
         </div>
-      )
+      );
     }
-
-    return(
-      <div className="how-to-play-summary-panel desktop right">
-        {getContent()}
-        {getImage()}
-      </div>
-    )
-  }
-
-  const getMobilePanel = (): JSX.Element => {
-    return (      
-      <div className="how-to-play-summary-panel mobile">
-        {getImage()}
-        {getContent()}
-      </div>
-    )
   }
 
   return (
-    <div className="how-to-play-summary-panel-wrapper">
-      {getMobilePanel()}
-      {getDesktopPanel()}
+    <div className={classNames("how-to-play-summary-panel-wrapper", props.className)}>
+      <div className="how-to-play-summary-panel-images">
+        <div className="how-to-play-summary-panel-background-image" style={{ backgroundImage: `url(${props.backgroundImage})` }} />
+        {getImage()}
+      </div>
+      <div className="how-to-play-summary-panel-content">
+        <h1 className="how-to-play-summary-panel-title passion-one-font">{props.title}</h1>        
+        <h1 className="how-to-play-summary-panel-text passion-one-font">{props.text}</h1>
+      </div>
     </div>
   )
 }
