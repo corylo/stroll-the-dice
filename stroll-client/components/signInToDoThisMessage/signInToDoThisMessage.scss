@@ -2,23 +2,22 @@
   display: flex;
   flex-direction: column;
 
-  .sign-in-to-do-this-message-image {
-    height: 300px;
+  .sign-in-to-do-this-message-image-wrapper {
     margin: auto;
     position: relative;
+    width: 100%;
     z-index: 2;
 
-    .svg-blob {
-      @include centered;
-      height: 400px;
-      position: absolute;
-      z-index: 1;
-    }
-    
-    img {
+    .sign-in-to-do-this-message-image {
+      background-color: white;
+      background-position: 50% 100%;
+      background-repeat: no-repeat;
+      background-size: cover;
+      border-radius: 6px;
+      box-shadow: $shadow1;
       height: 300px;
       position: relative;
-      z-index: 2;
+      width: 100%;
     }
   }
 
@@ -34,5 +33,15 @@
     margin: auto;
     margin-top: 20px;
     max-width: 400px;
+  }
+}
+
+@include phone-or-smaller {
+  .sign-in-to-do-this-message {
+    .sign-in-to-do-this-message-image-wrapper {   
+      .sign-in-to-do-this-message-image {
+        height: 200px;
+      }
+    }
   }
 }
