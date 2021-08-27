@@ -24,7 +24,7 @@ export const UserLink: React.FC<UserLinkProps> = (props: UserLinkProps) => {
   const getName = (): JSX.Element => {
     if(profile.name) {
       return (        
-        <h1 className="user-link-name passion-one-font thin-text-border">
+        <h1 className="user-link-name passion-one-font">
           {profile.name}
         </h1>  
       )
