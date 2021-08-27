@@ -117,7 +117,7 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
             color={side.profile.color}
             icon={side.profile.icon}
           />
-          <h1 className="game-matchup-side-username passion-one-font" style={{ color: `rgb(${side.profile.color})` }}>{side.profile.username}</h1>     
+          <h1 className="game-matchup-side-username passion-one-font thin-text-border" style={{ color: `rgb(${side.profile.color})` }}>{side.profile.username}</h1>     
           {getName()}
           <MatchupSideStats 
             alignment={props.alignment}

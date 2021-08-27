@@ -41,7 +41,7 @@ export const GameDayPurchaseOption: React.FC<GameDayPurchaseOptionProps> = (prop
         percent: string = ((1 - (daily /baseDaily)) * 100).toFixed(0);
 
       return (
-        <h1 className="game-day-purchase-option-discount-label passion-one-font">
+        <h1 className="game-day-purchase-option-discount-label passion-one-font text-border">
           {percent}% less per day!
         </h1>
       )
@@ -66,10 +66,10 @@ export const GameDayPurchaseOption: React.FC<GameDayPurchaseOptionProps> = (prop
       <div className="game-day-purchase-option-content">
         {getDiscountLabel()}
         <div className="game-day-purchase-option-details">
-          <h1 className="game-day-purchase-option-label passion-one-font">{option.label} ({option.quantity})</h1>
-          <h1 className="game-day-purchase-option-daily-price passion-one-font">${daily.toFixed(2)} / Day</h1>
+          <h1 className="game-day-purchase-option-label passion-one-font text-border">{option.label} ({option.quantity})</h1>
+          <h1 className="game-day-purchase-option-daily-price passion-one-font text-border">${daily.toFixed(2)} / Day</h1>
           {getRecommendationStatement()}
-        <h1 className="game-day-purchase-option-price passion-one-font">${option.price}</h1>
+        <h1 className="game-day-purchase-option-price passion-one-font text-border">${option.price}</h1>
         </div>
       </div>
     </Button>

@@ -71,11 +71,11 @@ export const GameDay: React.FC<GameDayProps> = (props: GameDayProps) => {
 
   const getDayLabel = (): JSX.Element => {
     if(dayStatus === GameStatus.InProgress) {
-      return <span className="highlight-main">In Progress</span>;
+      return <span className="highlight-main thin-text-border">In Progress</span>;
     } else if (game.status === GameStatus.InProgress && dayStatus === GameStatus.Upcoming) {
-      return <span className="highlight-main">Up Next</span>;
+      return <span className="highlight-main thin-text-border">Up Next</span>;
     } else if ((game.status === GameStatus.InProgress || game.status === GameStatus.Completed) && dayStatus === GameStatus.Completed) {
-      return <span className="highlight-main">Complete</span>;
+      return <span className="highlight-main thin-text-border">Complete</span>;
     }
   }
 

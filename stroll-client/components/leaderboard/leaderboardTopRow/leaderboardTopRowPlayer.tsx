@@ -45,7 +45,7 @@ export const LeaderboardTopRowPlayer: React.FC<LeaderboardTopRowPlayerProps> = (
       </div>
       <i className="leaderboard-top-row-icon fal fa-trophy-alt" />     
       <h1 
-        className="leaderboard-top-row-player-username passion-one-font" 
+        className="leaderboard-top-row-player-username passion-one-font thin-text-border" 
         style={{ color: `rgb(${profile.color})` }}
         title={profile.username}
       >

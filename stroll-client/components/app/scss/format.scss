@@ -31,8 +31,6 @@ td {
 
 .highlight-main {
   color: $blue;
-  -webkit-text-stroke-width: 0.5px;
-  -webkit-text-stroke-color: rgba(black, 0.8);
 }
 
 .highlight-white {
@@ -49,6 +47,16 @@ td {
 
 .highlight-white {
   color: white;
+}
+
+.text-border {  
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: rgba(gray(40), 0.8);
+}
+
+.thin-text-border {  
+  -webkit-text-stroke-width: 0.5px;
+  -webkit-text-stroke-color: rgba(gray(40), 0.8);
 }
 
 .label.warning-message {  
