@@ -1,7 +1,5 @@
 .how-to-play-summary {
-  background-color: rgba(white, 0.25);
-  border-radius: 6px;
-  padding: 80px;
+  padding: 0px 80px;
 
   .how-to-play-summary-panel-wrapper {  
     &:nth-child(n + 2) {
@@ -74,7 +72,7 @@
 
 @include small-tablet-or-smaller {
   .how-to-play-summary {
-    padding: 40px;
+    padding: 0px 40px;
 
     .how-to-play-summary-panel-wrapper {       
       .how-to-play-summary-panel-images {
@@ -88,7 +86,7 @@
 
 @include phone-or-smaller {
   .how-to-play-summary {
-    padding: 20px;
+    padding: 0px;
     
     .how-to-play-summary-panel-wrapper {  
       &:nth-child(n + 2) {
