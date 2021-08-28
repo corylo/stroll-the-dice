@@ -26,7 +26,7 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
           <LearnMoreLink text="How To Play" />
           <ConnectAStepTrackerMessage />
           <GameInviteInput />
-          <GameConglomerate limit={10} />
+          <GameConglomerate limit={5} />
         </React.Fragment>
       )
     } else {
