@@ -8,6 +8,12 @@
         .game-ends-at {
           white-space: nowrap;
         }
+
+        .game-name {
+          max-width: 100px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
       }
     }
   }
