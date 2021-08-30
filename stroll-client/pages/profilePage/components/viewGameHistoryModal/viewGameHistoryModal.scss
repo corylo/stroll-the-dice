@@ -1,0 +1,36 @@
+#view-game-history-modal {
+  .view-game-history-table {
+    padding: 0px;
+    
+    .table {
+      table {
+        .game-name,
+        .game-ends-at {
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+
+  .view-more-loading-icon {
+    height: 100px;
+    position: relative;
+  }
+}
+
+@include small-tablet-or-larger {
+  #view-game-history-modal {
+    .modal-content-wrapper {
+      width: 700px;
+    }
+  }
+}
+
+@include small-tablet-or-smaller {
+  #view-game-history-modal {
+    .modal-content-wrapper {      
+      padding: 20px 10px;
+      width: calc(100% - 20px);
+    }
+  }
+}

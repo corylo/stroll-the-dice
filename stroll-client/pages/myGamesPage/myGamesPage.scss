@@ -17,19 +17,6 @@
           height: 100px;
           position: relative;
         }
-        
-        .view-more-button {
-          background-color: rgba(white, 0.1);
-          border: 1px solid rgba(white, 0.2);  
-          margin-top: 10px;
-          padding: 15px 10px;
-          width: 100%;
-
-          &:hover,
-          &:focus {
-            background-color: rgba(white, 0.2);
-          }
-        }
       }
     }
   }

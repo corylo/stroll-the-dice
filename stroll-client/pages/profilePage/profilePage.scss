@@ -1,10 +1,11 @@
 @import "./components/actionCenterSection/actionCenterSection.scss";
 @import "./components/friendCodeSection/friendCodeSection.scss";
 @import "./components/gameDaysSection/gameDaysSection.scss";
-@import "./components//gameStatsSection/gameStatsSection.scss";
+@import "./components/gameStatsSection/gameStatsSection.scss";
 @import "./components/profilePageSection/profilePageSection.scss";
 @import "./components/stepTrackerConnectionModal/stepTrackerConnectionModal.scss";
 @import "./components/stepTrackerSection/stepTrackerSection.scss";
+@import "./components/viewGameHistoryModal/viewGameHistoryModal.scss";
 
 #profile-page {
   .action-center-button {

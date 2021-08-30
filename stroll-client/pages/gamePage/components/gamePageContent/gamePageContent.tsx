@@ -186,8 +186,6 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
             className="game-dates passion-one-font"
             icon="fal fa-clock"
             text={FirestoreDateUtility.getShortenedDateTimeRange(game.startsAt, game.endsAt)}
-            tooltip={`${FirestoreDateUtility.timestampToLocaleDateTime(game.startsAt)} - ${FirestoreDateUtility.timestampToLocaleDateTime(game.endsAt)}`}
-            tooltipSide={TooltipSide.BottomLeft}
           />   
           <GameDetails game={game} togglePlayers={togglePlayers()} />
           <div className="game-action-bar">

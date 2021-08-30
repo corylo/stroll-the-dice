@@ -11,11 +11,13 @@ export const Table: React.FC<TableProps> = (props: TableProps) => {
   return(
     <div 
       id={props.id} 
-      className={classNames("table", props.className)}
+      className={classNames("table-wrapper", props.className)}
     >       
-      <table>
-        {props.children}
-      </table>
+      <div className="table">
+        <table>
+          {props.children}
+        </table>
+      </div>
     </div>
   )
 }

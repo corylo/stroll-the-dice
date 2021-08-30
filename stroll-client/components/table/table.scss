@@ -1,26 +1,45 @@
-.table {
-  table {
-    border-collapse: collapse;
-    border-spacing: 0;
-    margin: auto;
+.table-wrapper {
+  .table {
+    overflow: auto;
+    
+    table {
+      border-collapse: collapse;
+      border-radius: 6px;
+      border-spacing: 0;
+      margin: auto;
+      overflow: hidden;
+      width: 100%;
 
-    thead {
-      tr {
-        th {
-          color: white;
-          padding: 10px 5px;
-          text-align: left;
-          text-transform: uppercase;
+      th, td {      
+        padding: 20px 15px;
+      }
+
+      thead {
+        background-color: rgba(white, 0.1);
+
+        tr {
+          th {
+            color: white;
+            text-align: left;
+            text-transform: uppercase;
+          }
         }
       }
-    }
 
-    tbody {
-      tr {
-        td {
-          color: white;
-          padding: 5px;
-          text-align: left;
+      tbody {
+        tr {
+          &:nth-child(odd) {
+            background-color: rgba(white, 0.3);
+          }
+
+          &:nth-child(even) {
+            background-color: rgba(white, 0.1);
+          }
+
+          td {
+            color: white;
+            text-align: left;
+          }
         }
       }
     }
@@ -28,12 +47,14 @@
 }
 
 @include phone-or-smaller {
-  .table {
-    table {
-      thead {
-        tr {
-          th {
-            font-size: 0.8em;
+  .table-wrapper {
+    .table {
+      table {
+        thead {
+          tr {
+            th {
+              font-size: 0.8em;
+            }
           }
         }
       }

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 import { EventFilters } from "../gameTimeline/eventFilters/eventFilters";
 import { GameTimeline } from "../gameTimeline/gameTimeline";
