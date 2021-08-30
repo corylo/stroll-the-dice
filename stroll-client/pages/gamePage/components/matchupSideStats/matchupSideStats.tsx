@@ -43,7 +43,7 @@ export const MatchupSideStats: React.FC<MatchupSideStatsProps> = (props: Matchup
           icon="fal fa-dice" 
           tooltip="Return Ratio"          
           value={odds}
-          formatValue={(value: number) => `1 : ${NumberUtility.shorten(parseFloat(new Intl.NumberFormat("en-IN", { maximumFractionDigits: 2 }).format(value)))}`}
+          formatValue={(value: number) => `1 : ${new Intl.NumberFormat("en-IN", { maximumFractionDigits: 2 }).format(value)}`}
         />
         <MatchupSideStat 
           alignment={props.alignment}
