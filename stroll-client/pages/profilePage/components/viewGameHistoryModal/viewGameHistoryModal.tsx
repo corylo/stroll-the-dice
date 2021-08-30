@@ -35,34 +35,36 @@ export const ViewGameHistoryModal: React.FC<ViewPlayersModalProps> = (props: Vie
 
   if(toggles.history) {
     const getHistoryTable = (): JSX.Element => {
-      const entries: JSX.Element[] = state.entries.map((entry: IGameHistoryEntry) => (
-        <tr key={entry.id} className="passion-one-font">
-          <td className="game-name">{entry.name}</td>
-          <td>{entry.duration}</td>
-          <td>{NumberUtility.shorten(entry.steps)}</td>
-          <td>{NumberUtility.shorten(entry.points)}</td>
-          <td>{entry.place}</td>
-          <td className="game-ends-at">{FirestoreDateUtility.timestampToLocaleDateTime(entry.endsAt)}</td>
-        </tr>
-      ));
+      if(state.statuses.initial !== RequestStatus.Loading && state.entries.length > 0) {
+        const entries: JSX.Element[] = state.entries.map((entry: IGameHistoryEntry) => (
+          <tr key={entry.id} className="passion-one-font">
+            <td className="game-name">{entry.name}</td>
+            <td>{entry.duration}</td>
+            <td>{NumberUtility.shorten(entry.steps)}</td>
+            <td>{NumberUtility.shorten(entry.points)}</td>
+            <td>{entry.place}</td>
+            <td className="game-ends-at">{FirestoreDateUtility.timestampToLocaleDateTime(entry.endsAt)}</td>
+          </tr>
+        ));
 
-      return (
-        <Table className="view-game-history-table">
-          <thead>
-            <tr className="passion-one-font">
-              <th>Game</th>
-              <th>Duration</th>
-              <th>Steps</th>
-              <th>Points</th>
-              <th>Place</th>
-              <th>Ended At</th>
-            </tr>
-          </thead>
-          <tbody>
-            {entries}
-          </tbody>
-        </Table>
-      )
+        return (
+          <Table className="view-game-history-table">
+            <thead>
+              <tr className="passion-one-font">
+                <th>Game</th>
+                <th>Duration</th>
+                <th>Steps</th>
+                <th>Points</th>
+                <th>Place</th>
+                <th>Ended At</th>
+              </tr>
+            </thead>
+            <tbody>
+              {entries}
+            </tbody>
+          </Table>
+        )
+      }
     }
 
     const getViewMoreButton = (): JSX.Element => {
