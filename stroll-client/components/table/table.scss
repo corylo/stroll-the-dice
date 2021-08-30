@@ -2,6 +2,11 @@
   .table {
     overflow: auto;
     
+    &::-webkit-scrollbar {
+      height: 8px;
+      width: 8px;
+    }
+  
     table {
       border-collapse: collapse;
       border-radius: 6px;

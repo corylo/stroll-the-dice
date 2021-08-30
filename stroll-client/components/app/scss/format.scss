@@ -88,7 +88,7 @@ td {
 
 .scroll-bar {
   &::-webkit-scrollbar-track {
-    background-color: gray(40);
+    background-color: $themeMain;
   }
 
   &::-webkit-scrollbar {
@@ -97,7 +97,7 @@ td {
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: $scrollBarColor;
+    background: rgba(white, 0.75);
     border-radius: 10px;
   }
 }

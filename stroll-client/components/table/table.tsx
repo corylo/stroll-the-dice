@@ -13,7 +13,7 @@ export const Table: React.FC<TableProps> = (props: TableProps) => {
       id={props.id} 
       className={classNames("table-wrapper", props.className)}
     >       
-      <div className="table">
+      <div className="table scroll-bar">
         <table>
           {props.children}
         </table>

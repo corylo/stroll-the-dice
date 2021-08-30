@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 import { Button } from "../../../../components/buttons/button";
 import { EmptyMessage } from "../../../../components/emptyMessage/emptyMessage";
@@ -31,13 +32,15 @@ export const ViewGameHistoryModal: React.FC<ViewPlayersModalProps> = (props: Vie
 
   const [state, setState] = useState<IViewGameHistoryState>(defaultViewGameHistoryState());
 
+  const history: any = useHistory();
+
   useFetchGameHistoryEffect(state, toggles.history, appState.user.profile.uid, setState);
 
   if(toggles.history) {
     const getHistoryTable = (): JSX.Element => {
       if(state.statuses.initial !== RequestStatus.Loading && state.entries.length > 0) {
         const entries: JSX.Element[] = state.entries.map((entry: IGameHistoryEntry) => (
-          <tr key={entry.id} className="passion-one-font">
+          <tr key={entry.id} className="passion-one-font" onClick={() => history.push(`/game/${entry.gameID}`)}>
             <td className="game-name">{entry.name}</td>
             <td>{entry.duration}</td>
             <td>{NumberUtility.shorten(entry.steps)}</td>
