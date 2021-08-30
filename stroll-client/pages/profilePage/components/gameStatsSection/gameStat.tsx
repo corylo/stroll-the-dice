@@ -1,6 +1,12 @@
 import React from "react";
 
+import { Label } from "../../../../components/label/label";
+
+import { Icon } from "../../../../../stroll-enums/icon";
+
 interface GameStatProps {  
+  dailyValue: string;
+  icon: Icon;
   label: string;
   value: string;
 }
@@ -8,8 +14,12 @@ interface GameStatProps {
 export const GameStat: React.FC<GameStatProps> = (props: GameStatProps) => {  
   return (
     <div className="game-stat">
-      <h1 className="game-stat-value passion-one-font">{props.value}</h1>
-      <h1 className="game-stat-label passion-one-font">{props.label}</h1>
+      <Label
+        className="game-stat-value"
+        icon={props.icon}
+        text={props.value}
+      />
+      <h1 className="game-stat-daily-value passion-one-font">{props.dailyValue} / Day</h1>
     </div>
   );
 }

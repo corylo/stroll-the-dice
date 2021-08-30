@@ -14,6 +14,7 @@ import { NumberUtility } from "../../../../../stroll-utilities/numberUtility";
 import { defaultProfileGamesStats, IProfileGamesStats } from "../../../../../stroll-models/profileStats";
 
 import { AppStatus } from "../../../../enums/appStatus";
+import { Icon } from "../../../../../stroll-enums/icon";
 import { ProfileStatsID } from "../../../../../stroll-enums/profileStatsID";
 import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
 
@@ -80,8 +81,18 @@ export const GameStatsSection: React.FC<GameStatsSectionProps> = (props: GameSta
             </tbody>
           </Table>
           <div className="game-stats">
-            <GameStat label="Steps" value={NumberUtility.shorten(state.stats.steps)} />
-            <GameStat label="Points" value={NumberUtility.shorten(state.stats.points)} />
+            <GameStat 
+              dailyValue={NumberUtility.shorten(Math.round(state.stats.steps / state.stats.daysPlayed))}
+              icon={Icon.Steps} 
+              label="Steps" 
+              value={NumberUtility.shorten(state.stats.steps)} 
+            />
+            <GameStat 
+              dailyValue={NumberUtility.shorten(Math.round(state.stats.points / state.stats.daysPlayed))}
+              icon={Icon.Points} 
+              label="Points" 
+              value={NumberUtility.shorten(state.stats.points)} 
+            />
           </div>
         </div>
       )

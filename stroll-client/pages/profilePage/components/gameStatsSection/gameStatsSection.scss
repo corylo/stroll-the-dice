@@ -34,14 +34,28 @@
           flex-grow: 1;
           padding: 10px 20px;
 
-          .game-stat-value,
-          .game-stat-label {
+          .game-stat-value {            
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            gap: 0.5em;
+
+            h1, i {
+              color: white;
+            }
+
+            i {
+              font-size: 1.5em;
+            }
+
+            h1 {              
+              font-size: 3em;
+            }
+          }
+          
+          .game-stat-daily-value {  
             color: white;
             text-align: center;
-          }
-
-          .game-stat-value {
-            font-size: 3em;
           }
         }
       }
@@ -56,7 +70,13 @@
         .game-stats {
           .game-stat {
             .game-stat-value {
-              font-size: 1.5em;
+              i {
+                font-size: 0.9em;
+              }
+  
+              h1 {              
+                font-size: 1.5em;
+              }
             }
           }
         }
