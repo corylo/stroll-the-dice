@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react";
 
-import { Button } from "../../components/buttons/button";
+import { ActionCenterSection } from "./components/actionCenterSection/actionCenterSection";
 import { FriendCodeSection } from "./components/friendCodeSection/friendCodeSection";
 import { GameDaysSection } from "./components/gameDaysSection/gameDaysSection";
+import { GameStatsSection } from "./components/gameStatsSection/gameStatsSection";
 import { Page } from "../../components/page/page";
 import { ProfileHeader } from "../../components/profileHeader/profileHeader";
-import { ProfilePageSection } from "./components/profilePageSection/profilePageSection";
 import { StepTrackerConnectionModal } from "./components/stepTrackerConnectionModal/stepTrackerConnectionModal";
-import { StepTrackerHub } from "./components/stepTrackerHub/stepTrackerHub";
+import { StepTrackerSection } from "./components/stepTrackerSection/stepTrackerSection";
 
 import { AppContext } from "../../components/app/contexts/appContext";
 
@@ -15,7 +15,6 @@ import { useInitiateStepTrackerConnectionEffect } from "./effects/profilePageEff
 
 import { AppAction } from "../../enums/appAction";
 import { AppStatus } from "../../enums/appStatus";
-import { Icon } from "../../../stroll-enums/icon";
 import { StepTrackerConnectionStatus } from "../../../stroll-enums/stepTrackerConnectionStatus";
 
 interface ProfilePageProps {
@@ -49,24 +48,10 @@ export const ProfilePage: React.FC<ProfilePageProps> = (props: ProfilePageProps)
         <React.Fragment>
           <ProfileHeader profile={user.profile} />
           <FriendCodeSection friendID={user.profile.friendID} />
-          <StepTrackerHub toggleModal={setToggled} />
+          <GameStatsSection uid={user.profile.uid} />
+          <StepTrackerSection toggleModal={setToggled} />
           <GameDaysSection available={user.stats.gameDays.available} />
-          <ProfilePageSection icon={Icon.User} title="Action Center">
-            <Button
-              className="action-center-button fancy-button"
-              handleOnClick={() => dispatch(AppAction.ToggleUpdateProfile, true)} 
-            >
-              <i className="fal fa-pencil" />
-              <h1 className="passion-one-font">Edit Profile</h1>
-            </Button>
-            <Button
-              className="action-center-button fancy-button red"
-              handleOnClick={() => dispatch(AppAction.ToggleDeleteAccount, true)} 
-            >
-              <i className="far fa-trash-alt" />
-              <h1 className="passion-one-font">Delete Account Forever</h1>
-            </Button>
-          </ProfilePageSection>
+          <ActionCenterSection />
         </React.Fragment>
       )
     }

@@ -1,4 +1,4 @@
-.step-tracker-hub {
+.step-tracker-section {
   position: relative;
 
   .no-tracker-connected-message-wrapper {
@@ -117,7 +117,7 @@
 }
 
 @include medium-phone-or-smaller {
-  .step-tracker-hub {
+  .step-tracker-section {
     position: relative;
   
     .step-tracker-links {

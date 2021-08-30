@@ -11,11 +11,11 @@ import { StepTrackerUtility } from "../../../../utilities/stepTrackerUtility";
 import { Icon } from "../../../../../stroll-enums/icon";
 import { StepTracker } from "../../../../../stroll-enums/stepTracker";
 
-interface StepTrackerHubProps {  
+interface StepTrackerSectionProps {  
   toggleModal: (toggled: boolean) => void;
 }
 
-export const StepTrackerHub: React.FC<StepTrackerHubProps> = (props: StepTrackerHubProps) => {     
+export const StepTrackerSection: React.FC<StepTrackerSectionProps> = (props: StepTrackerSectionProps) => {     
   const { tracker } = useContext(AppContext).appState.user.profile;
 
   const getNoTrackerConnectedMessage = (): JSX.Element => {
@@ -27,13 +27,11 @@ export const StepTrackerHub: React.FC<StepTrackerHubProps> = (props: StepTracker
   }
 
   return (
-    <ProfilePageSection icon={Icon.Steps} title="Step Trackers">
-      <div className="step-tracker-hub">
-        {getNoTrackerConnectedMessage()}
-        <div className="step-tracker-links">
-          <StepTrackerLink tracker={StepTracker.GoogleFit} toggleModal={props.toggleModal} />
-          <StepTrackerLink disabled tracker={StepTracker.Fitbit} toggleModal={props.toggleModal}  />
-        </div>
+    <ProfilePageSection className="step-tracker-section" icon={Icon.Steps} title="Step Trackers">
+      {getNoTrackerConnectedMessage()}
+      <div className="step-tracker-links">
+        <StepTrackerLink tracker={StepTracker.GoogleFit} toggleModal={props.toggleModal} />
+        <StepTrackerLink disabled tracker={StepTracker.Fitbit} toggleModal={props.toggleModal}  />
       </div>
     </ProfilePageSection>
   );

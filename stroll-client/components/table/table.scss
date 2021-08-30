@@ -1,0 +1,42 @@
+.table {
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin: auto;
+
+    thead {
+      tr {
+        th {
+          color: white;
+          padding: 10px 5px;
+          text-align: left;
+          text-transform: uppercase;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        td {
+          color: white;
+          padding: 5px;
+          text-align: left;
+        }
+      }
+    }
+  }
+}
+
+@include phone-or-smaller {
+  .table {
+    table {
+      thead {
+        tr {
+          th {
+            font-size: 0.8em;
+          }
+        }
+      }
+    }
+  }
+}

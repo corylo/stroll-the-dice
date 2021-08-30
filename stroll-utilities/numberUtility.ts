@@ -5,7 +5,9 @@ interface INumberUtility {
 
 export const NumberUtility: INumberUtility = {
   shorten: (value: number): string => {
-    if (value < 10000) {
+    if (value < 100) {
+      return new Intl.NumberFormat("en-IN", { maximumFractionDigits: 2 }).format(value);
+    } else if (value < 10000) {
       return value.toLocaleString();
     } else if (value < 100000) {
       return `${Math.floor(value / 100) / 10}K`;
