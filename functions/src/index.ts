@@ -10,6 +10,7 @@ import { ProfileService } from "./services/profileService";
 import { ScheduleService } from "./services/scheduleService";
 import { StepTrackerService } from "./services/stepTrackerService";
 import { StripeService } from "./services/stripeService";
+import { EmailService } from "./services/emailService";
 
 exports.onAuthUserDelete = auth.user()
   .onDelete(AuthService.onAuthUserDelete);

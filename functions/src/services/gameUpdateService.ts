@@ -3,6 +3,7 @@ import { logger } from "firebase-functions";
 
 import { db } from "../../config/firebase";
 
+import { EmailService } from "./emailService";
 import { GameDaySummaryService } from "./gameDaySummaryService";
 import { GameEventBatchService } from "./batch/gameEventBatchService";
 import { GameEventService } from "./gameEventService";
@@ -12,7 +13,9 @@ import { PlayerBatchService } from "./batch/playerBatchService";
 import { PlayerService } from "./playerService";
 import { PlayingInBatchService } from "./batch/playingInBatchService";
 import { StepTrackerService } from "./stepTrackerService";
+import { UserService } from "./userService";
 
+import { FirestoreDateUtility } from "../utilities/firestoreDateUtility";
 import { GameDaySummaryUtility } from "../utilities/gameDaySummaryUtility";
 import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtility";
 import { GameEventUtility } from "../utilities/gameEventUtility";
@@ -20,6 +23,7 @@ import { MatchupUtility } from "../utilities/matchupUtility";
 
 import { gameConverter, IGame } from "../../../stroll-models/game";
 import { IGameDaySummary } from "../../../stroll-models/gameDaySummary";
+import { IGameEvent } from "../../../stroll-models/gameEvent/gameEvent";
 import { IMatchup } from "../../../stroll-models/matchup";
 import { IMatchupPairGroup } from "../../../stroll-models/matchupPairGroup";
 import { IPlayer } from "../../../stroll-models/player";
@@ -32,7 +36,8 @@ interface IGameUpdateService {
   handleReferenceFieldChange: (gameID: string, game: IGame) => Promise<void>;
   handleStillInProgress: (gameID: string, game: IGame) => Promise<void>;
   handleUpcomingToInProgress: (gameID: string, game: IGame) => Promise<void>;
-  handleUpdateEvent: (gameID: string, before: IGame, after: IGame) => Promise<void>;  
+  handleUpdateEvent: (gameID: string, before: IGame, after: IGame) => Promise<void>;
+  sendDayCompleteNotifications: (game: IGame, day: number) => Promise<void>;
 }
 
 export const GameUpdateService: IGameUpdateService = {
@@ -49,15 +54,22 @@ export const GameUpdateService: IGameUpdateService = {
 
     PlayerBatchService.updateGameStatus(batch, players, game.status);
 
-    batch.update(gameRef, { progressUpdateAt: firebase.firestore.FieldValue.serverTimestamp() });   
+    batch.update(gameRef, { progressUpdateAt: firebase.firestore.FieldValue.serverTimestamp() });
+
+    const event: IGameEvent = GameEventUtility.mapGeneralEvent(
+      FirestoreDateUtility.addMillis(game.endsAt, 3),
+      GameEventType.Completed
+    );
+
+    GameEventBatchService.create(batch, gameID, event);
 
     await batch.commit();
-    
+
     logger.info(`Game [${gameID}] is now complete.`);
   },
-  handleReferenceFieldChange: async (gameID: string, game: IGame): Promise<void> => {    
+  handleReferenceFieldChange: async (gameID: string, game: IGame): Promise<void> => {
     logger.info(`Updating all references to game [${gameID}]`);
-    
+
     const batch: firebase.firestore.WriteBatch = db.batch();
 
     await PlayingInBatchService.update(batch, gameID, game);
@@ -66,20 +78,22 @@ export const GameUpdateService: IGameUpdateService = {
 
     logger.info(`Successfully updated ${results.length} references to game [${gameID}].`);
   },
-  handleStillInProgress: async (gameID: string, game: IGame): Promise<void> => {    
+  handleStillInProgress: async (gameID: string, game: IGame): Promise<void> => {
     const isDayComplete: boolean = GameDurationUtility.isDayComplete(game),
       day: number = GameDurationUtility.getDay(game),
-      offsetDay: number = isDayComplete ? day - 1 : day;     
-    
+      offsetDay: number = isDayComplete ? day - 1 : day;
+
     const summary: IGameDaySummary = await GameDaySummaryService.getOrCreate(gameID, offsetDay),
       updates: IPlayerStepUpdate[] = await StepTrackerService.getStepCountUpdates(game.startsAt, summary);
-      
+
     const updatedSummary: IGameDaySummary = GameDaySummaryUtility.mapUpdates(summary, updates);
 
-    if(isDayComplete) {         
+    if (isDayComplete) {
       logger.info(`Day [${offsetDay}] complete for game [${gameID}]. Completing matchups and distributing prediction winnings.`);
-    
+
       await GameTransactionService.handleDayCompleteProgressUpdate(gameID, offsetDay, game.startsAt, updatedSummary, updates);
+
+      await GameUpdateService.sendDayCompleteNotifications({ ...game, id: gameID }, offsetDay);
     } else {
       logger.info(`Progress update for game [${gameID}] on day [${offsetDay}].`);
 
@@ -93,14 +107,14 @@ export const GameUpdateService: IGameUpdateService = {
 
     const batch: firebase.firestore.WriteBatch = db.batch();
 
-    if(game.duration > 1) {
-      const groups: IMatchupPairGroup[] = MatchupUtility.generatePairGroups(game.duration, game.counts.players),      
+    if (game.duration > 1) {
+      const groups: IMatchupPairGroup[] = MatchupUtility.generatePairGroups(game.duration, game.counts.players),
         matchups: IMatchup[] = MatchupUtility.mapMatchupsFromPairGroups(groups, players);
 
-      logger.info(`Generating [${matchups.length}] matchups and predictions for days 2 - ${game.duration}`);      
+      logger.info(`Generating [${matchups.length}] matchups and predictions for days 2 - ${game.duration}`);
 
       MatchupBatchService.createRemainingMatchups(batch, gameID, matchups);
-  
+
       GameEventBatchService.create(batch, gameID, GameEventUtility.mapGeneralEvent(game.startsAt, GameEventType.Started));
     }
 
@@ -110,11 +124,19 @@ export const GameUpdateService: IGameUpdateService = {
       .doc(gameID)
       .withConverter<IGame>(gameConverter);
 
-    batch.update(gameRef, { progressUpdateAt: firebase.firestore.FieldValue.serverTimestamp() });   
+    batch.update(gameRef, { progressUpdateAt: firebase.firestore.FieldValue.serverTimestamp() });
 
     await batch.commit();
   },
-  handleUpdateEvent: async (gameID: string, before: IGame, after: IGame): Promise<void> => {    
+  handleUpdateEvent: async (gameID: string, before: IGame, after: IGame): Promise<void> => {
     await GameEventService.create(gameID, GameEventUtility.mapUpdateEvent(after.updatedAt, before, after));
+  },
+  sendDayCompleteNotifications: async (game: IGame, day: number): Promise<void> => {
+    const players: IPlayer[] = await PlayerService.getByGame(game.id),
+      uids: string[] = players.map((player: IPlayer) => player.id);
+
+    const emails: string[] = await UserService.getAllEmailsByUID(uids);
+
+    await EmailService.sendDayCompleteEmail(game.id, game.name, day, game.duration, emails);
   }
 }

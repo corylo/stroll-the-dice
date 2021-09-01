@@ -9,6 +9,7 @@ import { gameConverter, IGame } from "../../../stroll-models/game";
 
 import { FirebaseDocumentID } from "../../../stroll-enums/firebaseDocumentID";
 import { GameStatus } from "../../../stroll-enums/gameStatus";
+import { GameError } from "../../../stroll-enums/gameError";
 
 interface IScheduleService {  
   handleInProgress: (snap: firebase.firestore.QuerySnapshot) => Promise<void>;
@@ -48,6 +49,7 @@ export const ScheduleService: IScheduleService = {
         const upcomingGamesSnap: firebase.firestore.QuerySnapshot = await db.collection("games")
           .where("startsAt", "<=", firebase.firestore.Timestamp.now())
           .where("status", "==", GameStatus.Upcoming)
+          .where("error", "==", GameError.None)
           .withConverter(gameConverter)
           .get();
 
