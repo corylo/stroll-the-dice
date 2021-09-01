@@ -1,5 +1,5 @@
 .learn-more-link {
-  background-position: center;
+  background-position: center 40%;
   background-size: cover;
   box-shadow: $shadow1;
   justify-content: center;
@@ -9,7 +9,7 @@
   &:hover,
   &:focus {
     .learn-more-link-content {
-      background-color: rgba(black, 0.2);
+      background-color: rgba(black, 0.1);
     }
   }
 
@@ -18,7 +18,7 @@
     background-color: rgba(black, 0.05);
     border-radius: 6px;
     display: flex;
-    height: 200px;
+    height: 120px;
     justify-content: center;
     padding: 20px;
 
@@ -37,7 +37,7 @@
 @include phone-or-smaller {
   .learn-more-link {
     .learn-more-link-content {
-      height: 100px;
+      height: 80px;
 
       i, h1 {
         font-size: 2em;
