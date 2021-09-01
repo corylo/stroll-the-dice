@@ -31,7 +31,7 @@ export const GameService: IGameService = {
   },
   onDelete: async (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext): Promise<void> => {
     try {
-      logger.info(`Deleting all references to game [${context.params.id}]`)
+      logger.info(`Deleting all references to game [${context.params.id}]`);
 
       await PlayingInBatchService.deleteAll(context.params.id);
     } catch (err) {
@@ -54,6 +54,8 @@ export const GameService: IGameService = {
         
         if (GameUtility.upcomingToInProgress(before, after)) {
           await GameUpdateService.handleUpcomingToInProgress(context.params.id, after);
+
+          await GameUpdateService.sendGameStartedEmails({ ...after, id: context.params.id });
         } else if (GameUtility.inProgressToCompleted(before, after)) {        
           await GameUpdateService.handleInProgressToCompleted(context.params.id, after);
         } else if (GameUtility.stillInProgress(before, after)) {

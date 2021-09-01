@@ -37,7 +37,8 @@ interface IGameUpdateService {
   handleStillInProgress: (gameID: string, game: IGame) => Promise<void>;
   handleUpcomingToInProgress: (gameID: string, game: IGame) => Promise<void>;
   handleUpdateEvent: (gameID: string, before: IGame, after: IGame) => Promise<void>;
-  sendDayCompleteNotifications: (game: IGame, day: number) => Promise<void>;
+  sendDayCompleteEmails: (game: IGame, day: number) => Promise<void>;
+  sendGameStartedEmails: (game: IGame) => Promise<void>;
 }
 
 export const GameUpdateService: IGameUpdateService = {
@@ -93,7 +94,7 @@ export const GameUpdateService: IGameUpdateService = {
 
       await GameTransactionService.handleDayCompleteProgressUpdate(gameID, offsetDay, game.startsAt, updatedSummary, updates);
 
-      await GameUpdateService.sendDayCompleteNotifications({ ...game, id: gameID }, offsetDay);
+      await GameUpdateService.sendDayCompleteEmails({ ...game, id: gameID }, offsetDay);
     } else {
       logger.info(`Progress update for game [${gameID}] on day [${offsetDay}].`);
 
@@ -111,12 +112,10 @@ export const GameUpdateService: IGameUpdateService = {
       const groups: IMatchupPairGroup[] = MatchupUtility.generatePairGroups(game.duration, game.counts.players),
         matchups: IMatchup[] = MatchupUtility.mapMatchupsFromPairGroups(groups, players);
 
-      logger.info(`Generating [${matchups.length}] matchups and predictions for days 2 - ${game.duration}`);
-
       MatchupBatchService.createRemainingMatchups(batch, gameID, matchups);
-
-      GameEventBatchService.create(batch, gameID, GameEventUtility.mapGeneralEvent(game.startsAt, GameEventType.Started));
     }
+
+    GameEventBatchService.create(batch, gameID, GameEventUtility.mapGeneralEvent(game.startsAt, GameEventType.Started));
 
     PlayerBatchService.updateGameStatus(batch, players, game.status);
 
@@ -131,12 +130,20 @@ export const GameUpdateService: IGameUpdateService = {
   handleUpdateEvent: async (gameID: string, before: IGame, after: IGame): Promise<void> => {
     await GameEventService.create(gameID, GameEventUtility.mapUpdateEvent(after.updatedAt, before, after));
   },
-  sendDayCompleteNotifications: async (game: IGame, day: number): Promise<void> => {
+  sendDayCompleteEmails: async (game: IGame, day: number): Promise<void> => {
     const players: IPlayer[] = await PlayerService.getByGame(game.id),
       uids: string[] = players.map((player: IPlayer) => player.id);
 
     const emails: string[] = await UserService.getAllEmailsByUID(uids);
 
     await EmailService.sendDayCompleteEmail(game.id, game.name, day, game.duration, emails);
+  },
+  sendGameStartedEmails: async (game: IGame): Promise<void> => {
+    const players: IPlayer[] = await PlayerService.getByGame(game.id),
+      uids: string[] = players.map((player: IPlayer) => player.id);
+
+    const emails: string[] = await UserService.getAllEmailsByUID(uids);
+
+    await EmailService.sendGameStartedEmail(game.id, game.name, emails);
   }
 }
