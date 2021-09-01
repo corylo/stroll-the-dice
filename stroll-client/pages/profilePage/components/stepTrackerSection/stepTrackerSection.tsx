@@ -31,7 +31,7 @@ export const StepTrackerSection: React.FC<StepTrackerSectionProps> = (props: Ste
       {getNoTrackerConnectedMessage()}
       <div className="step-tracker-links">
         <StepTrackerLink tracker={StepTracker.GoogleFit} toggleModal={props.toggleModal} />
-        <StepTrackerLink disabled tracker={StepTracker.Fitbit} toggleModal={props.toggleModal}  />
+        <StepTrackerLink tracker={StepTracker.Fitbit} toggleModal={props.toggleModal}  />
       </div>
     </ProfilePageSection>
   );
