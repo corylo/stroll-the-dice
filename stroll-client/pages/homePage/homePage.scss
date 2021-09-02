@@ -1,6 +1,76 @@
 #home-page {
   #game-invite-input-wrapper,
-  .learn-more-link {
+  .learn-more-links {
     margin-bottom: 20px;
+  }
+
+  .learn-more-links {
+    display: grid;
+    grid-gap: 1em;
+    grid-template-columns: repeat(auto-fill, minmax(30%, 1fr)); 
+
+    .learn-more-link {     
+      .learn-more-link-content {   
+        i, h1 {
+          color: white;
+          font-size: 1.5em;
+        }
+      }
+    }
+  }
+}
+
+@include small-tablet-or-smaller {
+  #home-page {
+    .learn-more-links {
+      .learn-more-link {
+        .learn-more-link-content {         
+          flex-direction: column;
+          gap: 10px;
+          padding: 10px;
+        }
+      }
+    }
+  }
+}
+
+@include phone-or-smaller {
+  #home-page {
+    .learn-more-links {
+      .learn-more-link {
+        .learn-more-link-content {         
+          flex-direction: column;
+          gap: 10px;
+          padding: 10px;
+
+          i {
+            font-size: 1.5em;
+          }
+
+          h1 {
+            font-size: 1em;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include small-phone-or-smaller {
+  #home-page {
+    .learn-more-links {
+      grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); 
+      
+      .learn-more-link {
+        .learn-more-link-content {         
+          flex-direction: row;      
+          height: 60px;
+
+          i, h1 {
+            font-size: 1.5em;
+          }
+        }
+      }
+    }
   }
 }

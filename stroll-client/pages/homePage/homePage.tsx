@@ -10,20 +10,46 @@ import { SignInLink } from "../../components/signInLink/signInLink";
 
 import { AppContext } from "../../components/app/contexts/appContext";
 
+import { ImageUtility } from "../../utilities/imageUtility";
+
+import { AppAction } from "../../enums/appAction";
 import { AppStatus } from "../../enums/appStatus";
+import { HowToPlayID } from "../../enums/howToPlayID";
 
 interface HomePageProps {
   
 }
 
 export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
-  const { appState } = useContext(AppContext);
+  const { appState, dispatchToApp } = useContext(AppContext);
+
+  const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
 
   const getContent = (): JSX.Element => {
+    const toggle = (howToPlayID: HowToPlayID): void => {
+      dispatch(AppAction.ToggleHowToPlay, { howToPlay: true, howToPlayID });
+    }
+
     if(appState.status === AppStatus.SignedIn) {
       return (
         <React.Fragment>
-          <LearnMoreLink text="How To Play" />
+          <div className="learn-more-links">
+            <LearnMoreLink 
+              image={ImageUtility.getGraphic("matchup", "png")}
+              text="Prerequisites" 
+              handleOnClick={() => toggle(HowToPlayID.Prerequisites)}
+            />
+            <LearnMoreLink 
+              image={ImageUtility.getGraphic("park", "png")}
+              text="Getting Started" 
+              handleOnClick={() => toggle(HowToPlayID.GettingStarted)}
+            />
+            <LearnMoreLink 
+              image={ImageUtility.getGraphic("learn-more", "png")}
+              text="How it works" 
+              handleOnClick={() => toggle(HowToPlayID.HowItWorks)}
+            />
+          </div>
           <ConnectAStepTrackerMessage />
           <GameInviteInput />
           <GameFeed limit={5} />
@@ -37,7 +63,11 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
           <div className="link-divider">
             <h1 className=" passion-one-font">Or</h1>
           </div>
-          <LearnMoreLink />
+          <LearnMoreLink 
+            image={ImageUtility.getGraphic("learn-more", "png")}
+            text="How it works" 
+            handleOnClick={() => toggle(HowToPlayID.HowItWorks)}
+          />
         </div>
       )
     }
