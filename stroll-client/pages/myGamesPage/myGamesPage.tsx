@@ -2,16 +2,15 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 
 import { Button } from "../../components/buttons/button";
 import { GameFilters } from "./components/gameFilters/gameFilters";
-import { GameList } from "../../components/gameGroup/gameList";
+import { GameList } from "../../components/gameFeed/components/gameList/gameList";
 import { LoadingIcon } from "../../components/loadingIcon/loadingIcon";
 import { Page } from "../../components/page/page";
-import { PageTitle } from "../../components/page/pageTitle";
 
 import { AppContext } from "../../components/app/contexts/appContext";
 
 import { useFetchGamesEffect } from "./effects/myGamesPageEffects";
 
-import { GameGroupUtility } from "../../components/gameGroup/utilities/gameGroupUtility";
+import { GameGroupUtility } from "../../components/gameFeed/utilities/gameGroupUtility";
 import { GameStatusUtility } from "../../utilities/gameStatusUtility";
 import { UrlUtility } from "../../utilities/urlUtility";
 
@@ -93,7 +92,6 @@ export const MyGamesPage: React.FC<MyGamesPageProps> = (props: MyGamesPageProps)
         backgroundGraphic=""
         requireAuth
       >   
-        <PageTitle text={state.status} />
         <GameFilters />
         <div className="my-games">
           {getGameList()}

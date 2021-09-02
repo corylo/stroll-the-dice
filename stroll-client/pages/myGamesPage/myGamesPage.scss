@@ -4,14 +4,11 @@
   .page-content-wrapper {
     .page-content {
       .my-games {
+        background-color: $themeMainAccent;
+        border-radius: 6px;   
+        box-shadow: $shadow1;
         margin-top: 20px;
-
-        .game-list {
-          background-color: transparent;
-          border: none;
-          border-radius: 0px;
-          padding: 0px;
-        }
+        padding: 10px;
         
         .games-loading-icon {
           height: 100px;

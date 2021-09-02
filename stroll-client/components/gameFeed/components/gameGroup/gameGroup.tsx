@@ -1,13 +1,13 @@
 import React from "react";
 
-import { EmptyMessage } from "../emptyMessage/emptyMessage";
-import { GameList } from "./gameList";
+import { EmptyMessage } from "../../../emptyMessage/emptyMessage";
+import { GameList } from "../gameList/gameList";
 
-import { GameGroupUtility } from "./utilities/gameGroupUtility";
+import { GameGroupUtility } from "../../utilities/gameGroupUtility";
 
-import { IGameGroup } from "../../../stroll-models/gameGroup";
+import { IGameGroup } from "../../../../../stroll-models/gameGroup";
 
-import { GameStatus } from "../../../stroll-enums/gameStatus";
+import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 
 interface GameGroupProps { 
   groups: IGameGroup[];

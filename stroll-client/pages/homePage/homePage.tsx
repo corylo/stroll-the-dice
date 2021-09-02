@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import { ConnectAStepTrackerMessage } from "../../components/connectAStepTrackerMessage/connectAStepTrackerMessage";
-import { GameConglomerate } from "../../components/gameGroup/gameConglomerate";
+import { GameFeed } from "../../components/gameFeed/gameFeed";
 import { GameInviteInput } from "../../components/gameInviteInput/gameInviteInput";
 import { HowToPlaySummary } from "../../components/howToPlaySummary/howToPlaySummary";
 import { LearnMoreLink } from "../../components/learnMoreLink/learnMoreLink";
@@ -26,7 +26,7 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
           <LearnMoreLink text="How To Play" />
           <ConnectAStepTrackerMessage />
           <GameInviteInput />
-          <GameConglomerate limit={5} />
+          <GameFeed limit={5} />
         </React.Fragment>
       )
     } else {

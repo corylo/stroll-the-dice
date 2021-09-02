@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 
-import { GameGroup } from "./gameGroup";
+import { GameGroup } from "./components/gameGroup/gameGroup";
 import { LoadingMessage } from "../loadingMessage/loadingMessage";
 
 import { AppContext } from "../app/contexts/appContext";
@@ -17,21 +17,21 @@ import { AppStatus } from "../../enums/appStatus";
 import { GameStatus } from "../../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../../stroll-enums/requestStatus";
 
-interface IGameConglomerateState {
+interface IGameFeedState {
   groups: IGameGroup[];
   status: RequestStatus;
 }
 
-interface GameConglomerateProps {  
+interface GameFeedProps {  
   limit: number;
 }
 
-export const GameConglomerate: React.FC<GameConglomerateProps> = (props: GameConglomerateProps) => { 
+export const GameFeed: React.FC<GameFeedProps> = (props: GameFeedProps) => { 
   const { appState } = useContext(AppContext);
 
   const { user } = appState;
 
-  const [state, setState] = useState<IGameConglomerateState>({ 
+  const [state, setState] = useState<IGameFeedState>({ 
     groups: GameGroupUtility.getInitialGroups(), 
     status: RequestStatus.Loading 
   });
@@ -64,7 +64,7 @@ export const GameConglomerate: React.FC<GameConglomerateProps> = (props: GameCon
   const getContent = (): JSX.Element => {
     if(state.status !== RequestStatus.Loading) {
       return (
-        <div className="game-conglomerate-groups">
+        <div className="game-feed-groups">
           <GameGroup groups={state.groups} status={GameStatus.InProgress} />
           <GameGroup groups={state.groups} status={GameStatus.Upcoming} />
           <GameGroup groups={state.groups} status={GameStatus.Completed} />
@@ -80,7 +80,7 @@ export const GameConglomerate: React.FC<GameConglomerateProps> = (props: GameCon
   }
 
   return (    
-    <div className="game-conglomerate">
+    <div className="game-feed">
       {getContent()}
     </div>
   )

@@ -1,15 +1,15 @@
 import React from "react";
 
-import { Button } from "../buttons/button";
-import { EmptyMessage } from "../emptyMessage/emptyMessage";
-import { GameLink } from "../gameLink/gameLink";
+import { Button } from "../../../buttons/button";
+import { EmptyMessage } from "../../../emptyMessage/emptyMessage";
+import { GameLink } from "../../../gameLink/gameLink";
 
-import { UrlUtility } from "../../utilities/urlUtility";
+import { UrlUtility } from "../../../../utilities/urlUtility";
 
-import { IGame } from "../../../stroll-models/game";
+import { IGame } from "../../../../../stroll-models/game";
 
-import { GameStatus } from "../../../stroll-enums/gameStatus";
-import { GroupGameBy } from "../../../stroll-enums/groupGameBy";
+import { GameStatus } from "../../../../../stroll-enums/gameStatus";
+import { GroupGameBy } from "../../../../../stroll-enums/groupGameBy";
 
 interface GameListProps {  
   emptyMessage?: string;
