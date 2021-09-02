@@ -50,7 +50,7 @@ export const HowToPlayModalSection: React.FC<HowToPlayModalSectionProps> = (prop
   }
 
   return (
-    <div className={classNames("how-to-play-modal-section", props.className, { subsection: props.subsection })}>
+    <div id={props.id} className={classNames("how-to-play-modal-section", props.className, { subsection: props.subsection })}>
       {getTitle()}
       {getContent()}
     </div>

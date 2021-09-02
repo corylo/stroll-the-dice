@@ -3,6 +3,8 @@
 @import "./components/howToPlayText/howToPlayText.scss";
 
 #how-to-play-modal {
+  scroll-behavior: smooth;
+  
   .modal-content-wrapper {
     .modal-content {
       background: $themeMainDark;

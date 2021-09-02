@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 import { Button } from "../buttons/button";
 import { ConnectAStepTrackerItem } from "../connectAStepTrackerMessage/connectAStepTrackerItem/connectAStepTrackerItem";
@@ -40,6 +40,19 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = (props: HowToPlayMo
   const { toggles } = appState;
   
   const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
+
+  useEffect(() => {
+    if(toggles.howToPlay && toggles.howToPlayID !== HowToPlayID.Unknown) {
+      const modal: HTMLElement = document.getElementById("how-to-play-modal"),
+        element: HTMLElement = document.getElementById(toggles.howToPlayID);
+
+      if(modal && element) {
+        const rect: DOMRect = element.getBoundingClientRect();
+
+        modal.scrollTop = (window.pageYOffset + rect.top) - 40;
+      }
+    }
+  }, [toggles.howToPlay, toggles.howToPlayID]);
 
   if(toggles.howToPlay) {    
     const handleOnClose = (): void => {
