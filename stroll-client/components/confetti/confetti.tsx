@@ -30,9 +30,9 @@ export const Confetti: React.FC<ConfettiProps> = (props: ConfettiProps) => {
         const getStyles = (): React.CSSProperties => {          
           return {
             animationDelay: `${NumberUtility.random(0, 30) / 10}s`,
-            height: `${NumberUtility.random(3, 4)}px`,
-            left: `${NumberUtility.random(0, 100)}%`,
-            top: `${NumberUtility.random(20, 40)}%`,
+            height: `${NumberUtility.random(2, 4)}px`,
+            left: `${NumberUtility.random(5, 95)}%`,
+            top: `${NumberUtility.random(20, 60)}%`,
             width: `${NumberUtility.random(6, 8)}px`            
           }
         }
