@@ -119,7 +119,7 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = (props: HowToPlayMo
       netAmount: number = returnedAmount - predictionAmount;
 
     return (
-      <Modal id="how-to-play-modal">        
+      <Modal id="how-to-play-modal" priority>        
         <div className="how-to-play-modal-background-wrapper">
           <div className="how-to-play-modal-background" style={{ backgroundImage: `url(${ImageUtility.getGraphic("learn-more", "png")})`}} />
         </div>
