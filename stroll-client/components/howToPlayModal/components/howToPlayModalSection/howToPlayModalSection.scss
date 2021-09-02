@@ -76,12 +76,8 @@
 }
 
 @include phone-or-smaller {
-  .how-to-play-modal-section {
-    border-radius: 0px;
-    
+  .how-to-play-modal-section {  
     .how-to-play-modal-section-title {
-      border-radius: 0px;
-      
       h1 {
         font-size: 2em;
       }

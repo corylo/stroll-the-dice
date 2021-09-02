@@ -65,8 +65,8 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
           </div>
           <LearnMoreLink 
             image={ImageUtility.getGraphic("learn-more", "png")}
-            text="How it works" 
-            handleOnClick={() => toggle(HowToPlayID.HowItWorks)}
+            text="Learn more" 
+            handleOnClick={() => toggle(HowToPlayID.Unknown)}
           />
         </div>
       )
