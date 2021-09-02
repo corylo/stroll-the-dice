@@ -1,0 +1,14 @@
+.example-matchup-wrapper {
+  border: 1px solid rgba(white, 0.25);
+  border-radius: 10px;
+  padding: 10px;
+
+  .game-matchup {
+    border-top: none;
+
+    .game-matchup-header,    
+    .toggle-prediction-button {
+      display: none;
+    }
+  }
+}

@@ -4,7 +4,6 @@ import { SignInLink } from "../signInLink/signInLink";
 
 interface SignInToDoThisMessageProps {  
   image: string;
-  index: number;
   text: string;
 }
 

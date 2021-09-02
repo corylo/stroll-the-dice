@@ -19,6 +19,7 @@ export enum AppAction {
   ToggleAcceptInvite = "Toggle Accept Invite",
   ToggleCookieBanner = "Toggle Cookie Banner",
   ToggleDeleteAccount = "Toggle Delete Account",
+  ToggleHowToPlay = "Toggle How To Play",  
   ToggleUpdateProfile = "Toggle Update Profile",
   ToggleMenu = "Toggle Menu",
   ToggleSignIn = "Toggle Sign In"

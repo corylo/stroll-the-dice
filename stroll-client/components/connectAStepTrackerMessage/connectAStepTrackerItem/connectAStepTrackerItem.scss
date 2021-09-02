@@ -1,0 +1,17 @@
+.connect-a-step-tracker-item {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 1em;
+
+  .connect-a-step-tracker-logo {
+    height: 100px;
+    width: 100px;
+  }
+
+  .connect-a-step-tracker-label {
+    color: white;
+    text-align: center;
+  }
+}

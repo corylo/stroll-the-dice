@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import firebase from "firebase/app";
 
 import { analytics } from "../config/firebase";
 
@@ -9,7 +8,6 @@ import { UrlUtility } from "../utilities/urlUtility";
 
 import { IAppState } from "../components/app/models/appState";
 
-import { AppAction } from "../enums/appAction";
 import { CookieStatus } from "../enums/cookieStatus";
 import { ElementID } from "../enums/elementId";
 import { ImageStatus } from "../enums/imageStatus";

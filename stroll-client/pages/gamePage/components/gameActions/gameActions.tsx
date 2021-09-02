@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import { IconButton } from "../../../../components/buttons/iconButton";
+import { Button } from "../../../../components/buttons/button";
 import { UpdateGameButton } from "../updateGameButton/updateGameButton";
 
 import { AppContext } from "../../../../components/app/contexts/appContext";
@@ -28,13 +28,14 @@ export const GameActions: React.FC<GameActionsProps> = (props: GameActionsProps)
   if(appState.status === AppStatus.SignedIn) {
     if(invite && game.status === GameStatus.Upcoming) {    
       actions.push(
-        <IconButton
+        <Button
           key="invite"
-          className="game-action-button"
-          icon="fal fa-user-plus" 
-          tooltip="Invite"
+          className="game-action-toggle invite-toggle"
           handleOnClick={props.toggleInvite} 
-        />      
+        >
+          <i className="fal fa-user-plus" />
+          <h1 className="passion-one-font">Invite</h1>
+        </Button>
       )
     }
 

@@ -13,9 +13,11 @@ import { MyGamesPage } from "../../pages/myGamesPage/myGamesPage";
 import { NotificationsPage } from "../../pages/notificationsPage/notificationsPage";
 import { ProfilePage } from "../../pages/profilePage/profilePage";
 import { ShopPage } from "../../pages/shopPage/shopPage";
+import { StatsPage } from "../../pages/statsPage/statsPage";
 import { UserPage } from "../../pages/userPage/userPage";
 
 import { DeleteAccountModal } from "../deleteAccountModal/deleteAccountModal";
+import { HowToPlayModal } from "../howToPlayModal/howToPlayModal";
 import { Nav } from "../nav/nav";
 import { Navbar } from "../navbar/navbar";
 import { SignInModal } from "../signInModal/signInModal";
@@ -60,6 +62,7 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
         <SignInModal />
         <UserMenuModal />
         <UpdateProfileModal />
+        <HowToPlayModal />
         <DeleteAccountModal />
         <CookieBanner />
         <Switch>
@@ -68,6 +71,9 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
           </Route>
           <Route exact path={["/profile", "/profile/connect/:tracker"]}>
             <ProfilePage />
+          </Route>
+          <Route exact path="/stats">
+            <StatsPage />
           </Route>
           <Route exact path={["/u/:id", "/u/:id/:username"]}>
             <UserPage />

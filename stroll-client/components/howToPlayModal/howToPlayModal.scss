@@ -1,0 +1,157 @@
+@import "./components/howToPlayDisplayComponent/howToPlayDisplayComponent.scss";
+@import "./components/howToPlayModalSection/howToPlayModalSection.scss";
+@import "./components/howToPlayText/howToPlayText.scss";
+
+#how-to-play-modal {
+  .modal-content-wrapper {
+    .modal-content {
+      background: $themeMainDark;
+      overflow: hidden;
+      padding: 0px;
+      position: relative;
+
+      .how-to-play-modal-background-wrapper {
+        height: 200px;
+        left: 0px;
+        position: absolute;
+        top: 0px;
+        width: 100%;
+
+        &:after {
+          background: linear-gradient(to top, $themeMainDark 20%, transparent);
+          bottom: 0px;
+          content: "";
+          height: 100px;
+          left: 0px;
+          position: absolute;
+          width: 100%;
+          z-index: 2;
+        }
+
+        .how-to-play-modal-background {
+          background-position: center 40%;
+          border-radius: 10px;
+          border-bottom-left-radius: 0px;
+          border-bottom-right-radius: 0px;
+          filter: brightness(80%);
+          height: 200px;
+          position: relative;
+        }
+      }
+
+      .modal-title {
+        margin: 20px;
+      }
+
+      .modal-body {
+        margin-top: 20px;
+
+        .how-to-play-title {
+          font-size: 3em;
+          justify-content: center;
+          text-shadow: 0px 0px 2px rgba(black, 0.75);
+          width: 100%;
+          z-index: 2;
+
+          .label-text-wrapper {
+            margin-left: 5px;
+          }
+        }
+
+        .how-to-play-modal-sections {
+          margin-top: 40px;
+          padding: 20px;
+          position: relative;
+          z-index: 2;
+
+          .step-tracking-sub-section {
+            .step-tracking-sub-section-items {
+              display: flex;
+              justify-content: space-between;
+              margin-top: 20px;
+            }
+          }
+
+          .example-matchup-side-stat {
+            border: 1px solid rgba(white, 0.25);
+            border-radius: 6px;
+            display: inline-block;
+            font-size: 1.25em;
+            padding: 10px 20px;
+            width: calc(100% - 42px);
+        
+            .icon-statement {
+              span {
+                font-size: 1.25em;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include small-tablet-or-larger {
+  #how-to-play-modal {
+    .modal-content-wrapper {
+      width: 700px;
+    }
+  }
+}
+
+@include small-tablet-or-smaller {
+  #how-to-play-modal {
+    .modal-content-wrapper {      
+      padding: 0px;
+      width: calc(100% - 40px);
+      
+      .modal-content {   
+        &::before {
+          display: none;
+        }
+
+        .how-to-play-modal-background-wrapper {
+          .how-to-play-modal-background {
+            border-radius: 0px;
+          }
+        }
+
+        .modal-body {
+          margin-top: 0px;
+        }
+      }
+    }
+  }
+}
+
+@include phone-or-smaller {
+  #how-to-play-modal {
+    .modal-content-wrapper {      
+      padding: 0px;
+      width: 100%;
+      
+      .modal-content {   
+        &::before {
+          display: none;
+        }
+
+        .how-to-play-modal-background-wrapper {
+          .how-to-play-modal-background {
+            border-radius: 0px;
+          }
+        }
+
+        .modal-body {
+          margin-top: 0px;
+          min-height: calc(100vh - 156px);
+
+          .how-to-play-modal-sections {
+            margin-top: 80px;
+            padding: 0px;
+          }
+        }
+      }
+    }
+  }
+}

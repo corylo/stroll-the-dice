@@ -26,6 +26,7 @@ export enum Icon {
   
   AppBrand = "fal fa-running",
   Dice = "fal fa-dice",
+  Players = "fal fa-user-friends",
   Points = "fal fa-dice-d8",
   ProfileIcon = "profile-icon",
   Question = "fal fa-question",

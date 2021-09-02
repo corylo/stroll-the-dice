@@ -1,0 +1,8 @@
+@import "./components/gameHistory/gameHistory.scss";
+@import "./components/gameStats/gameStats.scss";
+
+#stats-page {
+  .game-history {
+    margin-top: 20px;
+  }
+}

@@ -11,7 +11,7 @@ interface INotificationUtility {
 
 export const NotificationUtility: INotificationUtility = {
   getRandomGoodLuckStatement: (): string => {
-    const rand: number = NumberUtility.random(0, 4);
+    const rand: number = NumberUtility.random(0, 3);
 
     switch(rand) {
       case 0:

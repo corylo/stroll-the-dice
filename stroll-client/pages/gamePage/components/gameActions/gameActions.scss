@@ -29,3 +29,32 @@
     margin-left: 10px;
   }
 }
+
+.game-action-toggle {   
+  align-items: center;
+  background-color: transparent; 
+  border: 1px solid rgba(white, 0.25);
+  border-radius: 100px;
+  display: flex;
+  padding: 5px 15px;
+
+  &:hover,
+  &:focus {
+    background-color: rgba(white, 0.1);
+  }
+
+  &.invite-toggle {    
+    margin-right: 10px;
+  }
+
+  > i {
+    font-size: 0.8em;
+  }
+
+  > h1 {
+    color: white;
+    height: 20px;
+    line-height: 20px;
+    margin-left: 10px;
+  }
+}

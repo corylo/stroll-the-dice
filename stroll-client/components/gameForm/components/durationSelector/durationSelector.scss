@@ -5,6 +5,10 @@
 
   .duration-selector-option {      
     padding: 20px 10px;
+    
+    &:not(.selected):disabled {
+      opacity: 0.4;
+    }
   }
 }
 

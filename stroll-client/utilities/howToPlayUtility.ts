@@ -1,17 +1,19 @@
-import { FirestoreDateUtility } from "../../../../stroll-utilities/firestoreDateUtility";
+import { FirestoreDateUtility } from "../../stroll-utilities/firestoreDateUtility";
 
-import { IMatchup, IMatchupSide } from "../../../../stroll-models/matchup";
-import { IPlayer } from "../../../../stroll-models/player";
+import { IMatchup, IMatchupSide } from "../../stroll-models/matchup";
+import { IPlayer } from "../../stroll-models/player";
 
-import { Color } from "../../../../stroll-enums/color";
-import { GameStatus } from "../../../../stroll-enums/gameStatus";
-import { Icon } from "../../../../stroll-enums/icon";
-import { MatchupSideAlignment } from "../../gamePage/components/matchupSide/matchupSide";
+import { Color } from "../../stroll-enums/color";
+import { GameStatus } from "../../stroll-enums/gameStatus";
+import { HowToPlayID } from "../enums/howToPlayID";
+import { Icon } from "../../stroll-enums/icon";
+import { MatchupSideAlignment } from "../pages/gamePage/components/matchupSide/matchupSide";
 
 interface IHowToPlayUtility {
   getExampleMatchup: () => IMatchup;  
   getExampleMatchupSide: (side: MatchupSideAlignment) => IMatchupSide;  
   getExamplePlayer: () => IPlayer;
+  getID: (id: string) => HowToPlayID;
 }
 
 export const HowToPlayUtility: IHowToPlayUtility = {
@@ -93,6 +95,28 @@ export const HowToPlayUtility: IHowToPlayUtility = {
       },
       steps: 0,
       updatedAt: FirestoreDateUtility.dateToTimestamp(new Date())
+    }
+  },
+  getID: (id: string): HowToPlayID => {
+    switch(id) {
+      case HowToPlayID.HowItWorks:
+        return HowToPlayID.HowItWorks;        
+        
+      case HowToPlayID.Matchups:
+        return HowToPlayID.Matchups;        
+        
+      case HowToPlayID.Predictions:
+        return HowToPlayID.Predictions;        
+        
+      case HowToPlayID.Prerequisites:
+        return HowToPlayID.Prerequisites;        
+        
+      case HowToPlayID.TheGoal:
+        return HowToPlayID.TheGoal;        
+        
+      case HowToPlayID.GettingStarted:
+      default:
+        return HowToPlayID.GettingStarted;
     }
   }
 }

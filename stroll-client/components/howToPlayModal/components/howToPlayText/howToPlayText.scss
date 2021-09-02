@@ -1,0 +1,33 @@
+.how-to-play-text {
+  background-color: rgba(white, 0.1);
+  border-radius: 6px;
+  padding: 10px;  
+
+  > p {
+    color: white;
+    font-size: 1.25em;
+
+    &:nth-of-type(n + 2) {
+      margin-top: 10px;
+    }
+  }
+
+  .how-to-play-text-subnote {
+    align-items: center;
+    display: flex;
+    margin-top: 5px;
+
+    i, p {
+      color: white;
+    }
+
+    i {
+      font-size: 0.8em;
+    }
+
+    p {
+      font-size: 1em;
+      margin-left: 5px;
+    }
+  }
+}

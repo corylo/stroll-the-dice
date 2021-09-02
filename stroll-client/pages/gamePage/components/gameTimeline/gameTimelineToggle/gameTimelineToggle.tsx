@@ -12,7 +12,7 @@ export const GameTimelineToggle: React.FC<GameTimelineToggleProps> = (props: Gam
   }
 
   return (
-    <Button className="game-timeline-toggle" handleOnClick={handleOnClick}>
+    <Button className="game-action-toggle" handleOnClick={handleOnClick}>
       <i className="fal fa-history" />
       <h1 className="passion-one-font">Timeline</h1>                   
     </Button>

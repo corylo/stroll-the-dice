@@ -6,20 +6,14 @@ import { NotificationNavButton } from "./notificationNavButton";
 interface NavProps {}
 
 export const Nav: React.FC<NavProps> = (props: NavProps) => {
-  const getGamesPageLink = (): JSX.Element => {
-    return (     
-      <NavMenuButton icon="far fa-dice" label="Games" to="/games" />
-    )
-  }
-
   const getMonitorNavContent = (): JSX.Element => {
     return (
       <div id="monitor-nav-menu-content" className="nav-menu-content">
         <NavMenuButton icon="far fa-home" label="Home" to="/" />
         <NavMenuButton icon="fal fa-plus" label="Create Game" to="/create" />
         <NavMenuButton icon="far fa-store" label="Shop" to="/shop" />
+        <NavMenuButton icon="fal fa-chart-bar" label="Stats" to="/stats" />
         <NotificationNavButton />
-        <NavMenuButton icon="far fa-question" label="How To Play" to="/how-to-play" />
       </div>
     )
   }
@@ -30,8 +24,8 @@ export const Nav: React.FC<NavProps> = (props: NavProps) => {
         <NavMenuButton icon="fal fa-plus" label="Create Game" to="/create" />
         <NavMenuButton icon="far fa-store" label="Shop" to="/shop" />
         <NavMenuButton center icon="far fa-home" label="Home" to="/" />
+        <NavMenuButton icon="fal fa-chart-bar" label="Stats" to="/stats" />
         <NotificationNavButton />
-        <NavMenuButton icon="far fa-question" label="How To Play" to="/how-to-play" />
       </div>
     )
   }

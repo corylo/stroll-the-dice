@@ -3,15 +3,17 @@ import React, { useContext, useState } from "react";
 import { ActionCenterSection } from "./components/actionCenterSection/actionCenterSection";
 import { FriendCodeSection } from "./components/friendCodeSection/friendCodeSection";
 import { GameDaysSection } from "./components/gameDaysSection/gameDaysSection";
-import { GameStatsSection } from "./components/gameStatsSection/gameStatsSection";
 import { Page } from "../../components/page/page";
 import { ProfileHeader } from "../../components/profileHeader/profileHeader";
+import { SignInToDoThisMessage } from "../../components/signInToDoThisMessage/signInToDoThisMessage";
 import { StepTrackerConnectionModal } from "./components/stepTrackerConnectionModal/stepTrackerConnectionModal";
 import { StepTrackerSection } from "./components/stepTrackerSection/stepTrackerSection";
 
 import { AppContext } from "../../components/app/contexts/appContext";
 
 import { useInitiateStepTrackerConnectionEffect } from "./effects/profilePageEffects";
+
+import { ImageUtility } from "../../utilities/imageUtility";
 
 import { AppAction } from "../../enums/appAction";
 import { AppStatus } from "../../enums/appStatus";
@@ -48,11 +50,17 @@ export const ProfilePage: React.FC<ProfilePageProps> = (props: ProfilePageProps)
         <React.Fragment>
           <ProfileHeader profile={user.profile} />
           <FriendCodeSection friendID={user.profile.friendID} />
-          <GameStatsSection uid={user.profile.uid} />
           <StepTrackerSection toggleModal={setToggled} />
           <GameDaysSection available={user.stats.gameDays.available} />
           <ActionCenterSection />
         </React.Fragment>
+      )
+    } else {
+      return (
+        <SignInToDoThisMessage
+          image={ImageUtility.getGraphic("park", "png")}
+          text="Sign in to view your notifications!"
+        />
       )
     }
   }
@@ -61,7 +69,6 @@ export const ProfilePage: React.FC<ProfilePageProps> = (props: ProfilePageProps)
     <Page 
       id="profile-page" 
       backgroundGraphic=""
-      requireAuth
     >   
       {getContent()}
       <StepTrackerConnectionModal toggled={toggled} back={handleBack} />

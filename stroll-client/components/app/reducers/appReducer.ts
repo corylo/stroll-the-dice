@@ -10,6 +10,7 @@ import { CookieStatus } from "../../../enums/cookieStatus";
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
 import { StepTracker } from "../../../../stroll-enums/stepTracker";
 import { StepTrackerConnectionStatus } from "../../../../stroll-enums/stepTrackerConnectionStatus";
+import { HowToPlayID } from "../../../enums/howToPlayID";
 
 export const appReducer = (state: IAppState, action: IAction): IAppState => {  
   switch (action.type) {    
@@ -233,6 +234,29 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
         };
       }
 
+      return updates;
+    }
+    case AppAction.ToggleHowToPlay: {
+      const updates: IAppState = { ...state };
+      
+      if(action.payload.howToPlay) {
+        updates.toggles.howToPlay = action.payload.howToPlay;
+      }
+      
+      if(action.payload.howToPlayID) {
+        updates.toggles.howToPlayID = action.payload.howToPlayID
+      }
+
+      if(action.payload === false) {
+        updates.toggles.howToPlay = false;
+        updates.toggles.howToPlayID = HowToPlayID.Unknown;
+      }
+      
+      if(action.payload === true) {
+        updates.toggles.howToPlay = true;
+        updates.toggles.howToPlayID = HowToPlayID.Unknown;
+      }
+      
       return updates;
     }
     case AppAction.ToggleUpdateProfile:

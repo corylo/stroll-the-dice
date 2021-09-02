@@ -9,11 +9,13 @@
 @import "../../buttons/buttons.scss";
 @import "../../cookieBanner/cookieBanner.scss";
 @import "../../confetti/confetti.scss";
+@import "../../connectAStepTrackerMessage/connectAStepTrackerItem/connectAStepTrackerItem.scss";
 @import "../../connectAStepTrackerMessage/connectAStepTrackerMessage.scss";
 @import "../../copyButton/copyButton.scss";
 @import "../../deleteAccountModal/deleteAccountModal.scss";
 @import "../../dot/dot.scss";
 @import "../../emptyMessage/emptyMessage.scss";
+@import "../../exampleMatchup/exampleMatchup.scss";
 @import "../../filterButton/filterButton.scss";
 @import "../../form/form.scss";
 @import "../../gameDateStatus/gameDateStatus.scss";
@@ -24,6 +26,7 @@
 @import "../../gameInviteInput/gameInviteInput.scss";
 @import "../../gameLink/gameLink.scss";
 @import "../../gameFeed/gameFeed.scss";
+@import "../../howToPlayModal/howToPlayModal.scss";
 @import "../../howToPlaySummary/howToPlaySummary.scss";
 @import "../../iconStatement/iconStatement.scss";
 @import "../../inputToggle/inputToggle.scss";
@@ -66,6 +69,7 @@
 @import "../../../pages/notificationsPage/notificationsPage.scss";
 @import "../../../pages/profilePage/profilePage.scss";
 @import "../../../pages/shopPage/shopPage.scss";
+@import "../../../pages/statsPage/statsPage.scss";
 @import "../../../pages/userPage/userPage.scss";
 
 html,
