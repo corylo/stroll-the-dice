@@ -29,10 +29,10 @@ export const GameHistory: React.FC<GameHistoryProps> = (props: GameHistoryProps)
       const entries: JSX.Element[] = state.entries.map((entry: IGameHistoryEntry) => (
         <tr key={entry.id} className="passion-one-font" onClick={() => history.push(`/game/${entry.gameID}`)}>
           <td className="game-name">{entry.name}</td>
-          <td>{entry.duration}</td>
+          <td>{entry.place}</td>
           <td>{NumberUtility.shorten(entry.steps)}</td>
           <td>{NumberUtility.shorten(entry.points)}</td>
-          <td>{entry.place}</td>
+          <td>{entry.duration}</td>
           <td className="game-ends-at">{FirestoreDateUtility.timestampToLocaleDateTime(entry.endsAt)}</td>
         </tr>
       ));
@@ -42,10 +42,10 @@ export const GameHistory: React.FC<GameHistoryProps> = (props: GameHistoryProps)
           <thead>
             <tr className="passion-one-font">
               <th>Game</th>
-              <th>Duration</th>
+              <th>Place</th>
               <th>Steps</th>
               <th>Points</th>
-              <th>Place</th>
+              <th>Duration</th>
               <th>Ended At</th>
             </tr>
           </thead>
