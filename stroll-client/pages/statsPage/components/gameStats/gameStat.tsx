@@ -1,4 +1,5 @@
 import React from "react";
+import classNames from "classnames";
 
 import { Label } from "../../../../components/label/label";
 
@@ -14,12 +15,11 @@ interface GameStatProps {
 export const GameStat: React.FC<GameStatProps> = (props: GameStatProps) => {  
   return (
     <div className="game-stat">
-      <Label
-        className="game-stat-value"
-        icon={props.icon}
-        text={props.value}
-      />
-      <h1 className="game-stat-daily-value passion-one-font">{props.dailyValue} / Day</h1>
+      <i className={classNames("game-stat-icon", props.icon)} />
+      <div className="game-stat-details">
+        <Label className="game-stat-value" text={props.value} />      
+        <h1 className="game-stat-daily-value passion-one-font">{props.dailyValue} / Day</h1>
+      </div>
     </div>
   );
 }

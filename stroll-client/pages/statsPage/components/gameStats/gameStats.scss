@@ -1,60 +1,68 @@
-.game-stats-wrapper {
-  .game-stats-table {
-    padding: 0px;
-  }
+.game-stats {
+  display: flex;
+  gap: 1em;
 
-  .game-stats {
+  .game-stat {
+    align-items: center;
+    background-color: white;
+    border-radius: 6px;
     display: flex;
+    flex-grow: 1;
+    justify-content: center;
     gap: 1em;
-    margin-top: 10px;
+    padding: 10px 20px;
 
-    .game-stat {
-      border: 2px solid rgba(white, 0.5);
-      border-radius: 6px;
-      flex-grow: 1;
-      padding: 10px 20px;
+    .game-stat-icon {
+      font-size: 3em;
+    }
 
-      .game-stat-value {            
-        align-items: center;
-        display: flex;
-        justify-content: center;
-        gap: 0.5em;
-
-        h1, i {
-          color: white;
-        }
-
-        i {
-          font-size: 1.5em;
-        }
-
-        h1 {              
+    .game-stat-details {      
+      .game-stat-value { 
+        h1 {
+          color: gray(40);           
           font-size: 3em;
         }
       }
       
       .game-stat-daily-value {  
-        color: white;
-        text-align: center;
+        color: gray(40);
       }
     }
   }
 }
 
-@include phone-or-smaller {
-  .game-stats-wrapper {
-    .game-stats {
-      .game-stat {
-        .game-stat-value {
-          i {
-            font-size: 0.9em;
-          }
+@include medium-phone-or-smaller {
+  .game-stats {
+    .game-stat {
+      gap: 0.8em;
+      padding: 10px;
 
-          .label-text-wrapper {  
-            h1 {              
-              font-size: 1.5em;
-              margin-left: 0px;
-            }
+      .game-stat-icon {
+        font-size: 2em;
+      }
+
+      .game-stat-details {      
+        .game-stat-value {  
+          h1 {        
+            font-size: 2em;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include small-phone-or-smaller {
+  .game-stats {
+    .game-stat {
+      .game-stat-icon {
+        font-size: 1.5em;
+      }
+
+      .game-stat-details {      
+        .game-stat-value {    
+          h1 {        
+            font-size: 1.25em;
           }
         }
       }

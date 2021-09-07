@@ -4,16 +4,19 @@ import { useHistory } from "react-router-dom";
 import { Button } from "../../../../components/buttons/button";
 import { EmptyMessage } from "../../../../components/emptyMessage/emptyMessage";
 import { LoadingIcon } from "../../../../components/loadingIcon/loadingIcon";
+import { StatsPageSection } from "../statsPageSection/statsPageSection";
 import { Table } from "../../../../components/table/table";
 
 import { StatsPageContext } from "../../statsPage";
 
 import { FirestoreDateUtility } from "../../../../../stroll-utilities/firestoreDateUtility";
+import { GameDurationUtility } from "../../../../../stroll-utilities/gameDurationUtility";
 import { NumberUtility } from "../../../../../stroll-utilities/numberUtility";
 
 import { IGameHistoryEntry } from "../../../../../stroll-models/gameHistoryEntry";
 
 import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
+import classNames from "classnames";
 
 interface GameHistoryProps {  
   
@@ -26,14 +29,51 @@ export const GameHistory: React.FC<GameHistoryProps> = (props: GameHistoryProps)
 
   const getHistoryTable = (): JSX.Element => {
     if(state.statuses.initial !== RequestStatus.Loading && state.entries.length > 0) {
+      const getPlace = (place: number): string => {
+        if(place === 1) {
+          return "1st";
+        } else if(place === 2) {
+          return "2nd";
+        } else if(place === 3) {
+          return "3rd";
+        }
+
+        return place.toString();
+      }
+
+      const getIcon = (place: number): string => {
+        if(place <= 3) {
+          return "fal fa-trophy-alt";
+        }
+
+        return "fal fa-trophy";
+      }
+
       const entries: JSX.Element[] = state.entries.map((entry: IGameHistoryEntry) => (
         <tr key={entry.id} className="passion-one-font" onClick={() => history.push(`/game/${entry.gameID}`)}>
-          <td className="game-name">{entry.name}</td>
-          <td>{entry.place}</td>
+          <td className="game-details">
+            <Table>
+              <tbody>
+                <tr>
+                  <td>{entry.name}</td>
+                </tr>
+                <tr>
+                  <td><h1 className="game-ends-at">{FirestoreDateUtility.timestampToLocaleDateTime(entry.endsAt)}</h1></td>
+                </tr>
+                <tr>
+                  <td><h1 className="game-duration">{GameDurationUtility.getLabel(entry.duration)}</h1></td>
+                </tr>
+              </tbody>
+            </Table>
+          </td>
+          <td>
+            <div className={classNames("player-place", `player-place-${entry.place}`)}>
+              <i className={classNames("player-place-icon", getIcon(entry.place))} />
+              <h1 className="player-place-label">{getPlace(entry.place)}</h1>
+            </div>
+          </td>
           <td>{NumberUtility.shorten(entry.steps)}</td>
           <td>{NumberUtility.shorten(entry.points)}</td>
-          <td>{entry.duration}</td>
-          <td className="game-ends-at">{FirestoreDateUtility.timestampToLocaleDateTime(entry.endsAt)}</td>
         </tr>
       ));
 
@@ -41,12 +81,10 @@ export const GameHistory: React.FC<GameHistoryProps> = (props: GameHistoryProps)
         <Table className="game-history-table">
           <thead>
             <tr className="passion-one-font">
-              <th>Game</th>
+              <th>Game Details</th>
               <th>Place</th>
               <th>Steps</th>
               <th>Points</th>
-              <th>Duration</th>
-              <th>Ended At</th>
             </tr>
           </thead>
           <tbody>
@@ -100,11 +138,11 @@ export const GameHistory: React.FC<GameHistoryProps> = (props: GameHistoryProps)
   }
 
   return (
-    <div className="game-history">
+    <StatsPageSection className="game-history" title="Game History">    
       {getHistoryTable()}
       {getViewMoreButton()}
       {getLoadingIcon()}
       {getEmptyMessage()}
-    </div>
+    </StatsPageSection>
   );
 }

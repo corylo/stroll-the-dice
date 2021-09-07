@@ -4,21 +4,105 @@
     
     .table {
       table {
-        .game-name,
-        .game-ends-at {
-          white-space: nowrap;
-        }
-
-        .game-name {
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
         tbody {
           tr {
             &:hover {
-              background-color: rgba(white, 0.5);
+              background-color: rgba(white, 0.2);
               cursor: pointer;
+            }
+
+            td {
+              vertical-align: top;
+
+              &.game-details {
+                .table {
+                  background-color: transparent;
+                  border: none;
+                  border-radius: 0px;
+
+                  table {
+                    padding: 0px;
+
+                    thead,
+                    tbody {
+                      th, td {
+                        border: none;
+                        border-radius: 0px;
+                      }
+                    }
+
+                    tbody {
+                      tr {
+                        background-color: transparent;
+
+                        &:nth-of-type(n + 2) {
+                          td {
+                            padding-top: 4px;
+                          }
+                        }
+
+                        td {
+                          padding: 0px;
+
+                          .game-ends-at {
+                            color: gray(40);
+                            font-size: 0.9em;
+                          }
+
+                          .game-duration {
+                            background-color: rgba(white, 0.1);
+                            border: 1px solid rgba(white, 0.25);
+                            border-radius: 100px;
+                            display: inline-block;
+                            font-size: 0.9em;
+                            padding: 4px 12px;
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+
+              .player-place {
+                text-align: center;
+                width: 30px;
+
+                &.player-place-1 {
+                  i {
+                    color: $gold;
+                  }
+                }
+                
+                &.player-place-2 {
+                  i {
+                    color: $silver;
+                  }
+                }
+                
+                &.player-place-3 {
+                  i {
+                    color: $bronze;
+                  }
+                }
+
+                i, h1 {
+                  color: white;
+                }
+
+                h1 {
+                  font-size: 0.8em;
+                  margin-top: 2px;
+                }
+              }
+
+              h1 {
+                color: white;
+
+                &:nth-of-type(n + 2) {
+                  margin-top: 5px;
+                }
+              }
             }
           }
         }

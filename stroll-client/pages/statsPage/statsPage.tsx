@@ -3,7 +3,6 @@ import React, { createContext, useContext, useState } from "react";
 import { GameHistory } from "./components/gameHistory/gameHistory";
 import { GameStats } from "./components/gameStats/gameStats";
 import { Page } from "../../components/page/page";
-import { PageTitle } from "../../components/page/pageTitle";
 import { SignInToDoThisMessage } from "../../components/signInToDoThisMessage/signInToDoThisMessage";
 
 import { AppContext } from "../../components/app/contexts/appContext";
@@ -58,8 +57,7 @@ export const StatsPage: React.FC<StatsPageProps> = (props: StatsPageProps) => {
 
   return(
     <StatsPageContext.Provider value={{ state, setState }}>
-      <Page id="stats-page" backgroundGraphic="">     
-        <PageTitle text="Stats" />
+      <Page id="stats-page" backgroundGraphic="" status={state.statuses.initial}>  
         {getContent()}
       </Page>
     </StatsPageContext.Provider>

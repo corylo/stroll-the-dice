@@ -1,6 +1,8 @@
 .table-wrapper {
   .table {
-    overflow: auto;
+    background-color: rgba(white, 0.1);
+    border: 1px solid rgba(white, 0.25);
+    border-radius: 6px;
     
     &::-webkit-scrollbar {
       height: 8px;
@@ -8,22 +10,50 @@
     }
   
     table {
-      border-collapse: collapse;
-      border-radius: 6px;
       border-spacing: 0;
       margin: auto;
-      overflow: hidden;
+      padding: 6px;
       width: 100%;
 
       th, td {      
-        padding: 20px 15px;
+        padding: 15px 10px;
+      }
+
+      thead,
+      tbody {
+        tr {
+          th, td {
+            &:nth-of-type(n + 2) {
+              border-left: none;
+            }
+          }
+        }
       }
 
       thead {
-        background-color: rgba(white, 0.1);
-
         tr {
+          &:first-of-type {
+            th {
+              border-top: none;
+
+              &:first-of-type {
+                border-left: none;
+              }
+
+              &:last-of-type {
+                border-right: none;
+              }
+            }
+          }
+
+          &:last-of-type {
+            th {
+              border-bottom: none;
+            }
+          }
+
           th {
+            border: 1px solid rgba(white, 0.25);
             color: white;
             text-align: left;
             text-transform: uppercase;
@@ -33,17 +63,30 @@
 
       tbody {
         tr {
-          &:nth-child(odd) {
-            background-color: rgba(white, 0.3);
+          &:nth-of-type(n + 2) {
+            td {
+              border-top: none;
+            }
           }
 
-          &:nth-child(even) {
-            background-color: rgba(white, 0.1);
+          &:last-of-type {
+            td {
+              border-bottom: none;
+            }
           }
 
           td {
+            border: 1px solid rgba(white, 0.25);
             color: white;
             text-align: left;
+
+            &:first-of-type {
+              border-left: none;
+            }
+
+            &:last-of-type {
+              border-right: none;
+            }
           }
         }
       }
