@@ -7,13 +7,13 @@
   .learn-more-links {
     display: grid;
     grid-gap: 1em;
-    grid-template-columns: repeat(auto-fill, minmax(30%, 1fr)); 
+    grid-template-columns: repeat(auto-fill, minmax(calc(50% - 0.5em), 1fr)); 
 
     .learn-more-link {     
       .learn-more-link-content {   
         i, h1 {
           color: white;
-          font-size: 1.5em;
+          font-size: 2em;
         }
       }
     }
@@ -38,17 +38,13 @@
   #home-page {
     .learn-more-links {
       .learn-more-link {
-        .learn-more-link-content {         
-          flex-direction: column;
-          gap: 10px;
-          padding: 10px;
-
+        .learn-more-link-content {   
           i {
             font-size: 1.5em;
           }
 
           h1 {
-            font-size: 1em;
+            font-size: 1.25em;
           }
         }
       }
