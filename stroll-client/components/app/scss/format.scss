@@ -88,7 +88,7 @@ td {
 
 .scroll-bar {
   &::-webkit-scrollbar-track {
-    background-color: $themeMain;
+    background-color: $scrollBar;
   }
 
   &::-webkit-scrollbar {
