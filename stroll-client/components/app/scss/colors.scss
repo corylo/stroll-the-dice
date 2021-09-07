@@ -33,6 +33,8 @@ $themeMain: $themeColor2;
 $themeMainAccent: $themeColor2Accent;
 $themeMainDark: $themeColor2Dark;
 
+$scrollBar: rgb(28, 109, 170);
+
 $themeMainGradient: linear-gradient(135deg, $themeMain, $themeMainDark);
 $themeMainAccentGradient: linear-gradient(135deg, $themeMain, $themeMainAccent);
 $whiteGradient: linear-gradient(to right, rgba(white, 0.25), rgba(white, 0.05));
