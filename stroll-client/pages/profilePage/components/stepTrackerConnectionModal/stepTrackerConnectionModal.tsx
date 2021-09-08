@@ -17,7 +17,7 @@ import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
 import { StepTracker } from "../../../../../stroll-enums/stepTracker";
 import { StepTrackerConnectionStatus } from "../../../../../stroll-enums/stepTrackerConnectionStatus";
 
-interface StepTrackerConnectionModalProps {    
+interface StepTrackerConnectionModalProps {   
   toggled: boolean;
   back: () => void;
 }
@@ -30,7 +30,7 @@ export const StepTrackerConnectionModal: React.FC<StepTrackerConnectionModalProp
   const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
 
   useConnectStepTrackerEffect(appState, dispatch);
-  
+
   if(props.toggled) {
     const getTitle = (): string => {
       if(tracker.status === StepTrackerConnectionStatus.Verified) {

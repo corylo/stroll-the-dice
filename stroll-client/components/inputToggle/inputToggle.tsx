@@ -4,6 +4,7 @@ import classNames from "classnames";
 interface InputToggleProps {  
   className?: string;
   description?: string;
+  disabled?: boolean;
   icon?: string;
   label: string;
   toggled: boolean;
@@ -36,11 +37,12 @@ export const InputToggle: React.FC<InputToggleProps> = (props: InputToggleProps)
   }
 
   return (
-    <div className={classNames("input-toggle-wrapper", props.className)}>
+    <div className={classNames("input-toggle-wrapper", props.className, { disabled: props.disabled })}>
       <input 
         type="checkbox" 
         className={classNames({ toggled: props.toggled })}
         checked={props.toggled} 
+        disabled={props.disabled !== undefined && props.disabled === true}
         onChange={(e: any) => props.toggle(!props.toggled)} 
       />
       <div className="input-toggle">

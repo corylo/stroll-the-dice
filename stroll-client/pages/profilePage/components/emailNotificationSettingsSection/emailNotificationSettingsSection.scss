@@ -1,0 +1,23 @@
+.email-notification-settings-section {
+  .profile-page-section-content {
+    min-height: 60px;
+    position: relative;
+
+    .input-toggle-wrapper {
+      &:nth-of-type(n + 2) {
+        margin-top: 10px;
+      }
+    }
+
+    .action-button {
+      margin-top: 10px;
+      width: 100%;
+
+      &.loading {
+        i {
+          animation: spin 2s ease-in-out infinite;  
+        }
+      }
+    }
+  }
+}

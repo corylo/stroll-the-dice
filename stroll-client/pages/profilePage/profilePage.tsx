@@ -1,6 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 import { ActionCenterSection } from "./components/actionCenterSection/actionCenterSection";
+import { EmailNotificationSettingsSection } from "./components/emailNotificationSettingsSection/emailNotificationSettingsSection";
 import { FriendCodeSection } from "./components/friendCodeSection/friendCodeSection";
 import { GameDaysSection } from "./components/gameDaysSection/gameDaysSection";
 import { Page } from "../../components/page/page";
@@ -11,13 +12,22 @@ import { StepTrackerSection } from "./components/stepTrackerSection/stepTrackerS
 
 import { AppContext } from "../../components/app/contexts/appContext";
 
-import { useInitiateStepTrackerConnectionEffect } from "./effects/profilePageEffects";
+import { useFetchEmailSettingsEffect, useInitiateStepTrackerConnectionEffect } from "./effects/profilePageEffects";
 
 import { ImageUtility } from "../../utilities/imageUtility";
+
+import { defaultProfilePageState, IProfilePageState } from "./models/profilePageState";
 
 import { AppAction } from "../../enums/appAction";
 import { AppStatus } from "../../enums/appStatus";
 import { StepTrackerConnectionStatus } from "../../../stroll-enums/stepTrackerConnectionStatus";
+
+interface IProfilePageContext {
+  state: IProfilePageState;
+  setState: (state: IProfilePageState) => void;
+}
+
+export const ProfilePageContext = createContext<IProfilePageContext>(null);
 
 interface ProfilePageProps {
   
@@ -30,12 +40,15 @@ export const ProfilePage: React.FC<ProfilePageProps> = (props: ProfilePageProps)
   
   const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
 
-  const [toggled, setToggled] = useState<boolean>(false);
+  const [state, setState] = useState<IProfilePageState>(defaultProfilePageState()),
+    [toggled, setToggledTo] = useState<boolean>(false);
 
-  useInitiateStepTrackerConnectionEffect(appState, setToggled, dispatch);
+  useInitiateStepTrackerConnectionEffect(appState, setToggledTo, dispatch);
+  
+  useFetchEmailSettingsEffect(status, state, user.profile.uid, setState);
 
   const handleBack = (): void => {
-    setToggled(false);
+    setToggledTo(false);
 
     if(user.profile.tracker.status === StepTrackerConnectionStatus.Disconnected) {
       dispatch(AppAction.ResetStepTrackerConnection);
@@ -50,8 +63,9 @@ export const ProfilePage: React.FC<ProfilePageProps> = (props: ProfilePageProps)
         <React.Fragment>
           <ProfileHeader profile={user.profile} />
           <FriendCodeSection friendID={user.profile.friendID} />
-          <StepTrackerSection toggleModal={setToggled} />
+          <StepTrackerSection toggleModal={setToggledTo} />
           <GameDaysSection available={user.stats.gameDays.available} />
+          <EmailNotificationSettingsSection />
           <ActionCenterSection />
         </React.Fragment>
       )
@@ -66,12 +80,14 @@ export const ProfilePage: React.FC<ProfilePageProps> = (props: ProfilePageProps)
   }
 
   return(
-    <Page 
-      id="profile-page" 
-      backgroundGraphic=""
-    >   
-      {getContent()}
-      <StepTrackerConnectionModal toggled={toggled} back={handleBack} />
-    </Page>
+    <ProfilePageContext.Provider value={{ state, setState }}>
+      <Page 
+        id="profile-page" 
+        backgroundGraphic=""
+      >   
+        {getContent()}
+        <StepTrackerConnectionModal toggled={toggled} back={handleBack} />
+      </Page>
+    </ProfilePageContext.Provider>
   )
 }

@@ -2,11 +2,13 @@ import firebase from "firebase/app";
 
 import { db } from "../../../config/firebase";
 
+import { ProfileSettingsUtility } from "../../../utilities/profileSettingsUtility";
 import { ProfileStatsUtility } from "../../../utilities/profileStatsUtility";
 
-import { IProfile, profileConverter } from "../../../../stroll-models/profile";
 import { IFriendIDReference, friendIDReferenceConverter } from "../../../../stroll-models/friendIDReference";
+import { IProfile, profileConverter } from "../../../../stroll-models/profile";
 
+import { ProfileSettingsID } from "../../../../stroll-enums/profileSettingsID";
 import { ProfileStatsID } from "../../../../stroll-enums/profileStatsID";
 
 interface IUpdateProfileService {
@@ -22,6 +24,13 @@ export const UpdateProfileService: IUpdateProfileService = {
       .withConverter<IProfile>(profileConverter);
 
     batch.set(profileRef, profile);
+
+    const emailSettingsRef: firebase.firestore.DocumentReference = db.collection("profiles")
+      .doc(profile.uid)
+      .collection("settings")
+      .doc(ProfileSettingsID.Email);
+
+    batch.set(emailSettingsRef, ProfileSettingsUtility.mapCreate(ProfileSettingsID.Email));
 
     const gameDaysStatsRef: firebase.firestore.DocumentReference = db.collection("profiles")
       .doc(profile.uid)

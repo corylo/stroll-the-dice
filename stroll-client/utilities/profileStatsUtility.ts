@@ -1,4 +1,4 @@
-import { IProfileGameDayStats, IProfileGamesStats, IProfileNotificationStats } from "../../stroll-models/profileStats";
+import { defaultProfileGamesStats, defaultProfileNotificationStats, IProfileGameDayStats, IProfileGamesStats, IProfileNotificationStats } from "../../stroll-models/profileStats";
 
 import { ProfileStatsID } from "../../stroll-enums/profileStatsID";
 
@@ -16,22 +16,9 @@ export const ProfileStatsUtility: IProfileStatsUtility = {
           total: 3
         }
       case ProfileStatsID.Games:
-        return {
-          daysPlayed: 0,
-          gamesPlayed: 0,
-          lastCreated: "",
-          lastJoined: "",
-          points: 0,
-          steps: 0,
-          wins: 0
-        }
+        return defaultProfileGamesStats();
       case ProfileStatsID.Notifications:
-        return {
-          lastViewed: "",
-          total: 0,
-          unviewed: 0,
-          viewed: 0
-        }
+        return defaultProfileNotificationStats();
       default:
         throw new Error(`Unknown Profile Stats ID: ${id}`);
     }

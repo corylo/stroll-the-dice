@@ -3,5 +3,6 @@ export enum DocumentType {
   Invite = "Invite",
   Player = "Player",
   Profile = "Profile",
+  ProfileSettings = "Profile Settings",
   ProfileStats = "Profile Stats"
 }

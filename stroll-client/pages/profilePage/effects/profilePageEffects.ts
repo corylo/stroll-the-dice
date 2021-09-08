@@ -1,21 +1,62 @@
 import { useEffect } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
 
+import { ProfileSettingsService } from "../../../services/profileSettingsService";
 import { StepTrackerService } from "../../../services/stepTrackerService";
 
 import { StepTrackerUtility } from "../../../utilities/stepTrackerUtility";
 import { UrlUtility } from "../../../utilities/urlUtility";
 
 import { IAppState } from "../../../components/app/models/appState";
+import { IProfileEmailSettings } from "../../../../stroll-models/profileSettings";
+import { IProfilePageState } from "../models/profilePageState";
 
 import { AppAction } from "../../../enums/appAction";
 import { AppStatus } from "../../../enums/appStatus";
+import { RequestStatus } from "../../../../stroll-enums/requestStatus";
 import { StepTracker } from "../../../../stroll-enums/stepTracker";
 import { StepTrackerConnectionStatus } from "../../../../stroll-enums/stepTrackerConnectionStatus";
 
+import { ProfileSettingsID } from "../../../../stroll-enums/profileSettingsID";
+
+export const useFetchEmailSettingsEffect = (
+  appStatus: AppStatus,
+  state: IProfilePageState,
+  uid: string,
+  setState: (state: IProfilePageState) => void
+): void => {
+  const updateSettingsStatus = (status: RequestStatus): void => {
+    setState({ ...state, statuses: { ...state.statuses, loadingSettings: status} });
+  }
+
+  useEffect(() => {
+    if(appStatus === AppStatus.SignedIn && uid !== "") {
+      const fetch = async (): Promise<void> => {
+        try {
+          updateSettingsStatus(RequestStatus.Loading);
+
+          const emailSettings: IProfileEmailSettings = await ProfileSettingsService.getByUID(uid, ProfileSettingsID.Email) as IProfileEmailSettings;
+
+          setState({ 
+            ...state, 
+            settings: { ...state.settings, email: emailSettings }, 
+            statuses: { ...state.statuses, loadingSettings: RequestStatus.Success } 
+          });
+        } catch (err) {
+          console.error(err);
+
+          updateSettingsStatus(RequestStatus.Error);
+        }
+      }
+
+      fetch();
+    }
+  }, [appStatus, uid]);
+}
+
 export const useInitiateStepTrackerConnectionEffect = (
   appState: IAppState, 
-  setToggled: (toggled: boolean) => void,
+  setToggledTo: (toggled: boolean) => void,
   dispatch: (type: AppAction, payload?: any) => void
 ): void => {  
   const match: any = useRouteMatch(),
@@ -34,13 +75,13 @@ export const useInitiateStepTrackerConnectionEffect = (
             authorizationCode &&
             tracker
           ) {
-            setToggled(true);
+            setToggledTo(true);
 
             dispatch(AppAction.InitiateStepTrackerConnection, tracker);
           } else if(isError) { 
             history.replace("/profile");
               
-            setToggled(true);
+            setToggledTo(true);
 
             dispatch(AppAction.FailedStepTrackerConnection, tracker);
           }
