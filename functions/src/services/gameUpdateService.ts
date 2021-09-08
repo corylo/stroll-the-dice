@@ -30,6 +30,7 @@ import { IPlayer } from "../../../stroll-models/player";
 import { IPlayerStepUpdate } from "../../../stroll-models/playerStepUpdate";
 
 import { GameEventType } from "../../../stroll-enums/gameEventType";
+import { ProfileEmailSettingID } from "../../../stroll-enums/profileEmailSettingID";
 
 interface IGameUpdateService {
   handleInProgressToCompleted: (gameID: string, game: IGame) => Promise<void>;
@@ -134,7 +135,7 @@ export const GameUpdateService: IGameUpdateService = {
     const players: IPlayer[] = await PlayerService.getByGame(game.id),
       uids: string[] = players.map((player: IPlayer) => player.id);
 
-    const emails: string[] = await UserService.getAllEmailsByUID(uids);
+    const emails: string[] = await UserService.getAllEmailsByUID(uids, ProfileEmailSettingID.OnGameDayCompleted);
 
     await EmailService.sendDayCompleteEmail(game.id, game.name, day, game.duration, emails);
   },
@@ -142,7 +143,7 @@ export const GameUpdateService: IGameUpdateService = {
     const players: IPlayer[] = await PlayerService.getByGame(game.id),
       uids: string[] = players.map((player: IPlayer) => player.id);
 
-    const emails: string[] = await UserService.getAllEmailsByUID(uids);
+    const emails: string[] = await UserService.getAllEmailsByUID(uids, ProfileEmailSettingID.OnGameStarted);
 
     await EmailService.sendGameStartedEmail(game.id, game.name, emails);
   }

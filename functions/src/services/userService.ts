@@ -3,10 +3,12 @@ import { https, logger } from "firebase-functions";
 import axios from "axios";
 
 import { IUpdateUserEmailRequest } from "../../../stroll-models/updateUserEmailRequest";
+import { ProfileSettingsService } from "./profileSettingsService";
+import { ProfileEmailSettingID } from "../../../stroll-enums/profileEmailSettingID";
 
 interface IUserService {
   getByEmail: (email: string) => Promise<string>;
-  getAllEmailsByUID: (uids: string[]) => Promise<string[]>;  
+  getAllEmailsByUID: (uids: string[], id: ProfileEmailSettingID) => Promise<string[]>;  
   getEmailByUID: (uid: string) => Promise<string>;
   updateEmail: (request: IUpdateUserEmailRequest, context: https.CallableContext) => Promise<void>;
 }
@@ -17,8 +19,9 @@ export const UserService: IUserService = {
 
     return user.uid;
   },
-  getAllEmailsByUID: async (uids: string[]): Promise<string[]> => {
-    const requests: any[] = uids.map((uid: string) => UserService.getEmailByUID(uid));
+  getAllEmailsByUID: async (uids: string[], id: ProfileEmailSettingID): Promise<string[]> => {
+    const filteredUIDs: string[] = await ProfileSettingsService.filterUIDsByEmailSettings(uids, id),
+      requests: any[] = filteredUIDs.map((uid: string) => UserService.getEmailByUID(uid));
       
     return await axios.all(requests);
   },
