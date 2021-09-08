@@ -22,7 +22,7 @@
       .leaderboard-row-place {  
         color: white;  
         text-align: center;
-        width: 20px;
+        width: 30px;
       }
 
       .user-link {
@@ -46,6 +46,19 @@
 
         h1 {
           color: white;
+        }
+      }
+    }
+  }
+}
+
+@include phone-or-smaller {
+  .leaderboard-row {  
+    .leaderboard-row-content {      
+      .leaderboard-row-place-and-player {
+        .leaderboard-row-place {
+          font-size: 0.9em;
+          width: 24px;
         }
       }
     }
