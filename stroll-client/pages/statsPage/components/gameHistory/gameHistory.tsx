@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
+import classNames from "classnames";
 
 import { Button } from "../../../../components/buttons/button";
 import { EmptyMessage } from "../../../../components/emptyMessage/emptyMessage";
@@ -12,11 +13,11 @@ import { StatsPageContext } from "../../statsPage";
 import { FirestoreDateUtility } from "../../../../../stroll-utilities/firestoreDateUtility";
 import { GameDurationUtility } from "../../../../../stroll-utilities/gameDurationUtility";
 import { NumberUtility } from "../../../../../stroll-utilities/numberUtility";
+import { PlayerUtility } from "../../../../utilities/playerUtility";
 
 import { IGameHistoryEntry } from "../../../../../stroll-models/gameHistoryEntry";
 
 import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
-import classNames from "classnames";
 
 interface GameHistoryProps {  
   
@@ -29,18 +30,6 @@ export const GameHistory: React.FC<GameHistoryProps> = (props: GameHistoryProps)
 
   const getHistoryTable = (): JSX.Element => {
     if(state.statuses.initial !== RequestStatus.Loading && state.entries.length > 0) {
-      const getPlace = (place: number): string => {
-        if(place === 1) {
-          return "1st";
-        } else if(place === 2) {
-          return "2nd";
-        } else if(place === 3) {
-          return "3rd";
-        }
-
-        return place.toString();
-      }
-
       const getIcon = (place: number): string => {
         if(place <= 3) {
           return "fal fa-trophy-alt";
@@ -58,18 +47,15 @@ export const GameHistory: React.FC<GameHistoryProps> = (props: GameHistoryProps)
                   <td>{entry.name}</td>
                 </tr>
                 <tr>
-                  <td><h1 className="game-ends-at">{FirestoreDateUtility.timestampToLocaleDateTime(entry.endsAt)}</h1></td>
-                </tr>
-                <tr>
-                  <td><h1 className="game-duration">{GameDurationUtility.getLabel(entry.duration)}</h1></td>
+                  <td><h1 className="game-ends-at">{FirestoreDateUtility.timestampToLocaleDateTime(entry.endsAt)} ({GameDurationUtility.getLabel(entry.duration)})</h1></td>
                 </tr>
               </tbody>
             </Table>
-          </td>
+          </td>          
           <td>
             <div className={classNames("player-place", `player-place-${entry.place}`)}>
               <i className={classNames("player-place-icon", getIcon(entry.place))} />
-              <h1 className="player-place-label">{getPlace(entry.place)}</h1>
+              <h1 className="player-place-label">{PlayerUtility.determineLeaderboardPlace(entry.place)}</h1>
             </div>
           </td>
           <td>{NumberUtility.shorten(entry.steps)}</td>

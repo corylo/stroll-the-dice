@@ -18,17 +18,16 @@
   
     .my-points {     
       background: $themeMainAccentGradient;
-      border-radius: 10px;
-      box-shadow: $shadow3;
+      border-radius: 6px;
+      box-shadow: $shadow1;
       display: inline-block;
       margin-left: 270px;
-      padding: 4px;
+      padding: 5px;
       position: relative;
 
       .my-points-content-wrapper {
-        background: $themeMainAccentGradient;
         border: 1px solid rgba(white, 0.5);
-        border-radius: 10px;
+        border-radius: 6px;
         padding: 10px 20px;
         position: relative;
         z-index: 2;

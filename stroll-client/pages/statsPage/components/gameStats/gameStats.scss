@@ -2,49 +2,65 @@
   display: flex;
   gap: 1em;
 
-  .game-stat {
-    align-items: center;
-    background-color: white;
+  .game-stat-wrapper {
+    background: $whiteGradient;
     border-radius: 6px;
-    display: flex;
+    box-shadow: $shadow1;
     flex-grow: 1;
-    justify-content: center;
-    gap: 1em;
-    padding: 10px 20px;
+    padding: 5px;
+    
+    .game-stat {
+      align-items: center;
+      border: 1px solid rgba(white, 0.5);
+      border-radius: 6px;
+      display: flex;
+      justify-content: center;
+      gap: 1em;
+      padding: 10px 20px;
 
-    .game-stat-icon {
-      font-size: 3em;
-    }
-
-    .game-stat-details {      
-      .game-stat-value { 
-        h1 {
-          color: gray(40);           
-          font-size: 3em;
-        }
+      .game-stat-icon {
+        border-right: 1px solid rgba(white, 0.25);
+        color: white;
+        font-size: 2.5em;
+        padding-right: 15px;
       }
-      
-      .game-stat-daily-value {  
-        color: gray(40);
+
+      .game-stat-details {      
+        .game-stat-value { 
+          h1 {
+            color: white;           
+            font-size: 2.5em;
+          }
+        }
+        
+        .game-stat-daily-value {  
+          color: white;
+        }
       }
     }
   }
 }
 
+.game-stats-table {  
+  box-shadow: $shadow1;
+}
+
 @include medium-phone-or-smaller {
   .game-stats {
-    .game-stat {
-      gap: 0.8em;
-      padding: 10px;
+    .game-stat-wrapper {
+      .game-stat {
+        gap: 0.8em;
+        padding: 10px;
 
-      .game-stat-icon {
-        font-size: 2em;
-      }
+        .game-stat-icon {
+          font-size: 2em;
+        }
 
-      .game-stat-details {      
-        .game-stat-value {  
-          h1 {        
-            font-size: 2em;
+        .game-stat-details {      
+          .game-stat-value {  
+            h1 {        
+              font-size: 2em;
+            }
           }
         }
       }
@@ -54,15 +70,26 @@
 
 @include small-phone-or-smaller {
   .game-stats {
-    .game-stat {
-      .game-stat-icon {
-        font-size: 1.5em;
-      }
+    gap: 0.5em;
 
-      .game-stat-details {      
-        .game-stat-value {    
-          h1 {        
-            font-size: 1.25em;
+    .game-stat-wrapper {
+      .game-stat {
+        gap: 0.5em;
+
+        .game-stat-icon {
+          font-size: 1.5em;
+          padding-right: 8px;
+        }
+
+        .game-stat-details {      
+          .game-stat-value {    
+            h1 {        
+              font-size: 1em;
+            }
+          }
+        
+          .game-stat-daily-value {  
+            font-size: 0.9em;
           }
         }
       }

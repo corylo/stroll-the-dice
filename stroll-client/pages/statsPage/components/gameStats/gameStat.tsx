@@ -14,11 +14,13 @@ interface GameStatProps {
 
 export const GameStat: React.FC<GameStatProps> = (props: GameStatProps) => {  
   return (
-    <div className="game-stat">
-      <i className={classNames("game-stat-icon", props.icon)} />
-      <div className="game-stat-details">
-        <Label className="game-stat-value" text={props.value} />      
-        <h1 className="game-stat-daily-value passion-one-font">{props.dailyValue} / Day</h1>
+    <div className="game-stat-wrapper">
+      <div className="game-stat">
+        <i className={classNames("game-stat-icon", props.icon)} />
+        <div className="game-stat-details">
+          <Label className="game-stat-value" text={props.value} />      
+          <h1 className="game-stat-daily-value passion-one-font">{props.dailyValue} / Day</h1>
+        </div>
       </div>
     </div>
   );

@@ -1,8 +1,9 @@
 .empty-message {
   .empty-message-content {
     background-color: rgba(white, 0.1);
-    border: 2px solid rgba(white, 0.2);
+    border: 1px solid rgba(white, 0.2);
     border-radius: 6px;
+    box-shadow: $shadow1;
     padding: 20px;
     
     .empty-message-title {

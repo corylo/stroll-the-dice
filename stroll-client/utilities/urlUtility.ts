@@ -43,6 +43,6 @@ export const UrlUtility: IUrlUtility = {
 
     params.set(param, UrlUtility.format(value));
 
-    history.push({ search: params.toString() });    
+    history.replace({ search: params.toString() });    
   }
 }

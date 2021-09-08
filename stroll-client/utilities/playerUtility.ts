@@ -9,6 +9,7 @@ import { IUser } from "../models/user";
 import { InitialValue } from "../../stroll-enums/initialValue";
 
 interface IPlayerUtility {
+  determineLeaderboardPlace: (place: number) => string;
   getById: (id: string, players: IPlayer[]) => IPlayer;
   getByUser: (user: IUser, players: IPlayer[]) => IPlayer;  
   hasProfileChanged: (before: IPlayer, after: IPlayer) => boolean;
@@ -16,6 +17,20 @@ interface IPlayerUtility {
 }
 
 export const PlayerUtility: IPlayerUtility = {
+  determineLeaderboardPlace: (place: number): string => {
+    const x: number = place % 10,
+      y: number = place % 100;
+
+    if (x === 1 && y !== 11) {
+      return `${place}st`;
+    } else if (x === 2 && y !== 12) {
+      return  `${place}nd`;
+    } else if (x === 3 && y !== 13) {
+      return `${place}rd`;
+    }
+
+    return `${place}th`;
+  },
   getById: (id: string, players: IPlayer[]): IPlayer => {
     return players.find((player: IPlayer) => player.id === id) || defaultPlayer();
   },
