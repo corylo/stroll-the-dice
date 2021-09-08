@@ -8,12 +8,14 @@
 
   .leaderboard-row-content {
     align-items: center;
-    background: linear-gradient(to right, rgba(white, 0.1), transparent 80%);   
+    background: rgba(white, 0.05);   
+    border: 1px solid rgba(white, 0.2);
     border-radius: 4px;
     display: flex;
     flex-grow: 1;
     justify-content: space-between;
     padding: 5px;
+    padding-right: 10px;
 
     .leaderboard-row-place-and-player {
       align-items: center;
