@@ -31,6 +31,7 @@ import { IPlayerStepUpdate } from "../../../stroll-models/playerStepUpdate";
 
 import { GameEventType } from "../../../stroll-enums/gameEventType";
 import { ProfileEmailSettingID } from "../../../stroll-enums/profileEmailSettingID";
+import { GameStatus } from "../../../stroll-enums/gameStatus";
 
 interface IGameUpdateService {
   handleInProgressToCompleted: (gameID: string, game: IGame) => Promise<void>;
@@ -39,6 +40,7 @@ interface IGameUpdateService {
   handleUpcomingToInProgress: (gameID: string, game: IGame) => Promise<void>;
   handleUpdateEvent: (gameID: string, before: IGame, after: IGame) => Promise<void>;
   sendDayCompleteEmails: (game: IGame, day: number) => Promise<void>;
+  sendGameCompleteEmails: (game: IGame) => Promise<void>;
   sendGameStartedEmails: (game: IGame) => Promise<void>;
 }
 
@@ -66,6 +68,8 @@ export const GameUpdateService: IGameUpdateService = {
     GameEventBatchService.create(batch, gameID, event);
 
     await batch.commit();
+
+    await GameUpdateService.sendGameCompleteEmails({ ...game, id: gameID });
 
     logger.info(`Game [${gameID}] is now complete.`);
   },
@@ -95,7 +99,9 @@ export const GameUpdateService: IGameUpdateService = {
 
       await GameTransactionService.handleDayCompleteProgressUpdate(gameID, offsetDay, game.startsAt, updatedSummary, updates);
 
-      await GameUpdateService.sendDayCompleteEmails({ ...game, id: gameID }, offsetDay);
+      if(game.status === GameStatus.InProgress) {
+        await GameUpdateService.sendDayCompleteEmails({ ...game, id: gameID }, offsetDay);
+      } 
     } else {
       logger.info(`Progress update for game [${gameID}] on day [${offsetDay}].`);
 
@@ -138,6 +144,14 @@ export const GameUpdateService: IGameUpdateService = {
     const emails: string[] = await UserService.getAllEmailsByUID(uids, ProfileEmailSettingID.OnGameDayCompleted);
 
     await EmailService.sendDayCompleteEmail(game.id, game.name, day, game.duration, emails);
+  },
+  sendGameCompleteEmails: async (game: IGame): Promise<void> => {
+    const players: IPlayer[] = await PlayerService.getByGame(game.id),
+      uids: string[] = players.map((player: IPlayer) => player.id);
+
+    const emails: string[] = await UserService.getAllEmailsByUID(uids, ProfileEmailSettingID.OnGameDayCompleted);
+
+    await EmailService.sendGameCompleteEmail(game.id, game.name, emails);
   },
   sendGameStartedEmails: async (game: IGame): Promise<void> => {
     const players: IPlayer[] = await PlayerService.getByGame(game.id),

@@ -116,7 +116,7 @@ export const EmailNotificationSettingsSection: React.FC<EmailNotificationSetting
           <InputToggle
             className="game-day-complete-started-email-notification-setting-toggle"   
             disabled={statuses.savingSettings === RequestStatus.Loading}
-            label="Game Day Completed"
+            label="Game / Day Completed"
             toggled={emailSettings.onGameDayCompleted}
             toggle={() => updateEmailSetting({ onGameDayCompleted: !emailSettings.onGameDayCompleted})}
           />
