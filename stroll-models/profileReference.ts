@@ -2,14 +2,13 @@ import firebase from "firebase/app";
 
 import { Color } from "../stroll-enums/color";
 import { Icon } from "../stroll-enums/icon";
-import { PlayerLevelConstraint } from "../stroll-enums/playerLevelConstraint";
 
 export interface IProfileReference {
   color: Color;
   deletedAt: firebase.firestore.FieldValue;  
+  experience: number;
   friendID: string;
   icon: Icon;
-  level: number;
   name: string;
   uid: string;
   username: string;
@@ -18,9 +17,9 @@ export interface IProfileReference {
 export const defaultProfileReference = (): IProfileReference => ({
   color: Color.None,
   deletedAt: null,
+  experience: 0,
   friendID: "",
   icon: Icon.None,
-  level: PlayerLevelConstraint.MinimumLevel,
   name: "",
   uid: "",
   username: ""
@@ -29,9 +28,9 @@ export const defaultProfileReference = (): IProfileReference => ({
 export const deletedProfileReference = (uid: string): IProfileReference => ({
   color: Color.White,
   deletedAt: null,
+  experience: 0,
   friendID: "",
-  icon: Icon.UserDeleted,
-  level: PlayerLevelConstraint.MinimumLevel,
+  icon: Icon.UserDeleted,  
   name: "Deleted",
   uid,
   username: "Deleted"

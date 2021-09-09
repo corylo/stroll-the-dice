@@ -10,9 +10,9 @@ export const ProfileUtility: IProfileUtility = {
     return {
       color: profile.color,
       deletedAt: profile.deletedAt,
+      experience: profile.experience,
       friendID: profile.friendID,
       icon: profile.icon,
-      level: profile.level,
       name: profile.name,
       uid: profile.uid,
       username: profile.username

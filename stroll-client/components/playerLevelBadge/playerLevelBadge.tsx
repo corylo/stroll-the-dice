@@ -11,8 +11,7 @@ import { AppAction } from "../../enums/appAction";
 import { HowToPlayID } from "../../enums/howToPlayID";
 
 interface PlayerLevelBadgeProps {  
-  experience?: number;
-  level: number;
+  experience: number;
 }
 
 export const PlayerLevelBadge: React.FC<PlayerLevelBadgeProps> = (props: PlayerLevelBadgeProps) => {  
@@ -24,11 +23,13 @@ export const PlayerLevelBadge: React.FC<PlayerLevelBadgeProps> = (props: PlayerL
     dispatch(AppAction.ToggleHowToPlay, { howToPlay: true, howToPlayID: HowToPlayID.Leveling });
   }
 
+  const level: number = PlayerLevelUtility.getLevelByExperience(props.experience);
+
   return (
     <div className="player-level-badge">
       <div className="player-level-badge-content">
-        <i className={classNames("player-level-badge-icon", PlayerLevelUtility.getBadge(props.level))} />
-        <h1 className="player-level-badge-label passion-one-font">Level {props.level}</h1>
+        <i className={classNames("player-level-badge-icon", PlayerLevelUtility.getBadge(level))} />
+        <h1 className="player-level-badge-label passion-one-font">Level {level}</h1>
         <IconButton
           icon="fal fa-info-circle"
           handleOnClick={toggle}

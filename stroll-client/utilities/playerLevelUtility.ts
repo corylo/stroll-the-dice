@@ -12,15 +12,25 @@ export const PlayerLevelUtility: IPlayerLevelUtility = {
     return playerLevelBadges[Math.floor(level / PlayerLevelConstraint.BadgeRange)];
   },
   getLevelByExperience: (experience: number): number => {
-    if(experience <= 100000) {
-      return Math.round(experience / 10000) * 10000;
+    if(experience < PlayerLevelUtility.getMinimumExperienceByLevel(PlayerLevelConstraint.MinimumLevelForExponentialXP)) {      
+      return Math.floor(experience / PlayerLevelConstraint.BaseXP) + 1;
+    }
+
+    for(let i: number = PlayerLevelConstraint.MaximumLevel; i >= PlayerLevelConstraint.MinimumLevelForExponentialXP; i--) {
+      const minimum: number = PlayerLevelUtility.getMinimumExperienceByLevel(i);
+
+      if(experience >= minimum) {
+        return i;
+      }
     }
   },
   getMinimumExperienceByLevel: (level: number): number => {
-    if(level <= 12) {
-      return Math.max((level * 10000) - 10000, 0);
+    if(level <= PlayerLevelConstraint.MinimumLevelForExponentialXP) {
+      return Math.max((level * PlayerLevelConstraint.BaseXP) - PlayerLevelConstraint.BaseXP, 0);
+    } else if (level <= (PlayerLevelConstraint.MaximumLevel - 1)) {
+      return Math.floor(PlayerLevelUtility.getMinimumExperienceByLevel(level - 1) * PlayerLevelConstraint.Exponential);
     }
 
-    return Math.floor(PlayerLevelUtility.getMinimumExperienceByLevel(level - 1) * 1.1);
+    return Math.floor(PlayerLevelUtility.getMinimumExperienceByLevel(PlayerLevelConstraint.MaximumLevel - 1) * 2);
   }
 }

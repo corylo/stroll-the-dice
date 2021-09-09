@@ -42,10 +42,7 @@ export const StatsPage: React.FC<StatsPageProps> = (props: StatsPageProps) => {
     if(appState.status === AppStatus.SignedIn) {
       return (
         <React.Fragment>
-          <PlayerLevelBadge 
-            experience={state.stats.experience} 
-            level={profile.level} 
-          />
+          <PlayerLevelBadge experience={40000000 || profile.experience} />
           <GameStats />
           <GameHistory />
         </React.Fragment>

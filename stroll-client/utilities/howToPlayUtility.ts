@@ -35,9 +35,9 @@ export const HowToPlayUtility: IHowToPlayUtility = {
         profile: {
           color: Color.Orange2,
           deletedAt: null,
+          experience: 0,
           friendID: "",
           icon: Icon.Dog,
-          level: PlayerLevelConstraint.MinimumLevel,
           name: "",
           uid: "123",
           username: "Player 1"
@@ -55,9 +55,9 @@ export const HowToPlayUtility: IHowToPlayUtility = {
       profile: {
         color: Color.Yellow1,
         deletedAt: null,
+        experience: 0,
         friendID: "",
         icon: Icon.Squirrel,
-        level: PlayerLevelConstraint.MinimumLevel,
         name: "",
         uid: "234",
         username: "Player 2"
@@ -82,9 +82,9 @@ export const HowToPlayUtility: IHowToPlayUtility = {
       profile: {
         color: Color.Purple1,
         deletedAt: null,
+        experience: 0,
         friendID: "",
         icon: Icon.Rudolph,
-        level: PlayerLevelConstraint.MinimumLevel,
         name: "",
         uid: "",
         username: "Player 1"

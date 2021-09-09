@@ -11,8 +11,8 @@ export interface IProfile {
   createdAt: firebase.firestore.FieldValue; 
   deletedAt: firebase.firestore.FieldValue; 
   friendID: string;
+  experience: number;
   icon: Icon;
-  level: number;
   name: string;
   tracker: IStepTrackerProfileReference;
   uid: string;
@@ -24,9 +24,9 @@ export const defaultProfile = (): IProfile => ({
   color: Color.None,
   createdAt: firebase.firestore.FieldValue.serverTimestamp(),
   deletedAt: null,
+  experience: 0,
   friendID: "",
   icon: Icon.None,
-  level: PlayerLevelConstraint.MinimumLevel,
   name: "",
   tracker: defaultStepTrackerProfileReference(),
   uid: "",
@@ -42,9 +42,9 @@ export const deletedProfile = (
   color: Color.White,
   createdAt,
   deletedAt: null,
+  experience: 0,
   friendID: "",
   icon: Icon.UserDeleted,
-  level: PlayerLevelConstraint.MinimumLevel,
   name: "Deleted",
   tracker: defaultStepTrackerProfileReference(),
   uid,
@@ -58,9 +58,9 @@ export const profileConverter: any = {
       color: profile.color,
       createdAt: profile.createdAt,
       deletedAt: profile.deletedAt,
+      experience: profile.experience,
       friendID: profile.friendID,      
       icon: profile.icon,
-      level: profile.level,
       name: profile.name,
       tracker: profile.tracker,
       updatedAt: profile.updatedAt,
@@ -76,9 +76,9 @@ export const profileConverter: any = {
       color: data.color,
       createdAt: data.createdAt,
       deletedAt: data.deletedAt,
+      experience: data.experience,
       friendID: data.friendID,
       icon: data.icon,
-      level: data.level,
       name: data.name,
       tracker: data.tracker,
       uid: snapshot.id,

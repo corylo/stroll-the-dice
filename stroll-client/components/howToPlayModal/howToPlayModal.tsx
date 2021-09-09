@@ -305,8 +305,8 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = (props: HowToPlayMo
               </HowToPlayModalSection>
               <HowToPlayModalSection title="2. Leveling Chart" subsection>
                 <HowToPlayText text={[
-                  "The first 12 levels are on a linear scale. For every additional 10,000 XP you earn you will level up.",
-                  "For levels 12 - 100 the leveling scale becomes exponential."
+                  "Levels 1 - 19 are on a linear scale. For every 18,000 XP you earn you will level up once.",
+                  "For levels 20 - 100 the leveling scale becomes exponential."
                 ]} />
                 <HowToPlayDisplayComponent>
                   <PlayerLevelExperienceTable />

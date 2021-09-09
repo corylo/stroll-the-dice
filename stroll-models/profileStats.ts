@@ -12,7 +12,6 @@ export const defaultProfileGameDayStats = (): IProfileGameDayStats => ({
 
 export interface IProfileGamesStats {
   daysPlayed: number;
-  experience: number;
   gamesPlayed: number;
   lastCreated: string;
   lastJoined: string;
@@ -23,7 +22,6 @@ export interface IProfileGamesStats {
 
 export interface IProfileGamesStatsUpdate {
   daysPlayed?: number;
-  experience?: number;
   gamesPlayed?: number;
   lastCreated?: string;
   lastJoined?: string;  
@@ -34,7 +32,6 @@ export interface IProfileGamesStatsUpdate {
 
 export const defaultProfileGamesStats = (): IProfileGamesStats => ({
   daysPlayed: 0,
-  experience: 0,
   gamesPlayed: 0,
   lastCreated: "",
   lastJoined: "",
