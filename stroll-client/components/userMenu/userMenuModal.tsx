@@ -6,6 +6,7 @@ import { auth } from "../../config/firebase";
 
 import { Button } from "../buttons/button";
 import { GameDayStatement } from "../gameDayStatement/gameDayStatement";
+import { PlayerLevelBadge } from "../playerLevelBadge/playerLevelBadge";
 import { ProfileIcon } from "../profileIcon/profileIcon";
 
 import { AppContext } from "../app/contexts/appContext";
@@ -60,13 +61,16 @@ export const UserMenuModal: React.FC<UserMenuModalProps> = (props: UserMenuModal
     const getUserInfo = (): JSX.Element => {
       if(user) {
         return (
-          <React.Fragment>       
-            <h1 className="profile-username passion-one-font" style={{ color: `rgb(${user.profile.color})` }}>{user.profile.username}</h1>     
-            <h1 className="profile-email passion-one-font">{user.email}</h1>
+          <div className="user-menu-user-info">
+            <h1 className="profile-username passion-one-font" style={{ color: `rgb(${user.profile.color})` }}>{user.profile.username}</h1>   
+            <h1 className="profile-email passion-one-font">{user.email}</h1>  
+            <div className="player-level-mini-badge-wrapper">
+              <PlayerLevelBadge experience={2500000} mini />
+            </div>
             <div className="available-game-days">
               <h1 className="passion-one-font">You have <GameDayStatement quantity={user.stats.gameDays.available} /></h1>
             </div>
-          </React.Fragment>
+          </div>
         )
       }
     }
