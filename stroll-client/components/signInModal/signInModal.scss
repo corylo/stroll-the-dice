@@ -1,13 +1,15 @@
 #sign-in-modal {
   .sign-in-buttons {
-    display: grid;
-    grid-gap: 1em;
-    grid-template-columns: repeat(auto-fill, minmax(40%, 1fr)); 
+    display: flex;
+    gap: 1em;
 
     .sign-in-button {
+      align-items: center;
       background: white;
       border: 1px solid rgba(white, 0.2);
-      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      padding: 15px 10px;
       width: 100%;
 
       &:hover,
@@ -15,19 +17,20 @@
         background: gray(230);
       }
 
-      img {
-        height: 30px;
-        margin: 5px 0px;
-        width: 30px;
-      }
-    }
+      .sign-in-button-content {
+        align-items: center;
+        display: flex;
+        gap: 1em;
+        justify-content: flex-start;
 
-    #facebook-sign-in-button {
-      .sign-in-button-logo {
-        img {
-          height: 40px;
-          margin: 0px;
-          width: 40px;
+        .sign-in-button-logo {
+          height: 30px;
+          width: 30px;
+        }
+
+        .sign-in-button-text {
+          color: gray(120);
+          font-size: 1em;
         }
       }
     }
@@ -40,7 +43,7 @@
       color: white;
 
       a {
-        color: $green;
+        color: $blue;
         text-decoration: none;
 
         &:hover,
@@ -56,6 +59,20 @@
   #sign-in-modal {
     .modal-content-wrapper {
       width: 540px;
+    }
+  }
+}
+
+@include small-phone-or-smaller {
+  #sign-in-modal {
+    .sign-in-buttons {
+      flex-direction: column;
+
+      .sign-in-button {
+        .sign-in-button-content {
+          width: 120px;
+        }
+      }
     }
   }
 }
