@@ -4,6 +4,7 @@ import { defaultStepTrackerProfileReference, IStepTrackerProfileReference } from
 
 import { Color } from "../stroll-enums/color";
 import { Icon } from "../stroll-enums/icon";
+import { PlayerLevelConstraint } from "../stroll-enums/playerLevelConstraint";
 
 export interface IProfile {
   color: Color;
@@ -11,6 +12,7 @@ export interface IProfile {
   deletedAt: firebase.firestore.FieldValue; 
   friendID: string;
   icon: Icon;
+  level: number;
   name: string;
   tracker: IStepTrackerProfileReference;
   uid: string;
@@ -24,6 +26,7 @@ export const defaultProfile = (): IProfile => ({
   deletedAt: null,
   friendID: "",
   icon: Icon.None,
+  level: PlayerLevelConstraint.MinimumLevel,
   name: "",
   tracker: defaultStepTrackerProfileReference(),
   uid: "",
@@ -41,6 +44,7 @@ export const deletedProfile = (
   deletedAt: null,
   friendID: "",
   icon: Icon.UserDeleted,
+  level: PlayerLevelConstraint.MinimumLevel,
   name: "Deleted",
   tracker: defaultStepTrackerProfileReference(),
   uid,
@@ -56,6 +60,7 @@ export const profileConverter: any = {
       deletedAt: profile.deletedAt,
       friendID: profile.friendID,      
       icon: profile.icon,
+      level: profile.level,
       name: profile.name,
       tracker: profile.tracker,
       updatedAt: profile.updatedAt,
@@ -73,6 +78,7 @@ export const profileConverter: any = {
       deletedAt: data.deletedAt,
       friendID: data.friendID,
       icon: data.icon,
+      level: data.level,
       name: data.name,
       tracker: data.tracker,
       uid: snapshot.id,

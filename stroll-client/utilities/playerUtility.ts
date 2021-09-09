@@ -1,5 +1,7 @@
 import firebase from "firebase/app";
 
+import { ProfileUtility } from "../../stroll-utilities/profileUtility";
+
 import { IGame } from "../../stroll-models/game";
 import { IInvite } from "../../stroll-models/invite";
 import { defaultPlayer, IPlayer } from "../../stroll-models/player";
@@ -59,15 +61,7 @@ export const PlayerUtility: IPlayerUtility = {
         total: InitialValue.PlayerPoints
       },
       place: 0,
-      profile: {
-        color: profile.color,
-        deletedAt: null,
-        friendID:  profile.friendID,
-        icon: profile.icon,
-        name: profile.name,
-        uid: profile.uid,
-        username: profile.username
-      },
+      profile: ProfileUtility.mapReference(profile),
       ref: {
         acceptedGiftDays,
         game: game.id,

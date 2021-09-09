@@ -12,6 +12,7 @@ import { Label } from "../label/label";
 import { Modal } from "../modal/modal";
 import { ModalBody } from "../modal/modalBody";
 import { ModalTitle } from "../modal/modalTitle";
+import { PlayerLevelExperienceTable } from "../playerLevelExperienceTable/playerLevelExperienceTable";
 
 import { AppContext } from "../app/contexts/appContext";
 
@@ -287,6 +288,29 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = (props: HowToPlayMo
                   "Should you use your steps and predictive abilities wisely, you may just end up with enough points to win!",
                   "Good luck!"
                  ]} />
+              </HowToPlayModalSection>
+            </HowToPlayModalSection>
+            <HowToPlayModalSection title="Leveling" id={HowToPlayID.Leveling}>
+              <HowToPlayModalSection title="1. Summary" subsection>
+                <HowToPlayText text="When you complete a game, you will gain experience points or XP. If you accrue enough XP, you will level up!" />
+                <HowToPlayText text={[
+                  "For any given game, XP will be distrubuted based on the greater of the following two values:",
+                  "- Total Steps",
+                  "- Total Points",                  
+                ]} />
+                <HowToPlayText text={[
+                  "For example, if you do well in your predictions, you will likely have more points than steps and therefore you will earn 1 XP for every point you earned.", 
+                  "If, on the other hand, you do not do well in your predictions, then you will probably have more steps than points and will earn 1 XP for each step you took."
+                ]} />
+              </HowToPlayModalSection>
+              <HowToPlayModalSection title="2. Leveling Chart" subsection>
+                <HowToPlayText text={[
+                  "The first 12 levels are on a linear scale. For every additional 10,000 XP you earn you will level up.",
+                  "For levels 12 - 100 the leveling scale becomes exponential."
+                ]} />
+                <HowToPlayDisplayComponent>
+                  <PlayerLevelExperienceTable />
+                </HowToPlayDisplayComponent>
               </HowToPlayModalSection>
             </HowToPlayModalSection>
           </div>

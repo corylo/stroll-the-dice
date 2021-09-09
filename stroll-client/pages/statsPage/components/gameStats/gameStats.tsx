@@ -17,20 +17,34 @@ interface GameStatsSectionProps {
 export const GameStats: React.FC<GameStatsSectionProps> = (props: GameStatsSectionProps) => {    
   const { state } = useContext(StatsPageContext);
 
-  const winPercentage: string = new Intl.NumberFormat("en-IN", { maximumFractionDigits: 2 }).format((state.stats.wins / state.stats.gamesPlayed) * 100);
+  const getWinPercentage = (): string => {
+    if(state.stats.gamesPlayed > 0) {
+      return new Intl.NumberFormat("en-IN", { maximumFractionDigits: 2 }).format((state.stats.wins / state.stats.gamesPlayed) * 100);
+    }
+
+    return "0";
+  }
+
+  const getDailyValue = (value: number): string => {
+    if(value > 0) {
+      return NumberUtility.shorten(Math.round(value / state.stats.daysPlayed))
+    }
+
+    return "0";
+  }
 
   return (    
     <React.Fragment>
       <StatsPageSection className="game-stats-section">
         <div className="game-stats">
           <GameStat 
-            dailyValue={NumberUtility.shorten(Math.round(state.stats.steps / state.stats.daysPlayed))}
+            dailyValue={getDailyValue(state.stats.steps)}
             icon={Icon.Steps} 
             label="Steps" 
             value={NumberUtility.shorten(state.stats.steps)} 
           />
           <GameStat 
-            dailyValue={NumberUtility.shorten(Math.round(state.stats.points / state.stats.daysPlayed))}
+            dailyValue={getDailyValue(state.stats.points)}
             icon={Icon.Points} 
             label="Points" 
             value={NumberUtility.shorten(state.stats.points)} 
@@ -52,7 +66,7 @@ export const GameStats: React.FC<GameStatsSectionProps> = (props: GameStatsSecti
               <td className="passion-one-font">{state.stats.gamesPlayed}</td>
               <td className="passion-one-font">{state.stats.daysPlayed}</td>
               <td className="passion-one-font">{state.stats.wins}</td>
-              <td className="passion-one-font">{winPercentage}</td>
+              <td className="passion-one-font">{getWinPercentage()}</td>
             </tr>
           </tbody>
         </Table>

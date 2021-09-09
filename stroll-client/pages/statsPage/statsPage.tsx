@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState } from "react";
 import { GameHistory } from "./components/gameHistory/gameHistory";
 import { GameStats } from "./components/gameStats/gameStats";
 import { Page } from "../../components/page/page";
+import { PlayerLevelBadge } from "../../components/playerLevelBadge/playerLevelBadge";
 import { SignInToDoThisMessage } from "../../components/signInToDoThisMessage/signInToDoThisMessage";
 
 import { AppContext } from "../../components/app/contexts/appContext";
@@ -41,6 +42,10 @@ export const StatsPage: React.FC<StatsPageProps> = (props: StatsPageProps) => {
     if(appState.status === AppStatus.SignedIn) {
       return (
         <React.Fragment>
+          <PlayerLevelBadge 
+            experience={state.stats.experience} 
+            level={48 || profile.level} 
+          />
           <GameStats />
           <GameHistory />
         </React.Fragment>

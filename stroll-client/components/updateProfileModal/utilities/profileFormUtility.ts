@@ -9,6 +9,8 @@ import { IProfileUpdate } from "../../../../stroll-models/profileUpdate";
 import { defaultStepTrackerProfileReference } from "../../../../stroll-models/stepTrackerProfileReference";
 import { IUser } from "../../../models/user";
 
+import { PlayerLevelConstraint } from "../../../../stroll-enums/playerLevelConstraint";
+
 interface IProfileFormUtility {
   hasChanged: (profile: IProfile, fields: IProfileFormStateFields) => boolean;
   mapCreate: (fields: IProfileFormStateFields, user: IUser) => IProfile;
@@ -36,6 +38,7 @@ export const ProfileFormUtility: IProfileFormUtility = {
       deletedAt: null,
       friendID: Nano.generate(6),
       icon: fields.icon,
+      level: PlayerLevelConstraint.MinimumLevel,
       name: fields.name,
       tracker: defaultStepTrackerProfileReference(),
       uid: user.profile.uid,

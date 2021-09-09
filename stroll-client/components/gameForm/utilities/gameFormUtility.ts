@@ -4,6 +4,7 @@ import { DateUtility } from "../../../../stroll-utilities/dateUtility";
 import { FirestoreDateUtility } from "../../../../stroll-utilities/firestoreDateUtility";
 import { GameDurationUtility } from "../../../../stroll-utilities/gameDurationUtility";
 import { Nano } from "../../../../stroll-utilities/nanoUtility";
+import { ProfileUtility } from "../../../../stroll-utilities/profileUtility";
 
 import { IGame } from "../../../../stroll-models/game";
 import { defaultGameFormState, IGameFormState } from "../models/gameFormState";
@@ -75,15 +76,7 @@ export const GameFormUtility: IGameFormUtility = {
         teams: 0
       },
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      creator: {
-        color: user.profile.color,
-        deletedAt: user.profile.deletedAt,
-        friendID: user.profile.friendID,
-        icon: user.profile.icon,
-        name: user.profile.name,
-        uid: user.profile.uid,
-        username: user.profile.username
-      },
+      creator: ProfileUtility.mapReference(user.profile),
       duration: fields.duration,
       endsAt,
       error: GameError.None,

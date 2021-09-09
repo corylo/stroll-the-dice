@@ -8,6 +8,7 @@ import { GameStatus } from "../../stroll-enums/gameStatus";
 import { HowToPlayID } from "../enums/howToPlayID";
 import { Icon } from "../../stroll-enums/icon";
 import { MatchupSideAlignment } from "../pages/gamePage/components/matchupSide/matchupSide";
+import { PlayerLevelConstraint } from "../../stroll-enums/playerLevelConstraint";
 
 interface IHowToPlayUtility {
   getExampleMatchup: () => IMatchup;  
@@ -36,6 +37,7 @@ export const HowToPlayUtility: IHowToPlayUtility = {
           deletedAt: null,
           friendID: "",
           icon: Icon.Dog,
+          level: PlayerLevelConstraint.MinimumLevel,
           name: "",
           uid: "123",
           username: "Player 1"
@@ -55,6 +57,7 @@ export const HowToPlayUtility: IHowToPlayUtility = {
         deletedAt: null,
         friendID: "",
         icon: Icon.Squirrel,
+        level: PlayerLevelConstraint.MinimumLevel,
         name: "",
         uid: "234",
         username: "Player 2"
@@ -81,6 +84,7 @@ export const HowToPlayUtility: IHowToPlayUtility = {
         deletedAt: null,
         friendID: "",
         icon: Icon.Rudolph,
+        level: PlayerLevelConstraint.MinimumLevel,
         name: "",
         uid: "",
         username: "Player 1"
