@@ -7,6 +7,7 @@ import { GameHistoryUtility } from "../../utilities/gameHistoryUtility";
 import { gameConverter, IGame } from "../../../../stroll-models/game";
 import { gameHistoryEntryConverter } from "../../../../stroll-models/gameHistoryEntry";
 import { IPlayer } from "../../../../stroll-models/player";
+import { IProfile, profileConverter } from "../../../../stroll-models/profile";
 import { IProfileGamesStats, IProfileGamesStatsUpdate } from "../../../../stroll-models/profileStats";
 
 import { ProfileStatsID } from "../../../../stroll-enums/profileStatsID";
@@ -17,6 +18,10 @@ interface IProfileTransactionService {
 
 export const ProfileTransactionService: IProfileTransactionService = {
   handleGameCompletedProfileUpdate: async (gameID: string, player: IPlayer): Promise<void> => {
+    const profileRef: firebase.firestore.DocumentReference<IProfile> = db.collection("games")
+      .doc(player.id)
+      .withConverter<IProfile>(profileConverter);
+
     const gameRef: firebase.firestore.DocumentReference<IGame> = db.collection("games")
       .doc(gameID)
       .withConverter<IGame>(gameConverter);
@@ -46,9 +51,13 @@ export const ProfileTransactionService: IProfileTransactionService = {
         steps: gamesStats.steps + player.steps
       }
 
+      const experience: number = Math.max(player.steps, player.points.total);
+
       if(player.place === 1) {
         updates.wins = gamesStats.wins + 1;
       }
+
+      transaction.update(profileRef, { experience });
 
       transaction.update(gamesStatsRef, updates);
 
