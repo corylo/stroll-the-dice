@@ -44,7 +44,7 @@ export const StatsPage: React.FC<StatsPageProps> = (props: StatsPageProps) => {
         <React.Fragment>
           <PlayerLevelBadge 
             experience={state.stats.experience} 
-            level={48 || profile.level} 
+            level={profile.level} 
           />
           <GameStats />
           <GameHistory />
