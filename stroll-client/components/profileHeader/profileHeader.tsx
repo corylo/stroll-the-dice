@@ -24,7 +24,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (props: ProfileHeader
           return (
             <div className="profile-email">
               <h1 className="profile-email-text passion-one-font">{user.email}</h1>
-              <h1 className="profile-email-disclaimer passion-one-font">(only you can see)</h1>
+              {/* <h1 className="profile-email-disclaimer passion-one-font">(only you can see)</h1> */}
               <PlayerLevelBadge 
                 clickable
                 experience={user.profile.experience} 
