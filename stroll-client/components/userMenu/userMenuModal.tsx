@@ -63,10 +63,12 @@ export const UserMenuModal: React.FC<UserMenuModalProps> = (props: UserMenuModal
         return (
           <div className="user-menu-user-info">
             <h1 className="profile-username passion-one-font" style={{ color: `rgb(${user.profile.color})` }}>{user.profile.username}</h1>   
-            <h1 className="profile-email passion-one-font">{user.email}</h1>  
-            <div className="player-level-mini-badge-wrapper">
-              <PlayerLevelBadge experience={user.profile.experience} mini />
-            </div>
+            <h1 className="profile-email passion-one-font">{user.email}</h1> 
+            <PlayerLevelBadge 
+              clickable
+              experience={user.profile.experience} 
+              mini 
+            />
             <div className="available-game-days">
               <h1 className="passion-one-font">You have <GameDayStatement quantity={user.stats.gameDays.available} /></h1>
             </div>

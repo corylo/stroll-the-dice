@@ -48,33 +48,43 @@
   }
 }
 
-.player-level-mini-badge {
-  align-items: center;
-  background-color: white;
-  border-radius: 100px;
-  display: inline-flex;
-  gap: 0.5em;
-  justify-content: center;
-  padding: 4px 12px;
-  position: relative;
-
-  &:hover {
-    .tooltip {
-      opacity: 1;
+.player-level-mini-badge-wrapper {
+  &.clickable {
+    &:hover {
+      .player-level-mini-badge {
+        cursor: pointer;
+      }
     }
   }
 
-  .player-level-badge-icon,
-  .player-level-badge-label {
-    color: $themeMainCustom;      
-  }
+  .player-level-mini-badge {
+    align-items: center;
+    background-color: white;
+    border-radius: 100px;
+    display: inline-flex;
+    gap: 0.5em;
+    justify-content: center;
+    padding: 4px 12px;
+    position: relative;
 
-  .player-level-badge-icon {
-    font-size: 1em;
-  }
+    &:hover {
+      .tooltip {
+        opacity: 1;
+      }
+    }
 
-  .player-level-badge-label {
-    font-size: 1.5em;
+    .player-level-badge-icon,
+    .player-level-badge-label {
+      color: $themeMainCustom;      
+    }
+
+    .player-level-badge-icon {
+      font-size: 1em;
+    }
+
+    .player-level-badge-label {
+      font-size: 1.5em;
+    }
   }
 }
 

@@ -1,8 +1,8 @@
 import React from "react";
 import classNames from "classnames";
 
-import { PlayerLevelUtility } from "../../../utilities/playerLevelUtility";
 import { NumberUtility } from "../../../../stroll-utilities/numberUtility";
+import { PlayerLevelUtility } from "../../../utilities/playerLevelUtility";
 
 interface PlayerLevelBadgeExperienceBarProgressPointProps {  
   experience: number;
