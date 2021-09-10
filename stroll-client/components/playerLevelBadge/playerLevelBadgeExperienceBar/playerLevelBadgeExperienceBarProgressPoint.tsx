@@ -4,10 +4,7 @@ import classNames from "classnames";
 import { NumberUtility } from "../../../../stroll-utilities/numberUtility";
 import { PlayerLevelUtility } from "../../../utilities/playerLevelUtility";
 
-import { Color } from "../../../../stroll-enums/color";
-
 interface PlayerLevelBadgeExperienceBarProgressPointProps {  
-  color: Color;
   experience: number;
   level: number;
   right?: boolean;

@@ -62,8 +62,8 @@ export const PlayerLevelBadgeExperienceBar: React.FC<PlayerLevelBadgeExperienceB
           <div className="player-level-badge-experience-bar-progress-point" />
         </div>
         <div className="player-level-badge-experience-bar-progress-points">
-          <PlayerLevelBadgeExperienceBarProgressPoint color={props.color} experience={currentLevelExperience} level={level} />
-          <PlayerLevelBadgeExperienceBarProgressPoint color={props.color} experience={nextLevelExperience} level={nextLevel} right />
+          <PlayerLevelBadgeExperienceBarProgressPoint experience={currentLevelExperience} level={level} />
+          <PlayerLevelBadgeExperienceBarProgressPoint experience={nextLevelExperience} level={nextLevel} right />
         </div>
       </div>
     </div>
