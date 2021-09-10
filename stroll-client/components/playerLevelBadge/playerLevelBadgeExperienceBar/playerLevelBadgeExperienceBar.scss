@@ -22,15 +22,6 @@
         position: relative;
 
         .player-level-badge-experience-bar {
-          background: repeating-linear-gradient(
-            135deg, 
-            $progressColor1 25%, 
-            $progressColor2 25%, 
-            $progressColor2 50%, 
-            $progressColor1 50%, 
-            $progressColor1 75%, 
-            $progressColor2 75%
-          );
           background-size: 40px 40px;
           border-radius: 100px;        
           height: 8px;

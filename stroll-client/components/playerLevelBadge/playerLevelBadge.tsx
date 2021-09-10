@@ -74,7 +74,7 @@ export const PlayerLevelBadge: React.FC<PlayerLevelBadgeProps> = (props: PlayerL
           />
         </div>
         <h1 className="player-level-badge-experience-label roboto-font">{props.experience.toLocaleString()} XP</h1>
-        <PlayerLevelBadgeExperienceBar experience={props.experience} />
+        <PlayerLevelBadgeExperienceBar color={props.color} experience={props.experience} />
       </div>
     </div>
   )

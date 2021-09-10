@@ -70,7 +70,7 @@
         font-size: 0.7em;
       }
 
-      h1 {
+      > h1 {
         font-size: 1em;
       }
     }
@@ -78,7 +78,7 @@
 
   .player-level-mini-badge {
     align-items: center;
-    background-color: white;
+    background-color: rgba(white, 0.25);
     border-radius: 100px;
     display: inline-flex;
     gap: 0.5em;
