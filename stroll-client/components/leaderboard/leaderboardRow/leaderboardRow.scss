@@ -54,13 +54,23 @@
   }
 }
 
-@include phone-or-smaller {
+@include medium-phone-or-smaller {
   .leaderboard-row {  
-    .leaderboard-row-content {      
+    .leaderboard-row-content {
       .leaderboard-row-place-and-player {
-        .leaderboard-row-place {
-          font-size: 0.9em;
-          width: 24px;
+        .user-link {
+          .user-link-content {
+            .user-link-username-wrapper {
+              .user-link-username,
+              .user-link-name {
+                max-width: 120px;
+              }
+
+              .user-link-username {
+                font-size: 0.8em;
+              }
+            }
+          }
         }
       }
     }
@@ -69,13 +79,18 @@
 
 @include small-phone-or-smaller {
   .leaderboard-row {  
-    .leaderboard-row-content {      
+    .leaderboard-row-content {
       .leaderboard-row-place-and-player {
         .user-link {
           .user-link-content {
+            .profile-icon {
+              display: none;
+            }
+
             .user-link-username-wrapper {
-              .user-link-username {
-                max-width: 100px;
+              .user-link-username,
+              .user-link-name {
+                max-width: 70px;
               }
             }
           }

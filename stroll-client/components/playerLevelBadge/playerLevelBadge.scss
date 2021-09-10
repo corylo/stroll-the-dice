@@ -49,10 +49,29 @@
 }
 
 .player-level-mini-badge-wrapper {
+  text-align: center;
+  
   &.clickable {
     &:hover {
       .player-level-mini-badge {
         cursor: pointer;
+      }
+    }
+  }
+
+  &.inline {
+    display: inline-flex;
+
+    .player-level-mini-badge {
+      gap: 0.25em;
+      padding: 2px 6px;
+
+      i {
+        font-size: 0.7em;
+      }
+
+      h1 {
+        font-size: 1em;
       }
     }
   }
@@ -64,6 +83,7 @@
     display: inline-flex;
     gap: 0.5em;
     justify-content: center;
+    min-width: 30px;
     padding: 4px 12px;
     position: relative;
 
@@ -76,6 +96,7 @@
     .player-level-badge-icon,
     .player-level-badge-label {
       color: $themeMainCustom;      
+      text-shadow: 0px 0px 1px rgba(black, 0.75);
     }
 
     .player-level-badge-icon {

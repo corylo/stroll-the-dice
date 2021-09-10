@@ -10,13 +10,13 @@ import { UpdateTimer } from "../../../../components/updateTimer/updateTimer";
 import { GamePageContext } from "../../gamePage";
 
 import { FirestoreDateUtility } from "../../../../../stroll-utilities/firestoreDateUtility";
+import { GameDurationUtility } from "../../../../../stroll-utilities/gameDurationUtility";
 import { PredictionUtility } from "../../../../utilities/predictionUtility";
 
 import { IMatchup } from "../../../../../stroll-models/matchup";
 import { IPrediction } from "../../../../../stroll-models/prediction";
 
 import { GameStatus } from "../../../../../stroll-enums/gameStatus";
-import { GameDurationUtility } from "../../../../../stroll-utilities/gameDurationUtility";
 
 interface MatchupProps {  
   matchup: IMatchup;

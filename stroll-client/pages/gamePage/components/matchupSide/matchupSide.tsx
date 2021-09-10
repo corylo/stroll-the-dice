@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import classNames from "classnames";
 
 import { Label } from "../../../../components/label/label";
+import { PlayerLevelBadge } from "../../../../components/playerLevelBadge/playerLevelBadge";
 import { ProfileIcon } from "../../../../components/profileIcon/profileIcon";
 
 import { GamePageContext } from "../../gamePage";
@@ -117,7 +118,15 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
             color={side.profile.color}
             icon={side.profile.icon}
           />
-          <h1 className="game-matchup-side-username passion-one-font thin-text-border" style={{ color: `rgb(${side.profile.color})` }}>{side.profile.username}</h1>     
+          <div className="game-matchup-side-username-wrapper">
+            <PlayerLevelBadge 
+              color={side.profile.color} 
+              experience={side.profile.experience} 
+              inline
+              mini 
+            />
+            <h1 className="game-matchup-side-username passion-one-font" style={{ color: `rgb(${side.profile.color})` }}>{side.profile.username}</h1>          
+          </div>
           {getName()}
           <MatchupSideStats 
             alignment={props.alignment}
@@ -139,7 +148,7 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
       <div className="game-matchup-side-undetermined">
         <div className="game-matchup-side-content">
           <ProfileIcon color="230, 230, 230" icon={getIcon()} />
-          <h1 className="game-matchup-side-username passion-one-font" style={{ color: "rgb(230, 230, 230)" }}>{getText()}</h1>     
+          <h1 className="game-matchup-side-username passion-one-font" style={{ color: "rgb(230, 230, 230)" }}>{getText()}</h1>               
         </div>
       </div>
     </div>

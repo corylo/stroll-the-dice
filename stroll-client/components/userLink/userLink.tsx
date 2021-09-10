@@ -1,5 +1,6 @@
 import React from "react";
 
+import { PlayerLevelBadge } from "../playerLevelBadge/playerLevelBadge";
 import { ProfileIcon } from "../profileIcon/profileIcon";
 import { Tooltip, TooltipSide } from "../tooltip/tooltip";
 
@@ -33,15 +34,21 @@ export const UserLink: React.FC<UserLinkProps> = (props: UserLinkProps) => {
   
   return (
     <div className="user-link">
-      <ProfileIcon color={profile.color} icon={profile.icon} />
-      <div className="user-link-content">
-        <div className="user-link-username-wrapper">
-          <h1 className="user-link-username passion-one-font thin-text-border" style={{ color: `rgb(${profile.color})` }}>
+      <div className="user-link-content">     
+        <PlayerLevelBadge 
+          color={profile.color} 
+          experience={profile.experience} 
+          inline
+          mini 
+        />
+        <ProfileIcon color={profile.color} icon={profile.icon} />
+        <div className="user-link-username-wrapper">  
+          <h1 className="user-link-username passion-one-font" style={{ color: `rgb(${profile.color})` }}>
             {profile.username}
           </h1>    
+          {getName()}   
           {getTooltip()}
-        </div> 
-        {getName()}     
+        </div>   
       </div>
     </div>
   );

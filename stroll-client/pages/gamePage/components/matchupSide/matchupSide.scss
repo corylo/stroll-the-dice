@@ -3,9 +3,9 @@
   border-radius: 10px;
   border-top: 1px solid transparent;
   display: flex;
+  flex-shrink: 0;
   position: relative;
   text-align: center;
-  width: 200px;
 
   &.undetermined {
     align-items: center;
@@ -21,6 +21,7 @@
 
   .game-matchup-side-content {
     flex-grow: 1;
+    width: 200px;
 
     .profile-icon {
       font-size: 2em;
@@ -29,13 +30,21 @@
       width: 80px;
     }
 
+    .game-matchup-side-username-wrapper {
+      align-items: center;
+      border-radius: 100px;
+      display: flex;
+      justify-content: center;
+      margin-top: 5px;
+    }
+
     .game-matchup-side-username {
       font-size: 1em;
-      margin: auto;
-      margin-top: 5px;
-      max-width: 180px;
-      overflow: hidden;      
+      margin-left: 5px;
+      max-width: 140px;
+      overflow: hidden;
       text-overflow: ellipsis;
+      text-shadow: 0px 0px 1px rgba(black, 0.75);
       white-space: nowrap;
     }
 
@@ -44,6 +53,7 @@
       font-size: 0.9em;
       overflow: hidden;
       margin: auto;
+      margin-top: 2px;
       max-width: 160px;
       text-align: center;
       text-overflow: ellipsis;
@@ -67,11 +77,16 @@
 
 @include phone-or-smaller {
   .game-matchup-side {
-    width: 180px; 
+    .game-matchup-side-content {
+      width: 160px;
 
-    .game-matchup-side-content {      
-      .game-matchup-side-username {
-        max-width: 140px;
+      .game-matchup-side-username-wrapper {
+        flex-direction: column;
+        
+        .game-matchup-side-username {
+          margin-left: 0px;
+          margin-top: 5px;
+        }
       }
     }
   }
@@ -80,15 +95,19 @@
 @include medium-phone-or-smaller {
   .game-matchup-side {      
     .game-matchup-side-content {
+      width: 120px;
+
       .profile-icon {
         font-size: 1.5em;
         height: 60px;
         width: 60px;
       }
       
-      .game-matchup-side-username {
-        font-size: 0.9em;
-        max-width: 120px;
+      .game-matchup-side-username-wrapper {
+        .game-matchup-side-username{
+          font-size: 0.9em;
+          max-width: 120px;
+        }
       }
 
       .game-matchup-side-name {
@@ -104,18 +123,16 @@
     padding: 10px 5px;
 
     .game-matchup-side-content {
-      .profile-icon {
-        font-size: 1em;
-        height: 40px;
-        width: 40px;
+      width: 100px;
+
+      .game-matchup-side-username-wrapper {
+        .game-matchup-side-username{
+          max-width: 100px;
+        }
       }
 
-      .game-matchup-side-username {
-        font-size: 0.8em;
-        max-width: 100px;
-      }
-      
       .game-matchup-side-name {
+        font-size: 0.8em;
         max-width: 100px;
       }
     }

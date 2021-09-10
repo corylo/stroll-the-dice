@@ -1,6 +1,7 @@
 import React from "react";
 
 import { LeaderboardTopRowPillar } from "./leaderboardTopRowPillar";
+import { PlayerLevelBadge } from "../../playerLevelBadge/playerLevelBadge";
 import { ProfileIcon } from "../../profileIcon/profileIcon";
 
 import { IPlayer } from "../../../../stroll-models/player";
@@ -43,14 +44,22 @@ export const LeaderboardTopRowPlayer: React.FC<LeaderboardTopRowPlayerProps> = (
           icon={profile.icon}
         /> 
       </div>
-      <i className="leaderboard-top-row-icon fal fa-trophy-alt" />     
-      <h1 
-        className="leaderboard-top-row-player-username passion-one-font thin-text-border" 
-        style={{ color: `rgb(${profile.color})` }}
-        title={profile.username}
-      >
-        {profile.username}
-      </h1>     
+      <i className="leaderboard-top-row-icon fal fa-trophy-alt" />   
+      <div className="leaderboard-top-row-player-username-wrapper">        
+        <PlayerLevelBadge 
+          color={profile.color} 
+          experience={profile.experience} 
+          inline
+          mini 
+        />
+        <h1 
+          className="leaderboard-top-row-player-username passion-one-font" 
+          style={{ color: `rgb(${profile.color})` }}
+          title={profile.username}
+        >
+          {profile.username}
+        </h1>     
+      </div>
       {getName()}
     </div>             
   );

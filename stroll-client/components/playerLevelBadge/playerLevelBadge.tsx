@@ -11,11 +11,14 @@ import { AppContext } from "../app/contexts/appContext";
 import { PlayerLevelUtility } from "../../utilities/playerLevelUtility";
 
 import { AppAction } from "../../enums/appAction";
+import { Color } from "../../../stroll-enums/color";
 import { HowToPlayID } from "../../enums/howToPlayID";
 
 interface PlayerLevelBadgeProps {  
+  color: Color;
   clickable?: boolean;
   experience: number;
+  inline?: boolean;
   mini?: boolean;
   miniVerbose?: boolean;
 }
@@ -23,29 +26,9 @@ interface PlayerLevelBadgeProps {
 export const PlayerLevelBadge: React.FC<PlayerLevelBadgeProps> = (props: PlayerLevelBadgeProps) => {  
   const history: any = useHistory();
 
-  const level: number = PlayerLevelUtility.getLevelByExperience(props.experience);
+  const { appState, dispatchToApp } = useContext(AppContext);
 
-  const handleOnClick = (): void => {
-    if(props.clickable) {
-      history.push("/stats");
-    }
-  }
-
-  if(props.mini || props.miniVerbose) {
-    const text: string = props.miniVerbose ? `Level ${level}` : level.toString();
-
-    return ( 
-      <div className={classNames("player-level-mini-badge-wrapper", { clickable: props.clickable })} onClick={handleOnClick}>
-        <div className="player-level-mini-badge">
-          <i className={classNames("player-level-badge-icon", PlayerLevelUtility.getBadge(level))} />
-          <h1 className="player-level-badge-label passion-one-font">{text}</h1>
-          <Tooltip side={TooltipSide.Bottom} text={`Level ${level}`} />
-        </div>
-      </div>
-    );
-  }
-
-  const { dispatchToApp } = useContext(AppContext);
+  const { toggles } = appState;
 
   const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
 
@@ -53,12 +36,38 @@ export const PlayerLevelBadge: React.FC<PlayerLevelBadgeProps> = (props: PlayerL
     dispatch(AppAction.ToggleHowToPlay, { howToPlay: true, howToPlayID: HowToPlayID.Leveling });
   }
 
+  const handleOnClick = (): void => {
+    if(props.clickable) {
+      if(toggles.menu) {
+        dispatch(AppAction.ToggleMenu, false);
+      }
+
+      history.push("/stats");
+    }
+  }
+
+  const level: number = PlayerLevelUtility.getLevelByExperience(props.experience);
+
+  if(props.mini || props.miniVerbose) {
+    const text: string = props.miniVerbose ? `Level ${level}` : level.toString();
+
+    return ( 
+      <div className={classNames("player-level-mini-badge-wrapper", { clickable: props.clickable, inline: props.inline })} onClick={handleOnClick}>
+        <div className="player-level-mini-badge">
+          <i className={classNames("player-level-badge-icon", PlayerLevelUtility.getBadge(level))} style={{ color: `rgb(${props.color})` }} />
+          <h1 className="player-level-badge-label passion-one-font" style={{ color: `rgb(${props.color})` }} >{text}</h1>
+          <Tooltip side={TooltipSide.Bottom} text={`Level ${level}`} />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="player-level-badge">
       <div className="player-level-badge-content">
         <div className="player-level-badge-level-content">
-          <i className={classNames("player-level-badge-icon", PlayerLevelUtility.getBadge(level))} />
-          <h1 className="player-level-badge-label passion-one-font">Level {level}</h1>
+          <i className={classNames("player-level-badge-icon", PlayerLevelUtility.getBadge(level))} style={{ color: `rgb(${props.color})` }}  />
+          <h1 className="player-level-badge-label passion-one-font" style={{ color: `rgb(${props.color})` }} >Level {level}</h1>
           <IconButton
             icon="fal fa-info-circle"
             handleOnClick={toggle}

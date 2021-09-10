@@ -66,6 +66,7 @@ export const UserMenuModal: React.FC<UserMenuModalProps> = (props: UserMenuModal
             <h1 className="profile-email passion-one-font">{user.email}</h1> 
             <PlayerLevelBadge 
               clickable
+              color={user.profile.color}
               experience={user.profile.experience} 
               mini 
             />
