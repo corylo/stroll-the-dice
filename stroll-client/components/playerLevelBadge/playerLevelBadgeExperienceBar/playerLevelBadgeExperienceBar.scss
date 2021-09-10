@@ -1,0 +1,102 @@
+.player-level-badge-experience-bar-outer-wrapper {
+  margin: auto;
+  margin-top: 20px;
+
+  .player-level-badge-experience-bar-content-wrapper {    
+    .player-level-badge-experience-bar-progress-point {
+      background-color: $progressColor1;
+      border-radius: 6px;
+      height: 6px;
+      margin: 0px 4px;
+      width: 6px;
+    }
+
+    .player-level-badge-experience-bar-content {
+      align-items: center;
+      display: flex;
+
+      .player-level-badge-experience-bar-wrapper {
+        border: 1px solid rgba($themeMainCustom, 0.5);
+        border-radius: 100px;
+        flex-grow: 1;
+        position: relative;
+
+        .player-level-badge-experience-bar {
+          background: repeating-linear-gradient(
+            135deg, 
+            $progressColor1 25%, 
+            $progressColor2 25%, 
+            $progressColor2 50%, 
+            $progressColor1 50%, 
+            $progressColor1 75%, 
+            $progressColor2 75%
+          );
+          background-size: 40px 40px;
+          border-radius: 100px;        
+          height: 8px;
+          margin: 1px;
+          transition: width 1s;
+        }
+
+        .player-level-badge-experience-bar-indicator {
+          border-radius: 10px;
+          color: $themeMainCustom;
+          font-size: 0.6em;
+          height: 10px;
+          position: absolute;
+          text-align: center;
+          top: -12px;
+          transform: translateX(-50%);
+          transition: left 1s;
+          width: 10px;
+        }
+      }
+    }
+
+    .player-level-badge-experience-bar-progress-points {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5px;
+
+      .player-level-badge-experience-bar-progress-point-wrapper {     
+        align-items: center;
+        display: flex;
+        gap: 0.25em;
+
+        .player-level-badge-experience-bar-progress-point-level {
+          align-items: center;
+          display: flex;
+          font-size: 0.8em;
+          gap: 0.25em;
+
+          i, h1 {            
+            color: $themeMainCustom;
+          }
+
+          i {
+            text-align: center;
+            width: 14px;
+          }
+        }
+        
+        .player-level-badge-experience-bar-progress-point-experience {
+          font-size: 0.8em;
+        }
+      }
+    }
+  }
+}
+
+@include phone-or-smaller {
+  .player-level-badge-experience-bar-outer-wrapper {    
+    .player-level-badge-experience-bar-content-wrapper {  
+      .player-level-badge-experience-bar-progress-points {
+        .player-level-badge-experience-bar-progress-point-wrapper {   
+          .player-level-badge-experience-bar-progress-point-experience {
+            font-size: 0.7em;
+          }
+        }
+      }
+    }
+  }
+}

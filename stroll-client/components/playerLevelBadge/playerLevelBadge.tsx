@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import classNames from "classnames";
 
 import { IconButton } from "../buttons/iconButton";
+import { PlayerLevelBadgeExperienceBar } from "./playerLevelBadgeExperienceBar/playerLevelBadgeExperienceBar";
 import { Tooltip, TooltipSide } from "../tooltip/tooltip";
 
 import { AppContext } from "../app/contexts/appContext";
@@ -40,12 +41,16 @@ export const PlayerLevelBadge: React.FC<PlayerLevelBadgeProps> = (props: PlayerL
   return (
     <div className="player-level-badge">
       <div className="player-level-badge-content">
-        <i className={classNames("player-level-badge-icon", PlayerLevelUtility.getBadge(level))} />
-        <h1 className="player-level-badge-label passion-one-font">Level {level}</h1>
-        <IconButton
-          icon="fal fa-info-circle"
-          handleOnClick={toggle}
-        />
+        <div className="player-level-badge-level-content">
+          <i className={classNames("player-level-badge-icon", PlayerLevelUtility.getBadge(level))} />
+          <h1 className="player-level-badge-label passion-one-font">Level {level}</h1>
+          <IconButton
+            icon="fal fa-info-circle"
+            handleOnClick={toggle}
+          />
+        </div>
+        <h1 className="player-level-badge-experience-label roboto-font">{props.experience.toLocaleString()} XP</h1>
+        <PlayerLevelBadgeExperienceBar experience={props.experience} />
       </div>
     </div>
   )

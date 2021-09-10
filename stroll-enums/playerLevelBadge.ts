@@ -1,8 +1,8 @@
 export const playerLevelBadges: string[] = [
-  "fal fa-circle",
-  "fal fa-dot-circle",
-  "fal fa-bullseye",
+  "fal fa-badge",
+  "fal fa-certificate",
   "fal fa-star",
+  "fal fa-bahai",
   "fal fa-stars",
   "fal fa-star-shooting",
   "fal fa-comet",

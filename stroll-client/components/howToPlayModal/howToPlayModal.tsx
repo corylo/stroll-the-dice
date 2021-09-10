@@ -29,6 +29,7 @@ import { HowToPlayID } from "../../enums/howToPlayID";
 import { Icon } from "../../../stroll-enums/icon";
 import { MatchupLeader } from "../../../stroll-enums/matchupLeader";
 import { MatchupSideAlignment } from "../../pages/gamePage/components/matchupSide/matchupSide";
+import { PlayerLevelConstraint } from "../../../stroll-enums/playerLevelConstraint";
 import { StepTracker } from "../../../stroll-enums/stepTracker";
 
 interface HowToPlayModalProps {  
@@ -305,8 +306,8 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = (props: HowToPlayMo
               </HowToPlayModalSection>
               <HowToPlayModalSection title="2. Leveling Chart" subsection>
                 <HowToPlayText text={[
-                  "Levels 1 - 19 are on a linear scale. For every 18,000 XP you earn you will level up once.",
-                  "For levels 20 - 100 the leveling scale becomes exponential."
+                  `Levels ${PlayerLevelConstraint.MinimumLevel} - ${PlayerLevelConstraint.MinimumLevelForExponentialXP} are on a linear scale. For every 18,000 XP you earn you will level up once.`,
+                  `For levels ${PlayerLevelConstraint.MinimumLevelForExponentialXP + 1} - ${PlayerLevelConstraint.MaximumLevel} the leveling scale becomes exponential (${PlayerLevelConstraint.Exponential}x multiplier).`
                 ]} />
                 <HowToPlayDisplayComponent>
                   <PlayerLevelExperienceTable />

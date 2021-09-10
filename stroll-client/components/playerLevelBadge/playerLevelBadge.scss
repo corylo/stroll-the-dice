@@ -1,39 +1,49 @@
+@import "./playerLevelBadgeExperienceBar/playerLevelBadgeExperienceBar.scss";
+
 .player-level-badge {
   background-color: white;
-  border-radius: 1000px;
+  border-radius: 6px;
   box-shadow: $shadow1;
   padding: 5px;
 
   .player-level-badge-content { 
-    align-items: center;
     border: 1px solid rgba($themeMainCustom, 0.5);
-    border-radius: 1000px;
-    display: flex;
-    gap: 1em;
-    justify-content: center;
+    border-radius: 6px;
     padding: 10px;
 
-    .icon-button {
-      i {
-        color: gray(40);
-        font-size: 1em;
-        height: 30px;
-        line-height: 30px;
-        width: 30px;
+    .player-level-badge-level-content {
+      align-items: center;
+      display: flex;
+      gap: 1em;
+      justify-content: center;
+
+      .icon-button {
+        i {
+          color: gray(40);
+          font-size: 1em;
+          height: 30px;
+          line-height: 30px;
+          width: 30px;
+        }
+      }
+
+      .player-level-badge-icon,
+      .player-level-badge-label {
+        color: $themeMainCustom;      
+      }
+
+      .player-level-badge-icon {
+        font-size: 2.5em;
+      }
+
+      .player-level-badge-label {
+        font-size: 3em;
       }
     }
 
-    .player-level-badge-icon,
-    .player-level-badge-label {
-      color: $themeMainCustom;      
-    }
-
-    .player-level-badge-icon {
-      font-size: 2.5em;
-    }
-
-    .player-level-badge-label {
-      font-size: 3em;
+    .player-level-badge-experience-label {
+      font-size: 0.8em;
+      text-align: center;
     }
   }
 }
@@ -71,12 +81,16 @@
 @include small-phone-or-smaller {
   .player-level-badge {
     .player-level-badge-content {
-      .player-level-badge-icon {
-        font-size: 1.5em;
-      }
+      .player-level-badge-level-content {
+        gap: 0.5em;
 
-      .player-level-badge-label {
-        font-size: 2em;
+        .player-level-badge-icon {
+          font-size: 1.5em;
+        }
+
+        .player-level-badge-label {
+          font-size: 2em;
+        }
       }
     }
   }
