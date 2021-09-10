@@ -66,8 +66,8 @@ export const PlayerLevelBadge: React.FC<PlayerLevelBadgeProps> = (props: PlayerL
     <div className="player-level-badge">
       <div className="player-level-badge-content">
         <div className="player-level-badge-level-content">
-          <i className={classNames("player-level-badge-icon", PlayerLevelUtility.getBadge(level))} style={{ color: `rgb(${props.color})` }}  />
-          <h1 className="player-level-badge-label passion-one-font" style={{ color: `rgb(${props.color})` }} >Level {level}</h1>
+          <i className={classNames("player-level-badge-icon", PlayerLevelUtility.getBadge(level))} />
+          <h1 className="player-level-badge-label passion-one-font">Level {level}</h1>
           <IconButton
             icon="fal fa-info-circle"
             handleOnClick={toggle}

@@ -30,16 +30,16 @@ export const PlayerLevelBadgeExperienceBar: React.FC<PlayerLevelBadgeExperienceB
 
       const barBackground: string = `repeating-linear-gradient(
         135deg, 
-        rgba(${props.color}, 0.25) 25%, 
-        rgba(${props.color}, 0.75) 25%, 
-        rgba(${props.color}, 0.75) 50%, 
-        rgba(${props.color}, 0.25) 50%, 
-        rgba(${props.color}, 0.25) 75%, 
-        rgba(${props.color}, 0.75) 75%
+        rgba(${props.color}, 0.90) 25%, 
+        rgba(${props.color}, 0.60) 25%, 
+        rgba(${props.color}, 0.60) 50%, 
+        rgba(${props.color}, 0.90) 50%, 
+        rgba(${props.color}, 0.90) 75%, 
+        rgba(${props.color}, 0.60) 75%
       )`;
 
       const bar: React.CSSProperties = { background: barBackground, width: `${percentage}%` },
-        indicator: React.CSSProperties = { color: `rgb(${props.color})`, left: `${percentage}%`};
+        indicator: React.CSSProperties = { left: `${percentage}%`};
 
       setStyles({ bar, indicator });
     }, 10);
@@ -54,12 +54,12 @@ export const PlayerLevelBadgeExperienceBar: React.FC<PlayerLevelBadgeExperienceB
     <div className="player-level-badge-experience-bar-outer-wrapper">      
       <div className="player-level-badge-experience-bar-content-wrapper">      
         <div className="player-level-badge-experience-bar-content">
-          <div className="player-level-badge-experience-bar-progress-point" style={{ backgroundColor: `rgb(${props.color})` }} />
-          <div className="player-level-badge-experience-bar-wrapper" style={{ borderColor: `rgba(${props.color}, 0.5)` }}>
+          <div className="player-level-badge-experience-bar-progress-point" />
+          <div className="player-level-badge-experience-bar-wrapper">
             <div className="player-level-badge-experience-bar" style={styles.bar} />          
             <i className="player-level-badge-experience-bar-indicator fas fa-map-marker" style={styles.indicator} />
           </div>
-          <div className="player-level-badge-experience-bar-progress-point" style={{ backgroundColor: `rgb(${props.color})` }} />
+          <div className="player-level-badge-experience-bar-progress-point" />
         </div>
         <div className="player-level-badge-experience-bar-progress-points">
           <PlayerLevelBadgeExperienceBarProgressPoint color={props.color} experience={currentLevelExperience} level={level} />

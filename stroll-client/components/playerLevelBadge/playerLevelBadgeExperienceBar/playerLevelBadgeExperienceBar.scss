@@ -4,7 +4,7 @@
 
   .player-level-badge-experience-bar-content-wrapper {    
     .player-level-badge-experience-bar-progress-point {
-      background-color: $progressColor1;
+      background-color: white;
       border-radius: 6px;
       height: 6px;
       margin: 0px 4px;
@@ -16,7 +16,7 @@
       display: flex;
 
       .player-level-badge-experience-bar-wrapper {
-        border: 1px solid rgba($themeMainCustom, 0.5);
+        border: 1px solid rgba(white, 0.5);
         border-radius: 100px;
         flex-grow: 1;
         position: relative;
@@ -31,7 +31,7 @@
 
         .player-level-badge-experience-bar-indicator {
           border-radius: 10px;
-          color: $themeMainCustom;
+          color: white;
           font-size: 0.6em;
           height: 10px;
           position: absolute;
@@ -61,7 +61,7 @@
           gap: 0.25em;
 
           i, h1 {            
-            color: $themeMainCustom;
+            color: white;
           }
 
           i {
@@ -71,6 +71,7 @@
         }
         
         .player-level-badge-experience-bar-progress-point-experience {
+          color: gray(40);
           font-size: 0.8em;
         }
       }

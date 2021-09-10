@@ -1,13 +1,13 @@
 @import "./playerLevelBadgeExperienceBar/playerLevelBadgeExperienceBar.scss";
 
 .player-level-badge {
-  background-color: white;
+  background: $whiteGradient;
   border-radius: 6px;
   box-shadow: $shadow1;
   padding: 5px;
 
   .player-level-badge-content { 
-    border: 1px solid rgba($themeMainCustom, 0.5);
+    border: 1px solid rgba(white, 0.5);
     border-radius: 6px;
     padding: 10px;
 
@@ -18,8 +18,10 @@
       justify-content: center;
 
       .icon-button {
+        background-color: transparent;
+
         i {
-          color: gray(40);
+          color: white;
           font-size: 1em;
           height: 30px;
           line-height: 30px;
@@ -29,7 +31,7 @@
 
       .player-level-badge-icon,
       .player-level-badge-label {
-        color: $themeMainCustom;      
+        color: white;      
       }
 
       .player-level-badge-icon {
@@ -42,6 +44,7 @@
     }
 
     .player-level-badge-experience-label {
+      color: gray(40);
       font-size: 0.8em;
       text-align: center;
     }
