@@ -111,6 +111,7 @@
         margin-top: 5px;
         padding: 5px;
         position: relative;
+        z-index: 3;
 
         .profile-icon {
           font-size: 2em;
@@ -118,6 +119,18 @@
           margin: auto;
           width: 80px;
         }    
+
+        .player-level-mini-badge-wrapper {
+          bottom: 4px;
+          left: 50%;
+          position: absolute;
+          transform: translateX(-50%);
+          
+          .player-level-mini-badge {            
+            background-color: gray(40);
+            box-shadow: 0px 0px 20px 5px rgba(white, 0.2);
+          }
+        }
       }
 
       .leaderboard-top-row-icon {
@@ -135,7 +148,6 @@
         margin-top: 10px;
 
         .leaderboard-top-row-player-username {
-          margin-left: 5px;
           max-width: 200px;
           overflow: hidden;
           text-align: center;
@@ -226,6 +238,20 @@
             height: 60px;
             width: 60px;
           }
+
+          .player-level-mini-badge-wrapper {
+            .player-level-mini-badge {
+              padding: 1px 2px;
+
+              i {
+                font-size: 0.45em;
+              }
+
+              h1 {
+                font-size: 0.7em;
+              }
+            }
+          }
         }
 
         .leaderboard-top-row-player-username-wrapper {  
@@ -233,8 +259,6 @@
 
           .leaderboard-top-row-player-username {
             font-size: 0.9em;
-            margin-left: 0px;
-            margin-top: 5px;
           }
         }
         

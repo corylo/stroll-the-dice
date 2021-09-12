@@ -114,17 +114,19 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
       <div className={classNames("game-matchup-side", props.alignment)}>
         {props.alignment === MatchupSideAlignment.Left ? getBorder() : null}
         <div className="game-matchup-side-content" style={getStyles()}>
-          <ProfileIcon 
-            color={side.profile.color}
-            icon={side.profile.icon}
-          />
-          <div className="game-matchup-side-username-wrapper">
+          <div className="game-matchup-side-player-icon">
+            <ProfileIcon 
+              color={side.profile.color}
+              icon={side.profile.icon}
+            />            
             <PlayerLevelBadge 
               color={side.profile.color} 
               experience={side.profile.experience} 
               inline
               mini 
             />
+          </div>
+          <div className="game-matchup-side-username-wrapper">
             <h1 className="game-matchup-side-username passion-one-font" style={{ color: `rgb(${side.profile.color})` }}>{side.profile.username}</h1>          
           </div>
           {getName()}

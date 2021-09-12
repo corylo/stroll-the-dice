@@ -4,6 +4,8 @@ import { LeaderboardTopRowPillar } from "./leaderboardTopRowPillar";
 import { PlayerLevelBadge } from "../../playerLevelBadge/playerLevelBadge";
 import { ProfileIcon } from "../../profileIcon/profileIcon";
 
+import { PlayerUtility } from "../../../utilities/playerUtility";
+
 import { IPlayer } from "../../../../stroll-models/player";
 
 interface LeaderboardTopRowPlayerProps {  
@@ -13,16 +15,6 @@ interface LeaderboardTopRowPlayerProps {
 
 export const LeaderboardTopRowPlayer: React.FC<LeaderboardTopRowPlayerProps> = (props: LeaderboardTopRowPlayerProps) => {      
   const { profile } = props.player;
-
-  const getPlace = (): string => {
-    if(props.place === 1) {
-      return "1st";
-    } else if(props.place === 2) {
-      return "2nd";
-    } else if(props.place === 3) {
-      return "3rd";
-    }
-  }
 
   const getName = (): JSX.Element => {
     if(profile.name) {
@@ -36,22 +28,22 @@ export const LeaderboardTopRowPlayer: React.FC<LeaderboardTopRowPlayerProps> = (
   
   return (
     <div className="leaderboard-top-row-player">        
-      <h1 className="leaderboard-top-row-place passion-one-font">{getPlace()}</h1>
+      <h1 className="leaderboard-top-row-place passion-one-font">{PlayerUtility.determineLeaderboardPlace(props.place)}</h1>
       <LeaderboardTopRowPillar />
       <div className="leaderboard-top-row-player-icon">
         <ProfileIcon 
           color={profile.color}
           icon={profile.icon}
-        /> 
-      </div>
-      <i className="leaderboard-top-row-icon fal fa-trophy-alt" />   
-      <div className="leaderboard-top-row-player-username-wrapper">        
+        />       
         <PlayerLevelBadge 
           color={profile.color} 
           experience={profile.experience} 
           inline
           mini 
         />
+      </div>
+      <i className="leaderboard-top-row-icon fal fa-trophy-alt" />   
+      <div className="leaderboard-top-row-player-username-wrapper">   
         <h1 
           className="leaderboard-top-row-player-username passion-one-font" 
           style={{ color: `rgb(${profile.color})` }}

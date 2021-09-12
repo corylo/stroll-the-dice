@@ -7,17 +7,43 @@
     align-items: center;
     display: flex;
 
-    .profile-icon {
-      height: 30px;
-      margin-left: 5px;
-      width: 30px;
+    .user-link-profile-icon-wrapper {
+      position: relative;
 
-      i {
-        font-size: 0.75em;
-        height: 20px;
-        line-height: 20px;
-        text-align: center;
-        width: 20px;
+      .profile-icon {
+        height: 40px;
+        width: 40px;
+
+        i {
+          font-size: 1em;
+          height: 30px;
+          line-height: 30px;
+          text-align: center;
+          width: 30px;
+        }
+      }
+  
+
+      .player-level-mini-badge-wrapper {
+        bottom: -3px;
+        left: 50%;
+        position: absolute;
+        transform: translateX(-50%);
+        
+        .player-level-mini-badge {            
+          background-color: gray(40);
+          box-shadow: 0px 0px 20px 5px rgba(white, 0.2);
+          min-width: 24px;
+          padding: 1px 2px;
+
+          i {
+            font-size: 0.45em;
+          }
+
+          h1 {
+            font-size: 0.7em;
+          }
+        }
       }
     }
 

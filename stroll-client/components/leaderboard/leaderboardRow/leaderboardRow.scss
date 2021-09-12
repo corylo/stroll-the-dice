@@ -83,15 +83,12 @@
       .leaderboard-row-place-and-player {
         .user-link {
           .user-link-content {
-            .profile-icon {
+            .user-link-profile-icon-wrapper {
               display: none;
             }
 
             .user-link-username-wrapper {
-              .user-link-username,
-              .user-link-name {
-                max-width: 70px;
-              }
+              margin-left: 0px;
             }
           }
         }

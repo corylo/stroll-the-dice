@@ -23,11 +23,27 @@
     flex-grow: 1;
     width: 200px;
 
-    .profile-icon {
-      font-size: 2em;
-      height: 80px;
-      margin: auto;
-      width: 80px;
+    .game-matchup-side-player-icon {
+      position: relative;
+
+      .profile-icon {
+        font-size: 2em;
+        height: 80px;
+        margin: auto;
+        width: 80px;
+      }
+
+      .player-level-mini-badge-wrapper {
+        bottom: -2px;
+        left: 50%;
+        position: absolute;
+        transform: translateX(-50%);
+        
+        .player-level-mini-badge {            
+          background-color: gray(40);
+          box-shadow: 0px 0px 20px 5px rgba(white, 0.2);
+        }
+      }
     }
 
     .game-matchup-side-username-wrapper {
@@ -40,7 +56,6 @@
 
     .game-matchup-side-username {
       font-size: 1em;
-      margin-left: 5px;
       max-width: 140px;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -86,11 +101,6 @@
 
       .game-matchup-side-username-wrapper {
         flex-direction: column;
-        
-        .game-matchup-side-username {
-          margin-left: 0px;
-          margin-top: 5px;
-        }
       }
     }
   }
@@ -101,10 +111,26 @@
     .game-matchup-side-content {
       width: 120px;
 
-      .profile-icon {
-        font-size: 1.5em;
-        height: 60px;
-        width: 60px;
+      .game-matchup-side-player-icon {
+        .profile-icon {
+          font-size: 1.5em;
+          height: 60px;
+          width: 60px;
+        }
+
+        .player-level-mini-badge-wrapper {
+          .player-level-mini-badge {      
+            padding: 1px 2px;
+
+            i {
+              font-size: 0.45em;
+            }
+  
+            h1 {
+              font-size: 0.7em;
+            }
+          }
+        }
       }
       
       .game-matchup-side-username-wrapper {
