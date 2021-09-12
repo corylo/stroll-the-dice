@@ -136,7 +136,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
         }
         
         const getConfetti = (): JSX.Element => {
-          if(true || completed && endOfFinalDayUpdateComplete) {
+          if(completed && endOfFinalDayUpdateComplete) {
             return (
               <Confetti id={`${props.id}-confetti`} />
             );
