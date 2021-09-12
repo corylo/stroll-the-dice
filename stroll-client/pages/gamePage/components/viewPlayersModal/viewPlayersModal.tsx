@@ -28,7 +28,11 @@ export const ViewPlayersModal: React.FC<ViewPlayersModalProps> = (props: ViewPla
       <Modal id="view-players-modal">
         <ModalTitle handleOnClose={props.back} />
         <ModalBody>       
-          <Leaderboard id="view-players-modal-leaderboard" players={state.players} gameStatus={state.game.status} />
+          <Leaderboard 
+            gameStatus={state.game.status}
+            id="view-players-modal-leaderboard" 
+            players={state.players} 
+          />
         </ModalBody>
       </Modal>
     );
