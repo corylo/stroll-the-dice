@@ -29,6 +29,7 @@
         left: 50%;
         position: absolute;
         transform: translateX(-50%);
+        z-index: 2;
         
         .player-level-mini-badge {            
           background-color: gray(40);
@@ -40,7 +41,7 @@
             font-size: 0.45em;
           }
 
-          h1 {
+          > h1 {
             font-size: 0.7em;
           }
         }
