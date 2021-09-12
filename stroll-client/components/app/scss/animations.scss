@@ -18,27 +18,33 @@
   }
 }
 
-@keyframes confetti {
-  0% {
-    opacity: 0;
-    transform: translateY(0%) rotate(0deg);
+@keyframes confettiSlow {
+  0% { 
+    transform: translate3d(0, 0, 0) rotateX(0) rotateY(0); 
+  }
+  
+  100% { 
+    transform: translate3d(25px, 600px, 0) rotateX(360deg) rotateY(180deg); 
+  }
+}
+
+@keyframes confettiMedium {
+  0% { 
+    transform: translate3d(0, 0, 0) rotateX(0) rotateY(0); 
   }
 
-  10% {
-    opacity: 1;
+  100% { 
+    transform: translate3d(100px, 600px, 0) rotateX(100deg) rotateY(360deg); 
   }
+}
 
-  35% {
-    transform: translateY(-1000%) rotate(270deg);
+@keyframes confettiFast {
+  0% { 
+    transform: translate3d(0, 0, 0) rotateX(0) rotateY(0); 
   }
-
-  80% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateY(2000%) rotate(1440deg);
+  
+  100% { 
+    transform: translate3d(-50px, 600px, 0) rotateX(10deg) rotateY(250deg); 
   }
 }
 

@@ -1,5 +1,5 @@
 .confetti-effect {
-  height: 100%;
+  height: 500px;
   left: 0px;
   overflow: hidden;
   pointer-events: none;
@@ -9,24 +9,40 @@
   z-index: 10;
 
   .confetti-particle {
-    animation: confetti 3s ease-in infinite;
-    opacity: 0;
+    border-radius: 100px;
     position: absolute;    
+    top: -10px;
 
-    &.confetti-particle-1 {
-      background-color:rgba(white, 0.5);
+    &.confetti-animation-1 {
+      animation: confettiSlow 2.5s infinite;
     }
     
-    &.confetti-particle-2 {
-      background-color:rgba($red, 0.5);
+    &.confetti-animation-2 {
+      animation: confettiMedium 1.75s infinite;
     }
 
-    &.confetti-particle-3 {
-      background-color:rgba($green, 0.5);
+    &.confetti-animation-3 {
+      animation: confettiFast 1s infinite;
     }
     
-    &.confetti-particle-4 {
-      background-color:rgba($blue, 0.5);
+    &.confetti-color-1 {
+      background-color: $red;
+    }
+    
+    &.confetti-color-2 {
+      background-color: $orange;
+    }
+    
+    &.confetti-color-3 {
+      background-color: $yellow;
+    }
+    
+    &.confetti-color-4 {
+      background-color: $green;
+    }
+    
+    &.confetti-color-5 {
+      background-color: $blue;
     }
   }
 }
