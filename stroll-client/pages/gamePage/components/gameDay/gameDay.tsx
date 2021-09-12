@@ -125,9 +125,9 @@ export const GameDay: React.FC<GameDayProps> = (props: GameDayProps) => {
           <div className="game-day-title-date-and-game-status">
             <h1 className="game-day-title-date passion-one-font">{getDate()}</h1>
             <GameDayStatus 
+              currentDay={day}
               day={props.day} 
               game={game} 
-              dayStatus={dayStatus} 
             />
           </div>     
           {getHideButton()}

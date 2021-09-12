@@ -12,18 +12,20 @@ import { IGame } from "../../../stroll-models/game";
 import { GameStatus } from "../../../stroll-enums/gameStatus";
 
 interface GameDayStatusProps { 
+  currentDay: number;
   day: number;
   game: IGame;
-  dayStatus: GameStatus;
 }
 
 export const GameDayStatus: React.FC<GameDayStatusProps> = (props: GameDayStatusProps) => {    
-  const { game, dayStatus } = props;
+  const { game } = props;
 
   useCurrentDateEffect();
   
+  const dayStatus: GameStatus = GameDurationUtility.getDayStatus(props.day, props.currentDay);
+
   const getText = (): string => {
-    const timeRemaining: string = GameDurationUtility.getTimeRemainingInToday(game, props.day),
+    const timeRemaining: string = GameDurationUtility.getTimeRemainingInToday(game, props.currentDay),
       endOfDayUpdateComplete: boolean = FirestoreDateUtility.endOfDayProgressUpdateComplete(props.day, game.startsAt, game.progressUpdateAt);
         
     const upcoming: boolean = dayStatus === GameStatus.Upcoming,
