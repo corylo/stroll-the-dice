@@ -16,6 +16,7 @@
       display: flex;
 
       .player-level-badge-experience-bar-wrapper {
+        background-color: rgba(white, 0.9);
         border: 1px solid rgba(white, 0.5);
         border-radius: 100px;
         flex-grow: 1;
@@ -26,7 +27,9 @@
           border-radius: 100px;        
           height: 8px;
           margin: 1px;
+          position: relative;
           transition: width 1s;
+          z-index: 2;
         }
 
         .player-level-badge-experience-bar-indicator {
