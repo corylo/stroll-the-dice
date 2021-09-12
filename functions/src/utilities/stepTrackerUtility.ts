@@ -1,5 +1,5 @@
 import firebase from "firebase-admin";
-import { config, logger } from "firebase-functions";
+import { config } from "firebase-functions";
 
 import { StepTrackerRequestUtility } from "./stepTrackerRequestUtility";
 

@@ -32,7 +32,7 @@ export const DateUtility: IDateUtility = {
     return [year, month, day].join("-");
   },
   dateToTimezoneOffsetDate: (date: Date, timezone: string): Date => {
-    return new Date(date.toLocaleDateString([], { timeZone: timezone }));
+    return new Date(date.toLocaleString([], { timeZone: timezone }));
   },
   daysToMillis: (days: number): number => {
     return days * 24 * 3600 * 1000;
