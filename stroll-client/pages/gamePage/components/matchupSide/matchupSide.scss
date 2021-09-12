@@ -11,6 +11,21 @@
     align-items: center;
     display: flex;
     justify-content: center;
+    
+    .game-matchup-side-content {
+      .profile-icon {
+        font-size: 2em;
+        height: 80px;
+        margin: auto;
+        width: 80px;
+      }
+      
+      .game-matchup-side-username {
+        display: block;
+        margin: auto;
+        margin-top: 5px;
+      }
+    }
   }
 
   .game-matchup-side-border {      
@@ -107,7 +122,21 @@
 }
 
 @include medium-phone-or-smaller {
-  .game-matchup-side {      
+  .game-matchup-side {  
+    &.undetermined {
+      .game-matchup-side-content {
+        .profile-icon {
+          font-size: 1.5em;
+          height: 60px;
+          width: 60px;
+        }
+        
+        .game-matchup-side-username {
+          font-size: 0.9em;
+        }
+      }
+    }
+      
     .game-matchup-side-content {
       width: 120px;
 
