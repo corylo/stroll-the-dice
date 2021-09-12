@@ -65,6 +65,36 @@
     .modal-content-wrapper {      
       padding: 0px;
       width: 100%;
+
+      .modal-content {        
+        .modal-title {
+          margin: 20px 10px;
+          width: calc(100% - 20px);
+        }
+      }
+    }
+  }
+}
+
+@include small-phone-or-smaller {
+  #view-players-modal {
+    .modal-content-wrapper {      
+      padding: 0px;
+      width: 100%;
+
+      .modal-content {
+        .modal-body {          
+          .leaderboard {
+            .leaderboard-content {      
+              .leaderboard-title {
+                font-size: 1.75em;
+                margin-left: 10px;
+                text-align: left;
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
