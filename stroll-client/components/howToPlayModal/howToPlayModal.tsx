@@ -51,7 +51,7 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = (props: HowToPlayMo
       if(modal && element) {
         const rect: DOMRect = element.getBoundingClientRect();
 
-        modal.scrollTop = (window.pageYOffset + rect.top) - 40;
+        modal.scrollTop = rect.top - 40;
       }
     }
   }, [toggles.howToPlay, toggles.howToPlayID]);

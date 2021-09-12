@@ -25,7 +25,7 @@ interface PlayerLevelBadgeProps {
 
 export const PlayerLevelBadge: React.FC<PlayerLevelBadgeProps> = (props: PlayerLevelBadgeProps) => {  
   const history: any = useHistory();
-  console.log(history);
+  
   const { appState, dispatchToApp } = useContext(AppContext);
 
   const { toggles } = appState;
