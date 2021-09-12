@@ -12,7 +12,7 @@ export interface IStatsPageStatuses {
 }
 
 export const defaultStatsPageStatuses = (): IStatsPageStatuses => ({
-  initial: RequestStatus.Loading,
+  initial: RequestStatus.Idle,
   more: RequestStatus.Idle,
   stats: RequestStatus.Loading
 });
