@@ -24,7 +24,7 @@ export const GameDayStatus: React.FC<GameDayStatusProps> = (props: GameDayStatus
   
   const getText = (): string => {
     const timeRemaining: string = GameDurationUtility.getTimeRemainingInToday(game, props.day),
-      endOfDayUpdateComplete: boolean = FirestoreDateUtility.endOfDayProgressUpdateComplete(Math.min(props.day, game.duration), game.startsAt, game.progressUpdateAt);
+      endOfDayUpdateComplete: boolean = FirestoreDateUtility.endOfDayProgressUpdateComplete(props.day, game.startsAt, game.progressUpdateAt);
         
     const upcoming: boolean = dayStatus === GameStatus.Upcoming,
       inProgress: boolean = dayStatus === GameStatus.InProgress,

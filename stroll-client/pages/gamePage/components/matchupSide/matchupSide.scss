@@ -64,6 +64,10 @@
       margin-top: 10px;
       justify-content: center;
 
+      i, h1 {        
+        text-shadow: 0px 0px 1px rgba(black, 0.75);
+      }
+
       i {
         font-size: 0.7em;
       }
