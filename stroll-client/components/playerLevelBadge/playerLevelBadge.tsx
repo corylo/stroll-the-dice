@@ -25,7 +25,7 @@ interface PlayerLevelBadgeProps {
 
 export const PlayerLevelBadge: React.FC<PlayerLevelBadgeProps> = (props: PlayerLevelBadgeProps) => {  
   const history: any = useHistory();
-
+  console.log(history);
   const { appState, dispatchToApp } = useContext(AppContext);
 
   const { toggles } = appState;
@@ -42,7 +42,9 @@ export const PlayerLevelBadge: React.FC<PlayerLevelBadgeProps> = (props: PlayerL
         dispatch(AppAction.ToggleMenu, false);
       }
 
-      history.push("/stats");
+      if(history.location.pathname !== "/stats") {
+        history.push("/stats");
+      }
     }
   }
 
