@@ -73,7 +73,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = (props: ProfilePageProps)
       return (
         <SignInToDoThisMessage
           image={ImageUtility.getGraphic("park", "png")}
-          text="Sign in to view your notifications!"
+          text="Sign in to view your profile!"
         />
       )
     }
