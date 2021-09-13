@@ -154,11 +154,13 @@ export const ProfileForm: React.FC<ProfileFormProps> = (props: ProfileFormProps)
             onKeyDown={handleOnKeyDown}
           />
         </InputWrapper>
-        <div className="profile-icon-preview" style={{ backgroundColor: `rgba(${fields.color}, 0.1)` }}>
-          <ProfileIcon 
-            color={fields.color}
-            icon={fields.icon}
-          />
+        <div className="profile-icon-preview-wrapper">
+          <div className="profile-icon-preview">
+            <ProfileIcon 
+              color={fields.color}
+              icon={fields.icon}
+            />
+          </div>
         </div>
         <InputWrapper
           label="Color"

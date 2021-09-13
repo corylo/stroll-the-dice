@@ -1,21 +1,37 @@
 .icon-selector {
-  display: grid;
-  grid-gap: 1em;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); 
-  max-height: 150px; 
-  overflow: auto;
-  padding: 0px 5px;
+  background-color: rgba(white, 0.1);
+  border-radius: 6px;  
+  padding: 10px;
 
-  .icon-selector-option {
-    &:hover,
-    &:focus,
-    &.selected {
-      background-color: rgba(white, 0.25);
+  .icon-selector-tier {
+    .icon-selector-tier-options {
+      border: 1px solid rgba(white, 0.25);
+      border-radius: 6px;  
+      display: grid;
+      grid-gap: 10px;
+      grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); 
+      padding: 10px;
+
+      .icon-selector-option {
+        &:hover,
+        &:focus,
+        &.selected {
+          background-color: rgba(white, 0.25);
+        }
+
+        i {
+          font-size: 1.5em;
+          text-shadow: 0px 0px 2px rgba(black, 0.4);
+        }
+      }
     }
-
-    i {
-      font-size: 1.5em;
-      text-shadow: 0px 0px 2px rgba(black, 0.4);
+    
+    .icon-selector-tier-label {
+      color: white;
+      font-size: 0.8em;
+      margin-left: 10px;
+      margin-top: 5px;
+      text-transform: uppercase;
     }
   }
 }
