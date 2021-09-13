@@ -18,7 +18,7 @@ interface IProfileTransactionService {
 
 export const ProfileTransactionService: IProfileTransactionService = {
   handleGameCompletedProfileUpdate: async (gameID: string, player: IPlayer): Promise<void> => {
-    const profileRef: firebase.firestore.DocumentReference<IProfile> = db.collection("games")
+    const profileRef: firebase.firestore.DocumentReference<IProfile> = db.collection("profiles")
       .doc(player.id)
       .withConverter<IProfile>(profileConverter);
 
