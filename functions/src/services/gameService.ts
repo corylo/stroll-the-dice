@@ -55,7 +55,7 @@ export const GameService: IGameService = {
         if (GameUtility.upcomingToInProgress(before, after)) {
           await GameUpdateService.handleUpcomingToInProgress(context.params.id, after);
 
-          await GameUpdateService.sendGameStartedEmails({ ...after, id: context.params.id });
+          await GameUpdateService.sendGameStartedNotifications({ ...after, id: context.params.id });
         } else if (GameUtility.inProgressToCompleted(before, after)) {        
           await GameUpdateService.handleInProgressToCompleted(context.params.id, after);
         } else if (GameUtility.stillInProgress(before, after)) {
