@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import classNames from "classnames";
 
 import { Button } from "../../../../components/buttons/button";
@@ -12,7 +12,6 @@ import { StatsPageContext } from "../../statsPage";
 
 import { FirestoreDateUtility } from "../../../../../stroll-utilities/firestoreDateUtility";
 import { GameDurationUtility } from "../../../../../stroll-utilities/gameDurationUtility";
-import { NumberUtility } from "../../../../../stroll-utilities/numberUtility";
 import { PlayerUtility } from "../../../../utilities/playerUtility";
 
 import { IGameHistoryEntry } from "../../../../../stroll-models/gameHistoryEntry";
@@ -26,8 +25,6 @@ interface GameHistoryProps {
 export const GameHistory: React.FC<GameHistoryProps> = (props: GameHistoryProps) => {  
   const { state, setState } = useContext(StatsPageContext);
 
-  const history: any = useHistory();
-
   const getHistoryTable = (): JSX.Element => {
     if(state.statuses.initial !== RequestStatus.Loading && state.entries.length > 0) {
       const getIcon = (place: number): string => {
@@ -39,15 +36,15 @@ export const GameHistory: React.FC<GameHistoryProps> = (props: GameHistoryProps)
       }
 
       const entries: JSX.Element[] = state.entries.map((entry: IGameHistoryEntry) => (
-        <tr key={entry.id} className="passion-one-font" onClick={() => history.push(`/game/${entry.gameID}`)}>
+        <tr key={entry.id} className="passion-one-font">
           <td className="game-details">
             <Table>
               <tbody>
                 <tr>
-                  <td>{entry.name}</td>
+                  <td><Link to={`/game/${entry.gameID}`}>{entry.name}</Link></td>
                 </tr>
                 <tr>
-                  <td><h1 className="game-ends-at">{FirestoreDateUtility.timestampToLocaleDateTime(entry.endsAt)} ({GameDurationUtility.getLabel(entry.duration)})</h1></td>
+                  <td><h1 className="game-ends-at">Ended {FirestoreDateUtility.timestampToLocaleDateTime(entry.endsAt)} ({GameDurationUtility.getLabel(entry.duration)})</h1></td>
                 </tr>
               </tbody>
             </Table>
@@ -58,8 +55,8 @@ export const GameHistory: React.FC<GameHistoryProps> = (props: GameHistoryProps)
               <h1 className="player-place-label">{PlayerUtility.determineLeaderboardPlace(entry.place)}</h1>
             </div>
           </td>
-          <td>{NumberUtility.shorten(entry.steps)}</td>
-          <td>{NumberUtility.shorten(entry.points)}</td>
+          <td>{entry.steps.toLocaleString()}</td>
+          <td>{entry.points.toLocaleString()}</td>
         </tr>
       ));
 

@@ -7,11 +7,6 @@
       table {
         tbody {
           tr {
-            &:hover {
-              background-color: rgba(white, 0.2);
-              cursor: pointer;
-            }
-
             td {
               vertical-align: top;
 
@@ -44,6 +39,14 @@
 
                         td {
                           padding: 0px;
+
+                          a {
+                            color: white;
+
+                            &:hover {
+                              color: $blue;
+                            }
+                          }
 
                           .game-ends-at {
                             color: gray(40);

@@ -38,6 +38,9 @@ export const ProfileTransactionService: IProfileTransactionService = {
       .doc();
 
     await db.runTransaction(async (transaction: firebase.firestore.Transaction) => {
+      const profileDoc: firebase.firestore.DocumentSnapshot<IProfile> = await transaction.get(profileRef),
+        profile: IProfile = { ...profileDoc.data(), uid: profileDoc.id };
+
       const gameDoc: firebase.firestore.DocumentSnapshot<IGame> = await transaction.get(gameRef),
         game: IGame = { ...gameDoc.data(), id: gameDoc.id };
 
@@ -57,7 +60,7 @@ export const ProfileTransactionService: IProfileTransactionService = {
         updates.wins = gamesStats.wins + 1;
       }
 
-      transaction.update(profileRef, { experience });
+      transaction.update(profileRef, { experience: profile.experience + experience });
 
       transaction.update(gamesStatsRef, updates);
 
