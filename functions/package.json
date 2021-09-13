@@ -7,7 +7,7 @@
     "start": "npm run shell",
     "clean": "rm -rf lib",
     "firebase-deploy": "firebase deploy --only functions",
-    "firebase-deploy:": "firebase deploy --only functions:onGameUpdate",
+    "firebase-deploy:": "firebase deploy --only functions:onProfileCreate",
     "deploy": "npm run clean && npm run build && npm run firebase-deploy",
     "deploy:": "npm run clean && npm run build && npm run firebase-deploy:",
     "da": "npm run set:dev && npm run deploy && npm run set:prod && npm run deploy",

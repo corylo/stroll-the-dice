@@ -1,14 +1,18 @@
 .how-to-play-summary {
-  padding: 0px 80px;
+  .how-to-play-summary-panel-wrapper {
+    background-color: rgba(white, 0.1);
+    border: 1px solid rgba(white, 0.2);
+    border-radius: 6px;
+    box-shadow: $shadow1;
+    padding: 20px;
 
-  .how-to-play-summary-panel-wrapper {  
     &:nth-child(n + 2) {
       margin-top: 60px;
     }
 
     &.matchup-panel {
-      .how-to-play-summary-panel-images {
-        .how-to-play-summary-panel-background-image {
+      .how-to-play-summary-panel-image-wrapper {
+        .how-to-play-summary-panel-image {
           background-position: center;
           background-size: 60%;
         }
@@ -16,8 +20,8 @@
     }
 
     &.prediction-panel {
-      .how-to-play-summary-panel-images {
-        .how-to-play-summary-panel-background-image {
+      .how-to-play-summary-panel-image-wrapper {
+        .how-to-play-summary-panel-image {
           background-position: center;
           background-size: 70%;
         }
@@ -25,24 +29,23 @@
     }
 
     &.winner-panel {
-      .how-to-play-summary-panel-images {
-        .how-to-play-summary-panel-background-image {
+      .how-to-play-summary-panel-image-wrapper {
+        .how-to-play-summary-panel-image {
           background-position: center;
         }
       }
     }
 
-    .how-to-play-summary-panel-images {
+    .how-to-play-summary-panel-image-wrapper {
       position: relative;
 
-      .how-to-play-summary-panel-background-image,
       .how-to-play-summary-panel-image {
         background-position: 50% 100%;
         background-repeat: no-repeat;
         background-size: cover;
       }
 
-      .how-to-play-summary-panel-background-image {
+      .how-to-play-summary-panel-image {
         background-color: white;
         border-radius: 6px;
         box-shadow: $shadow1;
@@ -57,12 +60,12 @@
       text-align: center;
 
       .how-to-play-summary-panel-title {
-        color: gray(40);
+        color: white;
         font-size: 2.5em;
       }
 
       .how-to-play-summary-panel-text {
-        color: white;
+        color: gray(40);
         font-size: 1.5em;
         margin-top: 20px;
       }
@@ -75,8 +78,8 @@
     padding: 0px;
 
     .how-to-play-summary-panel-wrapper {       
-      .how-to-play-summary-panel-images {
-        .how-to-play-summary-panel-background-image {
+      .how-to-play-summary-panel-image-wrapper {
+        .how-to-play-summary-panel-image {
           height: 240px;
         }
       }
@@ -87,12 +90,14 @@
 @include phone-or-smaller {
   .how-to-play-summary {
     .how-to-play-summary-panel-wrapper {  
+      padding: 10px;
+
       &:nth-child(n + 2) {
         margin-top: 40px;
       }
 
-      .how-to-play-summary-panel-images {
-        .how-to-play-summary-panel-background-image {
+      .how-to-play-summary-panel-image-wrapper {
+        .how-to-play-summary-panel-image {
           height: 200px;
         }
       }
@@ -114,8 +119,8 @@
 @include small-phone-or-smaller {
   .how-to-play-summary {
     .how-to-play-summary-panel-wrapper {  
-      .how-to-play-summary-panel-images {
-        .how-to-play-summary-panel-background-image {
+      .how-to-play-summary-panel-image-wrapper {
+        .how-to-play-summary-panel-image {
           height: 160px;
         }
       }

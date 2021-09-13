@@ -1,5 +1,6 @@
 import { auth, logger } from "firebase-functions";
 
+import { FriendIDService } from "./friendIDService";
 import { GameBatchService } from "./batch/gameBatchService";
 import { PlayerBatchService } from "./batch/playerBatchService";
 import { ProfileBatchService } from "./batch/profileBatchService";
@@ -41,6 +42,14 @@ export const AuthService: IAuthService = {
       logger.error(err);
 
       logger.error(`Unable to delete notifications for user: [${user.uid}].`);
+    }
+      
+    try {
+      await FriendIDService.deleteByUID(user.uid);
+    } catch(err) {
+      logger.error(err);
+
+      logger.error(`Unable to delete friend ID for user: [${user.uid}].`);
     }
       
     try {

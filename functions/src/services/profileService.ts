@@ -3,9 +3,11 @@ import { Change, EventContext, logger } from "firebase-functions";
 
 import { db } from "../../config/firebase";
 
+import { EmailService } from "./emailService";
 import { GameBatchService } from "./batch/gameBatchService";
 import { NotificationBatchService } from "./batch/notificationBatchService";
 import { PlayerBatchService } from "./batch/playerBatchService";
+import { UserService } from "./userService";
 
 import { NotificationUtility } from "../utilities/notificationUtility";
 import { ProfileUtility } from "../utilities/profileUtility";
@@ -45,7 +47,7 @@ export const ProfileService: IProfileService = {
     }
   },
   onCreate: async (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext): Promise<void> => {
-    const profile: IProfile = snapshot.data() as IProfile;
+    const profile: IProfile = { ...snapshot.data(), uid: snapshot.id } as IProfile;
 
     try {
       await NotificationBatchService.create(context.params.id, NotificationUtility.mapCreate([
@@ -57,6 +59,10 @@ export const ProfileService: IProfileService = {
         profile.createdAt,
         "how-to-play"
       ));
+
+      const email: string = await UserService.getEmailByUID(profile.uid);
+
+      await EmailService.sendWelcomeEmail(profile.username, email);
     } catch (err) {
       logger.error(err);
     }
