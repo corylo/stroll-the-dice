@@ -38,8 +38,6 @@ export const StatsPage: React.FC<StatsPageProps> = (props: StatsPageProps) => {
 
   useFetchGameHistoryEffect(state, profile.uid, setState);
 
-  console.log(state.statuses, state.entries);
-  
   const getContent = (): JSX.Element => {
     if(appState.status === AppStatus.SignedIn) {
       return (
