@@ -38,6 +38,11 @@ export const useFetchGameStatsEffect = (
       }
 
       fetch();
+    } else if (
+      appStatus === AppStatus.SignedOut && 
+      state.statuses.stats === RequestStatus.Loading
+    ) {
+      updateStatsStatus(RequestStatus.Idle);
     }
   }, [appStatus, uid]);
 }
@@ -57,6 +62,8 @@ export const useFetchGameHistoryEffect = (
         try {
           if(state.offset !== null) {
             updateStatuses({ more: RequestStatus.Loading });
+          } else {            
+            updateStatuses({ initial: RequestStatus.Loading });
           }
 
           const res: IGetGameHistoryResponse = await GameHistoryService.get(uid, state.limit, state.offset);

@@ -110,9 +110,10 @@ export const GameHistory: React.FC<GameHistoryProps> = (props: GameHistoryProps)
       )
     }
   }
-  
+
   const getEmptyMessage = (): JSX.Element => {
     if(
+      state.statuses.stats !== RequestStatus.Loading &&
       state.statuses.initial !== RequestStatus.Loading &&
       state.statuses.more !== RequestStatus.Loading && 
       state.entries.length === 0
