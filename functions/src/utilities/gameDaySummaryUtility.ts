@@ -1,5 +1,6 @@
 import { MatchupUtility } from "./matchupUtility";
 import { PredictionUtility } from "./predictionUtility";
+import { StepTrackerUtility } from "./stepTrackerUtility";
 
 import { IGameDaySummary, IGameDaySummaryPlayerReference } from "../../../stroll-models/gameDaySummary";
 import { IMatchup } from "../../../stroll-models/matchup";
@@ -82,13 +83,13 @@ export const GameDaySummaryUtility: IGameDaySummaryUtility = {
       if(matchup.left.playerID !== "") {
         const update: number = GameDaySummaryUtility.findUpdateForPlayer(matchup.left.playerID, updates);
 
-        matchup.left.steps = matchup.left.steps + update;
+        matchup.left.steps = StepTrackerUtility.mapUpdatedStepCount(matchup.left.steps, update);
       }
 
       if(matchup.right.playerID !== "") {
         const update: number = GameDaySummaryUtility.findUpdateForPlayer(matchup.right.playerID, updates);
 
-        matchup.right.steps = matchup.right.steps + update;
+        matchup.right.steps = StepTrackerUtility.mapUpdatedStepCount(matchup.right.steps, update);
       }
 
       return matchup;
@@ -100,7 +101,7 @@ export const GameDaySummaryUtility: IGameDaySummaryUtility = {
 
       return {
         ...player,
-        steps: player.steps + update
+        steps: StepTrackerUtility.mapUpdatedStepCount(player.steps, update)
       }
     });
   },

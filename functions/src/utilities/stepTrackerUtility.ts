@@ -24,7 +24,10 @@ interface IStepTrackerUtility {
   getStepDataRequestHeaders: (accessToken: string) => any;
   getStepDataRequestUrl: (tracker: StepTracker, startsAt: firebase.firestore.FieldValue, day: number, timezone: string) => string;
   isValidStepTracker: (tracker: StepTracker) => boolean;
+  mapUpdatedStepCount: (currentSteps: number, update: number) => number;
   mapStepsFromResponse: (tracker: StepTracker, data: IGoogleFitStepDataResponse | IFitbitStepDataResponse) => number;
+  restrictStepCountToMaxPerDay: (steps: number) => number;
+  restrictStepCountToMaxPerUpdate: (steps: number) => number;  
 }
 
 export const StepTrackerUtility: IStepTrackerUtility = {
@@ -125,6 +128,9 @@ export const StepTrackerUtility: IStepTrackerUtility = {
         throw new Error(`Unknown step tracker: ${tracker}`);
     }
   },
+  mapUpdatedStepCount: (currentSteps: number, update: number): number => {
+    return StepTrackerUtility.restrictStepCountToMaxPerDay(currentSteps + update);
+  },
   mapStepsFromResponse: (tracker: StepTracker, data: IGoogleFitStepDataResponse | IFitbitStepDataResponse): number => {
     if(tracker === StepTracker.GoogleFit) {
       data = data as IGoogleFitStepDataResponse;
@@ -167,5 +173,11 @@ export const StepTrackerUtility: IStepTrackerUtility = {
     }
 
     throw new Error(`Unknown step tracker: ${tracker}`);
+  },
+  restrictStepCountToMaxPerDay: (steps: number): number => {
+    return Math.min(steps, 150000);
+  },
+  restrictStepCountToMaxPerUpdate: (steps: number): number => {
+    return Math.min(steps, 15000)
   }
 }

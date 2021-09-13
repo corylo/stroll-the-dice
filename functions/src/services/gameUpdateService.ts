@@ -73,8 +73,6 @@ export const GameUpdateService: IGameUpdateService = {
 
     await GameUpdateService.sendGameCompleteNotifications({ ...game, id: gameID });
 
-    await 
-
     logger.info(`Game [${gameID}] is now complete.`);
   },
   handleReferenceFieldChange: async (gameID: string, game: IGame): Promise<void> => {

@@ -148,7 +148,7 @@ export const StepTrackerService: IStepTrackerService = {
       const steps: number = await StepTrackerRequestService.getStepCountUpdate(player.id, startsAt, day);
         
       if(steps > player.steps) {
-        update.steps = steps - player.steps;
+        update.steps = StepTrackerUtility.restrictStepCountToMaxPerUpdate(steps - player.steps);
       }
     } catch (err) {
       logger.error(err);
