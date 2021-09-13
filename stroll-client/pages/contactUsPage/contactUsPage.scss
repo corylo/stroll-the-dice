@@ -1,4 +1,23 @@
 #contact-us-page {
+  .contact-us-section {
+    background-color: rgba(white, 0.03);
+    border: 1px solid rgba(white, 0.2);
+    border-radius: 6px;
+    box-shadow: $shadow1;
+    padding: 20px;
+    
+    &:nth-of-type(n + 2) {
+      margin-top: 20px;
+    }
+
+    .contact-us-email {
+      color: $blue;
+      display: block;
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+  }
+
   .contact-us-info-statement {
     color: white;
     font-size: 1.25em;
@@ -6,9 +25,22 @@
     &:nth-of-type(n + 2) {
       margin-top: 20px;
     }
+  }
+}
 
-    a {
-      color: $green;
+@include medium-phone-or-smaller {
+  #contact-us-page {
+    .contact-us-section {
+      padding: 10px;
+
+      .contact-us-email {
+        font-size: 1.25em;
+        margin-bottom: 10px;
+      }
+    }
+
+    .contact-us-info-statement {
+      font-size: 1em;
     }
   }
 }
