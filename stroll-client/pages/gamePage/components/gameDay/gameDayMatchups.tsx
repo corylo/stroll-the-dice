@@ -53,8 +53,8 @@ export const GameDayMatchups: React.FC<GameDayMatchupsProps> = (props: GameDayMa
 
   return (
     <div className="game-day-matchups">
-      {getMatchups()}
       {getLoadingMessage()}
+      {getMatchups()}
     </div>
   )
 }

@@ -171,15 +171,15 @@
 
 @keyframes spinAndScale {
   from {
-    transform: rotate(0deg);
+    transform: rotate(0deg) scale(0.75);
   }
 
   50% {
-    transform: rotate(720deg) scale(1.5);
+    transform: rotate(720deg) scale(1.25);
   }
 
   to {
-    transform: rotate(1440deg);
+    transform: rotate(1440deg) scale(0.75);
   }
 }
 
