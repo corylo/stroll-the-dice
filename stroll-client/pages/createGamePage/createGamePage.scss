@@ -1,9 +1,32 @@
 #create-game-page {
+  .learn-more-link {
+    background-position: center 70%;
+    margin-bottom: 20px;
+  }
+
   .sign-in-to-do-this-message {    
     .sign-in-to-do-this-message-image-wrapper {
       .sign-in-to-do-this-message-image {
         background-position: center;
         background-size: 60%;
+      }
+    }
+  }
+}
+
+@include phone-or-smaller {
+  #create-game-page {
+    .learn-more-link {
+      .learn-more-link-content {   
+        height: 60px;
+        
+        i {
+          font-size: 1.5em;
+        }
+
+        h1 {
+          font-size: 1.25em;
+        }
       }
     }
   }

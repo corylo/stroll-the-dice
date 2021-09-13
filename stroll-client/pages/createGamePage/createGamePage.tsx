@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { useHistory } from "react-router";
 
 import { GameForm } from "../../components/gameForm/gameForm";
+import { LearnMoreLink } from "../../components/learnMoreLink/learnMoreLink";
 import { Page } from "../../components/page/page";
 import { SignInToDoThisMessage } from "../../components/signInToDoThisMessage/signInToDoThisMessage";
 
@@ -20,15 +21,20 @@ import { IInvite } from "../../../stroll-models/invite";
 import { IPlayer } from "../../../stroll-models/player";
 
 import { AppStatus } from "../../enums/appStatus";
+import { AppAction } from "../../enums/appAction";
+import { HowToPlayID } from "../../enums/howToPlayID";
+import { PageTitle } from "../../components/page/pageTitle";
 
 interface CreateGamePageProps {
   
 }
 
 export const CreateGamePage: React.FC<CreateGamePageProps> = (props: CreateGamePageProps) => {
-  const { appState } = useContext(AppContext);
+  const { appState, dispatchToApp } = useContext(AppContext);
 
   const { user } = appState;
+
+  const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
 
   const history: any = useHistory();
 
@@ -41,11 +47,23 @@ export const CreateGamePage: React.FC<CreateGamePageProps> = (props: CreateGameP
 
     history.push(`/game/${game.id}`);
   }
+  
+  const toggle = (howToPlayID: HowToPlayID): void => {
+    dispatch(AppAction.ToggleHowToPlay, { howToPlay: true, howToPlayID });
+  }
 
   const getContent = (): JSX.Element => {
     if(appState.status === AppStatus.SignedIn) {
       return (
-        <GameForm title="Create Game" forwarding save={save} />
+        <React.Fragment>          
+          <PageTitle text="Create Game" />
+          <LearnMoreLink
+            image={ImageUtility.getGraphic("park", "png")}
+            text="Learn more" 
+            handleOnClick={() => toggle(HowToPlayID.GettingStarted)}
+          />
+          <GameForm forwarding save={save} />
+        </React.Fragment>
       )
     } else {
       return (

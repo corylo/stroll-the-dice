@@ -162,7 +162,7 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = (props: HowToPlayMo
               </HowToPlayModalSection>
             </HowToPlayModalSection>
             <HowToPlayModalSection title="Getting Started" id={HowToPlayID.GettingStarted}>
-              <HowToPlayModalSection title="Please read the prerequisites section before continuing." subsection />
+              <HowToPlayModalSection title="For more info on Game Days, please see the Preqrequisites section." subsection />
               <HowToPlayModalSection title="1. Create a game" subsection>
                 <HowToPlayText text="To create a game, click the 'Create Game' button or + icon on mobile." />
                 <HowToPlayText text="Enter a name for your game, select a duration and start time, and you're ready to go." />
