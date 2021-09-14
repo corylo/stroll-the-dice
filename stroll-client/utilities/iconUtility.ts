@@ -38,6 +38,24 @@ export const IconUtility: IIconUtility = {
         ]);
       case 3:
         return IconUtility.mapIconTier(tierNumber, 5, [
+          Icon.Apple,
+          Icon.CandyCane,
+          Icon.CandyCorn,
+          Icon.Carrot,
+          Icon.CheeseBurger,
+          Icon.Cookie,
+          Icon.Corn,
+          Icon.Fries,
+          Icon.GingerbreadMan,
+          Icon.Hotdog,
+          Icon.IceCream,
+          Icon.Pie,
+          Icon.Pizza,
+          Icon.Popcorn,
+          Icon.Taco
+        ]);
+      case 4:
+        return IconUtility.mapIconTier(tierNumber, 10, [
           Icon.Baseball,
           Icon.Basketball,
           Icon.Bowling,
@@ -46,31 +64,13 @@ export const IconUtility: IIconUtility = {
           Icon.Football,
           Icon.FootballHelmet,
           Icon.Futbol,
+          Icon.Gamepad,
           Icon.GolfBall,
-          Icon.GolfClub,
           Icon.HockeySticks,
           Icon.IceSkate,
           Icon.Quidditch,
           Icon.TableTennis,
           Icon.Volleyball
-        ]);
-      case 4:
-        return IconUtility.mapIconTier(tierNumber, 10, [
-          Icon.Anchor,
-          Icon.Axe,
-          Icon.Binoculars,
-          Icon.BowAndArrow,
-          Icon.Chess,
-          Icon.Drum,
-          Icon.Gamepad,
-          Icon.Guitar,
-          Icon.Headset,
-          Icon.Mace,
-          Icon.PaintBrush,
-          Icon.Puzzle,
-          Icon.Scythe,
-          Icon.Shield,
-          Icon.Swords
         ]);
       case 5:
         return IconUtility.mapIconTier(tierNumber, 30, [
@@ -87,29 +87,29 @@ export const IconUtility: IIconUtility = {
         ]);
       case 6:
         return IconUtility.mapIconTier(tierNumber, 50, [
-          Icon.Biking,
-          Icon.Cowboy,
-          Icon.Detective,
-          Icon.Doctor,
-          Icon.Graduate,
-          Icon.Hiking,
-          Icon.Ninja,
-          Icon.Snowboarding,
-          Icon.Suit,
-          Icon.Swimming
+          Icon.BattleAxe,
+          Icon.BowAndArrow,
+          Icon.Dagger,
+          Icon.HammerWar,
+          Icon.Mace,
+          Icon.Scythe,
+          Icon.Shield,
+          Icon.Staff,
+          Icon.Swords,
+          Icon.Wand
         ]);
       case 7:
         return IconUtility.mapIconTier(tierNumber, 70, [
+          Icon.Alien,
           Icon.AlienMonster,
           Icon.Astronaut,
           Icon.CatSpace,
-          Icon.Drone,
           Icon.PoliceBox,
-          Icon.Raygun,
           Icon.Robot,
           Icon.Rocket,
-          Icon.StarshipFreighter,
-          Icon.Ufo          
+          Icon.StarFighter,
+          Icon.Starship,          
+          Icon.StarshipFreighter
         ]);
       case 8:
         return IconUtility.mapIconTier(tierNumber, 90, [
