@@ -91,8 +91,8 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
         const { color } = side.profile;
 
         const background: string = alignment === MatchupSideAlignment.Left 
-          ? `linear-gradient(to right, rgba(${color}, 0.15), transparent)`
-          : `linear-gradient(to left, rgba(${color}, 0.15), transparent)`;
+          ? `linear-gradient(to right, rgba(${color}, 0.25), transparent)`
+          : `linear-gradient(to left, rgba(${color}, 0.25), transparent)`;
 
         const styles: React.CSSProperties = { background };
 

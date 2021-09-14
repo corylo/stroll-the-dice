@@ -18,11 +18,8 @@ interface MatchupSideStatsProps {
 export const MatchupSideStats: React.FC<MatchupSideStatsProps> = (props: MatchupSideStatsProps) => {  
   const { odds, side } = props;
 
-  const getBorder = (): JSX.Element => <div className="game-matchup-side-stats-border" />;
-
   return (
     <div className="game-matchup-side-stats">
-      {props.alignment === MatchupSideAlignment.Left ? getBorder() : null}
       <div className="game-matchup-side-stats-content">
         <MatchupSideStat 
           alignment={props.alignment}
@@ -52,7 +49,6 @@ export const MatchupSideStats: React.FC<MatchupSideStatsProps> = (props: Matchup
           value={side.total.participants} 
         />
       </div>
-      {props.alignment === MatchupSideAlignment.Right ? getBorder() : null}
     </div>   
   );
 }
