@@ -23,10 +23,9 @@ export const IconSelector: React.FC<IconSelectorProps> = (props: IconSelectorPro
 
   const userLevel: number = PlayerLevelUtility.getLevelByExperience(user.profile.experience);
 
-  const getOptions = (icons: Icon[], minimumLevel: number): JSX.Element[] => {
+  const getOptions = (icons: Icon[], locked: boolean): JSX.Element[] => {
     return icons.map((icon: Icon) => {     
-      const selected: boolean = icon === props.selected,
-        disabled: boolean = userLevel < minimumLevel;
+      const selected: boolean = icon === props.selected;
 
       const getStyles = (): React.CSSProperties => {
         const styles: React.CSSProperties = {};
@@ -46,7 +45,7 @@ export const IconSelector: React.FC<IconSelectorProps> = (props: IconSelectorPro
         <IconButton 
           key={icon}
           className={classNames("icon-selector-option", { selected })}
-          disabled={disabled}
+          disabled={locked}
           icon={icon} 
           styles={getStyles()}
           handleOnClick={() => props.select(icon)} 
@@ -56,11 +55,24 @@ export const IconSelector: React.FC<IconSelectorProps> = (props: IconSelectorPro
   }
 
   const getIconTiers = (): JSX.Element[] => {
-    return IconUtility.getUserIconTiers().map((tier: IIconTier) => {      
+    const getLockOverlay = (locked: boolean): JSX.Element => {
+      if(locked) {
+        return (
+          <div className="icon-selector-tier-lock-overlay">
+            <i className="far fa-lock" />
+          </div>
+        )
+      }
+    }
+
+    return IconUtility.getUserIconTiers().map((tier: IIconTier) => {   
+      const locked: boolean = userLevel < tier.minimumLevel;   
+
       return (
         <div key={tier.tierNumber} className="icon-selector-tier">
           <div className="icon-selector-tier-options">
-            {getOptions(tier.icons, tier.minimumLevel)}
+            {getLockOverlay(locked)}
+            {getOptions(tier.icons, locked)}
           </div>
           <h1 className="icon-selector-tier-label passion-one-font">Tier {tier.tierNumber} (Lvl. {tier.minimumLevel} +)</h1>
         </div>
