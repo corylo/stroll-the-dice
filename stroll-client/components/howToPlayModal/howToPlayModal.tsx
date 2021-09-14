@@ -307,7 +307,8 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = (props: HowToPlayMo
               <HowToPlayModalSection title="2. Leveling Chart" subsection>
                 <HowToPlayText text={[
                   `Levels ${PlayerLevelConstraint.MinimumLevel} - ${PlayerLevelConstraint.MinimumLevelForExponentialXP} are on a linear scale. For every 18,000 XP you earn you will level up once.`,
-                  `For levels ${PlayerLevelConstraint.MinimumLevelForExponentialXP + 1} - ${PlayerLevelConstraint.MaximumLevel} the leveling scale becomes exponential (${PlayerLevelConstraint.Exponential}x multiplier).`
+                  `For levels ${PlayerLevelConstraint.MinimumLevelForExponentialXP + 1} - ${PlayerLevelConstraint.MaximumLevel - 1} the leveling scale becomes exponential (${PlayerLevelConstraint.Exponential}x multiplier).`,
+                  `For the max level of ${PlayerLevelConstraint.MaximumLevel} the experience required is double that of level ${PlayerLevelConstraint.MaximumLevel - 1}.`
                 ]} />
                 <HowToPlayDisplayComponent>
                   <PlayerLevelExperienceTable />

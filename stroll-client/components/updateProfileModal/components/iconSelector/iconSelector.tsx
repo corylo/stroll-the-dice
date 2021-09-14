@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import classNames from "classnames";
 
 import { IconButton } from "../../../../components/buttons/iconButton";
@@ -9,6 +9,8 @@ import { IIconTier } from "../../../../../stroll-models/iconTier";
 
 import { Color } from "../../../../../stroll-enums/color";
 import { Icon } from "../../../../../stroll-enums/icon";
+import { AppContext } from "../../../app/contexts/appContext";
+import { PlayerLevelUtility } from "../../../../utilities/playerLevelUtility";
 
 interface IconSelectorProps {  
   color: Color;
@@ -17,9 +19,14 @@ interface IconSelectorProps {
 }
 
 export const IconSelector: React.FC<IconSelectorProps> = (props: IconSelectorProps) => {  
-  const getOptions = (icons: Icon[]): JSX.Element[] => {
+  const { user } = useContext(AppContext).appState;
+
+  const userLevel: number = PlayerLevelUtility.getLevelByExperience(user.profile.experience);
+
+  const getOptions = (icons: Icon[], minimumLevel: number): JSX.Element[] => {
     return icons.map((icon: Icon) => {     
-      const selected: boolean = icon === props.selected;
+      const selected: boolean = icon === props.selected,
+        disabled: boolean = userLevel < minimumLevel;
 
       const getStyles = (): React.CSSProperties => {
         const styles: React.CSSProperties = {};
@@ -39,6 +46,7 @@ export const IconSelector: React.FC<IconSelectorProps> = (props: IconSelectorPro
         <IconButton 
           key={icon}
           className={classNames("icon-selector-option", { selected })}
+          disabled={disabled}
           icon={icon} 
           styles={getStyles()}
           handleOnClick={() => props.select(icon)} 
@@ -52,7 +60,7 @@ export const IconSelector: React.FC<IconSelectorProps> = (props: IconSelectorPro
       return (
         <div key={tier.tierNumber} className="icon-selector-tier">
           <div className="icon-selector-tier-options">
-            {getOptions(tier.icons)}
+            {getOptions(tier.icons, tier.minimumLevel)}
           </div>
           <h1 className="icon-selector-tier-label passion-one-font">Tier {tier.tierNumber} (Lvl. {tier.minimumLevel} +)</h1>
         </div>
@@ -61,8 +69,10 @@ export const IconSelector: React.FC<IconSelectorProps> = (props: IconSelectorPro
   }
 
   return (
-    <div className="icon-selector scroll-bar">
-      {getIconTiers()}
+    <div className="icon-selector">
+      <div className="icon-selector-tiers scroll-bar">
+        {getIconTiers()}
+      </div>
     </div>
   );
 }

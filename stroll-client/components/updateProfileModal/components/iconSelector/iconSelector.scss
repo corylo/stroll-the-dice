@@ -3,35 +3,48 @@
   border-radius: 6px;  
   padding: 10px;
 
-  .icon-selector-tier {
-    .icon-selector-tier-options {
-      border: 1px solid rgba(white, 0.25);
-      border-radius: 6px;  
-      display: grid;
-      grid-gap: 10px;
-      grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); 
-      padding: 10px;
+  .icon-selector-tiers {
+    max-height: 400px;
+    overflow: auto;
+    padding: 0px 5px;
 
-      .icon-selector-option {
-        &:hover,
-        &:focus,
-        &.selected {
-          background-color: rgba(white, 0.25);
-        }
+    .icon-selector-tier {
+      &:nth-of-type(n + 2) {
+        margin-top: 20px;
+      }
 
-        i {
-          font-size: 1.5em;
-          text-shadow: 0px 0px 2px rgba(black, 0.4);
+      .icon-selector-tier-options {
+        border: 1px solid rgba(white, 0.25);
+        border-radius: 6px;  
+        display: grid;
+        grid-gap: 10px;
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); 
+        padding: 10px;
+
+        .icon-selector-option {
+          &:not(:disabled):hover,
+          &:not(:disabled):focus,
+          &.selected {
+            background-color: rgba(white, 0.25);
+          }
+
+          &:disabled {
+            opacity: 0.4;
+          }
+
+          i {
+            font-size: 1.5em;
+            text-shadow: 0px 0px 2px rgba(black, 0.4);
+          }
         }
       }
-    }
-    
-    .icon-selector-tier-label {
-      color: white;
-      font-size: 0.8em;
-      margin-left: 10px;
-      margin-top: 5px;
-      text-transform: uppercase;
+      
+      .icon-selector-tier-label {
+        color: white;
+        font-size: 1em;
+        margin-left: 10px;
+        margin-top: 5px;
+      }
     }
   }
 }

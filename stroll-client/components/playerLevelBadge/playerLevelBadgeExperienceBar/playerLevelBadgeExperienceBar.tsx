@@ -28,17 +28,7 @@ export const PlayerLevelBadgeExperienceBar: React.FC<PlayerLevelBadgeExperienceB
       const progress: number = PlayerLevelUtility.getNextLevelExperienceProgress(props.experience),
         percentage: number = progress * 100;
 
-      const barBackground: string = `repeating-linear-gradient(
-        135deg, 
-        rgba(${props.color}, 0.90) 25%, 
-        rgba(${props.color}, 0.60) 25%, 
-        rgba(${props.color}, 0.60) 50%, 
-        rgba(${props.color}, 0.90) 50%, 
-        rgba(${props.color}, 0.90) 75%, 
-        rgba(${props.color}, 0.60) 75%
-      )`;
-
-      const bar: React.CSSProperties = { background: barBackground, width: `${percentage}%` },
+      const bar: React.CSSProperties = { width: `${percentage}%` },
         indicator: React.CSSProperties = { left: `${percentage}%`};
 
       setStyles({ bar, indicator });
