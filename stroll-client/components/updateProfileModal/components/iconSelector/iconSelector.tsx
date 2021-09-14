@@ -26,7 +26,7 @@ export const IconSelector: React.FC<IconSelectorProps> = (props: IconSelectorPro
   const getOptions = (icons: Icon[], minimumLevel: number): JSX.Element[] => {
     return icons.map((icon: Icon) => {     
       const selected: boolean = icon === props.selected,
-        disabled: boolean = false && userLevel < minimumLevel;
+        disabled: boolean = userLevel < minimumLevel;
 
       const getStyles = (): React.CSSProperties => {
         const styles: React.CSSProperties = {};
