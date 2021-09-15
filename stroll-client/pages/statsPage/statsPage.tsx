@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 
 import { GameHistory } from "./components/gameHistory/gameHistory";
-import { GameStats } from "./components/gameStats/gameStats";
+import { GameStats } from "../../components/gameStats/gameStats";
 import { Page } from "../../components/page/page";
 import { PlayerLevelBadge } from "../../components/playerLevelBadge/playerLevelBadge";
 import { SignInToDoThisMessage } from "../../components/signInToDoThisMessage/signInToDoThisMessage";
@@ -43,7 +43,7 @@ export const StatsPage: React.FC<StatsPageProps> = (props: StatsPageProps) => {
       return (
         <React.Fragment>
           <PlayerLevelBadge color={profile.color} experience={profile.experience} />
-          <GameStats />
+          <GameStats stats={state.stats} />
           <GameHistory />
         </React.Fragment>
       )

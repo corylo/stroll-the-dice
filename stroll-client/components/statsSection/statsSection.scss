@@ -1,14 +1,14 @@
-.stats-page-section {  
+.stats-section {  
   &:nth-of-type(n + 2) {
     margin-top: 20px;
   }
 
-  .stats-page-section-title {
+  .stats-section-title {
     display: flex;
     justify-content: space-between;
     position: relative;
 
-    .stats-page-section-title-text {
+    .stats-section-title-text {
       color: white;
       font-size: 1.5em;
       text-align: left;
@@ -41,7 +41,7 @@
     }
   }
 
-  .stats-page-section-content {
+  .stats-section-content {
     margin-top: 10px;
     position: relative;
   }

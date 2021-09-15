@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 
-import { PlayerLevelBadge } from "../playerLevelBadge/playerLevelBadge";
 import { ProfileIcon } from "../profileIcon/profileIcon";
 
 import { AppContext } from "../app/contexts/appContext";
@@ -24,13 +23,6 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (props: ProfileHeader
           return (
             <div className="profile-email">
               <h1 className="profile-email-text passion-one-font">{user.email}</h1>
-              {/* <h1 className="profile-email-disclaimer passion-one-font">(only you can see)</h1> */}
-              <PlayerLevelBadge                 
-                clickable
-                color={user.profile.color}
-                experience={user.profile.experience} 
-                miniVerbose 
-              />
             </div>
           )
         }
@@ -38,7 +30,7 @@ export const ProfileHeader: React.FC<ProfileHeaderProps> = (props: ProfileHeader
     
       return (
         <div className="profile-info">
-          <h1 className="profile-username passion-one-font" style={{ color: `rgb(${user.profile.color})` }}>{profile.username}</h1>          
+          <h1 className="profile-username passion-one-font" style={{ color: `rgb(${profile.color})` }}>{profile.username}</h1>          
           {getEmail()}   
         </div>
       )

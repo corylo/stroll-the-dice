@@ -55,10 +55,8 @@
   text-align: center;
   
   &.clickable {
-    &:hover {
-      .player-level-mini-badge {
-        cursor: pointer;
-      }
+    .player-level-mini-badge {
+      text-decoration: none;
     }
   }
 

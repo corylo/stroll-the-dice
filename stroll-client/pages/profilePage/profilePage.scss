@@ -5,3 +5,9 @@
 @import "./components/profilePageSection/profilePageSection.scss";
 @import "./components/stepTrackerConnectionModal/stepTrackerConnectionModal.scss";
 @import "./components/stepTrackerSection/stepTrackerSection.scss";
+
+#profile-page {
+  .player-level-mini-badge-wrapper {
+    margin-top: 10px;
+  }
+}

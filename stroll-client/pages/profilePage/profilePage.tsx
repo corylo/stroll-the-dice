@@ -5,6 +5,7 @@ import { EmailNotificationSettingsSection } from "./components/emailNotification
 import { FriendCodeSection } from "./components/friendCodeSection/friendCodeSection";
 import { GameDaysSection } from "./components/gameDaysSection/gameDaysSection";
 import { Page } from "../../components/page/page";
+import { PlayerLevelBadge } from "../../components/playerLevelBadge/playerLevelBadge";
 import { ProfileHeader } from "../../components/profileHeader/profileHeader";
 import { SignInToDoThisMessage } from "../../components/signInToDoThisMessage/signInToDoThisMessage";
 import { StepTrackerConnectionModal } from "./components/stepTrackerConnectionModal/stepTrackerConnectionModal";
@@ -62,6 +63,12 @@ export const ProfilePage: React.FC<ProfilePageProps> = (props: ProfilePageProps)
       return (
         <React.Fragment>
           <ProfileHeader profile={user.profile} />
+          <PlayerLevelBadge                 
+            clickable
+            color={user.profile.color}
+            experience={user.profile.experience} 
+            miniVerbose 
+          />
           <FriendCodeSection friendID={user.profile.friendID} />
           <StepTrackerSection toggleModal={setToggledTo} />
           <GameDaysSection available={user.stats.gameDays.available} />

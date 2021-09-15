@@ -1,9 +1,9 @@
 import React from "react";
 import classNames from "classnames";
 
-import { Label } from "../../../../components/label/label";
+import { Label } from "../label/label";
 
-import { Icon } from "../../../../../stroll-enums/icon";
+import { Icon } from "../../../stroll-enums/icon";
 
 interface GameStatProps {  
   dailyValue: string;

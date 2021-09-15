@@ -5,7 +5,7 @@ import classNames from "classnames";
 import { Button } from "../../../../components/buttons/button";
 import { EmptyMessage } from "../../../../components/emptyMessage/emptyMessage";
 import { LoadingIcon } from "../../../../components/loadingIcon/loadingIcon";
-import { StatsPageSection } from "../statsPageSection/statsPageSection";
+import { StatsSection } from "../../../../components/statsSection/statsSection";
 import { Table } from "../../../../components/table/table";
 
 import { StatsPageContext } from "../../statsPage";
@@ -122,11 +122,11 @@ export const GameHistory: React.FC<GameHistoryProps> = (props: GameHistoryProps)
   }
 
   return (
-    <StatsPageSection className="game-history" title="Game History">    
+    <StatsSection className="game-history" title="Game History">    
       {getHistoryTable()}
       {getViewMoreButton()}
       {getLoadingIcon()}
       {getEmptyMessage()}
-    </StatsPageSection>
+    </StatsSection>
   );
 }
