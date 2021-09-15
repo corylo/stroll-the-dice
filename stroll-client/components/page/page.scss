@@ -50,11 +50,15 @@
         z-index: 2;
     
         .page-message-content {
-          padding: 40px 10px;
+          background-color: rgba(white, 0.1);
+          border: 1px solid rgba(white, 0.2);
+          border-radius: 6px;
+          box-shadow: $shadow1;
+          padding: 20px;
 
           h1 {
             color: white;
-            font-size: 1.5em;
+            font-size: 1.25em;
             text-align: center;
           }
       

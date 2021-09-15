@@ -59,6 +59,7 @@ export const UserPage: React.FC<UserPageProps> = (props: UserPageProps) => {
       backgroundGraphic=""
       requireAuth
       status={state.status} 
+      errorMessage="Looks like this user does not exist or you do not have access to view their profile!"
     >    
       {getContent()}
     </Page>

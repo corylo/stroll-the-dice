@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import { Route, Switch, useLocation } from "react-router";
+import { Redirect, Route, Switch, useLocation } from "react-router";
 
 import { AdminPage } from "../../pages/adminPage/adminPage";
 import { ContactUsPage } from "../../pages/contactUsPage/contactUsPage";
@@ -104,6 +104,9 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
           </Route>
           <Route exact path="/admin">
             <AdminPage />
+          </Route>
+          <Route path="*">
+            <Redirect to="/" />
           </Route>
         </Switch>
       </div>
