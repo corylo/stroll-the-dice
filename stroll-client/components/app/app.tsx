@@ -5,6 +5,7 @@ import { AdminPage } from "../../pages/adminPage/adminPage";
 import { ContactUsPage } from "../../pages/contactUsPage/contactUsPage";
 import { CookieBanner } from "../cookieBanner/cookieBanner";
 import { CreateGamePage } from "../../pages/createGamePage/createGamePage";
+import { FriendsPage } from "../../pages/friendsPage/friendsPage";
 import { GamePage } from "../../pages/gamePage/gamePage";
 import { GoodbyePage } from "../../pages/goodbyePage/goodbyePage";
 import { HomePage } from "../../pages/homePage/homePage";
@@ -77,6 +78,9 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
           </Route>
           <Route exact path="/u/:id">
             <UserPage />
+          </Route>
+          <Route exact path="/friends">
+            <FriendsPage />
           </Route>
           <Route exact path="/create">
             <CreateGamePage />

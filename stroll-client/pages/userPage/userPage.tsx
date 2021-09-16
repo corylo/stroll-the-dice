@@ -40,7 +40,7 @@ export const UserPage: React.FC<UserPageProps> = (props: UserPageProps) => {
   const getContent = (): JSX.Element => {
     if(state.status === RequestStatus.Success) {
       return (
-        <React.Fragment>
+        <div className="user-page-content">
           <ProfileHeader profile={state.profile} /> 
           <PlayerLevelBadge     
             color={state.profile.color}
@@ -48,7 +48,7 @@ export const UserPage: React.FC<UserPageProps> = (props: UserPageProps) => {
             miniVerbose 
           />
           <GameStats stats={state.stats} />
-        </React.Fragment>
+        </div>
       )
     }
   }

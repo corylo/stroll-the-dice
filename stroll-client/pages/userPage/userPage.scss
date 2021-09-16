@@ -1,5 +1,9 @@
-#user-page {
-  .player-level-mini-badge-wrapper {
-    margin-top: 10px;
+#user-page {  
+  .user-page-content {    
+    animation: fadeIn 400ms ease-in;
+    
+    .player-level-mini-badge-wrapper {
+      margin-top: 10px;
+    }
   }
 }

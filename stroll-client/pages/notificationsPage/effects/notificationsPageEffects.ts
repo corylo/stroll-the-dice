@@ -7,7 +7,6 @@ import { INotificationsPageState, INotificationsPageStatuses } from "../models/n
 
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
 
-
 export const useFetchNotificationsEffect = (
   uid: string,
   state: INotificationsPageState,

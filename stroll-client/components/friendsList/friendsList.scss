@@ -1,0 +1,121 @@
+.friends-list-wrapper {
+  margin-top: 20px;
+
+  .friends-list-title {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+
+    .friends-list-title-text {
+      color: white;
+      font-size: 1.5em;
+      text-align: left;
+      padding-left: 50px;
+      position: relative;
+
+      &:before {
+        background-color: white;
+        border-radius: 10px;
+        content: "";
+        height: 10px;
+        left: 0px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 10px;
+      }
+      
+      &:after {
+        background-color: white;
+        border-radius: 10px;
+        content: "";
+        height: 2px;
+        left: 20px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+      }
+    }
+  }
+
+  .friends-list-content {
+    margin-top: 10px;
+
+    .friends-list {
+      background-color: rgba(white, 0.1);
+      border: 1px solid rgba(white, 0.2);
+      border-radius: 6px;  
+      box-shadow: $shadow1;
+      padding: 10px;
+      margin-top: 10px;
+      padding: 10px;
+      position: relative;
+
+      .friend {
+        position: relative;
+
+        &:nth-of-type(n + 2) {
+          border-top: 1px solid rgba(white, 0.2);
+        }
+
+        .friend-link {
+          background-color: transparent;
+          border-radius: 0px;
+
+          &:hover,
+          &:focus {
+            background-color: rgba(white, 0.1);
+          }
+        }
+
+        .friend-actions {
+          align-items: center;
+          display: flex;
+          height: 100%;
+          gap: 10px;
+          position: absolute;
+          right: 10px;
+          top: 0px;
+          z-index: 2;
+
+          .loading-spinner {
+            align-items: center;
+            display: flex;
+            height: 40px;
+            justify-content: center;
+            position: relative;
+            width: 40px;
+
+            i {
+              animation: spin 2s ease-in-out infinite;  
+              color: white;
+              font-size: 1.5em;
+            }
+          }
+
+          .icon-button {
+            background-color: transparent;
+
+            &:hover,
+            &:focus {
+              background-color: rgba(white, 0.1);
+            }
+
+            i {
+              font-size: 1.25em;
+              height: 40px;
+              line-height: 40px;
+              width: 40px;
+            }
+          }
+        }
+      }
+
+      .loading-more-friends-wrapper {
+        height: 50px;
+        position: relative;
+      }
+    }
+  }
+}

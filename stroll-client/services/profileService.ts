@@ -2,6 +2,8 @@ import firebase from "firebase/app";
 
 import { db } from "../config/firebase";
 
+import { FriendIDService } from "./friendIDService";
+
 import { ErrorUtility } from "../utilities/errorUtility";
 
 import { IProfile, profileConverter } from "../../stroll-models/profile";
@@ -21,6 +23,7 @@ interface IProfileServiceGet {
 interface IProfileService {
   create: (profile: IProfile) => Promise<void>;
   get: IProfileServiceGet;
+  getAllByUID: (uids: string[]) => Promise<IProfile[]>;
   update: (id: string, update: IProfileUpdate) => Promise<void>;
 }
 
@@ -34,21 +37,9 @@ export const ProfileService: IProfileService = {
   get: {
     by: {
       friendID: async (id: string): Promise<IProfile> => {
-        const snap: firebase.firestore.QuerySnapshot = await db.collection("profiles")
-          .where("friendID", "==", id)
-          .withConverter(profileConverter)
-          .get();
+        const uid: string = await FriendIDService.getUIDByFriendID(id);
 
-        let profiles: IProfile[] = [];
-
-        snap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IProfile>) =>
-          profiles.push(doc.data()));
-
-        if(snap.docs.length === 1) {
-          return profiles[0];
-        }
-
-        throw new Error(ErrorUtility.doesNotExist(DocumentType.Profile));
+        return await ProfileService.get.by.uid(uid);
       },
       uid: async (uid: string): Promise<IProfile> => {
         const doc: firebase.firestore.DocumentSnapshot<IProfile> = await db.collection("profiles")
@@ -63,6 +54,19 @@ export const ProfileService: IProfileService = {
         throw new Error(ErrorUtility.doesNotExist(DocumentType.Profile));
       }
     }
+  },
+  getAllByUID: async (uids: string[]): Promise<IProfile[]> => {
+    const snap: firebase.firestore.QuerySnapshot = await db.collection("profiles")
+      .where(firebase.firestore.FieldPath.documentId(), "in", uids)
+      .withConverter(profileConverter)
+      .get();
+
+    let profiles: IProfile[] = [];
+
+    snap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IProfile>) =>
+      profiles.push(doc.data()));
+
+    return profiles;
   },
   update: async (id: string, update: IProfileUpdate): Promise<void> => {
     return await db.collection("profiles")

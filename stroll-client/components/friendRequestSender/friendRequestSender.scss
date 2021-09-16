@@ -1,0 +1,48 @@
+.friend-request-sender {
+  background-color: $themeMainAccent;
+  border-radius: 6px;   
+  box-shadow: $shadow1;
+  padding: 10px;
+
+  &.loading {
+    .friend-code-input-wrapper {
+      .send-friend-request-button {
+        i {
+          animation: spin 2s ease-in-out infinite;  
+        }
+      }
+    }
+  }
+
+  .friend-code-input-wrapper {
+    display: flex;
+    justify-content: space-between;
+
+    .input-wrapper {
+      width: calc(100% - 60px);
+    }
+
+    .send-friend-request-button {
+      height: 50px;
+
+      i {
+        font-size: 1.25em;
+      }
+    }
+  }
+
+  .friend-request-status-message {
+    border-radius: 6px;
+    color: white;
+    margin-top: 10px;
+    padding: 15px 10px;
+
+    &.success {      
+      background-color: rgba($green, 0.8);
+    }
+
+    &.error {      
+      background-color: rgba($red, 0.8);
+    }
+  }
+}

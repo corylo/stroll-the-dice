@@ -1,17 +1,28 @@
 .profile-page-section.friend-code-section {
   .profile-page-section-content {
-    background-color: rgba(white, 0.1);
-    padding: 0px;
-
-    .friend-code {
+    .friend-code-wrapper {
       align-items: center;
+      background-color: rgba(white, 0.1);
+      border: 1px solid rgba(white, 0.5);
+      border-radius: 6px;
       display: flex;
       justify-content: space-between;
       padding: 15px;
 
-      > h1 {
-        color: white;
-        font-size: 2em;
+      .friend-code {
+        .friend-code-value,
+        .friend-code-label {
+          color: white;
+        }
+
+        .friend-code-value {
+          font-size: 2em;
+        }
+        
+        .friend-code-label {
+          font-size: 0.8em;
+          text-transform: uppercase;
+        }
       }
 
       .copy-button {
@@ -20,6 +31,56 @@
           height: 40px;
           line-height: 40px;
           width: 40px;
+        }
+      }
+    }
+
+    .friend-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+
+      .button {
+        flex-grow: 1;
+        text-align: center;
+      }
+    }
+  }
+}
+
+@include medium-phone-or-smaller {
+  .profile-page-section.friend-code-section {
+    .profile-page-section-content {
+      .friend-actions {
+        .button {
+          padding: 10px;
+
+          h1, i {
+            font-size: 1em;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include small-phone-or-smaller {
+  .profile-page-section.friend-code-section {
+    .profile-page-section-content {
+      .friend-actions {
+        .button {
+          display: flex;
+          flex-direction: column;
+          
+          h1, i {
+            font-size: 1em;
+            height: 20px;
+            line-height: 20px;
+          }
+
+          h1 {
+            margin-left: 0px;
+          }
         }
       }
     }
