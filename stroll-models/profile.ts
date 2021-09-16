@@ -4,7 +4,6 @@ import { defaultStepTrackerProfileReference, IStepTrackerProfileReference } from
 
 import { Color } from "../stroll-enums/color";
 import { Icon } from "../stroll-enums/icon";
-import { PlayerLevelConstraint } from "../stroll-enums/playerLevelConstraint";
 
 export interface IProfile {
   color: Color;

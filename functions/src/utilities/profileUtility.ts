@@ -15,6 +15,7 @@ export const ProfileUtility: IProfileUtility = {
     return {
       ...profile,
       color: update.color,
+      experience: update.experience,
       icon: update.icon,
       name: update.name,
       username: update.username
@@ -31,6 +32,7 @@ export const ProfileUtility: IProfileUtility = {
   mapUpdate: (profile: IProfile): IProfileUpdate => {
     return {
       color: profile.color,
+      experience: profile.experience,
       icon: profile.icon,
       name: profile.name,
       username: profile.username

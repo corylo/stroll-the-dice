@@ -3,6 +3,7 @@ import { Icon } from "../stroll-enums/icon";
 
 export interface IProfileUpdate {
   color: Color;
+  experience?: number;
   icon: Icon;
   name: string;
   username: string;
