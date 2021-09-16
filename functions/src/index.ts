@@ -1,6 +1,7 @@
 import { auth, firestore, https, pubsub } from "firebase-functions";
 
 import { AuthService } from "./services/authService";
+import { FriendRequestService } from "./services/friendRequestService";
 import { GameDayTransactionService } from "./services/transaction/gameDayTransactionService";
 import { GameService } from "./services/gameService";
 import { PaymentService } from "./services/paymentService";
@@ -23,6 +24,10 @@ exports.onProfileCreate = firestore
 exports.onProfileUpdate = firestore
   .document("profiles/{id}")
   .onUpdate(ProfileService.onUpdate);
+
+exports.onFriendRequestCreation = firestore
+  .document("profiles/{profileID}/friend_requests/{requestID}")
+  .onCreate(FriendRequestService.onCreate);
 
 exports.onPaymentCreation = firestore
   .document("profiles/{profileID}/payments/{paymentID}")
