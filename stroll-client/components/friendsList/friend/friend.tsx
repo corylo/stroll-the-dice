@@ -1,17 +1,18 @@
 import React, { useContext, useState } from "react";
 
-import { IconButton } from "../buttons/iconButton";
-import { UserLink } from "../userLink/userLink";
+import { IconButton } from "../../buttons/iconButton";
+import { UserLink } from "../../userLink/userLink";
 
-import { AppContext } from "../app/contexts/appContext";
+import { AppContext } from "../../app/contexts/appContext";
 
-import { FriendService } from "../../services/friendService";
+import { FriendService } from "../../../services/friendService";
 
-import { IFriend } from "../../../stroll-models/friend";
+import { IFriend } from "../../../../stroll-models/friend";
 
-import { RequestStatus } from "../../../stroll-enums/requestStatus";
-import { TooltipSide } from "../tooltip/tooltip";
-import { Button } from "../buttons/button";
+import { RequestStatus } from "../../../../stroll-enums/requestStatus";
+import { TooltipSide } from "../../tooltip/tooltip";
+import { Button } from "../../buttons/button";
+import { CopyButton } from "../../copyButton/copyButton";
 
 interface IFriendStateToggles {
   confirmRemoval: boolean;
@@ -60,14 +61,21 @@ export const Friend: React.FC<FriendProps> = (props: FriendProps) => {
       );
     } else if (state.toggles.viewOptions) {  
       return (
-        <React.Fragment>   
+        <div className="friend-actions-modal">
+          <CopyButton
+            key="copy"
+            icon="fal fa-link"
+            tooltip="Friend Code"
+            tooltipSide={TooltipSide.Left}
+            value={props.friend.profile.friendID}
+          />
           <Button className="passion-one-font" handleOnClick={() => updateToggles({ confirmRemoval: true, viewOptions: false })}>
             Delete
           </Button>
           <Button className="passion-one-font" handleOnClick={cancel}>
-            Cancel
+            Close
           </Button>
-        </React.Fragment>
+        </div>
       )
     } else if (state.toggles.confirmRemoval) {
       const remove = async (): Promise<void> => {
@@ -85,28 +93,26 @@ export const Friend: React.FC<FriendProps> = (props: FriendProps) => {
       }
     
       return (
-        <React.Fragment>    
+        <div className="friend-actions-modal">
           <Button className="passion-one-font" handleOnClick={remove}>
             Confirm
           </Button>
           <Button className="passion-one-font" handleOnClick={cancel}>
             Cancel
           </Button>
-        </React.Fragment>
+        </div>
       )
     }
 
     const viewOptions = (): void => updateToggles({ viewOptions: true });
 
     return (
-      <React.Fragment>
-        <IconButton 
-          icon="fal fa-ellipsis-v"
-          tooltip="Options"
-          tooltipSide={TooltipSide.Left}
-          handleOnClick={viewOptions} 
-        />
-      </React.Fragment>
+      <IconButton 
+        icon="fal fa-ellipsis-v"
+        tooltip="Options"
+        tooltipSide={TooltipSide.Left}
+        handleOnClick={viewOptions} 
+      />
     )
   }
 

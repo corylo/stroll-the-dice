@@ -2,12 +2,12 @@ import React from "react";
 
 import { Button } from "../buttons/button";
 import { EmptyMessage } from "../emptyMessage/emptyMessage";
+import { Friend } from "./friend/friend";
 import { LoadingIcon } from "../loadingIcon/loadingIcon";
 
 import { IFriend } from "../../../stroll-models/friend";
 
 import { RequestStatus } from "../../../stroll-enums/requestStatus";
-import { Friend } from "./friend";
 
 interface FriendsListProps {  
   friends: IFriend[];
