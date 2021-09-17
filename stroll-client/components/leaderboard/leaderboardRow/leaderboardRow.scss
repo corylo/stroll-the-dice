@@ -63,7 +63,7 @@
             .user-link-username-wrapper {
               .user-link-username,
               .user-link-name {
-                max-width: 120px;
+                max-width: 140px;
               }
 
               .user-link-username {
@@ -83,12 +83,11 @@
       .leaderboard-row-place-and-player {
         .user-link {
           .user-link-content {
-            .user-link-profile-icon-wrapper {
-              display: none;
-            }
-
             .user-link-username-wrapper {
-              margin-left: 0px;
+              .user-link-username,
+              .user-link-name {
+                max-width: 100px;
+              }
             }
           }
         }
