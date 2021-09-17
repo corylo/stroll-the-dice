@@ -48,23 +48,45 @@
     box-shadow: $shadow1;
     padding: 0px;
     
-    .game-day-history-entry-type {
-      display: flex;
-      gap: 10px;
-
-      i, h1 {        
-        color: white;
+    .game-day-history-entry {
+      &.purchase,
+      &.gift-incoming {
+        .game-day-history-entry-type {
+          background-color: rgba($green, 0.1);
+          border: 1px solid rgba($green, 0.3);
+          border-radius: 6px;
+          padding: 10px;
+        }
       }
 
-      i {
-        text-align: center;
-        width: 20px;
+      &.use,
+      &.gift-outgoing {
+        .game-day-history-entry-type {
+          background-color: rgba($blue, 0.2);
+          border: 1px solid rgba($blue, 0.3);
+          border-radius: 6px;
+          padding: 10px;
+        }
       }
-    }
 
-    .game-day-history-entry-date {
-      h1 {
-        color: white;
+      .game-day-history-entry-type {
+        display: flex;
+        gap: 10px;
+
+        i, h1 {        
+          color: white;
+        }
+
+        i {
+          text-align: center;
+          width: 20px;
+        }
+      }
+
+      .game-day-history-entry-date {
+        h1 {
+          color: white;
+        }
       }
     }
   }

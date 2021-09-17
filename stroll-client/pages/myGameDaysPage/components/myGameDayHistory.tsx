@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import classNames from "classnames";
 
 import { Button } from "../../../components/buttons/button";
 import { EmptyMessage } from "../../../components/emptyMessage/emptyMessage";
@@ -6,9 +7,12 @@ import { LoadingIcon } from "../../../components/loadingIcon/loadingIcon";
 import { MyGameDaysPageContext } from "../myGameDaysPage";
 import { Table } from "../../../components/table/table";
 
+import { AppContext } from "../../../components/app/contexts/appContext";
+
 import { FirestoreDateUtility } from "../../../../stroll-utilities/firestoreDateUtility";
 
 import { IGameDayHistoryEntry } from "../../../../stroll-models/gameDayHistoryEntry/gameDayHistoryEntry";
+import { IGameDayHistoryGiftEntry } from "../../../../stroll-models/gameDayHistoryEntry/gameDayHistoryGiftEntry";
 
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
 import { GameDayHistoryEntryType } from "../../../../stroll-enums/gameDayHistoryEntryType";
@@ -18,17 +22,24 @@ interface MyGameDayHistoryProps {
 }
 
 export const MyGameDayHistory: React.FC<MyGameDayHistoryProps> = (props: MyGameDayHistoryProps) => {  
+  const { appState } = useContext(AppContext);
+
+  const { user } = appState;
+
   const { state, setState } = useContext(MyGameDaysPageContext);
 
   const getHistoryTable = (): JSX.Element => {
     if(state.statuses.initial !== RequestStatus.Loading && state.entries.length > 0) {
-      const getType = (type: GameDayHistoryEntryType): JSX.Element => {
-        switch(type) {
+      const getType = (entry: IGameDayHistoryEntry): JSX.Element => {
+        switch(entry.type) {
           case GameDayHistoryEntryType.Gift:
+            const gift: IGameDayHistoryGiftEntry = entry as IGameDayHistoryGiftEntry,
+              label: string = gift.from !== user.profile.uid ? "Gift From" : "Gift To";
+
             return (
               <div className="game-day-history-entry-type">
                 <i className="fal fa-gift" />
-                <h1>Gift</h1>
+                <h1>{label}</h1>
               </div>
             )
           case GameDayHistoryEntryType.Purchase:
@@ -46,14 +57,28 @@ export const MyGameDayHistory: React.FC<MyGameDayHistoryProps> = (props: MyGameD
               </div>
             )
           default:
-            throw new Error(`Unknown history entry type ${type}`);
+            throw new Error(`Unknown history entry type ${entry.type}`);
+        }
+      }
+
+      const getClassName = (entry: IGameDayHistoryEntry): string => {
+        if(
+          entry.type === GameDayHistoryEntryType.Purchase ||
+          entry.type === GameDayHistoryEntryType.Use
+        ) {
+          return entry.type.toLowerCase();
+        } else if (entry.type === GameDayHistoryEntryType.Gift) {
+          const gift: IGameDayHistoryGiftEntry = entry as IGameDayHistoryGiftEntry,
+            classQualifier: string = gift.from !== user.profile.uid ? "incoming" : "outgoing";
+
+          return `${GameDayHistoryEntryType.Gift.toLowerCase()}-${classQualifier}`;
         }
       }
 
       const entries: JSX.Element[] = state.entries.map((entry: IGameDayHistoryEntry) => (
-        <tr key={entry.id} className="passion-one-font">
+        <tr key={entry.id} className={classNames("game-day-history-entry", getClassName(entry), "passion-one-font")}>
           <td>{entry.quantity.toLocaleString()}</td>
-          <td>{getType(entry.type)}</td>
+          <td>{getType(entry)}</td>
           <td>
             <div className="game-day-history-entry-date">
               <h1>{FirestoreDateUtility.timestampToLocaleDate(entry.occurredAt)}</h1>
