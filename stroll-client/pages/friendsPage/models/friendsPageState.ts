@@ -28,7 +28,7 @@ export const defaultFriendsPageStateSection = (limit?: number): IFriendsPageStat
   end: false,
   items: [],
   index: 0,
-  limit: limit || 10,
+  limit: limit || 20,
   offset: null,
   statuses: defaultFriendsPageSectionStatuses()
 });
