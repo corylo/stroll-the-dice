@@ -1,4 +1,6 @@
-.profile-page-section.game-days-section {
+@import "./components/myGameDayHistory.scss";
+
+#my-game-days-page {  
   .game-days {
     align-items: center;
     background: rgba(white, 0.1);
@@ -19,11 +21,5 @@
         }
       }
     }
-  }
-
-  .go-to-button {
-    margin-top: 10px;
-    text-align: center;
-    width: calc(100% - 42px);
   }
 }

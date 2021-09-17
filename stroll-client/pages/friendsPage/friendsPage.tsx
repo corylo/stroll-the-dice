@@ -4,7 +4,6 @@ import { FriendRequestList } from "../../components/friendRequestList/friendRequ
 import { FriendRequestSender } from "../../components/friendRequestSender/friendRequestSender";
 import { FriendsList } from "../../components/friendsList/friendsList";
 import { Page } from "../../components/page/page";
-import { PageTitle } from "../../components/page/pageTitle";
 import { SignInToDoThisMessage } from "../../components/signInToDoThisMessage/signInToDoThisMessage";
 
 import { AppContext } from "../../components/app/contexts/appContext";

@@ -35,6 +35,7 @@ import { useAuthStateChangedEffect, useGameDaysListenerEffect, useNotificationsL
 import { defaultAppState } from "./models/appState";
 
 import { AppAction } from "../../enums/appAction";
+import { MyGameDaysPage } from "../../pages/myGameDaysPage/myGameDaysPage";
 
 interface AppProps {}
 
@@ -72,6 +73,9 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
           </Route>
           <Route exact path={["/profile", "/profile/connect/:tracker"]}>
             <ProfilePage />
+          </Route>
+          <Route exact path="/profile/game-days">
+            <MyGameDaysPage />
           </Route>
           <Route exact path="/stats">
             <StatsPage />

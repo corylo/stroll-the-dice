@@ -15,7 +15,14 @@ export const GameDaysSection: React.FC<GameDaysSectionProps> = (props: GameDaysS
     <ProfilePageSection className="game-days-section" icon={Icon.OneGameDay} title="My Game Days">
       <h1 className="game-days passion-one-font"><GameDayStatement quantity={props.available} /></h1>
       <Link
-        className="go-to-shop-button button link fancy-button"            
+        className="go-to-button button link fancy-button"            
+        to="/profile/game-days"
+      >
+        <i className="fal fa-history" />
+        <h1 className="passion-one-font">My History</h1>
+      </Link>
+      <Link
+        className="go-to-button button link fancy-button"            
         to="/shop"
       >
         <i className="fal fa-store" />

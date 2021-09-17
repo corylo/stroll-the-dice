@@ -11,7 +11,7 @@ interface IGameDayHistoryUtility {
 
 export const GameDayHistoryUtility: IGameDayHistoryUtility = {  
   mapFromFirestore: (id: string, entry: any): any => {
-    const from: any = GameDayHistoryUtility.mapToFirestore(event);
+    const from: any = GameDayHistoryUtility.mapToFirestore(entry);
     
     from.id = id;
 
