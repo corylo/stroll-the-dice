@@ -38,7 +38,7 @@ export const GameList: React.FC<GameListProps> = (props: GameListProps) => {
       return (
         <Button 
           className="view-all-button passion-one-font" 
-          url={`/games?status=${UrlUtility.format(props.status)}&type=${UrlUtility.format(props.groupBy)}`}
+          url={`/profile/games?status=${UrlUtility.format(props.status)}&type=${UrlUtility.format(props.groupBy)}`}
         >
           View All
         </Button>

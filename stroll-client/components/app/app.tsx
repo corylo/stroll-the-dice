@@ -77,26 +77,26 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
           <Route exact path="/profile/game-days">
             <MyGameDaysPage />
           </Route>
-          <Route exact path="/stats">
+          <Route exact path="/profile/stats">
             <StatsPage />
+          </Route>
+          <Route exact path="/profile/friends">
+            <FriendsPage />
+          </Route>
+          <Route exact path="/profile/notifications">
+            <NotificationsPage />
           </Route>
           <Route exact path="/u/:id">
             <UserPage />
           </Route>
-          <Route exact path="/friends">
-            <FriendsPage />
-          </Route>
           <Route exact path="/create">
             <CreateGamePage />
           </Route>
-          <Route exact path="/games">
+          <Route exact path="/profile/games">
             <MyGamesPage />
           </Route>
           <Route exact path="/game/:id">
             <GamePage />
-          </Route>
-          <Route exact path="/notifications">
-            <NotificationsPage />
           </Route>
           <Route exact path="/shop">
             <ShopPage />

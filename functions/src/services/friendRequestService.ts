@@ -27,7 +27,7 @@ export const FriendRequestService: IFriendRequestService = {
           "Click on this notification to view your friend requests.",
           `${profile.username} has sent you a friend request!`,
           profile.createdAt,
-          "friends"
+          "profile/friends"
         ));
       } catch (err) {
         logger.error(err);

@@ -29,14 +29,14 @@ export const FriendCodeSection: React.FC<FriendCodeSectionProps> = (props: Frien
       <div className="friend-actions">
         <Link
           className="button link fancy-button"            
-          to="/friends"
+          to="/profile/friends"
         >
           <i className="fal fa-user-friends" />
           <h1 className="passion-one-font">View Friends</h1>
         </Link>
         <Link
           className="button link fancy-button"            
-          to="/friends"
+          to="/profile/friends"
         >
           <i className="fal fa-plus" />
           <h1 className="passion-one-font">Add Friend</h1>

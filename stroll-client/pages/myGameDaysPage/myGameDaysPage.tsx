@@ -3,7 +3,6 @@ import React, { createContext, useContext, useState } from "react";
 import { GameDayStatement } from "../../components/gameDayStatement/gameDayStatement";
 import { MyGameDayHistory } from "./components/myGameDayHistory";
 import { Page } from "../../components/page/page";
-import { PageTitle } from "../../components/page/pageTitle";
 import { SignInToDoThisMessage } from "../../components/signInToDoThisMessage/signInToDoThisMessage";
 
 import { AppContext } from "../../components/app/contexts/appContext";
@@ -57,8 +56,7 @@ export const MyGameDaysPage: React.FC<MyGameDaysPageProps> = (props: MyGameDaysP
 
   return(
     <MyGameDaysPageContext.Provider value={{ state, setState }}>
-      <Page id="my-game-days-page" backgroundGraphic="">             
-        <PageTitle text="My Game Days" />
+      <Page id="my-game-days-page" backgroundGraphic="">     
         {getContent()}
       </Page>
     </MyGameDaysPageContext.Provider>
