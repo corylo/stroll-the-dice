@@ -34,12 +34,12 @@ export const MyGameDayHistory: React.FC<MyGameDayHistoryProps> = (props: MyGameD
         switch(entry.type) {
           case GameDayHistoryEntryType.Gift:
             const gift: IGameDayHistoryGiftEntry = entry as IGameDayHistoryGiftEntry,
-              label: string = gift.from !== user.profile.uid ? "Gift From" : "Gift To";
+              outgoing: boolean = gift.to !== user.profile.uid;
 
             return (
               <div className="game-day-history-entry-type">
-                <i className="fal fa-gift" />
-                <h1>{label}</h1>
+                <i className={outgoing ? "fal fa-inbox-out" : "fal fa-inbox-in"} />
+                <h1>Gift</h1>
               </div>
             )
           case GameDayHistoryEntryType.Purchase:
@@ -68,10 +68,9 @@ export const MyGameDayHistory: React.FC<MyGameDayHistoryProps> = (props: MyGameD
         ) {
           return entry.type.toLowerCase();
         } else if (entry.type === GameDayHistoryEntryType.Gift) {
-          const gift: IGameDayHistoryGiftEntry = entry as IGameDayHistoryGiftEntry,
-            classQualifier: string = gift.from !== user.profile.uid ? "incoming" : "outgoing";
+          const gift: IGameDayHistoryGiftEntry = entry as IGameDayHistoryGiftEntry;
 
-          return `${GameDayHistoryEntryType.Gift.toLowerCase()}-${classQualifier}`;
+          return `${GameDayHistoryEntryType.Gift.toLowerCase()}-${gift.to !== user.profile.uid ? "outgoing" : "incoming"}`;
         }
       }
 
