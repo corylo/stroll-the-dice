@@ -39,9 +39,13 @@
     }
   }
 
+  .my-game-day-history-table,
+  .empty-message {
+    margin-top: 10px;
+  }
+
   .my-game-day-history-table {
     box-shadow: $shadow1;
-    margin-top: 10px;
     padding: 0px;
     
     .game-day-history-entry-type {

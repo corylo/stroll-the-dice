@@ -50,8 +50,6 @@ export const MyGameDayHistory: React.FC<MyGameDayHistoryProps> = (props: MyGameD
         }
       }
 
-      console.log(state.entries);
-
       const entries: JSX.Element[] = state.entries.map((entry: IGameDayHistoryEntry) => (
         <tr key={entry.id} className="passion-one-font">
           <td>{entry.quantity.toLocaleString()}</td>
