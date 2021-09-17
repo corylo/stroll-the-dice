@@ -106,7 +106,7 @@ export const Notification: React.FC<NotificationProps> = (props: NotificationPro
     if(isLink) {
       return ( 
         <Link 
-          to={props.notification.url} 
+          to={`/${props.notification.url}`} 
           className="notification-content link"
           onClick={() => handleOnClick(true)}
         >
