@@ -2,14 +2,14 @@ import firebase from "firebase-admin";
 import { EventContext, logger } from "firebase-functions";
 
 import { NotificationBatchService } from "./batch/notificationBatchService";
+import { ProfileService } from "./profileService";
 
 import { NotificationUtility } from "../utilities/notificationUtility";
 
 import { IFriendRequest} from "../../../stroll-models/friendRequest";
+import { IProfile } from "../../../stroll-models/profile";
 
 import { FriendRequestType } from "../../../stroll-enums/friendRequestType";
-import { IProfile } from "../../../stroll-models/profile";
-import { ProfileService } from "./profileService";
 
 interface IFriendRequestService {
   onCreate: (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext) => Promise<void>; 
