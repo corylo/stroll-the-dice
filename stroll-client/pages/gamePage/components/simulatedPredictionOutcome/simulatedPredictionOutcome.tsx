@@ -86,7 +86,10 @@ export const SimulatedPredictionOutcome: React.FC<SimulatedPredictionOutcomeProp
       formulaDenominatorStatement: JSX.Element = <PointStatement amount={leftSideTotal.toLocaleString()} />;
 
     return (
-      <h1 className="formula passion-one-font">{formulaNumeratorStatement} / {formulaDenominatorStatement} =</h1>
+      <React.Fragment>
+        <h1 className="formula-description passion-one-font">Total Wagered On Matchup / Total Wagered On Your Pick</h1>
+        <h1 className="formula passion-one-font">{formulaNumeratorStatement} / {formulaDenominatorStatement} =</h1>
+      </React.Fragment>
     )
   }
 

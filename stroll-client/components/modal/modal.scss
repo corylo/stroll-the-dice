@@ -108,6 +108,25 @@
   }
 }
 
+@include phone-or-larger {
+  .modal-wrapper {  
+    .modal-content-wrapper {     
+      animation: fadeInCenteredX 400ms ease-in;
+      left: 50%;
+      margin: 20px auto;
+      min-width: 500px;
+      transform: translateX(-50%);
+      position: absolute;
+
+      .modal-content {
+        background: $themeMainGradient;
+        border-radius: 10px;
+        box-shadow: $shadow3;
+      }
+    }
+  }
+}
+
 @include phone-or-smaller {
   .modal-wrapper {
     background: $themeMainGradient;
@@ -137,20 +156,16 @@
   }
 }
 
-@include phone-or-larger {
-  .modal-wrapper {  
-    .modal-content-wrapper {     
-      animation: fadeInCenteredX 400ms ease-in;
-      left: 50%;
-      margin: 20px auto;
-      min-width: 500px;
-      transform: translateX(-50%);
-      position: absolute;
-
+@include small-phone-or-smaller {
+  .modal-wrapper {
+    .modal-content-wrapper { 
       .modal-content {
-        background: $themeMainGradient;
-        border-radius: 10px;
-        box-shadow: $shadow3;
+        .modal-title.closeable {           
+          h1 {
+            font-size: 1.75em;
+            line-height: 36px;
+          }
+        }
       }
     }
   }

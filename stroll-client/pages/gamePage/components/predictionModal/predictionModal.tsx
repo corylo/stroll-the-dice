@@ -19,15 +19,17 @@ import { GamePageContext } from "../../gamePage";
 
 import { PredictionService } from "../../../../services/predictionService";
 
+import { DomUtility } from "../../../../utilities/domUtility";
 import { PredictionUtility } from "../../../../utilities/predictionUtility";
 
 import { PredictionValidator } from "../../validators/predictionValidator";
 
-import { defaultMatchup, IMatchup, IMatchupSide } from "../../../../../stroll-models/matchup";
+import { IMatchup, IMatchupSide } from "../../../../../stroll-models/matchup";
 import { defaultMatchupPredictionState, IMatchupPredictionState, IMatchupPredictionStateErrors } from "../../models/matchupPredictionState";
 import { IPrediction } from "../../../../../stroll-models/prediction";
 import { IPredictionUpdate } from "../../../../../stroll-models/predictionUpdate";
 
+import { ElementID } from "../../../../enums/elementId";
 import { FormError } from "../../../../enums/formError";
 import { FormStatus } from "../../../../enums/formStatus";
 
@@ -116,6 +118,8 @@ export const PredictionModal: React.FC<PredictionModalProps> = (props: Predictio
         }
 
         setState({ ...state, status: FormStatus.SubmitSuccess, amount: "" });       
+
+        DomUtility.scrollToBottom(ElementID.PredictionModal);
       } catch (err) {
         console.error(err);
 
