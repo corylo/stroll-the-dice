@@ -77,10 +77,11 @@ export const SimulatedPredictionOutcome: React.FC<SimulatedPredictionOutcomeProp
     return 0;
   }
 
+  const leftSideTotal: number = getFormulaLeftSideTotal(),
+    rightSideTotal: number = getFormulaRightSideTotal(),
+    overallTotal: number = leftSideTotal + rightSideTotal;
+
   const getFormula = (): JSX.Element => {
-    const leftSideTotal: number = getFormulaLeftSideTotal(),
-      rightSideTotal: number = getFormulaRightSideTotal(),
-      overallTotal: number = leftSideTotal + rightSideTotal;
 
     const formulaNumeratorStatement: JSX.Element = <PointStatement amount={overallTotal.toLocaleString()} />,
       formulaDenominatorStatement: JSX.Element = <PointStatement amount={leftSideTotal.toLocaleString()} />;
@@ -91,6 +92,14 @@ export const SimulatedPredictionOutcome: React.FC<SimulatedPredictionOutcomeProp
         <h1 className="formula passion-one-font">{formulaNumeratorStatement} / {formulaDenominatorStatement} =</h1>
       </React.Fragment>
     )
+  }
+
+  const getZeroWinningsText = (): JSX.Element => {
+    if(leftSideTotal === 0 || rightSideTotal === 0) {
+      return (
+        <h1 className="label warning-label passion-one-font">Points can only be won if there are wagers on both sides of a matchup.</h1>
+      )
+    }
   }
 
   return (
@@ -107,6 +116,7 @@ export const SimulatedPredictionOutcome: React.FC<SimulatedPredictionOutcomeProp
           <PointStatement amount={getPointStatementAmount().toLocaleString()} />
         </h1>   
         <h1 className="label passion-one-font">Simulated Winnings</h1>
+        {getZeroWinningsText()}
       </div>
     </div>
   );

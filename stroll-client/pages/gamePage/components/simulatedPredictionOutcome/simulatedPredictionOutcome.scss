@@ -45,6 +45,14 @@
     }
 
     .formula {
+      overflow: hidden;
+    }
+
+    .warning-label {
+      color: $orange;
+    }
+
+    .formula {
       .point-statement {
         &:first-of-type {
           margin-right: 5px;
