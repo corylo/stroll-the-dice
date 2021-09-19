@@ -1,23 +1,54 @@
 .simulated-prediction-outcome-wrapper {
-  .simulated-prediction-outcome {  
+  .simulated-item {  
     background-color: rgba(white, 0.1);
     border: 1px solid rgba(white, 0.3);
-    border-radius: 6px;   
-    color: white; 
+    border-radius: 6px;        
     margin-top: 10px;
     padding: 15px 10px;
-    text-align: left;
+    text-align: left;  
 
-    > span {    
-      color: white; 
+    .value,
+    .label,
+    .formula {
+      color: white;
     }
 
-    .return-ratio-statement {
-      margin-left: 1px;
+    .value,
+    .formula {
+      .point-statement {
+        i, span {
+          color: white;
+        }
+      }
+
+      .return-ratio-statement {
+        span {
+          margin-left: 10px;
+        }
+      }
     }
-  }
-  
-  .warning-message {
-    margin-top: 10px;
+
+    .value {
+      font-size: 2em;
+    }
+
+    .label {
+      font-size: 0.8em;
+      text-transform: uppercase;
+    }
+
+    .formula {
+      margin-bottom: 5px;
+
+      .point-statement {
+        &:first-of-type {
+          margin-right: 5px;
+        }
+        
+        &:nth-of-type(2) {
+          margin-left: 5px;
+        }
+      }
+    }
   }
 }

@@ -1,12 +1,13 @@
 import React from "react";
 
-import { Label } from "../../../../components/label/label";
 import { PointStatement } from "../../../../components/pointStatement/pointStatement";
 import { ReturnRatioStatement } from "../../../../components/returnRatioStatement/returnRatioStatement";
 
 import { MatchupUtility } from "../../../../utilities/matchupUtility";
 
 import { IMatchup } from "../../../../../stroll-models/matchup";
+
+import { MatchupSideAlignment } from "../matchupSide/matchupSide";
 
 interface SimulatedPredictionOutcomeProps {  
   amount: number;
@@ -18,29 +19,92 @@ interface SimulatedPredictionOutcomeProps {
 export const SimulatedPredictionOutcome: React.FC<SimulatedPredictionOutcomeProps> = (props: SimulatedPredictionOutcomeProps) => {     
   const { matchup } = props;
 
-  let odds: number = 0;
-
-  if(matchup.left.playerID === props.playerID) {
-    matchup.left.total.wagered = matchup.left.total.wagered + props.amount;
-
-    odds = MatchupUtility.calculateOdds(matchup.left, matchup.right);
-  } else if(matchup.right.playerID === props.playerID) {
-    matchup.right.total.wagered = matchup.right.total.wagered + props.amount;
-
-    odds = MatchupUtility.calculateOdds(matchup.right, matchup.left);
+  const getAlignment = (): MatchupSideAlignment => { 
+    if(matchup.left.playerID === props.playerID) {
+      return MatchupSideAlignment.Left;
+    } else if(matchup.right.playerID === props.playerID) {
+      return MatchupSideAlignment.Right;
+    }
+    
+    return null;
   }
 
-  const returnRatioStatement: JSX.Element = <ReturnRatioStatement odds={odds} />,
-    payoutStatement: JSX.Element = <PointStatement amount={Math.round((props.currentAmount + props.amount) * odds)} />;
+  const alignment: MatchupSideAlignment = getAlignment();
+
+  const getRatio = (): number => {    
+    if(alignment === MatchupSideAlignment.Left) {
+      matchup.left.total.wagered = matchup.left.total.wagered + props.amount;
+
+      return MatchupUtility.calculateOdds(matchup.left, matchup.right);
+    } else if(alignment === MatchupSideAlignment.Right) {
+      matchup.right.total.wagered = matchup.right.total.wagered + props.amount;
+
+      return MatchupUtility.calculateOdds(matchup.right, matchup.left);
+    }
+
+    return 1;
+  }
+
+  const ratio: number = getRatio();
+
+  const getPointStatementAmount = (): number => {
+    if(props.amount > 0 || props.currentAmount > 0) {
+      const totalAmount: number = props.currentAmount + props.amount;
+
+      return Math.round(totalAmount * ratio) - totalAmount;
+    }
+
+    return 0;
+  }
+
+  const getFormulaLeftSideTotal = (): number => {
+    if(alignment === MatchupSideAlignment.Left) {
+      return matchup.left.total.wagered;
+    } else if (alignment === MatchupSideAlignment.Right) {
+      return matchup.right.total.wagered;
+    }
+    
+    return 0;
+  }
+
+  const getFormulaRightSideTotal = (): number => {
+    if(alignment === MatchupSideAlignment.Left) {
+      return matchup.right.total.wagered;
+    } else if (alignment === MatchupSideAlignment.Right) {
+      return matchup.left.total.wagered;
+    }
+    
+    return 0;
+  }
+
+  const getFormula = (): JSX.Element => {
+    const leftSideTotal: number = getFormulaLeftSideTotal(),
+      rightSideTotal: number = getFormulaRightSideTotal(),
+      overallTotal: number = leftSideTotal + rightSideTotal;
+
+    const formulaNumeratorStatement: JSX.Element = <PointStatement amount={overallTotal.toLocaleString()} />,
+      formulaDenominatorStatement: JSX.Element = <PointStatement amount={leftSideTotal.toLocaleString()} />;
+
+    return (
+      <h1 className="formula passion-one-font">{formulaNumeratorStatement} / {formulaDenominatorStatement} =</h1>
+    )
+  }
 
   return (
     <div className="simulated-prediction-outcome-wrapper">
-      <h1 className="simulated-prediction-outcome passion-one-font">Submitting this prediction will adjust the return ratio to {returnRatioStatement}. If correct, you will receive {payoutStatement} (includes the amount you predicted with).</h1>
-      <Label
-        className="warning-message"
-        icon="fal fa-exclamation-triangle"
-        text="The return ratio will change if more players place predictions."
-      />       
+      <div className="simulated-return-ratio simulated-item">
+        {getFormula()}
+        <h1 className="value passion-one-font">
+          <ReturnRatioStatement ratio={ratio} />
+        </h1>
+        <h1 className="label passion-one-font">Simulated Return Ratio</h1>
+      </div>
+      <div className="simulated-earnings simulated-item">
+        <h1 className="value passion-one-font">
+          <PointStatement amount={getPointStatementAmount().toLocaleString()} />
+        </h1>   
+        <h1 className="label passion-one-font">Simulated Winnings</h1>
+      </div>
     </div>
   );
 }

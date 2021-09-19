@@ -12,6 +12,6 @@ export const PointStatement: React.FC<PointStatementProps> = (props: PointStatem
     : null;
     
   return (
-    <span className="point-statement"><i className={Icon.Points} /> <span>{amount}</span></span>
+    <span className="point-statement"><i className={Icon.Points} /> {amount}</span>
   );
 }

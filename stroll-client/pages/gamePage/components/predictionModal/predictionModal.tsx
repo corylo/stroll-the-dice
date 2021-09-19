@@ -149,19 +149,6 @@ export const PredictionModal: React.FC<PredictionModalProps> = (props: Predictio
     }
   }
 
-  const getSimulatedOutcome = (): JSX.Element => {
-    if(state.amount !== "" && state.playerID !== "") {      
-      return (
-        <SimulatedPredictionOutcome 
-          amount={parseInt(state.amount)} 
-          currentAmount={myPrediction ? myPrediction.amount : 0}
-          matchup={_cloneDeep(matchup)} 
-          playerID={state.playerID}
-        />
-      )
-    }
-  }
-
   const getSelectionButton = (side: IMatchupSide): JSX.Element => {
     const selected: boolean = state.playerID === side.playerID;
     
@@ -214,7 +201,12 @@ export const PredictionModal: React.FC<PredictionModalProps> = (props: Predictio
               {getSelectionButton(matchup.right)}
             </InputWrapper>            
             {getMyPrediction()}
-            {getSimulatedOutcome()}
+            <SimulatedPredictionOutcome 
+              amount={state.amount ? parseInt(state.amount) : 0} 
+              currentAmount={myPrediction ? myPrediction.amount : 0}
+              matchup={_cloneDeep(matchup)} 
+              playerID={state.playerID}
+            />
             <InputWrapper 
               label={`${player.points.available.toLocaleString()} points available`}
               error={state.errors.amount} 
