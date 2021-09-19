@@ -5,7 +5,7 @@ import { db } from "../../../config/firebase";
 
 import { ProfileUtility } from "../../utilities/profileUtility";
 
-import { gameConverter, IGame } from "../../../../stroll-models/game";
+import { IGame } from "../../../../stroll-models/game";
 import { IGameUpdate } from "../../../../stroll-models/gameUpdate";
 import { deletedProfileReference } from "../../../../stroll-models/profileReference";
 import { IProfileUpdate } from "../../../../stroll-models/profileUpdate";
@@ -61,7 +61,8 @@ export const GameBatchService: IGameBatchService = {
   handleInProgress: async (inProgressGamesSnap: firebase.firestore.QuerySnapshot): Promise<void> => {
     const { length } = inProgressGamesSnap.docs;
 
-    let loopIndex: number = 1;
+    let loopIndex: number = 1,
+      requests: any[] = [];
 
     for(let i: number = 0; i < length; i += 500) {
       const min: number = i,
@@ -72,8 +73,10 @@ export const GameBatchService: IGameBatchService = {
 
       const docs: FirebaseFirestore.QueryDocumentSnapshot[] = inProgressGamesSnap.docs.slice(min, max);
       
-      await GameBatchService.handleInProgressLoop(docs);
+      requests.push(GameBatchService.handleInProgressLoop(docs));
     }
+
+    await Promise.all(requests);
   },
   handleInProgressLoop: async (docs: FirebaseFirestore.QueryDocumentSnapshot[]): Promise<void> => {
     const batch: firebase.firestore.WriteBatch = db.batch();
@@ -89,7 +92,8 @@ export const GameBatchService: IGameBatchService = {
   handleInProgressToCompleted: async (completedGamesSnap: firebase.firestore.QuerySnapshot): Promise<void> => {
     const { length } = completedGamesSnap.docs;
 
-    let loopIndex: number = 1;
+    let loopIndex: number = 1,
+      requests: any[] = [];
 
     for(let i: number = 0; i < length; i += 250) {
       const min: number = i,
@@ -100,8 +104,10 @@ export const GameBatchService: IGameBatchService = {
 
       const docs: FirebaseFirestore.QueryDocumentSnapshot[] = completedGamesSnap.docs.slice(min, max);
       
-      await GameBatchService.handleInProgressToCompletedLoop(docs);
+      requests.push(GameBatchService.handleInProgressToCompletedLoop(docs));
     }
+
+    await Promise.all(requests);
   },
   handleInProgressToCompletedLoop: async (docs: FirebaseFirestore.QueryDocumentSnapshot[]): Promise<void> => {
     const batch: firebase.firestore.WriteBatch = db.batch();
@@ -118,7 +124,8 @@ export const GameBatchService: IGameBatchService = {
   handleUpcomingToInProgress: async (upcomingGamesSnap: firebase.firestore.QuerySnapshot): Promise<void> => {
     const { length } = upcomingGamesSnap.docs;
 
-    let loopIndex: number = 1;
+    let loopIndex: number = 1,
+      requests: any[] = [];
 
     for(let i: number = 0; i < length; i += 250) {
       const min: number = i,
@@ -129,8 +136,10 @@ export const GameBatchService: IGameBatchService = {
 
       const docs: FirebaseFirestore.QueryDocumentSnapshot[] = upcomingGamesSnap.docs.slice(min, max);
 
-      await GameBatchService.handleUpcomingToInProgressLoop(docs);
+      requests.push(GameBatchService.handleUpcomingToInProgressLoop(docs));
     }
+
+    await Promise.all(requests);
   },
   handleUpcomingToInProgressLoop: async (docs: FirebaseFirestore.QueryDocumentSnapshot[]): Promise<void> => {
     const batch: firebase.firestore.WriteBatch = db.batch();
