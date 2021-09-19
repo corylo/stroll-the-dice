@@ -179,6 +179,14 @@ export const PredictionModal: React.FC<PredictionModalProps> = (props: Predictio
     )
   }
 
+  const getSubmitButtonText = (): string => {
+    if(props.myPrediction) {
+      return "Add To Prediction";
+    }
+
+    return "Create Prediction";
+  }
+
   return (
     <Modal id="prediction-modal" status={state.status}>
       <ModalTitle text="Predict Matchup" handleOnClose={props.back} />
@@ -199,14 +207,14 @@ export const PredictionModal: React.FC<PredictionModalProps> = (props: Predictio
             >
               {getSelectionButton(matchup.left)}
               {getSelectionButton(matchup.right)}
-            </InputWrapper>            
-            {getMyPrediction()}
+            </InputWrapper>
             <SimulatedPredictionOutcome 
               amount={state.amount ? parseInt(state.amount) : 0} 
               currentAmount={myPrediction ? myPrediction.amount : 0}
               matchup={_cloneDeep(matchup)} 
               playerID={state.playerID}
-            />
+            />            
+            {getMyPrediction()}
             <InputWrapper 
               label={`${player.points.available.toLocaleString()} points available`}
               error={state.errors.amount} 
@@ -229,7 +237,7 @@ export const PredictionModal: React.FC<PredictionModalProps> = (props: Predictio
               disabled={predictionsClosed}
               handleOnClick={submit}
             >
-              Predict!
+              {getSubmitButtonText()}
             </Button>
           </FormActions>
         </Form>          

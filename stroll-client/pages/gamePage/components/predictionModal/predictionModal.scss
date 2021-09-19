@@ -52,6 +52,10 @@
       }
     }
   }
+
+  .submit-button {
+    font-size: 1.5em;
+  }
 }
 
 @include phone-or-larger {
