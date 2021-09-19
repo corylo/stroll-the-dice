@@ -72,6 +72,7 @@ export const Page: React.FC<PageProps> = (props: PageProps) => {
 
   const getFooter = (): JSX.Element => {
     if(
+      !appState.toggles.hideFooter &&
       props.showFooter && 
       appState.status !== AppStatus.Loading
     ) {

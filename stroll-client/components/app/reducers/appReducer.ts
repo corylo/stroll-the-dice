@@ -236,6 +236,14 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
 
       return updates;
     }
+    case AppAction.ToggleHideFooter:
+      return {
+        ...state,
+        toggles: {
+          ...state.toggles,
+          hideFooter: action.payload
+        }
+      }
     case AppAction.ToggleHowToPlay: {
       const updates: IAppState = { ...state };
       

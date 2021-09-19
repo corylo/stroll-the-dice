@@ -13,6 +13,7 @@ import { GameGroupUtility } from "./utilities/gameGroupUtility";
 import { IGameGroup } from "../../../stroll-models/gameGroup";
 import { IGetGamesResponse } from "../../../stroll-models/getGamesResponse";
 
+import { AppAction } from "../../enums/appAction";
 import { AppStatus } from "../../enums/appStatus";
 import { GameStatus } from "../../../stroll-enums/gameStatus";
 import { RequestStatus } from "../../../stroll-enums/requestStatus";
@@ -27,9 +28,11 @@ interface GameFeedProps {
 }
 
 export const GameFeed: React.FC<GameFeedProps> = (props: GameFeedProps) => { 
-  const { appState } = useContext(AppContext);
+  const { appState, dispatchToApp } = useContext(AppContext);
 
   const { user } = appState;
+
+  const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
 
   const [state, setState] = useState<IGameFeedState>({ 
     groups: GameGroupUtility.getInitialGroups(), 
@@ -40,6 +43,8 @@ export const GameFeed: React.FC<GameFeedProps> = (props: GameFeedProps) => {
     if(appState.status === AppStatus.SignedIn) {
       const fetch = async () => {
         try {
+          dispatch(AppAction.ToggleHideFooter, true);
+
           let updates: IGameGroup[] = [];
 
           const requests: any[] = state.groups.map((group: IGameGroup) => 
@@ -52,6 +57,8 @@ export const GameFeed: React.FC<GameFeedProps> = (props: GameFeedProps) => {
           });
 
           setState({ ...state, groups: updates, status: RequestStatus.Success });
+          
+          dispatch(AppAction.ToggleHideFooter, false);
         } catch (err) {
           console.error(err);
         }

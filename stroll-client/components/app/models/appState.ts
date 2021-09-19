@@ -10,7 +10,7 @@ import { CookieStatus } from "../../../enums/cookieStatus";
 
 export interface IAppState {
   analytics: firebase.analytics.Analytics;
-  cookieStatus: CookieStatus;
+  cookieStatus: CookieStatus;  
   status: AppStatus;
   statuses: IAppRequestStatuses;
   toggles: IAppToggles;
@@ -19,7 +19,7 @@ export interface IAppState {
 
 export const defaultAppState = (): IAppState => ({
   analytics: null,
-  cookieStatus: CookieStatus.Loading,
+  cookieStatus: CookieStatus.Loading,  
   status: AppStatus.Loading,
   statuses: defaultAppRequestStatuses(),
   toggles: defaultAppToggles(),
