@@ -18,7 +18,7 @@ export const CreateGameService: ICreateGameService = {
   createGame: async (game: IGame, player: IPlayer, invite: IInvite): Promise<void> => {
     return await db.runTransaction(async (transaction: firebase.firestore.Transaction) => {
       const gameDaysStatsRef: firebase.firestore.DocumentReference = db.collection("profiles")      
-        .doc(game.creator.uid)
+        .doc(game.creatorUID)
         .collection("stats")
         .doc(ProfileStatsID.GameDays);
       
@@ -53,13 +53,13 @@ export const CreateGameService: ICreateGameService = {
           const playerRef: firebase.firestore.DocumentReference = db.collection("games")
             .doc(game.id)
             .collection("players")
-            .doc(game.creator.uid)
+            .doc(game.creatorUID)
             .withConverter(playerConverter);
       
           transaction.set(playerRef, player);  
           
           const gamesStatsRef: firebase.firestore.DocumentReference = db.collection("profiles")      
-            .doc(game.creator.uid)
+            .doc(game.creatorUID)
             .collection("stats")
             .doc(ProfileStatsID.Games);
 

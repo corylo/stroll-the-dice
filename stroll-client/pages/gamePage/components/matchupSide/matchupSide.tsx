@@ -24,13 +24,13 @@ export enum MatchupSideAlignment {
 interface MatchupSideProps {  
   alignment: MatchupSideAlignment;
   matchup: IMatchup;
-  odds: number;
+  ratio: number;
 }
 
 export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps) => {  
   const { day, game } = useContext(GamePageContext).state;
 
-  const { alignment, matchup, odds } = props;
+  const { alignment, matchup, ratio } = props;
   
   const side: IMatchupSide = matchup[alignment];
 
@@ -132,8 +132,10 @@ export const MatchupSide: React.FC<MatchupSideProps> = (props: MatchupSideProps)
           {getName()}
           <MatchupSideStats 
             alignment={props.alignment}
-            odds={odds}
+            favoriteID={matchup.favoriteID}
+            ratio={ratio}
             side={side}
+            spread={matchup.spread}
           />
           {getLeaderLabel()}
         </div>

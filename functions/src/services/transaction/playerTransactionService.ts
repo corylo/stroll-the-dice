@@ -1,5 +1,4 @@
 import firebase from "firebase-admin";
-import { logger } from "firebase-functions";
 
 import { GameEventTransactionService } from "./gameEventTransactionService";
 
@@ -9,7 +8,7 @@ import { GameEventUtility } from "../../utilities/gameEventUtility";
 import { MatchupUtility } from "../../utilities/matchupUtility";
 import { PlayerUtility } from "../../utilities/playerUtility";
 
-import { IMatchup, IMatchupSideTotal } from "../../../../stroll-models/matchup";
+import { IMatchup } from "../../../../stroll-models/matchup";
 import { IPlayer } from "../../../../stroll-models/player";
 import { IPlayerDayCompletedSummary } from "../../../../stroll-models/playerDayCompletedSummary";
 import { IPlayerStepUpdate } from "../../../../stroll-models/playerStepUpdate";
@@ -107,21 +106,18 @@ export const PlayerTransactionService: IPlayerTransactionService = {
     });
   },
   completeDayOneMatchup: (transaction: firebase.firestore.Transaction, matchup: IMatchup, player: IPlayer): void => {    
-    logger.info(`Completing matchup [${matchup.id}] for player [${player.id}] in game [${player.ref.game}].`);
-
     const matchupRef: firebase.firestore.DocumentReference = MatchupUtility.getMatchupRef(player.ref.game, matchup.id);
 
-    const total: IMatchupSideTotal = { participants: 0, wagered: 0 };
-    
+    const leftSideSpread: number = 0,
+      rightSideSpread: number = 0;
+
     transaction.update(matchupRef, { 
-      ["left.total"]: total,
-      ["right.total"]: total,
+      ["left.spread"]: leftSideSpread,
+      ["right.spread"]: rightSideSpread,
       ["right.playerID"]: player.id
     });
   },
   createDayOneMatchup: (transaction: firebase.firestore.Transaction, player: IPlayer): void => {
-    logger.info(`Creating matchup for player [${player.id}] in game [${player.ref.game}].`);
-
     const matchupRef: firebase.firestore.DocumentReference = MatchupUtility.getMatchupRef(player.ref.game);
 
     transaction.set(matchupRef, MatchupUtility.mapCreate(player.id, "", 1));

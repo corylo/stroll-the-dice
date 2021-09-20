@@ -2,13 +2,14 @@ import { FirestoreDateUtility } from "../../stroll-utilities/firestoreDateUtilit
 
 import { IMatchup, IMatchupSide } from "../../stroll-models/matchup";
 import { IPlayer } from "../../stroll-models/player";
+import { defaultProfile } from "../../stroll-models/profile";
+import { defaultProfileReference } from "../../stroll-models/profileReference";
 
 import { Color } from "../../stroll-enums/color";
 import { GameStatus } from "../../stroll-enums/gameStatus";
 import { HowToPlayID } from "../enums/howToPlayID";
 import { Icon } from "../../stroll-enums/icon";
 import { MatchupSideAlignment } from "../pages/gamePage/components/matchupSide/matchupSide";
-import { PlayerLevelConstraint } from "../../stroll-enums/playerLevelConstraint";
 
 interface IHowToPlayUtility {
   getExampleMatchup: () => IMatchup;  
@@ -20,11 +21,14 @@ interface IHowToPlayUtility {
 export const HowToPlayUtility: IHowToPlayUtility = {
   getExampleMatchup: (): IMatchup => {
     return {
-      createdAt: FirestoreDateUtility.dateToTimestamp(new Date),
+      createdAt: FirestoreDateUtility.dateToTimestamp(new Date()),
       day: 1,
+      favoriteID: "",
       id: "",
       left: HowToPlayUtility.getExampleMatchupSide(MatchupSideAlignment.Left),
       right: HowToPlayUtility.getExampleMatchupSide(MatchupSideAlignment.Right),
+      spread: 0,
+      spreadCreatedAt: FirestoreDateUtility.dateToTimestamp(new Date()),
       winner: ""
     }
   },
@@ -33,12 +37,9 @@ export const HowToPlayUtility: IHowToPlayUtility = {
       return {
         playerID: "123",
         profile: {
+          ...defaultProfileReference(),
           color: Color.Orange2,
-          deletedAt: null,
-          experience: 0,
-          friendID: "",
           icon: Icon.Dog,
-          name: "",
           uid: "123",
           username: "Player 1"
         },
@@ -53,12 +54,9 @@ export const HowToPlayUtility: IHowToPlayUtility = {
     return {
       playerID: "234",
       profile: {
+        ...defaultProfileReference(),
         color: Color.Yellow1,
-        deletedAt: null,
-        experience: 0,
-        friendID: "",
         icon: Icon.Squirrel,
-        name: "",
         uid: "234",
         username: "Player 2"
       },
@@ -80,13 +78,9 @@ export const HowToPlayUtility: IHowToPlayUtility = {
         total: 1000
       },
       profile: {
+        ...defaultProfile(),
         color: Color.Purple1,
-        deletedAt: null,
-        experience: 0,
-        friendID: "",
         icon: Icon.Rudolph,
-        name: "",
-        uid: "",
         username: "Player 1"
       },
       ref: {

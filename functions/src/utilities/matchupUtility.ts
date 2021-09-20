@@ -190,6 +190,7 @@ export const MatchupUtility: IMatchupUtility = {
     return {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       day,
+      favoriteID: "",
       id: Nano.generate(22),
       left: {
         playerID: leftPlayerID,
@@ -201,6 +202,8 @@ export const MatchupUtility: IMatchupUtility = {
         steps: 0,
         total: defaultMatchupSideTotal()
       },
+      spread: 0,
+      spreadCreatedAt: null,
       winner: ""
     }
   },

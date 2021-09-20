@@ -23,7 +23,7 @@ export const ConnectAStepTrackerMessage: React.FC<ConnectAStepTrackerMessageProp
             <ConnectAStepTrackerItem tracker={StepTracker.GoogleFit} />
             <ConnectAStepTrackerItem tracker={StepTracker.Fitbit} />
           </div>
-          <h1 className="connect-a-step-tracker-message-label passion-one-font">Looks like you need to connect a step tracker!</h1>
+          <h1 className="connect-a-step-tracker-message-label passion-one-font">Looks like you need to connect a step tracker</h1>
         </div>
       </div>
     );

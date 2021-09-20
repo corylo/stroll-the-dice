@@ -1,8 +1,6 @@
 import { auth, logger } from "firebase-functions";
 
 import { FriendIDService } from "./friendIDService";
-import { GameBatchService } from "./batch/gameBatchService";
-import { PlayerBatchService } from "./batch/playerBatchService";
 import { ProfileBatchService } from "./batch/profileBatchService";
 import { StepTrackerService } from "./stepTrackerService";
 
@@ -18,22 +16,6 @@ export const AuthService: IAuthService = {
       logger.error(err);
 
       logger.error(`Unable to delete profile for user: [${user.uid}].`);
-    }
-
-    try {
-      await GameBatchService.deleteCreatorFromAllGames(user.uid);
-    } catch(err) {
-      logger.error(err);
-
-      logger.error(`Unable to delete creator from all games for user: [${user.uid}].`);
-    }
-
-    try {
-      await PlayerBatchService.deletePlayerFromAllGames(user.uid);
-    } catch(err) {
-      logger.error(err);
-
-      logger.error(`Unable to delete player from all games for user: [${user.uid}].`);
     }
 
     try {

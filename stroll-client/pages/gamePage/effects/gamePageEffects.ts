@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import { InviteService } from "../../../services/inviteService";
+import { ProfileService } from "../../../services/profileService";
 
 import { GameDurationUtility } from "../../../../stroll-utilities/gameDurationUtility";
 import { InviteUtility } from "../../../utilities/inviteUtility";
@@ -11,6 +12,7 @@ import { UrlUtility } from "../../../utilities/urlUtility";
 import { IAppState } from "../../../components/app/models/appState";
 import { IGamePageState } from "../models/gamePageState";
 import { IInvite } from "../../../../stroll-models/invite";
+import { IProfile } from "../../../../stroll-models/profile";
 
 import { AppAction } from "../../../enums/appAction";
 import { AppStatus } from "../../../enums/appStatus";
@@ -52,11 +54,12 @@ export const useGameInviteEffect = (
         dispatch(AppAction.ToggleAcceptInvite, true);
       } else if (showInvite) {
         try {
-          const invite: IInvite = await InviteService.get.by.id(state.game, inviteID);
+          const invite: IInvite = await InviteService.get.by.id(state.game, inviteID),
+            creator: IProfile = await ProfileService.get.by.uid(state.game.creatorUID);
 
           dispatch(AppAction.ToggleAcceptInvite, true);
 
-          setState({ ...state, invite });
+          setState({ ...state, creator, invite });
         } catch (err) {
           console.error(err);
         }

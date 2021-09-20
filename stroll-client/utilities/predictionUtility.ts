@@ -28,7 +28,7 @@ export const PredictionUtility: IPredictionUtility = {
     return predictions.find((prediction: IPrediction) => prediction.ref.matchup === matchupID && prediction.id === creatorID) || null;
   },
   getPayoutAmount: (amount: number, matchup: IMatchup): number => {
-    return Math.round(amount * MatchupUtility.getWinnerOdds(matchup));
+    return Math.round(amount * MatchupUtility.getWinnerRatio(matchup));
   },
   getPredictionsCloseAt: (matchup: IMatchup, startsAt: firebase.firestore.FieldValue): firebase.firestore.FieldValue => {
     const daysAsMillis: number = FirestoreDateUtility.daysToMillis(matchup.day - 1),

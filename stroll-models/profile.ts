@@ -38,17 +38,21 @@ export const deletedProfile = (
   uid: string,
   updatedAt: firebase.firestore.FieldValue
 ): IProfile => ({
+  ...defaultProfile(),
   color: Color.White,
   createdAt,
-  deletedAt: null,
-  experience: 0,
-  friendID: "",
   icon: Icon.UserDeleted,
   name: "Deleted",
-  tracker: defaultStepTrackerProfileReference(),
   uid,
   updatedAt,
   username: "Deleted"
+});
+
+export const placeholderProfile = (): IProfile => ({
+  ...defaultProfile(),
+  color: Color.White,
+  icon: Icon.User,
+  username: " ... "
 });
 
 export const profileConverter: any = {

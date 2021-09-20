@@ -89,7 +89,7 @@ export const AcceptInviteModal: React.FC<AcceptInviteModalProps> = (props: Accep
             <FormBody>
               <FormBodySection className="accept-invite-details-section">
                 <div className="accept-invite-details-header">
-                  <PlayerStatement profile={state.game.creator} />
+                  <PlayerStatement profile={state.creator} />
                   <GameDateStatus game={state.game} />
                 </div>
                 <div className="accept-invite-details-body">

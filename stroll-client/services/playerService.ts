@@ -2,16 +2,17 @@ import firebase from "firebase/app";
 
 import { db } from "../config/firebase";
 
+import { ProfileService } from "./profileService";
+
 import { ErrorUtility } from "../utilities/errorUtility";
 
 import { IGame } from "../../stroll-models/game";
 import { IPlayer, playerConverter } from "../../stroll-models/player";
+import { IProfile } from "../../stroll-models/profile";
 
 import { DocumentType } from "../../stroll-enums/documentType";
-import { FirebaseErrorCode } from "../../stroll-enums/firebaseErrorCode";
 
 interface IPlayerServiceGetBy {
-  game: (id: string) => Promise<IPlayer[]>;
   id: (gameID: string, id: string) => Promise<IPlayer>;  
 }
 
@@ -22,6 +23,7 @@ interface IPlayerServiceGet {
 interface IPlayerService {
   create: (game: IGame, player: IPlayer) => Promise<void>;
   get: IPlayerServiceGet;
+  getProfiles: (players: IPlayer[]) => Promise<IPlayer[]>;
 }
 
 export const PlayerService: IPlayerService = {
@@ -35,29 +37,6 @@ export const PlayerService: IPlayerService = {
   },
   get: {
     by: {
-      game: async (id: string): Promise<IPlayer[]> => {
-        try {
-          const snap: firebase.firestore.QuerySnapshot = await db.collection("games")
-            .doc(id)
-            .collection("players")
-            .orderBy("profile.username")
-            .withConverter(playerConverter)
-            .get();
-      
-          let players: IPlayer[] = [];
-      
-          snap.docs.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>) => 
-            players.push(doc.data()));
-          
-          return players;
-        } catch (err) {
-          if(err.code === FirebaseErrorCode.PermissionDenied) {
-            return [];
-          }
-
-          throw err;
-        }
-      },
       id: async (gameID: string, id: string): Promise<IPlayer> => {
         try {
           const doc: firebase.firestore.DocumentSnapshot<IPlayer> = await db.collection("games")
@@ -77,5 +56,18 @@ export const PlayerService: IPlayerService = {
         }
       }
     }
+  },
+  getProfiles: async (players: IPlayer[]): Promise<IPlayer[]> => {
+    const profiles: IProfile[] = await ProfileService.getAllByUIDIndividually(players.map((player: IPlayer) => player.id));
+
+    return players.map((player: IPlayer) => {
+      const match: IProfile = profiles.find((profile: IProfile) => profile.uid === player.id);
+
+      if(match) {
+        player.profile = match;
+      }
+
+      return player;
+    });
   }
 }

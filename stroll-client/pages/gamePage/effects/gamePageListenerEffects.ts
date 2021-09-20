@@ -40,6 +40,12 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
     if(players.length > 0) {
       updates.players = players;
 
+      const creator: IPlayer = PlayerUtility.getById(game.creatorUID, players);
+
+      if(creator) {
+        updates.creator = creator.profile;
+      }
+
       if(updates.statuses.players === RequestStatus.Loading) {
         updates.statuses.players = RequestStatus.Success;
       }
@@ -125,7 +131,6 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
       const unsubToPlayers = db.collection("games")
         .doc(state.game.id)
         .collection("players")
-        .orderBy("profile.username")
         .withConverter(playerConverter)
         .onSnapshot((snap: firebase.firestore.QuerySnapshot) => {
           let updates: IPlayer[] = [];
@@ -133,7 +138,7 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
           snap.forEach((doc: firebase.firestore.QueryDocumentSnapshot<IPlayer>) =>
             updates.push(doc.data()));
 
-          setPlayers(updates);
+          setPlayers(PlayerUtility.mapPlaceholderProfiles(updates));
         });
 
       return () => {
@@ -141,4 +146,25 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
       }
     }
   }, [state.game.id, state.statuses.player]);
+
+  useEffect(() => {
+    if(players.length > 0) {
+      const update = async (): Promise<void> => {
+        const filterPlayers = (): IPlayer[] => {
+          return players.filter((player: IPlayer) => 
+            PlayerUtility.getById(player.id, state.players).id === "");
+        }
+        
+        const filteredPlayers: IPlayer[] = filterPlayers();
+
+        if(filteredPlayers.length > 0) {
+          const updatedPlayers: IPlayer[] = await PlayerService.getProfiles(filteredPlayers);
+          
+          setPlayers(updatedPlayers);
+        }
+      }
+
+      update();
+    }
+  }, [state.players, players]);
 }

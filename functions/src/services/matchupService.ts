@@ -1,14 +1,35 @@
 import firebase from "firebase-admin";
+import { Change, EventContext, logger } from "firebase-functions";
 
 import { db } from "../../config/firebase";
 
+import { ProfileStatsService } from "./profileStatsService";
+
 import { IMatchup, matchupConverter } from "../../../stroll-models/matchup";
+import { IMatchupSpread } from "../../../stroll-models/matchupSpread";
+import { IProfileGamesStats } from "../../../stroll-models/profileStats";
+
+import { ProfileStatsID } from "../../../stroll-enums/profileStatsID";
 
 interface IMatchupService {
+  createSpread: (gameID: string, matchupID: string,  spread: IMatchupSpread) => Promise<void>;
   getByGameAndDay: (id: string, day: number) => Promise<IMatchup[]>;
+  getSpread: (leftUID: string, rightUID: string) => Promise<IMatchupSpread>;
+  onUpdate: (change: Change<firebase.firestore.QueryDocumentSnapshot<IMatchup>>, context: EventContext) => Promise<void>;  
 }
 
 export const MatchupService: IMatchupService = {
+  createSpread: async (gameID: string, matchupID: string, spread: IMatchupSpread): Promise<void> => {
+    await db.collection("games")
+      .doc(gameID)
+      .collection("matchups")
+      .doc(matchupID)
+      .update({ 
+        favoriteID: spread.favoriteID, 
+        spread: spread.amount,
+        spreadCreatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+  },
   getByGameAndDay: async (id: string, day: number): Promise<IMatchup[]> => {    
     const snap: firebase.firestore.QuerySnapshot = await db.collection("games")
       .doc(id)
@@ -24,5 +45,36 @@ export const MatchupService: IMatchupService = {
       matchups.push(doc.data()));
     
     return matchups;
+  },
+  getSpread: async (leftUID: string, rightUID: string): Promise<IMatchupSpread> => {
+    const leftProfileGameStats: IProfileGamesStats = await ProfileStatsService.getByUID(leftUID, ProfileStatsID.Games) as IProfileGamesStats,
+      rightProfileGameStats: IProfileGamesStats = await ProfileStatsService.getByUID(leftUID, ProfileStatsID.Games) as IProfileGamesStats;
+
+    const leftDailyValue: number = Math.round(leftProfileGameStats.steps / leftProfileGameStats.daysPlayed),
+      rightDailyValue: number = Math.round(rightProfileGameStats.steps / rightProfileGameStats.daysPlayed);
+
+    const amount: number = Math.abs(leftDailyValue - rightDailyValue),
+      favoriteUID: string = rightDailyValue > leftDailyValue ? rightUID : leftUID;
+
+    return {
+      amount,
+      favoriteID: favoriteUID 
+    }
+  },
+  onUpdate: async (change: Change<firebase.firestore.QueryDocumentSnapshot<IMatchup>>, context: EventContext): Promise<void> => {
+    const before: IMatchup = change.before.data(),
+      after: IMatchup = change.after.data();
+
+    if(before.right.playerID === "" && after.right.playerID !== "") {
+      try {
+        const { left, right } = after;
+
+        const spread: IMatchupSpread = await MatchupService.getSpread(left.playerID, right.playerID);
+
+        await MatchupService.createSpread(context.params.gameID, context.params.matchupID, spread);
+      } catch (err) {
+        logger.error(err);
+      }
+    }
   }
 }

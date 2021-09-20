@@ -1,8 +1,12 @@
 import React from "react";
+import classNames from "classnames";
+
+import { UrlUtility } from "../../../../utilities/urlUtility";
 
 import { AnimatedCounter } from "../../../../components/animatedCounter/animatedCounter";
 import { Label } from "../../../../components/label/label";
 import { MatchupSideAlignment } from "../matchupSide/matchupSide";
+
 import { TooltipSide } from "../../../../components/tooltip/tooltip";
 
 interface MatchupSideStatProps {  
@@ -16,7 +20,7 @@ interface MatchupSideStatProps {
 export const MatchupSideStat: React.FC<MatchupSideStatProps> = (props: MatchupSideStatProps) => {      
   if(props.alignment === MatchupSideAlignment.Left) {
     return (
-      <div className="game-matchup-side-stat">
+      <div className={classNames("game-matchup-side-stat", UrlUtility.format(props.tooltip))}>      
         <Label icon={props.icon} tooltip={props.tooltip} />      
         <AnimatedCounter 
           initialValue={props.value} 
@@ -28,7 +32,7 @@ export const MatchupSideStat: React.FC<MatchupSideStatProps> = (props: MatchupSi
   }
   
   return (
-    <div className="game-matchup-side-stat">      
+    <div className={classNames("game-matchup-side-stat", UrlUtility.format(props.tooltip))}>      
       <AnimatedCounter 
         initialValue={props.value} 
         value={props.value} 

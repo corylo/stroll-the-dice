@@ -65,13 +65,13 @@ export const PlayerService: IPlayerService = {
 
           PlayerTransactionService.handleMatchup(transaction, matchupSnap, player);
 
-          const playerCreatedAt: firebase.firestore.FieldValue = player.id === game.creator.uid
+          const playerCreatedAt: firebase.firestore.FieldValue = player.id === game.creatorUID
             ? FirestoreDateUtility.addMillis(game.createdAt, 1000)
             : player.createdAt;
 
           GameEventTransactionService.create(transaction, game.id, GameEventUtility.mapPlayerCreatedEvent(playerCreatedAt, player.id));
 
-          const playerID: string = game.enableGiftDaysForJoiningPlayers && player.ref.acceptedGiftDays ? game.creator.uid : player.id;
+          const playerID: string = game.enableGiftDaysForJoiningPlayers && player.ref.acceptedGiftDays ? game.creatorUID : player.id;
 
           const entry: IGameDayHistoryUseEntry = GameDayHistoryUtility.mapGameDayHistoryUseEntry(
             player.createdAt,

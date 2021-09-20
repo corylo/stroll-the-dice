@@ -11,6 +11,7 @@ import { ProfileService } from "./services/profileService";
 import { ScheduleService } from "./services/scheduleService";
 import { StepTrackerService } from "./services/stepTrackerService";
 import { StripeService } from "./services/stripeService";
+import { MatchupService } from "./services/matchupService";
 
 exports.onAuthUserDelete = auth.user()
   .onDelete(AuthService.onAuthUserDelete);
@@ -20,10 +21,6 @@ exports.onAuthUserDelete = auth.user()
 exports.onProfileCreate = firestore
   .document("profiles/{id}")
   .onCreate(ProfileService.onCreate);
-
-exports.onProfileUpdate = firestore
-  .document("profiles/{id}")
-  .onUpdate(ProfileService.onUpdate);
 
 exports.onFriendRequestCreation = firestore
   .document("profiles/{profileID}/friend_requests/{requestID}")
@@ -52,6 +49,10 @@ exports.onPlayerCreate = firestore
 exports.onPlayerUpdate = firestore
   .document("games/{gameID}/players/{id}")
   .onUpdate(PlayerService.onUpdate);
+
+exports.onMatchupUpdate = firestore
+  .document("games/{gameID}/matchups/{matchupID}")
+  .onUpdate(MatchupService.onUpdate);
   
 exports.onPredictionCreate = firestore
   .document("games/{gameID}/matchups/{matchupID}/predictions/{id}")

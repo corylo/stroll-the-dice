@@ -1,6 +1,7 @@
 import { defaultGame, IGame } from "../../../../stroll-models/game";
 import { IInvite } from "../../../../stroll-models/invite";
 import { defaultPlayer, IPlayer } from "../../../../stroll-models/player";
+import { IProfile, placeholderProfile } from "../../../../stroll-models/profile";
 
 import { PlayerStatus } from "../../../../stroll-enums/playerStatus";
 import { RequestStatus } from "../../../../stroll-enums/requestStatus";
@@ -32,6 +33,7 @@ export const defaultGamePageStateToggles = (): IGamePageStateToggles => ({
 });
 
 export interface IGamePageState {
+  creator: IProfile;
   day: number;
   game: IGame;
   invite: IInvite;
@@ -43,6 +45,7 @@ export interface IGamePageState {
 }
 
 export const defaultGamePageState = (): IGamePageState => ({ 
+  creator: placeholderProfile(),
   day: 0,
   game: defaultGame(),
   invite: null,

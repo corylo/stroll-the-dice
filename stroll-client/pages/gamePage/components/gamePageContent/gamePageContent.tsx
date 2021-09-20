@@ -25,13 +25,15 @@ import { GamePageContext } from "../../gamePage";
 import { FirestoreDateUtility } from "../../../../../stroll-utilities/firestoreDateUtility";
 import { RoleUtility } from "../../../../../stroll-utilities/roleUtility";
 
+import { IPlayer } from "../../../../../stroll-models/player";
+import { IProfile, placeholderProfile } from "../../../../../stroll-models/profile";
+
 import { AppAction } from "../../../../enums/appAction";
 import { AppStatus } from "../../../../enums/appStatus";
 import { GameError } from "../../../../../stroll-enums/gameError";
 import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 import { PlayerStatus } from "../../../../../stroll-enums/playerStatus";
 import { RequestStatus } from "../../../../../stroll-enums/requestStatus";
-import { Role } from "../../../../../stroll-enums/role";
 
 interface GamePageContentProps {
   
@@ -177,7 +179,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
     return (
       <div className="game-page-content">
         <div className="game-page-header">
-          <PlayerStatement profile={game.creator} />
+          <PlayerStatement profile={state.creator} />
           <GameDateStatus game={game} />
         </div>
         <div className="game-page-body">

@@ -39,11 +39,11 @@ export const GameActions: React.FC<GameActionsProps> = (props: GameActionsProps)
       )
     }
 
-    if(game.creator.uid === appState.user.profile.uid) {
+    if(game.creatorUID === appState.user.profile.uid) {
       actions.push(
         <UpdateGameButton 
           key="update"
-          creator={game.creator} 
+          creatorUID={game.creatorUID} 
           toggle={props.toggleUpdate} 
         />
       );

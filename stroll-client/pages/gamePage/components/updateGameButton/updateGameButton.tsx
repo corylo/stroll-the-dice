@@ -4,21 +4,19 @@ import { IconButton } from "../../../../components/buttons/iconButton";
 
 import { AppContext } from "../../../../components/app/contexts/appContext";
 
-import { IProfileReference } from "../../../../../stroll-models/profileReference";
-
 import { AppStatus } from "../../../../enums/appStatus";
 
 interface UpdateGameButtonProps {  
-  creator: IProfileReference;
+  creatorUID: string;
   toggle: () => void;
 }
 
 export const UpdateGameButton: React.FC<UpdateGameButtonProps> = (props: UpdateGameButtonProps) => {  
   const { appState } = useContext(AppContext);
 
-  const { creator, toggle } = props;
+  const { creatorUID, toggle } = props;
 
-  if(appState.status === AppStatus.SignedIn && creator.uid === appState.user.profile.uid) {
+  if(appState.status === AppStatus.SignedIn && creatorUID === appState.user.profile.uid) {
     return (
       <IconButton
         className="game-action-button"

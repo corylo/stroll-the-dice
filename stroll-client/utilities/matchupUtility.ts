@@ -6,18 +6,18 @@ import { IPlayer } from "../../stroll-models/player";
 import { MatchupLeader } from "../../stroll-enums/matchupLeader";
 
 interface IMatchupUtility {  
-  calculateOdds: (left: IMatchupSide, right: IMatchupSide) => number;      
+  calculateRatio: (left: IMatchupSide, right: IMatchupSide) => number;      
   getByPlayer: (playerID: string, matchups: IMatchup[]) => IMatchup;
   getLeader: (matchup: IMatchup) => string;
   getPlayerSteps: (playerID: string, matchup: IMatchup) => number;
-  getWinnerOdds: (matchup: IMatchup) => number;
+  getWinnerRatio: (matchup: IMatchup) => number;
   mapProfilesToMatchup: (matchup: IMatchup, players: IPlayer[]) => IMatchup;
   mapProfilesToMatchups: (matchups: IMatchup[], players: IPlayer[]) => IMatchup[];
   playerIsInMatchup: (player: IPlayer, matchup: IMatchup) => boolean;
 }
 
 export const MatchupUtility: IMatchupUtility = {
-  calculateOdds: (left: IMatchupSide, right: IMatchupSide): number => {
+  calculateRatio: (left: IMatchupSide, right: IMatchupSide): number => {
     if(left.total.wagered !== 0 && right.total.wagered !== 0) {
       return (left.total.wagered + right.total.wagered) / left.total.wagered;
     }
@@ -49,11 +49,11 @@ export const MatchupUtility: IMatchupUtility = {
 
     throw new Error(`Player [${playerID}] not found in matchup [${matchup.id}]. Left was [${matchup.left.playerID}], right was [${matchup.right.playerID}]`);
   },
-  getWinnerOdds: (matchup: IMatchup): number => {
+  getWinnerRatio: (matchup: IMatchup): number => {
     if(matchup.winner !== "" && matchup.winner !== MatchupLeader.Tie) {
       return matchup.winner === matchup.left.playerID
-        ? MatchupUtility.calculateOdds(matchup.left, matchup.right)
-        : MatchupUtility.calculateOdds(matchup.right, matchup.left);
+        ? MatchupUtility.calculateRatio(matchup.left, matchup.right)
+        : MatchupUtility.calculateRatio(matchup.right, matchup.left);
     }
 
     return 1;

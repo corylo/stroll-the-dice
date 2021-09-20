@@ -32,7 +32,7 @@ export const MatchupSides: React.FC<MatchupProps> = (props: MatchupProps) => {
       <MatchupSide 
         alignment={MatchupSideAlignment.Left}
         matchup={matchup}
-        odds={MatchupUtility.calculateOdds(matchup.left, matchup.right)} 
+        ratio={MatchupUtility.calculateRatio(matchup.left, matchup.right)} 
       />
       <div className="game-matchup-vs-label">
         <h1 className="passion-one-font">VS</h1>
@@ -44,7 +44,7 @@ export const MatchupSides: React.FC<MatchupProps> = (props: MatchupProps) => {
       <MatchupSide 
         alignment={MatchupSideAlignment.Right}
         matchup={matchup}
-        odds={MatchupUtility.calculateOdds(matchup.right, matchup.left)} 
+        ratio={MatchupUtility.calculateRatio(matchup.right, matchup.left)} 
       />
     </div>
   );

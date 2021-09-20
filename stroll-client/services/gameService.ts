@@ -70,7 +70,7 @@ export const GameService: IGameService = {
   },
   getHosting: async (uid: string, status: GameStatus, limit: number, offset: firebase.firestore.QueryDocumentSnapshot): Promise<IGetGamesResponse> => {    
     let query: firebase.firestore.Query = db.collection("games")
-      .where("creator.uid", "==", uid)
+      .where("creatorUID", "==", uid)
       .where("status", "==", status)
       .orderBy(GameDurationUtility.getOrderBy(status), GameDurationUtility.getOrderByDirection(status))      
       .orderBy("sortable.name")

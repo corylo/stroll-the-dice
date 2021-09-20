@@ -4,16 +4,12 @@ import { Change, EventContext, logger } from "firebase-functions";
 import { db } from "../../config/firebase";
 
 import { EmailService } from "./emailService";
-import { GameBatchService } from "./batch/gameBatchService";
 import { NotificationBatchService } from "./batch/notificationBatchService";
-import { PlayerBatchService } from "./batch/playerBatchService";
 import { UserService } from "./userService";
 
 import { NotificationUtility } from "../utilities/notificationUtility";
-import { ProfileUtility } from "../utilities/profileUtility";
 
 import { IProfile, profileConverter } from "../../../stroll-models/profile";
-import { IProfileUpdate } from "../../../stroll-models/profileUpdate";
 
 interface IProfileServiceGetBy {
   uid: (uid: string) => Promise<IProfile>;
@@ -26,7 +22,6 @@ interface IProfileServiceGet {
 interface IProfileService {
   get: IProfileServiceGet;
   onCreate: (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext) => Promise<void>; 
-  onUpdate: (change: Change<firebase.firestore.QueryDocumentSnapshot<IProfile>>, context: EventContext) => Promise<void>;
 }
 
 export const ProfileService: IProfileService = {
@@ -65,30 +60,6 @@ export const ProfileService: IProfileService = {
       await EmailService.sendWelcomeEmail(profile.username, email);
     } catch (err) {
       logger.error(err);
-    }
-  },
-  onUpdate: async (change: Change<firebase.firestore.QueryDocumentSnapshot<IProfile>>, context: EventContext): Promise<void> => {
-    const before: IProfile = change.before.data(),
-      after: IProfile = change.after.data();
-  
-    if(ProfileUtility.hasChanged(before, after) && after.deletedAt === null) {
-      logger.info(`Updating documents for user: ${after.username}`);
-      
-      try {
-        const batch: firebase.firestore.WriteBatch = db.batch();
-  
-        const update: IProfileUpdate = ProfileUtility.mapUpdate(after);
-  
-        await GameBatchService.updateCreator(batch, context.params.id, update);
-
-        await PlayerBatchService.updateProfile(batch, context.params.id, update);
-
-        const results: firebase.firestore.WriteResult[] = await batch.commit();
-  
-        logger.info(`Successfully updated ${results.length} documents.`);
-      } catch (err) {
-        logger.error(err);
-      }
     }
   }
 }

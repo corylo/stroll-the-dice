@@ -18,7 +18,7 @@ interface IAcceptInviteService {
 export const AcceptInviteService: IAcceptInviteService = {
   acceptInvite: async (game: IGame, player: IPlayer): Promise<void> => {
     return await db.runTransaction(async (transaction: firebase.firestore.Transaction) => {
-      const gameDaysStatsPlayerID: string = player.ref.acceptedGiftDays ? game.creator.uid : player.id;
+      const gameDaysStatsPlayerID: string = player.ref.acceptedGiftDays ? game.creatorUID : player.id;
 
       const gameDaysStatsRef: firebase.firestore.DocumentReference = db.collection("profiles")      
         .doc(gameDaysStatsPlayerID)

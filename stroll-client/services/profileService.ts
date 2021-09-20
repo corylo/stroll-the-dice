@@ -1,4 +1,5 @@
 import firebase from "firebase/app";
+import axios from "axios";
 
 import { db } from "../config/firebase";
 
@@ -24,6 +25,7 @@ interface IProfileService {
   create: (profile: IProfile) => Promise<void>;
   get: IProfileServiceGet;
   getAllByUID: (uids: string[]) => Promise<IProfile[]>;
+  getAllByUIDIndividually: (uids: string[]) => Promise<IProfile[]>;
   update: (id: string, update: IProfileUpdate) => Promise<void>;
 }
 
@@ -67,6 +69,11 @@ export const ProfileService: IProfileService = {
       profiles.push(doc.data()));
 
     return profiles;
+  },
+  getAllByUIDIndividually: async (uids: string[]): Promise<IProfile[]> => {
+    const requests: any[] = uids.map((uid: string) => ProfileService.get.by.uid(uid));
+
+    return await axios.all(requests);
   },
   update: async (id: string, update: IProfileUpdate): Promise<void> => {
     return await db.collection("profiles")

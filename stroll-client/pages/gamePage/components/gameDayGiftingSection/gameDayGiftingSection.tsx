@@ -32,7 +32,7 @@ export const GameDayGiftingSection: React.FC<GameDayGiftingSectionProps> = (prop
           <i className="game-day-gifting-section-header-icon fal fa-gift" />
           <div className="game-day-gifting-section-header-text">
             <h1 className="game-day-gifting-section-title passion-one-font">You're in luck!</h1>
-            <h1 className="game-day-gifting-section-sub-title passion-one-font"><PlayerStatement profile={state.game.creator} /> is gifting their Game Days so you can join for free.</h1>
+            <h1 className="game-day-gifting-section-sub-title passion-one-font"><PlayerStatement profile={state.creator} /> is gifting their Game Days so you can join for free.</h1>
           </div>
         </div>
         <div className="game-day-gifting-section-body">

@@ -121,6 +121,7 @@ export enum Icon {
   Points = "fal fa-dice-d8",
   ProfileIcon = "profile-icon",
   Question = "fal fa-question",
+  Spread = "fal fa-wave-square",
   Steps = "fal fa-shoe-prints",  
   User = "fal fa-user",
   UserDeleted = "fal fa-user-slash",

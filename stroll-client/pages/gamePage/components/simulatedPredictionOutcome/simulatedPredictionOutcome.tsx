@@ -35,11 +35,11 @@ export const SimulatedPredictionOutcome: React.FC<SimulatedPredictionOutcomeProp
     if(alignment === MatchupSideAlignment.Left) {
       matchup.left.total.wagered = matchup.left.total.wagered + props.amount;
 
-      return MatchupUtility.calculateOdds(matchup.left, matchup.right);
+      return MatchupUtility.calculateRatio(matchup.left, matchup.right);
     } else if(alignment === MatchupSideAlignment.Right) {
       matchup.right.total.wagered = matchup.right.total.wagered + props.amount;
 
-      return MatchupUtility.calculateOdds(matchup.right, matchup.left);
+      return MatchupUtility.calculateRatio(matchup.right, matchup.left);
     }
 
     return 1;

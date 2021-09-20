@@ -1,7 +1,5 @@
 import firebase from "firebase/app";
 
-import { defaultProfileReference, IProfileReference } from "./profileReference";
-
 import { GameDuration } from "../stroll-enums/gameDuration";
 import { GameError } from "../stroll-enums/gameError";
 import { GameMode } from "../stroll-enums/gameMode";
@@ -28,7 +26,7 @@ const defaultGameSortable = (): IGameSortable => ({
 export interface IGame {
   counts: IGameCounts;
   createdAt: firebase.firestore.FieldValue;
-  creator: IProfileReference;  
+  creatorUID: string;  
   duration: GameDuration;
   enableGiftDaysForJoiningPlayers: boolean;
   endsAt: firebase.firestore.FieldValue;
@@ -48,7 +46,7 @@ export interface IGame {
 export const defaultGame = (): IGame => ({
   counts: defaultGameCounts(),
   createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-  creator: defaultProfileReference(),  
+  creatorUID: "",  
   duration: GameDuration.None,
   enableGiftDaysForJoiningPlayers: false,
   endsAt: null,
@@ -70,7 +68,7 @@ export const gameConverter: any = {
     return {
       counts: game.counts,
       createdAt: game.createdAt,
-      creator: game.creator,
+      creator: game.creatorUID,
       duration: game.duration,
       enableGiftDaysForJoiningPlayers: game.enableGiftDaysForJoiningPlayers,
       endsAt: game.endsAt,
@@ -94,7 +92,7 @@ export const gameConverter: any = {
     return {
       counts: data.counts,
       createdAt: data.createdAt,
-      creator: data.creator,  
+      creatorUID: data.creatorUID,  
       duration: data.duration,    
       enableGiftDaysForJoiningPlayers: data.enableGiftDaysForJoiningPlayers,
       endsAt: data.endsAt,

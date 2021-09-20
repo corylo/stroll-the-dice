@@ -107,10 +107,10 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = (props: HowToPlayMo
       }
 
       if(side === MatchupSideAlignment.Left) {
-        return formatRatio(MatchupUtility.calculateOdds(matchup.left, matchup.right));
+        return formatRatio(MatchupUtility.calculateRatio(matchup.left, matchup.right));
       }
 
-      return formatRatio(MatchupUtility.calculateOdds(matchup.right, matchup.left));
+      return formatRatio(MatchupUtility.calculateRatio(matchup.right, matchup.left));
     }
 
     const leftReturnRatio: string = getReturnRatio(MatchupSideAlignment.Left),

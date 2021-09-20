@@ -1,11 +1,9 @@
 import firebase from "firebase/app";
 
-import { ProfileUtility } from "../../stroll-utilities/profileUtility";
-
 import { IGame } from "../../stroll-models/game";
 import { IInvite } from "../../stroll-models/invite";
 import { defaultPlayer, IPlayer } from "../../stroll-models/player";
-import { IProfile } from "../../stroll-models/profile";
+import { IProfile, placeholderProfile } from "../../stroll-models/profile";
 import { IUser } from "../models/user";
 
 import { InitialValue } from "../../stroll-enums/initialValue";
@@ -16,6 +14,7 @@ interface IPlayerUtility {
   getByUser: (user: IUser, players: IPlayer[]) => IPlayer;  
   hasProfileChanged: (before: IPlayer, after: IPlayer) => boolean;
   mapCreate: (profile: IProfile, game: IGame, invite: IInvite, acceptedGiftDays: boolean) => IPlayer;
+  mapPlaceholderProfiles: (players: IPlayer[]) => IPlayer[];
 }
 
 export const PlayerUtility: IPlayerUtility = {
@@ -61,7 +60,6 @@ export const PlayerUtility: IPlayerUtility = {
         total: InitialValue.PlayerPoints
       },
       place: 0,
-      profile: ProfileUtility.mapReference(profile),
       ref: {
         acceptedGiftDays,
         game: game.id,
@@ -73,5 +71,11 @@ export const PlayerUtility: IPlayerUtility = {
       steps: 0,
       updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     }
+  },
+  mapPlaceholderProfiles: (players: IPlayer[]): IPlayer[] => {
+    return players.map((player: IPlayer) => ({
+      ...player,
+      profile: placeholderProfile()
+    }))
   }
 }

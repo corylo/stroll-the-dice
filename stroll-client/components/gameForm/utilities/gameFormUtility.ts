@@ -76,7 +76,7 @@ export const GameFormUtility: IGameFormUtility = {
         teams: 0
       },
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      creator: ProfileUtility.mapReference(user.profile),
+      creatorUID: user.profile.uid,
       duration: fields.duration,
       endsAt,
       error: GameError.None,

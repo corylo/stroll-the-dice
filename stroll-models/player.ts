@@ -1,6 +1,6 @@
 import firebase from "firebase/app";
 
-import { defaultProfileReference, IProfileReference } from "./profileReference";
+import { defaultProfile, IProfile } from "./profile";
 
 import { GameStatus } from "../stroll-enums/gameStatus";
 
@@ -38,7 +38,7 @@ export interface IPlayer {
   index?: number;
   place: number;
   points: IPlayerPoints;
-  profile: IProfileReference;
+  profile?: IProfile;
   ref: IPlayerRef;  
   steps: number;
   updatedAt: firebase.firestore.FieldValue; 
@@ -49,7 +49,7 @@ export const defaultPlayer = (): IPlayer => ({
   id: "",  
   place: 0,
   points: defaultPlayerPoints(),
-  profile: defaultProfileReference(),
+  profile: defaultProfile(),
   ref: defaultPlayerRef(),  
   steps: 0,
   updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -61,7 +61,6 @@ export const playerConverter: any = {
       createdAt: player.createdAt,  
       place: player.place,
       points: player.points,
-      profile: player.profile,
       ref: player.ref,
       steps: player.steps,
       updatedAt: player.updatedAt
@@ -76,7 +75,6 @@ export const playerConverter: any = {
       createdAt: data.createdAt,   
       place: data.place,
       points: data.points,
-      profile: data.profile,
       id: snapshot.id,
       ref: data.ref,
       steps: data.steps,
