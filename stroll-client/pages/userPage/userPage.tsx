@@ -42,11 +42,7 @@ export const UserPage: React.FC<UserPageProps> = (props: UserPageProps) => {
       return (
         <div className="user-page-content">
           <ProfileHeader profile={state.profile} /> 
-          <PlayerLevelBadge     
-            color={state.profile.color}
-            experience={state.profile.experience} 
-            miniVerbose 
-          />
+          <PlayerLevelBadge color={state.profile.color} experience={state.profile.experience} />
           <GameStats stats={state.stats} />
         </div>
       )

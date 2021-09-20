@@ -17,14 +17,6 @@ interface GameStatsSectionProps {
 export const GameStats: React.FC<GameStatsSectionProps> = (props: GameStatsSectionProps) => {    
   const { stats } = props;
 
-  const getWinPercentage = (): string => {
-    if(stats.gamesPlayed > 0) {
-      return new Intl.NumberFormat("en-IN", { maximumFractionDigits: 2 }).format((stats.wins / stats.gamesPlayed) * 100);
-    }
-
-    return "0";
-  }
-
   const getDailyValue = (value: number): string => {
     if(value > 0) {
       return NumberUtility.shorten(Math.round(value / stats.daysPlayed))
@@ -58,7 +50,6 @@ export const GameStats: React.FC<GameStatsSectionProps> = (props: GameStatsSecti
               <th className="passion-one-font">Games Played</th>
               <th className="passion-one-font">Days Played</th>
               <th className="passion-one-font">Wins</th>
-              <th className="passion-one-font">Win %</th>
             </tr>
           </thead>
           <tbody>
@@ -66,7 +57,6 @@ export const GameStats: React.FC<GameStatsSectionProps> = (props: GameStatsSecti
               <td className="passion-one-font">{stats.gamesPlayed}</td>
               <td className="passion-one-font">{stats.daysPlayed}</td>
               <td className="passion-one-font">{stats.wins}</td>
-              <td className="passion-one-font">{getWinPercentage()}</td>
             </tr>
           </tbody>
         </Table>
