@@ -45,21 +45,15 @@
 @include phone-or-smaller {
   .connect-a-step-tracker-message {
     .connect-a-step-tracker-message-content {
+      padding: 10px;
+
       .connect-a-step-tracker-message-label {
-        font-size: 1.25em;
+        font-size: 1.2em;
       }
 
       .connect-a-step-tracker-items {  
         gap: 10px;
       }
-    }
-  }
-}
-
-@include small-phone-or-smaller {
-  .connect-a-step-tracker-message {
-    .connect-a-step-tracker-message-content {
-      padding: 10px;
     }
   }
 }
