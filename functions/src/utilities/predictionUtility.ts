@@ -14,18 +14,18 @@ interface IPredictionUtility {
   getIncorrectPredictions: (predictions: IPrediction[], matchups: IMatchup[]) => IPrediction[];    
   mapCreate: (amount: number, creatorID: string, gameID: string, matchupID: string, playerID: string) => IPrediction;    
   sumCorrectPredictions: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]) => number;  
-  sumCorrectPredictionsWithOdds: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]) => number;
+  sumCorrectPredictionsWithReturnRatio: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]) => number;
   sumIncorrectPredictions: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]) => number;
   sumPredictions: (predictions: IPrediction[]) => number;
-  sumPredictionsWithOdds: (predictions: IPrediction[], matchups: IMatchup[]) => number;
+  sumPredictionsWithReturnRatio: (predictions: IPrediction[], matchups: IMatchup[]) => number;
 }
 
 export const PredictionUtility: IPredictionUtility = {
   determineIfCorrect: (prediction: IPrediction, matchups: IMatchup[]): boolean => {
     const matchup: IMatchup = MatchupUtility.getByID(prediction.ref.matchup, matchups);
 
-    if(matchup.winner !== "" && matchup.winner !== MatchupLeader.Tie) {
-      return matchup.winner === prediction.ref.player;
+    if(matchup.spreadWinner !== "" && matchup.spreadWinner !== MatchupLeader.Tie) {
+      return matchup.spreadWinner === prediction.ref.player;
     }
     
     return false;
@@ -59,11 +59,11 @@ export const PredictionUtility: IPredictionUtility = {
 
     return PredictionUtility.sumPredictions(correctPredictions);    
   },
-  sumCorrectPredictionsWithOdds: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]): number => {
+  sumCorrectPredictionsWithReturnRatio: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]): number => {
     const predictions: IPrediction[] = PredictionUtility.getByPlayer(playerID, allPredictions),
       correctPredictions: IPrediction[] = PredictionUtility.getCorrectPredictions(predictions, matchups);
 
-    return PredictionUtility.sumPredictionsWithOdds(correctPredictions, matchups);
+    return PredictionUtility.sumPredictionsWithReturnRatio(correctPredictions, matchups);
   },
   sumIncorrectPredictions: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]): number => {
     const predictions: IPrediction[] = PredictionUtility.getByPlayer(playerID, allPredictions),
@@ -78,14 +78,14 @@ export const PredictionUtility: IPredictionUtility = {
 
     return 0;
   },
-  sumPredictionsWithOdds: (predictions: IPrediction[], matchups: IMatchup[]): number => {
+  sumPredictionsWithReturnRatio: (predictions: IPrediction[], matchups: IMatchup[]): number => {
     if(predictions.length > 0) {
       let sum: number = 0;
   
       predictions.forEach((prediction: IPrediction) => {
         const matchup: IMatchup = MatchupUtility.getByID(prediction.ref.matchup, matchups);
 
-        sum += Math.round(prediction.amount * MatchupUtility.getWinnerOdds(matchup));
+        sum += Math.round(prediction.amount * MatchupUtility.getWinnerRatio(matchup));
       });
 
       return sum;

@@ -1,6 +1,6 @@
 import { FirestoreDateUtility } from "../../stroll-utilities/firestoreDateUtility";
 
-import { IMatchup, IMatchupSide } from "../../stroll-models/matchup";
+import { defaultMatchup, IMatchup, IMatchupSide } from "../../stroll-models/matchup";
 import { IPlayer } from "../../stroll-models/player";
 import { defaultProfile } from "../../stroll-models/profile";
 import { defaultProfileReference } from "../../stroll-models/profileReference";
@@ -21,15 +21,10 @@ interface IHowToPlayUtility {
 export const HowToPlayUtility: IHowToPlayUtility = {
   getExampleMatchup: (): IMatchup => {
     return {
-      createdAt: FirestoreDateUtility.dateToTimestamp(new Date()),
+      ...defaultMatchup(),
       day: 1,
-      favoriteID: "",
-      id: "",
       left: HowToPlayUtility.getExampleMatchupSide(MatchupSideAlignment.Left),
-      right: HowToPlayUtility.getExampleMatchupSide(MatchupSideAlignment.Right),
-      spread: 0,
-      spreadCreatedAt: FirestoreDateUtility.dateToTimestamp(new Date()),
-      winner: ""
+      right: HowToPlayUtility.getExampleMatchupSide(MatchupSideAlignment.Right)
     }
   },
   getExampleMatchupSide: (side: MatchupSideAlignment): IMatchupSide => {

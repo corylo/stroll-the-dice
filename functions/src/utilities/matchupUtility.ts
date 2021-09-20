@@ -14,7 +14,7 @@ import { IPlayer } from "../../../stroll-models/player";
 import { MatchupLeader } from "../../../stroll-enums/matchupLeader";
 
 interface IMatchupUtility {  
-  calculateOdds: (left: IMatchupSide, right: IMatchupSide) => number;
+  calculateRatio: (left: IMatchupSide, right: IMatchupSide) => number;
   filterOutCombinationsOfPair: (pair: IMatchupPair, list: IMatchupPair[]) => IMatchupPair[];
   filterOutPairs: (listOne: IMatchupPair[], listTwo: IMatchupPair[]) => IMatchupPair[];
   generateAllPairs: (numberOfPlayers: number) => IMatchupPair[];
@@ -25,16 +25,18 @@ interface IMatchupUtility {
   getByPlayer: (playerID: string, matchups: IMatchup[]) => IMatchup;
   getCombinationsOfPair: (pair: IMatchupPair, list: IMatchupPair[]) => IMatchupPair[];
   getLeader: (matchup: IMatchup) => string;
+  getSideByFavorite: (matchup: IMatchup, shouldGetFavorite: boolean) => IMatchupSide;
+  getSpreadLeader: (matchup: IMatchup) => string;
   getMatchupRef: (gameID: string, matchupID?: string) => firebase.firestore.DocumentReference;
   getPlayerSteps: (playerID: string, matchup: IMatchup) => number;
-  getWinnerOdds: (matchup: IMatchup) => number;
+  getWinnerRatio: (matchup: IMatchup) => number;
   mapCreate: (leftPlayerID: string, rightPlayerID: string, day: number) => IMatchup;
   mapMatchupsFromPairGroups: (groups: IMatchupPairGroup[], players: IPlayer[]) => IMatchup[];
   mapPlayerReference: (matchup: IMatchup) => IMatchupPlayerReference;
 }
 
 export const MatchupUtility: IMatchupUtility = {   
-  calculateOdds: (left: IMatchupSide, right: IMatchupSide): number => {
+  calculateRatio: (left: IMatchupSide, right: IMatchupSide): number => {
     if(left.total.wagered !== 0 && right.total.wagered !== 0) {
       return (left.total.wagered + right.total.wagered) / left.total.wagered;
     }
@@ -153,6 +155,37 @@ export const MatchupUtility: IMatchupUtility = {
 
     return leader;
   },
+  getSideByFavorite: (matchup: IMatchup, shouldGetFavorite: boolean): IMatchupSide => {
+    if(matchup.favoriteID === "") {
+      return null;
+    } else if(shouldGetFavorite) {
+      if(matchup.left.playerID === matchup.favoriteID) {
+        return matchup.left;
+      } else if (matchup.right.playerID === matchup.favoriteID) {
+        return matchup.right;
+      }
+    } else {
+      if(matchup.left.playerID !== matchup.favoriteID) {
+        return matchup.left;
+      } else if (matchup.right.playerID !== matchup.favoriteID) {
+        return matchup.right;
+      }
+    }
+  },
+  getSpreadLeader: (matchup: IMatchup): string => {
+    let leader: string = MatchupLeader.Tie;
+
+    const favoriteSide: IMatchupSide = MatchupUtility.getSideByFavorite(matchup, true),
+      underdogSide: IMatchupSide = MatchupUtility.getSideByFavorite(matchup, false);
+
+    if(favoriteSide.steps - matchup.spread > underdogSide.steps) {
+      leader = favoriteSide.playerID;
+    } else if (underdogSide.steps + matchup.spread > favoriteSide.steps) {
+      leader = underdogSide.playerID;
+    }
+
+    return leader;
+  },
   getMatchupRef: (gameID: string, matchupID?: string): firebase.firestore.DocumentReference => {
     if(matchupID) {
       return db.collection("games")
@@ -177,11 +210,11 @@ export const MatchupUtility: IMatchupUtility = {
 
     throw new Error(`Player [${playerID}] not found in matchup [${matchup.id}]. Left was [${matchup.left.playerID}], right was [${matchup.right.playerID}]`);
   },
-  getWinnerOdds: (matchup: IMatchup): number => {
+  getWinnerRatio: (matchup: IMatchup): number => {
     if(matchup.winner !== "" && matchup.winner !== MatchupLeader.Tie) {
       return matchup.winner === matchup.left.playerID
-        ? MatchupUtility.calculateOdds(matchup.left, matchup.right)
-        : MatchupUtility.calculateOdds(matchup.right, matchup.left);
+        ? MatchupUtility.calculateRatio(matchup.left, matchup.right)
+        : MatchupUtility.calculateRatio(matchup.right, matchup.left);
     }
 
     return 1;
@@ -204,6 +237,7 @@ export const MatchupUtility: IMatchupUtility = {
       },
       spread: 0,
       spreadCreatedAt: null,
+      spreadWinner: "",
       winner: ""
     }
   },

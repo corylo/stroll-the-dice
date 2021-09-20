@@ -83,8 +83,6 @@ export const PlayerService: IPlayerService = {
           GameDayHistoryTransactionService.create(transaction, playerID, entry);
         }
       });
-
-      logger.info(`Successfully completed onCreate function for player [${player.id}] in game [${player.ref.game}].`);
     } catch (err) {
       logger.error(err);
     }

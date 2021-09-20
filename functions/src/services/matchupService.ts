@@ -15,6 +15,7 @@ interface IMatchupService {
   createSpread: (gameID: string, matchupID: string,  spread: IMatchupSpread) => Promise<void>;
   getByGameAndDay: (id: string, day: number) => Promise<IMatchup[]>;
   getSpread: (leftUID: string, rightUID: string) => Promise<IMatchupSpread>;
+  onCreate: (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext) => Promise<void>;
   onUpdate: (change: Change<firebase.firestore.QueryDocumentSnapshot<IMatchup>>, context: EventContext) => Promise<void>;  
 }
 
@@ -63,6 +64,21 @@ export const MatchupService: IMatchupService = {
     }
 
     return spread;
+  },
+  onCreate: async (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext): Promise<void> => {
+    const matchup: IMatchup = { ...snapshot.data() as IMatchup, id: snapshot.id };
+
+    const { left, right } = matchup;
+
+    if(left.playerID !== "" && right.playerID !== "") {      
+      try {
+        const spread: IMatchupSpread = await MatchupService.getSpread(left.playerID, right.playerID);
+
+        await MatchupService.createSpread(context.params.gameID, context.params.matchupID, spread);
+      } catch (err) {
+        logger.error(err);
+      }
+    }
   },
   onUpdate: async (change: Change<firebase.firestore.QueryDocumentSnapshot<IMatchup>>, context: EventContext): Promise<void> => {
     const before: IMatchup = change.before.data(),

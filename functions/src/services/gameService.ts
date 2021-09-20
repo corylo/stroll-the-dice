@@ -31,8 +31,6 @@ export const GameService: IGameService = {
   },
   onDelete: async (snapshot: firebase.firestore.QueryDocumentSnapshot, context: EventContext): Promise<void> => {
     try {
-      logger.info(`Deleting all references to game [${context.params.id}]`);
-
       await PlayingInBatchService.deleteAll(context.params.id);
     } catch (err) {
       logger.error(err);

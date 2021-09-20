@@ -65,8 +65,6 @@ export const PredictionService: IPredictionService = {
           const property: string = prediction.ref.player === matchup.left.playerID ? "left" : "right",
             side: IMatchupSide = matchup[property];
 
-          const updatedTotalWagered: number = side.total.wagered + prediction.amount;
-
           transaction.update(matchupRef, { 
             [`${property}.total.participants`]: firebase.firestore.FieldValue.increment(1),
             [`${property}.total.wagered`]: side.total.wagered + prediction.amount
@@ -83,11 +81,8 @@ export const PredictionService: IPredictionService = {
               prediction.amount
             )
           );
-          
-          logger.info(`Updated total wagered to [${updatedTotalWagered}] and total participants to [${side.total.participants + 1}]`);
         }
-      });
-      
+      });      
     } catch (err) {
       logger.error(err);
     }
@@ -134,8 +129,6 @@ export const PredictionService: IPredictionService = {
                 after.amount
               )
             );
-            
-            logger.info(`Updated total wagered to [${updatedTotalWagered}]`);
           }
         });
       } catch (err) {

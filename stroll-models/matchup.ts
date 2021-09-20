@@ -34,6 +34,7 @@ export interface IMatchup {
   right: IMatchupSide;
   spread: number;
   spreadCreatedAt: firebase.firestore.FieldValue;
+  spreadWinner: string;
   winner: string;
 }
 
@@ -46,6 +47,7 @@ export const defaultMatchup = (): IMatchup => ({
   right: defaultMatchupSide(),
   spread: 0,
   spreadCreatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+  spreadWinner: "",
   winner: ""
 });
 
@@ -59,6 +61,7 @@ export const matchupConverter: any = {
       right: matchup.right,
       spread: matchup.spread,
       spreadCreatedAt: matchup.spreadCreatedAt,
+      spreadWinner: matchup.spreadWinner,
       winner: matchup.winner
     }
   },
@@ -76,6 +79,7 @@ export const matchupConverter: any = {
       right: data.right,
       spread: data.spread,
       spreadCreatedAt: data.spreadCreatedAt,
+      spreadWinner: data.spreadWinner,
       winner: data.winner
     }
   }

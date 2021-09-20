@@ -72,19 +72,13 @@ export const GameUpdateService: IGameUpdateService = {
     await batch.commit();
 
     await GameUpdateService.sendGameCompleteNotifications({ ...game, id: gameID });
-
-    logger.info(`Game [${gameID}] is now complete.`);
   },
   handleReferenceFieldChange: async (gameID: string, game: IGame): Promise<void> => {
-    logger.info(`Updating all references to game [${gameID}]`);
-
     const batch: firebase.firestore.WriteBatch = db.batch();
 
     await PlayingInBatchService.update(batch, gameID, game);
 
-    const results: firebase.firestore.WriteResult[] = await batch.commit();
-
-    logger.info(`Successfully updated ${results.length} references to game [${gameID}].`);
+    await batch.commit();
   },
   handleStillInProgress: async (gameID: string, game: IGame): Promise<void> => {
     const isDayComplete: boolean = GameDurationUtility.isDayComplete(game),
@@ -97,22 +91,16 @@ export const GameUpdateService: IGameUpdateService = {
     const updatedSummary: IGameDaySummary = GameDaySummaryUtility.mapUpdates(summary, updates);
 
     if (isDayComplete) {
-      logger.info(`Day [${offsetDay}] complete for game [${gameID}]. Completing matchups and distributing prediction winnings.`);
-
       await GameTransactionService.handleDayCompleteProgressUpdate(gameID, offsetDay, game.startsAt, updatedSummary, updates);
 
       if(game.status === GameStatus.InProgress) {
         await GameUpdateService.sendDayCompleteNotifications({ ...game, id: gameID }, offsetDay);
       } 
     } else {
-      logger.info(`Progress update for game [${gameID}] on day [${offsetDay}].`);
-
       await GameTransactionService.handleProgressUpdate(gameID, updatedSummary, updates);
     }
   },
   handleUpcomingToInProgress: async (gameID: string, game: IGame): Promise<void> => {
-    logger.info(`Game [${gameID}] is now in progress.`);
-
     const players: IPlayer[] = await PlayerService.getByGame(gameID);
 
     const batch: firebase.firestore.WriteBatch = db.batch();

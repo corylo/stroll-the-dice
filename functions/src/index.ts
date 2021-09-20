@@ -50,9 +50,13 @@ exports.onPlayerUpdate = firestore
   .document("games/{gameID}/players/{id}")
   .onUpdate(PlayerService.onUpdate);
 
-exports.onMatchupUpdate = firestore
+  exports.onMatchupUpdate = firestore
   .document("games/{gameID}/matchups/{matchupID}")
   .onUpdate(MatchupService.onUpdate);
+
+exports.onMatchupCreate = firestore
+  .document("games/{gameID}/matchups/{matchupID}")
+  .onCreate(MatchupService.onCreate);
   
 exports.onPredictionCreate = firestore
   .document("games/{gameID}/matchups/{matchupID}/predictions/{id}")

@@ -49,7 +49,7 @@ export const GameDaySummaryUtility: IGameDaySummaryUtility = {
     }
   },
   mapPlayerDayCompletedSummary: (day: number, playerID: string, place: number, matchups: IMatchup[], predictions: IPrediction[]): IPlayerDayCompletedSummary => {
-    const received: number = PredictionUtility.sumCorrectPredictionsWithOdds(playerID, matchups, predictions),
+    const received: number = PredictionUtility.sumCorrectPredictionsWithReturnRatio(playerID, matchups, predictions),
       correctlyWagered: number = PredictionUtility.sumCorrectPredictions(playerID, matchups, predictions),
       lost: number = PredictionUtility.sumIncorrectPredictions(playerID, matchups, predictions),
       wagered: number = correctlyWagered + lost,
@@ -108,6 +108,7 @@ export const GameDaySummaryUtility: IGameDaySummaryUtility = {
   mapWinners: (summary: IGameDaySummary): IGameDaySummary => {
     summary.matchups = summary.matchups.map((matchup: IMatchup) => {
       if(matchup.left.playerID !== "" && matchup.right.playerID !== "") {
+        matchup.spreadWinner = MatchupUtility.getSpreadLeader(matchup);
         matchup.winner = MatchupUtility.getLeader(matchup);
       }
 
