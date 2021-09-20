@@ -156,9 +156,7 @@ export const MatchupUtility: IMatchupUtility = {
     return leader;
   },
   getSideByFavorite: (matchup: IMatchup, shouldGetFavorite: boolean): IMatchupSide => {
-    if(matchup.favoriteID === "") {
-      return null;
-    } else if(shouldGetFavorite) {
+    if(shouldGetFavorite) {
       if(matchup.left.playerID === matchup.favoriteID) {
         return matchup.left;
       } else if (matchup.right.playerID === matchup.favoriteID) {
@@ -173,18 +171,22 @@ export const MatchupUtility: IMatchupUtility = {
     }
   },
   getSpreadLeader: (matchup: IMatchup): string => {
-    let leader: string = MatchupLeader.Tie;
+    if(matchup.favoriteID !== "") {
+      let leader: string = MatchupLeader.Tie;
+  
+      const favoriteSide: IMatchupSide = MatchupUtility.getSideByFavorite(matchup, true),
+        underdogSide: IMatchupSide = MatchupUtility.getSideByFavorite(matchup, false);
 
-    const favoriteSide: IMatchupSide = MatchupUtility.getSideByFavorite(matchup, true),
-      underdogSide: IMatchupSide = MatchupUtility.getSideByFavorite(matchup, false);
+      if(favoriteSide.steps - matchup.spread > underdogSide.steps) {
+        leader = favoriteSide.playerID;
+      } else if (underdogSide.steps + matchup.spread > favoriteSide.steps) {
+        leader = underdogSide.playerID;
+      }
 
-    if(favoriteSide.steps - matchup.spread > underdogSide.steps) {
-      leader = favoriteSide.playerID;
-    } else if (underdogSide.steps + matchup.spread > favoriteSide.steps) {
-      leader = underdogSide.playerID;
+      return leader;
+    } else {
+      return MatchupUtility.getLeader(matchup);
     }
-
-    return leader;
   },
   getMatchupRef: (gameID: string, matchupID?: string): firebase.firestore.DocumentReference => {
     if(matchupID) {

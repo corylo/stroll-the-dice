@@ -51,16 +51,22 @@ export const MatchupService: IMatchupService = {
     const leftProfileGameStats: IProfileGamesStats = await ProfileStatsService.getByUID(leftUID, ProfileStatsID.Games) as IProfileGamesStats,
       rightProfileGameStats: IProfileGamesStats = await ProfileStatsService.getByUID(rightUID, ProfileStatsID.Games) as IProfileGamesStats;
 
-    const leftDailyValue: number = Math.round(leftProfileGameStats.steps / leftProfileGameStats.daysPlayed),
-      rightDailyValue: number = Math.round(rightProfileGameStats.steps / rightProfileGameStats.daysPlayed);
-
     const spread: IMatchupSpread = {
-      amount: Math.abs(leftDailyValue - rightDailyValue),
+      amount: 0,
       favoriteID: ""
     }
 
-    if(rightDailyValue !== leftDailyValue) {
-      spread.favoriteID = rightDailyValue > leftDailyValue ? rightUID : leftUID;
+    if(leftProfileGameStats.daysPlayed >= 3 && rightProfileGameStats.daysPlayed >= 3) {
+      const leftDailyValue: number = Math.round(leftProfileGameStats.steps / leftProfileGameStats.daysPlayed),
+        rightDailyValue: number = Math.round(rightProfileGameStats.steps / rightProfileGameStats.daysPlayed);
+
+      if(leftDailyValue >= 300 && rightDailyValue >= 300) {
+        spread.amount = Math.abs(leftDailyValue - rightDailyValue);
+        
+        if(rightDailyValue !== leftDailyValue) {
+          spread.favoriteID = rightDailyValue > leftDailyValue ? rightUID : leftUID;
+        }
+      }
     }
 
     return spread;
