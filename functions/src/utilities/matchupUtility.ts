@@ -162,12 +162,12 @@ export const MatchupUtility: IMatchupUtility = {
       } else if (matchup.right.playerID === matchup.favoriteID) {
         return matchup.right;
       }
-    } else {
-      if(matchup.left.playerID !== matchup.favoriteID) {
-        return matchup.left;
-      } else if (matchup.right.playerID !== matchup.favoriteID) {
-        return matchup.right;
-      }
+    }
+    
+    if(matchup.left.playerID !== matchup.favoriteID) {
+      return matchup.left;
+    } else if (matchup.right.playerID !== matchup.favoriteID) {
+      return matchup.right;
     }
   },
   getSpreadLeader: (matchup: IMatchup): string => {
@@ -184,9 +184,9 @@ export const MatchupUtility: IMatchupUtility = {
       }
 
       return leader;
-    } else {
-      return MatchupUtility.getLeader(matchup);
     }
+    
+    return MatchupUtility.getLeader(matchup);
   },
   getMatchupRef: (gameID: string, matchupID?: string): firebase.firestore.DocumentReference => {
     if(matchupID) {
