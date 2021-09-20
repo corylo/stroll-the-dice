@@ -9,6 +9,7 @@ interface IStepTrackerUtility {
   determineTrackerFromParam: (match: any) => StepTracker;
   determineTrackerFromString: (value: string) => StepTracker;
   getConnectUrl: (tracker: StepTracker) => string;
+  getFullLogo: (tracker: StepTracker) => string;
   getLogo: (tracker: StepTracker) => string;
   getOAuthClientID: (tracker: StepTracker) => string;
   getOAuthUrl: (tracker: StepTracker) => string;
@@ -51,6 +52,16 @@ export const StepTrackerUtility: IStepTrackerUtility = {
   },
   getConnectUrl: (tracker: StepTracker): string => {
     return `/profile/connect/${UrlUtility.format(tracker)}`;
+  },
+  getFullLogo: (tracker: StepTracker): string => {
+    switch(tracker) {
+      case StepTracker.GoogleFit:
+        return "google-fit-full-logo.png";
+      case StepTracker.Fitbit:
+        return "fitbit-full-logo.png";
+      default:
+        throw new Error(`Unknown step tracker: [${tracker}]`);
+    }
   },
   getLogo: (tracker: StepTracker): string => {
     switch(tracker) {

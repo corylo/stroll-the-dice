@@ -1,6 +1,10 @@
 import React from "react";
+import classNames from "classnames";
+
+import { Button } from "../../buttons/button";
 
 import { StepTrackerUtility } from "../../../utilities/stepTrackerUtility";
+import { UrlUtility } from "../../../utilities/urlUtility";
 
 import { StepTracker } from "../../../../stroll-enums/stepTracker";
 import { StrollTheDiceCDN } from "../../../../stroll-enums/strollTheDiceCDN";
@@ -11,9 +15,8 @@ interface ConnectAStepTrackerItemProps {
 
 export const ConnectAStepTrackerItem: React.FC<ConnectAStepTrackerItemProps> = (props: ConnectAStepTrackerItemProps) => {      
   return (
-    <div className="connect-a-step-tracker-item">
-      <img className="connect-a-step-tracker-logo" src={`${StrollTheDiceCDN.Url}/img/brands/${StepTrackerUtility.getLogo(props.tracker)}`} />
-      <h1 className="connect-a-step-tracker-label passion-one-font">{props.tracker}</h1>
-    </div>
+    <Button className={classNames("connect-a-step-tracker-item fancy-button", UrlUtility.format(props.tracker))} url="/profile">
+      <img className="connect-a-step-tracker-logo" src={`${StrollTheDiceCDN.Url}/img/brands/${StepTrackerUtility.getFullLogo(props.tracker)}`} />      
+    </Button>
   );
 }

@@ -5,15 +5,11 @@
   }
 
   .learn-more-links {
-    display: grid;
-    grid-gap: 1em;
-    grid-template-columns: repeat(auto-fill, minmax(calc(50% - 0.5em), 1fr)); 
-
     .learn-more-link {     
       .learn-more-link-content {   
         i, h1 {
           color: white;
-          font-size: 2em;
+          font-size: 3em;
         }
       }
     }
@@ -24,10 +20,10 @@
   #home-page {
     .learn-more-links {
       .learn-more-link {
-        .learn-more-link-content {         
-          flex-direction: column;
-          gap: 10px;
-          padding: 10px;
+        .learn-more-link-content {   
+          i, h1 {
+            font-size: 2.5em;
+          }
         }
       }
     }
@@ -39,12 +35,8 @@
     .learn-more-links {
       .learn-more-link {
         .learn-more-link-content {   
-          i {
-            font-size: 1.5em;
-          }
-
-          h1 {
-            font-size: 1.25em;
+          i, h1 {
+            font-size: 2em;
           }
         }
       }

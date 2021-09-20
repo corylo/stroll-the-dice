@@ -35,14 +35,9 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
         <React.Fragment>
           <div className="learn-more-links">
             <LearnMoreLink 
-              image={ImageUtility.getGraphic("park", "png")}
+              image={ImageUtility.getGraphic("learn-more", "png")}
               text="Getting Started" 
               handleOnClick={() => toggle(HowToPlayID.GettingStarted)}
-            />
-            <LearnMoreLink 
-              image={ImageUtility.getGraphic("learn-more", "png")}
-              text="How it works" 
-              handleOnClick={() => toggle(HowToPlayID.HowItWorks)}
             />
           </div>
           <ConnectAStepTrackerMessage />
