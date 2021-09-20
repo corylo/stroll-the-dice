@@ -36,7 +36,7 @@
       }
       
       .connect-a-step-tracker-items {  
-        margin-top: 40px;
+        margin-top: 60px;
       }
     }
   }
@@ -48,26 +48,18 @@
       .connect-a-step-tracker-message-label {
         font-size: 1.25em;
       }
-      
+
       .connect-a-step-tracker-items {  
-        margin-top: 20px;
+        gap: 10px;
       }
     }
   }
 }
 
-@include medium-phone-or-smaller {
+@include small-phone-or-smaller {
   .connect-a-step-tracker-message {
     .connect-a-step-tracker-message-content {
       padding: 10px;
-
-      .connect-a-step-tracker-message-label {
-        font-size: 1em;
-      }
-      
-      .connect-a-step-tracker-items {  
-        gap: 10px;
-      }
     }
   }
 }

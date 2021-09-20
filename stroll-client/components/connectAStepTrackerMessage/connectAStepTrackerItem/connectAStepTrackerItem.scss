@@ -70,8 +70,6 @@
 
 @include small-phone-or-smaller {
   .connect-a-step-tracker-item.button.fancy-button {
-    padding: 10px 20px;
-    
     &.fitbit {
       .connect-a-step-tracker-logo {
         height: 20px;
@@ -80,7 +78,7 @@
   
     &.google-fit {
       .connect-a-step-tracker-logo {
-        height: 30px;
+        height: 35px;
       }
     }  
   }
