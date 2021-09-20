@@ -108,12 +108,7 @@ export const PlayerTransactionService: IPlayerTransactionService = {
   completeDayOneMatchup: (transaction: firebase.firestore.Transaction, matchup: IMatchup, player: IPlayer): void => {    
     const matchupRef: firebase.firestore.DocumentReference = MatchupUtility.getMatchupRef(player.ref.game, matchup.id);
 
-    const leftSideSpread: number = 0,
-      rightSideSpread: number = 0;
-
     transaction.update(matchupRef, { 
-      ["left.spread"]: leftSideSpread,
-      ["right.spread"]: rightSideSpread,
       ["right.playerID"]: player.id
     });
   },

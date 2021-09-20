@@ -5,6 +5,7 @@ import { db } from "../../../config/firebase";
 
 import { InviteService } from "../../../services/inviteService";
 import { PlayerService } from "../../../services/playerService";
+import { ProfileService } from "../../../services/profileService";
 
 import { GameDurationUtility } from "../../../../stroll-utilities/gameDurationUtility";
 import { PlayerUtility } from "../../../utilities/playerUtility";
@@ -14,6 +15,7 @@ import { IAppState } from "../../../components/app/models/appState";
 import { defaultGame, gameConverter, IGame } from "../../../../stroll-models/game";
 import { IGamePageState } from "../models/gamePageState";
 import { IPlayer, playerConverter } from "../../../../stroll-models/player";
+import { IProfile } from "../../../../stroll-models/profile";
 
 import { AppStatus } from "../../../enums/appStatus";
 import { GameStatus } from "../../../../stroll-enums/gameStatus";
@@ -148,23 +150,40 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
   }, [state.game.id, state.statuses.player]);
 
   useEffect(() => {
-    if(players.length > 0) {
-      const update = async (): Promise<void> => {
-        const filterPlayers = (): IPlayer[] => {
-          return players.filter((player: IPlayer) => 
-            PlayerUtility.getById(player.id, state.players).id === "");
-        }
-        
-        const filteredPlayers: IPlayer[] = filterPlayers();
+    if(state.players.length === players.length) {
+      const unmappedPlayers: IPlayer[] = players.filter((player: IPlayer) => player.profile.uid === "");
 
-        if(filteredPlayers.length > 0) {
-          const updatedPlayers: IPlayer[] = await PlayerService.getProfiles(filteredPlayers);
+      if(unmappedPlayers.length > 0) {   
+        const update = async (): Promise<void> => {     
+          const mappedPlayers: IPlayer[] = await PlayerService.getProfiles(unmappedPlayers);
+
+          const updatedPlayers: IPlayer[] = [...players].map((player: IPlayer) => {
+            const match: IPlayer = PlayerUtility.getById(player.id, mappedPlayers);
+
+            return match || player;
+          });
           
           setPlayers(updatedPlayers);
         }
-      }
 
-      update();
+        update();
+      }
     }
   }, [state.players, players]);
+
+  useEffect(() => {
+    if(state.statuses.player === PlayerStatus.NotPlaying) {
+      const fetchCreatorProfile = async (): Promise<void> => {
+        try {
+          const creator: IProfile = await ProfileService.get.by.uid(state.game.creatorUID);
+
+          setState({ ...state, creator });
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      fetchCreatorProfile();
+    }
+  }, [state.statuses.player]);
 }

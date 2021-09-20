@@ -68,7 +68,7 @@ export const gameConverter: any = {
     return {
       counts: game.counts,
       createdAt: game.createdAt,
-      creator: game.creatorUID,
+      creatorUID: game.creatorUID,
       duration: game.duration,
       enableGiftDaysForJoiningPlayers: game.enableGiftDaysForJoiningPlayers,
       endsAt: game.endsAt,

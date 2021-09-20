@@ -48,18 +48,21 @@ export const MatchupService: IMatchupService = {
   },
   getSpread: async (leftUID: string, rightUID: string): Promise<IMatchupSpread> => {
     const leftProfileGameStats: IProfileGamesStats = await ProfileStatsService.getByUID(leftUID, ProfileStatsID.Games) as IProfileGamesStats,
-      rightProfileGameStats: IProfileGamesStats = await ProfileStatsService.getByUID(leftUID, ProfileStatsID.Games) as IProfileGamesStats;
+      rightProfileGameStats: IProfileGamesStats = await ProfileStatsService.getByUID(rightUID, ProfileStatsID.Games) as IProfileGamesStats;
 
     const leftDailyValue: number = Math.round(leftProfileGameStats.steps / leftProfileGameStats.daysPlayed),
       rightDailyValue: number = Math.round(rightProfileGameStats.steps / rightProfileGameStats.daysPlayed);
 
-    const amount: number = Math.abs(leftDailyValue - rightDailyValue),
-      favoriteUID: string = rightDailyValue > leftDailyValue ? rightUID : leftUID;
-
-    return {
-      amount,
-      favoriteID: favoriteUID 
+    const spread: IMatchupSpread = {
+      amount: Math.abs(leftDailyValue - rightDailyValue),
+      favoriteID: ""
     }
+
+    if(rightDailyValue !== leftDailyValue) {
+      spread.favoriteID = rightDailyValue > leftDailyValue ? rightUID : leftUID;
+    }
+
+    return spread;
   },
   onUpdate: async (change: Change<firebase.firestore.QueryDocumentSnapshot<IMatchup>>, context: EventContext): Promise<void> => {
     const before: IMatchup = change.before.data(),

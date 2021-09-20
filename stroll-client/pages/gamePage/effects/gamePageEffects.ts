@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import { InviteService } from "../../../services/inviteService";
-import { ProfileService } from "../../../services/profileService";
 
 import { GameDurationUtility } from "../../../../stroll-utilities/gameDurationUtility";
 import { InviteUtility } from "../../../utilities/inviteUtility";
@@ -12,7 +11,6 @@ import { UrlUtility } from "../../../utilities/urlUtility";
 import { IAppState } from "../../../components/app/models/appState";
 import { IGamePageState } from "../models/gamePageState";
 import { IInvite } from "../../../../stroll-models/invite";
-import { IProfile } from "../../../../stroll-models/profile";
 
 import { AppAction } from "../../../enums/appAction";
 import { AppStatus } from "../../../enums/appStatus";
@@ -48,18 +46,17 @@ export const useGameInviteEffect = (
 
   useEffect(() => {
     const load = async (): Promise<void> => {
-      const showInvite: boolean = InviteUtility.showInvite(inviteID, state.statuses.player);
+      const showInvite: boolean = InviteUtility.showInvite(inviteID, state.creator, state.statuses.player);
 
       if(showInvite && RoleUtility.isAdmin(user.roles)) {
         dispatch(AppAction.ToggleAcceptInvite, true);
       } else if (showInvite) {
         try {
-          const invite: IInvite = await InviteService.get.by.id(state.game, inviteID),
-            creator: IProfile = await ProfileService.get.by.uid(state.game.creatorUID);
+          const invite: IInvite = await InviteService.get.by.id(state.game, inviteID);
 
           dispatch(AppAction.ToggleAcceptInvite, true);
 
-          setState({ ...state, creator, invite });
+          setState({ ...state, invite });
         } catch (err) {
           console.error(err);
         }
@@ -71,5 +68,5 @@ export const useGameInviteEffect = (
     }
 
     load();
-  }, [appState.status, user.roles, state.statuses.player]);
+  }, [appState.status, user.roles, state.statuses.player, state.creator]);
 }

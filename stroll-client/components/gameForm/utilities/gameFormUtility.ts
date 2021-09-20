@@ -4,7 +4,6 @@ import { DateUtility } from "../../../../stroll-utilities/dateUtility";
 import { FirestoreDateUtility } from "../../../../stroll-utilities/firestoreDateUtility";
 import { GameDurationUtility } from "../../../../stroll-utilities/gameDurationUtility";
 import { Nano } from "../../../../stroll-utilities/nanoUtility";
-import { ProfileUtility } from "../../../../stroll-utilities/profileUtility";
 
 import { IGame } from "../../../../stroll-models/game";
 import { defaultGameFormState, IGameFormState } from "../models/gameFormState";
@@ -78,6 +77,7 @@ export const GameFormUtility: IGameFormUtility = {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       creatorUID: user.profile.uid,
       duration: fields.duration,
+      enableGiftDaysForJoiningPlayers: fields.enableGiftDaysForJoiningPlayers,
       endsAt,
       error: GameError.None,
       id: Nano.generate(6),
@@ -91,8 +91,7 @@ export const GameFormUtility: IGameFormUtility = {
       },
       startsAt,
       status: GameStatus.Upcoming,
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-      enableGiftDaysForJoiningPlayers: fields.enableGiftDaysForJoiningPlayers
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     }
   },
   mapInitialState: (game?: IGame): IGameFormState => {

@@ -52,7 +52,8 @@ export const placeholderProfile = (): IProfile => ({
   ...defaultProfile(),
   color: Color.White,
   icon: Icon.User,
-  username: " ... "
+  name: " ... ",
+  username: " ..... "
 });
 
 export const profileConverter: any = {
