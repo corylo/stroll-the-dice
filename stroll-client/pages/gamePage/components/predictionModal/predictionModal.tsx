@@ -62,15 +62,21 @@ export const PredictionModal: React.FC<PredictionModalProps> = (props: Predictio
   }, [state.status, state.amount, state.playerID]);
   
   const updateAmount = (e: any): void => {
-    const amount: string = e.target.value.replace(/\D/g, "");
+    const amount: string = e.target.value.replace(/\D/g, ""),
+      numericAmount: number = amount !== "" ? Math.min(parseInt(amount), player.points.available) : 0,
+      finalizedAmount: string = numericAmount > 0 ? numericAmount.toString() : "";
 
     const updatedErrors: IMatchupPredictionStateErrors = { ...state.errors };
 
-    if(state.errors.amount && amount !== "" && parseInt(amount) !== 0) {
+    if(state.errors.amount && amount !== "" && numericAmount !== 0) {
       updatedErrors.amount = FormError.None;
     }
 
-    setState({ ...state, amount, errors: updatedErrors });
+    setState({ 
+      ...state, 
+      amount: finalizedAmount, 
+      errors: updatedErrors 
+    });
   }
 
   const selectPlayer = (playerID: string): void => {
@@ -169,9 +175,19 @@ export const PredictionModal: React.FC<PredictionModalProps> = (props: Predictio
       styles.borderColor = borderColor;
     }
 
+    const getText = (): JSX.Element => {
+      if(selected) {
+        return (
+          <h1 className="passion-one-font" style={{ color: `rgb(${side.profile.color})` }}>Selected</h1>
+        )
+      }
+    }
+
     return (      
       <div className={classNames("prediction-player-selection-button-wrapper", { selected: state.playerID === side.playerID })}>     
-        <div className="prediction-player-selection-bracket" style={borderStyles} />
+        <div className="prediction-player-selection-bracket" style={borderStyles}>
+          {getText()}
+        </div>
         <IconButton
           className={classNames("prediction-player-selection-button", { selected: state.playerID === side.playerID })}
           disabled={!PredictionUtility.matchupSideAvailable(matchup, side, player, myPrediction) || predictionsClosed}
