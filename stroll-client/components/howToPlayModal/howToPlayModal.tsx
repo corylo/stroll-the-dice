@@ -297,15 +297,16 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = (props: HowToPlayMo
                 <HowToPlayDisplayComponent>
                   <h1 className="example-matchup-side-stat passion-one-font"><IconStatement icon={Icon.Dice} text={`1 : ${leftReturnRatio}`} /></h1>
                 </HowToPlayDisplayComponent>
-                <HowToPlayText text={`In the example from the matchups section, the return ratio used is ${leftReturnRatio}.`} />
-                <HowToPlayText text={`This means that for every point you wagered, you would be returned ${leftReturnRatio} points.`} />
+                <HowToPlayText text={`Based on the example from the matchups section, the return ratio for Player 1 is ${leftReturnRatio}.`} />
+                <HowToPlayText text={`This means that for every point you wagered on Player 1, you would be returned ${leftReturnRatio} points.`} />
                 <HowToPlayText text={`So if you wagered ${predictionAmount.toLocaleString()} points you would be returned ${returnedAmount.toLocaleString()} points for a net gain of ${netAmount.toLocaleString()} points.`} />
                 <HowToPlayText text={[
                   "The formula for calculating the return ratio is as follows:",
                   "Total Wagered On The Matchup / Total Wagered On Your Pick",
                   "In this example, if you predicted Player 1, the corresponding values would be:",
-                  `(${matchup.left.total.wagered.toLocaleString()} + ${matchup.right.total.wagered.toLocaleString()}) / ${matchup.left.total.wagered.toLocaleString()}`
+                  `(${matchup.left.total.wagered.toLocaleString()} + ${matchup.right.total.wagered.toLocaleString()}) / ${matchup.left.total.wagered.toLocaleString()} = ${leftReturnRatio}`
                 ]} />
+                <HowToPlayText text="As a final note, any fractional points won are rounded to the nearest whole number." />
               </HowToPlayModalSection>
               <HowToPlayModalSection title="3. Conclusion" subsection>
                 <HowToPlayText text={[
