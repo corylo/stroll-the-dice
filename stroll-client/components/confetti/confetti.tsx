@@ -23,7 +23,7 @@ export const Confetti: React.FC<ConfettiProps> = (props: ConfettiProps) => {
     if(container !== null) {
       let particles: JSX.Element[] = [];
 
-      for(let i: number = 0; i < 60; i++) {
+      for(let i: number = 0; i < 40; i++) {
         particles.push(
           <ConfettiParticle 
             key={i} 
