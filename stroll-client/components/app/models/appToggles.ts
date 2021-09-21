@@ -15,8 +15,8 @@ export const defaultAppToggles = (): IAppToggles => ({
   acceptInvite: false,
   deleteAccount: false,
   hideFooter: false,
-  howToPlay: true,
-  howToPlayID: HowToPlayID.Prerequisites,
+  howToPlay: false,
+  howToPlayID: HowToPlayID.Unknown,
   menu: false,
   profile: false,
   signIn: false
