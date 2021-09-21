@@ -46,9 +46,13 @@ export const ConfettiParticle: React.FC<ConfettiParticleProps> = (props: Confett
     [particle, setParticleTo] = useState<IConfettiParticle>(getRandomParticle());
 
   useEffect(() => {
-    setTimeout(() => {
+    const timeout: NodeJS.Timeout = setTimeout(() => {
       setShowTo(true);
     }, initialDelay);
+
+    return () => {
+      clearTimeout(timeout);
+    }
   }, []);
 
   useEffect(() => {
