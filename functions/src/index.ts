@@ -4,6 +4,7 @@ import { AuthService } from "./services/authService";
 import { FriendRequestService } from "./services/friendRequestService";
 import { GameDayTransactionService } from "./services/transaction/gameDayTransactionService";
 import { GameService } from "./services/gameService";
+import { MatchupService } from "./services/matchupService";
 import { PaymentService } from "./services/paymentService";
 import { PlayerService } from "./services/playerService";
 import { PredictionService } from "./services/predictionService";
@@ -11,7 +12,6 @@ import { ProfileService } from "./services/profileService";
 import { ScheduleService } from "./services/scheduleService";
 import { StepTrackerService } from "./services/stepTrackerService";
 import { StripeService } from "./services/stripeService";
-import { MatchupService } from "./services/matchupService";
 
 exports.onAuthUserDelete = auth.user()
   .onDelete(AuthService.onAuthUserDelete);

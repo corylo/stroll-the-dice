@@ -26,7 +26,7 @@ interface IGameDayTransactionService {
 }
 
 export const GameDayTransactionService: IGameDayTransactionService = {
-  giftGameDays: async  (request: IGiftGameDaysRequest, context: https.CallableContext): Promise<void> => {
+  giftGameDays: async (request: IGiftGameDaysRequest, context: https.CallableContext): Promise<void> => {
     try {
       if(context.auth !== null) {
         const isAdmin: boolean = await AdminService.checkIfAdmin(context.auth.uid);

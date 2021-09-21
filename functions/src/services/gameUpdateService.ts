@@ -1,5 +1,4 @@
 import firebase from "firebase-admin";
-import { logger } from "firebase-functions";
 
 import { db } from "../../config/firebase";
 
@@ -21,6 +20,7 @@ import { GameDaySummaryUtility } from "../utilities/gameDaySummaryUtility";
 import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtility";
 import { GameEventUtility } from "../utilities/gameEventUtility";
 import { MatchupUtility } from "../utilities/matchupUtility";
+import { NotificationUtility } from "../utilities/notificationUtility";
 
 import { gameConverter, IGame } from "../../../stroll-models/game";
 import { IGameDaySummary } from "../../../stroll-models/gameDaySummary";
@@ -33,7 +33,6 @@ import { IPlayerStepUpdate } from "../../../stroll-models/playerStepUpdate";
 import { GameEventType } from "../../../stroll-enums/gameEventType";
 import { ProfileEmailSettingID } from "../../../stroll-enums/profileEmailSettingID";
 import { GameStatus } from "../../../stroll-enums/gameStatus";
-import { NotificationUtility } from "../utilities/notificationUtility";
 
 interface IGameUpdateService {
   handleInProgressToCompleted: (gameID: string, game: IGame) => Promise<void>;
