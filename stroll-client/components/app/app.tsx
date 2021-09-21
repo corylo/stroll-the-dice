@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useMemo, useReducer } from "react";
 import { Redirect, Route, Switch, useLocation } from "react-router";
 
 import { AdminPage } from "../../pages/adminPage/adminPage";
@@ -10,6 +10,7 @@ import { GamePage } from "../../pages/gamePage/gamePage";
 import { GoodbyePage } from "../../pages/goodbyePage/goodbyePage";
 import { HomePage } from "../../pages/homePage/homePage";
 import { HowToPlayPage } from "../../pages/howToPlayPage/howToPlayPage";
+import { MyGameDaysPage } from "../../pages/myGameDaysPage/myGameDaysPage";
 import { MyGamesPage } from "../../pages/myGamesPage/myGamesPage";
 import { NotificationsPage } from "../../pages/notificationsPage/notificationsPage";
 import { ProfilePage } from "../../pages/profilePage/profilePage";
@@ -35,12 +36,13 @@ import { useAuthStateChangedEffect, useGameDaysListenerEffect, useNotificationsL
 import { defaultAppState } from "./models/appState";
 
 import { AppAction } from "../../enums/appAction";
-import { MyGameDaysPage } from "../../pages/myGameDaysPage/myGameDaysPage";
 
 interface AppProps {}
 
 export const App: React.FC<AppProps> = (props: AppProps) => {
   const [appState, dispatchToApp] = useReducer(appReducer, defaultAppState());
+
+  const { toggles } = appState;
 
   const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
 
@@ -56,6 +58,16 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
 
   useFirebaseAnalyticsInitializerEffect(appState);
 
+  const memoizedHowToPlayModal = useMemo(() => (
+      <HowToPlayModal 
+        howToPlay={toggles.howToPlay} 
+        howToPlayID={toggles.howToPlayID} 
+        toggle={(toggled: boolean) => dispatch(AppAction.ToggleHowToPlay, toggled)} 
+      />
+    ), 
+    [appState.toggles.howToPlay, appState.toggles.howToPlayID]
+  );
+
   return (
     <AppContext.Provider value={{ appState, dispatchToApp }}>
       <div id="stroll-the-dice-app">
@@ -64,7 +76,7 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
         <SignInModal />
         <UserMenuModal />
         <UpdateProfileModal />
-        <HowToPlayModal />
+        {memoizedHowToPlayModal}
         <DeleteAccountModal />
         <CookieBanner />
         <Switch>

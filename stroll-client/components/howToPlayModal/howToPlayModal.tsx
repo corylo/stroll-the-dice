@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 
 import { Button } from "../buttons/button";
 import { ConnectAStepTrackerItem } from "../connectAStepTrackerMessage/connectAStepTrackerItem/connectAStepTrackerItem";
@@ -14,17 +14,14 @@ import { ModalBody } from "../modal/modalBody";
 import { ModalTitle } from "../modal/modalTitle";
 import { PlayerLevelExperienceTable } from "../playerLevelExperienceTable/playerLevelExperienceTable";
 
-import { AppContext } from "../app/contexts/appContext";
-
 import { HowToPlayUtility } from "../../utilities/howToPlayUtility";
 import { ImageUtility } from "../../utilities/imageUtility";
 import { MatchupUtility } from "../../utilities/matchupUtility";
 import { NumberUtility } from "../../../stroll-utilities/numberUtility";
 
-import { IMatchup } from "../../../stroll-models/matchup";
+import { IMatchup, IMatchupSide } from "../../../stroll-models/matchup";
 import { IProfileReference } from "../../../stroll-models/profileReference";
 
-import { AppAction } from "../../enums/appAction";
 import { HowToPlayID } from "../../enums/howToPlayID";
 import { Icon } from "../../../stroll-enums/icon";
 import { MatchupLeader } from "../../../stroll-enums/matchupLeader";
@@ -33,20 +30,18 @@ import { PlayerLevelConstraint } from "../../../stroll-enums/playerLevelConstrai
 import { StepTracker } from "../../../stroll-enums/stepTracker";
 
 interface HowToPlayModalProps {  
-  
+  howToPlay: boolean;
+  howToPlayID: HowToPlayID;
+  toggle: (toggled: boolean) => void;
 }
 
 export const HowToPlayModal: React.FC<HowToPlayModalProps> = (props: HowToPlayModalProps) => { 
-  const { appState, dispatchToApp } = useContext(AppContext);
-
-  const { toggles } = appState;
-  
-  const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
+  const { howToPlay, howToPlayID, toggle } = props;
 
   useEffect(() => {
-    if(toggles.howToPlay && toggles.howToPlayID !== HowToPlayID.Unknown) {
+    if(howToPlay && howToPlayID !== HowToPlayID.Unknown) {
       const modal: HTMLElement = document.getElementById("how-to-play-modal"),
-        element: HTMLElement = document.getElementById(toggles.howToPlayID);
+        element: HTMLElement = document.getElementById(howToPlayID);
 
       if(modal && element) {
         const rect: DOMRect = element.getBoundingClientRect();
@@ -54,28 +49,33 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = (props: HowToPlayMo
         modal.scrollTop = rect.top - 40;
       }
     }
-  }, [toggles.howToPlay, toggles.howToPlayID]);
+  }, [howToPlay, howToPlayID]);
 
-  if(toggles.howToPlay) {    
+  if(howToPlay) {    
     const handleOnClose = (): void => {
-      dispatch(AppAction.ToggleHowToPlay, false);
+      toggle(false);
     }
 
     const getExampleMatchup = (): IMatchup => {
       const matchup: IMatchup = HowToPlayUtility.getExampleMatchup();
 
       matchup.left.steps = NumberUtility.random(2000, 9999);      
-      matchup.left.total.wagered = NumberUtility.random(20000, 50000);   
-      matchup.left.total.participants = NumberUtility.random(2, 18);     
+      matchup.left.total.wagered = NumberUtility.random(20000, 40000);   
+      matchup.left.total.participants = NumberUtility.random(5, 10);     
 
       matchup.right.steps = NumberUtility.random(2000, 9999);
-      matchup.right.total.wagered = NumberUtility.random(20000, 50000);     
-      matchup.right.total.participants = NumberUtility.random(2, 18);     
+      matchup.right.total.wagered = NumberUtility.random(20000, 40000);     
+      matchup.right.total.participants = NumberUtility.random(5, 10);
+      
+      matchup.favoriteID = NumberUtility.random(1, 2) % 2 === 0 ? matchup.left.playerID : matchup.right.playerID;
+      matchup.spread = NumberUtility.random(1000, 5000);
 
       return matchup;
     }
 
     const matchup: IMatchup = getExampleMatchup();
+
+    const underdogSide: IMatchupSide = MatchupUtility.getSideByFavorite(matchup, false);
 
     const getLeaderStatement = (): string[] => {
       const leaderID: string = MatchupUtility.getLeader(matchup);
@@ -234,7 +234,7 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = (props: HowToPlayMo
               </HowToPlayModalSection>
               <HowToPlayModalSection title="3. Breakdown" subsection>
                 <HowToPlayText text={[
-                  "In any given matchup there are four key stats listed on either side.",
+                  "In any given matchup there are five key stats listed on either side.",
                   "The first stat is total steps." 
                 ]} />
                 <HowToPlayDisplayComponent>
@@ -243,6 +243,23 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = (props: HowToPlayMo
                 <HowToPlayText text={[
                   `In this example, ${matchup.left.profile.username} has taken ${matchup.left.steps.toLocaleString()} steps and ${matchup.right.profile.username} has taken ${matchup.right.steps.toLocaleString()} steps.`,
                   ...getLeaderStatement()
+                ]} />
+                <HowToPlayText text="The second stat is spread." />
+                <HowToPlayDisplayComponent>
+                  <h1 className="example-matchup-side-stat passion-one-font"><IconStatement icon={Icon.Spread} text={matchup.spread.toLocaleString()} /></h1>
+                </HowToPlayDisplayComponent>
+                <HowToPlayText text={[
+                  "The spread is the number of steps that the matchup favorite is predicted to win by and is calculated using the average number of daily steps for each player.",                  
+                  "The spread is used purely for calculating prediction outcomes and has no effect on the actual matchup winner."
+                 ]} />
+                <HowToPlayText text={[
+                  `In this example, the spread is ${matchup.spread.toLocaleString()}.`,
+                  "For all intents and purposes the spread is the number of steps subtracted from the favorite when determining prediction results.",
+                  "If, after the spread has been subtracted, the favorite has not taken more steps than the underdog, then predictions placed on the favorite would result in a loss."
+                ]} />
+                <HowToPlayText text={[
+                  "In this example, the number of steps the matchup favorite would have to take to win (based on current step values) would be:",                  
+                  `${underdogSide.steps.toLocaleString()} + ${matchup.spread.toLocaleString()} + 1 = ${(underdogSide.steps + matchup.spread + 1).toLocaleString()}`
                 ]} />
                 <HowToPlayText text="The next stat is total wagered." />
                 <HowToPlayDisplayComponent>
@@ -276,13 +293,19 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = (props: HowToPlayMo
                 ]} />
               </HowToPlayModalSection>
               <HowToPlayModalSection title="2. Breakdown" subsection>
-                <HowToPlayText text="The number of points you will win, assuming you've predicted correctly, is determined by the Return Ratio stat listed under the player you've predicted on." />
+                <HowToPlayText text="The number of points you will win, assuming you've predicted correctly, is determined by the return ratio stat listed under the player you've predicted on." />
                 <HowToPlayDisplayComponent>
                   <h1 className="example-matchup-side-stat passion-one-font"><IconStatement icon={Icon.Dice} text={`1 : ${leftReturnRatio}`} /></h1>
                 </HowToPlayDisplayComponent>
-                <HowToPlayText text={`In this example, the return ratio we will use is ${leftReturnRatio}.`} />
+                <HowToPlayText text={`In the example from the matchups section, the return ratio used is ${leftReturnRatio}.`} />
                 <HowToPlayText text={`This means that for every point you wagered, you would be returned ${leftReturnRatio} points.`} />
                 <HowToPlayText text={`So if you wagered ${predictionAmount.toLocaleString()} points you would be returned ${returnedAmount.toLocaleString()} points for a net gain of ${netAmount.toLocaleString()} points.`} />
+                <HowToPlayText text={[
+                  "The formula for calculating the return ratio is as follows:",
+                  "Total Wagered On The Matchup / Total Wagered On Your Pick",
+                  "In this example, if you predicted Player 1, the corresponding values would be:",
+                  `(${matchup.left.total.wagered.toLocaleString()} + ${matchup.right.total.wagered.toLocaleString()}) / ${matchup.left.total.wagered.toLocaleString()}`
+                ]} />
               </HowToPlayModalSection>
               <HowToPlayModalSection title="3. Conclusion" subsection>
                 <HowToPlayText text={[

@@ -1,12 +1,7 @@
-import { FirestoreDateUtility } from "../../stroll-utilities/firestoreDateUtility";
-
 import { defaultMatchup, IMatchup, IMatchupSide } from "../../stroll-models/matchup";
-import { IPlayer } from "../../stroll-models/player";
-import { defaultProfile } from "../../stroll-models/profile";
 import { defaultProfileReference } from "../../stroll-models/profileReference";
 
 import { Color } from "../../stroll-enums/color";
-import { GameStatus } from "../../stroll-enums/gameStatus";
 import { HowToPlayID } from "../enums/howToPlayID";
 import { Icon } from "../../stroll-enums/icon";
 import { MatchupSideAlignment } from "../pages/gamePage/components/matchupSide/matchupSide";
@@ -14,7 +9,6 @@ import { MatchupSideAlignment } from "../pages/gamePage/components/matchupSide/m
 interface IHowToPlayUtility {
   getExampleMatchup: () => IMatchup;  
   getExampleMatchupSide: (side: MatchupSideAlignment) => IMatchupSide;  
-  getExamplePlayer: () => IPlayer;
   getID: (id: string) => HowToPlayID;
 }
 
@@ -60,34 +54,6 @@ export const HowToPlayUtility: IHowToPlayUtility = {
         participants: 2,
         wagered: 2500
       }
-    }
-  },
-  getExamplePlayer: (): IPlayer => {
-    return {
-      id: "000",
-      createdAt: FirestoreDateUtility.dateToTimestamp(new Date()),
-      index: 0,
-      place: 0,
-      points: {
-        available: 1000,
-        total: 1000
-      },
-      profile: {
-        ...defaultProfile(),
-        color: Color.Purple1,
-        icon: Icon.Rudolph,
-        username: "Player 1"
-      },
-      ref: {
-        acceptedGiftDays: false,
-        game: "",
-        gameStatus: GameStatus.Unknown,
-        invite: "",
-        lastMatchupPredicted: "",
-        team: ""
-      },
-      steps: 0,
-      updatedAt: FirestoreDateUtility.dateToTimestamp(new Date())
     }
   },
   getID: (id: string): HowToPlayID => {
