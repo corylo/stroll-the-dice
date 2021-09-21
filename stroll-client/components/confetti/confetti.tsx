@@ -1,67 +1,54 @@
-import React, { useEffect, useRef, useState } from "react";
-
-import { ConfettiParticle } from "./confettiParticle";
+import React, { useEffect, useRef } from "react";
+import CanvasConfetti from "canvas-confetti";
+import { NumberUtility } from "../../../stroll-utilities/numberUtility";
 
 interface ConfettiProps {  
-  id: string;
+  
 }
 
 export const Confetti: React.FC<ConfettiProps> = (props: ConfettiProps) => {  
-  const ref: React.MutableRefObject<HTMLDivElement> = useRef(null);
+  const ref: React.MutableRefObject<HTMLCanvasElement> = useRef(null);
 
-  const [container, setContainerTo] = useState<HTMLElement>(null),
-    [visible, setVisibleTo] = useState<boolean>(true);
+  const randomInRange = (min: number, max: number): number => Math.random() * (max - min) + min;  
 
-  useEffect(() => {
-    const element: HTMLElement = document.getElementById(props.id);
+  let skew: number = 1;
 
-    if(element !== null) {
-      setContainerTo(element);
-    }
-  }, []);  
+  const duration: number = 15 * 1000,
+    animationEnd: number = Date.now() + duration;
+
+  const colors: string[] = ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"];
 
   useEffect(() => {
-    if(container) {
-      const handleOnScroll = (e: any): void => {      
-        const rect: DOMRect = container.getBoundingClientRect();
-        
-        if(rect.bottom <= 0 && visible) {
-          setVisibleTo(false);
-        } else if (rect.bottom > 0 && !visible) {
-          setVisibleTo(true);
-        }
-      }
+    if(ref.current) {  
+      (function frame() {
+        skew = Math.max(0.8, 1 - 0.001);
 
-      document.addEventListener("scroll", handleOnScroll);
+        const timeLeft: number = animationEnd - Date.now(),
+          ticks: number = Math.max(100, 200 * (timeLeft / duration)),
+          color: string = colors[NumberUtility.random(1, 5)];
 
-      return () => {
-        document.removeEventListener("scroll", handleOnScroll);
-      }
+        CanvasConfetti({
+          particleCount: 1,
+          startVelocity: 0,
+          ticks,
+          origin: {
+            x: Math.random(),
+            y: (Math.random() * skew) - 0.2
+          },
+          colors: [color],
+          shapes: ["circle"],
+          gravity: randomInRange(0.4, 0.6),
+          scalar: randomInRange(0.4, 1),
+          drift: randomInRange(-0.4, 0.4)
+
+        });
+
+        requestAnimationFrame(frame);
+      })();
     }
-  }, [container, visible]);
-
-  const getConfettiParticles = (): JSX.Element[] => {    
-    if(container !== null && visible) {
-      let particles: JSX.Element[] = [];
-
-      for(let i: number = 0; i < 60; i++) {
-        particles.push(
-          <ConfettiParticle 
-            key={i} 
-            containerWidth={container.offsetWidth} 
-          />
-        );
-      }
-
-      return particles;
-    }
-
-    return [];
-  }
+  }, [ref]);  
 
   return (
-    <div id={props.id} ref={ref} className="confetti-effect">
-      {getConfettiParticles()}
-    </div>
+    <canvas ref={ref} />
   );
 }

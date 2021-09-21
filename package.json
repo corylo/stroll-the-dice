@@ -29,6 +29,7 @@
   "homepage": "https://github.com/TheVVaFFle/stroll-the-dice#readme",
   "dependencies": {
     "axios": "^0.21.1",
+    "canvas-confetti": "^1.4.0",
     "classnames": "^2.3.1",
     "firebase": "^8.7.1",
     "lodash.clonedeep": "^4.5.0",
@@ -40,6 +41,7 @@
     "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
+    "@types/canvas-confetti": "^1.4.2",
     "@types/classnames": "^2.3.0",
     "@types/lodash.clonedeep": "^4.5.6",
     "@types/lodash.groupby": "^4.6.6",

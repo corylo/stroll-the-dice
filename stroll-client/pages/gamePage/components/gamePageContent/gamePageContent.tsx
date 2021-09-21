@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 
 import { AcceptInviteModal } from "../acceptInviteModal/acceptInviteModal";
+import { Confetti } from "../../../../components/confetti/confetti";
 import { EmptyMessage } from "../../../../components/emptyMessage/emptyMessage";
 import { GameActions } from "../gameActions/gameActions";
 import { GameDateStatus } from "../../../../components/gameDateStatus/gameDateStatus";
@@ -24,9 +25,6 @@ import { GamePageContext } from "../../gamePage";
 
 import { FirestoreDateUtility } from "../../../../../stroll-utilities/firestoreDateUtility";
 import { RoleUtility } from "../../../../../stroll-utilities/roleUtility";
-
-import { IPlayer } from "../../../../../stroll-models/player";
-import { IProfile, placeholderProfile } from "../../../../../stroll-models/profile";
 
 import { AppAction } from "../../../../enums/appAction";
 import { AppStatus } from "../../../../enums/appStatus";
@@ -176,6 +174,16 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
       }
     }
 
+    const getConfetti = (): JSX.Element => {
+      const endOfFinalDayUpdateComplete: boolean = FirestoreDateUtility.endOfDayProgressUpdateComplete(state.game.duration, game.startsAt, game.progressUpdateAt);
+
+      if(game.status === GameStatus.Completed && endOfFinalDayUpdateComplete || true) {
+        return (
+          <Confetti />
+        );
+      }
+    }
+    
     return (
       <div className="game-page-content">
         <div className="game-page-header">
@@ -201,6 +209,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
           </div>
           {getGamePageContentForPlayer()}
         </div>
+        {getConfetti()}
         <MyPoints />
         <UpdateGameModal back={() => toggle({ update: false })} />
         <AcceptInviteModal back={() => dispatch(AppAction.ToggleAcceptInvite, false)} />
