@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 
+import { IconButton } from "../../../../components/buttons/iconButton";
 import { IconStatement } from "../../../../components/iconStatement/iconStatement";
 import { PlayerStatement } from "../../../../components/playerStatement/playerStatement";
+
+import { AppContext } from "../../../../components/app/contexts/appContext";
 
 import { FirestoreDateUtility } from "../../../../../stroll-utilities/firestoreDateUtility";
 import { MatchupUtility } from "../../../../utilities/matchupUtility";
@@ -9,7 +12,9 @@ import { MatchupUtility } from "../../../../utilities/matchupUtility";
 import { IGame } from "../../../../../stroll-models/game";
 import { IMatchup, IMatchupSide } from "../../../../../stroll-models/matchup";
 
+import { AppAction } from "../../../../enums/appAction";
 import { GameStatus } from "../../../../../stroll-enums/gameStatus";
+import { HowToPlayID } from "../../../../enums/howToPlayID";
 import { Icon } from "../../../../../stroll-enums/icon";
 
 interface MatchupSpreadStatusProps {  
@@ -19,8 +24,16 @@ interface MatchupSpreadStatusProps {
 }
 
 export const MatchupSpreadStatus: React.FC<MatchupSpreadStatusProps> = (props: MatchupSpreadStatusProps) => {  
+  const { dispatchToApp } = useContext(AppContext);
+
+  const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
+
   const { dayStatus, game, matchup } = props;
   
+  const toggle = (): void => {    
+    dispatch(AppAction.ToggleHowToPlay, { howToPlay: true, howToPlayID: HowToPlayID.Matchups });
+  }
+
   if(matchup.right.playerID !== "") {
     const getContent = (): JSX.Element => {      
       if(matchup.spreadCreatedAt === null) {
@@ -74,10 +87,18 @@ export const MatchupSpreadStatus: React.FC<MatchupSpreadStatusProps> = (props: M
     return (
       <div className="matchup-spread-status">
         <div className="matchup-spread-status-label">
-          <i className={Icon.Spread} />
-          <h1 className="passion-one-font">Spread</h1>
+          <div className="matchup-spread-status-label-body">
+            <i className={Icon.Spread} />
+            <h1 className="passion-one-font">Spread</h1>
+          </div>
+          <IconButton
+            icon="fal fa-info-circle"
+            handleOnClick={toggle}
+          />
         </div>
-        {getContent()}
+        <div className="matchup-spread-status-body">
+          {getContent()}
+        </div>
       </div>
     );
   }

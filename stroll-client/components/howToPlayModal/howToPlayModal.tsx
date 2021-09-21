@@ -275,7 +275,7 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = (props: HowToPlayMo
                 </HowToPlayText>
                 <HowToPlayText text={`In this example, the return ratio for ${matchup.left.profile.username} is 1 : ${leftReturnRatio} and the return ratio for ${matchup.right.profile.username} is 1 : ${rightReturnRatio}.`} />
                 <HowToPlayText text="For more information on how return ratio works continue on to the Prediction section." />
-                <HowToPlayText text="The final stat is Participants. This stat is purely informational." />
+                <HowToPlayText text="The final stat is participants. This stat is purely informational." />
                 <HowToPlayDisplayComponent>
                   <h1 className="example-matchup-side-stat passion-one-font"><IconStatement icon={Icon.Players} text={matchup.left.total.participants.toString()} /></h1>
                 </HowToPlayDisplayComponent>
