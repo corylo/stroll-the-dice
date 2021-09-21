@@ -177,7 +177,7 @@ export const GamePageContent: React.FC<GamePageContentProps> = (props: GamePageC
     const getConfetti = (): JSX.Element => {
       const endOfFinalDayUpdateComplete: boolean = FirestoreDateUtility.endOfDayProgressUpdateComplete(state.game.duration, game.startsAt, game.progressUpdateAt);
 
-      if(game.status === GameStatus.Completed && endOfFinalDayUpdateComplete || true) {
+      if(game.status === GameStatus.Completed && endOfFinalDayUpdateComplete) {
         return (
           <Confetti />
         );
