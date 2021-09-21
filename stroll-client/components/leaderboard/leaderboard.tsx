@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import _orderBy from "lodash.orderby";
 
 import { Button } from "../buttons/button";
@@ -134,20 +134,20 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
             );
           }
         }
-        
-        const getConfetti = (): JSX.Element => {
-          if(completed && endOfFinalDayUpdateComplete) {
+
+        const memoizedConfetti = useMemo(() => {
+          if(completed && endOfFinalDayUpdateComplete) {            
             return (
               <Confetti id={`${props.id}-confetti`} />
             );
           }
-        }
-        
+        }, [completed, endOfFinalDayUpdateComplete]);
+
         return (
           <React.Fragment>
             <h1 className="leaderboard-title passion-one-font">{getTitle()}</h1>
             {getCongratulations()}
-            {getConfetti()}
+            {memoizedConfetti}
             <div className="leaderboard-rows">
               {getRows()}
             </div>
