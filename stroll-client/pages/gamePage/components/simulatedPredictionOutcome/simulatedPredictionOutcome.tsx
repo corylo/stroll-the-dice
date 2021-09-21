@@ -97,7 +97,7 @@ export const SimulatedPredictionOutcome: React.FC<SimulatedPredictionOutcomeProp
   const getZeroWinningsText = (): JSX.Element => {
     if(leftSideTotal === 0 || rightSideTotal === 0) {
       return (
-        <h1 className="label warning-label passion-one-font">Points can only be won if there are wagers on both sides of a matchup.</h1>
+        <h1 className="warning-label passion-one-font">Points can only be won if there are wagers on both sides of a matchup.</h1>
       )
     }
   }

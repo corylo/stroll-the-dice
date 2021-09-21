@@ -9,6 +9,7 @@ import { FormBody } from "../../../../components/form/formBody";
 import { IconButton } from "../../../../components/buttons/iconButton";
 import { InputWrapper } from "../../../../components/inputWrapper/inputWrapper";
 import { MatchupSides } from "../matchupSides/matchupSides";
+import { MatchupSpreadStatus } from "../matchupSpreadStatus/matchupSpreadStatus";
 import { Modal } from "../../../../components/modal/modal";
 import { ModalBody } from "../../../../components/modal/modalBody";
 import { ModalTitle } from "../../../../components/modal/modalTitle";
@@ -32,6 +33,7 @@ import { IPredictionUpdate } from "../../../../../stroll-models/predictionUpdate
 import { ElementID } from "../../../../enums/elementId";
 import { FormError } from "../../../../enums/formError";
 import { FormStatus } from "../../../../enums/formStatus";
+import { GameStatus } from "../../../../../stroll-enums/gameStatus";
 
 interface PredictionModalProps {  
   matchup: IMatchup;
@@ -233,7 +235,12 @@ export const PredictionModal: React.FC<PredictionModalProps> = (props: Predictio
               currentAmount={myPrediction ? myPrediction.amount : 0}
               matchup={_cloneDeep(matchup)} 
               playerID={state.playerID}
-            />            
+            />   
+            <MatchupSpreadStatus 
+              dayStatus={GameStatus.Upcoming} 
+              game={game} 
+              matchup={matchup} 
+            />         
             {getMyPrediction()}
             <InputWrapper 
               label={`${player.points.available.toLocaleString()} points available`}

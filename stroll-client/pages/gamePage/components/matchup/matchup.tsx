@@ -3,6 +3,7 @@ import firebase from "firebase/app";
 
 import { Button } from "../../../../components/buttons/button";
 import { MatchupSides } from "../matchupSides/matchupSides";
+import { MatchupSpreadStatus } from "../matchupSpreadStatus/matchupSpreadStatus";
 import { MyPrediction } from "../myPrediction/myPrediction";
 import { PredictionModal } from "../predictionModal/predictionModal";
 import { UpdateTimer } from "../../../../components/updateTimer/updateTimer";
@@ -111,6 +112,11 @@ export const Matchup: React.FC<MatchupProps> = (props: MatchupProps) => {
     <div className="game-matchup">
       {getUpdateTimer()}
       <MatchupSides matchup={matchup} />
+      <MatchupSpreadStatus 
+        dayStatus={dayStatus} 
+        game={state.game} 
+        matchup={matchup} 
+      />
       {getMyPrediction()}    
       {getPredictionButton()}
       {getPredictionModal()}

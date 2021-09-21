@@ -10,6 +10,7 @@ interface IMatchupUtility {
   getByPlayer: (playerID: string, matchups: IMatchup[]) => IMatchup;
   getLeader: (matchup: IMatchup) => string;
   getPlayerSteps: (playerID: string, matchup: IMatchup) => number;
+  getSideByFavorite: (matchup: IMatchup, shouldGetFavorite: boolean) => IMatchupSide;
   getWinnerRatio: (matchup: IMatchup) => number;
   mapProfilesToMatchup: (matchup: IMatchup, players: IPlayer[]) => IMatchup;
   mapProfilesToMatchups: (matchups: IMatchup[], players: IPlayer[]) => IMatchup[];
@@ -48,6 +49,21 @@ export const MatchupUtility: IMatchupUtility = {
     }
 
     throw new Error(`Player [${playerID}] not found in matchup [${matchup.id}]. Left was [${matchup.left.playerID}], right was [${matchup.right.playerID}]`);
+  },
+  getSideByFavorite: (matchup: IMatchup, shouldGetFavorite: boolean): IMatchupSide => {
+    if(shouldGetFavorite) {
+      if(matchup.left.playerID === matchup.favoriteID) {
+        return matchup.left;
+      } else if (matchup.right.playerID === matchup.favoriteID) {
+        return matchup.right;
+      }
+    }
+    
+    if(matchup.left.playerID !== matchup.favoriteID) {
+      return matchup.left;
+    } else if (matchup.right.playerID !== matchup.favoriteID) {
+      return matchup.right;
+    }
   },
   getWinnerRatio: (matchup: IMatchup): number => {
     if(matchup.winner !== "" && matchup.winner !== MatchupLeader.Tie) {
