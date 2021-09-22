@@ -66,8 +66,8 @@ export const MatchupUtility: IMatchupUtility = {
     }
   },
   getWinnerRatio: (matchup: IMatchup): number => {
-    if(matchup.winner !== "" && matchup.winner !== MatchupLeader.Tie) {
-      return matchup.winner === matchup.left.playerID
+    if(matchup.spreadWinner !== "" && matchup.spreadWinner !== MatchupLeader.Tie) {
+      return matchup.spreadWinner === matchup.left.playerID
         ? MatchupUtility.calculateRatio(matchup.left, matchup.right)
         : MatchupUtility.calculateRatio(matchup.right, matchup.left);
     }
