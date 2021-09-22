@@ -85,31 +85,38 @@ export const MatchupSpreadStatus: React.FC<MatchupSpreadStatusProps> = (props: M
     }
 
     const getSpreadStatusBar = (): JSX.Element => {
-      if(dayStatus !== GameStatus.Upcoming) {
+      if(dayStatus === GameStatus.Upcoming) {
         const spreadCoverageDecimal: number = (favoriteSide.steps / (underdogSide.steps + matchup.spread + 1)),
-          spreadCoveragePercentage: number = Math.min(100, spreadCoverageDecimal * 100);
+          spreadCoveragePercentage: number = spreadCoverageDecimal * 100,
+          spreadCoverageConstrainedPercentage = Math.min(100, spreadCoveragePercentage);
+
+        const getSpreadCoverageFormattedPercentage = (): string => {
+          if(spreadCoveragePercentage > 99 && spreadCoveragePercentage < 100) {
+            return spreadCoveragePercentage.toFixed(2);
+          }
+
+          return Math.round(spreadCoveragePercentage).toString();
+        }
         
-        const spreadCoverageRoundedPercentage: string = (spreadCoveragePercentage === 0 || spreadCoveragePercentage === 100)
-            ? spreadCoveragePercentage.toString()
-            : spreadCoveragePercentage.toFixed(2);
+        const spreadCoverageFormattedPercentage: string = getSpreadCoverageFormattedPercentage();
         
         const favoriteStyles: React.CSSProperties = {
           backgroundColor: `rgb(${favoriteSide.profile.color})`,
-          width: `${spreadCoveragePercentage}%`
+          width: `${spreadCoverageConstrainedPercentage}%`
         }
 
         const underdogStyles: React.CSSProperties = {
           backgroundColor: `rgb(${underdogSide.profile.color})`,
-          width: `${(1 - spreadCoverageDecimal) * 100}%`
+          width: `${100 - spreadCoverageConstrainedPercentage}%`
         }
 
         const getSpreadStatusBarPercentage = (): JSX.Element => {
-          const styles: React.CSSProperties = { left: `${spreadCoveragePercentage}%` };
+          const styles: React.CSSProperties = { left: `${spreadCoverageConstrainedPercentage}%` };
 
           if(spreadCoveragePercentage > 50) {
             return (
               <div className="matchup-spread-status-bar-percentage right-side" style={styles}>
-                <h1 className="passion-one-font">{spreadCoverageRoundedPercentage}%</h1>
+                <h1 className="passion-one-font">{spreadCoverageFormattedPercentage}%</h1>
                 <i className="player-level-badge-experience-bar-indicator fas fa-map-marker" />
               </div>
             )
@@ -118,7 +125,7 @@ export const MatchupSpreadStatus: React.FC<MatchupSpreadStatusProps> = (props: M
           return (
             <div className="matchup-spread-status-bar-percentage left-side" style={styles}>
               <i className="player-level-badge-experience-bar-indicator fas fa-map-marker" />
-              <h1 className="passion-one-font">{spreadCoverageRoundedPercentage}%</h1>
+              <h1 className="passion-one-font">{spreadCoverageFormattedPercentage}%</h1>
             </div>
           )
         }
