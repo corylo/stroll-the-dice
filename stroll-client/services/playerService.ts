@@ -2,13 +2,10 @@ import firebase from "firebase/app";
 
 import { db } from "../config/firebase";
 
-import { ProfileService } from "./profileService";
-
 import { ErrorUtility } from "../utilities/errorUtility";
 
 import { IGame } from "../../stroll-models/game";
 import { IPlayer, playerConverter } from "../../stroll-models/player";
-import { IProfile } from "../../stroll-models/profile";
 
 import { DocumentType } from "../../stroll-enums/documentType";
 
@@ -23,7 +20,6 @@ interface IPlayerServiceGet {
 interface IPlayerService {
   create: (game: IGame, player: IPlayer) => Promise<void>;
   get: IPlayerServiceGet;
-  getProfiles: (players: IPlayer[]) => Promise<IPlayer[]>;
 }
 
 export const PlayerService: IPlayerService = {
@@ -56,18 +52,5 @@ export const PlayerService: IPlayerService = {
         }
       }
     }
-  },
-  getProfiles: async (players: IPlayer[]): Promise<IPlayer[]> => {
-    const profiles: IProfile[] = await ProfileService.getAllByUIDIndividually(players.map((player: IPlayer) => player.id));
-
-    return players.map((player: IPlayer) => {
-      const match: IProfile = profiles.find((profile: IProfile) => profile.uid === player.id);
-
-      if(match) {
-        player.profile = match;
-      }
-
-      return player;
-    });
   }
 }

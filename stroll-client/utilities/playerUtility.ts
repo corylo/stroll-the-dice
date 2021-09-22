@@ -15,6 +15,7 @@ interface IPlayerUtility {
   hasProfileChanged: (before: IPlayer, after: IPlayer) => boolean;
   mapCreate: (profile: IProfile, game: IGame, invite: IInvite, acceptedGiftDays: boolean) => IPlayer;
   mapPlaceholderProfiles: (players: IPlayer[]) => IPlayer[];
+  mapProfiles: (players: IPlayer[], profiles: IProfile[]) => IPlayer[];
 }
 
 export const PlayerUtility: IPlayerUtility = {
@@ -77,5 +78,16 @@ export const PlayerUtility: IPlayerUtility = {
       ...player,
       profile: placeholderProfile()
     }))
+  },
+  mapProfiles: (players: IPlayer[], profiles: IProfile[]): IPlayer[] => {
+    return players.map((player: IPlayer) => {
+      const profile: IProfile = profiles.find((p: IProfile) => p.uid === player.id);
+
+      if(profile) {
+        player.profile = profile;
+      }
+
+      return player;
+    });
   }
 }

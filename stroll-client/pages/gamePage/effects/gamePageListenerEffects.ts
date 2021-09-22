@@ -24,7 +24,8 @@ import { RequestStatus } from "../../../../stroll-enums/requestStatus";
 
 export const useGameListenersEffect = (id: string, appState: IAppState, state: IGamePageState, setState: (state: IGamePageState) => void): void => {
   const [game, setGame] = useState<IGame>(defaultGame()),
-    [players, setPlayers] = useState<IPlayer[]>([]);
+    [players, setPlayers] = useState<IPlayer[]>([]),
+    [profiles, setProfiles] = useState<IProfile[]>([]);
 
   useEffect(() => {  
     const updates: IGamePageState = { ...state };
@@ -40,7 +41,7 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
     }
     
     if(players.length > 0) {
-      updates.players = players;
+      updates.players = PlayerUtility.mapProfiles(players, profiles);
 
       const creator: IPlayer = PlayerUtility.getById(game.creatorUID, players);
 
@@ -62,7 +63,7 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
     }
 
     setState(updates);
-  }, [appState.user, state.statuses.player, game, players]);
+  }, [appState.user, state.statuses.player, game, players, profiles]);
 
   useEffect(() => {   
     if(
@@ -76,12 +77,11 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
           if(doc.exists) {
             setGame(doc.data());
           } else {
-            setState({ ...state, 
+            setState({ 
+              ...state, 
               game: defaultGame(),
-              statuses: {
-                ...state.statuses,
-                game: RequestStatus.Error 
-            }});
+              statuses: { ...state.statuses, game: RequestStatus.Error  }
+            });
           }
         });
 
@@ -151,25 +151,19 @@ export const useGameListenersEffect = (id: string, appState: IAppState, state: I
 
   useEffect(() => {
     if(state.players.length === players.length) {
-      const unmappedPlayers: IPlayer[] = players.filter((player: IPlayer) => player.profile.uid === "");
+      const unmappedPlayers: IPlayer[] = state.players.filter((player: IPlayer) => player.profile.uid === "");
 
       if(unmappedPlayers.length > 0) {   
         const update = async (): Promise<void> => {     
-          const mappedPlayers: IPlayer[] = await PlayerService.getProfiles(unmappedPlayers);
+          const updates: IProfile[] = await ProfileService.getAllByUIDIndividually(unmappedPlayers.map((player: IPlayer) => player.id));
 
-          const updatedPlayers: IPlayer[] = [...players].map((player: IPlayer) => {
-            const match: IPlayer = PlayerUtility.getById(player.id, mappedPlayers);
-
-            return match || player;
-          });
-          
-          setPlayers(updatedPlayers);
+          setProfiles([...profiles, ...updates]);
         }
 
         update();
       }
     }
-  }, [state.players, players]);
+  }, [state.players, players, profiles]);
 
   useEffect(() => {
     if(state.statuses.player === PlayerStatus.NotPlaying) {
