@@ -3,63 +3,128 @@
   background-color: gray(40);
   border-radius: 6px;   
   color: white; 
-  display: flex;
-  gap: 10px;
   margin-top: 10px;
   padding: 10px;
   text-align: left;
 
-  .matchup-spread-status-label {
-    align-items: center;
+  .matchup-spread-status-content {
     display: flex;
     gap: 10px;
-    text-transform: uppercase;
 
-    .matchup-spread-status-label-body {
+    .matchup-spread-status-label {
       align-items: center;
       display: flex;
       gap: 10px;
+      text-transform: uppercase;
 
-      h1, i {
-        color: white;
+      .matchup-spread-status-label-body {
+        align-items: center;
+        display: flex;
+        gap: 10px;
+
+        h1, i {
+          color: white;
+        }
+
+        i {
+          font-size: 0.8em;
+        }
       }
 
-      i {
-        font-size: 0.8em;
+      .icon-button {
+        i {
+          color: white;
+          font-size: 1em;
+          height: 30px;
+          line-height: 30px;
+          width: 30px;
+        }
       }
     }
 
-    .icon-button {
-      i {
+    .matchup-spread-status-body {
+      align-items: center;
+      display: flex;
+      flex-grow: 1;
+      gap: 10px;
+      justify-content: space-between;
+
+      .matchup-spread-status-description {
         color: white;
-        font-size: 1em;
-        height: 30px;
-        line-height: 30px;
-        width: 30px;
+
+        .icon-statement {
+          margin-left: 2px;
+          white-space: nowrap;
+
+          span, i {
+            color: $blue;
+          }
+          
+          i {
+            font-size: 0.8em;
+          }
+        }
       }
     }
   }
 
-  .matchup-spread-status-body {
-    align-items: center;
-    display: flex;
-    flex-grow: 1;
-    gap: 10px;
-    justify-content: space-between;
+  .matchup-spread-status-bar {
+    margin-top: 10px;
 
-    .matchup-spread-status-description {
-      color: white;
+    .matchup-spread-status-bar-percentage-track {
+      height: 10px;
+      position: relative;
 
-      .icon-statement {
-        margin-left: 2px;
-        white-space: nowrap;
+      .matchup-spread-status-bar-percentage {
+        display: flex;
+        gap: 5px;
+        height: 10px;
+        line-height: 10px;
+        position: absolute;
+        transition: all 400ms;
 
-        span, i {
-          color: $blue;
+        &.left-side {
+          transform: translateX(-4px);
         }
         
-        i {
+        &.right-side {
+          transform: translateX(calc(-100% + 4px));
+        }
+
+        h1, i {
+          color: white;
+        }
+
+        h1 {
           font-size: 0.8em;
+        }
+
+        i {
+          font-size: 0.6em;
+          text-align: center;
+          width: 8px;
+        }
+      }
+    }
+
+    .matchup-spread-status-bar-halves {
+      border-radius: 10px;
+      display: flex;
+      margin-top: 4px;
+      overflow: hidden;
+
+      .matchup-spread-status-bar-half {
+        height: 6px;
+        transition: all 400ms;
+
+        &.favorite {
+          border-bottom-left-radius: 10px;
+          border-top-left-radius: 10px;
+        }
+
+        &.underdog {
+          border-bottom-right-radius: 10px;
+          border-top-right-radius: 10px;
         }
       }
     }
@@ -68,20 +133,22 @@
 
 @include medium-phone-or-smaller {
   .matchup-spread-status {
-    flex-direction: column; 
-    gap: 5px;
+    .matchup-spread-status-content {
+      flex-direction: column; 
+      gap: 5px;
 
-    .matchup-spread-status-label {      
-      justify-content: center;
-      width: 100%;
+      .matchup-spread-status-label {      
+        justify-content: center;
+        width: 100%;
 
-      .icon-button {
+        .icon-button {
 
-        i {
-          font-size: 0.9em;
-          height: 26px;
-          line-height: 26px;
-          width: 26px;
+          i {
+            font-size: 0.9em;
+            height: 26px;
+            line-height: 26px;
+            width: 26px;
+          }
         }
       }
     }
