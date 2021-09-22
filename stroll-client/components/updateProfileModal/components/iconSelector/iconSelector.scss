@@ -13,34 +13,40 @@
         margin-top: 20px;
       }
 
+      &.locked {
+        .icon-selector-tier-options {
+          background-color: rgba(white, 0.15);
+          border: none;
+
+          .icon-selector-tier-locked-icon {
+            display: block;
+            font-size: 2em;
+          }
+          
+          .icon-selector-option:disabled {
+            opacity: 0.6;
+          }
+        }
+      }
+
       .icon-selector-tier-options {
         border: 1px solid rgba(white, 0.25);
-        border-radius: 6px;  
+        border-bottom: none;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;  
         display: grid;
         grid-gap: 10px;
         grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); 
         padding: 10px;
         position: relative;
 
-        .icon-selector-tier-lock-overlay {
-          align-items: center;
-          background-color: rgba(white, 0.25);
-          border-radius: 5px;
-          display: flex;
-          height: 100%;
-          justify-content: center;
-          left: 0px;
+        .icon-selector-tier-locked-icon {
+          @include centered;
+          color: white;
+          display: none;
           position: absolute;
-          top: 0px;
-          width: 100%;
-          z-index: 2;
-  
-          i {
-            color: white;
-            font-size: 3em;
-          }
         }
-  
+
         .icon-selector-option {
           &:not(:disabled):hover,
           &:not(:disabled):focus,
@@ -59,11 +65,38 @@
         }
       }
       
-      .icon-selector-tier-label {
-        color: white;
-        font-size: 1em;
-        margin-left: 10px;
-        margin-top: 5px;
+      .icon-selector-tier-labels {
+        align-items: center;
+        background-color: rgba(white, 0.15);
+        border-bottom-left-radius: 6px;
+        border-bottom-right-radius: 6px; 
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 15px;
+
+        .icon-selector-tier-label {
+          &.icon-selector-tier-number-label {
+            text-align: left;
+          }
+
+          &.icon-selector-tier-level-label {
+            text-align: right;
+          }
+
+          .icon-selector-tier-label-value {
+            color: gray(60);
+            font-size: 1.8em;
+            height: 22px;
+            line-height: 22px;
+          }
+
+          .icon-selector-tier-label-text {
+            color: white;
+            font-size: 0.8em;
+            margin-top: 2px;
+            text-transform: uppercase;
+          }
+        }
       }
     }
   }

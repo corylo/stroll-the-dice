@@ -3,14 +3,15 @@ import classNames from "classnames";
 
 import { IconButton } from "../../../../components/buttons/iconButton";
 
+import { AppContext } from "../../../app/contexts/appContext";
+
 import { IconUtility } from "../../../../utilities/iconUtility";
+import { PlayerLevelUtility } from "../../../../utilities/playerLevelUtility";
 
 import { IIconTier } from "../../../../../stroll-models/iconTier";
 
 import { Color } from "../../../../../stroll-enums/color";
 import { Icon } from "../../../../../stroll-enums/icon";
-import { AppContext } from "../../../app/contexts/appContext";
-import { PlayerLevelUtility } from "../../../../utilities/playerLevelUtility";
 
 interface IconSelectorProps {  
   color: Color;
@@ -54,27 +55,26 @@ export const IconSelector: React.FC<IconSelectorProps> = (props: IconSelectorPro
     });
   }
 
-  const getIconTiers = (): JSX.Element[] => {
-    const getLockOverlay = (locked: boolean): JSX.Element => {
-      if(locked) {
-        return (
-          <div className="icon-selector-tier-lock-overlay">
-            <i className="far fa-lock" />
-          </div>
-        )
-      }
-    }
-
+  const getIconTiers = (): JSX.Element[] => {    
     return IconUtility.getUserIconTiers().map((tier: IIconTier) => {   
       const locked: boolean = userLevel < tier.minimumLevel;   
 
       return (
-        <div key={tier.tierNumber} className="icon-selector-tier">
+        <div key={tier.tierNumber} className={classNames("icon-selector-tier", { locked })}>
           <div className="icon-selector-tier-options">
-            {getLockOverlay(locked)}
             {getOptions(tier.icons, locked)}
+            <i className="icon-selector-tier-locked-icon far fa-lock" />
           </div>
-          <h1 className="icon-selector-tier-label passion-one-font">Tier {tier.tierNumber} (Lvl. {tier.minimumLevel} +)</h1>
+          <div className="icon-selector-tier-labels">
+            <div className="icon-selector-tier-number-label icon-selector-tier-label">
+              <h1 className="icon-selector-tier-label-value passion-one-font">{tier.tierNumber}</h1>
+              <h1 className="icon-selector-tier-label-text passion-one-font">Tier</h1>
+            </div>
+            <div className="icon-selector-tier-level-label icon-selector-tier-label">
+              <h1 className="icon-selector-tier-label-value passion-one-font">{tier.minimumLevel}+</h1>
+              <h1 className="icon-selector-tier-label-text passion-one-font">Level</h1>
+            </div>
+          </div>
         </div>
       )
     });
