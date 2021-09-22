@@ -1,54 +1,52 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import CanvasConfetti from "canvas-confetti";
+
 import { NumberUtility } from "../../../stroll-utilities/numberUtility";
 
 interface ConfettiProps {  
   
 }
 
-export const Confetti: React.FC<ConfettiProps> = (props: ConfettiProps) => {  
-  const ref: React.MutableRefObject<HTMLCanvasElement> = useRef(null);
+export const Confetti: React.FC<ConfettiProps> = (props: ConfettiProps) => { 
+  const duration: number = 5000,
+    endsAt: number = Date.now() + duration;
 
-  const randomInRange = (min: number, max: number): number => Math.random() * (max - min) + min;  
-
-  let skew: number = 1;
-
-  const duration: number = 15 * 1000,
-    animationEnd: number = Date.now() + duration;
-
-  const colors: string[] = ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"];
+  const defaultOptions: CanvasConfetti.Options = { 
+    particleCount: Math.max(window.innerWidth / 20, 100), 
+    scalar: Math.min(1, window.innerWidth / 2000),
+    spread: 360, 
+    startVelocity: 30,     
+    ticks: 100 
+  };
+  
+  const fire = (origin: any): void => {
+    CanvasConfetti({ ...defaultOptions, origin });
+  }
 
   useEffect(() => {
-    if(ref.current) {  
-      (function frame() {
-        skew = Math.max(0.8, 1 - 0.001);
+    const interval: NodeJS.Timeout = setInterval(() => {
+      const timeRemaining: number = endsAt - Date.now();
 
-        const timeLeft: number = animationEnd - Date.now(),
-          ticks: number = Math.max(100, 200 * (timeLeft / duration)),
-          color: string = colors[NumberUtility.random(1, 5)];
+      if(timeRemaining <= 0) {
+        clearInterval(interval);
+      }
 
-        CanvasConfetti({
-          particleCount: 1,
-          startVelocity: 0,
-          ticks,
-          origin: {
-            x: Math.random(),
-            y: (Math.random() * skew) - 0.2
-          },
-          colors: [color],
-          shapes: ["circle"],
-          gravity: randomInRange(0.4, 0.6),
-          scalar: randomInRange(0.4, 1),
-          drift: randomInRange(-0.4, 0.4)
+      fire({
+        x: NumberUtility.randomDecimal(0.1, 0.3), 
+        y: Math.random() - 0.2
+      });
 
-        });
+      fire({
+        x: NumberUtility.randomDecimal(0.7, 0.9), 
+        y: Math.random() - 0.2
+      });
+    }, 500);
 
-        requestAnimationFrame(frame);
-      })();
+    return () => {
+      clearInterval(interval);
+      CanvasConfetti.reset();
     }
-  }, [ref]);  
+  }, []);  
 
-  return (
-    <canvas ref={ref} />
-  );
+  return null;
 }
