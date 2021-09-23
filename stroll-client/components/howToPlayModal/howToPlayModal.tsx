@@ -250,17 +250,10 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = (props: HowToPlayMo
                 </HowToPlayDisplayComponent>
                 <HowToPlayText text={[
                   "The spread is the number of steps that the matchup favorite is predicted to win by and is calculated using the average number of daily steps for each player.",                  
+                  "If one or more players in a given matchup does not have at least 3 Game Days of step history, then there will be no spread and the spread winner will be the same as the matchup winner.",
                   "The spread is used purely for calculating prediction outcomes and has no effect on the actual matchup winner."
-                 ]} />
-                <HowToPlayText text={[
-                  `In this example, the spread is ${matchup.spread.toLocaleString()}.`,
-                  "For all intents and purposes the spread is the number of steps subtracted from the favorite when determining prediction results.",
-                  "If, after the spread has been subtracted, the favorite has not taken more steps than the underdog, then predictions placed on the favorite would result in a loss."
                 ]} />
-                <HowToPlayText text={[
-                  "In this example, the number of steps the matchup favorite would have to take to win (based on current step values) would be:",                  
-                  `${underdogSide.steps.toLocaleString()} + ${matchup.spread.toLocaleString()} + 1 = ${(underdogSide.steps + matchup.spread + 1).toLocaleString()}`
-                ]} />
+                <HowToPlayText text="For more information on matchup spread, please see the Matchup Spread section." />
                 <HowToPlayText text="The next stat is total wagered." />
                 <HowToPlayDisplayComponent>
                   <h1 className="example-matchup-side-stat passion-one-font"><IconStatement icon={Icon.Points} text={NumberUtility.shorten(matchup.left.total.wagered)} /></h1>
@@ -280,6 +273,35 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = (props: HowToPlayMo
                   <h1 className="example-matchup-side-stat passion-one-font"><IconStatement icon={Icon.Players} text={matchup.left.total.participants.toString()} /></h1>
                 </HowToPlayDisplayComponent>
                  <HowToPlayText text={`In this example, there are ${matchup.left.total.participants} participants who have predicted ${matchup.left.profile.username} and ${matchup.right.total.participants} participants who have predicted ${matchup.right.profile.username}.`} />
+              </HowToPlayModalSection>
+            </HowToPlayModalSection>
+            <HowToPlayModalSection title="Matchup Spread" id={HowToPlayID.MatchupSpread}>
+              <HowToPlayDisplayComponent>
+                <ExampleMatchup matchup={matchup} />
+              </HowToPlayDisplayComponent>
+              <HowToPlayModalSection title="1. Summary" subsection>
+                <HowToPlayText text="This summary is a repeat of the matchup spread information from the Matchups section. If you have already read it, you may skip to 2. Breakdown." />
+                <HowToPlayText text={[                  
+                  "The spread is the number of steps that the matchup favorite is predicted to win by and is calculated using the average number of daily steps for each player.",                  
+                  "If one or more players in a given matchup does not have at least 3 Game Days of step history, then there will be no spread and the spread winner will be the same as the matchup winner.",
+                  "The spread is used purely for calculating prediction outcomes and has no effect on the actual matchup winner."
+                 ]} />
+              </HowToPlayModalSection>
+              <HowToPlayModalSection title="2. Breakdown" subsection>                
+                <HowToPlayText text={[
+                  `In this example, the spread is ${matchup.spread.toLocaleString()}. This is denoted on both sides of the matchup under the total steps stat.`,
+                  `The significant difference here is that the matchup favorite will show - ${matchup.spread.toLocaleString()} and the matchup underdog will show + ${matchup.spread.toLocaleString()}.`,
+                  `What this essentially tells you is that the favorite will have ${matchup.spread.toLocaleString()} steps subtracted when calculating prediction outcomes.`
+                ]} />
+                <HowToPlayText text={[
+                  "In this example, the number of steps the matchup favorite would have to take to cover the spread (based on current step values) would be:",                  
+                  `${underdogSide.steps.toLocaleString()} + ${matchup.spread.toLocaleString()} + 1 = ${(underdogSide.steps + matchup.spread + 1).toLocaleString()}`,
+                ]} />
+                <HowToPlayText text={[
+                  "The sum of the information described in the formula above is conveniently located below the matchup in the spread status bar. Here you will also find a progress bar indicating what percentage of the spread has been covered.",
+                  "If the spread status bar fills up completely and shows at least 100%, this means the spread is currently being covered by the favorite.",
+                  "If the spread is still at least 100% covered at the end of the day, then those who predicted the favorite would win."
+                ]} />
               </HowToPlayModalSection>
             </HowToPlayModalSection>
             <HowToPlayModalSection title="Predictions" id={HowToPlayID.Predictions}>

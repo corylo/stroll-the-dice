@@ -3,6 +3,7 @@ export enum HowToPlayID {
   HowItWorks = "how-it-works",
   Leveling = "leveling",
   Matchups = "matchups",
+  MatchupSpread = "matchup-spread",
   Predictions = "predictions",
   Prerequisites = "prerequisites",
   TheGoal = "the-goal",

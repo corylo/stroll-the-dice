@@ -31,7 +31,7 @@ export const MatchupSpreadStatus: React.FC<MatchupSpreadStatusProps> = (props: M
   const { dayStatus, game, matchup } = props;
   
   const toggle = (): void => {    
-    dispatch(AppAction.ToggleHowToPlay, { howToPlay: true, howToPlayID: HowToPlayID.Matchups });
+    dispatch(AppAction.ToggleHowToPlay, { howToPlay: true, howToPlayID: HowToPlayID.MatchupSpread });
   }
 
   if(matchup.right.playerID !== "") {
