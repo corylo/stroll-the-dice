@@ -37,15 +37,15 @@ export const GameFormValidator: IGameFormValidator = {
       errors.startsAt = FormError.InvalidValue;
       errorCount++;
     } else if (!DateUtility.withinDaysUpper(30, fields.startsAt)) { 
-      errors.startsAt = FormError.UpperDateLimitExceeded;
+      errors.startsAt = FormError.UpperLimitExceeded;
       errorCount++;
     } else if (!DateUtility.withinDaysLower(-1, fields.startsAt)) {
-      errors.startsAt = FormError.LowerDateLimitExceeded;
+      errors.startsAt = FormError.LowerLimitExceeded;
       errorCount++;
     }
 
     if(!DateUtility.withinDaysLower(0, fields.startsAt, fields.startsAtHour)) {
-      errors.startsAtHour = FormError.LowerDateLimitExceeded;
+      errors.startsAtHour = FormError.LowerLimitExceeded;
       errorCount++;
     }
 

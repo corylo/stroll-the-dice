@@ -76,12 +76,12 @@ export const gameFormReducer = (state: IGameFormState, action: IAction): IGameFo
         errors: updatedErrors
       } 
     case GameFormAction.SetStartsAt: {
-      const withinDaysLower: boolean = (errors.startsAt === FormError.LowerDateLimitExceeded && DateUtility.withinDaysLower(-1, action.payload)),
+      const withinDaysLower: boolean = (errors.startsAt === FormError.LowerLimitExceeded && DateUtility.withinDaysLower(-1, action.payload)),
         withinTimeLower: boolean = DateUtility.withinDaysLower(0, action.payload, fields.startsAtHour);
 
       if(
         (errors.startsAt === FormError.InvalidValue && DateUtility.valid(action.payload)) ||
-        (errors.startsAt === FormError.UpperDateLimitExceeded && DateUtility.withinDaysUpper(30, action.payload)) ||
+        (errors.startsAt === FormError.UpperLimitExceeded && DateUtility.withinDaysUpper(30, action.payload)) ||
         withinDaysLower
       ) {
         updatedErrors.startsAt = FormError.None;
@@ -102,7 +102,7 @@ export const gameFormReducer = (state: IGameFormState, action: IAction): IGameFo
       }
     }
     case GameFormAction.SetStartsAtHour: {
-      const withinDaysLower: boolean = (errors.startsAtHour === FormError.LowerDateLimitExceeded && DateUtility.withinDaysLower(-1, fields.startsAt)),
+      const withinDaysLower: boolean = (errors.startsAtHour === FormError.LowerLimitExceeded && DateUtility.withinDaysLower(-1, fields.startsAt)),
         withinTimeLower: boolean = DateUtility.withinDaysLower(0, fields.startsAt, action.payload);
 
       if(withinDaysLower && withinTimeLower) {

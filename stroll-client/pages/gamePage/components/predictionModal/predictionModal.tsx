@@ -70,7 +70,10 @@ export const PredictionModal: React.FC<PredictionModalProps> = (props: Predictio
 
     const updatedErrors: IMatchupPredictionStateErrors = { ...state.errors };
 
-    if(state.errors.amount && amount !== "" && numericAmount !== 0) {
+    if(
+      (state.errors.amount === FormError.LowerLimitExceeded && amount !== "" && numericAmount >= 500) ||
+      (state.errors.amount === FormError.UpperLimitExceeded && amount !== "" && numericAmount <= player.points.available)
+    ) {
       updatedErrors.amount = FormError.None;
     }
 
@@ -201,6 +204,14 @@ export const PredictionModal: React.FC<PredictionModalProps> = (props: Predictio
     )
   }
 
+  const getAmountErrorMessage = (): string => {
+    if(state.errors.amount === FormError.LowerLimitExceeded) {
+      return "Minimum 500";
+    } else if (state.errors.amount === FormError.UpperLimitExceeded) {
+      return "Not Enough Points";
+    }
+  }
+
   const getSubmitButtonText = (): string => {
     if(props.myPrediction) {
       return "Add To Prediction";
@@ -245,13 +256,13 @@ export const PredictionModal: React.FC<PredictionModalProps> = (props: Predictio
             <InputWrapper 
               label={`${player.points.available.toLocaleString()} points available`}
               error={state.errors.amount} 
-              errorMessage="Invalid Amount"
+              errorMessage={getAmountErrorMessage()}
             >
               <input 
                 type="text"
                 className="passion-one-font"
                 disabled={state.status === FormStatus.Submitting || predictionsClosed}
-                placeholder="Enter amount"
+                placeholder="Enter amount (500 minimum)"
                 value={state.amount}
                 onChange={updateAmount}
                 onKeyDown={handleOnKeyDown}

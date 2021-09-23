@@ -15,8 +15,11 @@ export const PredictionValidator: IPredictionValidator = {
       ? parseInt(state.amount)
       : 0;
 
-    if(amount === 0 || amount > points) {      
-      updatedErrors.amount = FormError.InvalidValue;
+    if(amount > points) {      
+      updatedErrors.amount = FormError.UpperLimitExceeded;
+      errorCount++;
+    } else if(amount < 500) {
+      updatedErrors.amount = FormError.LowerLimitExceeded;
       errorCount++;
     }
 
