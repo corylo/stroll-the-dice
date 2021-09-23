@@ -63,12 +63,12 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = (props: HowToPlayMo
       matchup.left.total.wagered = NumberUtility.random(20000, 40000);   
       matchup.left.total.participants = NumberUtility.random(5, 10);     
 
-      matchup.right.steps = NumberUtility.random(2000, 9999);
+      matchup.right.steps = NumberUtility.random(matchup.left.steps - 1000, matchup.left.steps + 1000);
       matchup.right.total.wagered = NumberUtility.random(20000, 40000);     
       matchup.right.total.participants = NumberUtility.random(5, 10);
       
       matchup.favoriteID = NumberUtility.random(1, 2) % 2 === 0 ? matchup.left.playerID : matchup.right.playerID;
-      matchup.spread = NumberUtility.random(1000, 5000);
+      matchup.spread = NumberUtility.random(2000, 5000);
 
       return matchup;
     }
