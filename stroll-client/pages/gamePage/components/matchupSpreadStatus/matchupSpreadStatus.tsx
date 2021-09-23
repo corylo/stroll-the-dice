@@ -59,7 +59,7 @@ export const MatchupSpreadStatus: React.FC<MatchupSpreadStatusProps> = (props: M
         const relativeSpreadStatement: JSX.Element = <IconStatement icon={Icon.Steps} text={(underdogSide.steps + matchup.spread + 1).toLocaleString()} />;
 
         return (
-          <h1 className="matchup-spread-status-description passion-one-font">{favoritePlayerStatement} is favored in this matchup and currently must take at least {relativeSpreadStatement} to cover the spread.</h1>
+          <h1 className="matchup-spread-status-description passion-one-font">{favoritePlayerStatement} is favored in this matchup and currently must take a total of {relativeSpreadStatement} to cover the spread.</h1>
         )
       } else if (dayStatus === GameStatus.Completed) {
         if(FirestoreDateUtility.endOfDayProgressUpdateComplete(matchup.day, game.startsAt, game.progressUpdateAt)) {
