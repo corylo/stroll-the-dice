@@ -63,23 +63,23 @@ export const MatchupSpreadStatus: React.FC<MatchupSpreadStatusProps> = (props: M
         )
       } else if (dayStatus === GameStatus.Completed) {
         if(FirestoreDateUtility.endOfDayProgressUpdateComplete(matchup.day, game.startsAt, game.progressUpdateAt)) {
+          const favoritePlayerWon: boolean = favoriteSide.playerID === matchup.spreadWinner;
+
+          if(favoritePlayerWon) {
+            return (
+              <h1 className="matchup-spread-status-description passion-one-font">{favoritePlayerStatement} covered the spread of {spreadStatement} and is the spread winner!</h1>
+            )
+          }
+  
+          const underdogPlayerStatement: JSX.Element = <PlayerStatement profile={underdogSide.profile} />;
+  
           return (
-            <h1 className="matchup-spread-status-description passion-one-font">Determining spread winner...</h1>
+            <h1 className="matchup-spread-status-description passion-one-font">{favoritePlayerStatement} did not cover the spread of {spreadStatement}. This means {underdogPlayerStatement} is the spread winner!</h1>
           )
         }
-
-        const favoritePlayerWon: boolean = favoriteSide.playerID === matchup.spreadWinner;
-
-        if(favoritePlayerWon) {
-          return (
-            <h1 className="matchup-spread-status-description passion-one-font">{favoritePlayerStatement} covered the spread of {spreadStatement} and is the spread winner!</h1>
-          )
-        }
-
-        const underdogPlayerStatement: JSX.Element = <PlayerStatement profile={underdogSide.profile} />;
-
+        
         return (
-          <h1 className="matchup-spread-status-description passion-one-font">{favoritePlayerStatement} did not cover the spread of {spreadStatement}. This means {underdogPlayerStatement} is the spread winner!</h1>
+          <h1 className="matchup-spread-status-description passion-one-font">Determining spread winner...</h1>
         )
       }
     }
