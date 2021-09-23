@@ -131,7 +131,7 @@
   }
 }
 
-@include medium-phone-or-smaller {
+@include small-tablet-or-smaller {
   .matchup-spread-status {
     .matchup-spread-status-content {
       flex-direction: column; 
