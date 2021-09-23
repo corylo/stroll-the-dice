@@ -1,6 +1,6 @@
-import { PredictionConstraint } from "../../../../stroll-enums/predictionConstraint";
 import { FormError } from "../../../enums/formError";
 import { FormStatus } from "../../../enums/formStatus";
+import { PredictionConstraint } from "../../../../stroll-enums/predictionConstraint";
 
 export interface IMatchupPredictionStateErrors {
   amount: FormError;
