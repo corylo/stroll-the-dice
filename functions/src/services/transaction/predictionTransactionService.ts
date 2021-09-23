@@ -14,12 +14,12 @@ import { IPlayer } from "../../../../stroll-models/player";
 import { IPrediction, predictionConverter } from "../../../../stroll-models/prediction";
 
 interface IPredictionTransactionService {
-  refundAllPredictions: (gameID: string, updatedSummary: IGameDaySummary, matchups: IMatchup[], predictions: IPrediction[]) => Promise<void>;
-  setRefundedAtOnAllPredictions: (transaction: firebase.firestore.Transaction, predictions: IPrediction[]) => void;
+  refundPredictions: (gameID: string, updatedSummary: IGameDaySummary, matchups: IMatchup[], predictions: IPrediction[]) => Promise<void>;
+  setRefundedAtOnPredictions: (transaction: firebase.firestore.Transaction, predictions: IPrediction[]) => void;
 }
 
 export const PredictionTransactionService: IPredictionTransactionService = {
-  refundAllPredictions: async (gameID: string, updatedSummary: IGameDaySummary, matchups: IMatchup[], predictions: IPrediction[]): Promise<void> => {
+  refundPredictions: async (gameID: string, updatedSummary: IGameDaySummary, matchups: IMatchup[], predictions: IPrediction[]): Promise<void> => {
     const playersRef: firebase.firestore.Query = PlayerUtility.getPlayersRef(gameID);
 
     const gameDaySummaryRef: firebase.firestore.DocumentReference<IGameDaySummary> = db.collection("games")
@@ -44,12 +44,12 @@ export const PredictionTransactionService: IPredictionTransactionService = {
 
       transaction.update(gameDaySummaryRef, updatedSummary);
 
-      PredictionTransactionService.setRefundedAtOnAllPredictions(transaction, predictions);
+      PredictionTransactionService.setRefundedAtOnPredictions(transaction, predictions);
 
       MatchupTransactionService.resetOneSidedMatchups(transaction, gameID, matchups);
     });
   },
-  setRefundedAtOnAllPredictions: (transaction: firebase.firestore.Transaction, predictions: IPrediction[]): void => {
+  setRefundedAtOnPredictions: (transaction: firebase.firestore.Transaction, predictions: IPrediction[]): void => {
     predictions.forEach((prediction: IPrediction) => {
       const ref: firebase.firestore.DocumentReference<IPrediction> =  db.collection("games")      
         .doc(prediction.ref.game)

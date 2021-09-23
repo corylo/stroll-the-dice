@@ -147,7 +147,7 @@ export const PredictionService: IPredictionService = {
       const oneSidedPredictions: IPrediction[] = await PredictionService.getAllForMatchups(gameID, oneSidedMatchups),
         updatedSummary: IGameDaySummary = GameDaySummaryUtility.resetOneSidedMatchups(summary, oneSidedPredictions);
 
-      await PredictionTransactionService.refundAllPredictions(gameID, updatedSummary, oneSidedMatchups, oneSidedPredictions);
+      await PredictionTransactionService.refundPredictions(gameID, updatedSummary, oneSidedMatchups, oneSidedPredictions);
     }
   }
 }
