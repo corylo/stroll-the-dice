@@ -5,6 +5,8 @@ import { db } from "../../config/firebase";
 
 import { GameBatchService } from "./batch/gameBatchService";
 
+import { ScheduleUtility } from "../utilities/scheduleUtility";
+
 import { gameConverter, IGame } from "../../../stroll-models/game";
 
 import { FirebaseDocumentID } from "../../../stroll-enums/firebaseDocumentID";
@@ -41,10 +43,7 @@ export const ScheduleService: IScheduleService = {
     }
   },
   scheduledGameUpdate: async (context: EventContext): Promise<void> => {
-    const date: Date = new Date(context.timestamp),
-      isWarmupRun: boolean = date.getMinutes() !== 0;
-
-    if(!isWarmupRun) {
+    if(!ScheduleUtility.isScheduledGameUpdateWarmupRun(context)) {
       try {  
         const upcomingGamesSnap: firebase.firestore.QuerySnapshot = await db.collection("games")
           .where("startsAt", "<=", firebase.firestore.Timestamp.now())

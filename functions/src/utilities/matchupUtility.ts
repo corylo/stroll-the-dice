@@ -25,11 +25,13 @@ interface IMatchupUtility {
   getByPlayer: (playerID: string, matchups: IMatchup[]) => IMatchup;
   getCombinationsOfPair: (pair: IMatchupPair, list: IMatchupPair[]) => IMatchupPair[];
   getLeader: (matchup: IMatchup) => string;
+  getOneSidedMatchups: (matchups: IMatchup[]) => IMatchup[];
   getSideByFavorite: (matchup: IMatchup, shouldGetFavorite: boolean) => IMatchupSide;
   getSpreadLeader: (matchup: IMatchup) => string;
   getMatchupRef: (gameID: string, matchupID?: string) => firebase.firestore.DocumentReference;
   getPlayerSteps: (playerID: string, matchup: IMatchup) => number;
   getWinnerRatio: (matchup: IMatchup) => number;
+  isOneSidedMatchup: (matchup: IMatchup) => boolean;
   mapCreate: (leftPlayerID: string, rightPlayerID: string, day: number) => IMatchup;
   mapMatchupsFromPairGroups: (groups: IMatchupPairGroup[], players: IPlayer[]) => IMatchup[];
   mapPlayerReference: (matchup: IMatchup) => IMatchupPlayerReference;
@@ -82,6 +84,9 @@ export const MatchupUtility: IMatchupUtility = {
     }
 
     return pairs;
+  },
+  getOneSidedMatchups: (matchups: IMatchup[]): IMatchup[] => {
+    return matchups.filter((matchup: IMatchup) => MatchupUtility.isOneSidedMatchup(matchup));
   },
   generatePairGroups: (numberOfDays: number, numberOfPlayers: number): IMatchupPairGroup[] => {      
     numberOfPlayers = MatchupUtility.getAdjustedPlayerCount(numberOfPlayers);
@@ -220,6 +225,12 @@ export const MatchupUtility: IMatchupUtility = {
     }
 
     return 1;
+  },
+  isOneSidedMatchup: (matchup: IMatchup): boolean => {
+    return (
+      (matchup.left.total.participants === 0 && matchup.right.total.participants !== 0) ||
+      (matchup.left.total.participants !== 0 && matchup.right.total.participants === 0)
+    )
   },
   mapCreate: (leftPlayerID: string, rightPlayerID: string, day: number): IMatchup => {
     return {

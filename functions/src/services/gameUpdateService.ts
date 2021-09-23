@@ -12,6 +12,7 @@ import { NotificationBatchService } from "./batch/notificationBatchService";
 import { PlayerBatchService } from "./batch/playerBatchService";
 import { PlayerService } from "./playerService";
 import { PlayingInBatchService } from "./batch/playingInBatchService";
+import { PredictionService } from "./predictionService";
 import { StepTrackerService } from "./stepTrackerService";
 import { UserService } from "./userService";
 
@@ -21,6 +22,7 @@ import { GameDurationUtility } from "../../../stroll-utilities/gameDurationUtili
 import { GameEventUtility } from "../utilities/gameEventUtility";
 import { MatchupUtility } from "../utilities/matchupUtility";
 import { NotificationUtility } from "../utilities/notificationUtility";
+import { PredictionUtility } from "../utilities/predictionUtility";
 
 import { gameConverter, IGame } from "../../../stroll-models/game";
 import { IGameDaySummary } from "../../../stroll-models/gameDaySummary";
@@ -97,6 +99,10 @@ export const GameUpdateService: IGameUpdateService = {
       } 
     } else {
       await GameTransactionService.handleProgressUpdate(gameID, updatedSummary, updates);
+
+      if(PredictionUtility.determineIfPredictionsJustClosed(day, game)) {
+        await PredictionService.refundAllOneSidedPredictions(gameID, summary);
+      }
     }
   },
   handleUpcomingToInProgress: async (gameID: string, game: IGame): Promise<void> => {

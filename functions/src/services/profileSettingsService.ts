@@ -1,5 +1,4 @@
 import firebase from "firebase-admin";
-import axios from "axios";
 
 import { db } from "../../config/firebase";
 
@@ -34,7 +33,7 @@ export const ProfileSettingsService: IProfileSettingsService = {
   getAllSettingsByUID: async (uids: string[], id: ProfileSettingsID): Promise<IProfileEmailSettings[]> => {
     const requests: any[] = uids.map((uid: string) => ProfileSettingsService.getByUID(uid, id));
       
-    return await axios.all(requests);
+    return await Promise.all(requests);
   },
   getByUID: async (uid: string, id: ProfileSettingsID): Promise<IProfileEmailSettings> => {
     const doc: firebase.firestore.DocumentSnapshot = await db.collection("profiles")

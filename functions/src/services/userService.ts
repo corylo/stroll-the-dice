@@ -1,6 +1,5 @@
 import firebase from "firebase-admin";
 import { https, logger } from "firebase-functions";
-import axios from "axios";
 
 import { IUpdateUserEmailRequest } from "../../../stroll-models/updateUserEmailRequest";
 import { ProfileSettingsService } from "./profileSettingsService";
@@ -23,7 +22,7 @@ export const UserService: IUserService = {
     const filteredUIDs: string[] = await ProfileSettingsService.filterUIDsByEmailSettings(uids, id),
       requests: any[] = filteredUIDs.map((uid: string) => UserService.getEmailByUID(uid));
       
-    return await axios.all(requests);
+    return await Promise.all(requests);
   },
   getEmailByUID: async (uid: string): Promise<string> => {
     const user: firebase.auth.UserRecord = await firebase.auth().getUser(uid);

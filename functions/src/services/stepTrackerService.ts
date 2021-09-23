@@ -159,16 +159,10 @@ export const StepTrackerService: IStepTrackerService = {
     return update;
   },  
   getStepCountUpdates: async (startsAt: firebase.firestore.FieldValue, summary: IGameDaySummary): Promise<IPlayerStepUpdate[]> => {
-    let updates: IPlayerStepUpdate[] = [];
-
     const requests: any[] = summary.players.map((player: IGameDaySummaryPlayerReference) => 
       StepTrackerService.getStepCountUpdate(startsAt, summary.day, player));
 
-    const responses: any = await axios.all(requests);
-
-    responses.forEach((res: any) => updates.push(res));
-    
-    return updates;
+    return await Promise.all(requests);
   },
   preauthorizedDisconnectStepTracker: async (uid: string): Promise<void> => {
     const tracker: IStepTracker = await StepTrackerService.get(uid);

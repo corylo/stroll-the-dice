@@ -17,6 +17,7 @@ interface IGameDaySummaryUtility {
   mapUpdatesToMatchups: (matchups: IMatchup[], updates: IPlayerStepUpdate[]) => IMatchup[];
   mapUpdatesToPlayers: (players: IGameDaySummaryPlayerReference[], updates: IPlayerStepUpdate[]) => IGameDaySummaryPlayerReference[];
   mapWinners: (summary: IGameDaySummary) => IGameDaySummary;
+  resetOneSidedMatchups: (summary: IGameDaySummary, predictions: IPrediction[]) => IGameDaySummary;
 }
 
 export const GameDaySummaryUtility: IGameDaySummaryUtility = {  
@@ -116,5 +117,27 @@ export const GameDaySummaryUtility: IGameDaySummaryUtility = {
     });
 
     return summary;
+  },
+  resetOneSidedMatchups: (summary: IGameDaySummary, predictions: IPrediction[]): IGameDaySummary => {
+    const matchups: IMatchup[] = [...summary.matchups].map((matchup: IMatchup) => {
+      const matches: IPrediction[] = predictions.filter((prediction: IPrediction) => prediction.ref.matchup === matchup.id);
+
+      if(matches.length > 0) {
+        if(matchup.left.total.participants !== 0) {
+          matchup.left.total.participants = 0;
+          matchup.left.total.wagered = 0;
+        } else if(matchup.right.total.participants !== 0) {
+          matchup.right.total.participants = 0;
+          matchup.right.total.wagered = 0;
+        }
+      }
+       
+      return matchup;
+    });
+    
+    return {
+      ...summary,
+      matchups
+    };
   }
 }
