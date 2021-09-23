@@ -1,3 +1,4 @@
+import { PredictionConstraint } from "../../../../stroll-enums/predictionConstraint";
 import { FormError } from "../../../enums/formError";
 import { FormStatus } from "../../../enums/formStatus";
 
@@ -14,6 +15,7 @@ export const defaultMatchupPredictionStateErrors = (): IMatchupPredictionStateEr
 export interface IMatchupPredictionState {
   amount: string;
   errors: IMatchupPredictionStateErrors;
+  minimum: number;
   playerID: string;  
   status: FormStatus;
 }
@@ -21,6 +23,7 @@ export interface IMatchupPredictionState {
 export const defaultMatchupPredictionState = (): IMatchupPredictionState => ({
   amount: "",
   errors: defaultMatchupPredictionStateErrors(),
+  minimum: PredictionConstraint.CreationMinimum,
   playerID: "",
   status: FormStatus.InProgress
 });

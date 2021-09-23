@@ -34,6 +34,7 @@ import { ElementID } from "../../../../enums/elementId";
 import { FormError } from "../../../../enums/formError";
 import { FormStatus } from "../../../../enums/formStatus";
 import { GameStatus } from "../../../../../stroll-enums/gameStatus";
+import { PredictionConstraint } from "../../../../../stroll-enums/predictionConstraint";
 
 interface PredictionModalProps {  
   matchup: IMatchup;
@@ -54,6 +55,12 @@ export const PredictionModal: React.FC<PredictionModalProps> = (props: Predictio
   });
 
   useEffect(() => {
+    if(myPrediction && myPrediction.amount >= PredictionConstraint.CreationMinimum && state.minimum !== PredictionConstraint.UpdateMinimum) {
+      setState({ ...state, minimum: PredictionConstraint.UpdateMinimum });
+    }
+  }, [myPrediction, state.minimum]);
+
+  useEffect(() => {
     const hasChanged: boolean = (
       (state.status === FormStatus.SubmitSuccess && state.amount !== "")
     );
@@ -71,7 +78,7 @@ export const PredictionModal: React.FC<PredictionModalProps> = (props: Predictio
     const updatedErrors: IMatchupPredictionStateErrors = { ...state.errors };
 
     if(
-      (state.errors.amount === FormError.LowerLimitExceeded && amount !== "" && numericAmount >= 500) ||
+      (state.errors.amount === FormError.LowerLimitExceeded && amount !== "" && numericAmount >= state.minimum) ||
       (state.errors.amount === FormError.UpperLimitExceeded && amount !== "" && numericAmount <= player.points.available)
     ) {
       updatedErrors.amount = FormError.None;
@@ -206,7 +213,7 @@ export const PredictionModal: React.FC<PredictionModalProps> = (props: Predictio
 
   const getAmountErrorMessage = (): string => {
     if(state.errors.amount === FormError.LowerLimitExceeded) {
-      return "Minimum 500";
+      return `Minimum ${state.minimum}`;
     } else if (state.errors.amount === FormError.UpperLimitExceeded) {
       return "Not Enough Points";
     }
@@ -262,7 +269,7 @@ export const PredictionModal: React.FC<PredictionModalProps> = (props: Predictio
                 type="text"
                 className="passion-one-font"
                 disabled={state.status === FormStatus.Submitting || predictionsClosed}
-                placeholder="Enter amount (500 minimum)"
+                placeholder={`Enter amount (${state.minimum} minimum)`}
                 value={state.amount}
                 onChange={updateAmount}
                 onKeyDown={handleOnKeyDown}
