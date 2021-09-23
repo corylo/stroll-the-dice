@@ -24,15 +24,13 @@ export const GameDateStatus: React.FC<GameDateStatusProps> = (props: GameDateSta
   const getText = (): string => {
     if(game.error === GameError.PlayerMinimumNotMet) {
       return "Not Started";
+    } else if(GameDurationUtility.isFinalizing(game)) {
+      return "Finalizing";
     } else if(game.status === GameStatus.Completed) {
       return "Completed";
     } else if(game.status === GameStatus.InProgress) {
-      if(FirestoreDateUtility.lessThanOrEqualToNow(game.endsAt)) {
-        return "Finalizing";
-      }
-
       return `Ends in ${GameDurationUtility.getTimeRemaining(game)}`;
-    } else if (game.status === GameStatus.Upcoming) {
+    } else if(game.status === GameStatus.Upcoming) {
       if(FirestoreDateUtility.lessThanOrEqualToNow(game.startsAt)) {
         return "Starting";
       }

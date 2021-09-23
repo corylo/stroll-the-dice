@@ -20,6 +20,7 @@ interface IGameDurationUtility {
   getTimeRemaining: (game: IGame) => string;
   getTimeRemainingInToday: (game: IGame, day: number) => string;
   isDayComplete: (game: IGame) => boolean;
+  isFinalizing: (game: IGame) => boolean;
 }
 
 export const GameDurationUtility: IGameDurationUtility = {
@@ -115,5 +116,11 @@ export const GameDurationUtility: IGameDurationUtility = {
       hours: number = diff / (3600 * 1000);
 
     return hours >= 24 && hours % 24 < 0.1;
+  },
+  isFinalizing: (game: IGame): boolean => {
+    return (
+      (game.status === GameStatus.InProgress && FirestoreDateUtility.lessThanOrEqualToNow(game.endsAt)) ||
+      (game.status === GameStatus.Completed && FirestoreDateUtility.endOfDayProgressUpdateComplete(game.duration, game.startsAt, game.progressUpdateAt))
+    )
   }
 }

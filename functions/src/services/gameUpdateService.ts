@@ -31,8 +31,8 @@ import { IPlayer } from "../../../stroll-models/player";
 import { IPlayerStepUpdate } from "../../../stroll-models/playerStepUpdate";
 
 import { GameEventType } from "../../../stroll-enums/gameEventType";
-import { ProfileEmailSettingID } from "../../../stroll-enums/profileEmailSettingID";
 import { GameStatus } from "../../../stroll-enums/gameStatus";
+import { ProfileEmailSettingID } from "../../../stroll-enums/profileEmailSettingID";
 
 interface IGameUpdateService {
   handleInProgressToCompleted: (gameID: string, game: IGame) => Promise<void>;

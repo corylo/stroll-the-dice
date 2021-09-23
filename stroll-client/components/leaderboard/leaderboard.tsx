@@ -112,7 +112,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = (props: LeaderboardProps)
 
     const getLeaderboardContent = (): JSX.Element => {
       if(statuses.players === RequestStatus.Success) {        
-        const endOfFinalDayUpdateComplete: boolean = FirestoreDateUtility.endOfDayProgressUpdateComplete(state.game.duration, game.startsAt, game.progressUpdateAt),
+        const endOfFinalDayUpdateComplete: boolean = FirestoreDateUtility.endOfDayProgressUpdateComplete(game.duration, game.startsAt, game.progressUpdateAt),
           inProgress: boolean = props.gameStatus === GameStatus.InProgress,
           completed: boolean = props.gameStatus === GameStatus.Completed;
         
