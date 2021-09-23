@@ -35,10 +35,22 @@ export const PlayerUpdatedPredictionEventDescription: React.FC<PlayerUpdatedPred
     matchupStatement: JSX.Element = <MatchupStatement left={leftPlayer.profile} right={rightPlayer.profile}/>,
     playerStatement: JSX.Element = <PlayerStatement profile={profile} />;
 
+  const getPredictionAmountStatement = (): JSX.Element => {
+    if(event.refundedAt) {
+      return (
+        <h1 className="player-prediction-amount-statement passion-one-font">Your prediction of {afterAmountStatement} on {playerStatement} was refunded.</h1>
+      )
+    }
+
+    return (
+      <h1 className="player-prediction-amount-statement passion-one-font">You updated your prediction of {playerStatement} from {beforeAmountStatement} to {afterAmountStatement}.</h1>
+    )
+  }
+
   return (
     <EventDescriptionWrapper>
       <h1 className="player-prediction-matchup-statement passion-one-font">On matchup {matchupStatement}</h1>
-      <h1 className="player-prediction-amount-statement passion-one-font">You updated your prediction of {playerStatement} from {beforeAmountStatement} to {afterAmountStatement}.</h1>
+      {getPredictionAmountStatement()}
     </EventDescriptionWrapper>
   )
 }

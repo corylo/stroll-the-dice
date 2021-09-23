@@ -19,6 +19,7 @@ export interface IPrediction {
   createdAt: firebase.firestore.FieldValue; 
   id: string;
   ref: IPredictionRef;
+  refundedAt?: firebase.firestore.FieldValue;
   updatedAt: firebase.firestore.FieldValue; 
 }
 
@@ -32,24 +33,36 @@ export const defaultPrediction = (): IPrediction => ({
 
 export const predictionConverter: any = {
   toFirestore(prediction: IPrediction): firebase.firestore.DocumentData {
-    return {
+    const result: any = {
       amount: prediction.amount,
       createdAt: prediction.createdAt,
       ref: prediction.ref,
       updatedAt: prediction.updatedAt
     }
+
+    if(prediction.refundedAt) {
+      result.refundedAt = prediction.refundedAt;
+    }
+
+    return result;
   },
   fromFirestore(
     snapshot: firebase.firestore.QueryDocumentSnapshot
   ): IPrediction {
     const data: IPrediction = snapshot.data() as IPrediction;
 
-    return {
+    const result: IPrediction = {
       amount: data.amount,
       createdAt: data.createdAt,
       id: snapshot.id,
       ref: data.ref,
       updatedAt: data.updatedAt
     }
+
+    if(data.refundedAt) {
+      result.refundedAt = data.refundedAt;
+    }
+
+    return result;
   }
 }

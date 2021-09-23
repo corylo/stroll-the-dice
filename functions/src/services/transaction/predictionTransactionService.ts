@@ -4,6 +4,7 @@ import { db } from "../../../config/firebase";
 
 import { MatchupTransactionService } from "./matchupTransactionService";
 
+import { FirestoreDateUtility } from "../../utilities/firestoreDateUtility";
 import { PlayerUtility } from "../../utilities/playerUtility";
 import { PredictionUtility } from "../../utilities/predictionUtility";
 
@@ -14,7 +15,7 @@ import { IPrediction, predictionConverter } from "../../../../stroll-models/pred
 
 interface IPredictionTransactionService {
   refundAllPredictions: (gameID: string, updatedSummary: IGameDaySummary, matchups: IMatchup[], predictions: IPrediction[]) => Promise<void>;
-  setAllPredictionAmountsToZero: (transaction: firebase.firestore.Transaction, predictions: IPrediction[]) => void;
+  setRefundedAtOnAllPredictions: (transaction: firebase.firestore.Transaction, predictions: IPrediction[]) => void;
 }
 
 export const PredictionTransactionService: IPredictionTransactionService = {
@@ -43,12 +44,12 @@ export const PredictionTransactionService: IPredictionTransactionService = {
 
       transaction.update(gameDaySummaryRef, updatedSummary);
 
-      PredictionTransactionService.setAllPredictionAmountsToZero(transaction, predictions);
+      PredictionTransactionService.setRefundedAtOnAllPredictions(transaction, predictions);
 
       MatchupTransactionService.resetOneSidedMatchups(transaction, gameID, matchups);
     });
   },
-  setAllPredictionAmountsToZero: (transaction: firebase.firestore.Transaction, predictions: IPrediction[]): void => {
+  setRefundedAtOnAllPredictions: (transaction: firebase.firestore.Transaction, predictions: IPrediction[]): void => {
     predictions.forEach((prediction: IPrediction) => {
       const ref: firebase.firestore.DocumentReference<IPrediction> =  db.collection("games")      
         .doc(prediction.ref.game)
@@ -58,9 +59,8 @@ export const PredictionTransactionService: IPredictionTransactionService = {
         .doc(prediction.id)
         .withConverter<IPrediction>(predictionConverter);
 
-      transaction.update(ref, { 
-        amount: 0, 
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp() 
+      transaction.update(ref, {          
+        refundedAt: FirestoreDateUtility.beginningOfHour(firebase.firestore.Timestamp.now())
       });
     });
   }

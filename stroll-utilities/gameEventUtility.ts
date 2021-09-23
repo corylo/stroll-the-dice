@@ -82,6 +82,10 @@ export const GameEventUtility: IGameEventUtility = {
       to.beforeAmount = event.beforeAmount;
       to.matchup = event.matchup;
       to.playerID = event.playerID;
+
+      if(event.refundedAt) {
+        to.refundedAt = event.refundedAt;
+      }
     } else if (unidentifiedEvent.type === GameEventType.DayCompleted) {
       const event: IDayCompletedEvent = unidentifiedEvent;
 

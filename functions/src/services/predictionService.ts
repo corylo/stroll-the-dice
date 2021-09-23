@@ -90,7 +90,7 @@ export const PredictionService: IPredictionService = {
     const before: IPrediction = change.before.data(),
       after: IPrediction = change.after.data();
 
-    if(before.amount !== after.amount) {
+    if(before.amount !== after.amount || (!before.refundedAt && after.refundedAt)) {
       try {
         const matchupRef: firebase.firestore.DocumentReference<IMatchup> = db.collection("games")
           .doc(context.params.gameID)
@@ -104,7 +104,7 @@ export const PredictionService: IPredictionService = {
           if(matchupDoc.exists) {
             const matchup: IMatchup = matchupDoc.data();
 
-            if(after.amount > 0) {
+            if(!after.refundedAt) {
               const property: string = after.ref.player === matchup.left.playerID
                 ? "left"
                 : "right";
@@ -118,16 +118,19 @@ export const PredictionService: IPredictionService = {
               });
             }
 
+            const occurredAt: firebase.firestore.FieldValue = after.refundedAt || after.updatedAt;
+
             GameEventTransactionService.create(
               transaction, 
               context.params.gameID, 
               GameEventUtility.mapPlayerUpdatedPredictionEvent(
                 after.ref.creator,
-                after.updatedAt,
+                occurredAt,
                 after.ref.player,
                 MatchupUtility.mapPlayerReference(matchup),
                 before.amount,
-                after.amount
+                after.amount,
+                after.refundedAt
               )
             );
           }

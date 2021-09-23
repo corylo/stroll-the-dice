@@ -17,7 +17,6 @@ interface IPredictionUtility {
   getCorrectPredictions: (predictions: IPrediction[], matchups: IMatchup[]) => IPrediction[];
   getIncorrectPredictions: (predictions: IPrediction[], matchups: IMatchup[]) => IPrediction[];    
   getPredictionsCloseAt: (day: number, startsAt: firebase.firestore.FieldValue) => firebase.firestore.FieldValue;  
-  mapCreate: (amount: number, creatorID: string, gameID: string, matchupID: string, playerID: string) => IPrediction;    
   sumCorrectPredictions: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]) => number;  
   sumCorrectPredictionsWithReturnRatio: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]) => number;
   sumIncorrectPredictions: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]) => number;
@@ -43,7 +42,7 @@ export const PredictionUtility: IPredictionUtility = {
     )
   },
   filterOutRefundedPredictions: (predictions: IPrediction[]): IPrediction[] => {
-    return predictions.filter((prediction: IPrediction) => prediction.amount > 0);
+    return predictions.filter((prediction: IPrediction) => !prediction.refundedAt);
   },
   getByPlayer: (playerID: string, predictions: IPrediction[]): IPrediction[] => {
     return predictions.filter((prediction: IPrediction) => prediction.ref.creator === playerID);
@@ -59,20 +58,6 @@ export const PredictionUtility: IPredictionUtility = {
       oneHourAsMillis: number = 3600 * 1000;
 
     return FirestoreDateUtility.addMillis(startsAt, daysAsMillis + oneHourAsMillis)
-  },
-  mapCreate: (amount: number, creatorID: string, gameID: string, matchupID: string, playerID: string): IPrediction => {
-    return {
-      amount,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      id: "",
-      ref: {
-        creator: creatorID,
-        game: gameID,
-        matchup: matchupID,
-        player: playerID
-      },
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-    }
   },
   sumCorrectPredictions: (playerID: string, matchups: IMatchup[], allPredictions: IPrediction[]): number => {
     const predictions: IPrediction[] = PredictionUtility.filterOutRefundedPredictions(PredictionUtility.getByPlayer(playerID, allPredictions)),

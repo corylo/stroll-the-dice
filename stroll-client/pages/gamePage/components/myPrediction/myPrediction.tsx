@@ -24,7 +24,11 @@ export const MyPrediction: React.FC<MyPredictionProps> = (props: MyPredictionPro
   const pointStatement: JSX.Element = <PointStatement amount={myPrediction.amount.toLocaleString()} />,
     playerStatement: JSX.Element = <PlayerStatement profile={profile} />;
 
-  if(matchup.spreadWinner === "") {
+  if(myPrediction.refundedAt) {
+    return (
+      <h1 className="my-prediction passion-one-font">Your prediction of {pointStatement} on {playerStatement} was refunded because there were no opposing predictions.</h1>
+    )
+  } else if(matchup.spreadWinner === "") {
     return (        
       <h1 className="my-prediction passion-one-font">You predicted {playerStatement} with {pointStatement}.</h1>
     )

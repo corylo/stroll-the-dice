@@ -29,7 +29,7 @@ interface IGameEventUtility {
   mapPlayerDayCompletedSummaryEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, summary: IPlayerDayCompletedSummary) => IPlayerDayCompletedSummaryEvent
   mapPlayerEarnedPointsFromStepsEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, points: number) => IPlayerEarnedPointsFromStepsEvent;
   mapPlayerEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, category: GameEventCategory, type: GameEventType) => IGameEvent;
-  mapPlayerUpdatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, matchup: IMatchupPlayerReference, beforeAmount: number, afterAmount: number) => IPlayerUpdatedPredictionEvent;  
+  mapPlayerUpdatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, matchup: IMatchupPlayerReference, beforeAmount: number, afterAmount: number, refundedAt: firebase.firestore.FieldValue) => IPlayerUpdatedPredictionEvent;  
   mapUpdateEvent: (occurredAt: firebase.firestore.FieldValue, before: IGame, after: IGame) => IGameUpdateEvent;  
 }
 
@@ -93,16 +93,22 @@ export const GameEventUtility: IGameEventUtility = {
       points
     }
   },
-  mapPlayerUpdatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, matchup: IMatchupPlayerReference, beforeAmount: number, afterAmount: number): IPlayerUpdatedPredictionEvent => {
+  mapPlayerUpdatedPredictionEvent: (creatorID: string, occurredAt: firebase.firestore.FieldValue, playerID: string, matchup: IMatchupPlayerReference, beforeAmount: number, afterAmount: number, refundedAt: firebase.firestore.FieldValue): IPlayerUpdatedPredictionEvent => {
     const event: IGameEvent = GameEventUtility.mapPlayerEvent(creatorID, occurredAt, GameEventCategory.Prediction, GameEventType.PlayerUpdatedPrediction);
 
-    return {
+    const result: IPlayerUpdatedPredictionEvent = {
       ...event,
       afterAmount,
       beforeAmount,
       matchup,
       playerID
     }
+
+    if(refundedAt) {
+      result.refundedAt = refundedAt;
+    }
+
+    return result;
   },
   mapPlayerEvent: (playerID: string, occurredAt: firebase.firestore.FieldValue, category: GameEventCategory, type: GameEventType): IGameEvent => {
     return {
