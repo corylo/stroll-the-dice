@@ -120,7 +120,7 @@ export const GameDurationUtility: IGameDurationUtility = {
   isFinalizing: (game: IGame): boolean => {
     return (
       (game.status === GameStatus.InProgress && FirestoreDateUtility.lessThanOrEqualToNow(game.endsAt)) ||
-      (game.status === GameStatus.Completed && FirestoreDateUtility.endOfDayProgressUpdateComplete(game.duration, game.startsAt, game.progressUpdateAt))
+      (game.status === GameStatus.Completed && !FirestoreDateUtility.endOfDayProgressUpdateComplete(game.duration, game.startsAt, game.progressUpdateAt))
     )
   }
 }
