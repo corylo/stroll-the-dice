@@ -37,7 +37,7 @@ export const PredictionUtility: IPredictionUtility = {
   },
   determineIfPredictionsJustClosed: (day: number, game: IGame): boolean => {
     return (
-      PredictionUtility.getPredictionsCloseAt(day, game.startsAt)
+      PredictionUtility.getPredictionsCloseAt(day - 1, game.startsAt)
         .isEqual(FirestoreDateUtility.beginningOfHour(game.initializeProgressUpdateAt))
     )
   },
