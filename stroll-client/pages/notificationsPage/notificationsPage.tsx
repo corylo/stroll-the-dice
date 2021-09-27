@@ -10,6 +10,7 @@ import { AppContext } from "../../components/app/contexts/appContext";
 import { useFetchNotificationsEffect } from "./effects/notificationsPageEffects";
 
 import { ImageUtility } from "../../utilities/imageUtility";
+import { MetaUtility } from "../../utilities/metaUtility";
 
 import { defaultNotificationsPageState, INotificationsPageState } from "./models/notificationsPageState";
 
@@ -52,7 +53,7 @@ export const NotificationsPage: React.FC<NotificationsPageProps> = (props: Notif
 
   return(
     <NotificationsPageContext.Provider value={{ state, setState }}>
-      <Page id="notifications-page" backgroundGraphic="">     
+      <Page id="notifications-page" backgroundGraphic="" meta={MetaUtility.getNotificationsPageMeta()}>     
         <PageTitle text="Notifications" />
         {getContent()}
       </Page>

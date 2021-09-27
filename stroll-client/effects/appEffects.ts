@@ -4,14 +4,25 @@ import { useHistory } from "react-router";
 import { analytics } from "../config/firebase";
 
 import { CookieUtility } from "../utilities/cookieUtility";
+import { MetaUtility } from "../utilities/metaUtility";
 import { UrlUtility } from "../utilities/urlUtility";
 
 import { IAppState } from "../components/app/models/appState";
+import { defaultMetaUpdate, IMetaUpdate } from "../models/metaUpdate";
 
 import { CookieStatus } from "../enums/cookieStatus";
 import { ElementID } from "../enums/elementId";
 import { ImageStatus } from "../enums/imageStatus";
 
+export const useUpdateMetaEffect = (match: any, update: IMetaUpdate): void => {
+  useEffect(() => {
+    if(update && update.title !== "" && update.description !== "") {
+      MetaUtility.updateRoute(update);    
+    } else {
+      MetaUtility.updateRoute(defaultMetaUpdate());    
+    }
+  }, [match.path, update]);
+}
 interface IUseCurrentDateEffect {
   date: Date;
 }

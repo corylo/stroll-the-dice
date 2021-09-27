@@ -80,7 +80,7 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
         <DeleteAccountModal />
         <CookieBanner />
         <Switch>
-          <Route exact path="/">
+          <Route exact path="/"> {/* ✔️ */}
             <HomePage />
           </Route>
           <Route exact path={["/profile", "/profile/connect/:tracker"]}>

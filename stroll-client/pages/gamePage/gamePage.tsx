@@ -9,6 +9,7 @@ import { AppContext } from "../../components/app/contexts/appContext";
 import { useUpdateCurrentDayEffect, useGameInviteEffect } from "./effects/gamePageEffects";
 import { useGameListenersEffect } from "./effects/gamePageListenerEffects";
 
+import { MetaUtility } from "../../utilities/metaUtility";
 import { UrlUtility } from "../../utilities/urlUtility";
 
 import { defaultGamePageState, IGamePageState } from "./models/gamePageState";
@@ -62,6 +63,7 @@ export const GamePage: React.FC<GamePageProps> = (props: GamePageProps) => {
       <Page 
         id="game-page" 
         backgroundGraphic={Graphic.Game}
+        meta={MetaUtility.getGamePageMeta(state.game, state.creator)}
         status={getStatus()}
         errorMessage="Whoops! Looks like this game doesn't exist."
       >   

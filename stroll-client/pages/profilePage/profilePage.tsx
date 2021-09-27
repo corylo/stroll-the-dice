@@ -16,6 +16,7 @@ import { AppContext } from "../../components/app/contexts/appContext";
 import { useFetchEmailSettingsEffect, useInitiateStepTrackerConnectionEffect } from "./effects/profilePageEffects";
 
 import { ImageUtility } from "../../utilities/imageUtility";
+import { MetaUtility } from "../../utilities/metaUtility";
 
 import { defaultProfilePageState, IProfilePageState } from "./models/profilePageState";
 
@@ -91,6 +92,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = (props: ProfilePageProps)
       <Page 
         id="profile-page" 
         backgroundGraphic=""
+        meta={MetaUtility.getProfilePageMeta()}
       >   
         {getContent()}
         <StepTrackerConnectionModal toggled={toggled} back={handleBack} />

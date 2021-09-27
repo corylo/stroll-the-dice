@@ -11,6 +11,7 @@ import { ShopSection } from "./components/shopSection/shopSection";
 import { AppContext } from "../../components/app/contexts/appContext";
 
 import { GameDayUtility } from "../../../stroll-utilities/gameDayUtility";
+import { MetaUtility } from "../../utilities/metaUtility";
 import { PaymentUtility } from "../../../stroll-utilities/paymentUtility";
 import { UrlUtility } from "../../utilities/urlUtility";
 
@@ -128,7 +129,7 @@ export const ShopPage: React.FC<ShopPageProps> = (props: ShopPageProps) => {
   }
 
   return(    
-    <Page id="shop-page" backgroundGraphic="" showFooter>     
+    <Page id="shop-page" backgroundGraphic="" meta={MetaUtility.getShopPageMeta()} showFooter>     
       <PageTitle text="Shop" />   
       <PoweredByStripe />   
       <ShopSection 

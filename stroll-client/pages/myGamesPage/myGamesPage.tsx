@@ -12,6 +12,7 @@ import { useFetchGamesEffect } from "./effects/myGamesPageEffects";
 
 import { GameGroupUtility } from "../../components/gameFeed/utilities/gameGroupUtility";
 import { GameStatusUtility } from "../../utilities/gameStatusUtility";
+import { MetaUtility } from "../../utilities/metaUtility";
 import { UrlUtility } from "../../utilities/urlUtility";
 
 import { defaultMyGamesPageState, IMyGamesPageState } from "./models/myGamesPageState";
@@ -90,6 +91,7 @@ export const MyGamesPage: React.FC<MyGamesPageProps> = (props: MyGamesPageProps)
       <Page 
         id="my-games-page" 
         backgroundGraphic=""
+        meta={MetaUtility.getMyGamesPageMeta()}
         requireAuth
       >   
         <GameFilters />

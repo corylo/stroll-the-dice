@@ -2,6 +2,7 @@ import React from "react";
 
 import { Page } from "../../components/page/page";
 import { PageTitle } from "../../components/page/pageTitle";
+import { MetaUtility } from "../../utilities/metaUtility";
 
 interface ProfilePageProps {
   
@@ -9,7 +10,7 @@ interface ProfilePageProps {
 
 export const ContactUsPage: React.FC<ProfilePageProps> = (props: ProfilePageProps) => {
   return(
-    <Page id="contact-us-page" backgroundGraphic="" showFooter>    
+    <Page id="contact-us-page" backgroundGraphic="" meta={MetaUtility.getContactUsPageMeta()} showFooter>    
       <PageTitle text="Contact Us" />
       <div className="contact-us-section">
         <a className="contact-us-email passion-one-font" href = "mailto:feedback@strollthedice.com">feedback@strollthedice.com</a>

@@ -11,6 +11,7 @@ import { AppContext } from "../../components/app/contexts/appContext";
 import { useFetchFriendRequestsEffect, useFetchFriendsEffect, useFetchInitialFriendsPageDataEffect } from "./effects/friendsPageEffects";
 
 import { ImageUtility } from "../../utilities/imageUtility";
+import { MetaUtility } from "../../utilities/metaUtility";
 
 import { IFriend } from "../../../stroll-models/friend";
 import { IFriendRequest } from "../../../stroll-models/friendRequest";
@@ -150,7 +151,7 @@ export const FriendsPage: React.FC<FriendsPageProps> = (props: FriendsPageProps)
 
   return(
     <FriendsPageContext.Provider value={{ state, setState }}>
-      <Page id="friends-page" backgroundGraphic="" status={state.initialLoadStatus}>
+      <Page id="friends-page" backgroundGraphic="" meta={MetaUtility.getFriendsPageMeta()} status={state.initialLoadStatus}>
         {getContent()}
       </Page>
     </FriendsPageContext.Provider>

@@ -10,6 +10,7 @@ import { AppContext } from "../../components/app/contexts/appContext";
 import { useFetchGameDayHistoryEffect } from "./effects/myGameDaysPageEffects";
 
 import { ImageUtility } from "../../utilities/imageUtility";
+import { MetaUtility } from "../../utilities/metaUtility";
 
 import { defaultMyGameDaysPageState, IMyGameDaysPageState } from "./models/myGameDaysPageState";
 
@@ -56,7 +57,7 @@ export const MyGameDaysPage: React.FC<MyGameDaysPageProps> = (props: MyGameDaysP
 
   return(
     <MyGameDaysPageContext.Provider value={{ state, setState }}>
-      <Page id="my-game-days-page" backgroundGraphic="">     
+      <Page id="my-game-days-page" backgroundGraphic="" meta={MetaUtility.getMyGameDaysPageMeta()}>     
         {getContent()}
       </Page>
     </MyGameDaysPageContext.Provider>

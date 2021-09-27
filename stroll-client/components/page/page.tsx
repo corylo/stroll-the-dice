@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { useHistory } from "react-router";
+import { useHistory, useRouteMatch } from "react-router";
 
 import { LoadingIcon } from "../../components/loadingIcon/loadingIcon";
 import { PageBackgroundGraphic } from "./pageBackgroundGraphic";
@@ -7,6 +7,10 @@ import { PageFooter } from "./components/pageFooter/pageFooter";
 import { PageMessage } from "./pageMessage";
 
 import { AppContext } from "../../components/app/contexts/appContext";
+
+import { useUpdateMetaEffect } from "../../effects/appEffects";
+
+import { IMetaUpdate } from "../../models/metaUpdate";
 
 import { AppStatus } from "../../enums/appStatus";
 import { Graphic } from "../../../stroll-enums/graphic";
@@ -17,6 +21,7 @@ interface PageProps {
   children: JSX.Element | JSX.Element[];
   errorMessage?: string;
   id?: string;
+  meta?: IMetaUpdate;
   requireAuth?: boolean;
   showFooter?: boolean;
   status?: RequestStatus;
@@ -25,7 +30,10 @@ interface PageProps {
 export const Page: React.FC<PageProps> = (props: PageProps) => {
   const { appState } = useContext(AppContext);
 
-  const history: any = useHistory();
+  const match: any = useRouteMatch(),
+    history: any = useHistory();
+
+  useUpdateMetaEffect(match, props.meta);
 
   useEffect(() => {
     if(props.requireAuth && appState.status === AppStatus.SignedOut) {

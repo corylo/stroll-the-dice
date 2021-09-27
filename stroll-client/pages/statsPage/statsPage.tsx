@@ -11,6 +11,7 @@ import { AppContext } from "../../components/app/contexts/appContext";
 import { useFetchGameHistoryEffect, useFetchGameStatsEffect } from "./effects/statsPageEffects";
 
 import { ImageUtility } from "../../utilities/imageUtility";
+import { MetaUtility } from "../../utilities/metaUtility";
 
 import { defaultStatsPageState, IStatsPageState } from "./models/statsPageState";
 
@@ -59,7 +60,7 @@ export const StatsPage: React.FC<StatsPageProps> = (props: StatsPageProps) => {
 
   return(
     <StatsPageContext.Provider value={{ state, setState }}>
-      <Page id="stats-page" backgroundGraphic="" status={state.statuses.stats}>  
+      <Page id="stats-page" backgroundGraphic="" meta={MetaUtility.getStatsPageMeta()} status={state.statuses.stats}>  
         {getContent()}
       </Page>
     </StatsPageContext.Provider>

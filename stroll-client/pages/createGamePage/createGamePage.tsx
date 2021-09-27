@@ -13,6 +13,7 @@ import { CreateGameService } from "./services/createGameService";
 import { GameFormUtility } from "../../components/gameForm/utilities/gameFormUtility";
 import { ImageUtility } from "../../utilities/imageUtility";
 import { InviteUtility } from "../../utilities/inviteUtility";
+import { MetaUtility } from "../../utilities/metaUtility";
 import { PlayerUtility } from "../../utilities/playerUtility";
 
 import { IGame } from "../../../stroll-models/game";
@@ -76,7 +77,7 @@ export const CreateGamePage: React.FC<CreateGamePageProps> = (props: CreateGameP
   }
 
   return(
-    <Page id="create-game-page" backgroundGraphic="">    
+    <Page id="create-game-page" backgroundGraphic="" meta={MetaUtility.getCreateGamePageMeta()}>    
       {getContent()}
     </Page>
   )

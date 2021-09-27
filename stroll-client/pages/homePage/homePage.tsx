@@ -11,6 +11,7 @@ import { SignInLink } from "../../components/signInLink/signInLink";
 import { AppContext } from "../../components/app/contexts/appContext";
 
 import { ImageUtility } from "../../utilities/imageUtility";
+import { MetaUtility } from "../../utilities/metaUtility";
 
 import { AppAction } from "../../enums/appAction";
 import { AppStatus } from "../../enums/appStatus";
@@ -67,6 +68,7 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
     <Page 
       id="home-page" 
       backgroundGraphic=""
+      meta={MetaUtility.getHomePageMeta()}
       showFooter
     >
       {getContent()}
