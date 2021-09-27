@@ -85,7 +85,7 @@ export const MatchupSpreadStatus: React.FC<MatchupSpreadStatusProps> = (props: M
     }
 
     const getSpreadStatusBar = (): JSX.Element => {
-      if(dayStatus !== GameStatus.Upcoming) {
+      if(dayStatus !== GameStatus.Upcoming && matchup.favoriteID !== "") {
         const spreadCoverageDecimal: number = (favoriteSide.steps / (underdogSide.steps + matchup.spread + 1)),
           spreadCoveragePercentage: number = spreadCoverageDecimal * 100,
           spreadCoverageConstrainedPercentage = Math.min(100, spreadCoveragePercentage);
