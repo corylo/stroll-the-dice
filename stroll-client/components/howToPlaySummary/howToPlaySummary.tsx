@@ -4,6 +4,7 @@ import { ExampleLeaderboard } from "../exampleLeaderboard/exampleLeaderboard";
 import { ExampleMatchup } from "../exampleMatchup/exampleMatchup";
 import { ExampleMatchupStats } from "../exampleMatchupStats/exampleMatchupStats";
 import { HowToPlaySummaryPanel } from "./howToPlaySummaryPanel";
+import { IconScroller } from "../iconScroller/iconScroller";
 import { SignInLink } from "../signInLink/signInLink";
 
 import { HowToPlayUtility } from "../../utilities/howToPlayUtility";
@@ -58,7 +59,7 @@ export const HowToPlaySummary: React.FC<HowToPlaySummaryProps> = (props: HowToPl
           text="Gain experience for each game you complete. Unlock new level badges and profile icons."
           title="Earn experience and level up!"
         >
-          <div />
+          <IconScroller />
         </HowToPlaySummaryPanel>
       </div>
     </div>
