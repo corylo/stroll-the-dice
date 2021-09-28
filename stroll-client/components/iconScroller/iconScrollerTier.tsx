@@ -26,7 +26,6 @@ export const IconScrollerTier: React.FC<IconScrollerTierProps> = (props: IconScr
 
     return iconChunks.map((chunk: Icon[], chunkIndex: number) => {
       const items: JSX.Element[] = chunk.map((icon: Icon, index: number) => {
-        console.log(((chunkIndex * chunkSize) + index))
         const color: Color = colors[((chunkIndex * chunkSize) + index) % 5];
 
         const classes: string = classNames("icon-scroller-tier-item", icon);
