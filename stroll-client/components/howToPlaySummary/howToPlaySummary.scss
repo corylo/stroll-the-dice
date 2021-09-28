@@ -1,73 +1,93 @@
 .how-to-play-summary {
-  .how-to-play-summary-panel-wrapper {
-    background-color: rgba(white, 0.1);
-    border: 1px solid rgba(white, 0.2);
-    border-radius: 6px;
-    box-shadow: $shadow1;
-    padding: 20px;
+  .how-to-play-summary-header {
+    width: 80%;
 
-    &:nth-child(n + 2) {
-      margin-top: 60px;
+    .how-to-play-summary-header-title {
+      color: white;
+      font-size: 5em;
     }
 
-    &.matchup-panel {
-      .how-to-play-summary-panel-image-wrapper {
-        .how-to-play-summary-panel-image {
-          background-position: center;
-          background-size: 60%;
-        }
+    .how-to-play-summary-header-description,
+    .how-to-play-summary-header-disclaimer {
+      color: gray(40);
+      margin-top: 10px;
+    }
+
+    .how-to-play-summary-header-description,
+    .how-to-play-summary-header-play-free-statement {
+      font-size: 1.25em;
+    }
+
+    .how-to-play-summary-header-play-free-statement {
+      color: $blue;
+      margin-top: 10px;
+    }
+
+    .button.sign-in-link {
+      margin-left: 0px;
+      margin-top: 10px;
+      padding: 10px 15px;
+      width: auto;
+
+      i {
+        display: none;
+      }
+
+      h1 {
+        margin-left: 0px;
       }
     }
 
-    &.prediction-panel {
-      .how-to-play-summary-panel-image-wrapper {
-        .how-to-play-summary-panel-image {
-          background-position: center;
-          background-size: 70%;
-        }
-      }
-    }
-
-    &.winner-panel {
-      .how-to-play-summary-panel-image-wrapper {
-        .how-to-play-summary-panel-image {
-          background-position: center;
-        }
-      }
-    }
-
-    .how-to-play-summary-panel-image-wrapper {
-      position: relative;
-
-      .how-to-play-summary-panel-image {
-        background-position: 50% 100%;
-        background-repeat: no-repeat;
-        background-size: cover;
-      }
-
-      .how-to-play-summary-panel-image {
-        background-color: white;
-        border-radius: 6px;
-        box-shadow: $shadow1;
-        height: 300px;
-        position: relative;
-        width: 100%;
-      }
-    }
-
-    .how-to-play-summary-panel-content {
+    .how-to-play-summary-header-disclaimer {
       margin-top: 20px;
-      text-align: center;
+    }
+  }
 
-      .how-to-play-summary-panel-title {
-        color: white;
-        font-size: 2.5em;
+  .how-to-play-summary-panels {
+    .example-matchup-stats {
+      margin-top: 40px;
+    }
+
+    .how-to-play-summary-panel-wrapper {
+      margin-top: 60px;
+
+      &.prediction-panel {
+        .how-to-play-summary-panel-image-wrapper {
+          .how-to-play-summary-panel-image {
+            background-position: center;
+            background-size: 70%;
+          }
+        }
       }
 
-      .how-to-play-summary-panel-text {
-        color: gray(40);
-        font-size: 1.5em;
+      .how-to-play-summary-panel-image-wrapper {
         margin-top: 20px;
+        position: relative;
+
+        .how-to-play-summary-panel-image {
+          background-color: white;
+          background-position: 50% 100%;
+          background-repeat: no-repeat;
+          background-size: cover;
+          border-radius: 6px;
+          box-shadow: $shadow1;
+          height: 300px;
+          position: relative;
+          width: 100%;
+        }
+      }
+
+      .how-to-play-summary-panel-content {
+        .how-to-play-summary-panel-title {
+          color: white;
+          font-size: 3em;
+        }
+
+        .how-to-play-summary-panel-text {
+          color: gray(40);
+          font-size: 1.5em;
+          margin-top: 20px;
+        }
       }
     }
   }
@@ -75,12 +95,18 @@
 
 @include small-tablet-or-smaller {
   .how-to-play-summary {
-    padding: 0px;
+    .how-to-play-summary-header {
+      .how-to-play-summary-header-title {
+        font-size: 3.5em;
+      }
+    }
 
-    .how-to-play-summary-panel-wrapper {       
-      .how-to-play-summary-panel-image-wrapper {
-        .how-to-play-summary-panel-image {
-          height: 240px;
+    .how-to-play-summary-panels {
+      .how-to-play-summary-panel-wrapper {       
+        .how-to-play-summary-panel-image-wrapper {
+          .how-to-play-summary-panel-image {
+            height: 240px;
+          }
         }
       }
     }
@@ -89,27 +115,38 @@
 
 @include phone-or-smaller {
   .how-to-play-summary {
-    .how-to-play-summary-panel-wrapper {  
+    .how-to-play-summary-header {
       padding: 10px;
+      width: calc(100% - 40px);
 
-      &:nth-child(n + 2) {
-        margin-top: 40px;
+      .how-to-play-summary-header-title {
+        font-size: 2.5em;
       }
+    }
 
-      .how-to-play-summary-panel-image-wrapper {
-        .how-to-play-summary-panel-image {
-          height: 200px;
-        }
-      }
+    .how-to-play-summary-panels {
+      .how-to-play-summary-panel-wrapper {  
+        padding: 10px;
 
-      .how-to-play-summary-panel-content {
-        .how-to-play-summary-panel-title {
-          font-size: 2em;
+        &:nth-child(n + 2) {
+          margin-top: 40px;
         }
-  
-        .how-to-play-summary-panel-text {
-          font-size: 1.25em;
-          margin-top: 5px;
+
+        .how-to-play-summary-panel-image-wrapper {
+          .how-to-play-summary-panel-image {
+            height: 200px;
+          }
+        }
+
+        .how-to-play-summary-panel-content {
+          .how-to-play-summary-panel-title {
+            font-size: 2em;
+          }
+    
+          .how-to-play-summary-panel-text {
+            font-size: 1.25em;
+            margin-top: 5px;
+          }
         }
       }
     }
@@ -118,20 +155,32 @@
 
 @include small-phone-or-smaller {
   .how-to-play-summary {
-    .how-to-play-summary-panel-wrapper {  
-      .how-to-play-summary-panel-image-wrapper {
-        .how-to-play-summary-panel-image {
-          height: 160px;
-        }
+    .how-to-play-summary-header {
+      .how-to-play-summary-header-title {
+        font-size: 2em;
       }
 
-      .how-to-play-summary-panel-content {
-        .how-to-play-summary-panel-title {
-          font-size: 1.5em;
+      .how-to-play-summary-header-description {
+        font-size: 1em;
+      }
+    }
+
+    .how-to-play-summary-panels {
+      .how-to-play-summary-panel-wrapper {  
+        .how-to-play-summary-panel-image-wrapper {
+          .how-to-play-summary-panel-image {
+            height: 160px;
+          }
         }
-  
-        .how-to-play-summary-panel-text {
-          font-size: 1em;
+
+        .how-to-play-summary-panel-content {
+          .how-to-play-summary-panel-title {
+            font-size: 1.5em;
+          }
+    
+          .how-to-play-summary-panel-text {
+            font-size: 1em;
+          }
         }
       }
     }

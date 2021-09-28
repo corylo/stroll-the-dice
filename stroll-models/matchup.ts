@@ -1,6 +1,6 @@
 import firebase from "firebase/app";
 
-import { IProfileReference } from "./profileReference";
+import { IProfile } from "./profile";
 
 export interface IMatchupSideTotal {
   participants: number;
@@ -14,7 +14,7 @@ export const defaultMatchupSideTotal = (): IMatchupSideTotal => ({
 
 export interface IMatchupSide {    
   playerID: string;
-  profile?: IProfileReference;  
+  profile?: IProfile;  
   steps: number;
   total: IMatchupSideTotal;
 }

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 
 import { ConnectAStepTrackerMessage } from "../../components/connectAStepTrackerMessage/connectAStepTrackerMessage";
 import { GameFeed } from "../../components/gameFeed/gameFeed";
@@ -47,9 +47,11 @@ export const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
         </React.Fragment>
       )
     } else {
+      const memoizedHowToPlaySummary = useMemo(() => <HowToPlaySummary />, []);
+      
       return (
         <div className="signed-out-content">
-          <HowToPlaySummary />
+          {memoizedHowToPlaySummary}
           <SignInLink />
           <div className="link-divider">
             <h1 className=" passion-one-font">Or</h1>
