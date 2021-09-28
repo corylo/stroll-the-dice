@@ -26,7 +26,7 @@ export const ProfileBatchService: IProfileBatchService = {
       });
   },
   deleteProfileNotifications: async (uid: string): Promise<void> => {
-    logger.info(`Deleting stats for user: [${uid}]`);
+    logger.info(`Deleting notifications for user: [${uid}]`);
     
     const batch: firebase.firestore.WriteBatch = db.batch();
 
