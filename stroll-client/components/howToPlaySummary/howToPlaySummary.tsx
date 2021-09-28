@@ -30,7 +30,7 @@ export const HowToPlaySummary: React.FC<HowToPlaySummaryProps> = (props: HowToPl
       </div>
       <div className="how-to-play-summary-panels">
         <HowToPlaySummaryPanel     
-          text="Games last between 1 and 7 days with different matchups each day. Earn points by taking steps and beating your competitor."
+          text="Games last between 1 and 7 days with different matchups each day."
           title="Play with up to 20 friends per game"
         >
           <ExampleMatchup matchup={matchup} />
@@ -38,12 +38,12 @@ export const HowToPlaySummary: React.FC<HowToPlaySummaryProps> = (props: HowToPl
         <HowToPlaySummaryPanel
           backgroundImage={ImageUtility.getGraphic("prediction", "png")}
           className="prediction-panel"
-          text="Each player starts with 10,000 points to use for guessing matchup outcomes."
-          title="Earn additional points by predicting matchup winners"
+          text="Each player starts with 10,000 points."
+          title="Earn points by taking steps and predicting matchup winners"
         />
         <HowToPlaySummaryPanel     
           text=""
-          title="Real time matchup stat updates"
+          title="Stay in the know with real time matchup updates"
         >
           <ExampleMatchupStats />
         </HowToPlaySummaryPanel>
