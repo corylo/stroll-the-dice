@@ -58,7 +58,10 @@ export const AcceptInviteService: IAcceptInviteService = {
             .doc(player.ref.invite)
             .withConverter(inviteConverter);
 
-          transaction.update(inviteRef, { ["uses.current"]: firebase.firestore.FieldValue.increment(1) });
+          transaction.update(inviteRef, { 
+            ["uses.current"]: firebase.firestore.FieldValue.increment(1),
+            lastUsedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
 
           const playingInRef: firebase.firestore.DocumentReference = db.collection("profiles")
             .doc(player.id)

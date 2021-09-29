@@ -25,6 +25,7 @@ export const InviteUtility: IInviteUtility = {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       duration: DateUtility.daysToMillis(365),
       id: Nano.generate(5),
+      lastUsedAt: null,
       uses: {
         current: 0,
         max: InitialValue.MaxInviteUses

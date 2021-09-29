@@ -14,6 +14,7 @@ export interface IInvite {
   createdAt: firebase.firestore.FieldValue;
   duration: number;
   id: string;
+  lastUsedAt: firebase.firestore.FieldValue;
   uses: IInviteUses;
 }
 
@@ -21,6 +22,7 @@ export const defaultInvite = (): IInvite => ({
   createdAt: firebase.firestore.FieldValue.serverTimestamp(),
   duration: 0,
   id: "",
+  lastUsedAt: null,
   uses: defaultInviteUses()
 });
 
@@ -29,6 +31,7 @@ export const inviteConverter: firebase.firestore.FirestoreDataConverter<IInvite>
     return {
       createdAt: invite.createdAt,
       duration: invite.duration,
+      lastUsedAt: invite.lastUsedAt,
       uses: invite.uses
     }
   },
@@ -42,6 +45,7 @@ export const inviteConverter: firebase.firestore.FirestoreDataConverter<IInvite>
       createdAt: data.createdAt,
       duration: data.duration,
       id: snapshot.id,
+      lastUsedAt: data.lastUsedAt,
       uses: data.uses
     }
   }
