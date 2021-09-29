@@ -211,14 +211,14 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
         <InputWrapper
           id="game-name-input" 
           label="Name" 
-          maxLength={100}
+          maxLength={50}
           value={fields.name}
           error={errors.name}
         >
           <input 
             type="text"
             className="passion-one-font"
-            maxLength={100}
+            maxLength={50}
             placeholder="Name"
             value={fields.name}
             onChange={(e: any) => handleOnChange(GameFormAction.SetName, e.target.value)}
