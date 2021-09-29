@@ -36,6 +36,29 @@
     }
   }
 
+  .page-footer-social-links {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+
+    .page-footer-social-link {
+      background-color: transparent;
+
+      &:hover,
+      &:focus {        
+        background-color: rgba(white, 0.2);
+      }
+
+      i {
+        font-size: 1.25em;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        width: 30px;
+      }
+    }
+  }
+
   .page-footer-rights-statement {
     margin-top: 20px;
 

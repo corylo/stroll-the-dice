@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import { Button } from "../../../buttons/button";
 import { PageFooterSection } from "./pageFooterSection";
 
 interface PageFooterProps {  
@@ -27,6 +28,14 @@ export const PageFooter: React.FC<PageFooterProps> = (props: PageFooterProps) =>
             <Link className="passion-one-font" to="/contact-us">Contact Us</Link>
           </div>
         </PageFooterSection>
+      </div>
+      <div className="page-footer-social-links">
+        <Button className="page-footer-social-link" url="https://www.facebook.com/StrollTheDice" external newtab>
+          <i className="fab fa-facebook-f" />
+        </Button>
+        <Button className="page-footer-social-link" url="https://twitter.com/strollthedice" external newtab>
+          <i className="fab fa-twitter" />
+        </Button>
       </div>
       <div className="page-footer-rights-statement">
         <h1 className="passion-one-font">{new Date().getFullYear()} Waff Apps LLC. All rights reserved.</h1>
