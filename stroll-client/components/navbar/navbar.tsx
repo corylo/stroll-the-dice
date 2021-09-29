@@ -7,6 +7,8 @@ import { ProfileIcon } from "../profileIcon/profileIcon";
 
 import { AppContext } from "../app/contexts/appContext";
 
+import { AnalyticsUtility } from "../../utilities/analyticsUtility";
+
 import { AppAction } from "../../enums/appAction";
 import { AppStatus } from "../../enums/appStatus";
 
@@ -29,12 +31,18 @@ export const Navbar: React.FC<NavbarProps> = (props: NavbarProps) => {
         );
       }
     } else if (status === AppStatus.SignedOut) {
+      const handleSignInClick = (): void => {
+        dispatch(AppAction.ToggleSignIn, true);
+
+        AnalyticsUtility.log("navbar_sign_in_click");
+      }
+
       return (
         <IconButton 
           id="sign-in-button" 
           className="fancy-button"
           icon="fad fa-sign-in"          
-          handleOnClick={() => dispatch(AppAction.ToggleSignIn, true)} 
+          handleOnClick={handleSignInClick} 
         />        
       )
     }

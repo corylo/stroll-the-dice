@@ -6,6 +6,7 @@ import { TooltipSide } from "../../../../components/tooltip/tooltip";
 
 import { AppContext } from "../../../../components/app/contexts/appContext";
 
+import { AnalyticsUtility } from "../../../../utilities/analyticsUtility";
 import { StepTrackerUtility } from "../../../../utilities/stepTrackerUtility";
 
 import { AppAction } from "../../../../enums/appAction";
@@ -114,6 +115,10 @@ export const StepTrackerLink: React.FC<StepTrackerLinkProps> = (props: StepTrack
       </div>
     )
   }
+
+  const handleOnClick = (): void => {
+    AnalyticsUtility.log("step_tracker_link_click", { tracker: props.tracker });
+  }
   
   return (
     <Button 
@@ -121,6 +126,7 @@ export const StepTrackerLink: React.FC<StepTrackerLinkProps> = (props: StepTrack
       disabled={props.disabled || (hasTracker && props.tracker !== user.profile.tracker.name)}
       url={StepTrackerUtility.getOAuthUrl(props.tracker)} 
       external
+      handleOnClick={handleOnClick}
     >
       <div className="step-tracker-link-branding">
         <img src={logo} />      
