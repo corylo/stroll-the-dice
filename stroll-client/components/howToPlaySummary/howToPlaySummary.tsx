@@ -22,7 +22,7 @@ export const HowToPlaySummary: React.FC<HowToPlaySummaryProps> = (props: HowToPl
   return (
     <div className="how-to-play-summary">
       <div className="how-to-play-summary-header">
-        <h1 className="how-to-play-summary-header-title passion-one-font">Fantasy sports style betting* meets step tracking.</h1>
+        <h1 className="how-to-play-summary-header-title passion-one-font">Fantasy sports meets step tracking.</h1>
         <p className="how-to-play-summary-header-description passion-one-font">Stroll The Dice is the combination of a stepping competition and a prediction game rolled into one.</p>
         <p className="how-to-play-summary-header-disclaimer passion-one-font">*With fantasy points.</p>
         <p className="how-to-play-summary-header-play-free-statement passion-one-font">Play free for your first 7 in-game days!</p>
