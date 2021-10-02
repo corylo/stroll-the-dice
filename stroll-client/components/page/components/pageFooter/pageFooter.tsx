@@ -37,8 +37,8 @@ export const PageFooter: React.FC<PageFooterProps> = (props: PageFooterProps) =>
           <i className="fab fa-twitter" />
         </Button>
       </div>
-      <div className="page-footer-rights-statement">
-        <h1 className="passion-one-font">{new Date().getFullYear()} Waff Apps LLC. All rights reserved.</h1>
+      <div className="page-footer-copyright-statement">
+        <h1 className="passion-one-font"><i className="far fa-copyright"></i> {new Date().getFullYear()} Stroll The Dice. All rights reserved.</h1>
       </div>
     </div>
   );

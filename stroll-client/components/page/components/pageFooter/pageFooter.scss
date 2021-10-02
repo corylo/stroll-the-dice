@@ -59,11 +59,15 @@
     }
   }
 
-  .page-footer-rights-statement {
+  .page-footer-copyright-statement {
     margin-top: 20px;
 
     h1 {
       color: white;
+
+      i {
+        font-size: 0.8em;
+      }
     }
   }
 }
