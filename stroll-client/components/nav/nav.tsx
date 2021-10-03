@@ -22,9 +22,9 @@ export const Nav: React.FC<NavProps> = (props: NavProps) => {
     return (
       <div id="phone-nav-menu-content" className="nav-menu-content">
         <NavMenuButton icon="fal fa-plus" label="Create Game" to="/create" />
-        <NavMenuButton icon="far fa-user" label="Profile" to="/profile" />
-        <NavMenuButton center icon="far fa-home" label="Home" to="/" />
         <NavMenuButton icon="fal fa-chart-bar" label="Stats" to="/profile/stats" />
+        <NavMenuButton center icon="far fa-home" label="Home" to="/" />
+        <NavMenuButton icon="far fa-user" label="Profile" to="/profile" />
         <NotificationNavButton />
       </div>
     )
