@@ -3,17 +3,14 @@ import { Change, EventContext, logger } from "firebase-functions";
 
 import { db } from "../../config/firebase";
 
-import { GameDayHistoryTransactionService } from "./transaction/gameDayHistoryTransactionService";
 import { GameEventTransactionService } from "./transaction/gameEventTransactionService";
 import { PlayerTransactionService } from "./transaction/playerTransactionService";
 import { ProfileTransactionService } from "./transaction/profileTransactionService";
 
 import { FirestoreDateUtility } from "../utilities/firestoreDateUtility";
-import { GameDayHistoryUtility } from "../utilities/gameDayHistoryUtility";
 import { GameEventUtility } from "../utilities/gameEventUtility";
 
 import { gameConverter, IGame } from "../../../stroll-models/game";
-import { IGameDayHistoryUseEntry } from "../../../stroll-models/gameDayHistoryEntry/gameDayHistoryUseEntry";
 import { matchupConverter } from "../../../stroll-models/matchup";
 import { IPlayer, playerConverter } from "../../../stroll-models/player";
 
@@ -70,17 +67,6 @@ export const PlayerService: IPlayerService = {
             : player.createdAt;
 
           GameEventTransactionService.create(transaction, game.id, GameEventUtility.mapPlayerCreatedEvent(playerCreatedAt, player.id));
-
-          const playerID: string = game.enableGiftDaysForJoiningPlayers && player.ref.acceptedGiftDays ? game.creatorUID : player.id;
-
-          const entry: IGameDayHistoryUseEntry = GameDayHistoryUtility.mapGameDayHistoryUseEntry(
-            player.createdAt,
-            game.duration,
-            game.id,
-            player.id
-          );
-
-          GameDayHistoryTransactionService.create(transaction, playerID, entry);
         }
       });
     } catch (err) {

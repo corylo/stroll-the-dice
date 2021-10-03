@@ -1,15 +1,3 @@
-export interface IProfileGameDayStats {
-  available: number;  
-  redeemed: number;
-  total: number;
-}
-
-export const defaultProfileGameDayStats = (): IProfileGameDayStats => ({
-  available: 0,  
-  redeemed: 0,
-  total: 0
-});
-
 export interface IProfileGamesStats {
   daysPlayed: number;
   gamesPlayed: number;
@@ -55,13 +43,11 @@ export const defaultProfileNotificationStats = (): IProfileNotificationStats => 
 });
 
 export interface IProfileStats {
-  gameDays: IProfileGameDayStats;
   games: IProfileGamesStats;
   notifications: IProfileNotificationStats;
 }
 
 export const defaultProfileStats = (): IProfileStats => ({
-  gameDays: defaultProfileGameDayStats(),
   games: defaultProfileGamesStats(),
   notifications: defaultProfileNotificationStats()
 });

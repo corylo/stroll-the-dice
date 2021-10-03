@@ -15,7 +15,6 @@ export const defaultPlayerPoints = (): IPlayerPoints => ({
 });
 
 export interface IPlayerRef {
-  acceptedGiftDays: boolean;
   game: string;
   gameStatus: GameStatus;
   invite: string
@@ -24,7 +23,6 @@ export interface IPlayerRef {
 }
 
 export const defaultPlayerRef = (): IPlayerRef => ({
-  acceptedGiftDays: false,
   game: "",
   gameStatus: GameStatus.Upcoming,
   invite: "",

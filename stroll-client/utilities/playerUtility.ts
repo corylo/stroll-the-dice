@@ -13,7 +13,7 @@ interface IPlayerUtility {
   getById: (id: string, players: IPlayer[]) => IPlayer;
   getByUser: (user: IUser, players: IPlayer[]) => IPlayer;  
   hasProfileChanged: (before: IPlayer, after: IPlayer) => boolean;
-  mapCreate: (profile: IProfile, game: IGame, invite: IInvite, acceptedGiftDays: boolean) => IPlayer;
+  mapCreate: (profile: IProfile, game: IGame, invite: IInvite) => IPlayer;
   mapPlaceholderProfiles: (players: IPlayer[]) => IPlayer[];
   mapProfiles: (players: IPlayer[], profiles: IProfile[]) => IPlayer[];
 }
@@ -51,7 +51,7 @@ export const PlayerUtility: IPlayerUtility = {
       before.profile.username !== after.profile.username
     )
   },
-  mapCreate: (profile: IProfile, game: IGame, invite: IInvite, acceptedGiftDays: boolean): IPlayer => {
+  mapCreate: (profile: IProfile, game: IGame, invite: IInvite): IPlayer => {
     return {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       id: profile.uid,      
@@ -62,7 +62,6 @@ export const PlayerUtility: IPlayerUtility = {
       },
       place: 0,
       ref: {
-        acceptedGiftDays,
         game: game.id,
         gameStatus: game.status,
         invite: invite.id,

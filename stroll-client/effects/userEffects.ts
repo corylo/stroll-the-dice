@@ -10,7 +10,7 @@ import { ErrorUtility } from "../utilities/errorUtility";
 import { UserUtility } from "../utilities/userUtility";
 
 import { IAppState } from "../components/app/models/appState";
-import { IProfileGameDayStats, IProfileNotificationStats } from "../../stroll-models/profileStats";
+import { IProfileNotificationStats } from "../../stroll-models/profileStats";
 import { IUser } from "../models/user";
 
 import { AppAction } from "../enums/appAction";
@@ -43,28 +43,6 @@ export const useAuthStateChangedEffect = (appState: IAppState, dispatch: (type: 
 
     return () => unsub();
   }, [appState.user]);
-}
-
-export const useGameDaysListenerEffect = (appState: IAppState, dispatch: (type: AppAction, payload?: any) => void): void => {
-  useEffect(() => {  
-    if(appState.user.profile.uid !== "") {   
-      const { uid } = appState.user.profile;
-
-      const unsubToGameDays = db.collection("profiles")
-        .doc(uid)
-        .collection("stats")
-        .doc(ProfileStatsID.GameDays)
-        .onSnapshot((doc: firebase.firestore.QueryDocumentSnapshot) => {
-          if(doc.exists) {
-            const gameDays: IProfileGameDayStats = doc.data() as IProfileGameDayStats;
-            
-            dispatch(AppAction.SetGameDays, gameDays);
-          }
-        });
-
-      return () => unsubToGameDays();
-    }
-  }, [appState.user.profile.uid]);
 }
 
 export const useNotificationsListenerEffect = (appState: IAppState, dispatch: (type: AppAction, payload?: any) => void): void => {

@@ -5,7 +5,6 @@ import classNames from "classnames";
 import { auth } from "../../config/firebase";
 
 import { Button } from "../buttons/button";
-import { GameDayStatement } from "../gameDayStatement/gameDayStatement";
 import { PlayerLevelBadge } from "../playerLevelBadge/playerLevelBadge";
 import { ProfileIcon } from "../profileIcon/profileIcon";
 
@@ -70,9 +69,6 @@ export const UserMenuModal: React.FC<UserMenuModalProps> = (props: UserMenuModal
               experience={user.profile.experience} 
               mini 
             />
-            <div className="available-game-days">
-              <h1 className="passion-one-font">You have <GameDayStatement quantity={user.stats.gameDays.available} /></h1>
-            </div>
           </div>
         )
       }

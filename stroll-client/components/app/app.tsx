@@ -10,11 +10,9 @@ import { GamePage } from "../../pages/gamePage/gamePage";
 import { GoodbyePage } from "../../pages/goodbyePage/goodbyePage";
 import { HomePage } from "../../pages/homePage/homePage";
 import { HowToPlayPage } from "../../pages/howToPlayPage/howToPlayPage";
-import { MyGameDaysPage } from "../../pages/myGameDaysPage/myGameDaysPage";
 import { MyGamesPage } from "../../pages/myGamesPage/myGamesPage";
 import { NotificationsPage } from "../../pages/notificationsPage/notificationsPage";
 import { ProfilePage } from "../../pages/profilePage/profilePage";
-import { ShopPage } from "../../pages/shopPage/shopPage";
 import { StatsPage } from "../../pages/statsPage/statsPage";
 import { UserPage } from "../../pages/userPage/userPage";
 
@@ -31,7 +29,7 @@ import { AppContext } from "./contexts/appContext";
 import { appReducer } from "./reducers/appReducer";
 
 import { useFirebaseAnalyticsInitializerEffect, useScrollToTopEffect } from "../../effects/appEffects";
-import { useAuthStateChangedEffect, useGameDaysListenerEffect, useNotificationsListenerEffect } from "../../effects/userEffects";
+import { useAuthStateChangedEffect, useNotificationsListenerEffect } from "../../effects/userEffects";
 
 import { defaultAppState } from "./models/appState";
 
@@ -51,8 +49,6 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
   useScrollToTopEffect(location);
 
   useAuthStateChangedEffect(appState, dispatch);
-
-  useGameDaysListenerEffect(appState, dispatch);
 
   useNotificationsListenerEffect(appState, dispatch);
 
@@ -80,7 +76,7 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
         <DeleteAccountModal />
         <CookieBanner />
         <Switch>
-          <Route exact path="/"> {/* ✔️ */}
+          <Route exact path="/">
             <HomePage />
           </Route>
           <Route exact path={["/profile", "/profile/connect/:tracker"]}>
@@ -98,9 +94,6 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
           <Route exact path="/profile/games">
             <MyGamesPage />
           </Route>
-          <Route exact path="/profile/game-days">
-            <MyGameDaysPage />
-          </Route>
           <Route exact path="/u/:id">
             <UserPage />
           </Route>
@@ -109,9 +102,6 @@ export const App: React.FC<AppProps> = (props: AppProps) => {
           </Route>
           <Route exact path="/game/:id">
             <GamePage />
-          </Route>
-          <Route exact path="/shop">
-            <ShopPage />
           </Route>
           <Route exact path="/how-to-play">
             <HowToPlayPage />

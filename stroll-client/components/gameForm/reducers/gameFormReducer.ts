@@ -41,14 +41,6 @@ export const gameFormReducer = (state: IGameFormState, action: IAction): IGameFo
         },
         errors: updatedErrors
       } 
-    case GameFormAction.SetEnableGiftDaysForJoiningPlayers:
-      return {
-        ...state,
-        fields: {
-          ...fields,
-          enableGiftDaysForJoiningPlayers: action.payload
-        }
-      }
     case GameFormAction.SetErrors:
       return {
         ...state,

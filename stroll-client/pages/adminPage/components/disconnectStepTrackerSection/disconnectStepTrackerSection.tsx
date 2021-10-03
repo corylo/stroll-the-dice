@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import { GameDayService } from "../../../../services/gameDayService";
-
 import { AdminSection } from "../adminSection/adminSection";
 import { IconButton } from "../../../../components/buttons/iconButton";
 import { InputWrapper } from "../../../../components/inputWrapper/inputWrapper";

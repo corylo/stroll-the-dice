@@ -5,7 +5,7 @@ export enum HowToPlayID {
   Matchups = "matchups",
   MatchupSpread = "matchup-spread",
   Predictions = "predictions",
-  Prerequisites = "prerequisites",
+  StepTracking = "step-tracking",
   TheGoal = "the-goal",
   Unknown = ""
 }

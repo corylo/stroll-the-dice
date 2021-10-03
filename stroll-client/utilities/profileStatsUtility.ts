@@ -1,20 +1,14 @@
-import { defaultProfileGamesStats, defaultProfileNotificationStats, IProfileGameDayStats, IProfileGamesStats, IProfileNotificationStats } from "../../stroll-models/profileStats";
+import { defaultProfileGamesStats, defaultProfileNotificationStats, IProfileGamesStats, IProfileNotificationStats } from "../../stroll-models/profileStats";
 
 import { ProfileStatsID } from "../../stroll-enums/profileStatsID";
 
 interface IProfileStatsUtility {
-  mapCreate: (id: ProfileStatsID) => IProfileGameDayStats | IProfileGamesStats | IProfileNotificationStats;
+  mapCreate: (id: ProfileStatsID) => IProfileGamesStats | IProfileNotificationStats;
 }
 
 export const ProfileStatsUtility: IProfileStatsUtility = {
-  mapCreate: (id: ProfileStatsID): IProfileGameDayStats | IProfileGamesStats | IProfileNotificationStats => {
+  mapCreate: (id: ProfileStatsID): IProfileGamesStats | IProfileNotificationStats => {
     switch(id) {
-      case ProfileStatsID.GameDays:
-        return {
-          available: 7,
-          redeemed: 0,
-          total: 7
-        }
       case ProfileStatsID.Games:
         return defaultProfileGamesStats();
       case ProfileStatsID.Notifications:

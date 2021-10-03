@@ -116,8 +116,24 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = (props: HowToPlayMo
             text="How To Play"
           />          
           <div className="how-to-play-modal-sections">
-            <HowToPlayModalSection title="Prerequisites" id={HowToPlayID.Prerequisites}>
-              <HowToPlayModalSection className="step-tracking-sub-section" title="1. Step tracking" subsection>
+            <HowToPlayModalSection title="Getting Started" id={HowToPlayID.GettingStarted}>
+              <HowToPlayModalSection title="1. Create a game" subsection>
+                <HowToPlayText text="To create a game, click the 'Create Game' button or + icon on mobile." />
+                <HowToPlayText text="Enter a name for your game, select a duration and start time, and you're ready to go." />
+                <HowToPlayDisplayComponent>
+                  <Button className="fancy-button" url="/create" handleOnClick={handleOnClose}>
+                    <i className="fal fa-plus" />
+                    <h1 className="passion-one-font">Create Game</h1>
+                  </Button>
+                </HowToPlayDisplayComponent>
+              </HowToPlayModalSection>
+              <HowToPlayModalSection title="2. Invite players" subsection>
+                <HowToPlayText text="To invite players click the invite button at the top of the game page and copy the invite link." />
+                <HowToPlayText text="Share this link with anyone you'd like to play with. There can be up to 20 players in a game, including the creator." />
+              </HowToPlayModalSection>
+            </HowToPlayModalSection>
+            <HowToPlayModalSection title="Step Tracking" id={HowToPlayID.StepTracking}>
+              <HowToPlayModalSection className="step-tracking-sub-section" title="1. Summary" subsection>
                 <HowToPlayText text="In order for the game to be able to track your steps you must connect a step tracker." />
                 <HowToPlayText text="The available step trackers are listed below." />
                 <HowToPlayDisplayComponent className="step-tracking-sub-section-items">                  
@@ -131,35 +147,6 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = (props: HowToPlayMo
                     <h1 className="passion-one-font">Go to Profile</h1>
                   </Button>
                 </HowToPlayDisplayComponent>
-              </HowToPlayModalSection>
-              <HowToPlayModalSection title="2. Game Days" subsection>
-                <HowToPlayText text="In order to create or join a game you will need to purchase Game Days. One Game Day is required for each day of the duration of the game you have selected." />
-                <HowToPlayText text="For example, if you wanted to create or join a game that was 5 days long, you would need to purchase at least 5 Game Days." />
-                <HowToPlayText text="Game Days can be purchased in the Shop for as low as $0.21 per day!" />
-                <HowToPlayDisplayComponent>
-                  <Button className="fancy-button" url="/shop" handleOnClick={handleOnClose}>
-                    <i className="fal fa-store" />
-                    <h1 className="passion-one-font">Go to Shop</h1>
-                  </Button>
-                </HowToPlayDisplayComponent>
-              </HowToPlayModalSection>
-            </HowToPlayModalSection>
-            <HowToPlayModalSection title="Getting Started" id={HowToPlayID.GettingStarted}>
-              <HowToPlayModalSection title="For more info on Game Days, please see the Preqrequisites section." subsection />
-              <HowToPlayModalSection title="1. Create a game" subsection>
-                <HowToPlayText text="To create a game, click the 'Create Game' button or + icon on mobile." />
-                <HowToPlayText text="Enter a name for your game, select a duration and start time, and you're ready to go." />
-                <HowToPlayText text="You can optionally enable the the 'Gift My Game Days' option if you'd like to share your Game Days with players joining your game." />
-                <HowToPlayDisplayComponent>
-                  <Button className="fancy-button" url="/create" handleOnClick={handleOnClose}>
-                    <i className="fal fa-plus" />
-                    <h1 className="passion-one-font">Create Game</h1>
-                  </Button>
-                </HowToPlayDisplayComponent>
-              </HowToPlayModalSection>
-              <HowToPlayModalSection title="2. Invite players" subsection>
-                <HowToPlayText text="To invite players click the invite button at the top of the game page and copy the invite link." />
-                <HowToPlayText text="Share this link with anyone you'd like to play with. There can be up to 20 players in a game, including the creator." />
               </HowToPlayModalSection>
             </HowToPlayModalSection>
             <HowToPlayModalSection title="The Goal" id={HowToPlayID.TheGoal}>
@@ -233,7 +220,7 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = (props: HowToPlayMo
                 </HowToPlayDisplayComponent>
                 <HowToPlayText text={[
                   "The spread is the number of steps that the matchup favorite is predicted to win by and is calculated using the average number of daily steps for each player.",                  
-                  "If one or more players in a given matchup does not have at least 3 Game Days of step history, then there will be no spread and the spread winner will be the same as the matchup winner.",
+                  "If one or more players in a given matchup does not have at least 3 in-game days of step history, then there will be no spread and the spread winner will be the same as the matchup winner.",
                   "The spread is used purely for calculating prediction outcomes and has no effect on the actual matchup winner."
                 ]} />
                 <HowToPlayText text="For more information on matchup spread, please see the Matchup Spread section." />
@@ -266,7 +253,7 @@ export const HowToPlayModal: React.FC<HowToPlayModalProps> = (props: HowToPlayMo
                 <HowToPlayText text="This summary is a repeat of the matchup spread information from the Matchups section. If you have already read it, you may skip to 2. Breakdown." />
                 <HowToPlayText text={[                  
                   "The spread is the number of steps that the matchup favorite is predicted to win by and is calculated using the average number of daily steps for each player.",                  
-                  "If one or more players in a given matchup does not have at least 3 Game Days of step history, then there will be no spread and the spread winner will be the same as the matchup winner.",
+                  "If one or more players in a given matchup does not have at least 3 in-game days of step history, then there will be no spread and the spread winner will be the same as the matchup winner.",
                   "The spread is used purely for calculating prediction outcomes and has no effect on the actual matchup winner."
                  ]} />
               </HowToPlayModalSection>

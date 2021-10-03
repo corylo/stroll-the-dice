@@ -120,18 +120,6 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
         ...state,
         cookieStatus: action.payload
       }
-    case AppAction.SetGameDays: {
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          stats: {
-            ...state.user.stats,
-            gameDays: action.payload
-          }
-        }
-      }
-    }
     case AppAction.SetNotificationStats:
       return {
         ...state,

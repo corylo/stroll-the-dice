@@ -4,6 +4,7 @@ import { useHistory } from "react-router";
 import { GameForm } from "../../components/gameForm/gameForm";
 import { LearnMoreLink } from "../../components/learnMoreLink/learnMoreLink";
 import { Page } from "../../components/page/page";
+import { PageTitle } from "../../components/page/pageTitle";
 import { SignInToDoThisMessage } from "../../components/signInToDoThisMessage/signInToDoThisMessage";
 
 import { AppContext } from "../../components/app/contexts/appContext";
@@ -24,7 +25,6 @@ import { IPlayer } from "../../../stroll-models/player";
 import { AppStatus } from "../../enums/appStatus";
 import { AppAction } from "../../enums/appAction";
 import { HowToPlayID } from "../../enums/howToPlayID";
-import { PageTitle } from "../../components/page/pageTitle";
 
 interface CreateGamePageProps {
   
@@ -42,7 +42,7 @@ export const CreateGamePage: React.FC<CreateGamePageProps> = (props: CreateGameP
   const save = async (fields: IGameFormStateFields): Promise<void> => {    
     const game: IGame = GameFormUtility.mapCreate(fields, user),
       invite: IInvite = InviteUtility.mapCreate(),
-      player: IPlayer = PlayerUtility.mapCreate(user.profile, game, invite, false);
+      player: IPlayer = PlayerUtility.mapCreate(user.profile, game, invite);
     
     await CreateGameService.createGame(game, player, invite);
 

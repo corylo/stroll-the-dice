@@ -106,12 +106,6 @@ export enum Icon {
 
   /* -- Other -- */
 
-  OneGameDay = "fal fa-ticket-alt",
-  FiveGameDays = "fal fa-sack",
-  FourteenGameDays = "fal fa-box",
-  TwentyEightGameDays = "fal fa-treasure-chest",
-  OneHundredFourtyGameDays = "fal fa-parachute-box",
-
   NotificationRead = "fal fa-envelope-open",
   NotificationUnread = "fal fa-envelope",
   

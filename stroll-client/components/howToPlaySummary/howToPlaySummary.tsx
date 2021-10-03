@@ -24,13 +24,12 @@ export const HowToPlaySummary: React.FC<HowToPlaySummaryProps> = (props: HowToPl
       <div className="how-to-play-summary-header">
         <h1 className="how-to-play-summary-header-title passion-one-font">Fantasy sports meets step tracking.</h1>
         <p className="how-to-play-summary-header-description passion-one-font">Stroll The Dice is the combination of a stepping competition and a prediction game rolled into one.</p>
-        <p className="how-to-play-summary-header-play-free-statement passion-one-font">Play free for your first 7 in-game days!</p>
         <SignInLink label="Get started" />
       </div>
       <div className="how-to-play-summary-panels">
         <HowToPlaySummaryPanel     
           text="Games last between 1 and 7 days with different matchups each day."
-          title="Play with up to 20 friends per game"
+          title="Play FREE with up to 20 friends per game"
         >
           <ExampleMatchup matchup={matchup} />
         </HowToPlaySummaryPanel>      

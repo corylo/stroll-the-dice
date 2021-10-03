@@ -1,9 +1,7 @@
 import { DateUtility } from "../../../../stroll-utilities/dateUtility";
 
-import { IGame } from "../../../../stroll-models/game";
 import { IGameFormStateErrors } from "../models/gameFormStateErrors";
 import { IGameFormStateFields } from "../models/gameFormStateFields";
-import { IUser } from "../../../models/user";
 
 import { FormError } from "../../../enums/formError";
 import { GameDuration } from "../../../../stroll-enums/gameDuration";
@@ -11,11 +9,11 @@ import { GameFormAction } from "../enums/gameFormAction";
 import { GameMode } from "../../../../stroll-enums/gameMode";
 
 interface IGameFormValidator {
-  validate: (errors: IGameFormStateErrors, fields: IGameFormStateFields, game: IGame, user: IUser, dispatch: (type: GameFormAction, payload?: any) => void) => boolean;
+  validate: (errors: IGameFormStateErrors, fields: IGameFormStateFields, dispatch: (type: GameFormAction, payload?: any) => void) => boolean;
 }
 
 export const GameFormValidator: IGameFormValidator = {
-  validate: (errors: IGameFormStateErrors, fields: IGameFormStateFields, game: IGame, user: IUser, dispatch: (type: GameFormAction, payload?: any) => void): boolean => {    
+  validate: (errors: IGameFormStateErrors, fields: IGameFormStateFields, dispatch: (type: GameFormAction, payload?: any) => void): boolean => {    
     let errorCount: number = 0;
 
     if(fields.name.trim() === "") {
@@ -46,15 +44,6 @@ export const GameFormValidator: IGameFormValidator = {
 
     if(!DateUtility.withinDaysLower(0, fields.startsAt, fields.startsAtHour)) {
       errors.startsAtHour = FormError.LowerLimitExceeded;
-      errorCount++;
-    }
-
-    if(
-      game === undefined && 
-      fields.duration > 0 && 
-      user.stats.gameDays.available < fields.duration
-    ) {
-      errors.gameDays = FormError.MissingValue;
       errorCount++;
     }
 

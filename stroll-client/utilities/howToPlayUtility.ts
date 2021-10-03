@@ -128,8 +128,8 @@ export const HowToPlayUtility: IHowToPlayUtility = {
       case HowToPlayID.Predictions:
         return HowToPlayID.Predictions;        
         
-      case HowToPlayID.Prerequisites:
-        return HowToPlayID.Prerequisites;        
+      case HowToPlayID.StepTracking:
+        return HowToPlayID.StepTracking;        
         
       case HowToPlayID.TheGoal:
         return HowToPlayID.TheGoal;        

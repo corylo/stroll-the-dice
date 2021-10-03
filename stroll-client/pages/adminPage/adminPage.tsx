@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
 
 import { DisconnectStepTrackerSection } from "./components/disconnectStepTrackerSection/disconnectStepTrackerSection";
-import { GiftGameDaysSection } from "./components/giftGameDaysSection/giftGameDaysSection";
 import { Page } from "../../components/page/page";
 import { PageTitle } from "../../components/page/pageTitle";
 
@@ -30,7 +29,6 @@ export const AdminPage: React.FC<AdminPageProps> = (props: AdminPageProps) => {
       return (
         <React.Fragment>
           <PageTitle text="Admin" />
-          <GiftGameDaysSection />
           <DisconnectStepTrackerSection />
         </React.Fragment>  
       )

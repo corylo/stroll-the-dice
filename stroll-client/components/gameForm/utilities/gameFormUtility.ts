@@ -55,8 +55,7 @@ export const GameFormUtility: IGameFormUtility = {
         game.mode !== fields.mode || 
         game.name !== fields.name ||
         FirestoreDateUtility.timestampToDateInput(game.startsAt) !== fields.startsAt ||
-        FirestoreDateUtility.timestampToDate(game.startsAt).getHours() !== fields.startsAtHour ||
-        game.enableGiftDaysForJoiningPlayers !== fields.enableGiftDaysForJoiningPlayers
+        FirestoreDateUtility.timestampToDate(game.startsAt).getHours() !== fields.startsAtHour
       )
     }
 
@@ -77,7 +76,6 @@ export const GameFormUtility: IGameFormUtility = {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       creatorUID: user.profile.uid,
       duration: fields.duration,
-      enableGiftDaysForJoiningPlayers: fields.enableGiftDaysForJoiningPlayers,
       endsAt,
       error: GameError.None,
       id: Nano.generate(6),
@@ -105,8 +103,7 @@ export const GameFormUtility: IGameFormUtility = {
         mode: game.mode,
         name: game.name,
         startsAt: FirestoreDateUtility.timestampToDateInput(game.startsAt),
-        startsAtHour: FirestoreDateUtility.timestampToDate(game.startsAt).getHours(),
-        enableGiftDaysForJoiningPlayers: game.enableGiftDaysForJoiningPlayers
+        startsAtHour: FirestoreDateUtility.timestampToDate(game.startsAt).getHours()
       }
     }
 
@@ -118,7 +115,6 @@ export const GameFormUtility: IGameFormUtility = {
 
     return {
       endsAt,
-      enableGiftDaysForJoiningPlayers: fields.enableGiftDaysForJoiningPlayers,
       error: GameError.None,
       locked: fields.locked,      
       name: fields.name,

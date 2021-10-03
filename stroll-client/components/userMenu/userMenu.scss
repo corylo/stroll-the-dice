@@ -36,8 +36,7 @@
 
       .profile-username,
       .player-level-mini-badge-wrapper,
-      .profile-email,
-      .available-game-days {
+      .profile-email {
         text-align: center;
       }
 
@@ -55,17 +54,6 @@
       
       .player-level-mini-badge-wrapper {
         margin-top: 10px;
-      }
-
-      .available-game-days {
-        margin-top: 20px;
-
-        > h1 {
-          border-top: 1px solid gray(90);
-          color: white;
-          font-size: 0.9em;
-          padding: 10px;
-        }
       }
     }
 

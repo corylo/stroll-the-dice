@@ -12,10 +12,8 @@ interface IMetaUtility {
   getGamePageMeta: (game: IGame, creator: IProfile) => IMetaUpdate;
   getHomePageMeta: () => IMetaUpdate;
   getMyGamesPageMeta: () => IMetaUpdate;
-  getMyGameDaysPageMeta: () => IMetaUpdate;
   getNotificationsPageMeta: () => IMetaUpdate;
   getProfilePageMeta: () => IMetaUpdate;
-  getShopPageMeta: () => IMetaUpdate;
   getStatsPageMeta: () => IMetaUpdate;
   updateRoute: (update: IMetaUpdate) => void;
   setAttribute: (name: string, value: string, qualifier?: string) => void;
@@ -63,12 +61,6 @@ export const MetaUtility: IMetaUtility = {
   getHomePageMeta: (): IMetaUpdate => {
     return defaultMetaUpdate();
   },
-  getMyGameDaysPageMeta: (): IMetaUpdate => {
-    return {
-      title: "My Game Days | Stroll The Dice",
-      description: "See how many game days you have as well as your game day usage history."
-    }
-  },
   getMyGamesPageMeta: (): IMetaUpdate => {
     return {
       title: "My Games | Stroll The Dice",
@@ -85,12 +77,6 @@ export const MetaUtility: IMetaUtility = {
     return {
       title: "Profile | Stroll The Dice",
       description: "Manage my profile, step trackers, and other settings."
-    }
-  },
-  getShopPageMeta: (): IMetaUpdate => {
-    return {
-      title: "Shop | Stroll The Dice",
-      description: "Purchase Game Days for creating and joining games."
     }
   },
   getStatsPageMeta: (): IMetaUpdate => {

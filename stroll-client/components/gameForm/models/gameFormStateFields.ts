@@ -5,7 +5,6 @@ import { GameMode } from "../../../../stroll-enums/gameMode";
 
 export interface IGameFormStateFields {
   duration: GameDuration;
-  enableGiftDaysForJoiningPlayers: boolean;
   locked: boolean;
   mode: GameMode;
   name: string;
@@ -15,7 +14,6 @@ export interface IGameFormStateFields {
 
 export const defaultGameFormStateFields = (): IGameFormStateFields => ({
   duration: GameDuration.None,
-  enableGiftDaysForJoiningPlayers: false,
   locked: false,
   mode: GameMode.Singles,
   name: "",

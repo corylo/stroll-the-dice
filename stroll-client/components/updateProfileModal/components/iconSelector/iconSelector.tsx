@@ -61,10 +61,6 @@ export const IconSelector: React.FC<IconSelectorProps> = (props: IconSelectorPro
 
       return (
         <div key={tier.tierNumber} className={classNames("icon-selector-tier", { locked })}>
-          <div className="icon-selector-tier-options">
-            {getOptions(tier.icons, locked)}
-            <i className="icon-selector-tier-locked-icon far fa-lock" />
-          </div>
           <div className="icon-selector-tier-labels">
             <div className="icon-selector-tier-number-label icon-selector-tier-label">
               <h1 className="icon-selector-tier-label-value passion-one-font">{tier.tierNumber}</h1>
@@ -74,6 +70,10 @@ export const IconSelector: React.FC<IconSelectorProps> = (props: IconSelectorPro
               <h1 className="icon-selector-tier-label-value passion-one-font">{tier.minimumLevel}+</h1>
               <h1 className="icon-selector-tier-label-text passion-one-font">Level</h1>
             </div>
+          </div>
+          <div className="icon-selector-tier-options">
+            {getOptions(tier.icons, locked)}
+            <i className="icon-selector-tier-locked-icon far fa-lock" />
           </div>
         </div>
       )

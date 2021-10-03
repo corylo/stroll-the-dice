@@ -2,16 +2,13 @@ import { auth, firestore, https, pubsub } from "firebase-functions";
 
 import { AuthService } from "./services/authService";
 import { FriendRequestService } from "./services/friendRequestService";
-import { GameDayTransactionService } from "./services/transaction/gameDayTransactionService";
 import { GameService } from "./services/gameService";
 import { MatchupService } from "./services/matchupService";
-import { PaymentService } from "./services/paymentService";
 import { PlayerService } from "./services/playerService";
 import { PredictionService } from "./services/predictionService";
 import { ProfileService } from "./services/profileService";
 import { ScheduleService } from "./services/scheduleService";
 import { StepTrackerService } from "./services/stepTrackerService";
-import { StripeService } from "./services/stripeService";
 
 exports.onAuthUserDelete = auth.user()
   .onDelete(AuthService.onAuthUserDelete);
@@ -25,10 +22,6 @@ exports.onProfileCreate = firestore
 exports.onFriendRequestCreation = firestore
   .document("profiles/{profileID}/friend_requests/{requestID}")
   .onCreate(FriendRequestService.onCreate);
-
-exports.onPaymentCreation = firestore
-  .document("profiles/{profileID}/payments/{paymentID}")
-  .onCreate(PaymentService.onCreate);
 
 exports.onGameCreate = firestore
   .document("games/{id}")
@@ -83,16 +76,5 @@ exports.verifyStepTracker = https
 exports.disconnectStepTracker = https
   .onCall(StepTrackerService.disconnectStepTracker);
   
-exports.createPaymentSession = https
-  .onCall(PaymentService.createPaymentSession);
-
-exports.giftGameDays = https
-  .onCall(GameDayTransactionService.giftGameDays);
-
 // exports.updateUserEmail = https
 //   .onCall(UserService.updateEmail);
-  
-/* -- Web Hooks -- */
-
-exports.stripePaymentWebhook = https
-  .onRequest(StripeService.paymentWebhook);

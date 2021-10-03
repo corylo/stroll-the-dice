@@ -46,7 +46,7 @@ export const ProfileService: IProfileService = {
 
     try {
       await NotificationBatchService.create(context.params.id, NotificationUtility.mapCreate([
-          "We've started you off with 7 free Game Days on the house!", 
+          "It's time to get strolling.", 
           "For more info on how to play, check out the How To Play page by clicking on this notification.",
           NotificationUtility.getRandomGoodLuckStatement()
         ],

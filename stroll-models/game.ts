@@ -28,7 +28,6 @@ export interface IGame {
   createdAt: firebase.firestore.FieldValue;
   creatorUID: string;  
   duration: GameDuration;
-  enableGiftDaysForJoiningPlayers: boolean;
   endsAt: firebase.firestore.FieldValue;
   error: GameError;
   id: string;  
@@ -48,7 +47,6 @@ export const defaultGame = (): IGame => ({
   createdAt: firebase.firestore.FieldValue.serverTimestamp(),
   creatorUID: "",  
   duration: GameDuration.None,
-  enableGiftDaysForJoiningPlayers: false,
   endsAt: null,
   error: GameError.None,
   id: "",
@@ -70,7 +68,6 @@ export const gameConverter: any = {
       createdAt: game.createdAt,
       creatorUID: game.creatorUID,
       duration: game.duration,
-      enableGiftDaysForJoiningPlayers: game.enableGiftDaysForJoiningPlayers,
       endsAt: game.endsAt,
       error: game.error,
       initializeProgressUpdateAt: game.initializeProgressUpdateAt,
@@ -94,7 +91,6 @@ export const gameConverter: any = {
       createdAt: data.createdAt,
       creatorUID: data.creatorUID,  
       duration: data.duration,    
-      enableGiftDaysForJoiningPlayers: data.enableGiftDaysForJoiningPlayers,
       endsAt: data.endsAt,
       error: data.error,
       id: snapshot.id,

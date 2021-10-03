@@ -3,7 +3,6 @@ import React, { createContext, useContext, useState } from "react";
 import { ActionCenterSection } from "./components/actionCenterSection/actionCenterSection";
 import { EmailNotificationSettingsSection } from "./components/emailNotificationSettingsSection/emailNotificationSettingsSection";
 import { FriendCodeSection } from "./components/friendCodeSection/friendCodeSection";
-import { GameDaysSection } from "./components/gameDaysSection/gameDaysSection";
 import { Page } from "../../components/page/page";
 import { PlayerLevelBadge } from "../../components/playerLevelBadge/playerLevelBadge";
 import { ProfileHeader } from "../../components/profileHeader/profileHeader";
@@ -72,7 +71,6 @@ export const ProfilePage: React.FC<ProfilePageProps> = (props: ProfilePageProps)
           />
           <FriendCodeSection friendID={user.profile.friendID} />
           <StepTrackerSection toggleModal={setToggledTo} />
-          <GameDaysSection available={user.stats.gameDays.available} />
           <EmailNotificationSettingsSection />
           <ActionCenterSection />
         </React.Fragment>

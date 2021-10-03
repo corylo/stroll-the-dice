@@ -7,7 +7,6 @@ import { FormActions } from "../form/formActions";
 import { FormBody } from "../form/formBody";
 import { FormBodySection } from "../form/formBodySection";
 import { FormTitle } from "../form/formTitle";
-import { GameDayRequirement } from "../gameDayRequirement/gameDayRequirement";
 import { HourSelector } from "./components/hourSelector/hourSelector";
 import { InputToggle } from "../inputToggle/inputToggle";
 import { InputWrapper } from "../inputWrapper/inputWrapper";
@@ -60,17 +59,11 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
     }
   }, [fields]);
 
-  useEffect(() => {
-    if(errors.gameDays === FormError.MissingValue && user.stats.gameDays.available >= fields.duration) {
-      dispatch(GameFormAction.SetErrors, { ...errors, gameDays: FormError.None });
-    }
-  }, [errors.gameDays, user.stats.gameDays.available]);
-  
   const save = async (): Promise<void> => {
     if(
       GameFormUtility.isValidGameStatus(props.gameStatus) &&
       status !== FormStatus.Submitting && 
-      GameFormValidator.validate(errors, fields, props.game, user, dispatch)
+      GameFormValidator.validate(errors, fields, dispatch)
     ) {
       try {
         dispatch(GameFormAction.SetStatus, FormStatus.Submitting);
@@ -119,23 +112,6 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
         />
       )
     }
-  }
-
-  const getGameDayRequirementSection = (): JSX.Element => { 
-    return (
-      <InputWrapper
-        label="Game Day Requirement"
-        error={errors.gameDays}
-        errorMessage="Not Enough Game Days"
-      >        
-        <GameDayRequirement 
-          available={user.stats.gameDays.available} 
-          duration={fields.duration} 
-          game={props.game}
-          type="create"
-        />
-      </InputWrapper>
-    )
   }
 
   const updateNotAllowedMessage = (): JSX.Element => {
@@ -266,16 +242,7 @@ export const GameForm: React.FC<GameFormProps> = (props: GameFormProps) => {
             <HourSelector hour={fields.startsAtHour} select={(hour: number) => handleOnChange(GameFormAction.SetStartsAtHour, hour)} />
           </InputWrapper>
         </FormBodySection>
-        <InputToggle
-          className="enable-gift-days-toggle"
-          description="Enabling this feature will gift the required number of Game Days from you to any players who join, instead of using their own."
-          icon="fal fa-gift"
-          label="Gift my Game Days!"
-          toggled={fields.enableGiftDaysForJoiningPlayers}
-          toggle={(toggled: boolean) => handleOnChange(GameFormAction.SetEnableGiftDaysForJoiningPlayers, toggled)}
-        />
         {getLockGameSection()}
-        {getGameDayRequirementSection()}
       </FormBody>
       <FormActions>
         {getSaveButton()}

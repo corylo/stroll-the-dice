@@ -8,7 +8,6 @@ export enum AppAction {
   InitiateStepTrackerConnection = "Initiate Step Tracker Connection",
   ResetStepTrackerConnection = "Reset Step Tracker Connection",
   SetCookieStatus = "Set Cookie Status",
-  SetGameDays = "Set Game Days",  
   SetNotificationStats = "Set Notification Stats",
   SetProfile = "Set Profile",
   SetProfileAndClose = "Set Profile And Close",  

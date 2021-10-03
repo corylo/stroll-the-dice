@@ -3,7 +3,6 @@
 @import "format.scss";
 @import "responsive.scss";
 
-@import "../../acceptedPayments/acceptedPayments.scss";
 @import "../../animatedCounter/animatedCounter.scss";
 @import "../../brand/brand.scss";
 @import "../../buttons/buttons.scss";
@@ -23,8 +22,6 @@
 @import "../../friendRequestList/friendRequestList.scss";
 @import "../../friendRequestSender/friendRequestSender.scss";
 @import "../../gameDateStatus/gameDateStatus.scss";
-@import "../../gameDayRequirement/gameDayRequirement.scss";
-@import "../../gameDayStatement/gameDayStatement.scss";
 @import "../../gameDetails/gameDetails.scss";
 @import "../../gameForm/gameForm.scss";
 @import "../../gameInviteInput/gameInviteInput.scss";
@@ -51,7 +48,6 @@
 @import "../../playerLevelBadge/playerLevelBadge.scss";
 @import "../../playerStatement/playerStatement.scss";
 @import "../../pointStatement/pointStatement.scss";
-@import "../../poweredByStripe/poweredByStripe.scss";
 @import "../../profileHeader/profileHeader.scss";
 @import "../../profileIcon/profileIcon.scss";
 @import "../../returnRatioStatement/returnRatioStatement.scss";
@@ -73,11 +69,9 @@
 @import "../../../pages/gamePage/gamePage.scss";
 @import "../../../pages/goodbyePage/goodbyePage.scss";
 @import "../../../pages/homePage/homePage.scss";
-@import "../../../pages/myGameDaysPage/myGameDaysPage.scss";
 @import "../../../pages/myGamesPage/myGamesPage.scss";
 @import "../../../pages/notificationsPage/notificationsPage.scss";
 @import "../../../pages/profilePage/profilePage.scss";
-@import "../../../pages/shopPage/shopPage.scss";
 @import "../../../pages/statsPage/statsPage.scss";
 @import "../../../pages/userPage/userPage.scss";
 

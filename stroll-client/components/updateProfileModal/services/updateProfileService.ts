@@ -32,13 +32,6 @@ export const UpdateProfileService: IUpdateProfileService = {
 
     batch.set(emailSettingsRef, ProfileSettingsUtility.mapCreate(ProfileSettingsID.Email));
 
-    const gameDaysStatsRef: firebase.firestore.DocumentReference = db.collection("profiles")
-      .doc(profile.uid)
-      .collection("stats")
-      .doc(ProfileStatsID.GameDays);
-
-    batch.set(gameDaysStatsRef, ProfileStatsUtility.mapCreate(ProfileStatsID.GameDays));
-
     const gamesStatsRef: firebase.firestore.DocumentReference = db.collection("profiles")
       .doc(profile.uid)
       .collection("stats")
