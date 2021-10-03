@@ -22,7 +22,7 @@ export const HowToPlaySummary: React.FC<HowToPlaySummaryProps> = (props: HowToPl
   return (
     <div className="how-to-play-summary">
       <div className="how-to-play-summary-header">
-        <h1 className="how-to-play-summary-header-title passion-one-font">Fantasy sports meets step tracking.</h1>
+        <h1 className="how-to-play-summary-header-title passion-one-font">Step tracking meets fantasy sports.</h1>
         <p className="how-to-play-summary-header-description passion-one-font">Stroll The Dice is the combination of a stepping competition and a prediction game rolled into one.</p>
         <SignInLink label="Get started" />
       </div>
