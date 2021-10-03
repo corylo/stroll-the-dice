@@ -1,4 +1,4 @@
-import { defaultGameDaySummary, IGameDaySummary, IGameDaySummaryPlayerReference } from "../../../../stroll-models/gameDaySummary";
+import { IGameDaySummaryPlayerReference } from "../../../../stroll-models/gameDaySummary";
 import { IMatchup } from "../../../../stroll-models/matchup";
 import { IPrediction } from "../../../../stroll-models/prediction";
 
