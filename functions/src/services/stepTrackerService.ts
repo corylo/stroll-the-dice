@@ -171,13 +171,13 @@ export const StepTrackerService: IStepTrackerService = {
       logger.info(`Disconnecting step tracker [${tracker.name}] for user [${uid}]`);
       
       try {
+        await StepTrackerService.clearStepTracker(uid, tracker.name);
+
         await axios.post(
           StepTrackerUtility.getOAuthRevokeUrl(tracker.name, tracker.refreshToken),
           {},
           StepTrackerUtility.getAccessTokenRequestHeaders(tracker.name)
         );
-
-        await StepTrackerService.clearStepTracker(uid, tracker.name);
       } catch (err) {
         logger.error(err);
 

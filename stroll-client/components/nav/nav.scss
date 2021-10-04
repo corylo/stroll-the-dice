@@ -51,14 +51,14 @@
             background-color: rgba(white, 0.1);
           }
 
-          .notification-label, i {
+          .nav-menu-button-label, i {
             color: white;
             font-size: 1.25em;
             height: 30px;
             line-height: 30px;
           }
 
-          .notification-label {
+          .nav-menu-button-label {
             margin-left: 10px;
           }
 
@@ -82,6 +82,11 @@
             width: 24px;
           }
         }
+
+        button.nav-menu-button {
+          cursor: pointer;
+          width: 100%;
+        }
       }
     }
   }
@@ -102,7 +107,7 @@
           .nav-menu-button {
             padding: 5px;
             
-            .notification-label {
+            .nav-menu-button-label {
               display: none;
             }
 

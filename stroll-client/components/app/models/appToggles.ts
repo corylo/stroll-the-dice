@@ -2,7 +2,7 @@ import { HowToPlayID } from "../../../enums/howToPlayID";
 
 export interface IAppToggles {  
   acceptInvite: boolean;
-  deleteAccount: boolean;
+  deleteAccount: boolean;  
   hideFooter: boolean;
   howToPlay: boolean;
   howToPlayID: HowToPlayID;

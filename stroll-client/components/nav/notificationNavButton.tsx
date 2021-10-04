@@ -32,7 +32,7 @@ export const NotificationNavButton: React.FC<NotificationNavButtonProps> = (prop
     <div className="notification-nav-menu-button-wrapper nav-menu-button-wrapper">
       <NavLink to="/profile/notifications" className="nav-menu-button" exact>
         <i className="far fa-bell" />
-        <h1 className="notification-label passion-one-font">Notifications</h1>
+        <h1 className="nav-menu-button-label passion-one-font">Notifications</h1>
         {getNotificationCount()}
       </NavLink>
     </div>

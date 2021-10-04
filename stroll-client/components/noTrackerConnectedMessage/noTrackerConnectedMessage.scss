@@ -1,10 +1,10 @@
 .no-tracker-connected-message-wrapper {
   animation: warningBackground 5s ease-in-out infinite;  
-  border: 1px solid rgba($orange, 0.8);  
+  border: 1px solid rgba(white, 0.25);  
   border-radius: 6px;
   box-shadow: $shadow1;
   display: inline-flex;
-  padding: 10px;
+  padding: 15px 10px;
   pointer-events: all;
 
   .no-tracker-connected-message {
@@ -12,13 +12,17 @@
     margin-right: 10px;
     white-space: normal;
 
-    i, h1 {
-      color: white;
-      text-shadow: 0px 0px 2px rgba(black, 0.8);
+    i {
+      color: $yellow;
+      font-size: 1.25em;
     }
 
     .label-text-wrapper {      
       margin-left: 5px;
+
+      h1 {
+        font-size: 1.25em;
+      }
     }
   }
 

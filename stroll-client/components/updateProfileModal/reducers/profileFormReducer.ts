@@ -79,7 +79,7 @@ export const profileFormReducer = (state: IProfileFormState, action: IAction): I
       return {
         ...state,
         status: FormStatus.SubmitError,
-        statusMessage: "Unable to update profile. Please try again later. (Limit once per 10 min)"
+        statusMessage: "You can only update your profile once every 5 minutes."
       }
     default:
       throw new Error(`Unknown action type in profileFormReducer: ${action.type}`);

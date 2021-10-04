@@ -6,11 +6,17 @@ import { db } from "../config/firebase";
 import { FriendIDService } from "./friendIDService";
 
 import { ErrorUtility } from "../utilities/errorUtility";
+import { ProfileSettingsUtility } from "../utilities/profileSettingsUtility";
+import { ProfileStatsUtility } from "../utilities/profileStatsUtility";
 
+import { friendIDReferenceConverter, IFriendIDReference } from "../../stroll-models/friendIDReference";
 import { IProfile, profileConverter } from "../../stroll-models/profile";
 import { IProfileUpdate } from "../../stroll-models/profileUpdate";
 
 import { DocumentType } from "../../stroll-enums/documentType";
+import { ProfileSettingsID } from "../../stroll-enums/profileSettingsID";
+import { ProfileStatsID } from "../../stroll-enums/profileStatsID";
+import { ProfileUtility } from "../../stroll-utilities/profileUtility";
 
 interface IProfileServiceGetBy {
   friendID: (id: string) => Promise<IProfile>;
@@ -26,15 +32,48 @@ interface IProfileService {
   get: IProfileServiceGet;
   getAllByUID: (uids: string[]) => Promise<IProfile[]>;
   getAllByUIDIndividually: (uids: string[]) => Promise<IProfile[]>;
+  getOrCreate: (uid: string) => Promise<IProfile>;
   update: (id: string, update: IProfileUpdate) => Promise<void>;
 }
 
 export const ProfileService: IProfileService = {
   create: async (profile: IProfile): Promise<void> => {
-    return await db.collection("profiles")
+    const batch: firebase.firestore.WriteBatch = db.batch();
+
+    const profileRef: firebase.firestore.DocumentReference<IProfile> = db.collection("profiles")
       .doc(profile.uid)
-      .withConverter(profileConverter)
-      .set(profile);
+      .withConverter<IProfile>(profileConverter);
+
+    batch.set(profileRef, profile);
+
+    const emailSettingsRef: firebase.firestore.DocumentReference = db.collection("profiles")
+      .doc(profile.uid)
+      .collection("settings")
+      .doc(ProfileSettingsID.Email);
+
+    batch.set(emailSettingsRef, ProfileSettingsUtility.mapCreate(ProfileSettingsID.Email));
+
+    const gamesStatsRef: firebase.firestore.DocumentReference = db.collection("profiles")
+      .doc(profile.uid)
+      .collection("stats")
+      .doc(ProfileStatsID.Games);
+
+    batch.set(gamesStatsRef, ProfileStatsUtility.mapCreate(ProfileStatsID.Games));
+
+    const notificationStatsRef: firebase.firestore.DocumentReference = db.collection("profiles")
+      .doc(profile.uid)
+      .collection("stats")
+      .doc(ProfileStatsID.Notifications);
+
+    batch.set(notificationStatsRef, ProfileStatsUtility.mapCreate(ProfileStatsID.Notifications));
+    
+    const friendIDRef: firebase.firestore.DocumentReference = db.collection("friend_ids")
+      .doc(profile.friendID)
+      .withConverter<IFriendIDReference>(friendIDReferenceConverter);
+
+    batch.set(friendIDRef, { uid: profile.uid });
+
+    return await batch.commit();
   },
   get: {
     by: {
@@ -74,6 +113,25 @@ export const ProfileService: IProfileService = {
     const requests: any[] = uids.map((uid: string) => ProfileService.get.by.uid(uid));
 
     return await axios.all(requests);
+  },
+  getOrCreate: async (uid: string): Promise<IProfile> => {
+    try {
+      return await ProfileService.get.by.uid(uid);
+    } catch (err) {          
+      if(err.message === ErrorUtility.doesNotExist(DocumentType.Profile)) {
+        try {
+          const profile: IProfile = ProfileUtility.mapCreate(uid);
+
+          await ProfileService.create(profile);
+
+          return profile;
+        } catch (err) {          
+          console.error(err);
+        }
+      }
+
+      return null;
+    }
   },
   update: async (id: string, update: IProfileUpdate): Promise<void> => {
     return await db.collection("profiles")

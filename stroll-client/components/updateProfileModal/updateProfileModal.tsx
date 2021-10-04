@@ -8,7 +8,6 @@ import { ProfileForm } from "./components/profileForm/profileForm";
 import { AppContext } from "../app/contexts/appContext";
 
 import { ProfileService } from "../../services/profileService";
-import { UpdateProfileService } from "./services/updateProfileService";
 
 import { ProfileFormUtility } from "./utilities/profileFormUtility";
 
@@ -47,28 +46,16 @@ export const UpdateProfileModal: React.FC<UpdateProfileModalProps> = (props: Upd
 
   if(toggles.profile) {    
     const save = async (fields: IProfileFormStateFields): Promise<void> => {    
-      if(user.profile.username === "") {        
-        const profile: IProfile = ProfileFormUtility.mapCreate(fields, user);
+      const update: IProfileUpdate = ProfileFormUtility.mapUpdate(fields);
 
-        await UpdateProfileService.createProfile(profile);
+      await ProfileService.update(user.profile.uid, update);
 
-        const action: AppAction = toggles.acceptInvite 
-          ? AppAction.SetProfileAndClose 
-          : AppAction.SetProfile;
-
-        dispatch(action, profile);
-      } else {
-        const update: IProfileUpdate = ProfileFormUtility.mapUpdate(fields);
-
-        await ProfileService.update(user.profile.uid, update);
-
-        const profile: IProfile = {
-          ...user.profile,
-          ...update
-        }
-
-        dispatch(AppAction.SetProfile, profile);
+      const profile: IProfile = {
+        ...user.profile,
+        ...update
       }
+
+      dispatch(AppAction.SetProfile, profile);
     }
 
 

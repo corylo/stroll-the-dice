@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 
 import { GameGroup } from "./components/gameGroup/gameGroup";
+import { GettingStarted } from "../gettingStarted/gettingStarted";
 import { LoadingMessage } from "../loadingMessage/loadingMessage";
 
 import { AppContext } from "../app/contexts/appContext";
@@ -30,7 +31,7 @@ interface GameFeedProps {
 export const GameFeed: React.FC<GameFeedProps> = (props: GameFeedProps) => { 
   const { appState, dispatchToApp } = useContext(AppContext);
 
-  const { user } = appState;
+  const { statuses, user } = appState;
 
   const dispatch = (type: AppAction, payload?: any): void => dispatchToApp({ type, payload });
 
@@ -70,12 +71,19 @@ export const GameFeed: React.FC<GameFeedProps> = (props: GameFeedProps) => {
 
   const getContent = (): JSX.Element => {
     if(state.status !== RequestStatus.Loading) {
+      const hasCreatedOrJoinedGame = (): boolean => {
+        return state.groups.filter((group: IGameGroup) => group.games.length > 0).length > 0;
+      }
+
       return (
-        <div className="game-feed-groups">
-          <GameGroup groups={state.groups} status={GameStatus.InProgress} />
-          <GameGroup groups={state.groups} status={GameStatus.Upcoming} />
-          <GameGroup groups={state.groups} status={GameStatus.Completed} />
-        </div>
+        <React.Fragment>          
+          <GettingStarted hasCreatedOrJoinedGame={hasCreatedOrJoinedGame()} />
+          <div className="game-feed-groups">
+            <GameGroup groups={state.groups} status={GameStatus.InProgress} />
+            <GameGroup groups={state.groups} status={GameStatus.Upcoming} />
+            <GameGroup groups={state.groups} status={GameStatus.Completed} />
+          </div>
+        </React.Fragment>
       );
     }
     

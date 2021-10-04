@@ -139,18 +139,6 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
           profile: action.payload
         }
       }
-    case AppAction.SetProfileAndClose:
-      return {
-        ...state,
-        toggles: {
-          ...state.toggles,
-          profile: false
-        },
-        user: {
-          ...state.user,
-          profile: action.payload
-        }
-      }
     case AppAction.SetStatus:
       return {
         ...state,
@@ -175,16 +163,6 @@ export const appReducer = (state: IAppState, action: IAction): IAppState => {
         ...state,
         status: AppStatus.SignedIn,
         user: action.payload
-      }
-    case AppAction.SignInUserForFirstTime:
-      return {
-        ...state,
-        status: AppStatus.SignedIn,
-        user: action.payload,
-        toggles: {
-          ...state.toggles,
-          profile: true
-        }
       }
     case AppAction.ToggleAcceptInvite:
       return {
