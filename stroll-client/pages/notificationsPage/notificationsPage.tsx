@@ -51,10 +51,18 @@ export const NotificationsPage: React.FC<NotificationsPageProps> = (props: Notif
     }
   }
 
+  const getTitle = (): JSX.Element => {
+    if(appState.status === AppStatus.SignedIn) {
+      return (
+        <PageTitle text="Notifications" />
+      )
+    }
+  }
+
   return(
     <NotificationsPageContext.Provider value={{ state, setState }}>
       <Page id="notifications-page" backgroundGraphic="" meta={MetaUtility.getNotificationsPageMeta()}>     
-        <PageTitle text="Notifications" />
+        {getTitle()}
         {getContent()}
       </Page>
     </NotificationsPageContext.Provider>
