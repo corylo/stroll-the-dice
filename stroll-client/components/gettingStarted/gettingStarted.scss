@@ -21,7 +21,7 @@
     background: linear-gradient(to top, rgba(black, 0.1), transparent);
     border-radius: 6px;
     min-height: 200px;
-    padding: 20px;
+    padding: 10px;
     position: relative;
     z-index: 2;
 
@@ -45,6 +45,7 @@
         align-items: center;
         background-color: rgba(white, 0.1);
         display: flex;
+        gap: 10px;
         justify-content: space-between;
         padding: 20px;
 
@@ -74,6 +75,7 @@
             background-color: white;
             border-radius: 100px;
             color: $themeMainCustom; 
+            flex-shrink: 0;
             font-size: 1.25em;
             height: 30px;
             line-height: 30px;
@@ -98,8 +100,81 @@
         .getting-started-status-icon {
           color: white;
           font-size: 1.5em;
+          flex-shrink: 0;
           text-align: center;
           width: 30px;
+        }
+      }
+    }
+  }
+}
+
+@include phone-or-smaller {
+  .getting-started {
+    .getting-started-content {
+      .getting-started-label {      
+        font-size: 1.5em;
+      }
+  
+      .getting-started-description {
+        font-size: 1em;
+      }
+
+      .getting-started-steps {
+        .getting-started-step {
+          .getting-started-step-content {
+            .getting-started-step-index,
+            .getting-started-step-label {
+              font-size: 1.25em;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include medium-phone-or-smaller {
+  .getting-started {
+    .getting-started-content {
+      .getting-started-steps {
+        .getting-started-step {
+          padding: 10px;
+
+          &.completed {
+            .getting-started-status-icon {
+              font-size: 1.5em;
+            }
+          }
+
+          .getting-started-step-content {
+            gap: 10px;
+
+            .getting-started-step-index,
+            .getting-started-step-label {
+              font-size: 1em;
+            }
+
+            .getting-started-step-index {
+              font-size: 0.9em;
+              height: 20px;
+              line-height: 20px;
+              width: 20px;
+            }
+  
+            .getting-started-action-button {
+              i {
+                font-size: 0.8em;
+                height: 30px;
+                line-height: 30px;
+                width: 30px;
+              }
+            }
+          }
+          
+          .getting-started-status-icon {
+            font-size: 1em;
+          }
         }
       }
     }
